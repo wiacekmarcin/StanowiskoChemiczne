@@ -25,10 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        glowneokno.cpp
+        glowneokno.cpp \
+    stanczujnika.cpp
 
 HEADERS += \
-        glowneokno.h
+        glowneokno.h \
+    stanczujnika.h
 
 FORMS += \
-        glowneokno.ui
+        glowneokno.ui \
+    stanczujnika.ui
+
+RESOURCES += \
+    ikony.qrc

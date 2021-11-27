@@ -1,24 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>GlowneOkno</class>
- <widget class="QMainWindow" name="GlowneOkno" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="GlowneOkno">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>656</width>
+    <height>321</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>GlowneOkno</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QFrame" name="frProjekt">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QTreeWidget" name="treeWidget">
+         <column>
+          <property name="text">
+           <string>Nowy projekt</string>
+          </property>
+          <property name="foreground">
+           <brush brushstyle="NoBrush">
+            <color alpha="255">
+             <red>0</red>
+             <green>0</green>
+             <blue>0</blue>
+            </color>
+           </brush>
+          </property>
+         </column>
+         <item>
+          <property name="text">
+           <string>Test1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Test2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Test3</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Raport</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Zdjęcia</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Film</string>
+           </property>
+          </item>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTabWidget" name="tabObszarRoboczy">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabTest">
+       <attribute name="title">
+        <string>Test</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tabRaport">
+       <attribute name="title">
+        <string>Raport</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tabFoto">
+       <attribute name="title">
+        <string>Foto</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QFrame" name="frCzujniki">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>1</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
+       <item>
+        <widget class="StanCzujnika" name="widget_2" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="StanCzujnika" name="widget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="3">
+     <widget class="QFrame" name="frWyniki">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>656</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuPlik">
+    <property name="title">
+     <string>Plik</string>
+    </property>
+    <addaction name="actionNowy_projekt"/>
+    <addaction name="actionNowy_Test"/>
+    <addaction name="separator"/>
+    <addaction name="actionZapisz"/>
+    <addaction name="separator"/>
+    <addaction name="actionDodaj_zdj_cie"/>
+    <addaction name="actionDodaj_film"/>
+    <addaction name="separator"/>
+    <addaction name="actionTw_rz_raport"/>
+    <addaction name="separator"/>
+    <addaction name="actionWyj_cie"/>
+   </widget>
+   <widget class="QMenu" name="menuSerwer">
+    <property name="title">
+     <string>Serwis</string>
+    </property>
+    <addaction name="actionDataq_Card"/>
+    <addaction name="actionDozownik"/>
+   </widget>
+   <widget class="QMenu" name="menuPomoc">
+    <property name="title">
+     <string>Pomoc</string>
+    </property>
+    <addaction name="actionInstrukcja"/>
+   </widget>
+   <addaction name="menuPlik"/>
+   <addaction name="menuSerwer"/>
+   <addaction name="menuPomoc"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNowy_projekt">
+   <property name="text">
+    <string>Nowy projekt</string>
+   </property>
+  </action>
+  <action name="actionNowy_Test">
+   <property name="text">
+    <string>Nowy Test</string>
+   </property>
+  </action>
+  <action name="actionZapisz">
+   <property name="text">
+    <string>Zapisz</string>
+   </property>
+  </action>
+  <action name="actionDodaj_zdj_cie">
+   <property name="text">
+    <string>Dodaj zdjęcie</string>
+   </property>
+  </action>
+  <action name="actionDodaj_film">
+   <property name="text">
+    <string>Dodaj film</string>
+   </property>
+  </action>
+  <action name="actionTw_rz_raport">
+   <property name="text">
+    <string>Twórz raport</string>
+   </property>
+  </action>
+  <action name="actionWyj_cie">
+   <property name="text">
+    <string>Wyjście</string>
+   </property>
+  </action>
+  <action name="actionDataq_Card">
+   <property name="text">
+    <string>Dataq Card</string>
+   </property>
+  </action>
+  <action name="actionDozownik">
+   <property name="text">
+    <string>Dozownik</string>
+   </property>
+  </action>
+  <action name="actionInstrukcja">
+   <property name="text">
+    <string>Instrukcja</string>
+   </property>
+  </action>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>StanCzujnika</class>
+   <extends>QWidget</extends>
+   <header>stanczujnika.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
