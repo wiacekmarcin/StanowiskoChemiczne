@@ -16,6 +16,7 @@ public:
     ~GlowneOkno();
 
 private slots:
+    void on_actionUstawienia_sygna_w_triggered();
     void on_actionNowy_projekt_triggered();
 
 private:

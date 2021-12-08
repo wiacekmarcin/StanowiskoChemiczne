@@ -26,39 +26,60 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         glowneokno.cpp \
-    mainwindow.cpp \
-    nowyprojectdlg.cpp \
-    oknoczujnikow.cpp \
-    oknostatusowe.cpp \
-    stanczujnika.cpp \
+        mainwindow.cpp \
+        nowyprojectdlg.cpp \
+        oknoczujnikow.cpp \
+        oknostatusowe.cpp \
+        stanczujnika.cpp \
+        oknostatusowe.cpp \
+        widokczujnika.cpp \
+        oknoczujnikow.cpp \
+    ustawieniasygnalowokno.cpp \
     sygnalanalogowyform.cpp \
     ustawieniadozownikaokno.cpp \
-    ustawieniasygnalowokno.cpp \
-    widokczujnika.cpp
+    sygnalanalparam.cpp \
+    wejsciaanalogowe.cpp \
+        sygnalanalogowyform.cpp \
+    ustawieniadozownikaokno.cpp \
+    ustawieniasygnalowokno.cpp 
 
 HEADERS += \
         glowneokno.h \
-    mainwindow.h \
-    nowyprojectdlg.h \
-    oknoczujnikow.h \
-    oknostatusowe.h \
-    stanczujnika.h \
+        mainwindow.h \
+        nowyprojectdlg.h \
+        oknoczujnikow.h \
+        oknostatusowe.h \
+        stanczujnika.h \
+        oknostatusowe.h \
+        widokczujnika.h \
+        oknoczujnikow.h \
+    ustawieniasygnalowokno.h \
     sygnalanalogowyform.h \
     ustawieniadozownikaokno.h \
-    ustawieniasygnalowokno.h \
-    widokczujnika.h
+    sygnalanalparam.h \
+    wejsciaanalogowe.h \
+        sygnalanalogowyform.h \
+    ustawieniadozownikaokno.h \
+    ustawieniasygnalowokno.h
 
 FORMS += \
         glowneokno.ui \
-    mainwindow.ui \
-    nowyprojectdlg.ui \
-    oknoczujnikow.ui \
-    oknostatusowe.ui \
-    stanczujnika.ui \
+        mainwindow.ui \
+        nowyprojectdlg.ui \
+        oknoczujnikow.ui \
+        oknostatusowe.ui \
+        stanczujnika.ui \
+        oknostatusowe.ui \
+        widokczujnika.ui \
+        oknoczujnikow.ui \
+    ustawieniasygnalowokno.ui \
     sygnalanalogowyform.ui \
     ustawieniadozownikaokno.ui \
-    ustawieniasygnalowokno.ui \
-    widokczujnika.ui
+    sygnalanalparam.ui \
+    wejsciaanalogowe.ui \
+        sygnalanalogowyform.ui \
+    ustawieniadozownikaokno.ui \
+    ustawieniasygnalowokno.ui
 
 RESOURCES += \
     ikony.qrc

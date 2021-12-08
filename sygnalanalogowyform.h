@@ -14,6 +14,9 @@ class SygnalAnalogowyForm : public QWidget
 public:
     explicit SygnalAnalogowyForm(QWidget *parent = 0);
     ~SygnalAnalogowyForm();
+    QString name() const;
+    QString unit() const;
+    QString ratio() const;
 
 private:
     Ui::SygnalAnalogowyForm *ui;
