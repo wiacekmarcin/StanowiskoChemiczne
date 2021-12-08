@@ -26,15 +26,42 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         glowneokno.cpp \
-    stanczujnika.cpp
+    mainwindow.cpp \
+    nowyprojectdlg.cpp \
+    oknoczujnikow.cpp \
+    oknostatusowe.cpp \
+    stanczujnika.cpp \
+    sygnalanalogowyform.cpp \
+    ustawieniadozownikaokno.cpp \
+    ustawieniasygnalowokno.cpp \
+    widokczujnika.cpp
 
 HEADERS += \
         glowneokno.h \
-    stanczujnika.h
+    mainwindow.h \
+    nowyprojectdlg.h \
+    oknoczujnikow.h \
+    oknostatusowe.h \
+    stanczujnika.h \
+    sygnalanalogowyform.h \
+    ustawieniadozownikaokno.h \
+    ustawieniasygnalowokno.h \
+    widokczujnika.h
 
 FORMS += \
         glowneokno.ui \
-    stanczujnika.ui
+    mainwindow.ui \
+    nowyprojectdlg.ui \
+    oknoczujnikow.ui \
+    oknostatusowe.ui \
+    stanczujnika.ui \
+    sygnalanalogowyform.ui \
+    ustawieniadozownikaokno.ui \
+    ustawieniasygnalowokno.ui \
+    widokczujnika.ui
 
 RESOURCES += \
     ikony.qrc
+
+DISTFILES += \
+    StanowiskoChemiczne_pl_PL.ts

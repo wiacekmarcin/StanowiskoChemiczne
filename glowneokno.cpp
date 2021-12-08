@@ -1,6 +1,8 @@
 #include "glowneokno.h"
 #include "ui_glowneokno.h"
 
+#include "nowyprojectdlg.h"
+
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GlowneOkno)
@@ -14,4 +16,12 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
 GlowneOkno::~GlowneOkno()
 {
     delete ui;
+}
+
+void GlowneOkno::on_actionNowy_projekt_triggered()
+{
+    auto * dlg = new NowyProjectDlg(this);
+    if (dlg->exec() == QDialog::Accepted) {
+        //ui->treeWidget->
+    }
 }
