@@ -12,3 +12,18 @@ SygnalAnalogowyForm::~SygnalAnalogowyForm()
 {
     delete ui;
 }
+
+QString SygnalAnalogowyForm::name() const
+{
+    return ui->name->text();
+}
+
+QString SygnalAnalogowyForm::unit() const
+{
+    return ui->unit->text();
+}
+
+QString SygnalAnalogowyForm::ratio() const
+{
+    return ui->ratio->text();
+}

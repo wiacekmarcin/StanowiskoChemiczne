@@ -19,13 +19,11 @@ public:
 
     void setText(const QString & text);
     void setOk(bool ok);
-private slots:
 
-    void timeout();
+    void update();
 private:
     Ui::StanCzujnika *ui;
     bool isOk;
-    QTimer timer;
     bool red;
 };
 

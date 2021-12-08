@@ -3,13 +3,9 @@
 
 StanCzujnika::StanCzujnika(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::StanCzujnika),
-    timer(this)
+    ui(new Ui::StanCzujnika)
 {
     ui->setupUi(this);
-    timer.setInterval(1000);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
-    timer.start();
     setOk(true);
 }
 
@@ -32,11 +28,10 @@ void StanCzujnika::setOk(bool ok)
     red = true;
 }
 
-void StanCzujnika::timeout()
+void StanCzujnika::update()
 {
     if (isOk)
         return;
     ui->red->setMargin(red ? 0 : -25);
     red = !red;
-    qDebug("timeout");
 }

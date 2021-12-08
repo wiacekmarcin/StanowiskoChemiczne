@@ -26,15 +26,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         glowneokno.cpp \
-    stanczujnika.cpp
+    stanczujnika.cpp \
+    oknostatusowe.cpp \
+    widokczujnika.cpp \
+    oknoczujnikow.cpp \
+    ustawieniasygnalowokno.cpp \
+    sygnalanalogowyform.cpp \
+    ustawieniadozownikaokno.cpp \
+    sygnalanalparam.cpp \
+    wejsciaanalogowe.cpp
 
 HEADERS += \
         glowneokno.h \
-    stanczujnika.h
+    stanczujnika.h \
+    oknostatusowe.h \
+    widokczujnika.h \
+    oknoczujnikow.h \
+    ustawieniasygnalowokno.h \
+    sygnalanalogowyform.h \
+    ustawieniadozownikaokno.h \
+    sygnalanalparam.h \
+    wejsciaanalogowe.h
 
 FORMS += \
         glowneokno.ui \
-    stanczujnika.ui
+    stanczujnika.ui \
+    oknostatusowe.ui \
+    widokczujnika.ui \
+    oknoczujnikow.ui \
+    ustawieniasygnalowokno.ui \
+    sygnalanalogowyform.ui \
+    ustawieniadozownikaokno.ui
 
 RESOURCES += \
     ikony.qrc
