@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia  multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,16 +31,12 @@ SOURCES += \
         oknoczujnikow.cpp \
         oknostatusowe.cpp \
         stanczujnika.cpp \
-        oknostatusowe.cpp \
+    videowidget.cpp \
         widokczujnika.cpp \
-        oknoczujnikow.cpp \
-    ustawieniasygnalowokno.cpp \
     sygnalanalogowyform.cpp \
     ustawieniadozownikaokno.cpp \
     sygnalanalparam.cpp \
     wejsciaanalogowe.cpp \
-        sygnalanalogowyform.cpp \
-    ustawieniadozownikaokno.cpp \
     ustawieniasygnalowokno.cpp 
 
 HEADERS += \
@@ -50,16 +46,12 @@ HEADERS += \
         oknoczujnikow.h \
         oknostatusowe.h \
         stanczujnika.h \
-        oknostatusowe.h \
+    videowidget.h \
         widokczujnika.h \
-        oknoczujnikow.h \
-    ustawieniasygnalowokno.h \
     sygnalanalogowyform.h \
     ustawieniadozownikaokno.h \
     sygnalanalparam.h \
     wejsciaanalogowe.h \
-        sygnalanalogowyform.h \
-    ustawieniadozownikaokno.h \
     ustawieniasygnalowokno.h
 
 FORMS += \
@@ -69,15 +61,9 @@ FORMS += \
         oknoczujnikow.ui \
         oknostatusowe.ui \
         stanczujnika.ui \
-        oknostatusowe.ui \
+    videowidget.ui \
         widokczujnika.ui \
-        oknoczujnikow.ui \
-    ustawieniasygnalowokno.ui \
     sygnalanalogowyform.ui \
-    ustawieniadozownikaokno.ui \
-    sygnalanalparam.ui \
-    wejsciaanalogowe.ui \
-        sygnalanalogowyform.ui \
     ustawieniadozownikaokno.ui \
     ustawieniasygnalowokno.ui
 

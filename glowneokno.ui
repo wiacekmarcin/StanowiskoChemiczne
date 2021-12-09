@@ -110,7 +110,7 @@
       <x>330</x>
       <y>0</y>
       <width>501</width>
-      <height>521</height>
+      <height>511</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -120,7 +120,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabTest">
      <attribute name="title">
@@ -136,6 +136,7 @@
      <attribute name="title">
       <string>Foto</string>
      </attribute>
+     <layout class="QVBoxLayout" name="verticalLayout_2"/>
     </widget>
    </widget>
    <widget class="QFrame" name="frWyniki">

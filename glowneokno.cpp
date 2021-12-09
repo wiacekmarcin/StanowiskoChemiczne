@@ -2,6 +2,14 @@
 #include "ui_glowneokno.h"
 
 #include "nowyprojectdlg.h"
+#include "ustawieniasygnalowokno.h"
+
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
+#include <QFile>
+#include <QVideoWidget>
+
+#include "videowidget.h"
 
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
@@ -9,6 +17,8 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    VideoWidget * videowidget = new VideoWidget(ui->tabFoto);
+    ui->verticalLayout_2->addWidget(videowidget);
 }
 
 GlowneOkno::~GlowneOkno()
