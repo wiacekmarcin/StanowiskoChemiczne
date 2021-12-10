@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UstawieniaSygnalowOkno</class>
- <widget class="QDialog" name="UstawieniaSygnalowOkno">
+ <class>CzujnikAnalogowyUstawieniaOkno</class>
+ <widget class="QDialog" name="CzujnikAnalogowyUstawieniaOkno">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,7 +21,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="SygnalAnalogowyForm" name="widget_3" native="true"/>
+       <widget class="CzujnikAnalogowyUstawieniaWidget" name="widget_3" native="true"/>
       </item>
      </layout>
     </widget>
@@ -33,7 +33,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="SygnalAnalogowyForm" name="widget_1" native="true"/>
+       <widget class="CzujnikAnalogowyUstawieniaWidget" name="widget_1" native="true"/>
       </item>
      </layout>
     </widget>
@@ -45,7 +45,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
-       <widget class="SygnalAnalogowyForm" name="widget_5" native="true"/>
+       <widget class="CzujnikAnalogowyUstawieniaWidget" name="widget_5" native="true"/>
       </item>
      </layout>
     </widget>
@@ -57,7 +57,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="SygnalAnalogowyForm" name="widget_2" native="true"/>
+       <widget class="CzujnikAnalogowyUstawieniaWidget" name="widget_2" native="true"/>
       </item>
      </layout>
     </widget>
@@ -69,7 +69,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="SygnalAnalogowyForm" name="widget_4" native="true"/>
+       <widget class="CzujnikAnalogowyUstawieniaWidget" name="widget_4" native="true"/>
       </item>
      </layout>
     </widget>
@@ -91,7 +91,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
-       <widget class="SygnalAnalogowyForm" name="widget" native="true"/>
+       <widget class="CzujnikAnalogowyUstawieniaWidget" name="widget_6" native="true"/>
       </item>
      </layout>
     </widget>
@@ -100,9 +100,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SygnalAnalogowyForm</class>
+   <class>CzujnikAnalogowyUstawieniaWidget</class>
    <extends>QWidget</extends>
-   <header>sygnalanalogowyform.h</header>
+   <header>czujnikanalogowyustawieniawidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -111,7 +111,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>UstawieniaSygnalowOkno</receiver>
+   <receiver>CzujnikAnalogowyUstawieniaOkno</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -127,7 +127,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>UstawieniaSygnalowOkno</receiver>
+   <receiver>CzujnikAnalogowyUstawieniaOkno</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

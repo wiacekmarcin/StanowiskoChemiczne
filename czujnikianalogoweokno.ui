@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OknoCzujnikow</class>
- <widget class="QWidget" name="OknoCzujnikow">
+ <class>CzujnikiAnalogoweOkno</class>
+ <widget class="QWidget" name="CzujnikiAnalogoweOkno">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,7 +45,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="WidokCzujnika" name="widget_1" native="true"/>
+       <widget class="CzujnikAnalogowyWidget" name="widget_1" native="true"/>
       </item>
      </layout>
     </widget>
@@ -75,7 +75,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="WidokCzujnika" name="widget_3" native="true"/>
+       <widget class="CzujnikAnalogowyWidget" name="widget_3" native="true"/>
       </item>
      </layout>
     </widget>
@@ -105,7 +105,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="WidokCzujnika" name="widget_5" native="true"/>
+       <widget class="CzujnikAnalogowyWidget" name="widget_5" native="true"/>
       </item>
      </layout>
     </widget>
@@ -135,7 +135,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="WidokCzujnika" name="widget_2" native="true"/>
+       <widget class="CzujnikAnalogowyWidget" name="widget_2" native="true"/>
       </item>
      </layout>
     </widget>
@@ -165,7 +165,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="WidokCzujnika" name="widget_4" native="true"/>
+       <widget class="CzujnikAnalogowyWidget" name="widget_4" native="true"/>
       </item>
      </layout>
     </widget>
@@ -195,7 +195,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="WidokCzujnika" name="widget_6" native="true"/>
+       <widget class="CzujnikAnalogowyWidget" name="widget_6" native="true"/>
       </item>
      </layout>
     </widget>
@@ -204,9 +204,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>WidokCzujnika</class>
+   <class>CzujnikAnalogowyWidget</class>
    <extends>QWidget</extends>
-   <header>widokczujnika.h</header>
+   <header>czujnikanalogowywidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

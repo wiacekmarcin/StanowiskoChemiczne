@@ -2,7 +2,7 @@
 #include "ui_glowneokno.h"
 
 #include "nowyprojectdlg.h"
-#include "ustawieniasygnalowokno.h"
+#include "czujnikanalogowyustawieniaokno.h"
 
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
@@ -28,7 +28,7 @@ GlowneOkno::~GlowneOkno()
 
 void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
 {
-    UstawieniaSygnalowOkno *dlg = new UstawieniaSygnalowOkno(this);
+    CzujnikAnalogowyUstawieniaOkno *dlg = new CzujnikAnalogowyUstawieniaOkno(this);
     dlg->exec();
 }
 

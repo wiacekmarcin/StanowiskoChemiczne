@@ -24,48 +24,48 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    czujnikanalogowyustawieniaokno.cpp \
+    czujnikanalogowyustawieniawidget.cpp \
+    czujnikanalogowywidget.cpp \
+    czujnikianalogoweokno.cpp \
         main.cpp \
         glowneokno.cpp \
         mainwindow.cpp \
         nowyprojectdlg.cpp \
-        oknoczujnikow.cpp \
         oknostatusowe.cpp \
         stanczujnika.cpp \
     videowidget.cpp \
-        widokczujnika.cpp \
-    sygnalanalogowyform.cpp \
     ustawieniadozownikaokno.cpp \
     sygnalanalparam.cpp \
-    wejsciaanalogowe.cpp \
-    ustawieniasygnalowokno.cpp 
+    wejsciaanalogowe.cpp
 
 HEADERS += \
+    czujnikanalogowyustawieniaokno.h \
+    czujnikanalogowyustawieniawidget.h \
+    czujnikanalogowywidget.h \
+    czujnikianalogoweokno.h \
         glowneokno.h \
         mainwindow.h \
         nowyprojectdlg.h \
-        oknoczujnikow.h \
         oknostatusowe.h \
         stanczujnika.h \
     videowidget.h \
-        widokczujnika.h \
-    sygnalanalogowyform.h \
     ustawieniadozownikaokno.h \
     sygnalanalparam.h \
-    wejsciaanalogowe.h \
-    ustawieniasygnalowokno.h
+    wejsciaanalogowe.h
 
 FORMS += \
+    czujnikanalogowyustawieniaokno.ui \
+    czujnikanalogowyustawieniawidget.ui \
+    czujnikanalogowywidget.ui \
+    czujnikianalogoweokno.ui \
         glowneokno.ui \
         mainwindow.ui \
         nowyprojectdlg.ui \
-        oknoczujnikow.ui \
         oknostatusowe.ui \
         stanczujnika.ui \
     videowidget.ui \
-        widokczujnika.ui \
-    sygnalanalogowyform.ui \
-    ustawieniadozownikaokno.ui \
-    ustawieniasygnalowokno.ui
+    ustawieniadozownikaokno.ui
 
 RESOURCES += \
     ikony.qrc

@@ -186,7 +186,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="OknoCzujnikow" name="widget" native="true"/>
+      <widget class="CzujnikiAnalogoweOkno" name="widget" native="true"/>
      </item>
     </layout>
    </widget>
@@ -464,9 +464,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>OknoCzujnikow</class>
+   <class>CzujnikiAnalogoweOkno</class>
    <extends>QWidget</extends>
-   <header>oknoczujnikow.h</header>
+   <header>czujnikianalogoweokno.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
