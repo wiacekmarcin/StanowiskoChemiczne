@@ -37,7 +37,9 @@ SOURCES += \
     videowidget.cpp \
     ustawieniadozownikaokno.cpp \
     sygnalanalparam.cpp \
-    wejsciaanalogowe.cpp
+    wejsciaanalogowe.cpp \
+    nowytest_1.cpp \
+    formularzdialogbuttonbox.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -52,7 +54,9 @@ HEADERS += \
     videowidget.h \
     ustawieniadozownikaokno.h \
     sygnalanalparam.h \
-    wejsciaanalogowe.h
+    wejsciaanalogowe.h \
+    nowytest_1.h \
+    formularzdialogbuttonbox.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \
@@ -65,7 +69,8 @@ FORMS += \
         oknostatusowe.ui \
         stanczujnika.ui \
     videowidget.ui \
-    ustawieniadozownikaokno.ui
+    ustawieniadozownikaokno.ui \
+    nowytest_1.ui
 
 RESOURCES += \
     ikony.qrc

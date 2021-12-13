@@ -9,7 +9,7 @@ VideoWidget::VideoWidget(QWidget *parent) : QWidget(parent),
     ui(new Ui::VideoWidget)
 {
     ui->setupUi(this);
-
+/*
     player = new QMediaPlayer(this);
     QVideoWidget *vw = new QVideoWidget;
     ui->verticalLayout->addWidget(vw);
@@ -21,8 +21,8 @@ VideoWidget::VideoWidget(QWidget *parent) : QWidget(parent),
     connect(player, &QMediaPlayer::positionChanged, this, &VideoWidget::updateTime);
     connect(player, &QMediaPlayer::durationChanged, this, &VideoWidget::updateDuration);
     player->play();
-
-
+*/
+    setVisible(false);
 }
 
 void VideoWidget::on_rewind_clicked()
