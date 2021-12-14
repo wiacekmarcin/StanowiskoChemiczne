@@ -3,8 +3,8 @@
 #include <QAbstractButton>
 #include <QPushButton>
 
-FormularzDialogButtonBox::FormularzDialogButtonBox(short step, short max, QWidget * parent)
- : QDialogButtonBox(QDialogButtonBox::NoButton, Qt::Horizontal, parent)
+FormularzDialogButtonBox::FormularzDialogButtonBox(QWidget * prevTab, short step, short max, QWidget * parent)
+ : QDialogButtonBox(Qt::Horizontal, parent)
     ,b_ok(new QPushButton("Zakończ", this))
     ,b_prev(new QPushButton("Wstecz", this))
     ,b_next(new QPushButton("Dalej", this))
@@ -12,21 +12,28 @@ FormularzDialogButtonBox::FormularzDialogButtonBox(short step, short max, QWidge
     ,b_abort(new QPushButton("Przerwij", this))
 {
 
-    //addButton(b_reset, QDialogButtonBox::ResetRole);
+    QWidget::setTabOrder(prevTab, b_reset);
+    addButton(b_reset, QDialogButtonBox::ResetRole);
 
-    if (step > 1)
-        addButton(b_prev, QDialogButtonBox::DestructiveRole);
-
-    if (step == max) {
-        addButton(b_ok, QDialogButtonBox::AcceptRole);
-    } else {
-        addButton(b_next, QDialogButtonBox::AcceptRole);
-    }
-
+    addButton(b_prev, QDialogButtonBox::DestructiveRole);
+    QWidget::setTabOrder(b_reset, b_prev);
 
     addButton(b_abort, QDialogButtonBox::RejectRole);
+    QWidget::setTabOrder(b_prev, b_abort);
 
-    //adjustSize();
+    addButton(b_ok, QDialogButtonBox::AcceptRole);
+    QWidget::setTabOrder(b_abort, b_ok);
+
+    addButton(b_next, QDialogButtonBox::AcceptRole);
+    QWidget::setTabOrder(b_ok, b_next);
+
+
+    b_prev->setEnabled(step != 1);
+    b_next->setEnabled(step != max);
+    b_ok->setEnabled(step == max);
+
+    b_reset->setShortcut(QKeySequence());
+
 }
 
 void FormularzDialogButtonBox::setValid(bool v)

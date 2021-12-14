@@ -11,7 +11,7 @@ class FormularzDialogButtonBox : public QDialogButtonBox
     Q_OBJECT
 
 public:
-    FormularzDialogButtonBox(short step, short max, QWidget * parent = NULL);
+    FormularzDialogButtonBox(QWidget *prevTab, short step, short max, QWidget * parent = NULL);
 
 public slots:
     void setValid(bool v);

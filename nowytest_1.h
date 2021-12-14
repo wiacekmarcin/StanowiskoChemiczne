@@ -19,7 +19,7 @@ signals:
     void valid(bool val);
 
 private slots:
-    void on_lineEdit_textChanged(const QString &arg1);
+    void on_nameTest_textChanged(const QString &arg1);
 
 private:
     Ui::NowyTest_1 *ui;
