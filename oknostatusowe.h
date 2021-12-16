@@ -3,12 +3,12 @@
 
 #include <QWidget>
 #include <QTimer>
-
+#include <QFrame>
 namespace Ui {
 class OknoStatusowe;
 }
 
-class OknoStatusowe : public QWidget
+class OknoStatusowe : public QFrame
 {
     Q_OBJECT
 

@@ -32,220 +32,199 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <widget class="QFrame" name="frProjekt">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>0</y>
-      <width>276</width>
-      <height>521</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QTreeWidget" name="treeWidget">
-       <column>
-        <property name="text">
-         <string>Nowy projekt</string>
-        </property>
-        <property name="foreground">
-         <brush brushstyle="NoBrush">
-          <color alpha="255">
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </brush>
-        </property>
-       </column>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTreeWidget" name="treeWidget">
+      <property name="minimumSize">
+       <size>
+        <width>50</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <column>
+       <property name="text">
+        <string>Nowy projekt</string>
+       </property>
+       <property name="foreground">
+        <brush brushstyle="NoBrush">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>Test1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Test2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Test3</string>
+       </property>
        <item>
         <property name="text">
-         <string>Test1</string>
+         <string>Raport</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Test2</string>
+         <string>Zdjęcia</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Test3</string>
+         <string>Film</string>
         </property>
-        <item>
-         <property name="text">
-          <string>Raport</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Zdjęcia</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Film</string>
-         </property>
-        </item>
        </item>
+      </item>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTabWidget" name="tabObszarRoboczy">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabTest">
+       <attribute name="title">
+        <string>Test</string>
+       </attribute>
       </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QTabWidget" name="tabObszarRoboczy">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>0</y>
-      <width>501</width>
-      <height>511</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="currentIndex">
-     <number>2</number>
-    </property>
-    <widget class="QWidget" name="tabTest">
-     <attribute name="title">
-      <string>Test</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tabRaport">
-     <attribute name="title">
-      <string>Raport</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tabFoto">
-     <attribute name="title">
-      <string>Foto</string>
-     </attribute>
-     <layout class="QVBoxLayout" name="verticalLayout_2"/>
-    </widget>
-   </widget>
-   <widget class="QFrame" name="frWyniki">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>520</y>
-      <width>900</width>
-      <height>130</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>900</width>
-      <height>130</height>
-     </size>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::WinPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <property name="lineWidth">
-     <number>2</number>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="CzujnikiAnalogoweOkno" name="widget" native="true"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QFrame" name="frCzujniki">
-    <property name="geometry">
-     <rect>
-      <x>830</x>
-      <y>0</y>
-      <width>120</width>
-      <height>520</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>120</width>
-      <height>520</height>
-     </size>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::WinPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <property name="lineWidth">
-     <number>3</number>
-    </property>
-    <widget class="OknoStatusowe" name="oknoStatusowe" native="true">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>120</width>
-       <height>520</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>120</width>
-       <height>520</height>
-      </size>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-    </widget>
-   </widget>
+      <widget class="QWidget" name="tabRaport">
+       <attribute name="title">
+        <string>Raport</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tabFoto">
+       <attribute name="title">
+        <string>Foto</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="OknoStatusowe" name="frCzujniki">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>450</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>1024</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="3">
+     <widget class="QFrame" name="frWyniki">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>900</width>
+        <height>130</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>2</number>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
+       <property name="spacing">
+        <number>9</number>
+       </property>
+       <property name="leftMargin">
+        <number>9</number>
+       </property>
+       <property name="topMargin">
+        <number>9</number>
+       </property>
+       <property name="rightMargin">
+        <number>9</number>
+       </property>
+       <property name="bottomMargin">
+        <number>9</number>
+       </property>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="CzujnikiAnalogoweOkno" name="widget" native="true"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -258,7 +237,7 @@
    </property>
    <widget class="QMenu" name="menuPlik">
     <property name="title">
-     <string>Plik</string>
+     <string>P&amp;lik</string>
     </property>
     <addaction name="actionNowy_projekt"/>
     <addaction name="actionNowy_Test"/>
@@ -274,15 +253,15 @@
    </widget>
    <widget class="QMenu" name="menuSerwer">
     <property name="title">
-     <string>Serwis</string>
+     <string>Se&amp;rwis</string>
     </property>
     <widget class="QMenu" name="menuDataq_Card">
      <property name="title">
-      <string>Dataq Card</string>
+      <string>&amp;Dataq Card</string>
      </property>
      <widget class="QMenu" name="menuPodgl_d_wej">
       <property name="title">
-       <string>Podgląd wejść</string>
+       <string>&amp;Podgląd wejść</string>
       </property>
       <addaction name="actionCzujnikChart_1"/>
       <addaction name="actionCzujnikChart_2"/>
@@ -293,7 +272,7 @@
      </widget>
      <widget class="QMenu" name="menuWyzwalanie_wyj">
       <property name="title">
-       <string>Wyzwalanie wyjść</string>
+       <string>&amp;Wyzwalanie wyjść</string>
       </property>
       <addaction name="actionCzujnikTrigger_1"/>
       <addaction name="actionCzujnikTrigger_2"/>
@@ -312,7 +291,7 @@
    </widget>
    <widget class="QMenu" name="menuPomoc">
     <property name="title">
-     <string>Pomoc</string>
+     <string>Pomo&amp;c</string>
     </property>
     <addaction name="actionInstrukcja"/>
    </widget>
@@ -323,52 +302,52 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNowy_projekt">
    <property name="text">
-    <string>Nowy projekt</string>
+    <string>&amp;Nowy projekt</string>
    </property>
   </action>
   <action name="actionNowy_Test">
    <property name="text">
-    <string>Nowy Test</string>
+    <string>N&amp;owy Test</string>
    </property>
   </action>
   <action name="actionZapisz">
    <property name="text">
-    <string>Zapisz</string>
+    <string>&amp;Zapisz</string>
    </property>
   </action>
   <action name="actionDodaj_zdj_cie">
    <property name="text">
-    <string>Dodaj zdjęcie</string>
+    <string>&amp;Dodaj zdjęcie</string>
    </property>
   </action>
   <action name="actionDodaj_film">
    <property name="text">
-    <string>Dodaj film</string>
+    <string>Dodaj &amp;film</string>
    </property>
   </action>
   <action name="actionTw_rz_raport">
    <property name="text">
-    <string>Twórz raport</string>
+    <string>&amp;Twórz raport</string>
    </property>
   </action>
   <action name="actionWyj_cie">
    <property name="text">
-    <string>Wyjście</string>
+    <string>&amp;Wyjście</string>
    </property>
   </action>
   <action name="actionDozownik">
    <property name="text">
-    <string>Dozownik</string>
+    <string>D&amp;ozownik</string>
    </property>
   </action>
   <action name="actionInstrukcja">
    <property name="text">
-    <string>Instrukcja</string>
+    <string>&amp;Instrukcja</string>
    </property>
   </action>
   <action name="actionUstawienia_sygna_w">
    <property name="text">
-    <string>Ustawienia sygnałów</string>
+    <string>&amp;Ustawienia sygnałów</string>
    </property>
   </action>
   <action name="actionCzujnikChart_1">
@@ -376,7 +355,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Czujnik 1</string>
+    <string>&amp;Czujnik 1</string>
    </property>
   </action>
   <action name="actionCzujnikChart_2">
@@ -384,7 +363,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Czujnik 2</string>
+    <string>Czujnik &amp;2</string>
    </property>
   </action>
   <action name="actionCzujnikChart_3">
@@ -392,7 +371,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Czujnik 3</string>
+    <string>Czujnik &amp;3</string>
    </property>
   </action>
   <action name="actionCzujnikChart_4">
@@ -400,7 +379,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Czujnik 4</string>
+    <string>Czujnik &amp;4</string>
    </property>
   </action>
   <action name="actionCzujnikChart_5">
@@ -408,7 +387,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Czujnik 5</string>
+    <string>Czujnik &amp;5</string>
    </property>
   </action>
   <action name="actionCzujnikChart_6">
@@ -416,57 +395,57 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Czujnik 6</string>
+    <string>Czujnik &amp;6</string>
    </property>
   </action>
   <action name="actionCzujnikTrigger_1">
    <property name="text">
-    <string>Czujnik 1</string>
+    <string>&amp;Czujnik 1</string>
    </property>
   </action>
   <action name="actionCzujnikTrigger_2">
    <property name="text">
-    <string>Czujnik 2</string>
+    <string>Czujnik &amp;2</string>
    </property>
   </action>
   <action name="actionCzujnikTrigger_3">
    <property name="text">
-    <string>Czujnik 3</string>
+    <string>Czujnik &amp;3</string>
    </property>
   </action>
   <action name="actionCzujnikTrigger_4">
    <property name="text">
-    <string>Czujnik 4</string>
+    <string>Czujnik &amp;4</string>
    </property>
   </action>
   <action name="actionCzujnikTrigger_5">
    <property name="text">
-    <string>Czujnik 5</string>
+    <string>Czujnik &amp;5</string>
    </property>
   </action>
   <action name="actionCzujnikTrigger_6">
    <property name="text">
-    <string>Czujnik 6</string>
+    <string>Czujnik &amp;6</string>
    </property>
   </action>
   <action name="actionParametry_rejestracji_ci_nienia">
    <property name="text">
-    <string>Parametry rejestracji ciśnienia</string>
+    <string>Parametry &amp;rejestracji ciśnienia</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>OknoStatusowe</class>
-   <extends>QWidget</extends>
-   <header>oknostatusowe.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>CzujnikiAnalogoweOkno</class>
    <extends>QWidget</extends>
    <header>czujnikianalogoweokno.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OknoStatusowe</class>
+   <extends>QFrame</extends>
+   <header>oknostatusowe.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

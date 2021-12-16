@@ -2,7 +2,7 @@
 #include "ui_oknostatusowe.h"
 
 OknoStatusowe::OknoStatusowe(QWidget *parent) :
-    QWidget(parent),
+    QFrame(parent),
     ui(new Ui::OknoStatusowe),
     timer(this)
 {
@@ -37,6 +37,7 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     timer.setInterval(1000);
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer.start();
+    adjustSize();
 }
 
 OknoStatusowe::~OknoStatusowe()

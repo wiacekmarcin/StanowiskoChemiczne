@@ -42,7 +42,8 @@ SOURCES += \
     sygnalanalparam.cpp \
     wejsciaanalogowe.cpp \
     nowytest_1.cpp \
-    formularzdialogbuttonbox.cpp
+    formularzdialogbuttonbox.cpp \
+    testwizard.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -62,7 +63,8 @@ HEADERS += \
     sygnalanalparam.h \
     wejsciaanalogowe.h \
     nowytest_1.h \
-    formularzdialogbuttonbox.h
+    formularzdialogbuttonbox.h \
+    testwizard.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \
@@ -79,7 +81,8 @@ FORMS += \
         stanczujnika.ui \
     videowidget.ui \
     ustawieniadozownikaokno.ui \
-    nowytest_1.ui
+    nowytest_1.ui \
+    testwizard.ui
 
 RESOURCES += \
     ikony.qrc

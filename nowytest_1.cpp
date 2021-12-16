@@ -8,6 +8,7 @@
 NowyTest_1::NowyTest_1(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NowyTest_1)
+    //,next(false)
 {
     ui->setupUi(this);
 
@@ -36,4 +37,26 @@ void NowyTest_1::on_nameTest_textChanged(const QString &arg1)
 void NowyTest_1::form_reset()
 {
     ui->nameTest->setText("");
+}
+
+void NowyTest_1::form_next()
+{
+    accept();
+}
+
+void NowyTest_1::form_prev()
+{
+    accept();
+    //next = false;
+}
+
+void NowyTest_1::form_abort()
+{
+    reject();
+}
+
+bool NowyTest_1::getNext() const
+{
+    //return next;
+    return false;
 }

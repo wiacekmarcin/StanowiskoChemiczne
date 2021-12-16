@@ -13,6 +13,7 @@
 #include "nowytest_1.h"
 #include "nowytest_2.h"
 #include "nowytest_3.h"
+#include "testwizard.h"
 
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
@@ -39,14 +40,17 @@ void GlowneOkno::on_actionNowy_projekt_triggered()
 {
     auto * dlg = new NowyProjectDlg(this);
     dlg->exec();
-    //if (dlg->exec() == QDialog::Accepted) {
+    if (dlg->exec() == QDialog::Rejected) {
     //        //ui->treeWidget->
-    //}
+    }
     dlg->exec();
 }
 
 void GlowneOkno::on_actionNowy_Test_triggered()
 {
+    auto * dlg = new TestWizard(this);
+    dlg->show();
+    /*
     auto * dlg = new NowyTest_1(this);
     dlg->exec();
 
@@ -55,4 +59,6 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     auto * dlg3 = new NowyTest_3(this);
     dlg3->exec();
+    */
+
 }
