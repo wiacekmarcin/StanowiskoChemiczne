@@ -8,6 +8,7 @@ class CzujnikAnalogowyUstawieniaOkno;
 }
 
 class CzujnikAnalogowyUstawieniaWidget;
+class CzujnikAnalogowyUstawieniaOkno;
 
 class CzujnikAnalogowyUstawieniaOkno : public QDialog
 {
@@ -18,6 +19,7 @@ public:
     ~CzujnikAnalogowyUstawieniaOkno();
 
     void setData(int i, const QString & name, const QString & unit, const double & ratio);
+    void getData(CzujnikAnalogowyUstawieniaOkno * dlg);
 private slots:
     void updateCzujnik();
 private:

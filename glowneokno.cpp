@@ -11,7 +11,8 @@
 
 #include "videowidget.h"
 #include "nowytest_1.h"
-
+#include "nowytest_2.h"
+#include "nowytest_3.h"
 
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
@@ -37,16 +38,21 @@ void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
 void GlowneOkno::on_actionNowy_projekt_triggered()
 {
     auto * dlg = new NowyProjectDlg(this);
-    qDebug("%d", dlg->exec());
+    dlg->exec();
     //if (dlg->exec() == QDialog::Accepted) {
     //        //ui->treeWidget->
     //}
+    dlg->exec();
 }
 
 void GlowneOkno::on_actionNowy_Test_triggered()
 {
     auto * dlg = new NowyTest_1(this);
-    if (dlg->exec() == QDialog::Accepted) {
-        //ui->treeWidget->
-    }
+    dlg->exec();
+
+    auto * dlg2 = new NowyTest_2(this);
+    dlg2->exec();
+
+    auto * dlg3 = new NowyTest_3(this);
+    dlg3->exec();
 }

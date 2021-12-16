@@ -32,6 +32,9 @@ SOURCES += \
         glowneokno.cpp \
         mainwindow.cpp \
         nowyprojectdlg.cpp \
+    nowytest_2.cpp \
+    nowytest_3.cpp \
+    nowytest_4.cpp \
         oknostatusowe.cpp \
         stanczujnika.cpp \
     videowidget.cpp \
@@ -49,6 +52,9 @@ HEADERS += \
         glowneokno.h \
         mainwindow.h \
         nowyprojectdlg.h \
+    nowytest_2.h \
+    nowytest_3.h \
+    nowytest_4.h \
         oknostatusowe.h \
         stanczujnika.h \
     videowidget.h \
@@ -66,6 +72,9 @@ FORMS += \
         glowneokno.ui \
         mainwindow.ui \
         nowyprojectdlg.ui \
+    nowytest_2.ui \
+    nowytest_3.ui \
+    nowytest_4.ui \
         oknostatusowe.ui \
         stanczujnika.ui \
     videowidget.ui \
