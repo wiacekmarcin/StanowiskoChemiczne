@@ -1,6 +1,6 @@
 #include "czujnikanalogowyustawieniaokno.h"
 #include "ui_czujnikanalogowyustawieniaokno.h"
-
+#include "czujnikianalogoweokno.h"
 #include <QPushButton>
 
 CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(QWidget *parent) :
@@ -33,6 +33,15 @@ void CzujnikAnalogowyUstawieniaOkno::setData(int i, const QString &name, const Q
 {
     if (i >= 0 && i < 6) {
         ustawienia[i]->setData(name, unit, ratio);
+    }
+}
+
+void CzujnikAnalogowyUstawieniaOkno::getData(CzujnikAnalogowyUstawieniaOkno *dlg)
+{
+    for (int i = 0; i < 6; i++) {
+        dlg->setData(i, ustawienia[i]->name(),
+                ustawienia[i]->unit(),
+                ustawienia[i]->ratio());
     }
 }
 

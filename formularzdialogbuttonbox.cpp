@@ -32,7 +32,7 @@ FormularzDialogButtonBox::FormularzDialogButtonBox(QWidget * prevTab, short step
     b_next->setEnabled(step != max);
     b_ok->setEnabled(step == max);
 
-    b_reset->setShortcut(QKeySequence());
+    //b_reset->setShortcut();
 
 }
 
