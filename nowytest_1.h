@@ -20,6 +20,8 @@ signals:
 
 private slots:
     void on_nameTest_textChanged(const QString &arg1);
+    void form_reset();
+
 
 private:
     Ui::NowyTest_1 *ui;

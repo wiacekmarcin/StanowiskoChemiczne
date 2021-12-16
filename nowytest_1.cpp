@@ -6,12 +6,14 @@ NowyTest_1::NowyTest_1(QWidget *parent) :
     ui(new Ui::NowyTest_1)
 {
     ui->setupUi(this);
-    FormularzDialogButtonBox * dlg = new FormularzDialogButtonBox(ui->nameTest, 1, 6, this);
-    ui->formLayout->addWidget(dlg);
-    dlg->setValid(false);
-    connect(this, &NowyTest_1::valid, dlg, &FormularzDialogButtonBox::setValid);
+    FormularzDialogButtonBox * buttons = new FormularzDialogButtonBox(ui->nameTest, 1, 6, this);
+    ui->formLayout->addWidget(buttons);
+    buttons->setValid(false);
+    connect(this, &NowyTest_1::valid, buttons, &FormularzDialogButtonBox::setValid);
 
     setWindowTitle(windowTitle() + QString( " Krok %1 z %2").arg(1).arg(6));
+
+    connect(buttons, &FormularzDialogButtonBox::reset, this, &NowyTest_1::form_reset);
 }
 
 
@@ -24,4 +26,9 @@ NowyTest_1::~NowyTest_1()
 void NowyTest_1::on_nameTest_textChanged(const QString &arg1)
 {
     emit valid(!arg1.isEmpty());
+}
+
+void NowyTest_1::form_reset()
+{
+    ui->nameTest->setText("");
 }

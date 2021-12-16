@@ -16,6 +16,13 @@ public:
 public slots:
     void setValid(bool v);
 
+signals:
+    void reset();
+    void next();
+    void prev();
+    void abort();
+
+
 private:
     QAbstractButton * b_ok;
     QAbstractButton * b_prev;
