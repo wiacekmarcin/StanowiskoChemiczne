@@ -1,13 +1,13 @@
 #ifndef NOWYTEST_4_H
 #define NOWYTEST_4_H
 
-#include <QDialog>
+#include <QWizardPage>
 
 namespace Ui {
 class NowyTest_4;
 }
 
-class NowyTest_4 : public QDialog
+class NowyTest_4 : public QWizardPage
 {
     Q_OBJECT
 

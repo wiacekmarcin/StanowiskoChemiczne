@@ -23,6 +23,8 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
 
     VideoWidget * videowidget = new VideoWidget(ui->tabFoto);
     ui->verticalLayout_2->addWidget(videowidget);
+
+    ui->tabTest->setHidden(true);
 }
 
 GlowneOkno::~GlowneOkno()
@@ -48,8 +50,10 @@ void GlowneOkno::on_actionNowy_projekt_triggered()
 
 void GlowneOkno::on_actionNowy_Test_triggered()
 {
-    auto * dlg = new TestWizard(this);
-    dlg->show();
+    TestWizard wizard(this);
+    wizard.exec();
+    //ui->tabTest->validateCurrentPage();
+
     /*
     auto * dlg = new NowyTest_1(this);
     dlg->exec();
