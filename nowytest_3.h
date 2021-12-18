@@ -22,17 +22,12 @@ private slots:
     void on_cbNo_toggled(bool checked);
 
     void on_pbStep1_clicked();
-    void on_pbStep1_pressed();
     void on_pbStep2_clicked();
-    void on_pbStep2_pressed();
     void on_cbStep3Yes_toggled(bool checked);
     void on_cbStep3No_toggled(bool checked);
     void on_pbStep3aRun_clicked();
-    void on_pbStep3aRun_pressed();
     void on_pbStep3aOk_clicked();
-    void on_pbStep3aOk_pressed();
     void on_pbStep4_clicked();
-    void on_pbStep4_pressed();
 
     void runDone();
 

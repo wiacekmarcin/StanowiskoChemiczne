@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NowyTest_4</class>
- <widget class="QWizardPage" name="NowyTest_4">
+ <class>NowyTest_5</class>
+ <widget class="QWizardPage" name="NowyTest_5">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>637</height>
+    <width>839</width>
+    <height>641</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>WizardPage</string>
   </property>
   <property name="title">
-   <string>Przygotwanie do startu testu  - krok 1</string>
+   <string>Przygotowanie do testu - krok 2</string>
   </property>
   <property name="subTitle">
-   <string>Przegląd zaworów i ciśnienia</string>
+   <string>Dozowanie cieczy</string>
   </property>
   <attribute name="pageId">
-   <string notr="true">4</string>
+   <string notr="true">5</string>
   </attribute>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -83,13 +83,6 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="lZawor2">
-        <property name="text">
-         <string>Zawór 2</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -113,6 +106,13 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lZawor2">
+        <property name="text">
+         <string>Zawór 2</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -145,20 +145,6 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="lZawor4">
-        <property name="text">
-         <string>Zawór 4</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="lZawor5">
-        <property name="text">
-         <string>Zawór 5</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
@@ -182,6 +168,13 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="lZawor4">
+        <property name="text">
+         <string>Zawór 4</string>
+        </property>
+       </widget>
       </item>
       <item row="4" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -207,6 +200,13 @@
         </item>
        </layout>
       </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="lZawor5">
+        <property name="text">
+         <string>Zawór 5</string>
+        </property>
+       </widget>
+      </item>
       <item row="5" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
@@ -230,6 +230,13 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Zawór 6</string>
+        </property>
+       </widget>
       </item>
       <item row="6" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -255,13 +262,6 @@
         </item>
        </layout>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Zawór 6</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -275,21 +275,53 @@
      </property>
      <layout class="QFormLayout" name="formLayout_2">
       <item row="0" column="0">
-       <widget class="QLabel" name="lstep2">
-        <property name="text">
-         <string>Podaj wartość podciśnienia</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
-         <widget class="QPushButton" name="pbStep2_100">
+         <widget class="QLabel" name="lstep2a">
           <property name="text">
-           <string>100</string>
+           <string>Rozpocznij dozowanie</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="lciecz">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lstep2b">
+          <property name="text">
+           <string>z dozownika</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="ldozownik">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lstep2c">
+          <property name="text">
+           <string>w objętości </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lobjetosc">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
         <item>
          <spacer name="horizontalSpacer_3">
           <property name="orientation">
@@ -304,12 +336,36 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pbStep2_OK">
+         <widget class="QPushButton" name="pbStep2OK">
           <property name="text">
            <string>OK</string>
           </property>
          </widget>
         </item>
+       </layout>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="Line" name="line">
+        <property name="minimumSize">
+         <size>
+          <width>15</width>
+          <height>2</height>
+         </size>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lStep3">
+        <property name="text">
+         <string>Poczekaj aż cała ciecz odparowuje i cisnienie w komorze się ustabilizuje</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
          <spacer name="horizontalSpacer_10">
           <property name="orientation">
@@ -324,37 +380,23 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pbStep2_Skip">
+         <widget class="QPushButton" name="pbStep3OK">
           <property name="text">
-           <string>Pomiń</string>
+           <string>OK</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="lstep2A">
+      <item row="11" column="0">
+       <widget class="QLabel" name="lStep4">
         <property name="text">
-         <string>Otwórz zawór w próźni</string>
+         <string>Otwórz zawór podawania powietrza i poczekaj, aż ciśnienie w komorze się ustabilizuje</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QPushButton" name="pbStep2A_Next">
-          <property name="text">
-           <string>Dalej</string>
-          </property>
-         </widget>
-        </item>
+      <item row="11" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
         <item>
          <spacer name="horizontalSpacer_11">
           <property name="orientation">
@@ -369,7 +411,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pbStep2A_OK">
+         <widget class="QPushButton" name="pbStep4OK">
           <property name="text">
            <string>OK</string>
           </property>
@@ -377,43 +419,18 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="9" column="0" colspan="2">
        <widget class="Line" name="line_2">
+        <property name="minimumSize">
+         <size>
+          <width>15</width>
+          <height>2</height>
+         </size>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="lStep2B">
-        <property name="text">
-         <string>Uruchom pompę</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
-        <item>
-         <spacer name="horizontalSpacer_12">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pbStep2B_OK">
-          <property name="text">
-           <string>OK</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
       </item>
      </layout>
     </widget>

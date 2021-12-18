@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NowyTest_4</class>
- <widget class="QWizardPage" name="NowyTest_4">
+ <class>NowyTest_6</class>
+ <widget class="QWizardPage" name="NowyTest_6">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>637</height>
+    <width>779</width>
+    <height>494</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>WizardPage</string>
   </property>
   <property name="title">
-   <string>Przygotwanie do startu testu  - krok 1</string>
+   <string>Przygotowanie stanowiska. Krok 3</string>
   </property>
   <property name="subTitle">
-   <string>Przegląd zaworów i ciśnienia</string>
+   <string>Dalsze prace porządkowe</string>
   </property>
   <attribute name="pageId">
-   <string notr="true">4</string>
+   <string notr="true">6</string>
   </attribute>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -256,7 +256,7 @@
        </layout>
       </item>
       <item row="6" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="lZawor6">
         <property name="text">
          <string>Zawór 6</string>
         </property>
@@ -275,21 +275,14 @@
      </property>
      <layout class="QFormLayout" name="formLayout_2">
       <item row="0" column="0">
-       <widget class="QLabel" name="lstep2">
+       <widget class="QLabel" name="lStep2">
         <property name="text">
-         <string>Podaj wartość podciśnienia</string>
+         <string>Otwórz zawory X i Y oraz rozpocznij pomiar stężenia gazów w wewnątrzn komory</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QPushButton" name="pbStep2_100">
-          <property name="text">
-           <string>100</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <spacer name="horizontalSpacer_3">
           <property name="orientation">
@@ -304,12 +297,42 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pbStep2_OK">
+         <widget class="QPushButton" name="pbStep2">
           <property name="text">
            <string>OK</string>
           </property>
          </widget>
         </item>
+       </layout>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="Line" name="line">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>15</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lStep3">
+        <property name="text">
+         <string>Poczekaj na ustabilizowanie się pomiarów stężenia gazów</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
         <item>
          <spacer name="horizontalSpacer_10">
           <property name="orientation">
@@ -324,90 +347,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pbStep2_Skip">
-          <property name="text">
-           <string>Pomiń</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="lstep2A">
-        <property name="text">
-         <string>Otwórz zawór w próźni</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QPushButton" name="pbStep2A_Next">
-          <property name="text">
-           <string>Dalej</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_11">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pbStep2A_OK">
-          <property name="text">
-           <string>OK</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="lStep2B">
-        <property name="text">
-         <string>Uruchom pompę</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
-        <item>
-         <spacer name="horizontalSpacer_12">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pbStep2B_OK">
+         <widget class="QPushButton" name="pbStep3">
           <property name="text">
            <string>OK</string>
           </property>

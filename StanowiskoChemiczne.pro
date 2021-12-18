@@ -34,6 +34,9 @@ SOURCES += \
     nowytest_2.cpp \
     nowytest_3.cpp \
     nowytest_4.cpp \
+    nowytest_5.cpp \
+    nowytest_6.cpp \
+    nowytest_7.cpp \
         oknostatusowe.cpp \
         stanczujnika.cpp \
     videowidget.cpp \
@@ -53,6 +56,9 @@ HEADERS += \
     nowytest_2.h \
     nowytest_3.h \
     nowytest_4.h \
+    nowytest_5.h \
+    nowytest_6.h \
+    nowytest_7.h \
         oknostatusowe.h \
         stanczujnika.h \
     videowidget.h \
@@ -72,6 +78,9 @@ FORMS += \
     nowytest_2.ui \
     nowytest_3.ui \
     nowytest_4.ui \
+    nowytest_5.ui \
+    nowytest_6.ui \
+    nowytest_7.ui \
         oknostatusowe.ui \
         stanczujnika.ui \
     videowidget.ui \

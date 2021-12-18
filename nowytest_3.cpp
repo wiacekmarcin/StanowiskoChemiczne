@@ -109,22 +109,12 @@ void NowyTest_3::on_pbStep1_clicked()
     ui->dozowniknr_2->setEnabled(true);
 }
 
-void NowyTest_3::on_pbStep1_pressed()
-{
-   on_pbStep1_clicked();
-}
-
 void NowyTest_3::on_pbStep2_clicked()
 {
     ui->lstep3->setEnabled(true);
     ui->cbStep3Yes->setEnabled(true);
     ui->cbStep3No->setEnabled(true);
     ui->pbStep2->setEnabled(false);
-}
-
-void NowyTest_3::on_pbStep2_pressed()
-{
-   on_pbStep2_clicked();
 }
 
 void NowyTest_3::on_cbStep3Yes_toggled(bool checked)
@@ -150,11 +140,6 @@ void NowyTest_3::on_pbStep3aRun_clicked()
     QTimer::singleShot(1000,this, &NowyTest_3::runDone);
 }
 
-void NowyTest_3::on_pbStep3aRun_pressed()
-{
-    on_pbStep3aRun_clicked();
-}
-
 void NowyTest_3::on_pbStep3aOk_clicked()
 {
     ui->pbStep3aRun->setEnabled(false);
@@ -162,11 +147,6 @@ void NowyTest_3::on_pbStep3aOk_clicked()
 
     ui->pbStep4->setEnabled(true);
     ui->lstep4->setEnabled(true);
-}
-
-void NowyTest_3::on_pbStep3aOk_pressed()
-{
-    on_pbStep3aOk_clicked();
 }
 
 void NowyTest_3::runDone()
@@ -182,7 +162,3 @@ void NowyTest_3::on_pbStep4_clicked()
     emit completeChanged();
 }
 
-void NowyTest_3::on_pbStep4_pressed()
-{
-    on_pbStep4_clicked();
-}
