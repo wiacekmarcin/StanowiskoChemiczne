@@ -10,9 +10,6 @@ NowyTest_1::NowyTest_1(QWidget *parent) :
 
     registerField("testName*", ui->nameTest);
     validatePage();
-
-    //QWizard * p = static_cast<QWizard*>(parent);
-    //setWindowTitle(QString::fromUtf8("Nowy test - Krok %1/%2").arg(p->currentId()).arg(p->pageIds().size()));
 }
 
 

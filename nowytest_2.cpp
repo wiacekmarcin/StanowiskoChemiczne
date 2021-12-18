@@ -21,6 +21,8 @@ NowyTest_2::~NowyTest_2()
 
 void NowyTest_2::on_cbDozownik_currentIndexChanged(int index)
 {
+    if (wizard()->currentPage() != this)
+        return;
     ui->cbCiecz->setEnabled(index != 0);
 
 
@@ -31,8 +33,10 @@ void NowyTest_2::on_cbDozownik_currentIndexChanged(int index)
         ui->iloscCieczy->setEnabled(false);
         ui->cbZaplon->setEnabled(false);
         ui->cbenergiaIskry->setEnabled(false);
+        emit completeChanged();
         return;
     }
+
     ui->cbCiecz->clear();
 
     QList<QStringList> ciecze;
@@ -44,14 +48,19 @@ void NowyTest_2::on_cbDozownik_currentIndexChanged(int index)
     ciecze.append(QStringList() << "--" << "Alkohol"); //5
 
     ui->cbCiecz->addItems(ciecze.at(index));
+    emit completeChanged();
 }
 
 void NowyTest_2::on_cbCiecz_currentTextChanged(const QString &arg1)
 {
+    if (wizard()->currentPage() != this)
+        return;
+
     if (arg1 == "--") {
         ui->iloscCieczy->setEnabled(false);
         ui->cbZaplon->setEnabled(false);
         ui->cbenergiaIskry->setEnabled(false);
+        emit completeChanged();
         return;
     }
     ui->iloscCieczy->setEnabled(true);
@@ -66,11 +75,42 @@ void NowyTest_2::on_cbCiecz_currentTextChanged(const QString &arg1)
         ui->iloscCieczy->setValue(maxVal[arg1]);
 
     ui->cbZaplon->setEnabled(true);
+    emit completeChanged();
 }
 
 void NowyTest_2::on_cbZaplon_currentIndexChanged(int index)
 {
-    if (index == 0)
+    if (wizard()->currentPage() != this)
         return;
+
+    if (index == 0) {
+        emit completeChanged();
+        return;
+    }
     ui->cbenergiaIskry->setEnabled(index == 1);
+    emit completeChanged();
+}
+
+bool NowyTest_2::isComplete() const
+{
+    if (wizard()->currentPage() != this)
+        return true;
+
+    if (!QWizardPage::isComplete())
+        return false;
+
+    if (!ui->cbZaplon->isEnabled() || ui->cbZaplon->currentIndex() == 0)
+        return false;
+
+    if ( ui->cbZaplon->currentIndex() == 1 && ui->cbenergiaIskry->currentIndex() == 0) //iskra elektryczna
+        return false;
+
+    return true;
+}
+
+void NowyTest_2::on_cbenergiaIskry_currentIndexChanged(int /*index*/)
+{
+    if (wizard()->currentPage() != this)
+        return;
+    emit completeChanged();
 }

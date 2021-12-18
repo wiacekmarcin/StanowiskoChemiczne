@@ -240,6 +240,13 @@ energia, napięci</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>cbDozownik</tabstop>
+  <tabstop>cbCiecz</tabstop>
+  <tabstop>iloscCieczy</tabstop>
+  <tabstop>cbZaplon</tabstop>
+  <tabstop>cbenergiaIskry</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -10,7 +10,8 @@ class TestWizard : public QWizard
 public:
     explicit TestWizard(QWidget *parent = 0);
     ~TestWizard();
-
+private slots:
+    void changePage(int id);
 };
 
 #endif // TESTWIZARD_H

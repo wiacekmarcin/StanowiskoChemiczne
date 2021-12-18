@@ -12,7 +12,7 @@ TestWizard::TestWizard(QWidget *parent) :
 
     QMetaObject::connectSlotsByName(this);
     setWindowTitle("Test");
-
+    setOption(QWizard::IndependentPages);
 
     addPage(new NowyTest_1(this));
     addPage(new NowyTest_2(this));
@@ -24,10 +24,19 @@ TestWizard::TestWizard(QWidget *parent) :
     setButtonText(QWizard::CancelButton, QString("Porzuć"));
     setButtonText(QWizard::CommitButton, QString("Dodaj"));
 
-
+    connect(this, &QWizard::currentIdChanged, this, &TestWizard::changePage);
 }
 
 TestWizard::~TestWizard()
 {
 
+}
+
+void TestWizard::changePage(int id)
+{
+    qDebug("%d", id);
+    if (id == 2) {
+        initializePage(2);
+
+    }
 }
