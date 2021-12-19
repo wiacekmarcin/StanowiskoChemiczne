@@ -102,7 +102,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabTest">
        <attribute name="title">
@@ -114,7 +114,7 @@
         <string>Raport</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="tabFoto">
+      <widget class="VideoWidget" name="tabFoto">
        <attribute name="title">
         <string>Foto</string>
        </attribute>
@@ -446,6 +446,12 @@
    <class>OknoStatusowe</class>
    <extends>QFrame</extends>
    <header>oknostatusowe.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VideoWidget</class>
+   <extends>QWidget</extends>
+   <header>videowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

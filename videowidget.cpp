@@ -9,19 +9,19 @@ VideoWidget::VideoWidget(QWidget *parent) : QWidget(parent),
     ui(new Ui::VideoWidget)
 {
     ui->setupUi(this);
-/*
+
     player = new QMediaPlayer(this);
     QVideoWidget *vw = new QVideoWidget;
     ui->verticalLayout->addWidget(vw);
     player->setVideoOutput(vw);
-    player->setMedia(QUrl::fromLocalFile("/home/marcin/Wideo/MVI_1629.MP4"));
+    player->setMedia(QUrl::fromLocalFile("/home/marcin/Dokumenty/apka-2021-12-18_14.27.34.mp4"));
     player->setVolume(50);
     duration = player->duration();
     ui->progressBar->setMaximum(1000);
     connect(player, &QMediaPlayer::positionChanged, this, &VideoWidget::updateTime);
     connect(player, &QMediaPlayer::durationChanged, this, &VideoWidget::updateDuration);
     player->play();
-*/
+
     setVisible(false);
 }
 
