@@ -50,3 +50,9 @@ void NowyProjectDlg::on_dirname_textChanged(const QString &arg1)
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 }
+
+QString NowyProjectDlg::getName() const { return ui->name->text(); }
+QString NowyProjectDlg::getMembers() const { return ui->participants->toPlainText(); }
+QString NowyProjectDlg::getComment() const { return ui->comment->toPlainText(); }
+QString NowyProjectDlg::getWorkDir() const { return ui->dirname->text(); }
+QString NowyProjectDlg::getDate() const { return ui->date->text(); }

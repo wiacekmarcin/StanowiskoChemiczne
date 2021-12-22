@@ -14,12 +14,14 @@ class NowyProjectDlg : public QDialog
 public:
     explicit NowyProjectDlg(QWidget *parent = nullptr);
     ~NowyProjectDlg();
-
+    QString getName() const;
+    QString getMembers() const;
+    QString getComment() const;
+    QString getWorkDir() const;
+    QString getDate() const;
 private slots:
     void on_pbChoiceDir_clicked();
-
     void on_name_textChanged(const QString &arg1);
-
     void on_dirname_textChanged(const QString &arg1);
 
 private:

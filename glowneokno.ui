@@ -49,108 +49,9 @@
       </property>
       <column>
        <property name="text">
-        <string>Nowy projekt</string>
-       </property>
-       <property name="foreground">
-        <brush brushstyle="NoBrush">
-         <color alpha="255">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
+        <string>Projekty</string>
        </property>
       </column>
-      <item>
-       <property name="text">
-        <string>Test1</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Test2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Test3</string>
-       </property>
-       <item>
-        <property name="text">
-         <string>Raport</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Zdjęcia</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Film</string>
-        </property>
-       </item>
-      </item>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QTabWidget" name="tabObszarRoboczy">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="currentIndex">
-       <number>2</number>
-      </property>
-      <widget class="QWidget" name="tabTest">
-       <attribute name="title">
-        <string>Test</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tabRaport">
-       <attribute name="title">
-        <string>Raport</string>
-       </attribute>
-      </widget>
-      <widget class="VideoWidget" name="tabFoto">
-       <attribute name="title">
-        <string>Foto</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2"/>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="OknoStatusowe" name="frCzujniki">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>120</width>
-        <height>450</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>120</width>
-        <height>1024</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <property name="lineWidth">
-       <number>3</number>
-      </property>
      </widget>
     </item>
     <item row="1" column="0" colspan="3">
@@ -222,6 +123,135 @@
         </spacer>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="OknoStatusowe" name="frCzujniki">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>450</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>1024</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>3</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="ProjektWidget" name="projekt"/>
+      <widget class="QWidget" name="test">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTabWidget" name="tabObszarRoboczy">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tabTest">
+           <attribute name="title">
+            <string>Test</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="frTest">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>1</number>
+               </property>
+               <property name="topMargin">
+                <number>1</number>
+               </property>
+               <property name="rightMargin">
+                <number>1</number>
+               </property>
+               <property name="bottomMargin">
+                <number>1</number>
+               </property>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabRaport">
+           <attribute name="title">
+            <string>Raport</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tabFoto">
+           <attribute name="title">
+            <string>Zdjęcia</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tabVideo">
+           <attribute name="title">
+            <string>Wideo</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -449,9 +479,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>VideoWidget</class>
+   <class>ProjektWidget</class>
    <extends>QWidget</extends>
-   <header>videowidget.h</header>
+   <header>projektwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

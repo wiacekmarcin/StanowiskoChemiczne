@@ -2,10 +2,14 @@
 #define GLOWNEOKNO_H
 
 #include <QMainWindow>
+#include "projectitem.h"
+#include "testdata.h"
 
 namespace Ui {
 class GlowneOkno;
 }
+
+class  QTreeWidgetItem;
 
 class GlowneOkno : public QMainWindow
 {
@@ -18,11 +22,20 @@ public:
 private slots:
     void on_actionUstawienia_sygna_w_triggered();
     void on_actionNowy_projekt_triggered();
-
     void on_actionNowy_Test_triggered();
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+
+protected:
+    void changeSelectedTest();
 
 private:
     Ui::GlowneOkno *ui;
+    QMap<QTreeWidgetItem*, ProjectItem> projekty;
+    QMap<QTreeWidgetItem*, TestData> testy;
+    QMap<QTreeWidgetItem*, QTreeWidgetItem*> mapTesty;
+    QTreeWidgetItem* selectedProject;
+    QTreeWidgetItem* selectedTest;
 };
+
 
 #endif // GLOWNEOKNO_H

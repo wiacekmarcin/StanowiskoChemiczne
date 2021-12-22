@@ -14,6 +14,7 @@ VideoWidget::VideoWidget(QWidget *parent) : QWidget(parent),
     QVideoWidget *vw = new QVideoWidget;
     ui->verticalLayout->addWidget(vw);
     player->setVideoOutput(vw);
+    /*
     player->setMedia(QUrl::fromLocalFile("/home/marcin/Dokumenty/apka-2021-12-18_14.27.34.mp4"));
     player->setVolume(50);
     duration = player->duration();
@@ -21,7 +22,7 @@ VideoWidget::VideoWidget(QWidget *parent) : QWidget(parent),
     connect(player, &QMediaPlayer::positionChanged, this, &VideoWidget::updateTime);
     connect(player, &QMediaPlayer::durationChanged, this, &VideoWidget::updateDuration);
     player->play();
-
+*/
     setVisible(false);
 }
 

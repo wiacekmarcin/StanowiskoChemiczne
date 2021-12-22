@@ -44,7 +44,13 @@ SOURCES += \
     sygnalanalparam.cpp \
     wejsciaanalogowe.cpp \
     nowytest_1.cpp \
-    testwizard.cpp
+    createtestwizard.cpp \
+    nowytestdlg.cpp \
+    projectitem.cpp \
+    testdata.cpp \
+    testpage.cpp \
+    testpageform.cpp \
+    projektwidget.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -66,7 +72,13 @@ HEADERS += \
     sygnalanalparam.h \
     wejsciaanalogowe.h \
     nowytest_1.h \
-    testwizard.h
+    createtestwizard.h \
+    nowytestdlg.h \
+    projectitem.h \
+    testdata.h \
+    testpage.h \
+    testpageform.h \
+    projektwidget.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \
@@ -85,7 +97,10 @@ FORMS += \
         stanczujnika.ui \
     videowidget.ui \
     ustawieniadozownikaokno.ui \
-    nowytest_1.ui
+    nowytest_1.ui \
+    nowytestdlg.ui \
+    testpageform.ui \
+    projektwidget.ui
 
 RESOURCES += \
     ikony.qrc
