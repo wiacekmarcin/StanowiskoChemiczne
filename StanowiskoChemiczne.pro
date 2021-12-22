@@ -50,7 +50,8 @@ SOURCES += \
     testdata.cpp \
     testpage.cpp \
     testpageform.cpp \
-    projektwidget.cpp
+    projektwidget.cpp \
+    testtabswidget.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -78,7 +79,8 @@ HEADERS += \
     testdata.h \
     testpage.h \
     testpageform.h \
-    projektwidget.h
+    projektwidget.h \
+    testtabswidget.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \
@@ -100,7 +102,8 @@ FORMS += \
     nowytest_1.ui \
     nowytestdlg.ui \
     testpageform.ui \
-    projektwidget.ui
+    projektwidget.ui \
+    testtabswidget.ui
 
 RESOURCES += \
     ikony.qrc

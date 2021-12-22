@@ -4,6 +4,7 @@
 #include <QStackedWidget>
 #include <QMap>
 #include <QList>
+#include "testdata.h"
 
 class TestPage;
 class CreateTestWizard : public QStackedWidget
@@ -12,8 +13,7 @@ class CreateTestWizard : public QStackedWidget
 
 public:
     explicit CreateTestWizard(QWidget *parent = 0);
-    CreateTestWizard(const QString & nazwa, short doz, const QString & c, const double & obj, const QString & zaplon1,
-                     const QString &zaplon2, QWidget *parent = 0);
+    void setTestData(const TestData & dt);
     ~CreateTestWizard();
 
     void setField(const QString & key, const QVariant & val);

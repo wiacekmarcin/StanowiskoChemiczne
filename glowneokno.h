@@ -4,12 +4,13 @@
 #include <QMainWindow>
 #include "projectitem.h"
 #include "testdata.h"
-
+#include "testtabswidget.h"
 namespace Ui {
 class GlowneOkno;
 }
 
 class  QTreeWidgetItem;
+class TestTabWidget;
 
 class GlowneOkno : public QMainWindow
 {
@@ -31,7 +32,7 @@ protected:
 private:
     Ui::GlowneOkno *ui;
     QMap<QTreeWidgetItem*, ProjectItem> projekty;
-    QMap<QTreeWidgetItem*, TestData> testy;
+    QMap<QTreeWidgetItem*, TestTabsWidget*> testy;
     QMap<QTreeWidgetItem*, QTreeWidgetItem*> mapTesty;
     QTreeWidgetItem* selectedProject;
     QTreeWidgetItem* selectedTest;

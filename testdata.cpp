@@ -4,7 +4,7 @@ TestData::TestData(const QString &nazwa_, short doz, const QString &c, const dou
                    const QString zaplon2)
     : dozownik(doz), ciecz(c), objetosc(obj), zaplon(zaplon1), zaplon_ext(zaplon2), nazwa(nazwa_)
 {
-    wizard = nullptr;
+    //wizard = nullptr;
 }
 
 unsigned short TestData::getDozownik() const
@@ -67,19 +67,3 @@ void TestData::setNazwa(const QString &value)
     nazwa = value;
 }
 
-CreateTestWizard *TestData::createWizard(QWidget *parent)
-{
-    wizard = new CreateTestWizard(nazwa,dozownik,ciecz,objetosc,zaplon,zaplon_ext,parent);
-    return wizard;
-}
-
-CreateTestWizard *TestData::getWizard()
-{
-    return wizard;
-}
-
-void TestData::setVisible(bool visible)
-{
-    if (wizard)
-        wizard->setVisible(visible);
-}

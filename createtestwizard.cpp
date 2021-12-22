@@ -22,19 +22,15 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
 
 }
 
-CreateTestWizard::CreateTestWizard(const QString &nazwa, short doz,
-                                   const QString &c, const double &obj,
-                                   const QString &zaplon1,
-                                   const QString &zaplon2, QWidget *parent)
-    : QStackedWidget(parent)
+void CreateTestWizard::setTestData(const TestData &dt)
 {
-    setField(QString("nazwa"), QVariant::fromValue(nazwa));
-    setField(QString("dozownik"), QVariant::fromValue(doz));
-    setField(QString("ciecz"), QVariant::fromValue(c));
-    setField(QString("objetosc"), QVariant::fromValue(obj));
-    setField(QString("zaplon"), QVariant::fromValue(zaplon1));
-    setField(QString("zaplonExt"), QVariant::fromValue(zaplon2));
-    init();
+    setField(QString("nazwa"), QVariant::fromValue(dt.getNazwa()));
+    setField(QString("dozownik"), QVariant::fromValue(dt.getDozownik()));
+    setField(QString("ciecz"), QVariant::fromValue(dt.getCiecz()));
+    setField(QString("objetosc"), QVariant::fromValue(dt.getObjetosc()));
+    setField(QString("zaplon"), QVariant::fromValue(dt.getZaplon()));
+    setField(QString("zaplonExt"), QVariant::fromValue(dt.getZaplonExt()));
+    initialPage();
 }
 
 CreateTestWizard::~CreateTestWizard()

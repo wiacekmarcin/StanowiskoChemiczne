@@ -1,7 +1,7 @@
 #ifndef TESTDATA_H
 #define TESTDATA_H
 #include <QString>
-#include "createtestwizard.h"
+
 class TestData
 {
 public:
@@ -27,11 +27,6 @@ public:
     QString getNazwa() const;
     void setNazwa(const QString &value);
 
-    CreateTestWizard *getWizard();
-    CreateTestWizard *createWizard(QWidget *parent);
-    void setVisible(bool visible);
-
-
 private:
     short dozownik;
     QString ciecz;
@@ -40,7 +35,6 @@ private:
     QString zaplon_ext;
     QString nazwa;
 
-    CreateTestWizard * wizard;
 };
 
 #endif // TESTDATA_H

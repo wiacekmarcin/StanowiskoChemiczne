@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QVideoWidget>
 #include <QTreeWidgetItem>
+#include <QStackedWidget>
 
 #include "videowidget.h"
 #include "nowytest_1.h"
@@ -19,6 +20,7 @@
 #include "projectitem.h"
 #include "nowyprojectdlg.h"
 #include "testdata.h"
+#include "testtabswidget.h"
 
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
@@ -29,8 +31,8 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     ui->setupUi(this);
     changeSelectedTest();
 
-    VideoWidget * videowidget = new VideoWidget(ui->tabFoto);
-    ui->verticalLayout_4->addWidget(videowidget);
+    //VideoWidget * videowidget = new VideoWidget(ui->tabFoto);
+    //ui->verticalLayout_4->addWidget(videowidget);
 
 }
 
@@ -54,7 +56,7 @@ void GlowneOkno::on_actionNowy_projekt_triggered()
 
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(dlg->getName()));
     projekty[qtreewidgetitem] = ProjectItem(dlg->getName(), dlg->getMembers(), dlg->getWorkDir(), dlg->getComment(),
-                                            dlg->getComment());
+                                            dlg->getDate());
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
     changeSelectedTest();
@@ -77,38 +79,27 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     selectedProject->addChild(qtreewidgetitem);
 
-    if (selectedTest)
-        testy[selectedTest].setVisible(false);
-
     selectedTest = qtreewidgetitem;
-    testy[selectedTest] = TestData(dlg->getName(), dlg->getDozownik(),
-                                  dlg->getLuquid(), dlg->getVolume(),
-                                  dlg->getIngition(), dlg->getIngitionExt());
-    testy[selectedTest].setVisible(true);
-    projekty[selectedProject].addTest(testy[selectedTest]);
-    ui->treeWidget->setCurrentItem(selectedTest);
-    ui->frTest->layout()->addWidget(testy[selectedTest].createWizard(ui->frTest));
+    TestData testDane(dlg->getName(), dlg->getDozownik(), dlg->getLuquid(),
+             dlg->getVolume(), dlg->getIngition(), dlg->getIngitionExt());
 
+
+    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
+                                            testDane,
+                                            ui->testyStackedWidget);
+    ui->testyStackedWidget->addWidget(testy[selectedTest]);
+    ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
+    testy[selectedTest]->setActive();
+
+    projekty[selectedProject].addTest(testDane);
+
+    ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
     changeSelectedTest();
-
-
-
-    //CreateTestWizard wizard(ui->tabTest);
-    //wizard.exec();
-    //ui->tabTest->validateCurrentPage();
-
-    //ui->tabObszarRoboczy->setVisible(true);
-    //ui->tabObszarRoboczy->setCurrentIndex(1);
-    //ui->tabObszarRoboczy->setCurrentIndex(0);
-
-
 }
 
-void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column */)
 {
-    if (selectedTest)
-        testy[selectedTest].setVisible(false);
     if (item == nullptr) {
         selectedProject = nullptr;
         selectedTest = nullptr;
@@ -116,7 +107,7 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         return;
     }
 
-    if (projekty.keys().contains(item)) {\
+    if (projekty.keys().contains(item)) {
         selectedProject = item;
         selectedTest = nullptr;
         changeSelectedTest();
@@ -136,17 +127,18 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 void GlowneOkno::changeSelectedTest()
 {
     ui->actionNowy_Test->setDisabled(selectedProject == nullptr);
+    ui->actionDodaj_film->setDisabled(selectedTest == nullptr);
+    ui->actionDodaj_zdj_cie->setDisabled(selectedTest == nullptr);
+    ui->actionTw_rz_raport->setDisabled(selectedTest == nullptr);
     if (selectedTest) {
         ui->stackedWidget->setVisible(true);
-        testy[selectedTest].setVisible(true);
-        ui->tabObszarRoboczy->setCurrentIndex(0);
-        //ui->tabObszarRoboczy->setVisible(true);
         ui->stackedWidget->setCurrentIndex(1);
+        ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
+        testy[selectedTest]->setActive();
     } else if (selectedProject) {
         ui->stackedWidget->setVisible(true);
-        //ui->tabObszarRoboczy->setVisible(false);
         ui->stackedWidget->setCurrentIndex(0);
-        projekty[selectedProject].setWidget(ui->projekt);
+        projekty[selectedProject].setWidget(ui->Projekt);
     } else {
         ui->stackedWidget->setVisible(false);
     }
