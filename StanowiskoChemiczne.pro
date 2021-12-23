@@ -31,12 +31,6 @@ SOURCES += \
         main.cpp \
         glowneokno.cpp \
         nowyprojectdlg.cpp \
-    nowytest_2.cpp \
-    nowytest_3.cpp \
-    nowytest_4.cpp \
-    nowytest_5.cpp \
-    nowytest_6.cpp \
-    nowytest_7.cpp \
         oknostatusowe.cpp \
         stanczujnika.cpp \
     videowidget.cpp \
@@ -51,7 +45,13 @@ SOURCES += \
     testpage.cpp \
     testpageform.cpp \
     projektwidget.cpp \
-    testtabswidget.cpp
+    testtabswidget.cpp \
+    nowytest_2.cpp \
+    nowytest_3.cpp \
+    nowytest_4.cpp \
+    nowytest_5.cpp \
+    nowytest_6.cpp \
+    nowytest_7.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -60,12 +60,6 @@ HEADERS += \
     czujnikianalogoweokno.h \
         glowneokno.h \
         nowyprojectdlg.h \
-    nowytest_2.h \
-    nowytest_3.h \
-    nowytest_4.h \
-    nowytest_5.h \
-    nowytest_6.h \
-    nowytest_7.h \
         oknostatusowe.h \
         stanczujnika.h \
     videowidget.h \
@@ -80,7 +74,13 @@ HEADERS += \
     testpage.h \
     testpageform.h \
     projektwidget.h \
-    testtabswidget.h
+    testtabswidget.h \
+    nowytest_2.h \
+    nowytest_3.h \
+    nowytest_4.h \
+    nowytest_5.h \
+    nowytest_6.h \
+    nowytest_7.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \
@@ -89,12 +89,6 @@ FORMS += \
     czujnikianalogoweokno.ui \
         glowneokno.ui \
         nowyprojectdlg.ui \
-    nowytest_2.ui \
-    nowytest_3.ui \
-    nowytest_4.ui \
-    nowytest_5.ui \
-    nowytest_6.ui \
-    nowytest_7.ui \
         oknostatusowe.ui \
         stanczujnika.ui \
     videowidget.ui \
@@ -103,7 +97,13 @@ FORMS += \
     nowytestdlg.ui \
     testpageform.ui \
     projektwidget.ui \
-    testtabswidget.ui
+    testtabswidget.ui \
+    nowytest_2.ui \
+    nowytest_3.ui \
+    nowytest_4.ui \
+    nowytest_5.ui \
+    nowytest_6.ui \
+    nowytest_7.ui
 
 RESOURCES += \
     ikony.qrc

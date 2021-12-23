@@ -1,28 +1,76 @@
 #include "testpageform.h"
 #include "ui_testpageform.h"
+#include "testpage.h"
 TestPageForm::TestPageForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestPageForm)
 {
     ui->setupUi(this);
+    ui->subtitle->setVisible(false);
+    ui->title->setVisible(false);
+
+    connect(ui->pbNext, &QPushButton::clicked, this, &TestPageForm::click);
 }
 
-void TestPageForm::addWidget(QWidget *page)
+void TestPageForm::addWidget(TestPage *page_)
 {
-    ui->verticalLayout->insertWidget(2, page);
+    ui->testPageLayout->addWidget(page_);
+    page = page_;
 }
 
 void TestPageForm::setTitle(const QString &title)
 {
     ui->title->setText(title);
+    ui->title->setVisible(!title.isEmpty());
 }
 
 void TestPageForm::setSubTitle(const QString &title)
 {
-    ui->title->setText(title);
+    ui->subtitle->setText(title);
+    ui->subtitle->setVisible(!title.isEmpty());
+}
+
+void TestPageForm::setButtonName(const QString &name)
+{
+    ui->pbNext->setText(name);
+}
+
+void TestPageForm::isComplete()
+{
+    disablaButton(!widget()->isComplete());
+}
+
+void TestPageForm::initializePage()
+{
+    widget()->initializePage();
+}
+
+QFrame *TestPageForm::widgetFrame()
+{
+    return ui->frTestPage;
+}
+
+void TestPageForm::click()
+{
+    emit clickButton(widget()->nextPage());
 }
 
 TestPageForm::~TestPageForm()
 {
     delete ui;
+}
+
+int TestPageForm::getId() const
+{
+    return id;
+}
+
+void TestPageForm::setId(int value)
+{
+    id = value;
+}
+
+void TestPageForm::disablaButton(bool disable)
+{
+    ui->pbNext->setEnabled(!disable);
 }

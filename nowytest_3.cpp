@@ -1,14 +1,34 @@
 #include "nowytest_3.h"
 #include "ui_nowytest_3.h"
 
+#include <QCheckBox>
+//#include "windows.h"
 #include <QTimer>
 
+#include "createtestwizard.h"
+#include "testpage.h"
+
 NowyTest_3::NowyTest_3(QWidget *parent) :
-    QWizardPage(parent),
+    TestPage(parent),
     ui(new Ui::NowyTest_3)
 {
     ui->setupUi(this);
-    ign = false;
+
+    ui->lStep2B->setEnabled(false);
+
+    ui->lstep2A->setEnabled(false);
+    ui->pbStep2A_OK->setEnabled(false);
+    ui->pbStep2A_Next->setEnabled(false);
+
+    ui->pbStep2B_OK->setEnabled(false);
+
+
+    ui->pbStep2_Skip->setEnabled(true);
+    ui->pbStep2_OK->setEnabled(true);
+    ui->lstep2->setEnabled(true);
+    ui->podcisnienie->setEnabled(false);
+    ui->podcisnienie->setMinimum(0);
+    ui->podcisnienie->setMaximum(10000);
 }
 
 NowyTest_3::~NowyTest_3()
@@ -16,149 +36,80 @@ NowyTest_3::~NowyTest_3()
     delete ui;
 }
 
-void NowyTest_3::initializePage()
-{
-    ign = true;
-    ui->frame->setEnabled(false);
-    ui->cbNo->setChecked(false);
-    ui->cbYes->setChecked(false);
-    ui->dozowniknr->setText(field("Dozownik").toString());
-    ui->dozowniknr_2->setText(field("Dozownik").toString());
-    ui->cbNo->setEnabled(true);
-    ui->cbYes->setEnabled(true);
-    ign = false;
-    dozownikFull = false;
-    emit completeChanged();
-}
-
 bool NowyTest_3::isComplete() const
 {
     if (wizard()->currentPage() != this)
         return true;
 
-    if (!QWizardPage::isComplete())
+    if (!TestPage::isComplete())
         return false;
 
-    if (ui->cbYes->isChecked())
-        return true;
-
-    if (ui->cbStep3Yes->isChecked())
-        return true;
-
-    if (dozownikFull)
-        return true;
-
-    return false;
+    return valid;
 }
 
-void NowyTest_3::on_cbYes_toggled(bool checked)
+void NowyTest_3::initializePage()
 {
-    if (ign)
-        return;
-    ui->cbNo->setChecked(!checked);
-    ui->frame->setEnabled(!checked);
-    if (!checked)
-        step1();
+    qDebug("initializePage 3");
+     setField("Podcisnienie", QVariant::fromValue((int)0));
+     valid = false;
+     emit completeChanged();
+}
+
+void NowyTest_3::on_pbStep2_OK_clicked()
+{
+    ui->podcisnienie->setEnabled(true);
+    ui->lstep2A->setEnabled(true);
+    ui->pbStep2A_OK->setEnabled(true);
+    ui->pbStep2A_Next->setEnabled(true);
+
+    ui->pbStep2_OK->setEnabled(false);
+    ui->pbStep2_Skip->setEnabled(false);
+}
+
+void NowyTest_3::on_pbStep2_Skip_clicked()
+{
+    ui->pbStep2_OK->setEnabled(false);
+    ui->pbStep2_Skip->setEnabled(false);
+
+    valid = true;
     emit completeChanged();
 }
 
-void NowyTest_3::on_cbNo_toggled(bool checked)
+void NowyTest_3::on_pbStep2A_OK_clicked()
 {
-    if (ign)
-        return;
-    ui->cbYes->setChecked(!checked);
-    ui->frame->setEnabled(checked);
-    if (checked)
-        step1();
+    ui->pbStep2A_OK->setEnabled(false);
+    ui->pbStep2A_Next->setEnabled(false);
+    valid = true;
     emit completeChanged();
 }
 
-void NowyTest_3::step1()
+void NowyTest_3::on_pbStep2A_Next_clicked()
 {
-    ui->cbNo->setEnabled(false);
-    ui->cbYes->setEnabled(false);
-
-    ui->lstep1->setEnabled(true);
-    ui->pbStep1->setEnabled(true);
-
-    ui->lstep2->setEnabled(false);
-    ui->pbStep2->setEnabled(false);
-    ui->dozowniknr_2->setEnabled(false);
-
-    ui->lstep3->setEnabled(false);
-    ui->pbStep3aOk->setEnabled(false);
-    ui->pbStep3aRun->setEnabled(false);
-
-    ui->lstep4->setEnabled(false);
-    ui->pbStep4->setEnabled(false);
+    ui->pbStep2A_OK->setEnabled(false);
+    ui->pbStep2A_Next->setEnabled(false);
+    QTimer::singleShot(1000,this, &NowyTest_3::runDone3);
 }
 
-void NowyTest_3::step3()
+void NowyTest_3::on_pbStep2B_OK_clicked()
 {
-    ui->pbStep3aOk->setEnabled(true);
-    ui->pbStep3aRun->setEnabled(true);
-    ui->cbStep3No->setEnabled(false);
-    ui->cbStep3Yes->setEnabled(false);
+    ui->pbStep2B_OK->setEnabled(false);
+    QTimer::singleShot(1000,this, &NowyTest_3::runDone4);
 }
 
-void NowyTest_3::on_pbStep1_clicked()
+void NowyTest_3::runDone3()
 {
-    ui->lstep2->setEnabled(true);
-    ui->pbStep2->setEnabled(true);
-    ui->pbStep1->setEnabled(false);
-    ui->dozowniknr_2->setEnabled(true);
+    ui->pbStep2A_OK->setEnabled(true);
+    ui->pbStep2A_Next->setEnabled(true);
 }
 
-void NowyTest_3::on_pbStep2_clicked()
+void NowyTest_3::runDone4()
 {
-    ui->lstep3->setEnabled(true);
-    ui->cbStep3Yes->setEnabled(true);
-    ui->cbStep3No->setEnabled(true);
-    ui->pbStep2->setEnabled(false);
-}
-
-void NowyTest_3::on_cbStep3Yes_toggled(bool checked)
-{
-    ui->cbStep3No->setChecked(!checked);
-    if (!checked)
-        step3();
+    //ui->pbStep2B_OK->setEnabled(true);
+    valid = true;
     emit completeChanged();
 }
 
-void NowyTest_3::on_cbStep3No_toggled(bool checked)
+void NowyTest_3::on_podcisnienie_valueChanged(int arg1)
 {
-    ui->cbStep3Yes->setChecked(!checked);
-    if (checked)
-        step3();
-    emit completeChanged();
+    setField("Podcisnienie", QVariant::fromValue((int)arg1));
 }
-
-void NowyTest_3::on_pbStep3aRun_clicked()
-{
-    ui->pbStep3aRun->setEnabled(false);
-    ui->pbStep3aOk->setEnabled(false);
-    QTimer::singleShot(1000,this, &NowyTest_3::runDone);
-}
-
-void NowyTest_3::on_pbStep3aOk_clicked()
-{
-    ui->pbStep3aRun->setEnabled(false);
-    ui->pbStep3aOk->setEnabled(false);
-
-    ui->pbStep4->setEnabled(true);
-    ui->lstep4->setEnabled(true);
-}
-
-void NowyTest_3::runDone()
-{
-    ui->pbStep3aRun->setEnabled(true);
-    ui->pbStep3aOk->setEnabled(true);
-}
-
-void NowyTest_3::on_pbStep4_clicked()
-{
-    ui->pbStep4->setEnabled(false);
-    dozownikFull = true;
-    emit completeChanged();
-}
-

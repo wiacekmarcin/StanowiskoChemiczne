@@ -4,6 +4,7 @@
 #include <QStackedWidget>
 #include <QMap>
 #include <QList>
+#include "testpageform.h"
 #include "testdata.h"
 
 class TestPage;
@@ -18,14 +19,18 @@ public:
 
     void setField(const QString & key, const QVariant & val);
     QVariant field(const QString & key) const;
-    void addPage(TestPage * page);
+    void addPage(TestPage * page, int id);
+    TestPage * currentPage() const;
+
+protected slots:
+    void nextPage(int id);
+    void checkValidPage();
 protected:
     void init();
-
-    void initialPage();
+    void initializePage();
 private:
     QMap<QString,  QVariant> values;
-    QList<TestPage*> pages;
+    QMap<int, TestPageForm*> pages;
     short selectedId;
 
 };

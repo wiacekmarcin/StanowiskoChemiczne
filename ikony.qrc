@@ -2,5 +2,7 @@
     <qresource prefix="/status">
         <file>green.png</file>
         <file>red.png</file>
+        <file>warning_small.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

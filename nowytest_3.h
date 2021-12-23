@@ -1,45 +1,37 @@
 #ifndef NOWYTEST_3_H
 #define NOWYTEST_3_H
 
-#include <QWizardPage>
+#include "testpage.h"
 
 namespace Ui {
 class NowyTest_3;
 }
+class QCheckBox;
 
-class NowyTest_3 : public QWizardPage
+class NowyTest_3 : public TestPage
 {
     Q_OBJECT
 
 public:
     explicit NowyTest_3(QWidget *parent = nullptr);
     ~NowyTest_3();
-    virtual void initializePage() override;
     virtual bool isComplete() const override;
 
+    virtual void initializePage() override;
 private slots:
-    void on_cbYes_toggled(bool checked);
-    void on_cbNo_toggled(bool checked);
+    void on_pbStep2_OK_clicked();
+    void on_pbStep2_Skip_clicked();
+    void on_pbStep2A_OK_clicked();
+    void on_pbStep2A_Next_clicked();
+    void on_pbStep2B_OK_clicked();
 
-    void on_pbStep1_clicked();
-    void on_pbStep2_clicked();
-    void on_cbStep3Yes_toggled(bool checked);
-    void on_cbStep3No_toggled(bool checked);
-    void on_pbStep3aRun_clicked();
-    void on_pbStep3aOk_clicked();
-    void on_pbStep4_clicked();
+    void runDone3();
+    void runDone4();
+    void on_podcisnienie_valueChanged(int arg1);
 
-    void runDone();
-
-
-
-protected:
-    void step1();
-    void step3();
 private:
     Ui::NowyTest_3 *ui;
-    bool ign;
-    bool dozownikFull;
+    short cnt;
 };
 
 #endif // NOWYTEST_3_H

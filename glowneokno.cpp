@@ -14,7 +14,7 @@
 #include "videowidget.h"
 #include "nowytest_1.h"
 #include "nowytest_2.h"
-#include "nowytest_3.h"
+#include "nowytest_2.h"
 #include "createtestwizard.h"
 #include "nowytestdlg.h"
 #include "projectitem.h"
@@ -31,8 +31,34 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     ui->setupUi(this);
     changeSelectedTest();
 
-    //VideoWidget * videowidget = new VideoWidget(ui->tabFoto);
-    //ui->verticalLayout_4->addWidget(videowidget);
+    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
+    projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Lista czlonkow",
+                                            "/home/test", "Komentarz", "Dzisiejsza data");
+    selectedProject = qtreewidgetitem;
+    ui->treeWidget->setCurrentItem(qtreewidgetitem);
+
+    qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Nowy test")));
+
+
+    selectedProject->addChild(qtreewidgetitem);
+
+    selectedTest = qtreewidgetitem;
+    TestData testDane("Woda 1mg", 1, "Woda", 1.0, "Iskra mechaniczna", "--");
+
+
+    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
+                                            testDane,
+                                            ui->testyStackedWidget);
+    ui->testyStackedWidget->addWidget(testy[selectedTest]);
+    ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
+    testy[selectedTest]->setActive();
+
+    projekty[selectedProject].addTest(testDane);
+
+    ui->treeWidget->setCurrentItem(selectedTest);
+    mapTesty[selectedTest] = selectedProject;
+
+    changeSelectedTest();
 
 }
 

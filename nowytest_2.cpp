@@ -1,17 +1,14 @@
 #include "nowytest_2.h"
 #include "ui_nowytest_2.h"
+#include "createtestwizard.h"
+#include <QTimer>
 
 NowyTest_2::NowyTest_2(QWidget *parent) :
-    QWizardPage(parent),
+    TestPage(parent),
     ui(new Ui::NowyTest_2)
 {
     ui->setupUi(this);
-    ui->iloscCieczy->setMinimum(0);
-    registerField("Dozownik", ui->cbDozownik, "currentText", "currentTextChanged");
-    registerField("Ciecz", ui->cbCiecz, "currentText", "currentTextChanged");
-    registerField("Ilosc", ui->iloscCieczy, "value", "valueChanged");
-    registerField("Zaplon", ui->cbZaplon, "currentText", "currentTextChanged");
-    registerField("EnergiaIskry", ui->cbenergiaIskry, "currentText", "currentTextChanged");
+    ign = false;
 }
 
 NowyTest_2::~NowyTest_2()
@@ -19,75 +16,23 @@ NowyTest_2::~NowyTest_2()
     delete ui;
 }
 
-void NowyTest_2::on_cbDozownik_currentIndexChanged(int index)
+void NowyTest_2::initializePage()
 {
-    if (wizard()->currentPage() != this)
-        return;
-    ui->cbCiecz->setEnabled(index != 0);
-
-
-    if (index == 0) {
-        ui->iloscCieczy->setValue(0);
-        ui->cbZaplon->setCurrentIndex(0);
-        ui->cbenergiaIskry->setCurrentIndex(0);
-        ui->iloscCieczy->setEnabled(false);
-        ui->cbZaplon->setEnabled(false);
-        ui->cbenergiaIskry->setEnabled(false);
-        emit completeChanged();
-        return;
-    }
-
-    ui->cbCiecz->clear();
-
-    QList<QStringList> ciecze;
-    ciecze.append(QStringList() << "--");
-    ciecze.append(QStringList() << "--" << "Woda" << "Benzyna" << "Ropa" << "Alkohol"); //1
-    ciecze.append(QStringList() << "--" << "Woda"); //2
-    ciecze.append(QStringList() << "--" << "Woda" << "Alkohol"); //3
-    ciecze.append(QStringList() << "--" << "Benzyna" << "Ropa"); //4
-    ciecze.append(QStringList() << "--" << "Alkohol"); //5
-
-    ui->cbCiecz->addItems(ciecze.at(index));
-    emit completeChanged();
-}
-
-void NowyTest_2::on_cbCiecz_currentTextChanged(const QString &arg1)
-{
-    if (wizard()->currentPage() != this)
-        return;
-
-    if (arg1 == "--") {
-        ui->iloscCieczy->setEnabled(false);
-        ui->cbZaplon->setEnabled(false);
-        ui->cbenergiaIskry->setEnabled(false);
-        emit completeChanged();
-        return;
-    }
-    ui->iloscCieczy->setEnabled(true);
-    QMap<QString, int> maxVal;
-    maxVal["Woda"] = 100;
-    maxVal["Benzyna"] = 10;
-    maxVal["Ropa"] = 20;
-    maxVal["Alkohol"] = 40;
-    ui->maxcieczy->setText(QString::number(maxVal[arg1]));
-    ui->iloscCieczy->setMaximum(maxVal[arg1]);
-    if (ui->iloscCieczy->value() > maxVal[arg1])
-        ui->iloscCieczy->setValue(maxVal[arg1]);
-
-    ui->cbZaplon->setEnabled(true);
-    emit completeChanged();
-}
-
-void NowyTest_2::on_cbZaplon_currentIndexChanged(int index)
-{
-    if (wizard()->currentPage() != this)
-        return;
-
-    if (index == 0) {
-        emit completeChanged();
-        return;
-    }
-    ui->cbenergiaIskry->setEnabled(index == 1);
+    qDebug("initializePage 2");
+    ign = true;
+    ui->frame->setEnabled(false);
+    ui->cbStep3No->setChecked(false);
+    ui->cbStep3Yes->setChecked(false);
+    ui->cbStep3No->setEnabled(false);
+    ui->cbStep3Yes->setEnabled(false);
+    ui->dozowniknr->setText(field("Dozownik").toString());
+    ui->dozowniknr_2->setText(field("Dozownik").toString());
+    ui->cbNo->setEnabled(true);
+    ui->cbYes->setEnabled(true);
+    ui->cbNo->setChecked(false);
+    ui->cbYes->setChecked(false);
+    ign = false;
+    dozownikFull = false;
     emit completeChanged();
 }
 
@@ -96,21 +41,128 @@ bool NowyTest_2::isComplete() const
     if (wizard()->currentPage() != this)
         return true;
 
-    if (!QWizardPage::isComplete())
+    if (!TestPage::isComplete())
         return false;
 
-    if (!ui->cbZaplon->isEnabled() || ui->cbZaplon->currentIndex() == 0)
-        return false;
+    if (ui->cbYes->isChecked())
+        return true;
 
-    if ( ui->cbZaplon->currentIndex() == 1 && ui->cbenergiaIskry->currentIndex() == 0) //iskra elektryczna
-        return false;
+    if (ui->cbStep3Yes->isChecked())
+        return true;
 
-    return true;
+    if (dozownikFull)
+        return true;
+
+    return false;
 }
 
-void NowyTest_2::on_cbenergiaIskry_currentIndexChanged(int /*index*/)
+void NowyTest_2::on_cbYes_toggled(bool checked)
 {
-    if (wizard()->currentPage() != this)
+    if (ign)
         return;
+    ui->cbNo->setChecked(!checked);
+    ui->frame->setEnabled(!checked);
+    if (!checked)
+        step1();
     emit completeChanged();
 }
+
+void NowyTest_2::on_cbNo_toggled(bool checked)
+{
+    if (ign)
+        return;
+    ui->cbYes->setChecked(!checked);
+    ui->frame->setEnabled(checked);
+    if (checked)
+        step1();
+    emit completeChanged();
+}
+
+void NowyTest_2::step1()
+{
+    ui->lstep1->setEnabled(true);
+    ui->pbStep1->setEnabled(true);
+
+    ui->lstep2->setEnabled(false);
+    ui->pbStep2->setEnabled(false);
+    ui->dozowniknr_2->setEnabled(false);
+
+    ui->lstep3->setEnabled(false);
+    ui->pbStep3aOk->setEnabled(false);
+    ui->pbStep3aRun->setEnabled(false);
+
+    ui->lstep4->setEnabled(false);
+    ui->pbStep4->setEnabled(false);
+}
+
+void NowyTest_2::step3()
+{
+    ui->pbStep3aOk->setEnabled(true);
+    ui->pbStep3aRun->setEnabled(true);
+    ui->cbStep3No->setEnabled(false);
+    ui->cbStep3Yes->setEnabled(false);
+}
+
+void NowyTest_2::on_pbStep1_clicked()
+{
+    ui->cbNo->setEnabled(false);
+    ui->cbYes->setEnabled(false);
+    ui->lstep2->setEnabled(true);
+    ui->pbStep2->setEnabled(true);
+    ui->pbStep1->setEnabled(false);
+    ui->dozowniknr_2->setEnabled(true);
+}
+
+void NowyTest_2::on_pbStep2_clicked()
+{
+    ui->lstep3->setEnabled(true);
+    ui->cbStep3Yes->setEnabled(true);
+    ui->cbStep3No->setEnabled(true);
+    ui->pbStep2->setEnabled(false);
+}
+
+void NowyTest_2::on_cbStep3Yes_toggled(bool checked)
+{
+    ui->cbStep3No->setChecked(!checked);
+    if (!checked)
+        step3();
+    emit completeChanged();
+}
+
+void NowyTest_2::on_cbStep3No_toggled(bool checked)
+{
+    ui->cbStep3Yes->setChecked(!checked);
+    if (checked)
+        step3();
+    emit completeChanged();
+}
+
+void NowyTest_2::on_pbStep3aRun_clicked()
+{
+    ui->pbStep3aRun->setEnabled(false);
+    ui->pbStep3aOk->setEnabled(false);
+    QTimer::singleShot(1000,this, &NowyTest_2::runDone);
+}
+
+void NowyTest_2::on_pbStep3aOk_clicked()
+{
+    ui->pbStep3aRun->setEnabled(false);
+    ui->pbStep3aOk->setEnabled(false);
+
+    ui->pbStep4->setEnabled(true);
+    ui->lstep4->setEnabled(true);
+}
+
+void NowyTest_2::runDone()
+{
+    ui->pbStep3aRun->setEnabled(true);
+    ui->pbStep3aOk->setEnabled(true);
+}
+
+void NowyTest_2::on_pbStep4_clicked()
+{
+    ui->pbStep4->setEnabled(false);
+    dozownikFull = true;
+    emit completeChanged();
+}
+

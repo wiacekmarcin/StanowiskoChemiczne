@@ -23,3 +23,4 @@ void ProjektWidget::setDane(const QString &nazwa, const QString & uczestnicy,
     ui->komentarz->setText(komentarz);
     ui->data->setText(data);
 }
+

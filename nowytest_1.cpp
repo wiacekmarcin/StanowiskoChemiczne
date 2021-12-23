@@ -16,9 +16,9 @@ NowyTest_1::~NowyTest_1()
     delete ui;
 }
 
-void NowyTest_1::initialPage()
+void NowyTest_1::initializePage()
 {
-    qDebug("initialPage");
+    qDebug("initializePage 1");
     ui->name->setText(field("nazwa").toString());
     ui->dozownik->setText(QString::number(field("dozownik").toInt()));
     ui->ciecz->setText(field("ciecz").toString());

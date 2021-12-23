@@ -15,7 +15,7 @@ class NowyTest_1 : public TestPage
 public:
     explicit NowyTest_1(QWidget *parent = 0);
     ~NowyTest_1();
-    virtual void initialPage() override;
+    virtual void initializePage() override;
 protected:
 
 
