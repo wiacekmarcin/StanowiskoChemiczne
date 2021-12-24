@@ -51,7 +51,7 @@ void CreateTestWizard::init()
     addPage(new NowyTest_6(this), 6);
     addPage(new NowyTest_7(this), 7);
 
-    nextPage(1);
+    nextPage(7);
     initializePage();
 }
 

@@ -18,7 +18,6 @@ public:
     virtual void initializePage() override;
 
 private slots:
-    void on_pbStep1_clicked();
     void on_pbStep2OK_clicked();
     void on_pbStep3OK_clicked();
     void on_pbStep4OK_clicked();

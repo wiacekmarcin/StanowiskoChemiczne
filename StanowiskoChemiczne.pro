@@ -51,7 +51,8 @@ SOURCES += \
     nowytest_4.cpp \
     nowytest_5.cpp \
     nowytest_6.cpp \
-    nowytest_7.cpp
+    nowytest_7.cpp \
+    disablebutton.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -80,7 +81,8 @@ HEADERS += \
     nowytest_4.h \
     nowytest_5.h \
     nowytest_6.h \
-    nowytest_7.h
+    nowytest_7.h \
+    disablebutton.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \
@@ -103,7 +105,8 @@ FORMS += \
     nowytest_4.ui \
     nowytest_5.ui \
     nowytest_6.ui \
-    nowytest_7.ui
+    nowytest_7.ui \
+    disablebutton.ui
 
 RESOURCES += \
     ikony.qrc

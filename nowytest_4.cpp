@@ -46,16 +46,6 @@ bool NowyTest_4::isComplete() const
     return valid;
 }
 
-void NowyTest_4::on_pbStep1_clicked()
-{
-
-    ui->pbStep3OK->setEnabled(false);
-    ui->lStep3->setEnabled(false);
-    ui->lStep4->setEnabled(false);
-    ui->pbStep4OK->setEnabled(false);
-
-}
-
 void NowyTest_4::on_pbStep2OK_clicked()
 {
     ui->pbStep2OK->setEnabled(false);
