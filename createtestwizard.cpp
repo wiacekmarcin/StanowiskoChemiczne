@@ -51,13 +51,13 @@ void CreateTestWizard::init()
     addPage(new NowyTest_6(this), 6);
     addPage(new NowyTest_7(this), 7);
 
-    nextPage(7);
+    nextPage(1);
     initializePage();
 }
 
 void CreateTestWizard::initializePage()
 {
-    if (selectedId < pages.size())
+    if (pages.contains(selectedId))
         pages[selectedId]->initializePage();
 }
 
@@ -75,13 +75,15 @@ QVariant CreateTestWizard::field(const QString &key) const
 
 void CreateTestWizard::addPage(TestPage *page, int id)
 {
+    qDebug("id = %d",  id);
     TestPageForm *t = new TestPageForm(this);
+    t->setId(id);
+    page->setId(id);
     t->addWidget(page);
     page->setParent(t->widgetFrame());
-    page->setId(id);
     page->setWizard(this);
     page->setForm(t);
-    t->setId(id);
+
     pages[id] = t;
     addWidget(t);
 
@@ -107,6 +109,6 @@ void CreateTestWizard::nextPage(int id)
 
 void CreateTestWizard::checkValidPage()
 {
-    if (selectedId < pages.contains(selectedId))
+    if (pages.contains(selectedId))
         pages[selectedId]->isComplete();
 }

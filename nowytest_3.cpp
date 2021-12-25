@@ -57,6 +57,12 @@ void NowyTest_3::initializePage()
 
 void NowyTest_3::on_pbStep2_OK_clicked()
 {
+    emit zaworProzni(true);
+    QTimer::singleShot(1000,this, &NowyTest_3::runDone2);
+
+}
+void NowyTest_3::runDone2()
+{
     ui->podcisnienie->setEnabled(true);
     ui->lstep2A->setEnabled(true);
     ui->pbStep2A_OK->setEnabled(true);
@@ -69,7 +75,7 @@ void NowyTest_3::on_pbStep2_OK_clicked()
 void NowyTest_3::on_pbStep2_Skip_clicked()
 {
     ui->pbStep2_OK->setEnabled(false);
-    ui->pbStep2_Skip->setEnabled(false);
+    ui->pbStep2_Skip->setDone(true);
 
     valid = true;
     emit completeChanged();

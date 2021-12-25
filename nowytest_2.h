@@ -29,13 +29,15 @@ private slots:
     void on_pbStep3aOk_clicked();
     void on_pbStep4_clicked();
 
-    void runDone();
 
 
 
 protected:
     void step1();
     void step3();
+    void runDone1();
+    void runDone2();
+
 private:
     Ui::NowyTest_2 *ui;
     bool ign;

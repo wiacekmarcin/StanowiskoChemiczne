@@ -20,7 +20,7 @@ void TestPageForm::addWidget(TestPage *page_)
 
 void TestPageForm::setTitle(const QString &title)
 {
-    ui->title->setText(title);
+    ui->title->setText(QString("%1 - Krok %2").arg(title).arg(id));
     ui->title->setVisible(!title.isEmpty());
 }
 

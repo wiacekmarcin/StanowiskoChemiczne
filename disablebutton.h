@@ -10,7 +10,7 @@ class DisableButton;
 class DisableButton : public QWidget
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString text READ text WRITE setText)
 public:
     explicit DisableButton(QWidget *parent = 0);
     ~DisableButton();
@@ -21,6 +21,7 @@ signals:
     void clicked();
 private:
     Ui::DisableButton *ui;
+
 };
 
 #endif // DISABLEBUTTON_H

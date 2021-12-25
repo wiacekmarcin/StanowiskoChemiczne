@@ -52,7 +52,8 @@ SOURCES += \
     nowytest_5.cpp \
     nowytest_6.cpp \
     nowytest_7.cpp \
-    disablebutton.cpp
+    disablebutton.cpp \
+    dispushbutton.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -82,7 +83,8 @@ HEADERS += \
     nowytest_5.h \
     nowytest_6.h \
     nowytest_7.h \
-    disablebutton.h
+    disablebutton.h \
+    dispushbutton.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \

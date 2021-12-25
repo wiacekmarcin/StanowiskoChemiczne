@@ -28,4 +28,3 @@ void NowyTest_1::initializePage()
         zaplon += QString(" (%1)").arg(field("zaplonExt").toString());
     ui->zaplon->setText(zaplon);
 }
-

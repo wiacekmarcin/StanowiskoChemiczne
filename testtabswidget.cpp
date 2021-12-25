@@ -20,7 +20,7 @@ TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const TestData &t, QWidget
     ui->tabFoto->setEnabled(false);
     ui->tabRaport->setEnabled(false);
     ui->tabWideo->setEnabled(false);
-    ui->stackedWidget->setCurrentIndex(6);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 TestTabsWidget::~TestTabsWidget()

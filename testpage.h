@@ -56,6 +56,9 @@ public:
 signals:
     void completeChanged();
     void changePage(int id);
+
+    void dozownik(int dozownik, int cykle);
+    void zaworProzni(bool open);
 protected:
     bool valid;
 private:
