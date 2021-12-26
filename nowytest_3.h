@@ -22,12 +22,11 @@ private slots:
     void on_pbStep2_OK_clicked();
     void on_pbStep2_Skip_clicked();
     void on_pbStep2A_OK_clicked();
-    void on_pbStep2A_Next_clicked();
-    void on_pbStep2B_OK_clicked();
     void on_podcisnienie_valueChanged(int arg1);
     void runDone2();
     void runDone3();
-    void runDone4();
+    void on_pb100mBar_clicked();
+    void on_pbStep2B2_OK_clicked();
 
 protected:
 

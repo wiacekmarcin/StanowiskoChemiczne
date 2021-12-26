@@ -11,10 +11,10 @@
    </rect>
   </property>
   <property name="title" stdset="0">
-   <string>Przygotowanie stanowiska - Krok 4</string>
+   <string>Czyności poeksplozyjne</string>
   </property>
   <property name="subTitle" stdset="0">
-   <string>Zapłon</string>
+   <string>Sprawdzenie czy miał miejsce zapłon, w zależności od tego faktu podjęcie kolejnych kroków procedury</string>
   </property>
   <property name="buttonName" stdset="0">
    <string>Dalej</string>
@@ -71,10 +71,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="DisableButton" name="pbStep1OK" native="true"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbStep1OK2">
+      <widget class="DisPushButton" name="pbStep1OK">
        <property name="text">
         <string>OK</string>
        </property>
@@ -104,7 +101,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QPushButton" name="pbBrakZaplonu">
+         <widget class="DisPushButton" name="pbBrakZaplonu">
           <property name="text">
            <string>Brak zaplonu</string>
           </property>
@@ -124,7 +121,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pbZaplon">
+         <widget class="DisPushButton" name="pbZaplon">
           <property name="text">
            <string>Zaplon</string>
           </property>
@@ -149,7 +146,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QPushButton" name="pbYes">
+         <widget class="DisPushButton" name="pbYes">
           <property name="text">
            <string>Tak</string>
           </property>
@@ -169,7 +166,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pbNo">
+         <widget class="DisPushButton" name="pbNo">
           <property name="text">
            <string>Nie</string>
           </property>
@@ -203,10 +200,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>DisableButton</class>
-   <extends>QWidget</extends>
-   <header>disablebutton.h</header>
-   <container>1</container>
+   <class>DisPushButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">dispushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -22,6 +22,7 @@ public:
 private slots:
     void on_pbStep2_clicked();
     void on_pbStep3_clicked();
+    void runDone2();
 
 private:
     Ui::NowyTest_5 *ui;

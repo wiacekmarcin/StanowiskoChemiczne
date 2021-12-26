@@ -10,6 +10,7 @@
 #include "nowytest_5.h"
 #include "nowytest_6.h"
 #include "nowytest_7.h"
+#include "nowytest_8.h"
 
 #include <QAbstractButton>
 #include <QVariant>
@@ -50,8 +51,8 @@ void CreateTestWizard::init()
     addPage(new NowyTest_5(this), 5);
     addPage(new NowyTest_6(this), 6);
     addPage(new NowyTest_7(this), 7);
-
-    nextPage(1);
+    addPage(new NowyTest_8(this), 8);
+    finished = false;
     initializePage();
 }
 
@@ -100,11 +101,21 @@ TestPage *CreateTestWizard::currentPage() const
 void CreateTestWizard::nextPage(int id)
 {
     qDebug("nextPage %d", id);
+    if (finished)
+        return;
+
     if (pages.contains(id)) {
         selectedId = id;
         setCurrentWidget(pages[selectedId]);
     }
     initializePage();
+    if (id == 7) {
+        emit zaplon(field("zaplon").toString(), field("zaplonExt").toString());
+        emit triggerCamera(true);
+        emit pomiarCisnienia(1 /*cisnienie*/, 5*60&1000);
+    }
+    if (id == 8)
+        finished = true;
 }
 
 void CreateTestWizard::checkValidPage()

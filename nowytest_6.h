@@ -17,9 +17,6 @@ public:
     virtual void initializePage() override;
     virtual bool isComplete() const override;
 
-private slots:
-    void on_pbStep2_clicked();
-
 private:
     Ui::NowyTest_6 *ui;
 };

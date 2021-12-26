@@ -31,7 +31,7 @@ public:
     ~TestPageForm();
     int getId() const;
     void setId(int value);
-    void disablaButton(bool disable);
+    void disableButton(bool disable);
 
 private:
     Ui::TestPageForm *ui;

@@ -31,6 +31,7 @@ private slots:
 private:
     Ui::NowyTest_7 *ui;
     int next;
+    bool initial;
 };
 
 #endif // NOWYTEST_7_H

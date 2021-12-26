@@ -28,11 +28,11 @@ SOURCES += \
     czujnikanalogowyustawieniawidget.cpp \
     czujnikanalogowywidget.cpp \
     czujnikianalogoweokno.cpp \
-        main.cpp \
-        glowneokno.cpp \
-        nowyprojectdlg.cpp \
-        oknostatusowe.cpp \
-        stanczujnika.cpp \
+    main.cpp \
+    glowneokno.cpp \
+    nowyprojectdlg.cpp \
+    oknostatusowe.cpp \
+    stanczujnika.cpp \
     videowidget.cpp \
     ustawieniadozownikaokno.cpp \
     sygnalanalparam.cpp \
@@ -52,6 +52,7 @@ SOURCES += \
     nowytest_5.cpp \
     nowytest_6.cpp \
     nowytest_7.cpp \
+    nowytest_8.cpp \
     disablebutton.cpp \
     dispushbutton.cpp
 
@@ -60,10 +61,10 @@ HEADERS += \
     czujnikanalogowyustawieniawidget.h \
     czujnikanalogowywidget.h \
     czujnikianalogoweokno.h \
-        glowneokno.h \
-        nowyprojectdlg.h \
-        oknostatusowe.h \
-        stanczujnika.h \
+    glowneokno.h \
+    nowyprojectdlg.h \
+    oknostatusowe.h \
+    stanczujnika.h \
     videowidget.h \
     ustawieniadozownikaokno.h \
     sygnalanalparam.h \
@@ -83,6 +84,7 @@ HEADERS += \
     nowytest_5.h \
     nowytest_6.h \
     nowytest_7.h \
+    nowytest_8.h \
     disablebutton.h \
     dispushbutton.h
 
@@ -91,10 +93,10 @@ FORMS += \
     czujnikanalogowyustawieniawidget.ui \
     czujnikanalogowywidget.ui \
     czujnikianalogoweokno.ui \
-        glowneokno.ui \
-        nowyprojectdlg.ui \
-        oknostatusowe.ui \
-        stanczujnika.ui \
+    glowneokno.ui \
+    nowyprojectdlg.ui \
+    oknostatusowe.ui \
+    stanczujnika.ui \
     videowidget.ui \
     ustawieniadozownikaokno.ui \
     nowytest_1.ui \
@@ -108,6 +110,7 @@ FORMS += \
     nowytest_5.ui \
     nowytest_6.ui \
     nowytest_7.ui \
+    nowytest_8.ui \
     disablebutton.ui
 
 RESOURCES += \

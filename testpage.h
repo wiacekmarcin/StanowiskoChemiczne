@@ -59,6 +59,14 @@ signals:
 
     void dozownik(int dozownik, int cykle);
     void zaworProzni(bool open);
+    void pompaProzniowa(bool start);
+    void mieszadlo(bool start);
+    void zaworPowietrza(bool open);
+    void pomiary(bool start);
+    void pompaMembramowa(bool start);
+    void pomiarSingle(int idCzujka);
+    void pomiarStezen();
+    void wentylator(bool start);
 protected:
     bool valid;
 private:

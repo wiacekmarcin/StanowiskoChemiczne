@@ -22,6 +22,11 @@ public:
     void addPage(TestPage * page, int id);
     TestPage * currentPage() const;
 
+
+signals:
+    void zaplon(const QString & zaplon, const QString & zaplonExt);
+    void triggerCamera(bool on);
+    void pomiarCisnienia(int idCzujnik, unsigned long time_ms);
 protected slots:
     void nextPage(int id);
     void checkValidPage();
@@ -32,6 +37,7 @@ private:
     QMap<QString,  QVariant> values;
     QMap<int, TestPageForm*> pages;
     short selectedId;
+    bool finished;
 
 };
 

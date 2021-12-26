@@ -33,11 +33,12 @@ void TestPageForm::setSubTitle(const QString &title)
 void TestPageForm::setButtonName(const QString &name)
 {
     ui->pbNext->setText(name);
+    ui->pbNext->setVisible(!name.isEmpty());
 }
 
 void TestPageForm::isComplete()
 {
-    disablaButton(!widget()->isComplete());
+    disableButton(!widget()->isComplete());
 }
 
 void TestPageForm::initializePage()
@@ -70,7 +71,7 @@ void TestPageForm::setId(int value)
     id = value;
 }
 
-void TestPageForm::disablaButton(bool disable)
+void TestPageForm::disableButton(bool disable)
 {
     ui->pbNext->setEnabled(!disable);
 }

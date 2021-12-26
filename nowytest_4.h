@@ -22,6 +22,10 @@ private slots:
     void on_pbStep3OK_clicked();
     void on_pbStep4OK_clicked();
 
+    void runDone2();
+    void runDone3();
+    void runDone4();
+
 private:
     Ui::NowyTest_4 *ui;
 };

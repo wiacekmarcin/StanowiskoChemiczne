@@ -21,8 +21,12 @@ NowyTest_6::~NowyTest_6()
 void NowyTest_6::initializePage()
 {
     qDebug("initializePage 6");
-    ui->lZaplon->setText(field("Zaplon").toString());
-    valid = false;
+    QString zaplon = field("zaplon").toString();
+    QString zaplonExt = field("zaplonExt").toString();
+    if (zaplonExt != QString("--"))
+        zaplon = zaplon + QString (" ( %1 )").arg(zaplonExt);
+    ui->lZaplon->setText(zaplon);
+    valid = true;
     emit completeChanged();
 }
 
@@ -37,11 +41,4 @@ bool NowyTest_6::isComplete() const
     return valid;
 }
 
-
-void NowyTest_6::on_pbStep2_clicked()
-{
-    valid = true;
-    ui->pbStep2->setEnabled(false);
-    emit completeChanged();
-}
 
