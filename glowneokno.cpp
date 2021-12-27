@@ -69,7 +69,7 @@ GlowneOkno::~GlowneOkno()
 
 void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
 {
-    CzujnikAnalogowyUstawieniaOkno *dlg = new CzujnikAnalogowyUstawieniaOkno(this);
+    CzujnikAnalogowyUstawieniaOkno *dlg = new CzujnikAnalogowyUstawieniaOkno(settings, this);
     dlg->exec();
 }
 

@@ -5,6 +5,7 @@
 #include "projectitem.h"
 #include "testdata.h"
 #include "testtabswidget.h"
+#include "ustawienia.h"
 namespace Ui {
 class GlowneOkno;
 }
@@ -36,6 +37,7 @@ private:
     QMap<QTreeWidgetItem*, QTreeWidgetItem*> mapTesty;
     QTreeWidgetItem* selectedProject;
     QTreeWidgetItem* selectedTest;
+    Ustawienia settings;
 };
 
 

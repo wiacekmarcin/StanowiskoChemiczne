@@ -54,7 +54,10 @@ SOURCES += \
     nowytest_7.cpp \
     nowytest_8.cpp \
     disablebutton.cpp \
-    dispushbutton.cpp
+    dispushbutton.cpp \
+    highlowdigitalwidget.cpp \
+    urzadzenia.cpp \
+    ustawienia.cpp
 
 HEADERS += \
     czujnikanalogowyustawieniaokno.h \
@@ -86,7 +89,10 @@ HEADERS += \
     nowytest_7.h \
     nowytest_8.h \
     disablebutton.h \
-    dispushbutton.h
+    dispushbutton.h \
+    highlowdigitalwidget.h \
+    urzadzenia.h \
+    ustawienia.h
 
 FORMS += \
     czujnikanalogowyustawieniaokno.ui \
@@ -111,7 +117,9 @@ FORMS += \
     nowytest_6.ui \
     nowytest_7.ui \
     nowytest_8.ui \
-    disablebutton.ui
+    disablebutton.ui \
+    highlowdigitalwidget.ui \
+    urzadzenia.ui
 
 RESOURCES += \
     ikony.qrc

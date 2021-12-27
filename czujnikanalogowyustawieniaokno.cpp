@@ -3,7 +3,7 @@
 #include "czujnikianalogoweokno.h"
 #include <QPushButton>
 
-CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(QWidget *parent) :
+CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia &sett, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CzujnikAnalogowyUstawieniaOkno)
 {
@@ -21,6 +21,11 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(QWidget *parent) 
     for (int i = 0; i < 6; i++) {
         connect(ustawienia[i], &CzujnikAnalogowyUstawieniaWidget::updateCzujnik,
                 this, &CzujnikAnalogowyUstawieniaOkno::updateCzujnik);
+    }
+
+    for (int i=0; i < sett.maxCzujek; ++i) {
+        auto r = sett.getCzujka(i+1);
+        ustawienia[i]->setData(r.name, r.unit, r.ratio);
     }
 }
 

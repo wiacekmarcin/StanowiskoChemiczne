@@ -1,6 +1,8 @@
 #ifndef CZUJNIKANALOGOWYUSTAWIENIAOKNO_H
 #define CZUJNIKANALOGOWYUSTAWIENIAOKNO_H
 
+#include "ustawienia.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -15,7 +17,7 @@ class CzujnikAnalogowyUstawieniaOkno : public QDialog
     Q_OBJECT
 
 public:
-    explicit CzujnikAnalogowyUstawieniaOkno(QWidget *parent = 0);
+    explicit CzujnikAnalogowyUstawieniaOkno(const Ustawienia & sett, QWidget *parent = 0);
     ~CzujnikAnalogowyUstawieniaOkno();
 
     void setData(int i, const QString & name, const QString & unit, const double & ratio);
