@@ -24,7 +24,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-    czujnikanalogowyustawieniaokno.cpp \
     czujnikanalogowyustawieniawidget.cpp \
     czujnikanalogowywidget.cpp \
     czujnikianalogoweokno.cpp \
@@ -60,7 +59,6 @@ SOURCES += \
     ustawienia.cpp
 
 HEADERS += \
-    czujnikanalogowyustawieniaokno.h \
     czujnikanalogowyustawieniawidget.h \
     czujnikanalogowywidget.h \
     czujnikianalogoweokno.h \
@@ -95,7 +93,6 @@ HEADERS += \
     ustawienia.h
 
 FORMS += \
-    czujnikanalogowyustawieniaokno.ui \
     czujnikanalogowyustawieniawidget.ui \
     czujnikanalogowywidget.ui \
     czujnikianalogoweokno.ui \

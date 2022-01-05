@@ -70,7 +70,10 @@ GlowneOkno::~GlowneOkno()
 void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
 {
     CzujnikAnalogowyUstawieniaOkno *dlg = new CzujnikAnalogowyUstawieniaOkno(settings, this);
-    dlg->exec();
+    if (dlg->exec() == QDialog::Accepted)
+    {
+        dlg->saveData(settings);
+    }
 }
 
 void GlowneOkno::on_actionNowy_projekt_triggered()

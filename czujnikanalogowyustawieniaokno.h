@@ -9,8 +9,10 @@ namespace Ui {
 class CzujnikAnalogowyUstawieniaOkno;
 }
 
+class QDialogButtonBox;
 class CzujnikAnalogowyUstawieniaWidget;
 class CzujnikAnalogowyUstawieniaOkno;
+class QGridLayout;
 
 class CzujnikAnalogowyUstawieniaOkno : public QDialog
 {
@@ -20,13 +22,18 @@ public:
     explicit CzujnikAnalogowyUstawieniaOkno(const Ustawienia & sett, QWidget *parent = 0);
     ~CzujnikAnalogowyUstawieniaOkno();
 
-    void setData(int i, const QString & name, const QString & unit, const double & ratio);
-    void getData(CzujnikAnalogowyUstawieniaOkno * dlg);
+    void saveData(Ustawienia & ust);
+
 private slots:
     void updateCzujnik();
+
+protected:
+    void createOneElement(int id, const QString &titleBox)    ;
 private:
     Ui::CzujnikAnalogowyUstawieniaOkno *ui;
-    CzujnikAnalogowyUstawieniaWidget * ustawienia[6];
+    CzujnikAnalogowyUstawieniaWidget * czujniki[Ustawienia::maxCzujek];
+    QDialogButtonBox *buttonBox;
+    QGridLayout * gridLayout;
 };
 
 #endif // CZUJNIKANALOGOWYUSTAWIENIAOKNO_H
