@@ -27,6 +27,7 @@ SOURCES += \
     czujnikanalogowyustawieniawidget.cpp \
     czujnikanalogowywidget.cpp \
     czujnikianalogoweokno.cpp \
+    czujnikanalogowyustawieniaokno.cpp \
     main.cpp \
     glowneokno.cpp \
     nowyprojectdlg.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     czujnikanalogowyustawieniawidget.h \
     czujnikanalogowywidget.h \
     czujnikianalogoweokno.h \
+    czujnikanalogowyustawieniaokno.h \
     glowneokno.h \
     nowyprojectdlg.h \
     oknostatusowe.h \

@@ -36,7 +36,7 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia 
     }
 
 
-    ui->gridLayout->addWidget(buttonBox, sett.maxCzujek/2+1, 0, 1, 2);
+    gridLayout->addWidget(buttonBox, sett.maxCzujek/2+1, 0, 1, 2);
     updateCzujnik();
 
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -49,7 +49,7 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia 
 
 CzujnikAnalogowyUstawieniaOkno::~CzujnikAnalogowyUstawieniaOkno()
 {
-    delete ui;
+
 }
 
 void CzujnikAnalogowyUstawieniaOkno::saveData(Ustawienia &ust)
@@ -85,5 +85,5 @@ void CzujnikAnalogowyUstawieniaOkno::createOneElement(int id, const QString & ti
 
     czujniki[id] = widget;
 
-    ui->gridLayout->addWidget(groupBox, id / 2, id % 2, 1, 1);
+    gridLayout->addWidget(groupBox, id / 2, id % 2, 1, 1);
 }

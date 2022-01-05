@@ -5,9 +5,6 @@
 
 #include <QDialog>
 
-namespace Ui {
-class CzujnikAnalogowyUstawieniaOkno;
-}
 
 class QDialogButtonBox;
 class CzujnikAnalogowyUstawieniaWidget;
@@ -30,7 +27,6 @@ private slots:
 protected:
     void createOneElement(int id, const QString &titleBox)    ;
 private:
-    Ui::CzujnikAnalogowyUstawieniaOkno *ui;
     CzujnikAnalogowyUstawieniaWidget * czujniki[Ustawienia::maxCzujek];
     QDialogButtonBox *buttonBox;
     QGridLayout * gridLayout;
