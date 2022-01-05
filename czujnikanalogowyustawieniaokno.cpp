@@ -1,5 +1,4 @@
 #include "czujnikanalogowyustawieniaokno.h"
-#include "ui_czujnikanalogowyustawieniaokno.h"
 #include "czujnikianalogoweokno.h"
 #include <QPushButton>
 #include <QGroupBox>
@@ -7,9 +6,10 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QDialogButtonBox>
+#include <QCoreApplication>
 
 #include "czujnikanalogowyustawieniawidget.h"
-
+#include <QTimer>
 
 CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia &sett, QWidget *parent) :
     QDialog(parent)
@@ -26,15 +26,10 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia 
 
     for (int i = 0; i < sett.maxCzujek; i++) {
         createOneElement(i, QString("Czujnik %1").arg(i+1));
+        czujniki[i]->setData(sett.getName(i+1), sett.getUnit(i+1), sett.getRatio(i+1));
         connect(czujniki[i], &CzujnikAnalogowyUstawieniaWidget::updateCzujnik,
                 this, &CzujnikAnalogowyUstawieniaOkno::updateCzujnik);
     }
-
-    for (int i=0; i < sett.maxCzujek; ++i) {
-        auto r = sett.getCzujka(i+1);
-        czujniki[i]->setData(r.name, r.unit, r.ratio);
-    }
-
 
     gridLayout->addWidget(buttonBox, sett.maxCzujek/2+1, 0, 1, 2);
     updateCzujnik();
@@ -43,6 +38,12 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia 
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     QMetaObject::connectSlotsByName(this);
     setWindowTitle(QCoreApplication::translate("CzujnikAnalogowyUstawieniaOkno", "Ustawienia parametr\303\263w sygna\305\202\303\263w", nullptr));
+
+    t.setInterval(500);
+    connect(&t, SIGNAL(timeout()), this, SLOT(updateCzujnik()));
+    t.start();
+
+
 }
 
 
@@ -55,7 +56,7 @@ CzujnikAnalogowyUstawieniaOkno::~CzujnikAnalogowyUstawieniaOkno()
 void CzujnikAnalogowyUstawieniaOkno::saveData(Ustawienia &ust)
 {
     for (int i = 0; i < ust.maxCzujek; ++i) {
-        ust.setCzujka(i, czujniki[i]->name(), czujniki[i]->unit(), czujniki[i]->ratio());
+        ust.setCzujka(i+1, czujniki[i]->name(), czujniki[i]->unit(), czujniki[i]->ratio());
     }
 }
 

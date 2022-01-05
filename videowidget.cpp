@@ -96,7 +96,7 @@ void VideoWidget::on_stop_clicked()
 #include <QDebug>
 void VideoWidget::updateTime(const qint64 & pos)
 {
-    qDebug("%lld / %lld" , pos, duration);
+
     if (duration > 0)
         ui->progressBar->setValue(1000*pos/duration);
 }

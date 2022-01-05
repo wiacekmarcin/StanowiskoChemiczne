@@ -50,7 +50,6 @@ bool NowyTest_3::isComplete() const
 
 void NowyTest_3::initializePage()
 {
-    qDebug("initializePage 3");
      setField("Podcisnienie", QVariant::fromValue((int)0));
      setField("zaworPompy", QVariant::fromValue((bool)false));
      valid = false;

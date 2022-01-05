@@ -33,7 +33,6 @@ bool NowyTest_5::isComplete() const
 
 void NowyTest_5::initializePage()
 {
-    qDebug("initializePage 5");
     valid = false;
     emit completeChanged();
     emit pomiary(true);

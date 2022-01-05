@@ -21,7 +21,6 @@ NowyTest_2::~NowyTest_2()
 
 void NowyTest_2::initializePage()
 {
-    qDebug("initializePage 2");
     ign = true;
     ui->frame->setEnabled(false);
     ui->cbStep3No->setChecked(false);

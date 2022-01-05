@@ -14,7 +14,7 @@ TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const TestData &t, QWidget
     projekt(pr), test(t)
 {
     ui->setupUi(this);
-    qDebug("setData");
+
     ui->stackedWidget->setTestData(t);
 
     ui->tabFoto->setEnabled(false);

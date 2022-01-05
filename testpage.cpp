@@ -103,7 +103,6 @@ void TestPage::initializePage()
 
 int TestPage::nextPage() const
 {
-    qDebug("nextPage id=%d",id+1);
     return id+1;
 }
 

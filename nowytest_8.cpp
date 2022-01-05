@@ -19,7 +19,7 @@ NowyTest_8::~NowyTest_8()
 
 void NowyTest_8::initializePage()
 {
-    qDebug("initializePage 8");
+
 }
 
 

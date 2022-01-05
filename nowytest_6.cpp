@@ -20,7 +20,6 @@ NowyTest_6::~NowyTest_6()
 
 void NowyTest_6::initializePage()
 {
-    qDebug("initializePage 6");
     QString zaplon = field("zaplon").toString();
     QString zaplonExt = field("zaplonExt").toString();
     if (zaplonExt != QString("--"))

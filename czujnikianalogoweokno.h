@@ -2,6 +2,10 @@
 #define CZUJNIKIANALOGOWEOKNO_H
 
 #include <QWidget>
+#include "ustawienia.h"
+class QGridLayout;
+class QFrame;
+class QHBoxLayout;
 
 namespace Ui {
 class CzujnikiAnalogoweOkno;
@@ -15,13 +19,19 @@ class CzujnikiAnalogoweOkno : public QWidget
 public:
     explicit CzujnikiAnalogoweOkno(QWidget *parent = 0);
     ~CzujnikiAnalogoweOkno();
+    void setParams(const Ustawienia & ust);
 public slots:
     void updateValue(int id, const double & val);
 signals:
     void valueChange(int id, const double & val);
+
+protected:
+    void createOne(int id);
 private:
     Ui::CzujnikiAnalogoweOkno *ui;
-    CzujnikAnalogowyWidget * czujniki[6];
+    CzujnikAnalogowyWidget * czujniki[Ustawienia::maxCzujek];
+    QGridLayout *gridLayout;
+
 };
 
 #endif // CZUJNIKIANALOGOWEOKNO_H

@@ -19,7 +19,6 @@ NowyTest_7::~NowyTest_7()
 
 void NowyTest_7::initializePage()
 {
-    qDebug("initializePage 7");
     TestPage::initializePage();
 
     ui->lStep1A->setEnabled(true);

@@ -19,8 +19,8 @@ void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, c
     czujki[id-1].unit = unit;
     czujki[id-1].ratio = ratio;
     settings.setValue(QString("czujnikianalogowe/%1/name").arg(id), QVariant::fromValue(name));
-    settings.setValue(QString("czujnikianalogowe/%1/unit").arg(id), QVariant::fromValue(name));
-    settings.setValue(QString("czujnikianalogowe/%1/ratio").arg(id), QVariant::fromValue(name));
+    settings.setValue(QString("czujnikianalogowe/%1/unit").arg(id), QVariant::fromValue(unit));
+    settings.setValue(QString("czujnikianalogowe/%1/ratio").arg(id), QVariant::fromValue(ratio));
 }
 
 Ustawienia::CzujnikAnalogowy Ustawienia::getCzujka(short id) const

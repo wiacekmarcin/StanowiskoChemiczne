@@ -76,7 +76,6 @@ QVariant CreateTestWizard::field(const QString &key) const
 
 void CreateTestWizard::addPage(TestPage *page, int id)
 {
-    qDebug("id = %d",  id);
     TestPageForm *t = new TestPageForm(this);
     t->setId(id);
     page->setId(id);

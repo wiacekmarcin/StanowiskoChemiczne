@@ -4,7 +4,7 @@
 #include "ustawienia.h"
 
 #include <QDialog>
-
+#include <QTimer>
 
 class QDialogButtonBox;
 class CzujnikAnalogowyUstawieniaWidget;
@@ -30,6 +30,7 @@ private:
     CzujnikAnalogowyUstawieniaWidget * czujniki[Ustawienia::maxCzujek];
     QDialogButtonBox *buttonBox;
     QGridLayout * gridLayout;
+    QTimer t;
 };
 
 #endif // CZUJNIKANALOGOWYUSTAWIENIAOKNO_H

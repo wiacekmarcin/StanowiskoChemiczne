@@ -23,7 +23,6 @@ NowyTest_4::NowyTest_4(QWidget *parent) :
 
 void NowyTest_4::initializePage()
 {
-    qDebug("initializePage 4");
     ui->lciecz->setText(field("ciecz").toString());
     ui->ldozownik->setText(field("dozownik").toString());
     ui->lobjetosc->setText(field("objetosc").toString());

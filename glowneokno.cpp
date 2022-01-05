@@ -29,6 +29,8 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     selectedTest(nullptr)
 {
     ui->setupUi(this);
+    ui->widget->setParams(settings);
+
     changeSelectedTest();
 
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
@@ -73,6 +75,7 @@ void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
     if (dlg->exec() == QDialog::Accepted)
     {
         dlg->saveData(settings);
+        ui->widget->setParams(settings);
     }
 }
 
