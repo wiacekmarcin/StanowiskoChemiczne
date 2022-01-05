@@ -7,9 +7,6 @@ class QGridLayout;
 class QFrame;
 class QHBoxLayout;
 
-namespace Ui {
-class CzujnikiAnalogoweOkno;
-}
 class CzujnikAnalogowyWidget;
 
 class CzujnikiAnalogoweOkno : public QWidget
@@ -28,7 +25,6 @@ signals:
 protected:
     void createOne(int id);
 private:
-    Ui::CzujnikiAnalogoweOkno *ui;
     CzujnikAnalogowyWidget * czujniki[Ustawienia::maxCzujek];
     QGridLayout *gridLayout;
 

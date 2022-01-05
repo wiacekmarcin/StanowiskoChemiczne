@@ -1,5 +1,4 @@
 #include "czujnikianalogoweokno.h"
-#include "ui_czujnikianalogoweokno.h"
 #include "czujnikanalogowywidget.h"
 
 #include <QFrame>
@@ -7,8 +6,7 @@
 #include "czujnikanalogowywidget.h"
 
 CzujnikiAnalogoweOkno::CzujnikiAnalogoweOkno(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::CzujnikiAnalogoweOkno)
+    QWidget(parent)
 {
     setObjectName(QString::fromUtf8("CzujnikiAnalogoweOkno"));
     resize(990, 130);
@@ -17,8 +15,6 @@ CzujnikiAnalogoweOkno::CzujnikiAnalogoweOkno(QWidget *parent) :
     gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
     QMetaObject::connectSlotsByName(this);
 
-    ui->setupUi(this);
-
     for (int i=0; i< Ustawienia::maxCzujek; ++i) {
         createOne(i);
     }
@@ -26,7 +22,7 @@ CzujnikiAnalogoweOkno::CzujnikiAnalogoweOkno(QWidget *parent) :
 
 CzujnikiAnalogoweOkno::~CzujnikiAnalogoweOkno()
 {
-    delete ui;
+
 }
 
 void CzujnikiAnalogoweOkno::setParams(const Ustawienia &ust)

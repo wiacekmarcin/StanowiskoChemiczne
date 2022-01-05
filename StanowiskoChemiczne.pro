@@ -97,7 +97,6 @@ HEADERS += \
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \
     czujnikanalogowywidget.ui \
-    czujnikianalogoweokno.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
     oknostatusowe.ui \
