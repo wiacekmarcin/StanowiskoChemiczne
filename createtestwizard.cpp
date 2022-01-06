@@ -12,11 +12,14 @@
 #include "nowytest_7.h"
 #include "nowytest_8.h"
 
+#include "otwartezawory.h"
+
 #include <QAbstractButton>
 #include <QVariant>
 #include <QDebug>
 CreateTestWizard::CreateTestWizard(QWidget *parent) :
-    QStackedWidget(parent)
+    QStackedWidget(parent),
+    dlgOtwarte(nullptr)
 {
     selectedId = -1;
     init();
@@ -31,6 +34,7 @@ void CreateTestWizard::setTestData(const TestData &dt)
     setField(QString("objetosc"), QVariant::fromValue(dt.getObjetosc()));
     setField(QString("zaplon"), QVariant::fromValue(dt.getZaplon()));
     setField(QString("zaplonExt"), QVariant::fromValue(dt.getZaplonExt()));
+    selectedId = 1;
     initializePage();
 }
 
@@ -43,6 +47,11 @@ void CreateTestWizard::init()
 {
     setObjectName(QString::fromUtf8("TestWizard"));
 
+    for (int i=0; i<9; ++i) {
+        zawory[i+1] = false;
+        stezenia[i+1] = 0.0;
+    }
+    stezenia[10] = 0.0;
 
     addPage(new NowyTest_1(this), 1);
     addPage(new NowyTest_2(this), 2);
@@ -52,12 +61,16 @@ void CreateTestWizard::init()
     addPage(new NowyTest_6(this), 6);
     addPage(new NowyTest_7(this), 7);
     addPage(new NowyTest_8(this), 8);
+    selectedId = 1;
     finished = false;
+
+
     initializePage();
 }
 
 void CreateTestWizard::initializePage()
 {
+    qDebug("CreateTestWizard::initializePage()");
     if (pages.contains(selectedId))
         pages[selectedId]->initializePage();
 }
@@ -79,7 +92,10 @@ void CreateTestWizard::addPage(TestPage *page, int id)
     TestPageForm *t = new TestPageForm(this);
     t->setId(id);
     page->setId(id);
+
     t->addWidget(page);
+    t->setCreateTestWizard(this);
+
     page->setParent(t->widgetFrame());
     page->setWizard(this);
     page->setForm(t);
@@ -95,6 +111,50 @@ void CreateTestWizard::addPage(TestPage *page, int id)
 TestPage *CreateTestWizard::currentPage() const
 {
     return static_cast<TestPageForm*>(currentWidget())->widget();
+}
+
+bool CreateTestWizard::checkZawory() const
+{
+    if (selectedId == 1 || selectedId == 2 || selectedId == 7 || selectedId == 8)
+        return false;
+
+    return !zawory[wentyl_1] || !zawory[wentyl_2] || !zawory[proznia] || !zawory[pom_stez_1] ||
+            !zawory[pom_stez_2] || !zawory[powietrze];
+}
+
+void CreateTestWizard::changeDigitalIn(int id, bool value)
+{
+    qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
+    if (id == wentyl_1 || id == wentyl_2 || id == proznia || id == pom_stez_1
+            || id == pom_stez_2 || id == powietrze) {
+        zawory[id] = value;
+        showWarning(checkZawory());
+        if (dlgOtwarte != nullptr)
+            dlgOtwarte->set(id, value);
+    }
+
+}
+
+void CreateTestWizard::changeAnalog(int id, double value)
+{
+    if (id == wentyl_1 || id == wentyl_2 || id == proznia || id == pom_stez_1
+            || id == pom_stez_2 || id == powietrze)
+        zawory[id] = value;
+}
+
+void CreateTestWizard::clickedZawory()
+{
+    dlgOtwarte = new OtwarteZawory(this);
+    dlgOtwarte->set(wentyl_1, zawory[wentyl_1]);
+    dlgOtwarte->set(wentyl_2, zawory[wentyl_2]);
+    dlgOtwarte->set(proznia,  zawory[proznia]);
+    dlgOtwarte->set(pom_stez_1,  zawory[pom_stez_1]);
+    dlgOtwarte->set(pom_stez_2,  zawory[pom_stez_2]);
+    dlgOtwarte->set(powietrze,  zawory[powietrze]);
+    dlgOtwarte->exec();
+    if (dlgOtwarte != nullptr)
+        delete dlgOtwarte;
+    dlgOtwarte = nullptr;
 }
 
 void CreateTestWizard::nextPage(int id)
@@ -122,3 +182,11 @@ void CreateTestWizard::checkValidPage()
     if (pages.contains(selectedId))
         pages[selectedId]->isComplete();
 }
+
+void CreateTestWizard::showWarning(bool value)
+{
+    if (pages.contains(selectedId))
+        pages[selectedId]->showZaworWarning(value);
+}
+
+

@@ -1,7 +1,7 @@
 #include "testpageform.h"
 #include "ui_testpageform.h"
 #include "testpage.h"
-
+#include "createtestwizard.h"
 #include "otwartezawory.h"
 
 TestPageForm::TestPageForm(QWidget *parent) :
@@ -11,7 +11,7 @@ TestPageForm::TestPageForm(QWidget *parent) :
     ui->setupUi(this);
     ui->subtitle->setVisible(false);
     ui->title->setVisible(false);
-
+    ui->frWarning->setVisible(false);
     connect(ui->pbNext, &QPushButton::clicked, this, &TestPageForm::click);
 }
 
@@ -46,12 +46,24 @@ void TestPageForm::isComplete()
 
 void TestPageForm::initializePage()
 {
+    ui->frWarning->setVisible(wizard->checkZawory());
     widget()->initializePage();
 }
 
 QFrame *TestPageForm::widgetFrame()
 {
     return ui->frTestPage;
+}
+
+void TestPageForm::setCreateTestWizard(CreateTestWizard *wiz)
+{
+    wizard = wiz;
+    connect(ui->pbZobaczOtwarteZawory, &QPushButton::clicked, wiz, &CreateTestWizard::clickedZawory);
+}
+
+void TestPageForm::showZaworWarning(bool show)
+{
+    ui->frWarning->setVisible(show);
 }
 
 void TestPageForm::click()
@@ -79,9 +91,3 @@ void TestPageForm::disableButton(bool disable)
     ui->pbNext->setEnabled(!disable);
 }
 
-void TestPageForm::on_pbZobaczOtwarteZawory_clicked()
-{
-    OtwarteZawory * dlg = new OtwarteZawory(this);
-    dlg->set(2,true);
-    dlg->exec();
-}

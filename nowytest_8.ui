@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>655</width>
-    <height>55</height>
+    <height>70</height>
    </rect>
   </property>
   <property name="title" stdset="0">
@@ -36,7 +36,14 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QTextBrowser" name="textBrowser"/>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Badanie zakończone &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;[ZAPLON]&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#cc0000;&quot;&gt;[BRAKZAPLONU] &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;mieszaniny par &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;[CIECZ] &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;z pomiarem stężenia &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;[STEZENIE]&lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt; poprzez [&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;ZRODLOZAPLONU&lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

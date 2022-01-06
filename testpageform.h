@@ -2,8 +2,11 @@
 #define TESTPAGEBASE_H
 
 #include <QWidget>
-class QFrame;
+//#include "urzadzenia.h"
+#include "ustawienia.h"
 
+class QFrame;
+class CreateTestWizard;
 namespace Ui {
 class TestPageForm;
 }
@@ -13,6 +16,18 @@ class TestPageForm : public QWidget
 {
     Q_OBJECT
 public:
+
+    enum {
+        PAGE_1 = 1,
+        PAGE_2,
+        PAGE_3,
+        PAGE_4,
+        PAGE_5,
+        PAGE_6,
+        PAGE_7,
+        PAGE_8
+    };
+
     explicit TestPageForm(QWidget *parent = nullptr);
 
     void addWidget(TestPage * page);
@@ -23,6 +38,10 @@ public:
     void isComplete();
     void initializePage();
     QFrame * widgetFrame();
+
+    void setCreateTestWizard(CreateTestWizard * wiz);
+    void showZaworWarning(bool show);
+
 protected slots:
     void click();
 signals:
@@ -33,13 +52,12 @@ public:
     void setId(int value);
     void disableButton(bool disable);
 
-private slots:
-    void on_pbZobaczOtwarteZawory_clicked();
-
 private:
     Ui::TestPageForm *ui;
     int id;
     TestPage * page;
+    CreateTestWizard * wizard;
+
 };
 
 

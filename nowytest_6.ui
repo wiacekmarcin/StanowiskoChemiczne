@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>918</width>
-    <height>43</height>
+    <height>44</height>
    </rect>
   </property>
   <property name="title" stdset="0">
@@ -23,20 +23,10 @@
    <item>
     <widget class="QLabel" name="lStep2">
      <property name="text">
-      <string>Wciśnięcie przycisku zdalnego sterowania spowoduje uruchomienie</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wciśnięcie przycisku zdalnego sterowania spowoduje uruchomienie : &lt;span style=&quot; font-weight:600;&quot;&gt;[ZAPLON]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="lZaplon">
-     <property name="text">
-      <string/>
-     </property>
-     <property name="margin">
-      <number>5</number>
-     </property>
-     <property name="indent">
-      <number>0</number>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

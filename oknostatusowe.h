@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QTimer>
 #include <QFrame>
+
+#include "ustawienia.h"
+
 namespace Ui {
 class OknoStatusowe;
 }
@@ -15,6 +18,9 @@ class OknoStatusowe : public QFrame
 public:
     explicit OknoStatusowe(QWidget *parent = 0);
     ~OknoStatusowe();
+    void setLabels(const Ustawienia & set);
+public slots:
+    void setDigitalValue(int id, bool val);
 
 private slots:
     void timeout();

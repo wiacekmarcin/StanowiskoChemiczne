@@ -21,7 +21,7 @@ public:
     ~TestPage();
 
     enum {
-        PAGE_1 = 0,
+        PAGE_1 = 1,
         PAGE_2,
         PAGE_3,
         PAGE_4,
@@ -53,6 +53,8 @@ public:
     virtual void initializePage();
     virtual bool isComplete() const { return true; }
     virtual int nextPage() const;
+
+
 signals:
     void completeChanged();
     void changePage(int id);

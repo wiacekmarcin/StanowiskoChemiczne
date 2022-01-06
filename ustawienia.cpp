@@ -59,7 +59,7 @@ void Ustawienia::setWejscie(int id, const QString &name)
     settings.setValue(QString("wejsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
 }
 
-QString Ustawienia::wejscie(int id)
+QString Ustawienia::wejscie(int id) const
 {
     if (id > 10 || id <= 0)
         return QString();
@@ -74,9 +74,9 @@ void Ustawienia::setWyjscie(int id, const QString &name)
     settings.setValue(QString("wyjsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
 }
 
-QString Ustawienia::wyjscie(int id)
+QString Ustawienia::wyjscie(int id) const
 {
     if (id > 11 || id <= 0)
         return QString();
-    return wejscia[id-1];
+    return wyjscia[id-1];
 }

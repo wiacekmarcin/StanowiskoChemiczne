@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>640</width>
-    <height>167</height>
+    <height>169</height>
    </rect>
   </property>
   <property name="title" stdset="0">
    <string>Ciśnienie w komorze</string>
   </property>
   <property name="subTitle" stdset="0">
-   <string>Ustaw odpowiednie ciśnienie w komorze, </string>
+   <string>Ustaw odpowiednie ciśnienie w komorze,</string>
   </property>
   <property name="buttonName" stdset="0">
    <string>Dalej</string>

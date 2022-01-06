@@ -8,6 +8,7 @@
 #include "testdata.h"
 
 class TestPage;
+class OtwarteZawory;
 class CreateTestWizard : public QStackedWidget
 {
     Q_OBJECT
@@ -21,7 +22,12 @@ public:
     QVariant field(const QString & key) const;
     void addPage(TestPage * page, int id);
     TestPage * currentPage() const;
+    bool checkZawory() const;
 
+public slots:
+    void changeDigitalIn(int id, bool value);
+    void changeAnalog(int id, double value);
+    void clickedZawory();
 
 signals:
     void zaplon(const QString & zaplon, const QString & zaplonExt);
@@ -33,11 +39,15 @@ protected slots:
 protected:
     void init();
     void initializePage();
+    void showWarning(bool value);
 private:
     QMap<QString,  QVariant> values;
     QMap<int, TestPageForm*> pages;
     short selectedId;
     bool finished;
+    QMap<int, bool> zawory;
+    QMap<int, double> stezenia;
+    OtwarteZawory * dlgOtwarte;
 
 };
 

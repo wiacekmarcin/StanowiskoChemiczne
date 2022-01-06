@@ -45,6 +45,38 @@ OknoStatusowe::~OknoStatusowe()
     delete ui;
 }
 
+void OknoStatusowe::setLabels(const Ustawienia &set)
+{
+    ui->zawor1->setText(set.wejscie(1));
+    ui->zawor2->setText(set.wejscie(2));
+    ui->zawor3->setText(set.wejscie(3));
+    ui->zawor4->setText(set.wejscie(4));
+    ui->zawor5->setText(set.wejscie(5));
+    ui->zawor6->setText(set.wejscie(6));
+    ui->zawor7->setText(set.wejscie(7));
+    ui->zawor8->setText(set.wejscie(8));
+    ui->pilot->setText(set.wejscie(pilot));
+    adjustSize();
+}
+
+void OknoStatusowe::setDigitalValue(int id, bool val)
+{
+    //qDebug("OknoStatusowe::setDigitalValue(int id, bool val) %d %d", id, val);
+    switch(id) {
+    case 1: ui->zawor1->setOk(val); break;
+    case 2: ui->zawor2->setOk(val); break;
+    case 3: ui->zawor3->setOk(val); break;
+    case 4: ui->zawor4->setOk(val); break;
+    case 5: ui->zawor5->setOk(val); break;
+    case 6: ui->zawor6->setOk(val); break;
+    case 7: ui->zawor7->setOk(val); break;
+    case 8: ui->zawor8->setOk(val); break;
+    case 9: ui->pilot->setOk(val); break;
+    default:
+        break;
+    }
+}
+
 void OknoStatusowe::timeout()
 {
     ui->zawor1->update();

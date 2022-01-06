@@ -85,6 +85,7 @@ void NowyTest_7::on_rbBrakZaplonu_clicked()
 
 void NowyTest_7::on_pbStep1OK_clicked()
 {
+    setField(QString("brakzaplonu"),QVariant::fromValue(false));
     ui->rbBrakZaplonu->setEnabled(false);
     emit wentylator(true);
     ui->pbStep1OK->setDone(true);
@@ -121,6 +122,7 @@ void NowyTest_7::on_pbYes_clicked()
 void NowyTest_7::on_pbNo_clicked()
 {
     //emit changePage(8-1);
+    setField(QString("brakzaplonu"),QVariant::fromValue(true));
     ui->pbNo->setDone(true);
     ui->pbYes->setEnabled(false);
     valid = true;

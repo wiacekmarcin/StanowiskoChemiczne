@@ -118,6 +118,20 @@
         </property>
        </widget>
       </item>
+      <item row="6" column="1">
+       <widget class="QSlider" name="analog_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QSlider" name="analog_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -134,21 +148,21 @@
         </property>
         <layout class="QFormLayout" name="formLayout_4">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_16">
+          <widget class="QLabel" name="l_out_1">
            <property name="text">
             <string>ON/OFF</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_17">
+          <widget class="QLabel" name="l_out_2">
            <property name="text">
             <string>High Voltage</string>
            </property>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_18">
+          <widget class="QLabel" name="l_out_3">
            <property name="text">
             <string>Zapłon</string>
            </property>
@@ -158,53 +172,66 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_19">
+       <widget class="QLabel" name="l_out_4">
         <property name="text">
          <string>Iskra mechaniczna (ON/OFF silnik DC)</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_20">
+       <widget class="QLabel" name="l_out_5">
         <property name="text">
          <string>Płomień (ON/OFF grzałki)</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_21">
+       <widget class="QLabel" name="l_out_6">
         <property name="text">
          <string>Pompa próżniowa</string>
         </property>
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_22">
+       <widget class="QLabel" name="l_out_7">
         <property name="text">
          <string>Pompka mebramowa</string>
         </property>
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="label_23">
+       <widget class="QLabel" name="l_out_8">
         <property name="text">
          <string>Wentylator do przedmuchu</string>
         </property>
        </widget>
       </item>
       <item row="6" column="0">
-       <widget class="QLabel" name="label_24">
+       <widget class="QLabel" name="l_out_9">
         <property name="text">
          <string>Mieszadło</string>
         </property>
        </widget>
       </item>
       <item row="7" column="0">
-       <widget class="QLabel" name="label_25">
+       <widget class="QLabel" name="l_out_10">
         <property name="text">
          <string>Trigger kamery</string>
         </property>
        </widget>
+      </item>
+      <item row="8" column="0">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -216,24 +243,24 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="1" column="0">
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="l_in_2">
         <property name="text">
          <string>Czujnik zamknięcia komory B</string>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="l_in_1">
         <property name="text">
          <string>Czujnik zamknięcia komory A</string>
         </property>
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="HighLowDigitalWidget" name="komoraB" native="true"/>
+       <widget class="HighLowDigitalWidget" name="in_2" native="true"/>
       </item>
       <item row="3" column="2">
-       <widget class="HighLowDigitalWidget" name="pilot" native="true"/>
+       <widget class="HighLowDigitalWidget" name="in_9" native="true"/>
       </item>
       <item row="2" column="0" colspan="3">
        <widget class="QGroupBox" name="groupBox_3">
@@ -242,60 +269,60 @@
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="4" column="2">
-          <widget class="HighLowDigitalWidget" name="pomiar2" native="true"/>
+          <widget class="HighLowDigitalWidget" name="in_7" native="true"/>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_9">
+          <widget class="QLabel" name="l_in_3">
            <property name="text">
             <string>Wentylacja 1</string>
            </property>
           </widget>
          </item>
          <item row="2" column="2">
-          <widget class="HighLowDigitalWidget" name="proznia" native="true"/>
+          <widget class="HighLowDigitalWidget" name="in_5" native="true"/>
          </item>
          <item row="5" column="2">
-          <widget class="HighLowDigitalWidget" name="powietrze" native="true"/>
+          <widget class="HighLowDigitalWidget" name="in_8" native="true"/>
          </item>
          <item row="0" column="2">
-          <widget class="HighLowDigitalWidget" name="wentylacja1" native="true"/>
+          <widget class="HighLowDigitalWidget" name="in_3" native="true"/>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="l_in_4">
            <property name="text">
             <string>Wentylacja 2</string>
            </property>
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="l_in_6">
            <property name="text">
             <string>Pomiar stężenia 1</string>
            </property>
           </widget>
          </item>
          <item row="3" column="2">
-          <widget class="HighLowDigitalWidget" name="pomiar1" native="true"/>
+          <widget class="HighLowDigitalWidget" name="in_6" native="true"/>
          </item>
          <item row="1" column="2">
-          <widget class="HighLowDigitalWidget" name="wentylacja2" native="true"/>
+          <widget class="HighLowDigitalWidget" name="in_4" native="true"/>
          </item>
          <item row="5" column="0">
-          <widget class="QLabel" name="label_14">
+          <widget class="QLabel" name="l_in_8">
            <property name="text">
             <string>Napełnianie powietrzem</string>
            </property>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="l_in_5">
            <property name="text">
             <string>Próźnia</string>
            </property>
           </widget>
          </item>
          <item row="4" column="0">
-          <widget class="QLabel" name="label_13">
+          <widget class="QLabel" name="l_in_7">
            <property name="text">
             <string>Pomiar stężenia 2</string>
            </property>
@@ -383,10 +410,10 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="HighLowDigitalWidget" name="komoraA" native="true"/>
+       <widget class="HighLowDigitalWidget" name="in_1" native="true"/>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_15">
+       <widget class="QLabel" name="l_in_9">
         <property name="text">
          <string>Pilot zdalnego sterowania</string>
         </property>

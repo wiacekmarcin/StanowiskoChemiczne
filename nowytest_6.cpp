@@ -24,7 +24,7 @@ void NowyTest_6::initializePage()
     QString zaplonExt = field("zaplonExt").toString();
     if (zaplonExt != QString("--"))
         zaplon = zaplon + QString (" ( %1 )").arg(zaplonExt);
-    ui->lZaplon->setText(zaplon);
+    ui->lStep2->setText(ui->lStep2->text().replace("[ZAPLON]", zaplon));
     valid = true;
     emit completeChanged();
 }

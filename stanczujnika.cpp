@@ -7,6 +7,7 @@ StanCzujnika::StanCzujnika(QWidget *parent) :
 {
     ui->setupUi(this);
     setOk(true);
+    red = true;
 }
 
 StanCzujnika::~StanCzujnika()
@@ -24,14 +25,14 @@ void StanCzujnika::setOk(bool ok)
     isOk = ok;
     ui->green->setVisible(ok);
     ui->red->setVisible(!ok);
-    ui->red->setMargin(-25);
-    red = true;
+    ui->red->setMargin(red ? 0 : -25);
+
 }
 
 void StanCzujnika::update()
 {
+    red = !red;
     if (isOk)
         return;
     ui->red->setMargin(red ? 0 : -25);
-    red = !red;
 }

@@ -19,6 +19,19 @@ NowyTest_8::~NowyTest_8()
 
 void NowyTest_8::initializePage()
 {
+    QString ciecz = field("ciecz").toString();
+    QString zaplon = field("zaplon").toString();
+    QString zaplonExt = field("zaplonExt").toString();
+    if (zaplonExt != QString("--"))
+        zaplon = zaplon + QString (" ( %1 )").arg(zaplonExt);
+
+    QString resultat = ui->label->text();
+    resultat = resultat.replace("[ZRODLOZAPLONU]", zaplon);
+    resultat = resultat.replace("[CIECZ]", ciecz);
+    bool brakzaplonu = field("brakzaplonu").toBool();
+    resultat = resultat.replace("[ZAPLON]", brakzaplonu ? "" : QString::fromUtf8("zap\305\202onem"));
+    resultat = resultat.replace("[BRAKZAPLONU]", brakzaplonu ? QString::fromUtf8("brakiem zap\305\202onu"):"");
+    ui->label->setText(resultat);
 
 }
 

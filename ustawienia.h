@@ -4,6 +4,17 @@
 #include <QString>
 #include <QSettings>
 
+typedef enum analoginIn {
+    analog_1 = 1,
+    analog_2,
+    analog_3,
+    analog_4,
+    analog_5,
+    analog_6,
+    analog_7,
+    analog_8,
+} AnalogoweWejscia;
+
 typedef enum digitalIn {
     kont_komora_A = 1,
     kont_komora_B,
@@ -49,10 +60,10 @@ public:
     static constexpr int maxCzujek = 8;
 
     void setWejscie(int id, const QString & name);
-    QString wejscie(int id);
+    QString wejscie(int id) const;
 
     void setWyjscie(int id, const QString & name);
-    QString wyjscie(int id);
+    QString wyjscie(int id) const;
 
 private:
 

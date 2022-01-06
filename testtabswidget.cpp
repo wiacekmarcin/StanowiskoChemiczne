@@ -32,3 +32,8 @@ void TestTabsWidget::setActive()
 {
     ui->tabWidget->setCurrentIndex(0);
 }
+
+CreateTestWizard * TestTabsWidget::createTestWizard() const
+{
+    return ui->stackedWidget;
+}

@@ -26,7 +26,6 @@ signals:
     void valueChange(bool high);
 private slots:
     void on_high_clicked();
-
     void on_low_clicked();
 
 private:
