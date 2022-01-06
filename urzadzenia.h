@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QDialog>
+
+#include "ustawienia.h"
+
 namespace Ui {
 class Urzadzenia;
 }
@@ -15,11 +18,24 @@ public:
     explicit Urzadzenia(QWidget *parent = 0);
     ~Urzadzenia();
 
-
+    void setLabels(const Ustawienia & ust);
 signals:
+    void analogValueChanged(int id, int mV);
+private slots:
+
+
+    void on_analog_1_valueChanged(int value);
+    void on_analog_2_valueChanged(int value);
+    void on_analog_3_valueChanged(int value);
+    void on_analog_4_valueChanged(int value);
+    void on_analog_5_valueChanged(int value);
+    void on_analog_6_valueChanged(int value);
+    void on_analog_7_valueChanged(int value);
+    void on_analog_8_valueChanged(int value);
 
 private:
     Ui::Urzadzenia *ui;
+
 };
 
 #endif // URZADZENIA_H

@@ -23,6 +23,7 @@ public:
 signals:
     void highTrig();
     void lowTrig();
+    void valueChange(bool high);
 private slots:
     void on_high_clicked();
 

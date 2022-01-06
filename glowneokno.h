@@ -10,8 +10,12 @@ namespace Ui {
 class GlowneOkno;
 }
 
-class  QTreeWidgetItem;
+class QTreeWidgetItem;
 class TestTabWidget;
+class QSignalMapper;
+class Urzadzenia;
+
+
 
 class GlowneOkno : public QMainWindow
 {
@@ -26,9 +30,16 @@ private slots:
     void on_actionNowy_projekt_triggered();
     void on_actionNowy_Test_triggered();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+    void wybierzCzujke(int id);
+    void showIO();
+    void valueChanged(int id, int mv);
 
+signals:
+    void analogValueChanged(int id, double val);
 protected:
     void changeSelectedTest();
+    void setActionText();
+    void initialSetting();
 
 private:
     Ui::GlowneOkno *ui;
@@ -38,6 +49,11 @@ private:
     QTreeWidgetItem* selectedProject;
     QTreeWidgetItem* selectedTest;
     Ustawienia settings;
+    QAction * act_wykresy[Ustawienia::maxCzujek];
+    QAction * act_wyzwal[Ustawienia::maxCzujek];
+    QSignalMapper *signalMapper;
+    bool showDebugDlg;
+    Urzadzenia * dlgUrz;
 };
 
 

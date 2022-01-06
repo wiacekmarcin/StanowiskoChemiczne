@@ -38,16 +38,20 @@ bool HighLowDigitalWidget::isHigh() const
 
 void HighLowDigitalWidget::on_high_clicked()
 {
-    if (!ui->high->isChecked())
+    if (!ui->high->isChecked()) {
         emit highTrig();
+        emit valueChange(true);
+    }
     ui->high->setChecked(true);
     ui->low->setChecked(false);
 }
 
 void HighLowDigitalWidget::on_low_clicked()
 {
-    if (!ui->low->isChecked())
+    if (!ui->low->isChecked()) {
         emit lowTrig();
+        emit valueChange(false);
+    }
     ui->low->setChecked(true);
     ui->high->setChecked(false);
 }

@@ -34,10 +34,9 @@ void CzujnikiAnalogoweOkno::setParams(const Ustawienia &ust)
 
 void CzujnikiAnalogoweOkno::updateValue(int id, const double & val)
 {
-    if (id <= 0 || id > 6)
+    if (id <= 0 || id > Ustawienia::maxCzujek)
         return;
-    czujniki[id]->setValue(val);
-    emit valueChange(id, czujniki[id]->getConvValue());
+    czujniki[id-1]->setValue(val);
 }
 
 void CzujnikiAnalogoweOkno::createOne(int id)

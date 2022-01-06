@@ -10,17 +10,17 @@
 #include <QVideoWidget>
 #include <QTreeWidgetItem>
 #include <QStackedWidget>
+#include <QSignalMapper>
+
 
 #include "videowidget.h"
-#include "nowytest_1.h"
-#include "nowytest_2.h"
-#include "nowytest_2.h"
 #include "createtestwizard.h"
 #include "nowytestdlg.h"
 #include "projectitem.h"
 #include "nowyprojectdlg.h"
 #include "testdata.h"
 #include "testtabswidget.h"
+#include "urzadzenia.h"
 
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
@@ -28,9 +28,47 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     selectedProject(nullptr),
     selectedTest(nullptr)
 {
+    initialSetting();
     ui->setupUi(this);
     ui->widget->setParams(settings);
+    dlgUrz = new Urzadzenia(this);
+    dlgUrz->setLabels(settings);
+    dlgUrz->setHidden(true);
+    connect(dlgUrz,&Urzadzenia::analogValueChanged, this, &GlowneOkno::valueChanged);
 
+    connect(this, &GlowneOkno::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
+
+
+    signalMapper = new QSignalMapper(this);
+
+    for (int i = 0; i < settings.maxCzujek; ++i) {
+        act_wykresy[i] = new QAction(this);
+        act_wykresy[i]->setObjectName(QString("actionCzujnikChart_%1").arg(i));
+        act_wykresy[i]->setCheckable(true);
+        act_wykresy[i]->setText(settings.getName(i+1));
+        connect(act_wykresy[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
+        signalMapper->setMapping(act_wykresy[i],     i);
+        //connect(act_wykresy[i], &QAction::triggered, [this, i] { wybierzCzujke(i); });
+
+        act_wyzwal[i] = new QAction(this);
+        act_wyzwal[i]->setObjectName(QString("actionCzujnikTrigger_%1").arg(i));
+        act_wyzwal[i]->setCheckable(true);
+        act_wyzwal[i]->setText(settings.getName(i+1));
+        connect(act_wyzwal[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
+        signalMapper->setMapping(act_wyzwal[i],     settings.maxCzujek + i);
+        //connect(act_wyzwal[i], &QAction::triggered, [this, i] { wybierzCzujke(settings.maxCzujek+i); });
+
+        ui->menuPodgl_d_wej->addAction(act_wykresy[i]);
+        ui->menuWyzwalanie_wyj->addAction(act_wyzwal[i]);
+    }
+
+    connect (signalMapper, SIGNAL( mapped(int) ), this, SLOT(wybierzCzujke(int))) ;
+
+    QAction * debugAct = new QAction(this);
+    debugAct->setObjectName("debugaction");
+    debugAct->setText(QString::fromUtf8("Symulator wej\305\233\304\207/wyj\305\233\304\207"));
+    ui->menuBar->addAction(debugAct);
+    connect(debugAct, &QAction::triggered, this, &GlowneOkno::showIO);
     changeSelectedTest();
 
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
@@ -76,6 +114,7 @@ void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
     {
         dlg->saveData(settings);
         ui->widget->setParams(settings);
+        setActionText();
     }
 }
 
@@ -156,6 +195,28 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column *
     }
 }
 
+void GlowneOkno::wybierzCzujke(int id)
+{
+    qDebug("%d", id);
+}
+
+void GlowneOkno::showIO()
+{
+    //showDebugDlg = !showDebugDlg;
+    //if (showDebugDlg)
+    //    dlgUrz->show();
+    //else
+    //    dlgUrz->hide();
+    dlgUrz->show();
+}
+
+void GlowneOkno::valueChanged(int id, int mv)
+{
+    double valratio = settings.getRatio(id) * mv;
+    emit analogValueChanged(id, valratio);
+
+}
+
 void GlowneOkno::changeSelectedTest()
 {
     ui->actionNowy_Test->setDisabled(selectedProject == nullptr);
@@ -175,3 +236,25 @@ void GlowneOkno::changeSelectedTest()
         ui->stackedWidget->setVisible(false);
     }
 }
+
+void GlowneOkno::setActionText()
+{
+    for (int i = 0; i < settings.maxCzujek; ++i) {
+        act_wykresy[i]->setText(settings.getName(i+1));
+        act_wyzwal[i]->setText(settings.getName(i+1));
+    }
+}
+
+void GlowneOkno::initialSetting()
+{
+    //if (cos) return;
+    settings.setZawor(1, QString::fromUtf8("Ci\305\233nenie w komorze"), QString::fromUtf8("kPa"), 1.0);
+    settings.setZawor(2, QString::fromUtf8("St\304\231\305\274enie VOC"), QString::fromUtf8("%"), 1.0);
+    settings.setZawor(3, QString::fromUtf8("St\304\231\305\274enie O2"), QString::fromUtf8("%"), 1.0);
+    settings.setZawor(4, QString::fromUtf8("St\304\231\305\274enie CO2"), QString::fromUtf8("%"), 1.0);
+    settings.setZawor(5, QString::fromUtf8("Temperatura w komorze"), QString::fromUtf8("\u00B0 C"), 1.0);
+    settings.setZawor(6, QString::fromUtf8("Temperatura parownika"), QString::fromUtf8("\u00B0 C"), 1.0);
+    settings.setZawor(7, QString::fromUtf8("Sygnał analogowy 7"), QString::fromUtf8("mV"), 1.0);
+    settings.setZawor(8, QString::fromUtf8("Sygnał analogowy 8"), QString::fromUtf8("mV"), 1.0);
+}
+

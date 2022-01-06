@@ -4,5 +4,8 @@
         <file>red.png</file>
         <file>warning_small.png</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/zawory" lang="pl">
+        <file>zawor.png</file>
+    </qresource>
+    <qresource prefix="/zawory"/>
 </RCC>

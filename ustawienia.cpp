@@ -13,7 +13,7 @@ Ustawienia::Ustawienia()
 
 void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, const double &ratio)
 {
-    if (id > 8 || id <= 0)
+    if (id > maxCzujek || id <= 0)
         return;
     czujki[id-1].name = name;
     czujki[id-1].unit = unit;
@@ -25,29 +25,58 @@ void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, c
 
 Ustawienia::CzujnikAnalogowy Ustawienia::getCzujka(short id) const
 {
-    if (id > 8 || id <= 0)
+    if (id > maxCzujek || id <= 0)
         return Ustawienia::CzujnikAnalogowy();
     return czujki[id-1];
 }
 
 QString Ustawienia::getName(short id) const
 {
-    if (id > 8 || id <= 0)
+    if (id > maxCzujek || id <= 0)
         return QString();
     return czujki[id-1].name;
 }
 
 QString Ustawienia::getUnit(short id) const
 {
-    if (id > 8 || id <= 0)
+    if (id > maxCzujek || id <= 0)
         return QString();
     return czujki[id-1].unit;
 }
 
 double Ustawienia::getRatio(short id) const
 {
-    if (id > 8 || id <= 0)
+    if (id > maxCzujek || id <= 0)
         return 0.0;
     return czujki[id-1].ratio;
 }
 
+void Ustawienia::setWejscie(int id, const QString &name)
+{
+    if (id > 10 || id <= 0)
+        return;
+    wejscia[id-1] = name;
+    settings.setValue(QString("wejsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
+}
+
+QString Ustawienia::wejscie(int id)
+{
+    if (id > 10 || id <= 0)
+        return QString();
+    return wejscia[id-1];
+}
+
+void Ustawienia::setWyjscie(int id, const QString &name)
+{
+    if (id > 11 || id <= 0)
+        return;
+    wyjscia[id-1] = name;
+    settings.setValue(QString("wyjsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
+}
+
+QString Ustawienia::wyjscie(int id)
+{
+    if (id > 11 || id <= 0)
+        return QString();
+    return wejscia[id-1];
+}

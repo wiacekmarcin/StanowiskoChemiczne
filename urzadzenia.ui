@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>823</width>
-    <height>489</height>
+    <height>593</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,196 +21,102 @@
      </property>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="cz_label_1">
         <property name="text">
          <string>Ciśnenie w komorze</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSlider" name="cisnienie_komora">
+       <widget class="QSlider" name="analog_1">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="cz_label_2">
         <property name="text">
          <string>Steżenie VOC</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="cz_label_3">
         <property name="text">
          <string>Stężenie O2</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSlider" name="stezenievoc">
+       <widget class="QSlider" name="analog_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QSlider" name="stezenieo2">
+       <widget class="QSlider" name="analog_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QSlider" name="stezenieco2">
+       <widget class="QSlider" name="analog_4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="cz_label_4">
         <property name="text">
          <string>Stężenie CO2</string>
         </property>
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="cz_label_5">
         <property name="text">
          <string>Temperatura w komorze</string>
         </property>
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="cz_label_6">
         <property name="text">
          <string>Temperatura parownika</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QSlider" name="temperaturakomora">
+       <widget class="QSlider" name="analog_5">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QSlider" name="temperaturaparownika">
+       <widget class="QSlider" name="analog_6">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Wejścia cyfrowe</string>
-     </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_7">
+      <item row="6" column="0">
+       <widget class="QLabel" name="cz_label_7">
         <property name="text">
-         <string>Czujnik zamknięcia komory A</string>
+         <string>Czujnik analogowy 7</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_8">
+      <item row="7" column="0">
+       <widget class="QLabel" name="cz_label_8">
         <property name="text">
-         <string>Czujnik zamknięcia komory B</string>
+         <string>Czujnik analogowy 8</string>
         </property>
        </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QGroupBox" name="groupBox_3">
-        <property name="title">
-         <string>Zawory kulowe</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>Wentylacja 1</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>Próźnia</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>Wentylacja 2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_13">
-           <property name="text">
-            <string>Pomiar stężenia 2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_14">
-           <property name="text">
-            <string>Napełnianie powietrzem</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>Pomiar stężenia 1</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="HighLowDigitalWidget" name="wentylacja1" native="true"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="HighLowDigitalWidget" name="wentylacja2" native="true"/>
-         </item>
-         <item row="2" column="1">
-          <widget class="HighLowDigitalWidget" name="proznia" native="true"/>
-         </item>
-         <item row="3" column="1">
-          <widget class="HighLowDigitalWidget" name="pomiar1" native="true"/>
-         </item>
-         <item row="4" column="1">
-          <widget class="HighLowDigitalWidget" name="pomiar2" native="true"/>
-         </item>
-         <item row="5" column="1">
-          <widget class="HighLowDigitalWidget" name="powietrze" native="true"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>Pilot zdalnego sterowania</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="HighLowDigitalWidget" name="komoraA" native="true"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="HighLowDigitalWidget" name="komoraB" native="true"/>
-      </item>
-      <item row="3" column="1">
-       <widget class="HighLowDigitalWidget" name="pilot" native="true"/>
       </item>
      </layout>
     </widget>
@@ -301,6 +207,241 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Wejścia cyfrowe</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Czujnik zamknięcia komory B</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Czujnik zamknięcia komory A</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="HighLowDigitalWidget" name="komoraB" native="true"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="HighLowDigitalWidget" name="pilot" native="true"/>
+      </item>
+      <item row="2" column="0" colspan="3">
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Zawory kulowe</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="4" column="2">
+          <widget class="HighLowDigitalWidget" name="pomiar2" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Wentylacja 1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="HighLowDigitalWidget" name="proznia" native="true"/>
+         </item>
+         <item row="5" column="2">
+          <widget class="HighLowDigitalWidget" name="powietrze" native="true"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="HighLowDigitalWidget" name="wentylacja1" native="true"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Wentylacja 2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Pomiar stężenia 1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="HighLowDigitalWidget" name="pomiar1" native="true"/>
+         </item>
+         <item row="1" column="2">
+          <widget class="HighLowDigitalWidget" name="wentylacja2" native="true"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Napełnianie powietrzem</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Próźnia</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Pomiar stężenia 2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="1">
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="2" column="1">
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="1">
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="4" column="1">
+          <spacer name="horizontalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="5" column="1">
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="HighLowDigitalWidget" name="komoraA" native="true"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>Pilot zdalnego sterowania</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="1">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="3" column="1">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>

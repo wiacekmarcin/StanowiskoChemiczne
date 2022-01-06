@@ -33,6 +33,9 @@ public:
     void setId(int value);
     void disableButton(bool disable);
 
+private slots:
+    void on_pbZobaczOtwarteZawory_clicked();
+
 private:
     Ui::TestPageForm *ui;
     int id;

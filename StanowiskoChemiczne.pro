@@ -32,6 +32,7 @@ SOURCES += \
     glowneokno.cpp \
     nowyprojectdlg.cpp \
     oknostatusowe.cpp \
+    otwartezawory.cpp \
     stanczujnika.cpp \
     videowidget.cpp \
     ustawieniadozownikaokno.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     glowneokno.h \
     nowyprojectdlg.h \
     oknostatusowe.h \
+    otwartezawory.h \
     stanczujnika.h \
     videowidget.h \
     ustawieniadozownikaokno.h \
@@ -100,6 +102,7 @@ FORMS += \
     glowneokno.ui \
     nowyprojectdlg.ui \
     oknostatusowe.ui \
+    otwartezawory.ui \
     stanczujnika.ui \
     videowidget.ui \
     ustawieniadozownikaokno.ui \

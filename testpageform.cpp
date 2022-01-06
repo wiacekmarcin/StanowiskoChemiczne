@@ -1,6 +1,9 @@
 #include "testpageform.h"
 #include "ui_testpageform.h"
 #include "testpage.h"
+
+#include "otwartezawory.h"
+
 TestPageForm::TestPageForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestPageForm)
@@ -74,4 +77,11 @@ void TestPageForm::setId(int value)
 void TestPageForm::disableButton(bool disable)
 {
     ui->pbNext->setEnabled(!disable);
+}
+
+void TestPageForm::on_pbZobaczOtwarteZawory_clicked()
+{
+    OtwarteZawory * dlg = new OtwarteZawory(this);
+    dlg->set(2,true);
+    dlg->exec();
 }

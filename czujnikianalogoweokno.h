@@ -19,8 +19,7 @@ public:
     void setParams(const Ustawienia & ust);
 public slots:
     void updateValue(int id, const double & val);
-signals:
-    void valueChange(int id, const double & val);
+
 
 protected:
     void createOne(int id);
