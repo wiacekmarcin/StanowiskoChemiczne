@@ -4,8 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia  multimediawidgets
-
+QT       += core gui multimedia multimediawidgets
+QT += charts
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = StanowiskoChemiczne
@@ -28,6 +28,7 @@ SOURCES += \
     czujnikanalogowywidget.cpp \
     czujnikianalogoweokno.cpp \
     czujnikanalogowyustawieniaokno.cpp \
+    digitaloutwidget.cpp \
     main.cpp \
     glowneokno.cpp \
     nowyprojectdlg.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
     czujnikanalogowywidget.h \
     czujnikianalogoweokno.h \
     czujnikanalogowyustawieniaokno.h \
+    digitaloutwidget.h \
     glowneokno.h \
     nowyprojectdlg.h \
     oknostatusowe.h \
@@ -99,6 +101,7 @@ HEADERS += \
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \
     czujnikanalogowywidget.ui \
+    digitaloutwidget.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
     oknostatusowe.ui \
