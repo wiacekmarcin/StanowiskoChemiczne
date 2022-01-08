@@ -4,8 +4,10 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia multimediawidgets
+QT       += core gui
+QT += multimedia multimediawidgets
 QT += charts
+QT += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = StanowiskoChemiczne
@@ -24,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    crc8.cpp \
     czujnikanalogowyustawieniawidget.cpp \
     czujnikanalogowywidget.cpp \
     czujnikianalogoweokno.cpp \
@@ -34,6 +37,7 @@ SOURCES += \
     nowyprojectdlg.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
+    serialmessage.cpp \
     stanczujnika.cpp \
     videowidget.cpp \
     ustawieniadozownikaokno.cpp \
@@ -62,6 +66,7 @@ SOURCES += \
     ustawienia.cpp
 
 HEADERS += \
+    crc8.h \
     czujnikanalogowyustawieniawidget.h \
     czujnikanalogowywidget.h \
     czujnikianalogoweokno.h \
@@ -71,6 +76,7 @@ HEADERS += \
     nowyprojectdlg.h \
     oknostatusowe.h \
     otwartezawory.h \
+    serialmessage.h \
     stanczujnika.h \
     videowidget.h \
     ustawieniadozownikaokno.h \
