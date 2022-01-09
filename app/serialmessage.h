@@ -36,6 +36,7 @@ signals:
     void deviceName(QString);
 
     void controllerOK();
+
     void startingPosition();
     void donePosition();
     void errorReadFromRadio();
@@ -46,8 +47,7 @@ signals:
     void doneHome();
     void errorHome();
 
-    void setParams1();
-    void setParams2();
+    void setParams();
     void setParamsDone();
 
     void errorSerial(QString);
@@ -59,7 +59,7 @@ public slots:
     void handleReadyRead();
     void serialError(const QSerialPort::SerialPortError & error);
 
-    void checkController();
+
     void connectToSerial();
     void echo();
     void setPositionHome();
@@ -82,6 +82,7 @@ protected:
     QByteArray welcomeMsg();
     QByteArray homePositionMsg();
     QByteArray positionMsg(uint32_t x);
+    QByteArray echoMsg();
 
     bool checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & len, QByteArray & data);
     bool parseCommand(const QByteArray &arr);

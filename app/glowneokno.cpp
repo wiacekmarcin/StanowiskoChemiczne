@@ -37,6 +37,7 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     connect(dlgUrz,&Urzadzenia::analogValueChanged, this, &GlowneOkno::valueChanged);
     connect(this, &GlowneOkno::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
     connect(dlgUrz, &Urzadzenia::digitalValueChanged, ui->frCzujniki, &OknoStatusowe::setDigitalValue);
+    connect(dlgUrz, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
 
     ui->frCzujniki->setLabels(settings);
 

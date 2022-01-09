@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Star Runner");
     //a.setStyle("Windows");
     //QApplication::setStyle(QWindowsStyle());
+
     GlowneOkno w;
     w.show();
 

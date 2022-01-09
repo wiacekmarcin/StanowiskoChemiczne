@@ -21,6 +21,7 @@ public:
     void setLabels(const Ustawienia & set);
 public slots:
     void setDigitalValue(int id, bool val);
+    void setDozownik(bool ok);
 
 private slots:
     void timeout();

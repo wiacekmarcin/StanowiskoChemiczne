@@ -32,7 +32,7 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     ui->pilot->setOk(false);
     ui->usb6210->setOk(false);
     ui->usb6501->setOk(false);
-    //ui->dozownik->setOk(false);
+    ui->dozownik->setOk(false);
 
     timer.setInterval(1000);
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
@@ -75,6 +75,12 @@ void OknoStatusowe::setDigitalValue(int id, bool val)
     default:
         break;
     }
+}
+
+void OknoStatusowe::setDozownik(bool ok)
+{
+    ui->dozownik->setOk(ok);
+    ui->dozownik->update();
 }
 
 void OknoStatusowe::timeout()

@@ -5,7 +5,7 @@
 #include <QDialog>
 
 #include "ustawienia.h"
-
+#include "serialmessage.h"
 namespace Ui {
 class Urzadzenia;
 }
@@ -22,6 +22,9 @@ public:
 signals:
     void analogValueChanged(int id, int mV);
     void digitalValueChanged(int id, bool high);
+    void dozownik(bool ok);
+
+
 
 private slots:
 
@@ -45,9 +48,28 @@ private slots:
     void changeDigital_8(bool val);
     void changeDigital_9(bool val);
 
+    void dozownikTimeout();
+
+    /* serial */
+    void successOpenDevice(bool);
+    void deviceName(QString);
+    void controllerOK();
+    void echoOK();
+
+    void errorSerial(QString);
+    void debug(QString);
+
+signals:
+    /* serial */
+    void connectToSerial();
+    void echo();
+
 private:
     Ui::Urzadzenia *ui;
-
+    SerialMessage smg;
+    bool connect2Serial;
+    short cntEcho;
+    QTimer dozownikLoop;
 };
 
 #endif // URZADZENIA_H
