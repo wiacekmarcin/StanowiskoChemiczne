@@ -12,6 +12,8 @@ NowyTest_2::NowyTest_2(QWidget *parent) :
     ui->lNie->setVisible(false);
     ui->lNo2->setVisible(false);
     ui->lYes2->setVisible(false);
+    zamknietaKomora = true;
+    showPb4 = false;
 }
 
 NowyTest_2::~NowyTest_2()
@@ -156,9 +158,11 @@ void NowyTest_2::on_pbStep3aOk_clicked()
 {
     ui->pbStep3aRun->setEnabled(false);
     ui->pbStep3aOk->setEnabled(false);
-
-    ui->pbStep4->setEnabled(true);
+    showPb4 = true;
+    ui->pbStep4->setEnabled(zamknietaKomora);
     ui->lstep4->setEnabled(true);
+
+
 }
 
 void NowyTest_2::runDone1()
@@ -181,5 +185,12 @@ void NowyTest_2::on_pbStep4_clicked()
     ui->pbStep4->setDone(true);
     dozownikFull = true;
     emit completeChanged();
+}
+
+void NowyTest_2::komora(bool val)
+{
+    qDebug("komora %d %d", showPb4, val);
+    zamknietaKomora = val;
+    ui->pbStep4->setDisabled(!showPb4 || !val);
 }
 

@@ -73,6 +73,7 @@ void NowyTest_3::runDone2()
     ui->pbStep2A_OK->setEnabled(true);
     ui->pbStep2A_OK->setDone(true);
     valid = true;
+    emit zaworProzni(false);
     emit completeChanged();
 }
 

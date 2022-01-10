@@ -29,7 +29,7 @@ private slots:
     void on_pbStep3aOk_clicked();
     void on_pbStep4_clicked();
 
-
+    void komora(bool val);
 
 
 protected:
@@ -42,6 +42,8 @@ private:
     Ui::NowyTest_2 *ui;
     bool ign;
     bool dozownikFull;
+    bool zamknietaKomora;
+    bool showPb4;
 };
 
 #endif // NOWYTEST_2_H

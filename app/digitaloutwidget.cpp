@@ -37,6 +37,7 @@ void DigitalOutWidget::setLevel(bool high)
 
 void DigitalOutWidget::paintEvent(QPaintEvent *paint)
 {
+    (void)paint;
     QPainter painter(this);
     painter.save();
 

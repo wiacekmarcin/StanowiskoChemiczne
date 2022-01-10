@@ -17,13 +17,15 @@
 #include <QAbstractButton>
 #include <QVariant>
 #include <QDebug>
+
 CreateTestWizard::CreateTestWizard(QWidget *parent) :
     QStackedWidget(parent),
     dlgOtwarte(nullptr)
 {
     selectedId = -1;
     init();
-
+    zamknietaKomoraA = false;
+    zamknietaKomoraB = false;
 }
 
 void CreateTestWizard::setTestData(const TestData &dt)
@@ -106,7 +108,10 @@ void CreateTestWizard::addPage(TestPage *page, int id)
 
     connect(t, &TestPageForm::clickButton, this, &CreateTestWizard::nextPage);
     connect(page, &TestPage::completeChanged, this, &CreateTestWizard::checkValidPage);
+    connect(this, &CreateTestWizard::komora, page, &TestPage::komora);
+    page->komora(getZamknietaKomora());
 }
+
 
 TestPage *CreateTestWizard::currentPage() const
 {
@@ -133,6 +138,15 @@ void CreateTestWizard::changeDigitalIn(int id, bool value)
             dlgOtwarte->set(id, value);
     }
 
+    if (id == kont_komora_A) {
+        zamknietaKomoraA = value;
+        emit komora(getZamknietaKomora());
+    }
+
+    if (id == kont_komora_B) {
+        zamknietaKomoraB = value;
+        emit komora(getZamknietaKomora());
+    }
 }
 
 void CreateTestWizard::changeAnalog(int id, double value)
@@ -155,6 +169,52 @@ void CreateTestWizard::clickedZawory()
     if (dlgOtwarte != nullptr)
         delete dlgOtwarte;
     dlgOtwarte = nullptr;
+}
+
+void CreateTestWizard::zaworProzni(bool open)
+{
+    //emit setDigitalOut(int id, open);
+
+}
+
+void CreateTestWizard::pompaProzniowa(bool start)
+{
+
+}
+
+void CreateTestWizard::mieszadlo(bool start)
+{
+
+}
+
+void CreateTestWizard::zaworPowietrza(bool open)
+{
+
+}
+
+void CreateTestWizard::pomiary(bool start)
+{
+
+}
+
+void CreateTestWizard::pompaMembramowa(bool start)
+{
+
+}
+
+void CreateTestWizard::pomiarSingle(int idCzujka)
+{
+
+}
+
+void CreateTestWizard::pomiarStezen()
+{
+
+}
+
+void CreateTestWizard::wentylator(bool start)
+{
+
 }
 
 void CreateTestWizard::nextPage(int id)
@@ -187,6 +247,11 @@ void CreateTestWizard::showWarning(bool value)
 {
     if (pages.contains(selectedId))
         pages[selectedId]->showZaworWarning(value);
+}
+
+bool CreateTestWizard::getZamknietaKomora() const
+{
+    return zamknietaKomoraA && zamknietaKomoraB;
 }
 
 

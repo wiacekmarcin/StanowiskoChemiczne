@@ -59,10 +59,21 @@ private slots:
     void errorSerial(QString);
     void debug(QString);
 
+
+    void on_ml_valueChanged(int arg1);
+    void on_steps_valueChanged(int arg1);
+    void on_pbUstaw_clicked();
+    void on_rbDirectionLeft_clicked(bool checked);
+    void on_parameters_clicked();
+    void on_pbReturn_clicked();
+
 signals:
     /* serial */
     void connectToSerial();
     void echo();
+    void setPositionHome();
+    void setSettings(bool reverse, uint32_t maxImp);
+    void setPosition(uint32_t x);
 
 private:
     Ui::Urzadzenia *ui;
@@ -70,6 +81,7 @@ private:
     bool connect2Serial;
     short cntEcho;
     QTimer dozownikLoop;
+    bool onlyOne;
 };
 
 #endif // URZADZENIA_H

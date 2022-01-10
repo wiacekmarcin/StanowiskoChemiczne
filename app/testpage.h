@@ -1,6 +1,8 @@
 #ifndef TESTPAGE_H
 #define TESTPAGE_H
 
+#include <QString>
+#include <QObject>
 #include <QWidget>
 #include <QDebug>
 
@@ -54,6 +56,8 @@ public:
     virtual bool isComplete() const { return true; }
     virtual int nextPage() const;
 
+public slots:
+    virtual void komora(bool){qDebug("%d komora", id);} ;
 
 signals:
     void completeChanged();
@@ -69,12 +73,14 @@ signals:
     void pomiarSingle(int idCzujka);
     void pomiarStezen();
     void wentylator(bool start);
+
+
 protected:
     bool valid;
 private:
     CreateTestWizard * wiz;
-    int id;
     TestPageForm * form;
+    int id;
     QString m_title;
     QString m_subTitle;
     QString m_buttonName;

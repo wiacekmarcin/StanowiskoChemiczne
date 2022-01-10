@@ -30,11 +30,18 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
 
     connect(this, &Urzadzenia::connectToSerial, &smg, &SerialMessage::connectToSerial);
     connect(this, &Urzadzenia::echo, &smg, &SerialMessage::echo);
+    connect(this, &Urzadzenia::setSettings, &smg, &SerialMessage::setSettings);
+    connect(this, &Urzadzenia::setPosition, &smg, &SerialMessage::setPosition);
 
-    emit connectToSerial();
+
+    smg.connectToSerial();
     dozownikLoop.setInterval(10000);
     connect(&dozownikLoop, &QTimer::timeout, this, &Urzadzenia::dozownikTimeout);
 
+    ui->impulsyml->setValue(1.0);
+    onlyOne = false;
+    ui->rbDirectionLeft->setChecked(true);
+    ui->maxSteps->setValue(1000);
 }
 
 
@@ -214,3 +221,48 @@ void Urzadzenia::debug(QString debug)
 {
     qDebug("debug %s", debug.toStdString().c_str());
 }
+
+void Urzadzenia::on_ml_valueChanged(int arg1)
+{
+    if (onlyOne)
+        return;
+    onlyOne = true;
+    ui->steps->setValue(ui->impulsyml->value()*arg1);
+    onlyOne = false;
+}
+
+
+void Urzadzenia::on_steps_valueChanged(int arg1)
+{
+    if (onlyOne)
+        return;
+    onlyOne = true;
+    ui->ml->setValue(arg1/ui->impulsyml->value());
+    onlyOne = false;
+}
+
+
+void Urzadzenia::on_pbUstaw_clicked()
+{
+    emit setPosition(ui->steps->value());
+}
+
+
+void Urzadzenia::on_rbDirectionLeft_clicked(bool checked)
+{
+    ui->rbDirectionLeft->setChecked(checked);
+    ui->rbDirectionRight->setChecked(!checked);
+}
+
+
+void Urzadzenia::on_parameters_clicked()
+{
+    emit setSettings(ui->rbDirectionLeft->isChecked(), ui->maxSteps->value());
+}
+
+
+void Urzadzenia::on_pbReturn_clicked()
+{
+    emit setPositionHome();
+}
+

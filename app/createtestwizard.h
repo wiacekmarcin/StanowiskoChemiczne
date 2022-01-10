@@ -1,6 +1,7 @@
 #ifndef CREATETESTWIZARD_H
 #define CREATETESTWIZARD_H
 
+#include <QObject>
 #include <QStackedWidget>
 #include <QMap>
 #include <QList>
@@ -23,16 +24,34 @@ public:
     void addPage(TestPage * page, int id);
     TestPage * currentPage() const;
     bool checkZawory() const;
+    bool getZamknietaKomora() const;
 
 public slots:
     void changeDigitalIn(int id, bool value);
     void changeAnalog(int id, double value);
     void clickedZawory();
 
+    void zaworProzni(bool open);
+    void pompaProzniowa(bool start);
+    void mieszadlo(bool start);
+    void zaworPowietrza(bool open);
+    void pomiary(bool start);
+    void pompaMembramowa(bool start);
+    void pomiarSingle(int idCzujka);
+    void pomiarStezen();
+    void wentylator(bool start);
+
+
 signals:
     void zaplon(const QString & zaplon, const QString & zaplonExt);
     void triggerCamera(bool on);
     void pomiarCisnienia(int idCzujnik, unsigned long time_ms);
+
+    void komora(bool);
+
+    void setDigitalOut(int id, bool value);
+
+
 protected slots:
     void nextPage(int id);
     void checkValidPage();
@@ -48,7 +67,8 @@ private:
     QMap<int, bool> zawory;
     QMap<int, double> stezenia;
     OtwarteZawory * dlgOtwarte;
-
+    bool zamknietaKomoraA;
+    bool zamknietaKomoraB;
 };
 
 #endif // CREATETESTWIZARD_H

@@ -3,8 +3,8 @@
 #include "testpageform.h"
 
 TestPage::TestPage(QWidget *parent) :
-    QWidget(parent), wiz(nullptr), form(nullptr),
-    valid(true)
+    QWidget(parent), valid(true), wiz(nullptr), form(nullptr)
+
 {
 
 }

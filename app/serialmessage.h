@@ -63,7 +63,7 @@ public slots:
     void connectToSerial();
     void echo();
     void setPositionHome();
-    void setSettings(bool reverse, uint32_t maxImp, uint32_t stepImp);
+    void setSettings(bool reverse, uint32_t maxImp);
     void doneSettings();
     void setPosition(uint32_t x);
 
@@ -88,7 +88,7 @@ protected:
     bool parseCommand(const QByteArray &arr);
     QByteArray prepareMessage(uint8_t cmd, uint8_t tab[], uint8_t len);
     void writeMessage(const QByteArray &writeData);
-    QByteArray settingsMsg(bool reverse, uint32_t maxImp, uint32_t stepImp);
+    QByteArray settingsMsg(bool reverse, uint32_t maxImp);
 
 
 private:

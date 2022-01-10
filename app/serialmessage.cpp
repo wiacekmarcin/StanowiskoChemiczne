@@ -207,15 +207,15 @@ void SerialMessage::echo()
 
 void SerialMessage::setPositionHome()
 {
-    //emit debug(QString(homePositionMsg().toHex().toStdString().c_str()));
+    emit debug(QString(homePositionMsg().toHex().toStdString().c_str()));
     emit debug(QString("Ustawiam pozycje startowa"));
     writeMessage(homePositionMsg());
 }
 
-void SerialMessage::setSettings(bool reverse, uint32_t maxImp, uint32_t stepImp)
+void SerialMessage::setSettings(bool reverse, uint32_t maxImp)
 {
-    //emit debug(QString(settings1Msg(reverseX, reverseY, maxImpX, maxImpY).toHex().toStdString().c_str()));
-    writeMessage(settingsMsg(reverse, maxImp, stepImp));
+    emit debug(QString(settingsMsg(reverse, maxImp).toHex().toStdString().c_str()));
+    writeMessage(settingsMsg(reverse, maxImp));
 }
 
 void SerialMessage::doneSettings()
@@ -295,20 +295,15 @@ QByteArray SerialMessage::echoMsg()
     return prepareMessage(ECHO_REQ, NULL, 0);
 }
 
-QByteArray SerialMessage::settingsMsg(bool reverse, uint32_t maxImp, uint32_t maxStep)
+QByteArray SerialMessage::settingsMsg(bool reverse, uint32_t maxImp)
 {
     uint8_t tab[10];
-    tab[0] = 0x01;
-    tab[1] = reverse ? 0x01 : 0x00;
-    tab[2] = (maxImp >> 24) & 0xff;
-    tab[3] = (maxImp >> 16) & 0xff;
-    tab[4] = (maxImp >> 8) & 0xff;
-    tab[5] = maxImp & 0xff;
-    tab[6] = (maxStep >> 24) & 0xff;
-    tab[7] = (maxStep >> 16) & 0xff;
-    tab[8] = (maxStep >> 8) & 0xff;
-    tab[9] = maxStep & 0xff;
-    return prepareMessage(SET_PARAM_REQ, tab, 10);
+    tab[0] = reverse ? 0x01 : 0x00;
+    tab[1] = (maxImp >> 24) & 0xff;
+    tab[2] = (maxImp >> 16) & 0xff;
+    tab[3] = (maxImp >> 8) & 0xff;
+    tab[4] = maxImp & 0xff;
+    return prepareMessage(SET_PARAM_REQ, tab, 5);
 }
 
 bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & len,  QByteArray & data)
