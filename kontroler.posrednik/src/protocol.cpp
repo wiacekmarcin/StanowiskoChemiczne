@@ -155,9 +155,10 @@ void Message::sendMessage(uint8_t s, uint8_t cmd, uint8_t* buf, uint8_t len)
     if (len > 0)
         memcpy(sendData+1, buf, len);
     sendData[0] = cmd << 4 | len ;
-    crc[s].restart();
-    crc[s].add(sendData, len+1);
-    sendData[len+1] = crc[s].getCRC();
+    CRC8 lcrc;
+    lcrc.restart();
+    lcrc.add(sendData, len+1);
+    sendData[len+1] = lcrc.getCRC();
     if (s == 0)
         messageWrite1(sendData, len+2);
     else
