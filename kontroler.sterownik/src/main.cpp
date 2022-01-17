@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "silnik.hpp"
+#include "protocol.hpp"
 
 #define ENPIN 18
 
@@ -36,6 +37,9 @@ Silnik s[5] = {
   {ENPIN, DIR5PIN, PULSE5PIN, LIMIT5PIN, interS5},
 };
 
+
+Message msg;
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(ENPIN, OUTPUT);
@@ -50,6 +54,15 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if (Serial1.available()) {
+    if (msg.check(Serial.read())) {
+      if (msg.getStatusWork() == msg.RETURN_HOME) {
+        msg.setHomeDone(s[msg.getNrDozownika()].home());
+      } else if (msg.getStatusWork() == msg.POS_START) {
+        msg.setPosDone(s[msg.getNrDozownika()].start(msg.getSteps()));
+      }
+    }
+  }
 }
 
 void interS1() {

@@ -62,10 +62,10 @@ public slots:
 
     void connectToSerial();
     void echo();
-    void setPositionHome();
+    void setPositionHome(short DozownikNr);
     void setSettings(bool reverse, uint32_t maxImp);
     void doneSettings();
-    void setPosition(uint32_t x);
+    void setPosition(short DozwnikNr, uint32_t x);
 
 
     void response(const QByteArray &s);

@@ -52,25 +52,26 @@ class Message {
     typedef enum _work {
         NOP,
         POS_START,
-        //POS_DONE,
         RETURN_HOME,
-        //RETURN_DONE,
-        SET_PARAM,
-        ECHO,
     } Work;
 
     void init();
     bool check(unsigned char c);
     
     Work getStatusWork() const;
+    uint8_t getNrDozownika() const;
+    uint32_t getSteps() const;
+
+    void setHomeDone(uint32_t steps) const;
+    void setPosDone(uint32_t steps) const;
 
 protected:
 
     bool parse();
     
 
-    void sendMessage(uint8_t cmd, uint8_t *buf, uint8_t len);
-    void messageWrite(uint8_t *buf, uint8_t len);
+    void sendMessage(uint8_t cmd, uint8_t *buf, uint8_t len) const;
+    void messageWrite(uint8_t *buf, uint8_t len) const;
     
     // rozkaz/dlugosc | 1 byte | 2 byte | 3 byte | 4 byte | crc
     uint8_t data[MAXLENPROTO + 4];
@@ -81,6 +82,8 @@ protected:
     CRC8 crc;
 
     Work actWork;
+    uint8_t nrDozownika;
+    uint32_t steps;
 };
 
     

@@ -275,19 +275,22 @@ QByteArray SerialMessage::welcomeMsg()
     return prepareMessage(WELCOME_REQ, NULL, 0);
 }
 
-QByteArray SerialMessage::homePositionMsg()
+QByteArray SerialMessage::homePositionMsg(short dozownikNr)
 {
-    return prepareMessage(MOVEHOME_REQ, NULL, 0);
+    uint8_t tab[1];
+    tab[0] = dozownikNr & 0xff;
+    return prepareMessage(MOVEHOME_REQ, tab, 1);
 }
 
-QByteArray SerialMessage::positionMsg(uint32_t x)
+QByteArray SerialMessage::positionMsg(short dozownikNr, uint32_t x)
 {
-    uint8_t tab[8];
-    tab[0] = (x >> 24) & 0xff;
-    tab[1] = (x >> 16) & 0xff;
-    tab[2] = (x >> 8) & 0xff;
-    tab[3] = x & 0xff;
-    return prepareMessage(POSITION_REQ, tab, 4);
+    uint8_t tab[5];
+    tab[0] = dozownikNr & 0xff;
+    tab[1] = (x >> 24) & 0xff;
+    tab[2] = (x >> 16) & 0xff;
+    tab[3] = (x >> 8) & 0xff;
+    tab[4] = x & 0xff;
+    return prepareMessage(POSITION_REQ, tab, 5);
 }
 
 QByteArray SerialMessage::echoMsg()

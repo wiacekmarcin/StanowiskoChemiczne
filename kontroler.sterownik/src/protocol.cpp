@@ -1,5 +1,5 @@
 #include "protocol.hpp"
-
+#include "silnik.hpp"
 
 
 void Message::init() 
@@ -61,20 +61,24 @@ bool Message::parse() {
         
         case POSITION_REQ: 
         {
-            
+            nrDozownika = data[0];
+            steps = Silnik::maxSteps = (data[1] << 24) | (data[2] << 16) | (data[3] << 8) | data[4];
             actWork = POS_START;
             return true;
         }
         
         case MOVEHOME_REQ:
         {
-            
+            nrDozownika = data[0];
             actWork = RETURN_HOME;
             return true;
         }
         case SET_PARAM_REQ:
         {
-            actWork = SET_PARAM;
+            Silnik::reverse = data[0] == 0x01;
+            Silnik::maxSteps = (data[1] << 24) | (data[2] << 16) | (data[3] << 8) | data[4];
+            sendMessage(SET_PARAM_REP, NULL, 0);
+            actWork = NOP;
             return true;
         }
         
@@ -86,7 +90,7 @@ bool Message::parse() {
     return false;
 }
 
-void Message::sendMessage(uint8_t cmd, uint8_t* buf, uint8_t len)
+void Message::sendMessage(uint8_t cmd, uint8_t* buf, uint8_t len) const
 {
     if (len > 15)
         return;
@@ -102,9 +106,37 @@ void Message::sendMessage(uint8_t cmd, uint8_t* buf, uint8_t len)
     messageWrite(sendData, len+2);
 }
 
-void Message::messageWrite(uint8_t* buf, uint8_t len)
+void Message::messageWrite(uint8_t* buf, uint8_t len) const
 {
     Serial1.write(buf, len);
 }
 
+uint8_t Message::getNrDozownika() const 
+{
+    return nrDozownika;
+}
 
+uint32_t Message::getSteps() const 
+{
+    return steps;
+}
+
+void Message::setHomeDone(uint32_t steps) const
+{
+    uint8_t tab[4];
+    tab[0] = (steps >> 24) & 0xff;
+    tab[1] = (steps >> 16) & 0xff;
+    tab[2] = (steps >> 8) & 0xff;
+    tab[3] = steps & 0xff;
+    sendMessage(MOVEHOME_REP, tab, 4);
+}
+
+void Message::setPosDone(uint32_t steps) const
+{
+    uint8_t tab[4];
+    tab[0] = (steps >> 24) & 0xff;
+    tab[1] = (steps >> 16) & 0xff;
+    tab[2] = (steps >> 8) & 0xff;
+    tab[3] = steps & 0xff;
+    sendMessage(POSITION_REP, tab, 4);
+}

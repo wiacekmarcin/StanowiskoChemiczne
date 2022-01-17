@@ -23,11 +23,13 @@ class Silnik
 		~Silnik();
 
 		void init();
-		void start(int steps);
+		uint32_t start(int32_t steps);
 		void stop();
+		uint32_t home();
 
 		inline void interruptFun() { stopNow = true; }
 		static unsigned int maxSteps;
+		static bool reverse;
 private:
 	const uint8_t enPin;
 	const uint8_t dirPin;
@@ -35,6 +37,8 @@ private:
 	const uint8_t limitPin;
 	volatile bool stopNow;
 	void (*intFunPtr)();
+
+
 	
 	
 
