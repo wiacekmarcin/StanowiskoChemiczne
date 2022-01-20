@@ -8,16 +8,18 @@ void setup() {
   Serial1.begin(115200);
 
   msg.init();
+
+  pinMode(A3, OUTPUT);
+  digitalWrite(A3, HIGH);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-      if (Serial.available())  
+      if (Serial.available() > 0)  
         msg.check1(Serial.read());
       
-      if (Serial1.available()) {
+      if (Serial1.available() > 0) {
         msg.check2(Serial1.read());
       }
-
             
 }

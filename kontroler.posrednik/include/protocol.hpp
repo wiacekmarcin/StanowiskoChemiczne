@@ -49,7 +49,8 @@ class Message {
         ECHO_REP = 8,
         MOVEHOME_REQ = 9,
         MOVEHOME_REP = 10,
-        
+        RESET_REQ = 11,
+        RESET_REP = 12,
         ERROR_REP = 15,
     } CMD;
 
@@ -86,6 +87,8 @@ protected:
 
     void messageWrite1(uint8_t *buf, uint8_t len);
     void messageWrite2(uint8_t *buf, uint8_t len);
+
+    void sendError(uint8_t *buf, uint8_t len) { sendMessage1(ERROR_REP, buf, len); }; 
     
     // rozkaz/dlugosc | 1 byte | 2 byte | 3 byte | 4 byte | crc
     uint8_t data[2][MAXLENPROTO + 4];

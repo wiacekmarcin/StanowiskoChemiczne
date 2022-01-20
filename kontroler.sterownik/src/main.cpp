@@ -50,16 +50,22 @@ void setup() {
   s[4].init();
 
   Serial1.begin(115200);
+  Serial.begin(115200);
+  delay(100);
+  msg.setResetDone();
+  Silnik::maxSteps = 0;
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if (Serial1.available()) {
-    if (msg.check(Serial.read())) {
+  if (Serial1.available() > 0) {
+    if (msg.check(Serial1.read())) {
       if (msg.getStatusWork() == msg.RETURN_HOME) {
         msg.setHomeDone(s[msg.getNrDozownika()].home());
+        Serial.print("Done Home");
       } else if (msg.getStatusWork() == msg.POS_START) {
         msg.setPosDone(s[msg.getNrDozownika()].start(msg.getSteps()));
+        Serial.print("Done pos");
       }
     }
   }

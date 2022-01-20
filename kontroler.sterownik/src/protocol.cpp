@@ -13,6 +13,11 @@ void Message::init()
 bool Message::check(unsigned char c)
 {
     data[posCmd++] = c;
+    Serial.print("recv=");
+    Serial.print((char)c);
+    Serial.print(" ");
+    Serial.println(c, HEX);
+
     if (posCmd-1 == 0) {    
         crc.restart();
         crc.add(data[0]);
@@ -26,13 +31,15 @@ bool Message::check(unsigned char c)
         if (data[posCmd-1] == c) {
             posCmd = 0;
             bool r = parse();
-            if (!r)
-                //sendError("ZLY ROZKAZ", 10);
-                ;
+            if (!r) {
+                sendError("ZLY ROZKAZ", 10);
+                Serial.println("Zly rozkaz");
+            }
             return r;
         }
         posCmd = 0;
-        //sendError("ZLE CRC ", 7);
+        sendError("ZLE CRC ", 7);
+        Serial.println("Zly rozkaz");
         return false;
 
     }
@@ -42,7 +49,8 @@ bool Message::check(unsigned char c)
     
     if (posCmd == MAXLENPROTO) {
         posCmd = 0;
-        //sendError("ZBYT DUZA WIAD.", 15);
+        sendError("ZBYT DUZA WIAD.", 15);
+        Serial.println("zbyt duza wiadomosc");
         return false;    
     }
     return false;
@@ -61,28 +69,38 @@ bool Message::parse() {
         
         case POSITION_REQ: 
         {
-            nrDozownika = data[0];
-            steps = Silnik::maxSteps = (data[1] << 24) | (data[2] << 16) | (data[3] << 8) | data[4];
+            nrDozownika = data[1];
+            steps = Silnik::maxSteps = (data[2] << 24) | (data[3] << 16) | (data[4] << 8) | data[5];
             actWork = POS_START;
+            Serial.print("Dozownik=");
+            Serial.println(nrDozownika,DEC);
+            Serial.print("steps=");
+            Serial.println(steps,DEC);
             return true;
         }
         
         case MOVEHOME_REQ:
         {
-            nrDozownika = data[0];
+            nrDozownika = data[1];
+            Serial.print("Dozownik=");
+            Serial.println(nrDozownika,DEC);
             actWork = RETURN_HOME;
             return true;
         }
         case SET_PARAM_REQ:
         {
-            Silnik::reverse = data[0] == 0x01;
-            Silnik::maxSteps = (data[1] << 24) | (data[2] << 16) | (data[3] << 8) | data[4];
+            Silnik::reverse = data[1] == 0x01;
+            Silnik::maxSteps = (data[2] << 24) | (data[3] << 16) | (data[4] << 8) | data[5];
             sendMessage(SET_PARAM_REP, NULL, 0);
+            Serial.print("maxsteps=");
+            Serial.println(Silnik::maxSteps,DEC);
             actWork = NOP;
             return true;
         }
         
         default:
+            sendError("NIEZNANA WIAD.", 14);
+            Serial.println("Nieznana wiadomosc");
             break;
 
     }
@@ -139,4 +157,9 @@ void Message::setPosDone(uint32_t steps) const
     tab[2] = (steps >> 8) & 0xff;
     tab[3] = steps & 0xff;
     sendMessage(POSITION_REP, tab, 4);
+}
+
+void Message::setResetDone() const
+{
+    sendMessage(RESET_REP, nullptr, 0);
 }

@@ -33,12 +33,12 @@ bool Message::check(uint8_t s, unsigned char c)
             posCmd[s] = 0;
             bool r = parse(s);
             if (!r)
-                //sendError("ZLY ROZKAZ", 10);
+                sendError("ZLY ROZKAZ", 10);
                 ;
             return r;
         }
         posCmd[s] = 0;
-        //sendError("ZLE CRC ", 7);
+        sendError("ZLE CRC ", 7);
         return false;
 
     }
@@ -48,7 +48,7 @@ bool Message::check(uint8_t s, unsigned char c)
     
     if (posCmd[s] == MAXLENPROTO) {
         posCmd[s] = 0;
-        //sendError("ZBYT DUZA WIAD.", 15);
+        sendError("ZBYT DUZA WIAD.", 15);
         return false;    
     }
     return false;
@@ -78,35 +78,45 @@ bool Message::parse1() {
         {                          //1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
             uint8_t sendData[15] = {'K','O','N','T','R','O','L','E','R','P','O','S','R','E', 'D'};
             sendMessage1(WELCOME_REP, sendData, 15);
-            //actWork = NOP;
             return true;
         }
         case POSITION_REQ: 
         {
+            Serial.print("recv pos req ");
+            Serial.print(dlugosc[0] + 2);
             sendRawMessage2(data[0], dlugosc[0] + 2);            
-            //actWork = POS_START;
             return true;
         }
         case ECHO_REQ: 
         {
             sendMessage1(ECHO_REP, nullptr, 0);
-            //actWork = NOP;
             return true;
         }
         case MOVEHOME_REQ:
         {
+            Serial.print("move home req ");
+            Serial.print(dlugosc[0] + 2);
             sendRawMessage2(data[0], dlugosc[0]+2);
-            //actWork = RETURN_HOME;
             return true;
         }
         case SET_PARAM_REQ:
         {
-            //actWork = SET_PARAM;
+            Serial.print("params set req ");
+            Serial.print(dlugosc[0] + 2);
             sendRawMessage2(data[0], dlugosc[0]+2);
+            return true;
+        }
+        case RESET_REQ: 
+        {
+            digitalWrite(A3, LOW);
+            delay(1000);
+            digitalWrite(A3, HIGH);
+            //sendMessage1(RESET_REP, nullptr, 0);
             return true;
         }
         
         default:
+            Serial.println("Nieznany rozkaz\n");
             break;
 
     }
@@ -122,23 +132,32 @@ bool Message::parse2() {
         case POSITION_REP: 
         {
             sendRawMessage1(data[1], dlugosc[1] + 2);            
-            //actWork = NOP;
             return true;
         }
         case MOVEHOME_REP:
         {
             sendRawMessage1(data[1], dlugosc[1]+2);
-            //actWork = NOP;
             return true;
         }
         case SET_PARAM_REP:
         {
-            //actWork = NOP;
             sendRawMessage1(data[1], dlugosc[1]+2);
             return true;
         }
-        
+        case ERROR_REP: 
+        {
+            sendRawMessage1(data[1], dlugosc[1]+2);
+            return true;
+        }
+        case RESET_REP:
+        {
+            sendRawMessage1(data[1], dlugosc[1]+2);
+            return true;
+        }
         default:
+            Serial.print("Nie znany rozkaz z Serial1\n");
+            uint8_t buf[16] = "S1:Niezn.rozkaz";
+            sendError(buf, 15);
             break;
 
     }

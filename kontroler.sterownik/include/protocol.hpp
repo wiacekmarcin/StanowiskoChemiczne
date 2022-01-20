@@ -45,7 +45,8 @@ class Message {
         POSITION_REP = 6,
         MOVEHOME_REQ = 9,
         MOVEHOME_REP = 10,
-        
+        RESET_REQ = 11,
+        RESET_REP = 12,
         ERROR_REP = 15,
     } CMD;
 
@@ -64,14 +65,16 @@ class Message {
 
     void setHomeDone(uint32_t steps) const;
     void setPosDone(uint32_t steps) const;
+    void setResetDone() const;
 
 protected:
 
     bool parse();
-    
+       
 
     void sendMessage(uint8_t cmd, uint8_t *buf, uint8_t len) const;
     void messageWrite(uint8_t *buf, uint8_t len) const;
+    void sendError(uint8_t *buf, uint8_t len) { sendMessage (ERROR_REP, buf, len); }; 
     
     // rozkaz/dlugosc | 1 byte | 2 byte | 3 byte | 4 byte | crc
     uint8_t data[MAXLENPROTO + 4];
