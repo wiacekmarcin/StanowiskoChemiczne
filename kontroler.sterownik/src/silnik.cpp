@@ -23,30 +23,30 @@ void Silnik::init()
     //attachInterrupt(digitalPinToInterrupt(limitPin), [this](){ interruptFun(); }, CHANGE);
 }
 
-uint32_t Silnik::start(int32_t steps)
+uint32_t Silnik::start(uint32_t steps)
 {
     attachInterrupt(digitalPinToInterrupt(limitPin), intFunPtr, FALLING);
-    digitalWrite(dirPin , steps > 0 ? HIGH : LOW);
+    digitalWrite(dirPin , goForward(true));
     digitalWrite(enPin, HIGH);
     stopNow = false;
     if (steps < 0)
         steps = -steps;
-    uint32_t usteps = steps;    
     uint32_t s = 0;    
-    for (; s < usteps && s < maxSteps && !stopNow; s++) {
+    for (; s < steps && s < maxSteps /* && !stopNow */; s++) {
         digitalWrite(pulsePin, LOW);
         delay(100);
         digitalWrite(pulsePin, HIGH);
         delay(100);
     }
     stop();
+    digitalWrite(dirPin , goForward(false));
     return s;
 }
 
 uint32_t Silnik::home()
 {
     attachInterrupt(digitalPinToInterrupt(limitPin), intFunPtr, FALLING);
-    digitalWrite(dirPin , LOW);
+    digitalWrite(dirPin , goBack(true));
     digitalWrite(enPin, HIGH);
     stopNow = false;
     uint32_t s = 0;
@@ -57,6 +57,7 @@ uint32_t Silnik::home()
         delay(100);
     }
     stop();
+    digitalWrite(dirPin , goBack(false));
     return s;
 }
 
@@ -65,3 +66,9 @@ void Silnik::stop()
     detachInterrupt(digitalPinToInterrupt(limitPin));
     digitalWrite(enPin, LOW);
 }
+
+uint8_t Silnik::goBack(bool val) const
+{
+    return ((reverse ^ val) ? HIGH : LOW);
+}
+

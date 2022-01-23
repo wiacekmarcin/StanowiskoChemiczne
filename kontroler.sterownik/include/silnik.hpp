@@ -23,13 +23,15 @@ class Silnik
 		~Silnik();
 
 		void init();
-		uint32_t start(int32_t steps);
+		uint32_t start(uint32_t steps);
 		void stop();
 		uint32_t home();
 
 		inline void interruptFun() { stopNow = true; }
 		static unsigned int maxSteps;
 		static bool reverse;
+		uint8_t goBack(bool val) const;
+		uint8_t goForward(bool val) const { return ((goBack(val) == LOW) ? HIGH : LOW); } 
 private:
 	const uint8_t enPin;
 	const uint8_t dirPin;

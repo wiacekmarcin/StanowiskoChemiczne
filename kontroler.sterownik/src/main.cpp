@@ -2,19 +2,19 @@
 #include "silnik.hpp"
 #include "protocol.hpp"
 
-#define ENPIN 18
+#define ENPIN 18 //LPT 14
 
-#define DIR1PIN 39
-#define DIR2PIN 14
-#define DIR3PIN 15
-#define DIR4PIN 16
-#define DIR5PIN 17
+#define DIR1PIN 39 //LPT 4
+#define DIR2PIN 14 //LPT 17
+#define DIR3PIN 15 //LPT 8
+#define DIR4PIN 16 //LPT 3
+#define DIR5PIN 17 //LPT 6
 
-#define PULSE1PIN 12
-#define PULSE2PIN 11
-#define PULSE3PIN 8
-#define PULSE4PIN 7
-#define PULSE5PIN 6
+#define PULSE1PIN 12 //LPT 16
+#define PULSE2PIN 11 //LPT 17
+#define PULSE3PIN 8 //LPT 7
+#define PULSE4PIN 7 //LPT 9
+#define PULSE5PIN 6 //LPT 5
 
 #define LIMIT1PIN 5
 #define LIMIT2PIN 4
@@ -30,7 +30,7 @@ void interS5();
 
 
 Silnik s[5] = {
-  {ENPIN, DIR1PIN, PULSE1PIN, LIMIT1PIN, interS1},
+  {ENPIN, DIR1PIN, PULSE1PIN, LIMIT1PIN, interS1}, 
   {ENPIN, DIR2PIN, PULSE2PIN, LIMIT2PIN, interS2},
   {ENPIN, DIR3PIN, PULSE3PIN, LIMIT3PIN, interS3},
   {ENPIN, DIR4PIN, PULSE4PIN, LIMIT4PIN, interS4},
