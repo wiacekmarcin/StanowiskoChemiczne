@@ -4,14 +4,14 @@
 
 #define ENPIN 18 //LPT 14
 
-#define DIR1PIN 39 //LPT 4
+#define DIR1PIN 16 //LPT 4
 #define DIR2PIN 14 //LPT 17
 #define DIR3PIN 15 //LPT 8
-#define DIR4PIN 16 //LPT 3
+#define DIR4PIN 39 //LPT 3
 #define DIR5PIN 17 //LPT 6
 
 #define PULSE1PIN 12 //LPT 16
-#define PULSE2PIN 11 //LPT 17
+#define PULSE2PIN 11 //LPT 1
 #define PULSE3PIN 8 //LPT 7
 #define PULSE4PIN 7 //LPT 9
 #define PULSE5PIN 6 //LPT 5
@@ -21,6 +21,14 @@
 #define LIMIT3PIN 3
 #define LIMIT4PIN 2
 #define LIMIT5PIN 21
+
+enum Dozowniknr {
+  X = 0,
+  Y = 1,
+  Z = 2,
+  C = 3,
+  D = 4,
+}
 
 void interS1();
 void interS2();
@@ -43,6 +51,7 @@ Message msg;
 void setup() {
   // put your setup code here, to run once:
   pinMode(ENPIN, OUTPUT);
+  digitalWrite(ENPIN, LOW);
   s[0].init();
   s[1].init();
   s[2].init();
@@ -54,7 +63,10 @@ void setup() {
   delay(100);
   msg.setResetDone();
   Silnik::maxSteps = 0;
+
+  pinMode(13, OUTPUT);
 }
+
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -70,6 +82,7 @@ void loop() {
     }
   }
 }
+
 
 void interS1() {
   s[0].interruptFun();
