@@ -80,8 +80,8 @@ protected:
     bool openDevice(const QSerialPortInfo & port);
 
     QByteArray welcomeMsg();
-    QByteArray homePositionMsg();
-    QByteArray positionMsg(uint32_t x);
+    QByteArray homePositionMsg(short DozownikNr);
+    QByteArray positionMsg(short DozownikNr, uint32_t x);
     QByteArray echoMsg();
 
     bool checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & len, QByteArray & data);
