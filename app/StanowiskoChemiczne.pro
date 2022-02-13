@@ -140,4 +140,10 @@ RESOURCES += \
     ikony.qrc
 
 DISTFILES += \
-    StanowiskoChemiczne_pl_PL.ts
+    StanowiskoChemiczne_pl_PL.ts \
+    path
+
+win32: LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib/msvc/ -lNIDAQmx
+
+INCLUDEPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include
+DEPENDPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include

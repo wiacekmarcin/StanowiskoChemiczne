@@ -19,19 +19,21 @@ int main(void)
     // DAQmx Configure Code
     /*********************************************/
     DAQmxErrChk (DAQmxCreateTask("",&taskHandle));
-    DAQmxErrChk (DAQmxCreateDIChan(taskHandle,"Dev1/port0","",DAQmx_Val_ChanForAllLines));
+    DAQmxErrChk (DAQmxCreateDIChan(taskHandle,"Dev1/port2","",DAQmx_Val_ChanForAllLines));
 
     /*********************************************/
     // DAQmx Start Code
     /*********************************************/
     DAQmxErrChk (DAQmxStartTask(taskHandle));
 
+    for (int i = 0; i < 100; i++) {
     /*********************************************/
     // DAQmx Read Code
     /*********************************************/
     DAQmxErrChk (DAQmxReadDigitalU32(taskHandle,1,10.0,DAQmx_Val_GroupByChannel,&data,1,&read,NULL));
 
     printf("Data acquired: 0x%X\n",(unsigned)data);
+    }
 
 Error:
     if( DAQmxFailed(error) )
