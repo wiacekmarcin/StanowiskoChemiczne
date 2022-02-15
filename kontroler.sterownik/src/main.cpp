@@ -5,7 +5,7 @@
 #define ENPIN 18 //LPT 14
 
 #define DIR1PIN 39 //LPT 4
-#define DIR2PIN 14 //LPT 17
+#define DIR2PIN 14 //LPT 1
 #define DIR3PIN 15 //LPT 8
 #define DIR4PIN 16 //LPT 3
 #define DIR5PIN 17 //LPT 6
@@ -21,6 +21,10 @@
 #define LIMIT3PIN 3
 #define LIMIT4PIN 2
 #define LIMIT5PIN 21
+
+//1 - LPT 14
+//2 - GND LPT 9 
+//3 - LPT 8
 
 void interS1();
 void interS2();

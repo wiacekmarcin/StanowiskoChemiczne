@@ -27,7 +27,7 @@ uint32_t Silnik::start(uint32_t steps)
 {
     attachInterrupt(digitalPinToInterrupt(limitPin), intFunPtr, FALLING);
     digitalWrite(dirPin , goForward(true));
-    digitalWrite(enPin, HIGH);
+    digitalWrite(enPin, LOW);
     stopNow = false;
     if (steps < 0)
         steps = -steps;
@@ -47,7 +47,7 @@ uint32_t Silnik::home()
 {
     attachInterrupt(digitalPinToInterrupt(limitPin), intFunPtr, FALLING);
     digitalWrite(dirPin , goBack(true));
-    digitalWrite(enPin, HIGH);
+    digitalWrite(enPin, LOW);
     stopNow = false;
     uint32_t s = 0;
     for (; s < maxSteps && !stopNow; s++) {
@@ -64,7 +64,7 @@ uint32_t Silnik::home()
 void Silnik::stop()
 {
     detachInterrupt(digitalPinToInterrupt(limitPin));
-    digitalWrite(enPin, LOW);
+    digitalWrite(enPin, HIGH    `);
 }
 
 uint8_t Silnik::goBack(bool val) const
