@@ -244,7 +244,7 @@ void Urzadzenia::on_steps_valueChanged(int arg1)
 
 void Urzadzenia::on_pbUstaw_clicked()
 {
-    emit setPosition(ui->steps->value());
+    emit setPosition(getDozownikNr(), ui->steps->value());
 }
 
 
@@ -263,6 +263,6 @@ void Urzadzenia::on_parameters_clicked()
 
 void Urzadzenia::on_pbReturn_clicked()
 {
-    emit setPositionHome();
+    emit setPositionHome(getDozownikNr());
 }
 

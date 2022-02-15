@@ -205,11 +205,11 @@ void SerialMessage::echo()
     writeMessage(echoMsg());
 }
 
-void SerialMessage::setPositionHome()
+void SerialMessage::setPositionHome(short DozownikNr)
 {
-    emit debug(QString(homePositionMsg().toHex().toStdString().c_str()));
+    emit debug(QString(homePositionMsg(DozownikNr).toHex().toStdString().c_str()));
     emit debug(QString("Ustawiam pozycje startowa"));
-    writeMessage(homePositionMsg());
+    writeMessage(homePositionMsg(DozownikNr));
 }
 
 void SerialMessage::setSettings(bool reverse, uint32_t maxImp)
@@ -224,11 +224,11 @@ void SerialMessage::doneSettings()
     emit setParamsDone();
 }
 
-void SerialMessage::setPosition(uint32_t x)
+void SerialMessage::setPosition(short DozownikNr, uint32_t x)
 {
     //emit debug(QString(positionMsg(x, y).toHex().toStdString().c_str()));
     emit debug(QString("Ustawiam pozycje %1").arg(x));
-    writeMessage(positionMsg(x));
+    writeMessage(positionMsg(DozownikNr, x));
 }
 
 void SerialMessage::closeDevice()

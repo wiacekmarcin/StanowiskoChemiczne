@@ -71,10 +71,11 @@ signals:
     /* serial */
     void connectToSerial();
     void echo();
-    void setPositionHome();
+    void setPositionHome(short dozownikNr);
     void setSettings(bool reverse, uint32_t maxImp);
-    void setPosition(uint32_t x);
-
+    void setPosition(short dozownikNr, uint32_t x);
+protected:
+    short getDozownikNr() { return 0; };
 private:
     Ui::Urzadzenia *ui;
     SerialMessage smg;

@@ -1,23 +1,35 @@
-QMAKE_CXX.QT_COMPILER_STDCXX = 201402L
-QMAKE_CXX.QMAKE_GCC_MAJOR_VERSION = 9
-QMAKE_CXX.QMAKE_GCC_MINOR_VERSION = 3
-QMAKE_CXX.QMAKE_GCC_PATCH_VERSION = 0
+QMAKE_CXX.QT_COMPILER_STDCXX = 199711L
+QMAKE_CXX.QMAKE_MSC_VER = 1930
+QMAKE_CXX.QMAKE_MSC_FULL_VER = 193030709
 QMAKE_CXX.COMPILER_MACROS = \
     QT_COMPILER_STDCXX \
-    QMAKE_GCC_MAJOR_VERSION \
-    QMAKE_GCC_MINOR_VERSION \
-    QMAKE_GCC_PATCH_VERSION
+    QMAKE_MSC_VER \
+    QMAKE_MSC_FULL_VER
 QMAKE_CXX.INCDIRS = \
-    /usr/include/c++/9 \
-    /usr/include/x86_64-linux-gnu/c++/9 \
-    /usr/include/c++/9/backward \
-    /usr/lib/gcc/x86_64-linux-gnu/9/include \
-    /usr/local/include \
-    /usr/include/x86_64-linux-gnu \
-    /usr/include
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\ATLMFC\\include \
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\include \
+    "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\include\\um" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.20348.0\\ucrt" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\shared" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\um" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\winrt" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\cppwinrt" \
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\ATLMFC\\include \
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\include \
+    "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\include\\um" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.20348.0\\ucrt" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\shared" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\um" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\winrt" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.20348.0\\\\cppwinrt"
 QMAKE_CXX.LIBDIRS = \
-    /usr/lib/gcc/x86_64-linux-gnu/9 \
-    /usr/lib/x86_64-linux-gnu \
-    /usr/lib \
-    /lib/x86_64-linux-gnu \
-    /lib
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\ATLMFC\\lib\\x86 \
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\lib\\x86 \
+    "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\lib\\um\\x86" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\lib\\10.0.20348.0\\ucrt\\x86" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.20348.0\\\\um\\x86" \
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\ATLMFC\\lib\\x64 \
+    C:\\MicrosoftVisualStudio\\2022\\Community\\VC\\Tools\\MSVC\\14.30.30705\\lib\\x64 \
+    "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\lib\\um\\x64" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\lib\\10.0.20348.0\\ucrt\\x64" \
+    "C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.20348.0\\\\um\\x64"
