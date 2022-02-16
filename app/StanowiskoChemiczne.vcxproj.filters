@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\crc8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\czujnikanalogowyustawieniawidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\czujnikanalogowywidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\czujnikianalogoweokno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\czujnikanalogowyustawieniaokno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\digitaloutwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\glowneokno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowyprojectdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\oknostatusowe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\otwartezawory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\serialmessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\stanczujnika.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\videowidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\ustawieniadozownikaokno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\sygnalanalparam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\wejsciaanalogowe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\createtestwizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytestdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\projectitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\testdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\testpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\testpageform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\projektwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\testtabswidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_7.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\nowytest_8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\disablebutton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\dispushbutton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\highlowdigitalwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\urzadzenia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\src\ustawienia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\EWIEGA46WW\qrc_ikony.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_czujnikanalogowyustawieniawidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_czujnikanalogowywidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_disablebutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_glowneokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_highlowdigitalwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowyprojectdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_7.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytest_8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_nowytestdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_oknostatusowe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_otwartezawory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_projektwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_stanczujnika.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_testpageform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_testtabswidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_urzadzenia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_ustawieniadozownikaokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Debug\ui_videowidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_czujnikanalogowyustawieniawidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_czujnikanalogowywidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_disablebutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_glowneokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_highlowdigitalwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowyprojectdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_7.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytest_8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_nowytestdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_oknostatusowe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_otwartezawory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_projektwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_stanczujnika.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_testpageform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_testtabswidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_urzadzenia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_ustawieniadozownikaokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_Release\ui_videowidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_czujnikanalogowyustawieniawidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_czujnikanalogowywidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_disablebutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_glowneokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_highlowdigitalwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowyprojectdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_7.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytest_8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_nowytestdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_oknostatusowe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_otwartezawory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_projektwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_stanczujnika.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_testpageform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_testtabswidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_urzadzenia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_ustawieniadozownikaokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_MinSizeRel\ui_videowidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_czujnikanalogowyustawieniawidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_czujnikanalogowywidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_disablebutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_glowneokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_highlowdigitalwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowyprojectdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_7.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytest_8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_nowytestdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_oknostatusowe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_otwartezawory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_projektwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_stanczujnika.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_testpageform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_testtabswidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_urzadzenia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_ustawieniadozownikaokno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\include_RelWithDebInfo\ui_videowidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Devel\StanowiskoChemiczne\app\CMakeFiles\b2008145d1d2f65dc6ca0d3210bcc17f\autouic_(CONFIG).stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Devel\StanowiskoChemiczne\app\CMakeFiles\ddaaa47093d8ff350f5411df9e011687\qrc_ikony.cpp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Devel\StanowiskoChemiczne\app\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\czujnikanalogowyustawieniawidget.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\czujnikanalogowywidget.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\digitaloutwidget.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\glowneokno.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowyprojectdlg.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\oknostatusowe.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\otwartezawory.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\stanczujnika.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\videowidget.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\ustawieniadozownikaokno.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_1.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytestdlg.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\testpageform.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\projektwidget.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\testtabswidget.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_2.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_3.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_4.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_5.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_6.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_7.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\nowytest_8.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\disablebutton.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\highlowdigitalwidget.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\form\urzadzenia.ui" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\ikony.qrc" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\autouic_Debug.stamp" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\autouic_Release.stamp" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\autouic_MinSizeRel.stamp" />
+    <None Include="C:\Devel\StanowiskoChemiczne\app\StanowiskoChemiczne_autogen\autouic_RelWithDebInfo.stamp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{798697C9-C6AB-3C63-989D-744AA29B1E28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0CE96798-0D56-30C6-9D11-0402007801F0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D671136A-298C-3A60-8004-3D5426729186}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
