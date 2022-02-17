@@ -19,7 +19,7 @@ find_package(Qt5 REQUIRED Core Gui Widgets Multimedia MultimediaWidgets SerialPo
 
 
 # Dodaj źródło do pliku wykonywalnego tego projektu.
-add_executable (CMakeProject2 "main.cpp"
+add_executable (StanowiskoChemiczne "main.cpp"
     "crc8.cpp" "crc8.h"
     "czujnikanalogowyustawieniawidget.cpp" "czujnikanalogowyustawieniawidget.h" "czujnikanalogowyustawieniawidget.ui"
     "czujnikanalogowywidget.cpp" "czujnikanalogowywidget.h" "czujnikanalogowywidget.ui"
@@ -62,9 +62,9 @@ add_executable (CMakeProject2 "main.cpp"
 )    
 #set_property(CMakeProject2 "CMakeProject2.cpp" PROPERTY SKIP_AUTOGEN ON)
 
-target_link_libraries(CMakeProject2 C:\\Users\\Marcin\\source\\repos\\CMakeProject2\\DAQmx_ANSI_C_Dev\\lib\\msvc\\NIDAQmx.lib)
+target_link_libraries(StanowiskoChemiczne C:\\Users\\Marcin\\source\\repos\\CMakeProject2\\DAQmx_ANSI_C_Dev\\lib\\msvc\\NIDAQmx.lib)
 
-target_link_libraries(CMakeProject2 Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Multimedia Qt5::MultimediaWidgets Qt5::SerialPort)
+target_link_libraries(StanowiskoChemiczne Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Multimedia Qt5::MultimediaWidgets Qt5::SerialPort)
 
 
 

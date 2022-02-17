@@ -68,7 +68,8 @@ SOURCES += \
     dispushbutton.cpp \
     highlowdigitalwidget.cpp \
     urzadzenia.cpp \
-    ustawienia.cpp
+    ustawienia.cpp \
+    niusb6201.cpp
 
 HEADERS += \
     crc8.h \
@@ -107,7 +108,8 @@ HEADERS += \
     dispushbutton.h \
     highlowdigitalwidget.h \
     urzadzenia.h \
-    ustawienia.h
+    ustawienia.h \
+    niusb6201.h
 
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \
