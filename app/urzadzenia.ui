@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>823</width>
-    <height>658</height>
+    <height>751</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -150,70 +150,25 @@
      <property name="title">
       <string>Wyjścia cyfrowe</string>
      </property>
-     <layout class="QFormLayout" name="formLayout_3">
-      <item row="0" column="0" colspan="2">
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="title">
-         <string>Iskra elektryczna</string>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="3" column="0">
+       <widget class="QLabel" name="l_out_6">
+        <property name="text">
+         <string>Pompa próżniowa</string>
         </property>
-        <layout class="QFormLayout" name="formLayout_4">
-         <item row="0" column="0">
-          <widget class="QLabel" name="l_out_1">
-           <property name="text">
-            <string>ON/OFF</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="DigitalOutWidget" name="out_1" native="true"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="l_out_2">
-           <property name="text">
-            <string>High Voltage</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="DigitalOutWidget" name="out_2" native="true"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="l_out_3">
-           <property name="text">
-            <string>Zapłon</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="DigitalOutWidget" name="out_3" native="true"/>
-         </item>
-        </layout>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="l_out_a">
+        <property name="text">
+         <string>Trigger kamery</string>
+        </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="l_out_4">
         <property name="text">
          <string>Iskra mechaniczna (ON/OFF silnik DC)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QWidget" name="out_4" native="true"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="l_out_5">
-        <property name="text">
-         <string>Płomień (ON/OFF grzałki)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="DigitalOutWidget" name="out_5" native="true"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="l_out_6">
-        <property name="text">
-         <string>Pompa próżniowa</string>
         </property>
        </widget>
       </item>
@@ -230,6 +185,19 @@
       <item row="4" column="1">
        <widget class="DigitalOutWidget" name="out_7" native="true"/>
       </item>
+      <item row="6" column="1">
+       <widget class="DigitalOutWidget" name="out_9" native="true"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="l_out_9">
+        <property name="text">
+         <string>Mieszadło</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="DigitalOutWidget" name="out_5" native="true"/>
+      </item>
       <item row="5" column="0">
        <widget class="QLabel" name="l_out_8">
         <property name="text">
@@ -240,25 +208,127 @@
       <item row="5" column="1">
        <widget class="DigitalOutWidget" name="out_8" native="true"/>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="l_out_9">
-        <property name="text">
-         <string>Mieszadło</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="DigitalOutWidget" name="out_9" native="true"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="l_out_10">
-        <property name="text">
-         <string>Trigger kamery</string>
-        </property>
-       </widget>
+      <item row="1" column="1">
+       <widget class="DigitalOutWidget" name="out_4" native="true"/>
       </item>
       <item row="7" column="1">
-       <widget class="DigitalOutWidget" name="out_10" native="true"/>
+       <widget class="DigitalOutWidget" name="out_a" native="true"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="l_out_5">
+        <property name="text">
+         <string>Płomień (ON/OFF grzałki)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="tb_out_4">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>Iskra elektryczna</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="1" column="1">
+          <widget class="DigitalOutWidget" name="out_2" native="true"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="l_out_3">
+           <property name="text">
+            <string>Zapłon</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="DigitalOutWidget" name="out_3" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="l_out_1">
+           <property name="text">
+            <string>ON/OFF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="l_out_2">
+           <property name="text">
+            <string>High Voltage</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="DigitalOutWidget" name="out_1" native="true"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QToolButton" name="tb_out_1">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QToolButton" name="tb_out_2">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QToolButton" name="tb_out_3">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QToolButton" name="tb_out_5">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QToolButton" name="tb_out_6">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QToolButton" name="tb_out_7">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QToolButton" name="tb_out_8">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QToolButton" name="tb_out_9">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QToolButton" name="tb_out_a">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

@@ -46,7 +46,7 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     timer100.setInterval(100);
     connect(&timer100, &QTimer::timeout, this, &Urzadzenia::timeout100ms);
     timer100.start();
-    dio.configure();
+    //dio.configure();
 }
 
 
@@ -86,7 +86,7 @@ void Urzadzenia::setLabels(const Ustawienia &ust)
     ui->l_out_7->setText(ust.wyjscie(7));
     ui->l_out_8->setText(ust.wyjscie(8));
     ui->l_out_9->setText(ust.wyjscie(9));
-    ui->l_out_10->setText(ust.wyjscie(10));
+    ui->l_out_a->setText(ust.wyjscie(10));
 
 
 }
@@ -274,12 +274,12 @@ void Urzadzenia::on_pbReturn_clicked()
 
 void Urzadzenia::timeout100ms()
 {
+    /*
     uint16_t val;
     if (!dio.readValue(val)) {
         dio.configure();
         return;
     }
-    qDebug("%04x", ~val);
     ui->in_1->setValue(~val & 0x01);
     ui->in_2->setValue(~val & 0x02);
     ui->in_3->setValue(~val & 0x04);
@@ -289,5 +289,136 @@ void Urzadzenia::timeout100ms()
     ui->in_7->setValue(~val & 0x40);
     ui->in_8->setValue(~val & 0x80);
     ui->in_9->setValue(~val & 0x100);
+    */
 }
 
+
+void Urzadzenia::on_tb_out_1_clicked()
+{
+    if (ui->tb_out_1->text() == QString("L")) {
+        ui->tb_out_1->setText("H");
+        //dio->set(vals | 0x1);
+        ui->out_1->setLevel(true);
+    } else {
+        ui->tb_out_1->setText("L");
+        //dio->set(vals & ~0x1);
+        ui->out_1->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_2_clicked()
+{
+    if (ui->tb_out_2->text() == QString("L")) {
+        ui->tb_out_2->setText("H");
+        //dio->set(vals | 0x2);
+        ui->out_2->setLevel(true);
+    } else {
+        ui->tb_out_2->setText("L");
+        //dio->set(vals & ~0x2);
+        ui->out_2->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_3_clicked()
+{
+    if (ui->tb_out_3->text() == QString("L")) {
+        ui->tb_out_3->setText("H");
+        //dio->set(vals | 0x4);
+        ui->out_3->setLevel(true);
+    } else {
+        ui->tb_out_3->setText("L");
+        //dio->set(vals & ~0x4);
+        ui->out_3->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_4_clicked()
+{
+    if (ui->tb_out_4->text() == QString("L")) {
+        ui->tb_out_4->setText("H");
+        //dio->set(vals | 0x8);
+        ui->out_4->setLevel(true);
+    } else {
+        ui->tb_out_4->setText("L");
+        //dio->set(vals & ~0x8);
+        ui->out_4->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_5_clicked()
+{
+    if (ui->tb_out_5->text() == QString("L")) {
+        ui->tb_out_5->setText("H");
+        //dio->set(vals | 0x10);
+        ui->out_5->setLevel(true);
+    } else {
+        ui->tb_out_5->setText("L");
+        //dio->set(vals & ~0x10);
+        ui->out_5->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_6_clicked()
+{
+    if (ui->tb_out_6->text() == QString("L")) {
+        ui->tb_out_6->setText("H");
+        //dio->set(vals | 0x20);
+        ui->out_6->setLevel(true);
+    } else {
+        ui->tb_out_6->setText("L");
+        //dio->set(vals & ~0x20);
+        ui->out_6->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_7_clicked()
+{
+    if (ui->tb_out_7->text() == QString("L")) {
+        ui->tb_out_7->setText("H");
+        //dio->set(vals | 0x40);
+        ui->out_7->setLevel(true);
+    } else {
+        ui->tb_out_7->setText("L");
+        //dio->set(vals & ~0x40);
+        ui->out_7->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_8_clicked()
+{
+    if (ui->tb_out_8->text() == QString("L")) {
+        ui->tb_out_8->setText("H");
+        //dio->set(vals | 0x80);
+        ui->out_8->setLevel(true);
+    } else {
+        ui->tb_out_8->setText("L");
+        //dio->set(vals & ~0x80);
+        ui->out_8->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_9_clicked()
+{
+    if (ui->tb_out_9->text() == QString("L")) {
+        ui->tb_out_9->setText("H");
+        //dio->set(vals | 0x100);
+        ui->out_9->setLevel(true);
+    } else {
+        ui->tb_out_9->setText("L");
+        //dio->set(vals & ~0x100);
+        ui->out_9->setLevel(false);
+    }
+}
+
+void Urzadzenia::on_tb_out_a_clicked()
+{
+    if (ui->tb_out_a->text() == QString("L")) {
+        ui->tb_out_a->setText("H");
+        //dio->set(vals | 0x200);
+        ui->out_a->setLevel(true);
+    } else {
+        ui->tb_out_a->setText("L");
+        //dio->set(vals & ~0x200);
+        ui->out_a->setLevel(false);
+    }
+}

@@ -72,6 +72,18 @@ private slots:
     void on_pbReturn_clicked();
 
     void timeout100ms();
+    void on_tb_out_1_clicked();
+    void on_tb_out_2_clicked();
+    void on_tb_out_3_clicked();
+    void on_tb_out_4_clicked();
+    void on_tb_out_5_clicked();
+    void on_tb_out_6_clicked();
+    void on_tb_out_7_clicked();
+    void on_tb_out_8_clicked();
+    void on_tb_out_9_clicked();
+    void on_tb_out_a_clicked();
+
+
 signals:
     /* serial */
     void connectToSerial();
@@ -88,8 +100,9 @@ private:
     short cntEcho;
     QTimer dozownikLoop;
     bool onlyOne;
-
+/*
     NIDAQMxUSB6501 dio;
+*/
     QTimer timer100;
 };
 

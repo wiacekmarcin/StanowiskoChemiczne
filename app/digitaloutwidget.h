@@ -26,6 +26,8 @@ private:
     QList<bool> vals;
     QPoint points[lenHistory];
 
+
 };
+
 
 #endif // DIGITALOUTWIDGET_H
