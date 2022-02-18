@@ -21,7 +21,7 @@ OtwarteZawory::~OtwarteZawory()
 
 void OtwarteZawory::set(int id, bool open)
 {
-    qDebug("OtwarteZawory::set(int id, bool open) %d %d", id, open);
+    //qDebug("OtwarteZawory::set(int id, bool open) %d %d", id, open);
     switch(id) {
     case 1:
         ui->zawor_1_open->setVisible(!open);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <NIDAQmx.h>
+#include <string>
 
 class NIDAQMxUSB6501
 {
@@ -11,7 +12,9 @@ public:
     bool configure();
     bool readValue(uInt16 & dataRead);
     bool writeValue(uInt16& dataWrite);
+    std::string errStr();
 
+    bool isConnected();
 protected:
     void errorFun();
 
@@ -20,7 +23,7 @@ private:
     TaskHandle	taskHandleRead;
     TaskHandle	taskHandleWrite;
     uInt32		dataRead;
-    uInt8		dataWrite[9];
+    uInt8		dataWrite[16];
     char		errBuff[2048];
     int32		read;
 };

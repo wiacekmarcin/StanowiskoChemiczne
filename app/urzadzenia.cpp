@@ -43,10 +43,13 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     ui->rbDirectionLeft->setChecked(true);
     ui->maxSteps->setValue(1000);
 
-    timer100.setInterval(100);
+    timer100.setInterval(1000);
     connect(&timer100, &QTimer::timeout, this, &Urzadzenia::timeout100ms);
     timer100.start();
-    //dio.configure();
+    dio.configure();
+
+    vals = 0;
+    dio.writeValue(vals);
 }
 
 
@@ -178,7 +181,7 @@ void Urzadzenia::changeDigital_9(bool val)
 
 void Urzadzenia::dozownikTimeout()
 {
-    qDebug("dozownikTimeout");
+    //qDebug("dozownikTimeout");
     if (!connect2Serial) {
         emit connectToSerial();
         return;
@@ -193,17 +196,17 @@ void Urzadzenia::dozownikTimeout()
 
 void Urzadzenia::successOpenDevice(bool open)
 {
-    qDebug("Open device %d", open);
+    //qDebug("Open device %d", open);
 }
 
 void Urzadzenia::deviceName(QString name)
 {
-    qDebug("Device %s", name.toStdString().c_str());
+    //qDebug("Device %s", name.toStdString().c_str());
 }
 
 void Urzadzenia::controllerOK()
 {
-    qDebug("KontrolerOK");
+    //qDebug("KontrolerOK");
     connect2Serial = true;
     emit dozownik(true);
     cntEcho = 0;
@@ -212,7 +215,7 @@ void Urzadzenia::controllerOK()
 
 void Urzadzenia::echoOK()
 {
-    qDebug("echo OK");
+    //qDebug("echo OK");
     if (cntEcho > 3)
         emit dozownik(true);
     cntEcho = 0;
@@ -274,12 +277,19 @@ void Urzadzenia::on_pbReturn_clicked()
 
 void Urzadzenia::timeout100ms()
 {
-    /*
-    uint16_t val;
-    if (!dio.readValue(val)) {
+    //qDebug("timeout");
+    if (!dio.isConnected()) {
+        qDebug("Not configure %s", dio.errStr().c_str());
         dio.configure();
         return;
     }
+    
+    uint16_t val;
+    if (!dio.readValue(val)) {
+        return;
+    }
+    
+    //qDebug("val = %d", val);
     ui->in_1->setValue(~val & 0x01);
     ui->in_2->setValue(~val & 0x02);
     ui->in_3->setValue(~val & 0x04);
@@ -289,136 +299,71 @@ void Urzadzenia::timeout100ms()
     ui->in_7->setValue(~val & 0x40);
     ui->in_8->setValue(~val & 0x80);
     ui->in_9->setValue(~val & 0x100);
-    */
+    
+}
+
+void Urzadzenia::on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask)
+{
+    if (tb->text() == QString("L")) {
+        tb->setText("H");
+        vals |= mask;
+        dio.writeValue(vals);
+        dow->setLevel(true);
+    } else {
+        tb->setText("L");
+        vals &= ~mask;
+        dio.writeValue(vals);
+        dow->setLevel(false);
+    }
 }
 
 
 void Urzadzenia::on_tb_out_1_clicked()
 {
-    if (ui->tb_out_1->text() == QString("L")) {
-        ui->tb_out_1->setText("H");
-        //dio->set(vals | 0x1);
-        ui->out_1->setLevel(true);
-    } else {
-        ui->tb_out_1->setText("L");
-        //dio->set(vals & ~0x1);
-        ui->out_1->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_1, ui->out_1, 0x1);
 }
 
 void Urzadzenia::on_tb_out_2_clicked()
 {
-    if (ui->tb_out_2->text() == QString("L")) {
-        ui->tb_out_2->setText("H");
-        //dio->set(vals | 0x2);
-        ui->out_2->setLevel(true);
-    } else {
-        ui->tb_out_2->setText("L");
-        //dio->set(vals & ~0x2);
-        ui->out_2->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_2, ui->out_2, 0x2);
 }
 
 void Urzadzenia::on_tb_out_3_clicked()
 {
-    if (ui->tb_out_3->text() == QString("L")) {
-        ui->tb_out_3->setText("H");
-        //dio->set(vals | 0x4);
-        ui->out_3->setLevel(true);
-    } else {
-        ui->tb_out_3->setText("L");
-        //dio->set(vals & ~0x4);
-        ui->out_3->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_3, ui->out_3, 0x4);
 }
 
 void Urzadzenia::on_tb_out_4_clicked()
 {
-    if (ui->tb_out_4->text() == QString("L")) {
-        ui->tb_out_4->setText("H");
-        //dio->set(vals | 0x8);
-        ui->out_4->setLevel(true);
-    } else {
-        ui->tb_out_4->setText("L");
-        //dio->set(vals & ~0x8);
-        ui->out_4->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_4, ui->out_4, 0x8);
 }
 
 void Urzadzenia::on_tb_out_5_clicked()
 {
-    if (ui->tb_out_5->text() == QString("L")) {
-        ui->tb_out_5->setText("H");
-        //dio->set(vals | 0x10);
-        ui->out_5->setLevel(true);
-    } else {
-        ui->tb_out_5->setText("L");
-        //dio->set(vals & ~0x10);
-        ui->out_5->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_5, ui->out_5, 0x10);
 }
 
 void Urzadzenia::on_tb_out_6_clicked()
 {
-    if (ui->tb_out_6->text() == QString("L")) {
-        ui->tb_out_6->setText("H");
-        //dio->set(vals | 0x20);
-        ui->out_6->setLevel(true);
-    } else {
-        ui->tb_out_6->setText("L");
-        //dio->set(vals & ~0x20);
-        ui->out_6->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_6, ui->out_6, 0x20);
 }
 
 void Urzadzenia::on_tb_out_7_clicked()
 {
-    if (ui->tb_out_7->text() == QString("L")) {
-        ui->tb_out_7->setText("H");
-        //dio->set(vals | 0x40);
-        ui->out_7->setLevel(true);
-    } else {
-        ui->tb_out_7->setText("L");
-        //dio->set(vals & ~0x40);
-        ui->out_7->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_7, ui->out_7, 0x40);
 }
 
 void Urzadzenia::on_tb_out_8_clicked()
 {
-    if (ui->tb_out_8->text() == QString("L")) {
-        ui->tb_out_8->setText("H");
-        //dio->set(vals | 0x80);
-        ui->out_8->setLevel(true);
-    } else {
-        ui->tb_out_8->setText("L");
-        //dio->set(vals & ~0x80);
-        ui->out_8->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_8, ui->out_8, 0x80);
 }
 
 void Urzadzenia::on_tb_out_9_clicked()
 {
-    if (ui->tb_out_9->text() == QString("L")) {
-        ui->tb_out_9->setText("H");
-        //dio->set(vals | 0x100);
-        ui->out_9->setLevel(true);
-    } else {
-        ui->tb_out_9->setText("L");
-        //dio->set(vals & ~0x100);
-        ui->out_9->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_9, ui->out_9, 0x100);
 }
 
 void Urzadzenia::on_tb_out_a_clicked()
 {
-    if (ui->tb_out_a->text() == QString("L")) {
-        ui->tb_out_a->setText("H");
-        //dio->set(vals | 0x200);
-        ui->out_a->setLevel(true);
-    } else {
-        ui->tb_out_a->setText("L");
-        //dio->set(vals & ~0x200);
-        ui->out_a->setLevel(false);
-    }
+    on_tb_out_clicked(ui->tb_out_a, ui->out_a, 0x200);
 }

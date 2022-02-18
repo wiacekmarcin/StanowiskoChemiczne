@@ -178,8 +178,8 @@ void SerialMessage::connectToSerial()
             if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
                 auto vendorId = serialPortInfo.vendorIdentifier();
                 auto productId = serialPortInfo.productIdentifier();
-                qDebug("VID %d", vendorId);
-                qDebug("PID %d", productId);
+                //qDebug("VID %d", vendorId);
+                //qDebug("PID %d", productId);
                 if (vendorId == 6991 && productId == 37382 /* && serialNumber == serialNumberKontroler */) {
                     //if (sendMesgWelcome(serialPortInfo)) {
                     //    connSerial = true;
@@ -194,8 +194,8 @@ void SerialMessage::connectToSerial()
             }
         //}
 
-
     }
+    //qDebug("Done");
     emit successOpenDevice(false);
 }
 
@@ -247,7 +247,7 @@ void SerialMessage::response(const QByteArray &s)
 
 bool SerialMessage::openDevice(const QSerialPortInfo &port)
 {
-    qDebug("openDevice");
+    //qDebug("openDevice");
     m_serialPort.setPort(port);
     portName = port.portName();
     emit deviceName(portName);
@@ -342,9 +342,9 @@ bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & le
 
     if (crc.getCRC() != msgcrc) {
         emit debug(QString("crc = %1x val=%2x").arg(crc.getCRC(), 16).arg(msgcrc,16));
-        qDebug("arr = %s", arr.toHex().toStdString().c_str());
-        qDebug("cmd = %d", cmd);
-        qDebug("len = %d", len);
+        //qDebug("arr = %s", arr.toHex().toStdString().c_str());
+        //qDebug("cmd = %d", cmd);
+        //qDebug("len = %d", len);
         return false;
     }
     //emit debug("Naglowek OK");
@@ -368,18 +368,18 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
         case WELCOME_REP:
         {
             if (len != 15) {
-                qDebug("len != 15");
+                //qDebug("len != 15");
                 return false;
             }
             uint8_t wzorzec[15] = {'K','O','N','T','R','O','L','E','R','P','O','S','R','E', 'D'};
             for (int i = 0; i < 15; ++i) {
                 if (wzorzec[i] != data[i]) {
-                    qDebug("wzorzec != data");
+                    //qDebug("wzorzec != data");
                     return false;
                 }
             }
 
-            qDebug("Kontroler OK");
+            //qDebug("Kontroler OK");
             emit controllerOK();
 
             return true;

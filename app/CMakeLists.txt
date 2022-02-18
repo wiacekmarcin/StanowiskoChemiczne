@@ -2,7 +2,8 @@
 # tutaj logikę specyficzną dla projektu.
 #
 cmake_minimum_required (VERSION 3.8)
-set(CMAKE_CXX_STANDARD 11)
+project(StanowiskoChemiczne2)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB source_files *.c *.cpp *.qrc)
@@ -13,13 +14,16 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt5 REQUIRED Core Gui Widgets Multimedia MultimediaWidgets SerialPort)
+set(Qt5_DIR "C:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5")
+
+find_package(Qt5 COMPONENTS Core Gui Widgets Multimedia MultimediaWidgets SerialPort)
+#find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Multimedia MultimediaWidgets SerialPort)
 
 #https://www.ni.com/en-us/support/downloads/drivers/download.ni-daqmx.html#346240
 
 
 # Dodaj źródło do pliku wykonywalnego tego projektu.
-add_executable (StanowiskoChemiczne "main.cpp"
+add_executable (StanowiskoChemiczne2 "main.cpp"
     "crc8.cpp" "crc8.h"
     "czujnikanalogowyustawieniawidget.cpp" "czujnikanalogowyustawieniawidget.h" "czujnikanalogowyustawieniawidget.ui"
     "czujnikanalogowywidget.cpp" "czujnikanalogowywidget.h" "czujnikanalogowywidget.ui"
@@ -62,9 +66,16 @@ add_executable (StanowiskoChemiczne "main.cpp"
 )    
 #set_property(CMakeProject2 "CMakeProject2.cpp" PROPERTY SKIP_AUTOGEN ON)
 
-target_link_libraries(StanowiskoChemiczne C:\\Users\\Marcin\\source\\repos\\CMakeProject2\\DAQmx_ANSI_C_Dev\\lib\\msvc\\NIDAQmx.lib)
+target_link_libraries(StanowiskoChemiczne2 "C:/Devel/StanowiskoChemiczne/NI/DAQmx_ANSI_C_Dev/lib/msvc/NIDAQmx.lib")
+#target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Core.lib)
+#target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Multimedia.lib)
+#target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5MultimediaWidgets.lib)
+#target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Widgets.lib)
+#target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Network.lib)
+#target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Gui.lib)
+#target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5SerialPort.lib)
 
-target_link_libraries(StanowiskoChemiczne Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Multimedia Qt5::MultimediaWidgets Qt5::SerialPort)
+target_link_libraries(StanowiskoChemiczne2 Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Multimedia Qt5::MultimediaWidgets Qt5::SerialPort)
 
 
 
@@ -75,6 +86,7 @@ target_link_libraries(StanowiskoChemiczne Qt5::Widgets Qt5::Core Qt5::Gui Qt5::M
 #  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/Marcin/source/repos/CMakeProject2/DAQmx_ANSI_C_Dev/include"
 #)
 include_directories("C:/Users/Marcin/source/repos/CMakeProject2/DAQmx_ANSI_C_Dev/include")
+include_directories("C:/Qt/5.15.2/msvc2019_64/include")
 
 # LINK: command "C:\PROGRA~2\MICROS~2\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx64\x64\link.exe 
 #/nologo CMakeProject2\CMakeFiles\CMakeProject2.dir\CMakeProject2_autogen\mocs_compilation.cpp.obj 

@@ -36,7 +36,7 @@ bool HighLowDigitalWidget::isHigh() const
 
 void HighLowDigitalWidget::setValue(bool val)
 {
-    qDebug("val = %d", val);
+    //qDebug("val = %d", val);
     if (val) {
         ui->high->setChecked(true);
         on_high_clicked();

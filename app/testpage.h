@@ -57,7 +57,7 @@ public:
     virtual int nextPage() const;
 
 public slots:
-    virtual void komora(bool){qDebug("%d komora", id);} ;
+    virtual void komora(bool){ /*qDebug("%d komora", id); */ } ;
 
 signals:
     void completeChanged();

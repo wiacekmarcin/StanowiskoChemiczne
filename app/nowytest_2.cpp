@@ -189,7 +189,7 @@ void NowyTest_2::on_pbStep4_clicked()
 
 void NowyTest_2::komora(bool val)
 {
-    qDebug("komora %d %d", showPb4, val);
+    //qDebug("komora %d %d", showPb4, val);
     zamknietaKomora = val;
     ui->pbStep4->setDisabled(!showPb4 || !val);
 }

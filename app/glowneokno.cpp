@@ -205,7 +205,7 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column *
 
 void GlowneOkno::wybierzCzujke(int id)
 {
-    qDebug("%d", id);
+    //qDebug("%d", id);
 }
 
 void GlowneOkno::showIO()

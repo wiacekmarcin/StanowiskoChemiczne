@@ -98,7 +98,7 @@ void TestPage::setForm(TestPageForm *value)
 
 void TestPage::initializePage()
 {
-    qDebug("TestPage::initializePage()");
+    //qDebug("TestPage::initializePage()");
 }
 
 int TestPage::nextPage() const

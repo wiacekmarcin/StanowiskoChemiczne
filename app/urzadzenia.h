@@ -14,6 +14,9 @@ namespace Ui {
 class Urzadzenia;
 }
 
+class QToolButton;
+class DigitalOutWidget;
+
 class Urzadzenia : public QDialog
 {
     Q_OBJECT
@@ -93,6 +96,7 @@ signals:
     void setPosition(short dozownikNr, uint32_t x);
 protected:
     short getDozownikNr() { return 0; };
+    void on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask);
 private:
     Ui::Urzadzenia *ui;
     SerialMessage smg;
@@ -100,9 +104,9 @@ private:
     short cntEcho;
     QTimer dozownikLoop;
     bool onlyOne;
-/*
+
     NIDAQMxUSB6501 dio;
-*/
+    uint16_t vals; //wyjscia
     QTimer timer100;
 };
 

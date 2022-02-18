@@ -72,7 +72,7 @@ void CreateTestWizard::init()
 
 void CreateTestWizard::initializePage()
 {
-    qDebug("CreateTestWizard::initializePage()");
+    //qDebug("CreateTestWizard::initializePage()");
     if (pages.contains(selectedId))
         pages[selectedId]->initializePage();
 }
@@ -129,7 +129,7 @@ bool CreateTestWizard::checkZawory() const
 
 void CreateTestWizard::changeDigitalIn(int id, bool value)
 {
-    qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
+    //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
     if (id == wentyl_1 || id == wentyl_2 || id == proznia || id == pom_stez_1
             || id == pom_stez_2 || id == powietrze) {
         zawory[id] = value;
@@ -219,7 +219,7 @@ void CreateTestWizard::wentylator(bool start)
 
 void CreateTestWizard::nextPage(int id)
 {
-    qDebug("nextPage %d", id);
+    //qDebug("nextPage %d", id);
     if (finished)
         return;
 
