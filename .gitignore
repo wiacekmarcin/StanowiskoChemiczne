@@ -185,3 +185,5 @@ app/out/build/windows-default/translations/qt_uk.qm
 app/out/build/windows-default/translations/qt_zh_TW.qm
 app/StanowiskoChemiczne.dir/Debug/StanowiskoChemiczne.log
 app/x64/Debug/ZERO_CHECK/ZERO_CHECK.log
+app/.vs/VSWorkspaceState.json
+app/.vs/slnx.sqlite

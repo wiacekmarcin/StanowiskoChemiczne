@@ -61,7 +61,8 @@ add_executable (StanowiskoChemiczne2 "main.cpp"
     "highlowdigitalwidget.cpp" "highlowdigitalwidget.h" "highlowdigitalwidget.ui"
     "urzadzenia.cpp" "urzadzenia.h" "urzadzenia.ui"
     "ustawienia.cpp" "ustawienia.h"
-    "niusb6201.cpp" "niusb6201.h"
+    "niusb6501.cpp" "niusb6501.h"
+    "niusb6210.cpp" "niusb6210.h"
     "ikony.qrc"
 )    
 #set_property(CMakeProject2 "CMakeProject2.cpp" PROPERTY SKIP_AUTOGEN ON)

@@ -8,7 +8,8 @@
 #include "ustawienia.h"
 #include "serialmessage.h"
 
-#include "niusb6201.h"
+#include "niusb6501.h"
+#include "niusb6210.h"
 
 namespace Ui {
 class Urzadzenia;
@@ -74,7 +75,8 @@ private slots:
     void on_parameters_clicked();
     void on_pbReturn_clicked();
 
-    void timeout100ms();
+    void timeoutDI100ms();
+    void timeoutAI100ms();
     void on_tb_out_1_clicked();
     void on_tb_out_2_clicked();
     void on_tb_out_3_clicked();
@@ -106,8 +108,10 @@ private:
     bool onlyOne;
 
     NIDAQMxUSB6501 dio;
+    NIDAQMxUSB6210 ai;
     uint16_t vals; //wyjscia
-    QTimer timer100;
+    QTimer timerDI100;
+    QTimer timerAI100;
 };
 
 #endif // URZADZENIA_H

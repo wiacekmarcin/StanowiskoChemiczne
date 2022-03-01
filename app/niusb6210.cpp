@@ -1,10 +1,10 @@
-#include "niusb6201.h"
+#include "niusb6210.h"
 
 #include <QDebug>
 
 #define DAQmxErrChk(functionCall) if( DAQmxFailed(error=(functionCall)) ) goto Error; else
 
-NIDAQMxUSB6501::NIDAQMxUSB6501()
+NIDAQMxUSB6210::NIDAQMxUSB6210()
 {
     error = 0;
     taskHandleRead = nullptr;
@@ -16,7 +16,7 @@ NIDAQMxUSB6501::NIDAQMxUSB6501()
     read = 0;;
 }
 
-NIDAQMxUSB6501::~NIDAQMxUSB6501()
+NIDAQMxUSB6210::~NIDAQMxUSB6210()
 {
     if (taskHandleRead != nullptr) {
         DAQmxStopTask(taskHandleRead);
@@ -30,32 +30,31 @@ NIDAQMxUSB6501::~NIDAQMxUSB6501()
     }
 }
 
-bool NIDAQMxUSB6501::isConnected()
+bool NIDAQMxUSB6210::isConnected()
 {
     return taskHandleRead != nullptr /* && taskHandleWrite != nullptr */;
 }
 
-bool NIDAQMxUSB6501::configure()
+bool NIDAQMxUSB6210::configure()
 {
     /*********************************************/
     // DAQmx Configure Code
     /*********************************************/
     DAQmxErrChk(DAQmxCreateTask("readValues", &taskHandleRead));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
-    DAQmxErrChk(DAQmxCreateDIChan(taskHandleRead, "USB6501/port0, USB6501/port1/Line0", "", DAQmx_Val_ChanForAllLines));
+    DAQmxErrChk(DAQmxCreateAIVoltageChan(taskHandle, "USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5", 
+        "", DAQmx_Val_Cfg_Default, 0.0, 10.0, DAQmx_Val_Volts, NULL));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
+    DAQmxErrChk(DAQmxCfgSampClkTiming(taskHandle, "", 10000.0, DAQmx_Val_Rising, DAQmx_Val_FiniteSamps, 1000));
+
+    
+    
     /* NIE WSPIERA PULL UP*/
-    //DAQmxErrChk(DAQmxSetDigitalPullUpPullDownStates("USB6501", "USB6501/port0, USB6501/port1/Line0", DAQmx_Val_PullUp, NULL));
+    //DAQmxErrChk(DAQmxSetDigitalPullUpPullDownStates("USB6210", "USB6210/port0, USB6210/port1/Line0", DAQmx_Val_PullUp, NULL));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
     DAQmxErrChk(DAQmxStartTask(taskHandleRead));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
 
-    
-    DAQmxErrChk(DAQmxCreateTask("writeValue", &taskHandleWrite));
-    DAQmxErrChk(DAQmxCreateDOChan(taskHandleWrite, "USB6501/port2/Line0:6,USB6501/port1/Line4:7", "", DAQmx_Val_ChanForAllLines));
-    DAQmxErrChk(DAQmxStartTask(taskHandleWrite));
-
-    //DAQmxErrChk(DAQmxWriteDigitalLines(taskHandleWrite, 1, 1, 10.0, DAQmx_Val_GroupByChannel, dataWrite, NULL, NULL));
 
     return true;
 
@@ -65,7 +64,7 @@ Error:
     return false;
 }
 
-bool NIDAQMxUSB6501::readValue(uInt16 & val)
+bool NIDAQMxUSB6210::readValue(uInt16& val)
 {
     //qDebug("%d task = %d", __LINE__, taskHandleRead);
     DAQmxErrChk(DAQmxReadDigitalU32(taskHandleRead, 1, 10.0, DAQmx_Val_GroupByChannel, &dataRead, 1, &read, NULL));
@@ -78,7 +77,7 @@ Error:
     return false;
 }
 
-bool NIDAQMxUSB6501::writeValue(uInt16& val)
+bool NIDAQMxUSB6210::writeValue(uInt16& val)
 {
     qDebug("%d write %04x", __LINE__, val);
     for (int i = 0; i < 10; ++i)
@@ -97,7 +96,7 @@ Error:
     return false;
 }
 
-void NIDAQMxUSB6501::errorFun()
+void NIDAQMxUSB6210::errorFun()
 {
     if (DAQmxFailed(error))
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
@@ -107,7 +106,7 @@ void NIDAQMxUSB6501::errorFun()
         DAQmxClearTask(taskHandleWrite);
         taskHandleWrite = nullptr;
     }
-    
+
     if (taskHandleRead != nullptr) {
         DAQmxStopTask(taskHandleRead);
         DAQmxClearTask(taskHandleRead);
@@ -121,7 +120,7 @@ void NIDAQMxUSB6501::errorFun()
     //return 0;
 }
 
-std::string NIDAQMxUSB6501::errStr()
+std::string NIDAQMxUSB6210::errStr()
 {
     return std::string(errBuff);
 }

@@ -43,10 +43,15 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     ui->rbDirectionLeft->setChecked(true);
     ui->maxSteps->setValue(1000);
 
-    timer100.setInterval(1000);
-    connect(&timer100, &QTimer::timeout, this, &Urzadzenia::timeout100ms);
-    timer100.start();
-    dio.configure();
+    //timerDI100.setInterval(1000);
+    //connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
+    //timerDI100.start();
+    //dio.configure();
+
+    timerAI100.setInterval(1000);
+    connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
+    timerAI100.start();
+    ai.configure();
 
     vals = 0;
     dio.writeValue(vals);
@@ -55,7 +60,8 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
 
 Urzadzenia::~Urzadzenia()
 {
-    timer100.stop();
+    timerDI100.stop();
+    timerAI100.stop();
     delete ui;
 }
 
@@ -275,7 +281,7 @@ void Urzadzenia::on_pbReturn_clicked()
     emit setPositionHome(getDozownikNr());
 }
 
-void Urzadzenia::timeout100ms()
+void Urzadzenia::timeoutDI100ms()
 {
     //qDebug("timeout");
     if (!dio.isConnected()) {
@@ -299,8 +305,24 @@ void Urzadzenia::timeout100ms()
     ui->in_7->setValue(~val & 0x40);
     ui->in_8->setValue(~val & 0x80);
     ui->in_9->setValue(~val & 0x100);
-    
+
 }
+
+void Urzadzenia::timeoutAI100ms()
+{
+
+    if (!ai.isConnected()) {
+        qDebug("Not configure %s", ai.errStr().c_str());
+        ai.configure();
+        return;
+    }
+
+    uint16_t val;
+    if (!ai.readValue(val)) {
+        return;
+    }
+}
+
 
 void Urzadzenia::on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask)
 {
