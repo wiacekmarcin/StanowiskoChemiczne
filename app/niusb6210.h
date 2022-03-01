@@ -8,8 +8,8 @@ public:
     ~NIDAQMxUSB6210();
 
     bool configure();
-    bool readValue(uInt16& dataRead);
-    bool writeValue(uInt16& dataWrite);
+    bool readValue(float & val1, float& val2, float& val3, float& val4, float& val5, float& val6);
+    
     std::string errStr();
 
     bool isConnected();
@@ -19,10 +19,7 @@ protected:
 private:
     int32		error;
     TaskHandle	taskHandleRead;
-    TaskHandle	taskHandleWrite;
-    uInt32		dataRead;
-    uInt8		dataWrite[16];
+    float64		dataRead[6*100*10];
     char		errBuff[2048];
-    int32		read;
 };
 #pragma once

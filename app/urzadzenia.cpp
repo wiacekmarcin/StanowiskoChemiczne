@@ -47,6 +47,8 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     //connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
     //timerDI100.start();
     //dio.configure();
+    //dio.writeValue(vals);
+    //dio.writeValue(vals);
 
     timerAI100.setInterval(1000);
     connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
@@ -54,7 +56,7 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     ai.configure();
 
     vals = 0;
-    dio.writeValue(vals);
+    
 }
 
 
@@ -317,8 +319,8 @@ void Urzadzenia::timeoutAI100ms()
         return;
     }
 
-    uint16_t val;
-    if (!ai.readValue(val)) {
+    float val1, val2, val3, val4, val5, val6;
+    if (!ai.readValue(val1, val2, val3, val4, val5, val6)) {
         return;
     }
 }
