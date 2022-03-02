@@ -69,7 +69,8 @@ SOURCES += \
     highlowdigitalwidget.cpp \
     urzadzenia.cpp \
     ustawienia.cpp \
-    niusb6201.cpp
+    niusb6210.cpp \
+    niusb6501.cpp
 
 HEADERS += \
     crc8.h \
@@ -109,7 +110,8 @@ HEADERS += \
     highlowdigitalwidget.h \
     urzadzenia.h \
     ustawienia.h \
-    niusb6201.h
+    niusb6210.h \
+    niusb6501.h
 
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \

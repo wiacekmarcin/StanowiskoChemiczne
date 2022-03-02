@@ -202,3 +202,11 @@ void Message::messageWrite2(uint8_t* buf, uint8_t len)
     Serial1.write(buf, len);
 }
 
+void Message::sendError(const char *buf, uint8_t len)
+{
+    uint8_t b[17];
+    for (short id = 0; id < len; ++id) {
+        b[id] = buf[id];
+    }
+    sendError(b, len);
+}

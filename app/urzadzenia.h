@@ -89,6 +89,8 @@ private slots:
     void on_tb_out_a_clicked();
 
 
+    void on_sbDozownik_valueChanged(int arg1);
+
 signals:
     /* serial */
     void connectToSerial();
@@ -97,7 +99,7 @@ signals:
     void setSettings(bool reverse, uint32_t maxImp);
     void setPosition(short dozownikNr, uint32_t x);
 protected:
-    short getDozownikNr() { return 0; };
+    short getDozownikNr() { return dozownikNr; };
     void on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask);
 private:
     Ui::Urzadzenia *ui;
@@ -112,6 +114,7 @@ private:
     uint16_t vals; //wyjscia
     QTimer timerDI100;
     QTimer timerAI100;
+    short dozownikNr;
 };
 
 #endif // URZADZENIA_H

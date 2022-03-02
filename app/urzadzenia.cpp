@@ -57,6 +57,7 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
 
     vals = 0;
     
+    dozownikNr = 1;
 }
 
 
@@ -391,3 +392,9 @@ void Urzadzenia::on_tb_out_a_clicked()
 {
     on_tb_out_clicked(ui->tb_out_a, ui->out_a, 0x200);
 }
+
+void Urzadzenia::on_sbDozownik_valueChanged(int arg1)
+{
+    dozownikNr = arg1;
+}
+

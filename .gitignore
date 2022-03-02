@@ -187,3 +187,9 @@ app/StanowiskoChemiczne.dir/Debug/StanowiskoChemiczne.log
 app/x64/Debug/ZERO_CHECK/ZERO_CHECK.log
 app/.vs/VSWorkspaceState.json
 app/.vs/slnx.sqlite
+build-StanowiskoChemiczne-*/moc/*
+build-StanowiskoChemiczne-*/src/*
+build-StanowiskoChemiczne-*/ui/*
+build-StanowiskoChemiczne-*/build/*
+build-StanowiskoChemiczne-*/Makefile
+build-StanowiskoChemiczne-*/.qmake.stash

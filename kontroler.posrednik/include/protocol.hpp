@@ -89,6 +89,7 @@ protected:
     void messageWrite2(uint8_t *buf, uint8_t len);
 
     void sendError(uint8_t *buf, uint8_t len) { sendMessage1(ERROR_REP, buf, len); }; 
+    void sendError(const char *buf, uint8_t len);
     
     // rozkaz/dlugosc | 1 byte | 2 byte | 3 byte | 4 byte | crc
     uint8_t data[2][MAXLENPROTO + 4];
