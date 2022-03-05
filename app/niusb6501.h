@@ -1,7 +1,7 @@
 #pragma once
-
-#include <NIDAQmx.h>
 #include <string>
+#if !defined L_COMP
+#include <NIDAQmx.h>
 
 class NIDAQMxUSB6501
 {
@@ -27,3 +27,20 @@ private:
     char		errBuff[2048];
     int32		read;
 };
+#else
+
+typedef uint16_t uInt16;
+class NIDAQMxUSB6501
+{
+public:
+    NIDAQMxUSB6501() {}
+    ~NIDAQMxUSB6501() {}
+
+    bool configure() { return true; }
+    bool readValue(uInt16 & dataRead) { dataRead = 0; return true; }
+    bool writeValue(uInt16& /*dataWrite*/) { return true; }
+    std::string errStr() { return std::string("ee"); }
+
+    bool isConnected() { return true; }
+};
+#endif

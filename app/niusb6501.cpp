@@ -1,5 +1,6 @@
 #include "niusb6501.h"
 
+#ifndef L_COMP
 #include <QDebug>
 
 #define DAQmxErrChk(functionCall) if( DAQmxFailed(error=(functionCall)) ) goto Error; else
@@ -42,7 +43,7 @@ bool NIDAQMxUSB6501::configure()
     /*********************************************/
     DAQmxErrChk(DAQmxCreateTask("readValues", &taskHandleRead));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
-    DAQmxErrChk(DAQmxCreateDIChan(taskHandleRead, "USB6501/port0, USB6501/port1/Line0", "", DAQmx_Val_ChanForAllLines));
+    DAQmxErrChk(DAQmxCreateDIChan(taskHandleRead, "USB6501/port1", "", DAQmx_Val_ChanForAllLines));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
     /* NIE WSPIERA PULL UP*/
     //DAQmxErrChk(DAQmxSetDigitalPullUpPullDownStates("USB6501", "USB6501/port0, USB6501/port1/Line0", DAQmx_Val_PullUp, NULL));
@@ -52,7 +53,7 @@ bool NIDAQMxUSB6501::configure()
 
     
     DAQmxErrChk(DAQmxCreateTask("writeValue", &taskHandleWrite));
-    DAQmxErrChk(DAQmxCreateDOChan(taskHandleWrite, "USB6501/port2/Line0:6,USB6501/port1/Line4:7", "", DAQmx_Val_ChanForAllLines));
+    DAQmxErrChk(DAQmxCreateDOChan(taskHandleWrite, "USB6501/port0,USB6501/port1/Line0:5", "", DAQmx_Val_ChanForAllLines));
     DAQmxErrChk(DAQmxStartTask(taskHandleWrite));
 
     //DAQmxErrChk(DAQmxWriteDigitalLines(taskHandleWrite, 1, 1, 10.0, DAQmx_Val_GroupByChannel, dataWrite, NULL, NULL));
@@ -81,10 +82,10 @@ Error:
 bool NIDAQMxUSB6501::writeValue(uInt16& val)
 {
     qDebug("%d write %04x", __LINE__, val);
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 11; ++i)
         dataWrite[i] = (val >> i) & 0x1;
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 11; ++i)
         qDebug("%d", dataWrite[i]);
     qDebug("==");
 
@@ -125,3 +126,4 @@ std::string NIDAQMxUSB6501::errStr()
 {
     return std::string(errBuff);
 }
+#endif

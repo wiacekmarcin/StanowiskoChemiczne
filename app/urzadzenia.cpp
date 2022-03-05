@@ -16,8 +16,8 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     connect(ui->in_5, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_5);
     connect(ui->in_6, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_6);
     connect(ui->in_7, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_7);
-    connect(ui->in_8, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_8);
-    connect(ui->in_9, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_9);
+    //connect(ui->in_8, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_8);
+    //connect(ui->in_9, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_9);
 
     /*serial*/
     connect(&smg, &SerialMessage::successOpenDevice, this, &Urzadzenia::successOpenDevice);
@@ -58,6 +58,42 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     vals = 0;
     
     dozownikNr = 1;
+
+    ui->analog_1->setMinimum(-10000);
+    ui->analog_1->setMaximum(10000);
+    ui->analog_1->setSingleStep(1);
+    ui->analog_1->setValue(0);
+
+    ui->analog_2->setMinimum(-10000);
+    ui->analog_2->setMaximum(10000);
+    ui->analog_2->setSingleStep(1);
+    ui->analog_2->setValue(0);
+
+    ui->analog_3->setMinimum(-10000);
+    ui->analog_3->setMaximum(10000);
+    ui->analog_3->setSingleStep(1);
+    ui->analog_3->setValue(0);
+
+    ui->analog_4->setMinimum(-10000);
+    ui->analog_4->setMaximum(10000);
+    ui->analog_4->setSingleStep(1);
+    ui->analog_4->setValue(0);
+
+    ui->analog_5->setMinimum(-10000);
+    ui->analog_5->setMaximum(10000);
+    ui->analog_5->setSingleStep(1);
+    ui->analog_5->setValue(0);
+
+    ui->analog_6->setMinimum(-10000);
+    ui->analog_6->setMaximum(10000);
+    ui->analog_6->setSingleStep(1);
+    ui->analog_6->setValue(0);
+
+    ui->analog_7->setMinimum(-10000);
+    ui->analog_7->setMaximum(10000);
+    ui->analog_7->setSingleStep(1);
+    ui->analog_7->setValue(0);
+
 }
 
 
@@ -177,7 +213,7 @@ void Urzadzenia::changeDigital_7(bool val)
 {
     emit digitalValueChanged(7, val);
 }
-
+/*
 void Urzadzenia::changeDigital_8(bool val)
 {
     emit digitalValueChanged(8, val);
@@ -187,7 +223,7 @@ void Urzadzenia::changeDigital_9(bool val)
 {
     emit digitalValueChanged(9, val);
 }
-
+*/
 void Urzadzenia::dozownikTimeout()
 {
     //qDebug("dozownikTimeout");
@@ -299,15 +335,31 @@ void Urzadzenia::timeoutDI100ms()
     }
     
     //qDebug("val = %d", val);
-    ui->in_1->setValue(~val & 0x01);
-    ui->in_2->setValue(~val & 0x02);
-    ui->in_3->setValue(~val & 0x04);
-    ui->in_4->setValue(~val & 0x08);
-    ui->in_5->setValue(~val & 0x10);
-    ui->in_6->setValue(~val & 0x20);
-    ui->in_7->setValue(~val & 0x40);
-    ui->in_8->setValue(~val & 0x80);
-    ui->in_9->setValue(~val & 0x100);
+    //in1 zakmniecie komory lewe
+    ui->in_1->setValue(~val & drzwi_lewe);
+
+    //in2 zamkniecie komory prawe
+    ui->in_2->setValue(~val & drzwi_prawe);
+
+    //in3 wentylacja 1
+    ui->in_3->setValue(~val & wentylacja_lewa);
+
+    //in4 wentylacja 2
+    ui->in_4->setValue(~val & wentylacja_prawa);
+
+    //in5 pomiar stezenia 1
+    ui->in_5->setValue(~val & probka_in);
+
+    //in6 pomiar stezenia 2
+    ui->in_6->setValue(~val & probka_out);
+
+    //in7 powietrze
+    ui->in_7->setValue(~val & powietrze);
+
+    //in8 proznia
+    ui->in_8->setValue(~val & proznia);
+
+    //ui->in_9->setValue(~val & 0x100);
 
 }
 
@@ -320,10 +372,32 @@ void Urzadzenia::timeoutAI100ms()
         return;
     }
 
-    float val1, val2, val3, val4, val5, val6;
-    if (!ai.readValue(val1, val2, val3, val4, val5, val6)) {
+    float val0, val1, val2, val3, val4, val5, val6;
+    if (!ai.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         return;
     }
+
+    //analog1 cisnienie w komorze ai4
+    ui->analog_1->setValue(1000*val4);
+
+    //analog2 stezenie voc ai0
+    ui->analog_2->setValue(1000*val0);
+
+    //analog3 stezenie o2 ai2
+    ui->analog_3->setValue(1000*val2);
+
+    //analog4 stezenie co2 ai3
+    ui->analog_4->setValue(1000*val3);
+
+    //analog5 temperatrura w komorze ai5
+    ui->analog_5->setValue(1000*val5);
+
+    //analog6 temperatrura parownika ai6
+    ui->analog_6->setValue(1000*val6);
+
+    //analog7 stezenie voc2 ai1
+    ui->analog_7->setValue(1000*val1);
+
 }
 
 
@@ -345,56 +419,77 @@ void Urzadzenia::on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, ui
 
 void Urzadzenia::on_tb_out_1_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_1, ui->out_1, 0x1);
+    //iskra elektryczna on_off
+    on_tb_out_clicked(ui->tb_out_1, ui->out_1, high_voltage);
 }
 
 void Urzadzenia::on_tb_out_2_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_2, ui->out_2, 0x2);
+    //iskra elektryczna bezpiecznik
+    on_tb_out_clicked(ui->tb_out_2, ui->out_2, bezpiecznik);
 }
 
 void Urzadzenia::on_tb_out_3_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_3, ui->out_3, 0x4);
+    //iskra elektryczna zaplon
+    on_tb_out_clicked(ui->tb_out_3, ui->out_3, hw_iskra);
 }
+
 
 void Urzadzenia::on_tb_out_4_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_4, ui->out_4, 0x8);
+    //iskra mechaniczna
+    on_tb_out_clicked(ui->tb_out_4, ui->out_4, mech_iskra);
 }
 
 void Urzadzenia::on_tb_out_5_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_5, ui->out_5, 0x10);
+    //plomien
+    on_tb_out_clicked(ui->tb_out_5, ui->out_5, plomien);
 }
 
 void Urzadzenia::on_tb_out_6_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_6, ui->out_6, 0x20);
+    //pompa_proznioewa
+    on_tb_out_clicked(ui->tb_out_6, ui->out_6, pompa_proznia);
 }
 
 void Urzadzenia::on_tb_out_7_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_7, ui->out_7, 0x40);
+    //pompa powietrza
+    on_tb_out_clicked(ui->tb_out_7, ui->out_7, pompa_powietrza);
 }
 
 void Urzadzenia::on_tb_out_8_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_8, ui->out_8, 0x80);
+    //wentylator
+    on_tb_out_clicked(ui->tb_out_8, ui->out_8, wentylator);
 }
 
 void Urzadzenia::on_tb_out_9_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_9, ui->out_9, 0x100);
+    //mieszadlo
+    on_tb_out_clicked(ui->tb_out_9, ui->out_9, mieszadlo);
 }
 
 void Urzadzenia::on_tb_out_a_clicked()
 {
-    on_tb_out_clicked(ui->tb_out_a, ui->out_a, 0x200);
+    //trigger
+    on_tb_out_clicked(ui->tb_out_a, ui->out_a, trigger);
 }
+
+void Urzadzenia::on_tb_out_b_clicked()
+{
+    //pilot zdalnego sterowania
+    on_tb_out_clicked(ui->tb_out_b, ui->out_b, pilot);
+}
+
 
 void Urzadzenia::on_sbDozownik_valueChanged(int arg1)
 {
     dozownikNr = arg1;
 }
+
+
+
 

@@ -22,6 +22,41 @@ class Urzadzenia : public QDialog
 {
     Q_OBJECT
 
+    typedef enum _aInput {
+        vol1,
+        vol2,
+        o2,
+        co2,
+        wika_a10,
+        temp_komory
+    } analogIn;
+
+    typedef enum _iDig {
+        drzwi_lewe      = 0x01,
+        wentylacja_lewa = 0x02,
+        proznia         = 0x04,
+        probka_in       = 0x08,
+        drzwi_prawe     = 0x10,
+        wentylacja_prawa= 0x20,
+        wlot_powietrza  = 0x40,
+        probka_out      = 0x80
+    } digitalIn;
+
+    typedef enum _oDig {
+        high_voltage    = 0x001,
+        bezpiecznik     = 0x002,
+        hw_iskra        = 0x004,
+        mech_iskra      = 0x008,
+        plomien         = 0x010,
+        pompa_proznia   = 0x020,
+        pompa_powietrza = 0x040,
+        wentylator      = 0x080,
+        mieszadlo       = 0x100,
+        trigger         = 0x200,
+        pilot           = 0x400,
+    } digitalOut;
+
+
 public:
     explicit Urzadzenia(QWidget *parent = 0);
     ~Urzadzenia();
@@ -53,8 +88,8 @@ private slots:
     void changeDigital_5(bool val);
     void changeDigital_6(bool val);
     void changeDigital_7(bool val);
-    void changeDigital_8(bool val);
-    void changeDigital_9(bool val);
+    //void changeDigital_8(bool val);
+    //void changeDigital_9(bool val);
 
     void dozownikTimeout();
 
@@ -90,6 +125,8 @@ private slots:
 
 
     void on_sbDozownik_valueChanged(int arg1);
+
+    void on_tb_out_b_clicked();
 
 signals:
     /* serial */
