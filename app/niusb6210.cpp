@@ -1,7 +1,7 @@
 #include "niusb6210.h"
 
 #ifndef L_COMP
-#include <qDebug>
+#include <QDebug>
 
 #define DAQmxErrChk(functionCall) if( DAQmxFailed(error=(functionCall)) ) goto Error; else
 
@@ -10,9 +10,6 @@ NIDAQMxUSB6210::NIDAQMxUSB6210()
     error = 0;
     taskHandleRead = nullptr;
 
-    for (int i = 0; i < 600; i++) {
-        dataRead[i] = 0.0;
-    }
     errBuff[2048] = { '\0' };
 }
 
@@ -57,7 +54,7 @@ bool NIDAQMxUSB6210::configure()
 
 Error:
     errorFun();
-    //qDebug("%d %p %s", __LINE__, taskHandleRead, errStr().c_str());
+    qDebug("%d %p %s", __LINE__, taskHandleRead, errStr().c_str());
     return false;
 }
 
@@ -66,17 +63,20 @@ Error:
 
 bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val4, float& val5, float& val6, float& val7)
 {
+    if (!isConnected())
+        return false;
+
     int32       read;
-    //float64 f;
+    
     float64 val[8];
-    //qDebug("%d task = %d", __LINE__, taskHandleRead);
+    qDebug("%d task = %d", __LINE__, taskHandleRead);
 
     DAQmxErrChk(DAQmxReadAnalogF64(taskHandleRead, 1, 1.0, DAQmx_Val_GroupByChannel, val, 7, &read, NULL));
-    //DAQmxErrChk(DAQmxReadAnalogF64(taskHandleRead, 1, 1.0, DAQmx_Val_GroupByChannel, &f, 1, &read, NULL));
-
-    //DAQmxReadAnalogScalarF64(taskHandleRead, 1.0, val, NULL);
     
-    //qDebug("Acquired %d points %f %f\n", (int)read, f);
+
+    
+    
+    qDebug("Acquired %d points\n", (int)read);
     //qDebug("Acquired %d points %f %f\n", (int)read, val[0], val[1]);
     
     //qDebug("val %f %f %f %f %f %f\n", val[0], val[1], val[2], val[3], val[4], val[5]);

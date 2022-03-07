@@ -43,14 +43,14 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     ui->rbDirectionLeft->setChecked(true);
     ui->maxSteps->setValue(1000);
 
-    //timerDI100.setInterval(1000);
-    //connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
-    //timerDI100.start();
-    //dio.configure();
-    //dio.writeValue(vals);
-    //dio.writeValue(vals);
+    timerDI100.setInterval(100);
+    connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
+    timerDI100.start();
+    dio.configure();
+    dio.writeValue(vals);
 
-    timerAI100.setInterval(1000);
+
+    timerAI100.setInterval(100);
     connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
     timerAI100.start();
     ai.configure();

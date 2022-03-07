@@ -83,6 +83,18 @@ void OknoStatusowe::setDozownik(bool ok)
     ui->dozownik->update();
 }
 
+void OknoStatusowe::setUSB6210(bool ok)
+{
+    ui->usb6210->setOk(ok);
+    ui->usb6210->update();
+}
+
+void OknoStatusowe::setUSB6501(bool ok)
+{
+    ui->usb6501->setOk(ok);
+    ui->usb6501->update();
+}
+
 void OknoStatusowe::timeout()
 {
     ui->zawor1->update();

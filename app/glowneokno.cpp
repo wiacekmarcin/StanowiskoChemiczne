@@ -38,6 +38,8 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     connect(this, &GlowneOkno::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
     connect(dlgUrz, &Urzadzenia::digitalValueChanged, ui->frCzujniki, &OknoStatusowe::setDigitalValue);
     connect(dlgUrz, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
+    connect(dlgUrz, &Urzadzenia::usb6210, ui->frCzujniki, &OknoStatusowe::setUSB6210);
+    connect(dlgUrz, &Urzadzenia::usb6501, ui->frCzujniki, &OknoStatusowe::setUSB6501);
 
     ui->frCzujniki->setLabels(settings);
 

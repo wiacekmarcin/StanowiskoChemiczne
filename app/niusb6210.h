@@ -23,7 +23,6 @@ protected:
 private:
     int32		error;
     TaskHandle	taskHandleRead;
-    float64		dataRead[6*100*10];
     char		errBuff[2048];
 };
 #else

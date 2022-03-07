@@ -22,6 +22,8 @@ public:
 public slots:
     void setDigitalValue(int id, bool val);
     void setDozownik(bool ok);
+    void setUSB6210(bool ok);
+    void setUSB6501(bool ok);
 
 private slots:
     void timeout();

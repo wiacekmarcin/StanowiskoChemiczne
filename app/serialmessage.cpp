@@ -167,9 +167,9 @@ void SerialMessage::connectToSerial()
         description = serialPortInfo.description();
         manufacturer = serialPortInfo.manufacturer();
         serialNumber = serialPortInfo.serialNumber();
-        //qDebug("DESC %s", description.toStdString().c_str());
-        //qDebug("MENU %s", manufacturer.toStdString().c_str());
-        //qDebug("SERIAL %s", serialNumber.toStdString().c_str());
+        qDebug("DESC %s", description.toStdString().c_str());
+        qDebug("MENU %s", manufacturer.toStdString().c_str());
+        qDebug("SERIAL %s", serialNumber.toStdString().c_str());
 
 
        //if (description == "SparkFun Pro Micro" &&
@@ -178,8 +178,8 @@ void SerialMessage::connectToSerial()
             if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
                 auto vendorId = serialPortInfo.vendorIdentifier();
                 auto productId = serialPortInfo.productIdentifier();
-                //qDebug("VID %d", vendorId);
-                //qDebug("PID %d", productId);
+                qDebug("VID %d", vendorId);
+                qDebug("PID %d", productId);
                 if (vendorId == 6991 && productId == 37382 /* && serialNumber == serialNumberKontroler */) {
                     //if (sendMesgWelcome(serialPortInfo)) {
                     //    connSerial = true;
@@ -187,7 +187,7 @@ void SerialMessage::connectToSerial()
                     //}
                     //TODO otworzmy urzadzenie
                     //a nastepnie wyslijmy wiadomosc powitalna welcomemsg i asynchronicznie oczekujmy odpowiedzi
-                    emit debug("open device");
+                    qDebug("CheckDevice");
                     emit successOpenDevice(openDevice(serialPortInfo));
                     return;
                 }

@@ -43,7 +43,7 @@ bool NIDAQMxUSB6501::configure()
     /*********************************************/
     DAQmxErrChk(DAQmxCreateTask("readValues", &taskHandleRead));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
-    DAQmxErrChk(DAQmxCreateDIChan(taskHandleRead, "USB6501/port1", "", DAQmx_Val_ChanForAllLines));
+    DAQmxErrChk(DAQmxCreateDIChan(taskHandleRead, "USB6501/port1,USB6501/port1/Line5", "", DAQmx_Val_ChanForAllLines));
     //qDebug("%d task = %p", __LINE__, taskHandleRead);
     /* NIE WSPIERA PULL UP*/
     //DAQmxErrChk(DAQmxSetDigitalPullUpPullDownStates("USB6501", "USB6501/port0, USB6501/port1/Line0", DAQmx_Val_PullUp, NULL));
@@ -53,7 +53,7 @@ bool NIDAQMxUSB6501::configure()
 
     
     DAQmxErrChk(DAQmxCreateTask("writeValue", &taskHandleWrite));
-    DAQmxErrChk(DAQmxCreateDOChan(taskHandleWrite, "USB6501/port0,USB6501/port1/Line0:5", "", DAQmx_Val_ChanForAllLines));
+    DAQmxErrChk(DAQmxCreateDOChan(taskHandleWrite, "USB6501/port0,USB6501/port1/Line0:4", "", DAQmx_Val_ChanForAllLines));
     DAQmxErrChk(DAQmxStartTask(taskHandleWrite));
 
     //DAQmxErrChk(DAQmxWriteDigitalLines(taskHandleWrite, 1, 1, 10.0, DAQmx_Val_GroupByChannel, dataWrite, NULL, NULL));
@@ -68,9 +68,12 @@ Error:
 
 bool NIDAQMxUSB6501::readValue(uInt16 & val)
 {
+    if (!isConnected())
+        return false;
+
     //qDebug("%d task = %d", __LINE__, taskHandleRead);
     DAQmxErrChk(DAQmxReadDigitalU32(taskHandleRead, 1, 10.0, DAQmx_Val_GroupByChannel, &dataRead, 1, &read, NULL));
-    val = dataRead & 0x01ff;
+    val = (~dataRead) & 0x01ff;
     return true;
 
 Error:
@@ -81,13 +84,16 @@ Error:
 
 bool NIDAQMxUSB6501::writeValue(uInt16& val)
 {
-    qDebug("%d write %04x", __LINE__, val);
-    for (int i = 0; i < 11; ++i)
-        dataWrite[i] = (val >> i) & 0x1;
+    if (!isConnected())
+        return false;
 
-    for (int i = 0; i < 11; ++i)
-        qDebug("%d", dataWrite[i]);
-    qDebug("==");
+    //qDebug("%d write %04x", __LINE__, val);
+    for (int i = 0; i < 10; ++i)
+        dataWrite[i] = ~((val >> i) & 0x1);
+
+    for (int i = 0; i < 10; ++i)
+        //qDebug("%d", dataWrite[i]);
+    //qDebug("==");
 
     DAQmxErrChk(DAQmxWriteDigitalLines(taskHandleWrite, 1, 1, 10.0, DAQmx_Val_GroupByChannel, dataWrite, NULL, NULL));
 

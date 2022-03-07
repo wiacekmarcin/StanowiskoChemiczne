@@ -2,9 +2,11 @@
 # tutaj logikę specyficzną dla projektu.
 #
 cmake_minimum_required (VERSION 3.8)
-project(StanowiskoChemiczne7)
+project(StanowiskoChemiczne3)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_BUILD_TYPE Release)
+
 
 file(GLOB source_files *.c *.cpp *.qrc)
 file(GLOB header_files *.h *.hpp *.txt)
@@ -23,7 +25,7 @@ find_package(Qt5 COMPONENTS Core Gui Widgets Multimedia MultimediaWidgets Serial
 
 
 # Dodaj źródło do pliku wykonywalnego tego projektu.
-add_executable (StanowiskoChemiczne7 "main.cpp"
+add_executable (StanowiskoChemiczne3 "main.cpp"
     "crc8.cpp" "crc8.h"
     "czujnikanalogowyustawieniawidget.cpp" "czujnikanalogowyustawieniawidget.h" "czujnikanalogowyustawieniawidget.ui"
     "czujnikanalogowywidget.cpp" "czujnikanalogowywidget.h" "czujnikanalogowywidget.ui"
@@ -67,7 +69,7 @@ add_executable (StanowiskoChemiczne7 "main.cpp"
 )    
 #set_property(CMakeProject2 "CMakeProject2.cpp" PROPERTY SKIP_AUTOGEN ON)
 
-target_link_libraries(StanowiskoChemiczne7 "C:/Devel/StanowiskoChemiczne/NI/DAQmx_ANSI_C_Dev/lib/msvc/NIDAQmx.lib")
+target_link_libraries(StanowiskoChemiczne3 "C:/Devel/StanowiskoChemiczne/NI/DAQmx_ANSI_C_Dev/lib/msvc/NIDAQmx.lib")
 #target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Core.lib)
 #target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Multimedia.lib)
 #target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5MultimediaWidgets.lib)
@@ -76,10 +78,10 @@ target_link_libraries(StanowiskoChemiczne7 "C:/Devel/StanowiskoChemiczne/NI/DAQm
 #target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5Gui.lib)
 #target_link_libraries(StanowiskoChemiczne C:\\Qt\\5.15.2\\msvc2019_64\\lib\\Qt5SerialPort.lib)
 
-target_link_libraries(StanowiskoChemiczne7 Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Multimedia Qt5::MultimediaWidgets Qt5::SerialPort)
+target_link_libraries(StanowiskoChemiczne3 Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Multimedia Qt5::MultimediaWidgets Qt5::SerialPort)
+ 
 
-
-
+                                                                         
 
 #add_library(NIDAQmx STATIC IMPORTED GLOBAL) # or STATIC instead of SHARED
 #set_target_properties(NIDAQmx PROPERTIES

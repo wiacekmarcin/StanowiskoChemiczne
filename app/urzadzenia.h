@@ -67,7 +67,8 @@ signals:
     void digitalValueChanged(int id, bool high);
     void dozownik(bool ok);
 
-
+    void usb6210(bool ok);
+    void usb6501(bool ok);
 
 private slots:
 
