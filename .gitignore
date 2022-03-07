@@ -12,9 +12,9 @@
 *.pch
 
 # Compiled Dynamic libraries
-*.so
+#*.so
 *.dylib
-*.dll
+#*.dll
 
 # Fortran module files
 *.mod
@@ -22,9 +22,9 @@
 
 # Compiled Static libraries
 *.lai
-*.la
-*.a
-*.lib
+#*.la
+#*.a
+#*.lib
 
 # Executables
 *.exe
@@ -724,3 +724,4 @@ app/exe/translations/qt_uk.qm
 app/exe/translations/qt_zh_TW.qm
 app/StanowiskoChemiczne.dir/Debug/StanowiskoChemiczne.log
 app/x64/Debug/ZERO_CHECK/ZERO_CHECK.log
+app/exe/exe.zip
