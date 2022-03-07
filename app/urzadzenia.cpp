@@ -326,14 +326,17 @@ void Urzadzenia::timeoutDI100ms()
     if (!dio.isConnected()) {
         qDebug("Not configure %s", dio.errStr().c_str());
         dio.configure();
+        emit usb6501(false);
         return;
     }
     
     uint16_t val;
     if (!dio.readValue(val)) {
+        emit usb6501(false);
         return;
     }
     
+    emit usb6501(true);
     //qDebug("val = %d", val);
     //in1 zakmniecie komory lewe
     ui->in_1->setValue(~val & drzwi_lewe);
@@ -359,6 +362,7 @@ void Urzadzenia::timeoutDI100ms()
     //in8 proznia
     ui->in_8->setValue(~val & proznia);
 
+    
     //ui->in_9->setValue(~val & 0x100);
 
 }
@@ -369,13 +373,17 @@ void Urzadzenia::timeoutAI100ms()
     if (!ai.isConnected()) {
         qDebug("Not configure %s", ai.errStr().c_str());
         ai.configure();
+        emit usb6210(false);
         return;
     }
 
     float val0, val1, val2, val3, val4, val5, val6;
     if (!ai.readValue(val0, val1, val2, val3, val4, val5, val6)) {
+        emit usb6210(false);
         return;
     }
+
+    emit usb6210(true);
 
     //analog1 cisnienie w komorze ai4
     ui->analog_1->setValue(1000*val4);

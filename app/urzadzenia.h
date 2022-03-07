@@ -32,14 +32,15 @@ class Urzadzenia : public QDialog
     } analogIn;
 
     typedef enum _iDig {
-        drzwi_lewe      = 0x01,
-        wentylacja_lewa = 0x02,
-        proznia         = 0x04,
-        probka_in       = 0x08,
-        drzwi_prawe     = 0x10,
-        wentylacja_prawa= 0x20,
-        wlot_powietrza  = 0x40,
-        probka_out      = 0x80
+        drzwi_lewe      = 0x001,
+        wentylacja_lewa = 0x002,
+        proznia         = 0x004,
+        probka_in       = 0x008,
+        drzwi_prawe     = 0x010,
+        wentylacja_prawa= 0x020,
+        wlot_powietrza  = 0x040,
+        probka_out      = 0x080,
+        pilot           = 0x100,
     } digitalIn;
 
     typedef enum _oDig {
@@ -53,7 +54,6 @@ class Urzadzenia : public QDialog
         wentylator      = 0x080,
         mieszadlo       = 0x100,
         trigger         = 0x200,
-        pilot           = 0x400,
     } digitalOut;
 
 
