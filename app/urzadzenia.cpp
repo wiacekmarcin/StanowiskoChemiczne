@@ -16,8 +16,8 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     connect(ui->in_5, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_5);
     connect(ui->in_6, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_6);
     connect(ui->in_7, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_7);
-    //connect(ui->in_8, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_8);
-    //connect(ui->in_9, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_9);
+    connect(ui->in_8, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_8);
+    connect(ui->in_9, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_9);
 
     /*serial*/
     connect(&smg, &SerialMessage::successOpenDevice, this, &Urzadzenia::successOpenDevice);
@@ -213,7 +213,7 @@ void Urzadzenia::changeDigital_7(bool val)
 {
     emit digitalValueChanged(7, val);
 }
-/*
+
 void Urzadzenia::changeDigital_8(bool val)
 {
     emit digitalValueChanged(8, val);
@@ -223,7 +223,7 @@ void Urzadzenia::changeDigital_9(bool val)
 {
     emit digitalValueChanged(9, val);
 }
-*/
+
 void Urzadzenia::dozownikTimeout()
 {
     //qDebug("dozownikTimeout");
@@ -362,8 +362,8 @@ void Urzadzenia::timeoutDI100ms()
     //in8 proznia
     ui->in_8->setValue(~val & proznia);
 
-    
-    //ui->in_9->setValue(~val & 0x100);
+    //in9 pilot
+    ui->in_9->setValue(~val & pilot);
 
 }
 
@@ -443,7 +443,6 @@ void Urzadzenia::on_tb_out_3_clicked()
     on_tb_out_clicked(ui->tb_out_3, ui->out_3, hw_iskra);
 }
 
-
 void Urzadzenia::on_tb_out_4_clicked()
 {
     //iskra mechaniczna
@@ -485,13 +484,6 @@ void Urzadzenia::on_tb_out_a_clicked()
     //trigger
     on_tb_out_clicked(ui->tb_out_a, ui->out_a, trigger);
 }
-
-void Urzadzenia::on_tb_out_b_clicked()
-{
-    //pilot zdalnego sterowania
-    on_tb_out_clicked(ui->tb_out_b, ui->out_b, pilot);
-}
-
 
 void Urzadzenia::on_sbDozownik_valueChanged(int arg1)
 {

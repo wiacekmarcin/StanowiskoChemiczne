@@ -89,8 +89,8 @@ private slots:
     void changeDigital_5(bool val);
     void changeDigital_6(bool val);
     void changeDigital_7(bool val);
-    //void changeDigital_8(bool val);
-    //void changeDigital_9(bool val);
+    void changeDigital_8(bool val);
+    void changeDigital_9(bool val);
 
     void dozownikTimeout();
 
@@ -127,7 +127,6 @@ private slots:
 
     void on_sbDozownik_valueChanged(int arg1);
 
-    void on_tb_out_b_clicked();
 
 signals:
     /* serial */
