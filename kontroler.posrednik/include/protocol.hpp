@@ -2,7 +2,7 @@
 #define _PROTOCOL_H_
 
 #include <Arduino.h>
-#include "CRC8.h"
+#include "crc8.h"
 
 
 
