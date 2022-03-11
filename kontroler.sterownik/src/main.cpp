@@ -77,11 +77,15 @@ void loop() {
   if (Serial1.available() > 0) {
     if (msg.check(Serial1.read())) {
       if (msg.getStatusWork() == msg.RETURN_HOME) {
+        digitalWrite(13, HIGH);
         msg.setHomeDone(s[msg.getNrDozownika()].home());
-        Serial.print("Done Home");
+        Serial.println("Done Home");
+        digitalWrite(13, LOW);
       } else if (msg.getStatusWork() == msg.POS_START) {
+        digitalWrite(13, HIGH);
         msg.setPosDone(s[msg.getNrDozownika()].start(msg.getSteps()));
-        Serial.print("Done pos");
+        Serial.println("Done pos");
+        digitalWrite(13, LOW);
       }
     }
   }
