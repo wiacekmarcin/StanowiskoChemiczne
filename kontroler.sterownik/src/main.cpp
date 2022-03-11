@@ -25,14 +25,15 @@
 //1 - LPT 14
 //2 - GND LPT 9 
 //3 - LPT 8
+/*
 enum Dozowniknr {
   X = 0,
   Y = 1,
   Z = 2,
   C = 3,
   D = 4,
-}
-
+};
+*/
 void interS1();
 void interS2();
 void interS3();
