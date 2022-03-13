@@ -16,28 +16,28 @@ typedef enum _aInput {
 } analogIn;
 
 typedef enum _iDig {
-    drzwi_lewe      = 0x001,
-    wentylacja_lewa = 0x002,
-    proznia         = 0x004,
-    pom_stez_1      = 0x008,
-    drzwi_prawe     = 0x010,
-    wentylacja_prawa= 0x020,
-    wlot_powietrza  = 0x040,
-    pom_stez_2      = 0x080,
-    pilot           = 0x100,
+    drzwi_lewe      = 0x001, //P2.0
+    wentylacja_lewa = 0x002, //P2.1
+    proznia         = 0x004, //P2.2
+    pom_stez_1      = 0x008, //P2.3
+    drzwi_prawe     = 0x010, //p2.4
+    wentylacja_prawa= 0x020, //P2.5
+    wlot_powietrza  = 0x040, //P2.6
+    pom_stez_2      = 0x080, //P2.7
+    pilot           = 0x100, //
 } digitalIn;
 
 typedef enum _oDig {
-    hv_onoff        = 0x001,
-    hv_zaplon       = 0x002,
-    hw_iskra        = 0x004,
-    mech_iskra      = 0x008,
-    plomien         = 0x010,
-    pompa_prozniowa = 0x020,
-    pompa_powietrza = 0x040,
-    wentylator      = 0x080,
-    mieszadlo       = 0x100,
-    trigger         = 0x200,
+    hv_onoff        = 0x001, //P0.0
+    hv_zaplon       = 0x002, //P0.1
+    hw_iskra        = 0x004, //P0.2
+    mech_iskra      = 0x008, //PO.3
+    plomien         = 0x010, //PO.4
+    pompa_prozniowa = 0x020, //PO.5
+    pompa_powietrza = 0x040, //PO.6
+    wentylator      = 0x080, //PO.7
+    mieszadlo       = 0x100, //P1.0
+    trigger         = 0x200, //P1.1
 } digitalOut;
 
 

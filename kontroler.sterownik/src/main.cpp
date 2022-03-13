@@ -2,6 +2,10 @@
 #include "silnik.hpp"
 #include "protocol.hpp"
 
+#define timeImp 100
+#define LEVEL_EN HIGH
+
+
 #define ENPIN 18 //LPT 14
 
 #define DIR1PIN 16 //LPT 4
@@ -41,12 +45,14 @@ void interS4();
 void interS5();
 
 
+
+
 Silnik s[5] = {
-  {ENPIN, DIR1PIN, PULSE1PIN, LIMIT1PIN, interS1}, 
-  {ENPIN, DIR2PIN, PULSE2PIN, LIMIT2PIN, interS2},
-  {ENPIN, DIR3PIN, PULSE3PIN, LIMIT3PIN, interS3},
-  {ENPIN, DIR4PIN, PULSE4PIN, LIMIT4PIN, interS4},
-  {ENPIN, DIR5PIN, PULSE5PIN, LIMIT5PIN, interS5},
+  {timeImp, ENPIN, DIR1PIN, PULSE1PIN, LIMIT1PIN, interS1}, 
+  {timeImp, ENPIN, DIR2PIN, PULSE2PIN, LIMIT2PIN, interS2},
+  {timeImp, ENPIN, DIR3PIN, PULSE3PIN, LIMIT3PIN, interS3},
+  {timeImp, ENPIN, DIR4PIN, PULSE4PIN, LIMIT4PIN, interS4},
+  {timeImp, ENPIN, DIR5PIN, PULSE5PIN, LIMIT5PIN, interS5},
 };
 
 
@@ -55,7 +61,7 @@ Message msg;
 void setup() {
   // put your setup code here, to run once:
   pinMode(ENPIN, OUTPUT);
-  digitalWrite(ENPIN, LOW);
+  digitalWrite(ENPIN, LEVEL_EN);
   s[0].init();
   s[1].init();
   s[2].init();
