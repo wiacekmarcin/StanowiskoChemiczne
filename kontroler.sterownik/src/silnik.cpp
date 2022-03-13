@@ -66,7 +66,7 @@ uint32_t Silnik::home()
 void Silnik::stop()
 {
     detachInterrupt(digitalPinToInterrupt(limitPin));
-    digitalWrite(enPin, HIGH    `);
+    digitalWrite(enPin, HIGH);
 }
 
 uint8_t Silnik::goBack(bool val) const

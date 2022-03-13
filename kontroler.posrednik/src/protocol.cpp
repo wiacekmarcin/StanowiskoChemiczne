@@ -82,8 +82,8 @@ bool Message::parse1() {
         }
         case POSITION_REQ: 
         {
-            Serial.print("recv pos req ");
-            Serial.print(dlugosc[0] + 2);
+            //Serial.print("recv pos req ");
+            //Serial.print(dlugosc[0] + 2);
             sendRawMessage2(data[0], dlugosc[0] + 2);            
             return true;
         }
@@ -94,15 +94,15 @@ bool Message::parse1() {
         }
         case MOVEHOME_REQ:
         {
-            Serial.print("move home req ");
-            Serial.print(dlugosc[0] + 2);
+            //Serial.print("move home req ");
+            //Serial.print(dlugosc[0] + 2);
             sendRawMessage2(data[0], dlugosc[0]+2);
             return true;
         }
         case SET_PARAM_REQ:
         {
-            Serial.print("params set req ");
-            Serial.print(dlugosc[0] + 2);
+            //Serial.print("params set req ");
+            //Serial.print(dlugosc[0] + 2);
             sendRawMessage2(data[0], dlugosc[0]+2);
             return true;
         }
@@ -155,7 +155,7 @@ bool Message::parse2() {
             return true;
         }
         default:
-            Serial.print("Nie znany rozkaz z Serial1\n");
+            //Serial.print("Nie znany rozkaz z Serial1\n");
             uint8_t buf[16] = "S1:Niezn.rozkaz";
             sendError(buf, 15);
             break;

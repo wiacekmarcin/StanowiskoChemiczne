@@ -13,10 +13,10 @@ void Message::init()
 bool Message::check(unsigned char c)
 {
     data[posCmd++] = c;
-    Serial.print("recv=");
-    Serial.print((char)c);
-    Serial.print(" ");
-    Serial.println(c, HEX);
+    //Serial.print("recv=");
+    //Serial.print((char)c);
+    //Serial.print(" ");
+    //Serial.println(c, HEX);
 
     if (posCmd-1 == 0) {    
         crc.restart();
@@ -33,13 +33,13 @@ bool Message::check(unsigned char c)
             bool r = parse();
             if (!r) {
                 sendError("ZLY ROZKAZ", 10);
-                Serial.println("Zly rozkaz");
+                Serial.println("Bad command");
             }
             return r;
         }
         posCmd = 0;
         sendError("ZLE CRC ", 7);
-        Serial.println("Zly rozkaz");
+        Serial.println("Bad command");
         return false;
 
     }
@@ -50,7 +50,7 @@ bool Message::check(unsigned char c)
     if (posCmd == MAXLENPROTO) {
         posCmd = 0;
         sendError("ZBYT DUZA WIAD.", 15);
-        Serial.println("zbyt duza wiadomosc");
+        Serial.println("Too big message");
         return false;    
     }
     return false;
@@ -100,7 +100,7 @@ bool Message::parse() {
         
         default:
             sendError("NIEZNANA WIAD.", 14);
-            Serial.println("Nieznana wiadomosc");
+            Serial.println("Unknown Message");
             break;
 
     }

@@ -25,14 +25,15 @@
 //1 - LPT 14
 //2 - GND LPT 9 
 //3 - LPT 8
+/*
 enum Dozowniknr {
   X = 0,
   Y = 1,
   Z = 2,
   C = 3,
   D = 4,
-}
-
+};
+*/
 void interS1();
 void interS2();
 void interS3();
@@ -61,8 +62,8 @@ void setup() {
   s[3].init();
   s[4].init();
 
-  Serial1.begin(115200);
-  Serial.begin(115200);
+  Serial1.begin(9600, SERIAL_8O2);
+  Serial.begin(9600, SERIAL_8O2);
   delay(100);
   msg.setResetDone();
   Silnik::maxSteps = 0;
@@ -76,11 +77,15 @@ void loop() {
   if (Serial1.available() > 0) {
     if (msg.check(Serial1.read())) {
       if (msg.getStatusWork() == msg.RETURN_HOME) {
+        digitalWrite(13, HIGH);
         msg.setHomeDone(s[msg.getNrDozownika()].home());
-        Serial.print("Done Home");
+        Serial.println("Done Home");
+        digitalWrite(13, LOW);
       } else if (msg.getStatusWork() == msg.POS_START) {
+        digitalWrite(13, HIGH);
         msg.setPosDone(s[msg.getNrDozownika()].start(msg.getSteps()));
-        Serial.print("Done pos");
+        Serial.println("Done pos");
+        digitalWrite(13, LOW);
       }
     }
   }
