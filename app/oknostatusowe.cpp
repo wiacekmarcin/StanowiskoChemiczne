@@ -1,10 +1,23 @@
 #include "oknostatusowe.h"
 #include "ui_oknostatusowe.h"
 
+#include "urzadzenia.h"
 OknoStatusowe::OknoStatusowe(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OknoStatusowe),
-    timer(this)
+    timer(this),
+    bZawor1(false),
+    bZawor2(false),
+    bZawor3(false),
+    bZawor4(false),
+    bZawor5(false),
+    bZawor6(false),
+    bZawor7(false),
+    bZawor8(false),
+    bpilot(false),
+    busb6210(false),
+    busb6501(false),
+    bdozownik(false)
 {
     ui->setupUi(this);
 
@@ -62,6 +75,7 @@ void OknoStatusowe::setLabels(const Ustawienia &set)
 void OknoStatusowe::setDigitalValue(int id, bool val)
 {
     //qDebug("OknoStatusowe::setDigitalValue(int id, bool val) %d %d", id, val);
+    /*
     switch(id) {
     case 1: ui->zawor1->setOk(val); break;
     case 2: ui->zawor2->setOk(val); break;
@@ -75,28 +89,93 @@ void OknoStatusowe::setDigitalValue(int id, bool val)
     default:
         break;
     }
+    */
+
+    switch(id) {
+    case 1: bZawor1 = val; break;
+    case 2: bZawor1 = val; break;
+    case 3: bZawor1 = val; break;
+    case 4: bZawor1 = val; break;
+    case 5: bZawor1 = val; break;
+    case 6: bZawor1 = val; break;
+    case 7: bZawor1 = val; break;
+    case 8: bZawor1 = val; break;
+    case 9: bpilot = val; break;
+    default:
+        break;
+    }
 }
 
 void OknoStatusowe::setDozownik(bool ok)
 {
-    ui->dozownik->setOk(ok);
-    ui->dozownik->update();
+    bdozownik = ok;
+    //ui->dozownik->setOk(ok);
+    //ui->dozownik->update();
 }
 
 void OknoStatusowe::setUSB6210(bool ok)
 {
-    ui->usb6210->setOk(ok);
-    ui->usb6210->update();
+    //ui->usb6210->setOk(ok);
+    //ui->usb6210->update();
+    busb6210 = ok;
 }
 
 void OknoStatusowe::setUSB6501(bool ok)
 {
-    ui->usb6501->setOk(ok);
-    ui->usb6501->update();
+    //ui->usb6501->setOk(ok);
+    //ui->usb6501->update();
+    busb6501 = ok;
+}
+
+void OknoStatusowe::setDrzwiKomory(bool prawe, bool otwarte)
+{
+    if (prawe)
+        bZawor1 = otwarte;
+    else
+        bZawor2 = otwarte;
+}
+
+void OknoStatusowe::setZawor(int idZ, bool otwarte)
+{
+    switch(idZ) {
+    case Urzadzenia::digitalIn::wentylacja_lewa:
+        bZawor3 = otwarte; break;
+    case Urzadzenia::digitalIn::proznia:
+        bZawor8 = otwarte; break;
+    case Urzadzenia::digitalIn::probka_in:
+        bZawor5 = otwarte; break;
+    case Urzadzenia::digitalIn::wentylacja_prawa:
+        bZawor4 = otwarte; break;
+    case Urzadzenia::digitalIn::wlot_powietrza:
+        bZawor7 = otwarte; break;
+    case Urzadzenia::digitalIn::probka_out:
+        bZawor6 = otwarte; break;
+    default:
+        break;
+    };
+}
+
+void OknoStatusowe::setPilot(bool przycisk)
+{
+    bpilot = przycisk;
 }
 
 void OknoStatusowe::timeout()
 {
+    ui->zawor1->setOk(bZawor1);
+    ui->zawor2->setOk(bZawor2);
+    ui->zawor3->setOk(bZawor3);
+    ui->zawor4->setOk(bZawor4);
+    ui->zawor5->setOk(bZawor5);
+    ui->zawor6->setOk(bZawor6);
+    ui->zawor7->setOk(bZawor7);
+    ui->zawor8->setOk(bZawor8);
+    ui->pilot->setOk(bpilot);
+    ui->usb6210->setOk(busb6210);
+    ui->usb6501->setOk(busb6501);
+    ui->dozownik->setOk(bdozownik);
+
+
     ui->zawor1->update();
     ui->zawor2->update();
     ui->zawor3->update();

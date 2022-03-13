@@ -35,5 +35,5 @@ QString SygnalAnalParam::getUnit() const
 void SygnalAnalParam::setUnit(const QString &value)
 {
     unit = value;
-    changeUnit(value);
+    emit changeUnit(value);
 }

@@ -28,25 +28,36 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     selectedProject(nullptr),
     selectedTest(nullptr)
 {
+    qDebug("%s %d",__FILE__,__LINE__);
     initialSetting();
+    qDebug("%s %d",__FILE__,__LINE__);
     ui->setupUi(this);
     ui->widget->setParams(settings);
+    qDebug("%s %d",__FILE__,__LINE__);
     dlgUrz = new Urzadzenia(this);
+    qDebug("%s %d",__FILE__,__LINE__);
     dlgUrz->setLabels(settings);
+    qDebug("%s %d",__FILE__,__LINE__);
+    dlgUrz->setUstawienia(settings);
+    dlgUrz->setUstawienia(&settings);
+    qDebug("%s %d",__FILE__,__LINE__);
     dlgUrz->setHidden(true);
+    qDebug("%s %d",__FILE__,__LINE__);
     connect(dlgUrz,&Urzadzenia::analogValueChanged, this, &GlowneOkno::valueChanged);
     connect(this, &GlowneOkno::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
-    connect(dlgUrz, &Urzadzenia::digitalValueChanged, ui->frCzujniki, &OknoStatusowe::setDigitalValue);
-    connect(dlgUrz, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
+    connect(dlgUrz, &Urzadzenia::drzwi_komory, ui->frCzujniki, &OknoStatusowe::setDrzwiKomory);
+    connect(dlgUrz, &Urzadzenia::zawor, ui->frCzujniki, &OknoStatusowe::setZawor);
+    connect(dlgUrz, &Urzadzenia::pilot_btn, ui->frCzujniki, &OknoStatusowe::setPilot);
     connect(dlgUrz, &Urzadzenia::usb6210, ui->frCzujniki, &OknoStatusowe::setUSB6210);
     connect(dlgUrz, &Urzadzenia::usb6501, ui->frCzujniki, &OknoStatusowe::setUSB6501);
-
+    connect(dlgUrz, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
+    qDebug("%s %d",__FILE__,__LINE__);
     ui->frCzujniki->setLabels(settings);
-
+    qDebug("%s %d",__FILE__,__LINE__);
 
     signalMapper = new QSignalMapper(this);
 
-    for (int i = 0; i < settings.maxCzujek; ++i) {
+    for (int i = 0; i < settings.maxCzujekAnal; ++i) {
         act_wykresy[i] = new QAction(this);
         act_wykresy[i]->setObjectName(QString("actionCzujnikChart_%1").arg(i));
         act_wykresy[i]->setCheckable(true);
@@ -60,7 +71,7 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
         act_wyzwal[i]->setCheckable(true);
         act_wyzwal[i]->setText(settings.getName(i+1));
         connect(act_wyzwal[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
-        signalMapper->setMapping(act_wyzwal[i],     settings.maxCzujek + i);
+        signalMapper->setMapping(act_wyzwal[i],     settings.maxCzujekAnal + i);
         //connect(act_wyzwal[i], &QAction::triggered, [this, i] { wybierzCzujke(settings.maxCzujek+i); });
 
         ui->menuPodgl_d_wej->addAction(act_wykresy[i]);
@@ -249,7 +260,7 @@ void GlowneOkno::changeSelectedTest()
 
 void GlowneOkno::setActionText()
 {
-    for (int i = 0; i < settings.maxCzujek; ++i) {
+    for (int i = 0; i < settings.maxCzujekAnal; ++i) {
         act_wykresy[i]->setText(settings.getName(i+1));
         act_wyzwal[i]->setText(settings.getName(i+1));
     }

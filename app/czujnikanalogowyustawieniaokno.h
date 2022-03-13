@@ -27,7 +27,7 @@ private slots:
 protected:
     void createOneElement(int id, const QString &titleBox)    ;
 private:
-    CzujnikAnalogowyUstawieniaWidget * czujniki[Ustawienia::maxCzujek];
+    CzujnikAnalogowyUstawieniaWidget * czujniki[Ustawienia::maxCzujekAnal];
     QDialogButtonBox *buttonBox;
     QGridLayout * gridLayout;
     QTimer t;

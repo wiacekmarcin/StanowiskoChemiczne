@@ -36,27 +36,22 @@ bool NIDAQMxUSB6501::isConnected()
     return taskHandleRead != nullptr /* && taskHandleWrite != nullptr */;
 }
 
-bool NIDAQMxUSB6501::configure()
+bool NIDAQMxUSB6501::configure(const QString & readDevice, const QString & writeDevice)
 {
+    qDebug("%s %s", readDevice.toStdString().c_str(), writeDevice.toStdString().c_str());
+    if (isConnected())
+        return true;
     /*********************************************/
     // DAQmx Configure Code
     /*********************************************/
     DAQmxErrChk(DAQmxCreateTask("readValues", &taskHandleRead));
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
-    DAQmxErrChk(DAQmxCreateDIChan(taskHandleRead, "USB6501/port1,USB6501/port1/Line5", "", DAQmx_Val_ChanForAllLines));
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
-    /* NIE WSPIERA PULL UP*/
-    //DAQmxErrChk(DAQmxSetDigitalPullUpPullDownStates("USB6501", "USB6501/port0, USB6501/port1/Line0", DAQmx_Val_PullUp, NULL));
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
+    DAQmxErrChk(DAQmxCreateDIChan(taskHandleRead, readDevice.toStdString().c_str(), "", DAQmx_Val_ChanForAllLines));
+
     DAQmxErrChk(DAQmxStartTask(taskHandleRead));
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
 
-    
     DAQmxErrChk(DAQmxCreateTask("writeValue", &taskHandleWrite));
-    DAQmxErrChk(DAQmxCreateDOChan(taskHandleWrite, "USB6501/port0,USB6501/port1/Line0:4", "", DAQmx_Val_ChanForAllLines));
+    DAQmxErrChk(DAQmxCreateDOChan(taskHandleWrite, writeDevice.toStdString().c_str(), "", DAQmx_Val_ChanForAllLines));
     DAQmxErrChk(DAQmxStartTask(taskHandleWrite));
-
-    //DAQmxErrChk(DAQmxWriteDigitalLines(taskHandleWrite, 1, 1, 10.0, DAQmx_Val_GroupByChannel, dataWrite, NULL, NULL));
 
     return true;
 
@@ -73,7 +68,11 @@ bool NIDAQMxUSB6501::readValue(uInt16 & val)
 
     //qDebug("%d task = %d", __LINE__, taskHandleRead);
     DAQmxErrChk(DAQmxReadDigitalU32(taskHandleRead, 1, 10.0, DAQmx_Val_GroupByChannel, &dataRead, 1, &read, NULL));
-    val = (~dataRead) & 0x01ff;
+
+    uint16_t corrval = (dataRead & 0x00ff) | (((dataRead & 0xff00) >> 5));
+    val = (~corrval) & 0x01ff;
+
+    //qDebug("%04x %04x %04x ", dataRead, corrval, val);
     return true;
 
 Error:
@@ -87,9 +86,11 @@ bool NIDAQMxUSB6501::writeValue(uInt16& val)
     if (!isConnected())
         return false;
 
-    //qDebug("%d write %04x", __LINE__, val);
-    for (int i = 0; i < 10; ++i)
-        dataWrite[i] = ~((val >> i) & 0x1);
+    qDebug("%d write %04x", __LINE__, val);
+    for (int i = 0; i < 10; ++i) {
+        qDebug("%d val_wr=%d", __LINE__, ((~val >> i) & 0x1));
+        dataWrite[i] = ((~val >> i) & 0x1);
+    }
 
     for (int i = 0; i < 10; ++i)
         //qDebug("%d", dataWrite[i]);

@@ -11,10 +11,12 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Star Runner");
     //a.setStyle("Windows");
     //QApplication::setStyle(QWindowsStyle());
-
+    qDebug("%s %d",__FILE__,__LINE__);
     GlowneOkno w;
+    qDebug("%s %d",__FILE__,__LINE__);
     w.show();
 
     return a.exec();
+
 }
 

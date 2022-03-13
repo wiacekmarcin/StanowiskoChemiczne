@@ -14,7 +14,109 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="3" column="1">
+   <item row="5" column="0" colspan="2">
+    <widget class="QPlainTextEdit" name="plainTextEdit"/>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" rowspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Wybierz dozownik</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lchDzowonik">
+        <property name="text">
+         <string>Wybierz dozownik</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="sbDozownik">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="pbReturn">
+        <property name="text">
+         <string>Powrót</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="liloscimpulsow">
+        <property name="text">
+         <string>ilosc krokow</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="steps">
+        <property name="maximum">
+         <number>999999</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="liloscml">
+        <property name="text">
+         <string>ilosc ml</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="ml">
+        <property name="maximum">
+         <number>999999</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="lustaw">
+        <property name="text">
+         <string>Ustaw imp/ml</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="pbUstaw">
+        <property name="text">
+         <string>Ustaw</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lreturn">
+        <property name="text">
+         <string>Powrót</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1">
     <widget class="QGroupBox" name="gbDozownik">
      <property name="title">
       <string>Dozownik - ustawienia ogólne</string>
@@ -39,7 +141,11 @@
        </layout>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="maxSteps"/>
+       <widget class="QSpinBox" name="maxSteps">
+        <property name="maximum">
+         <number>999999</number>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="lparameter">
@@ -70,7 +176,17 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="impulsyml"/>
+       <widget class="QDoubleSpinBox" name="impulsyml">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="maximum">
+         <double>999.990000000000009</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="lKierynekObrotow">
@@ -82,358 +198,7 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="gbAnalog">
-     <property name="title">
-      <string>Sygnały analogowe</string>
-     </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="cz_label_1">
-        <property name="text">
-         <string>Ciśnenie w komorze</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QSlider" name="analog_1">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="cz_label_2">
-        <property name="text">
-         <string>Stężenie VOC 1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSlider" name="analog_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="cz_label_3">
-        <property name="text">
-         <string>Stężenie O2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QSlider" name="analog_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="cz_label_4">
-        <property name="text">
-         <string>Stężenie CO2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QSlider" name="analog_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="cz_label_5">
-        <property name="text">
-         <string>Temperatura w komorze</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QSlider" name="analog_5">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="cz_label_6">
-        <property name="text">
-         <string>Temperatura parownika</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QSlider" name="analog_6">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="cz_label_7">
-        <property name="text">
-         <string>Steżenie VOC 2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QSlider" name="analog_7">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="cz_label_8">
-        <property name="text">
-         <string>Czujnik analogowy 8</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QSlider" name="analog_8">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="1" rowspan="2">
-    <widget class="QGroupBox" name="gbOut">
-     <property name="title">
-      <string>Wyjścia cyfrowe</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_6">
-      <item row="6" column="0">
-       <widget class="QLabel" name="l_out_9">
-        <property name="text">
-         <string>Mieszadło</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="DigitalOutWidget" name="out_9" native="true"/>
-      </item>
-      <item row="5" column="2">
-       <widget class="QToolButton" name="tb_out_8">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="DigitalOutWidget" name="out_5" native="true"/>
-      </item>
-      <item row="3" column="2">
-       <widget class="QToolButton" name="tb_out_6">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="l_out_7">
-        <property name="text">
-         <string>Pompka mebramowa</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="DigitalOutWidget" name="out_a" native="true"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="DigitalOutWidget" name="out_4" native="true"/>
-      </item>
-      <item row="6" column="2">
-       <widget class="QToolButton" name="tb_out_9">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="DigitalOutWidget" name="out_b" native="true"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="l_out_4">
-        <property name="text">
-         <string>Iskra mechaniczna (ON/OFF silnik DC)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="l_out_a">
-        <property name="text">
-         <string>Trigger kamery</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="2">
-       <widget class="QToolButton" name="tb_out_a">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="l_out_5">
-        <property name="text">
-         <string>Płomień (ON/OFF grzałki)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="l_out_8">
-        <property name="text">
-         <string>Wentylator do przedmuchu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QToolButton" name="tb_out_4">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QToolButton" name="tb_out_7">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="DigitalOutWidget" name="out_7" native="true"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="l_out_6">
-        <property name="text">
-         <string>Pompa próżniowa</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QToolButton" name="tb_out_5">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="DigitalOutWidget" name="out_8" native="true"/>
-      </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="title">
-         <string>Iskra elektryczna</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <item row="1" column="1">
-          <widget class="DigitalOutWidget" name="out_2" native="true"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="l_out_3">
-           <property name="text">
-            <string>Zapłon</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="DigitalOutWidget" name="out_3" native="true"/>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="l_out_1">
-           <property name="text">
-            <string>ON/OFF</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="l_out_2">
-           <property name="text">
-            <string>High Voltage</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="DigitalOutWidget" name="out_1" native="true"/>
-         </item>
-         <item row="0" column="2">
-          <widget class="QToolButton" name="tb_out_1">
-           <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QToolButton" name="tb_out_2">
-           <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QToolButton" name="tb_out_3">
-           <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="DigitalOutWidget" name="out_6" native="true"/>
-      </item>
-      <item row="9" column="0">
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0">
+   <item row="1" column="0" rowspan="3">
     <widget class="QGroupBox" name="gbIn">
      <property name="title">
       <string>Wejścia cyfrowe</string>
@@ -636,9 +401,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="HighLowDigitalWidget" name="in_1" native="true"/>
-      </item>
       <item row="3" column="2">
        <widget class="HighLowDigitalWidget" name="in_9" native="true"/>
       </item>
@@ -655,98 +417,319 @@
         </property>
        </spacer>
       </item>
+      <item row="0" column="2">
+       <widget class="HighLowDigitalWidget" name="in_1" native="true"/>
+      </item>
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QGroupBox" name="groupBox">
+   <item row="0" column="1" rowspan="2">
+    <widget class="QGroupBox" name="gbOut">
      <property name="title">
-      <string>Wybierz dozownik</string>
+      <string>Wyjścia cyfrowe</string>
      </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="lchDzowonik">
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="5" column="0">
+       <widget class="QLabel" name="l_out_8">
         <property name="text">
-         <string>Wybierz dozownik</string>
+         <string>Wentylator do przedmuchu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QToolButton" name="tb_out_9">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="DigitalOutWidget" name="out_9" native="true"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="DigitalOutWidget" name="out_5" native="true"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="l_out_4">
+        <property name="text">
+         <string>Iskra mechaniczna (ON/OFF silnik DC)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="l_out_a">
+        <property name="text">
+         <string>Trigger kamery</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="l_out_6">
+        <property name="text">
+         <string>Pompa próżniowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="tb_out_4">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QToolButton" name="tb_out_8">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="DigitalOutWidget" name="out_8" native="true"/>
+      </item>
+      <item row="7" column="2">
+       <widget class="QToolButton" name="tb_out_a">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="l_out_9">
+        <property name="text">
+         <string>Mieszadło</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="l_out_7">
+        <property name="text">
+         <string>Pompka mebramowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QToolButton" name="tb_out_7">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="l_out_5">
+        <property name="text">
+         <string>Płomień (ON/OFF grzałki)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>Iskra elektryczna</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="1" column="1">
+          <widget class="DigitalOutWidget" name="out_2" native="true"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="l_out_3">
+           <property name="text">
+            <string>Zapłon</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="DigitalOutWidget" name="out_3" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="l_out_1">
+           <property name="text">
+            <string>ON/OFF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="l_out_2">
+           <property name="text">
+            <string>High Voltage</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="DigitalOutWidget" name="out_1" native="true"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QToolButton" name="tb_out_1">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QToolButton" name="tb_out_2">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QToolButton" name="tb_out_3">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="DigitalOutWidget" name="out_7" native="true"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="DigitalOutWidget" name="out_4" native="true"/>
+      </item>
+      <item row="7" column="1">
+       <widget class="DigitalOutWidget" name="out_a" native="true"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QToolButton" name="tb_out_6">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QToolButton" name="tb_out_5">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="DigitalOutWidget" name="out_6" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="gbAnalog">
+     <property name="title">
+      <string>Sygnały analogowe</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="cz_label_1">
+        <property name="text">
+         <string>Ciśnenie w komorze</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="sbDozownik">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>5</number>
+       <widget class="QSlider" name="analog_1">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="lreturn">
+       <widget class="QLabel" name="cz_label_2">
         <property name="text">
-         <string>Powrót</string>
+         <string>Stężenie VOC 1</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QPushButton" name="pbReturn">
-        <property name="text">
-         <string>Powrót</string>
+       <widget class="QSlider" name="analog_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="Line" name="line_2">
+      <item row="2" column="0">
+       <widget class="QLabel" name="cz_label_3">
+        <property name="text">
+         <string>Stężenie O2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSlider" name="analog_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="liloscimpulsow">
+       <widget class="QLabel" name="cz_label_4">
         <property name="text">
-         <string>ilosc krokow</string>
+         <string>Stężenie CO2</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QSpinBox" name="steps"/>
+       <widget class="QSlider" name="analog_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="liloscml">
+       <widget class="QLabel" name="cz_label_5">
         <property name="text">
-         <string>ilosc ml</string>
+         <string>Temperatura w komorze</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QSpinBox" name="ml"/>
+       <widget class="QSlider" name="analog_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="lustaw">
+       <widget class="QLabel" name="cz_label_6">
         <property name="text">
-         <string>Ustaw imp/ml</string>
+         <string>Temperatura parownika</string>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QPushButton" name="pbUstaw">
+       <widget class="QSlider" name="analog_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="cz_label_7">
         <property name="text">
-         <string>Ustaw</string>
+         <string>Steżenie VOC 2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSlider" name="analog_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="cz_label_8">
+        <property name="text">
+         <string>Czujnik analogowy 8</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QSlider" name="analog_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>true</bool>
-     </property>
     </widget>
    </item>
   </layout>

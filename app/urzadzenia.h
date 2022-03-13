@@ -21,7 +21,7 @@ class DigitalOutWidget;
 class Urzadzenia : public QDialog
 {
     Q_OBJECT
-
+public:
     typedef enum _aInput {
         vol1,
         vol2,
@@ -62,13 +62,20 @@ public:
     ~Urzadzenia();
 
     void setLabels(const Ustawienia & ust);
+
+    void setUstawienia(const Ustawienia & ust);
+    void setUstawienia(Ustawienia *ust_);
 signals:
     void analogValueChanged(int id, int mV);
     void digitalValueChanged(int id, bool high);
-    void dozownik(bool ok);
 
+    void dozownik(bool ok);
     void usb6210(bool ok);
     void usb6501(bool ok);
+
+    void drzwi_komory(bool prawe, bool otwarte);
+    void zawor(int idz, bool otwarty);
+    void pilot_btn(bool otwarty);
 
 private slots:
 
@@ -93,12 +100,13 @@ private slots:
     void changeDigital_9(bool val);
 
     void dozownikTimeout();
+    void timerUsbDevice();
+    void timeoutDI100ms();
+    void timeoutAI100ms();
 
     /* serial */
     void successOpenDevice(bool);
-    void deviceName(QString);
-    void controllerOK();
-    void echoOK();
+    void echoOK(bool ok);
 
     void errorSerial(QString);
     void debug(QString);
@@ -111,8 +119,7 @@ private slots:
     void on_parameters_clicked();
     void on_pbReturn_clicked();
 
-    void timeoutDI100ms();
-    void timeoutAI100ms();
+
     void on_tb_out_1_clicked();
     void on_tb_out_2_clicked();
     void on_tb_out_3_clicked();
@@ -137,9 +144,13 @@ signals:
     void setPosition(short dozownikNr, uint32_t x);
 protected:
     short getDozownikNr() { return dozownikNr; };
+    void checkUsbCard();
+    void checkSerial();
+
     void on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask);
 private:
     Ui::Urzadzenia *ui;
+
     SerialMessage smg;
     bool connect2Serial;
     short cntEcho;
@@ -148,10 +159,19 @@ private:
 
     NIDAQMxUSB6501 dio;
     NIDAQMxUSB6210 ai;
+
     uint16_t vals; //wyjscia
     QTimer timerDI100;
     QTimer timerAI100;
+    QTimer timerCheckDevice;
     short dozownikNr;
+    bool usbDio;
+    bool usbAnal;
+    QString readDigString;
+    QString writeDigString;
+    QString readAnalString;
+
+    Ustawienia * ust;
 };
 
 #endif // URZADZENIA_H

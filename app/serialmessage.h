@@ -31,50 +31,34 @@ public:
 
     } CMD;
 
+    bool getReverse() const;
+    void setReverse(bool newReverse);
+
+    uint32_t getMaxImp() const;
+    void setMaxImp(uint32_t newMaxImp);
+
+    void setSettings(bool reverse, uint32_t maxImp);
+    void connectToSerial();
+    void echo();
+    void setPositionHome(short DozownikNr);
+    void setPosition(short DozwnikNr, uint32_t x);
+
 signals:
-    void successOpenDevice(bool);
-    void deviceName(QString);
-
-    void controllerOK();
-
-    void startingPosition();
-    void donePosition();
-    void errorReadFromRadio();
-    void readedFromRadio(int val);
-    void echoOK();
-
-    void startingHome();
-    void doneHome();
-    void errorHome();
-
-    void setParams();
-    void setParamsDone();
-
+    void dozownik(bool conn);
     void errorSerial(QString);
-    //void timeoutSerial(QString, bool, QString);
-
     void debug(QString);
+    void donePositionHome(bool ok);
+    void donePosition();
+    void successOpenDevice(bool success);
+    void setParamsDone();
+    void echoOK(bool ok);
+
+
 
 public slots:
     void handleReadyRead();
     void serialError(const QSerialPort::SerialPortError & error);
-
-
-    void connectToSerial();
-    void echo();
-    void setPositionHome(short DozownikNr);
-    void setSettings(bool reverse, uint32_t maxImp);
-    void doneSettings();
-    void setPosition(short DozwnikNr, uint32_t x);
-
-
     void response(const QByteArray &s);
-    //void errorRead(const QString &s);
-    //void timeoutRead(const QString &s);
-    //void errorWrite(const QString &s);
-    //void timeoutWrite(const QString &s);
-    //void findPort(const QString &s);
-
 
 protected:
     bool openDevice(const QSerialPortInfo & port);
@@ -100,6 +84,10 @@ private:
     QList<QByteArray> commands;
     QByteArray cmd;
     unsigned short lenCmd;
+
+    short lenEcho;
+    bool reverse;
+    uint32_t maxImp;
 
 };
 
