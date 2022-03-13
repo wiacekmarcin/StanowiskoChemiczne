@@ -159,42 +159,50 @@ void Urzadzenia::setUstawienia(const Ustawienia &ust)
 
 void Urzadzenia::on_analog_1_valueChanged(int value)
 {
-    emit analogValueChanged(1, value);
+    double ratio = ust ? ust->getRatio(1) : 1.00;
+    emit analogValueChanged(1, ratio*value);
 }
 
 void Urzadzenia::on_analog_2_valueChanged(int value)
 {
-    emit analogValueChanged(2, value);
+    double ratio = ust ? ust->getRatio(2) : 1.00;
+    emit analogValueChanged(2, ratio*value);
 }
 
 void Urzadzenia::on_analog_3_valueChanged(int value)
 {
-    emit analogValueChanged(3, value);
+    double ratio = ust ? ust->getRatio(3) : 1.00;
+    emit analogValueChanged(3, ratio*value);
 }
 
 void Urzadzenia::on_analog_4_valueChanged(int value)
 {
-    emit analogValueChanged(4, value);
+    double ratio = ust ? ust->getRatio(4) : 1.00;
+    emit analogValueChanged(4, ratio*value);
 }
 
 void Urzadzenia::on_analog_5_valueChanged(int value)
 {
-    emit analogValueChanged(5, value);
+    double ratio = ust ? ust->getRatio(5) : 1.00;
+    emit analogValueChanged(5, ratio*value);
 }
 
 void Urzadzenia::on_analog_6_valueChanged(int value)
 {
-    emit analogValueChanged(6, value);
+    double ratio = ust ? ust->getRatio(6) : 1.00;
+    emit analogValueChanged(6, ratio*value);
 }
 
 void Urzadzenia::on_analog_7_valueChanged(int value)
 {
-    emit analogValueChanged(7, value);
+    double ratio = ust ? ust->getRatio(7) : 1.00;
+    emit analogValueChanged(7, ratio*value);
 }
 
 void Urzadzenia::on_analog_8_valueChanged(int value)
 {
-    emit analogValueChanged(8, value);
+    double ratio = ust ? ust->getRatio(8) : 1.00;
+    emit analogValueChanged(8, ratio*value);
 }
 
 void Urzadzenia::changeDigital_1(bool val)

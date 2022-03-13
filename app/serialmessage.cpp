@@ -65,8 +65,7 @@ SerialMessage::SerialMessage(QObject *parent) :
 
 SerialMessage::~SerialMessage()
 {
-    if (m_serialPort.isOpen())
-        m_serialPort.close();
+    closeDevice();
 }
 
 void SerialMessage::handleReadyRead()
@@ -205,6 +204,7 @@ void SerialMessage::echo()
     if (++lenEcho == 5) {
         qDebug("dozownik = false");
         connSerial = false;
+        closeDevice();
         emit dozownik(false);
         return;
     }
@@ -237,8 +237,13 @@ void SerialMessage::setPosition(short DozownikNr, uint32_t x)
 
 void SerialMessage::closeDevice()
 {
-    if (m_serialPort.isOpen())
+    if (m_serialPort.isOpen()) {
+        m_serialPort.flush();
+        m_serialPort.clear();
+        m_serialPort.clearError();
         m_serialPort.close();
+    }
+    connSerial = false;
 }
 
 void SerialMessage::response(const QByteArray &s)
@@ -253,6 +258,9 @@ void SerialMessage::response(const QByteArray &s)
 bool SerialMessage::openDevice(const QSerialPortInfo &port)
 {
     //qDebug("openDevice");
+
+
+
     m_serialPort.setPort(port);
     portName = port.portName();
 
@@ -263,6 +271,9 @@ bool SerialMessage::openDevice(const QSerialPortInfo &port)
         qDebug("Nie mozna otworzyc urzadzenia %s, error  %s", portName.toStdString().c_str(), m_serialPort.errorString().toStdString().c_str());
         return false;
     }
+    m_serialPort.flush();
+    m_serialPort.clear();
+    m_serialPort.clearError();
     connSerial = true;
 
     m_serialPort.setBaudRate(QSerialPort::Baud9600);
