@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
-#if !defined L_COMP
+#ifndef L_COMP
 #include <NIDAQmx.h>
+#include <QString>
 
 class NIDAQMxUSB6501
 {
@@ -9,7 +10,7 @@ public:
 	NIDAQMxUSB6501();
 	~NIDAQMxUSB6501();
 
-    bool configure();
+    bool configure(const QString &readDevice, const QString &writeDevice);
     bool readValue(uInt16 & dataRead);
     bool writeValue(uInt16& dataWrite);
     std::string errStr();
@@ -44,3 +45,4 @@ public:
     bool isConnected() { return true; }
 };
 #endif
+

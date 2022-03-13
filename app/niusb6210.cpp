@@ -24,31 +24,21 @@ NIDAQMxUSB6210::~NIDAQMxUSB6210()
 
 bool NIDAQMxUSB6210::isConnected()
 {
-    return taskHandleRead != nullptr /* && taskHandleWrite != nullptr */;
+    return taskHandleRead != nullptr ;
 }
 
-bool NIDAQMxUSB6210::configure()
+bool NIDAQMxUSB6210::configure(const QString & deviceString)
 {
+    if (isConnected())
+        return true;
     /*********************************************/
     // DAQmx Configure Code
     /*********************************************/
-    DAQmxErrChk(DAQmxCreateTask("readValues", &taskHandleRead));
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
-    //DAQmxErrChk(DAQmxCreateAIVoltageChan(taskHandleRead, "USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5",
-    //    "", DAQmx_Val_Cfg_Default, -10.0, 10.0, DAQmx_Val_Volts, NULL));
+    DAQmxErrChk(DAQmxCreateTask("readAnalogValues", &taskHandleRead));
 
-   // DAQmxErrChk(DAQmxCreateAIVoltageChan(taskHandleRead, "USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5",
-    DAQmxErrChk(DAQmxCreateAIVoltageChan(taskHandleRead, "USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6",
+    DAQmxErrChk(DAQmxCreateAIVoltageChan(taskHandleRead, deviceString.toStdString().c_str(),
             "", DAQmx_Val_RSE, -10.0, 10.0, DAQmx_Val_Volts, NULL));
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
-    //DAQmxErrChk(DAQmxCfgSampClkTiming(taskHandleRead, "", 20.0, DAQmx_Val_Rising, DAQmx_Val_ContSamps, 400));
-
-    
-    
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
     DAQmxErrChk(DAQmxStartTask(taskHandleRead));
-    //qDebug("%d task = %p", __LINE__, taskHandleRead);
-
 
     return true;
 
@@ -58,9 +48,6 @@ Error:
     return false;
 }
 
-//UDALO SIE..... odczytywac z wielu zrodel
-
-
 bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val4, float& val5, float& val6, float& val7)
 {
     if (!isConnected())
@@ -69,20 +56,8 @@ bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val
     int32       read;
     
     float64 val[8];
-    qDebug("%d task = %d", __LINE__, taskHandleRead);
 
     DAQmxErrChk(DAQmxReadAnalogF64(taskHandleRead, 1, 1.0, DAQmx_Val_GroupByChannel, val, 7, &read, NULL));
-    
-
-    
-    
-    qDebug("Acquired %d points\n", (int)read);
-    //qDebug("Acquired %d points %f %f\n", (int)read, val[0], val[1]);
-    
-    //qDebug("val %f %f %f %f %f %f\n", val[0], val[1], val[2], val[3], val[4], val[5]);
-    //for (int i = 0; i < 6; i++) {
-    //    qDebug("%d %f", i, val[i]);
-    //}
 
     val1 = val[0];
     val2 = val[1];
@@ -110,12 +85,6 @@ void NIDAQMxUSB6210::errorFun()
         DAQmxClearTask(taskHandleRead);
         taskHandleRead = nullptr;
     }
-
-    //if (DAQmxFailed(error))
-    //    printf("DAQmx Error: %s\n", errBuff);
-    //printf("End of program, press Enter key to quit\n");
-    //getchar();
-    //return 0;
 }
 
 std::string NIDAQMxUSB6210::errStr()

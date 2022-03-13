@@ -49,8 +49,8 @@ private:
     QTreeWidgetItem* selectedProject;
     QTreeWidgetItem* selectedTest;
     Ustawienia settings;
-    QAction * act_wykresy[Ustawienia::maxCzujek];
-    QAction * act_wyzwal[Ustawienia::maxCzujek];
+    QAction * act_wykresy[Ustawienia::maxCzujekAnal];
+    QAction * act_wyzwal[Ustawienia::maxCzujekAnal];
     QSignalMapper *signalMapper;
     bool showDebugDlg;
     Urzadzenia * dlgUrz;

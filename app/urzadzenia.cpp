@@ -1,10 +1,16 @@
 #include "urzadzenia.h"
 #include "ui_urzadzenia.h"
+#include "ustawienia.h"
+
 
 Urzadzenia::Urzadzenia(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Urzadzenia),
-    dozownikLoop(this)
+    dozownikLoop(this),
+    readDigString("USB6501/port2,USB6501/port1/Line5:6"),
+    writeDigString("USB6501/port0,USB6501/port1/Line0:4"),
+    readAnalString("USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6"),
+    ust(NULL)
 {
     ui->setupUi(this);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -21,17 +27,9 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
 
     /*serial*/
     connect(&smg, &SerialMessage::successOpenDevice, this, &Urzadzenia::successOpenDevice);
-    connect(&smg, &SerialMessage::deviceName, this, &Urzadzenia::deviceName);
-    connect(&smg, &SerialMessage::controllerOK, this, &Urzadzenia::controllerOK);
-    connect(&smg, &SerialMessage::echoOK, this, &Urzadzenia::echoOK);
+    connect(&smg, &SerialMessage::dozownik, this, &Urzadzenia::echoOK);
     connect(&smg, &SerialMessage::errorSerial, this, &Urzadzenia::errorSerial);
     connect(&smg, &SerialMessage::debug, this, &Urzadzenia::debug);
-
-
-    connect(this, &Urzadzenia::connectToSerial, &smg, &SerialMessage::connectToSerial);
-    connect(this, &Urzadzenia::echo, &smg, &SerialMessage::echo);
-    connect(this, &Urzadzenia::setSettings, &smg, &SerialMessage::setSettings);
-    connect(this, &Urzadzenia::setPosition, &smg, &SerialMessage::setPosition);
 
 
     smg.connectToSerial();
@@ -46,14 +44,17 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     timerDI100.setInterval(100);
     connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
     timerDI100.start();
-    dio.configure();
-    dio.writeValue(vals);
+
 
 
     timerAI100.setInterval(100);
     connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
     timerAI100.start();
-    ai.configure();
+
+
+    timerCheckDevice.setInterval(1000);
+    connect(&timerCheckDevice, &QTimer::timeout, this, &Urzadzenia::timerUsbDevice);
+    timerCheckDevice.start();
 
     vals = 0;
     
@@ -101,6 +102,7 @@ Urzadzenia::~Urzadzenia()
 {
     timerDI100.stop();
     timerAI100.stop();
+    timerCheckDevice.stop();
     delete ui;
 }
 
@@ -136,7 +138,23 @@ void Urzadzenia::setLabels(const Ustawienia &ust)
     ui->l_out_9->setText(ust.wyjscie(9));
     ui->l_out_a->setText(ust.wyjscie(10));
 
+    for (short in = 0; in < 7 ; in++) {
+        emit analogValueChanged(in+1, 0);
+    }
 
+    for (short in = 0 ; in < 10; in++) {
+         emit digitalValueChanged(in+1, false);
+    }
+}
+
+void Urzadzenia::setUstawienia(Ustawienia * ust_)
+{
+    ust = ust_;
+}
+
+void Urzadzenia::setUstawienia(const Ustawienia &ust)
+{
+    smg.setSettings(ust.getReverseMotors(), ust.getMaxImp());
 }
 
 void Urzadzenia::on_analog_1_valueChanged(int value)
@@ -239,35 +257,115 @@ void Urzadzenia::dozownikTimeout()
     emit echo();
 }
 
+void Urzadzenia::timerUsbDevice()
+{
+    checkUsbCard();
+    checkSerial();
+}
+
+//devs=USB6210
+//product-type USB-6210
+//product-id 14643
+//serial 33770223
+
+//devs=USB6501
+//product-type USB-6501
+//product-id 14646
+//serial 33665651
+
+#define DAQmxErrChk(functionCall) if( DAQmxFailed(error=(functionCall)) ) goto Error; else
+#include <NIDAQmx.h>
+void Urzadzenia::checkUsbCard()
+{
+    int32		error;
+    //qDebug("bools = %d %d", usbAnal, usbDio);
+    if (usbAnal && usbDio)
+        return;
+    char buf[128];
+    DAQmxErrChk(DAQmxGetSysDevNames(buf, 128));
+
+Error:
+    char errBuff[2048];
+    if (DAQmxFailed(error)) {
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
+        qDebug("err:%s", errBuff);
+        usbAnal = usbDio = false;
+    }
+
+    const std::string expectedProductType = "1234";
+    constexpr size_t bufferSize = 1000;
+    char buffer[bufferSize] = {};
+    if (!DAQmxFailed(DAQmxGetSysDevNames(buffer, bufferSize))) {
+        QString allNames(buffer);
+        QStringList names;
+        names = allNames.split(",");
+        for (auto & name : names) {
+            char buffer2[bufferSize] = {};
+            if (DAQmxFailed(DAQmxGetDevProductType(name.toStdString().c_str(), buffer2, bufferSize))) {
+                continue;
+            }
+            int32 deviceid;
+            if (DAQmxFailed(DAQmxGetDevProductCategory(name.toStdString().c_str(), &deviceid))) {
+                continue;
+            }
+            uInt32 serialid;
+            if (DAQmxFailed(DAQmxGetDevSerialNum(name.toStdString().c_str(), &serialid))) {
+                continue;
+            }
+
+            qDebug("devs=%s deviceid=%d serial=%d => name=%s", buffer2, deviceid, serialid, name.toStdString().c_str());
+            if (QString(buffer2) == QString("USB-6210") && deviceid == 14643 && serialid == 33770223) {
+                if (!usbAnal) {
+                    readAnalString.replace("USB6210", name);
+                    usbAnal = ai.configure(readAnalString);
+                    emit usb6210(usbAnal);
+                }
+            }
+
+            if (QString(buffer2) == QString("USB-6501") && deviceid == 14646 && serialid == 33665651) {
+                qDebug("%d usbDio = %d", __LINE__,usbDio);
+                if (!usbDio) {
+                    readDigString.replace("USB6501", name);
+                    writeDigString.replace("USB6501", name);
+                    usbDio = dio.configure(readDigString, writeDigString);
+                    qDebug("%d usbDio = %d", __LINE__,usbDio);
+                    if (usbDio)
+                        qDebug("%d write ret %d %s", __LINE__, dio.writeValue(vals),dio.errStr().c_str());
+                    emit usb6501(usbDio);
+                }
+            }
+        }
+    }
+}
+
+void Urzadzenia::checkSerial()
+{
+    smg.echo();
+    if (connect2Serial)
+        return;
+
+    smg.closeDevice();
+    smg.connectToSerial();
+}
+
+
 void Urzadzenia::successOpenDevice(bool open)
 {
-    //qDebug("Open device %d", open);
+    connect2Serial = open;
+    if (open) {
+
+    }
 }
 
-void Urzadzenia::deviceName(QString name)
+void Urzadzenia::echoOK(bool ok)
 {
-    //qDebug("Device %s", name.toStdString().c_str());
-}
-
-void Urzadzenia::controllerOK()
-{
-    //qDebug("KontrolerOK");
-    connect2Serial = true;
-    emit dozownik(true);
-    cntEcho = 0;
-    dozownikLoop.start();
-}
-
-void Urzadzenia::echoOK()
-{
-    //qDebug("echo OK");
-    if (cntEcho > 3)
-        emit dozownik(true);
-    cntEcho = 0;
+    //qDebug("%s %d", __FILE__, __LINE__);
+    emit dozownik(ok);
 }
 
 void Urzadzenia::errorSerial(QString err)
 {
+    qDebug("%s %d", __FILE__, __LINE__);
     qDebug("errorSerial : %s", err.toStdString().c_str());
 }
 
@@ -298,7 +396,7 @@ void Urzadzenia::on_steps_valueChanged(int arg1)
 
 void Urzadzenia::on_pbUstaw_clicked()
 {
-    emit setPosition(getDozownikNr(), ui->steps->value());
+    smg.setPosition(getDozownikNr(), ui->steps->value());
 }
 
 
@@ -311,79 +409,82 @@ void Urzadzenia::on_rbDirectionLeft_clicked(bool checked)
 
 void Urzadzenia::on_parameters_clicked()
 {
-    emit setSettings(ui->rbDirectionLeft->isChecked(), ui->maxSteps->value());
+    if (ust) {
+        ust->setReverseMotors(ui->rbDirectionLeft->isChecked());
+        ust->setMaxImp(ui->maxSteps->value());
+    }
+    smg.setSettings(ui->rbDirectionLeft->isChecked(), ui->maxSteps->value());
 }
 
 
 void Urzadzenia::on_pbReturn_clicked()
 {
-    emit setPositionHome(getDozownikNr());
+    smg.setPositionHome(getDozownikNr());
 }
 
 void Urzadzenia::timeoutDI100ms()
 {
-    //qDebug("timeout");
-    if (!dio.isConnected()) {
-        qDebug("Not configure %s", dio.errStr().c_str());
-        dio.configure();
-        emit usb6501(false);
+    if(!usbDio)
         return;
-    }
     
     uint16_t val;
     if (!dio.readValue(val)) {
+        usbDio = false;
         emit usb6501(false);
         return;
     }
     
-    emit usb6501(true);
+
     //qDebug("val = %d", val);
     //in1 zakmniecie komory lewe
     ui->in_1->setValue(~val & drzwi_lewe);
+    emit drzwi_komory(false, val & drzwi_lewe);
 
     //in2 zamkniecie komory prawe
     ui->in_2->setValue(~val & drzwi_prawe);
+    emit drzwi_komory(true, val & drzwi_prawe);
 
     //in3 wentylacja 1
     ui->in_3->setValue(~val & wentylacja_lewa);
+    emit zawor(wentylacja_lewa, val & wentylacja_lewa);
 
     //in4 wentylacja 2
     ui->in_4->setValue(~val & wentylacja_prawa);
+    emit zawor(wentylacja_prawa, val & wentylacja_prawa);
 
     //in5 pomiar stezenia 1
     ui->in_5->setValue(~val & probka_in);
+    emit zawor(probka_in, val & probka_in);
 
     //in6 pomiar stezenia 2
     ui->in_6->setValue(~val & probka_out);
+    emit zawor(probka_out, val & probka_out);
 
     //in7 powietrze
-    ui->in_7->setValue(~val & powietrze);
+    ui->in_7->setValue(~val & wlot_powietrza);
+    emit zawor(wlot_powietrza, val & wlot_powietrza);
 
     //in8 proznia
     ui->in_8->setValue(~val & proznia);
+    emit zawor(proznia, val & proznia);
 
     //in9 pilot
     ui->in_9->setValue(~val & pilot);
+    emit pilot_btn(val & pilot);
 
 }
 
 void Urzadzenia::timeoutAI100ms()
 {
-
-    if (!ai.isConnected()) {
-        qDebug("Not configure %s", ai.errStr().c_str());
-        ai.configure();
-        emit usb6210(false);
+    if (!usbAnal)
         return;
-    }
 
     float val0, val1, val2, val3, val4, val5, val6;
     if (!ai.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         emit usb6210(false);
+        usbAnal = false;
         return;
     }
-
-    emit usb6210(true);
 
     //analog1 cisnienie w komorze ai4
     ui->analog_1->setValue(1000*val4);

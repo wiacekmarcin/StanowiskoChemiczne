@@ -15,7 +15,7 @@ CzujnikiAnalogoweOkno::CzujnikiAnalogoweOkno(QWidget *parent) :
     gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
     QMetaObject::connectSlotsByName(this);
 
-    for (int i=0; i< Ustawienia::maxCzujek; ++i) {
+    for (int i=0; i< Ustawienia::maxCzujekAnal; ++i) {
         createOne(i);
     }
 }
@@ -27,14 +27,14 @@ CzujnikiAnalogoweOkno::~CzujnikiAnalogoweOkno()
 
 void CzujnikiAnalogoweOkno::setParams(const Ustawienia &ust)
 {
-    for (int i=0; i<ust.maxCzujek; ++i) {
+    for (int i=0; i<ust.maxCzujekAnal; ++i) {
         czujniki[i]->setParam(ust.getName(i+1), ust.getRatio(i+1), ust.getUnit(i+1));
     }
 }
 
 void CzujnikiAnalogoweOkno::updateValue(int id, const double & val)
 {
-    if (id <= 0 || id > Ustawienia::maxCzujek)
+    if (id <= 0 || id > Ustawienia::maxCzujekAnal)
         return;
     czujniki[id-1]->setValue(val);
 }

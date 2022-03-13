@@ -40,6 +40,8 @@ typedef enum digitalOut {
     kamera,
 } CyfroweWyjscia;
 
+void delay(unsigned int time);
+
 class Ustawienia
 {
 public:
@@ -57,7 +59,9 @@ public:
     QString getUnit(short id) const;
     double getRatio(short id) const;
 
-    static constexpr int maxCzujek = 8;
+    static constexpr int maxCzujekAnal = 8;
+    static constexpr int maxCzujekCyfrIn = 9;
+    static constexpr int maxCzujekCyfrOut = 11;
 
     void setWejscie(int id, const QString & name);
     QString wejscie(int id) const;
@@ -65,12 +69,20 @@ public:
     void setWyjscie(int id, const QString & name);
     QString wyjscie(int id) const;
 
+    bool getReverseMotors() const;
+    void setReverseMotors(bool newReverseMotors);
+
+    int getMaxImp() const;
+    void setMaxImp(int newMaxImp);
+
 private:
 
-    CzujnikAnalogowy czujki[maxCzujek];
-    QString wejscia[9];
-    QString wyjscia[10];
+    CzujnikAnalogowy czujki[maxCzujekAnal];
+    QString wejscia[maxCzujekCyfrIn];
+    QString wyjscia[maxCzujekCyfrOut];
     QSettings settings;
+    bool reverseMotors;
+    long maxImp;
 };
 
 #endif // USTAWIENIA_H

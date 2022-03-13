@@ -24,14 +24,14 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia 
     buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
-    for (int i = 0; i < sett.maxCzujek; i++) {
+    for (int i = 0; i < sett.maxCzujekAnal; i++) {
         createOneElement(i, QString("Czujnik %1").arg(i+1));
         czujniki[i]->setData(sett.getName(i+1), sett.getUnit(i+1), sett.getRatio(i+1));
         connect(czujniki[i], &CzujnikAnalogowyUstawieniaWidget::updateCzujnik,
                 this, &CzujnikAnalogowyUstawieniaOkno::updateCzujnik);
     }
 
-    gridLayout->addWidget(buttonBox, sett.maxCzujek/2+1, 0, 1, 2);
+    gridLayout->addWidget(buttonBox, sett.maxCzujekAnal/2+1, 0, 1, 2);
     updateCzujnik();
 
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -55,7 +55,7 @@ CzujnikAnalogowyUstawieniaOkno::~CzujnikAnalogowyUstawieniaOkno()
 
 void CzujnikAnalogowyUstawieniaOkno::saveData(Ustawienia &ust)
 {
-    for (int i = 0; i < ust.maxCzujek; ++i) {
+    for (int i = 0; i < ust.maxCzujekAnal; ++i) {
         ust.setCzujka(i+1, czujniki[i]->name(), czujniki[i]->unit(), czujniki[i]->ratio());
     }
 }
@@ -63,7 +63,7 @@ void CzujnikAnalogowyUstawieniaOkno::saveData(Ustawienia &ust)
 void CzujnikAnalogowyUstawieniaOkno::updateCzujnik()
 {
     bool valid = true;
-    for (int i = 0; i < Ustawienia::maxCzujek; i++) {
+    for (int i = 0; i < Ustawienia::maxCzujekAnal; i++) {
         if (!czujniki[i]->valid()) {
             valid = false;
             break;

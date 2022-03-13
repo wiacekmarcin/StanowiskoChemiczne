@@ -24,7 +24,7 @@ public slots:
 protected:
     void createOne(int id);
 private:
-    CzujnikAnalogowyWidget * czujniki[Ustawienia::maxCzujek];
+    CzujnikAnalogowyWidget * czujniki[Ustawienia::maxCzujekAnal];
     QGridLayout *gridLayout;
 
 };
