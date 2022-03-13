@@ -1,34 +1,44 @@
 #include "niusb6210.h"
 
-#ifndef L_COMP
+
 #include <QDebug>
 
+#ifndef L_COMP
 #define DAQmxErrChk(functionCall) if( DAQmxFailed(error=(functionCall)) ) goto Error; else
+#endif
 
 NIDAQMxUSB6210::NIDAQMxUSB6210()
 {
+#ifndef L_COMP
     error = 0;
     taskHandleRead = nullptr;
-
+#endif;
     errBuff[2048] = { '\0' };
 }
 
 NIDAQMxUSB6210::~NIDAQMxUSB6210()
 {
+#ifndef L_COMP
     if (taskHandleRead != nullptr) {
         DAQmxStopTask(taskHandleRead);
         DAQmxClearTask(taskHandleRead);
         taskHandleRead = nullptr;
     }
+#endif
 }
 
 bool NIDAQMxUSB6210::isConnected()
 {
+#ifndef L_COMP
     return taskHandleRead != nullptr ;
+#else
+    return false;
+#endif
 }
 
 bool NIDAQMxUSB6210::configure(const QString & deviceString)
 {
+#ifndef L_COMP
     if (isConnected())
         return true;
     /*********************************************/
@@ -46,13 +56,16 @@ Error:
     errorFun();
     qDebug("%d %p %s", __LINE__, taskHandleRead, errStr().c_str());
     return false;
+#else
+    return false;
+#endif
 }
 
 bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val4, float& val5, float& val6, float& val7)
 {
     if (!isConnected())
         return false;
-
+#ifndef L_COMP
     int32       read;
     
     float64 val[8];
@@ -72,11 +85,13 @@ bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val
 Error:
     errorFun();
     qDebug("%d %d %s", __LINE__, taskHandleRead, errStr().c_str());
+#endif
     return false;
 }
 
 void NIDAQMxUSB6210::errorFun()
 {
+#ifndef L_COMP
     if (DAQmxFailed(error))
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
 
@@ -85,10 +100,11 @@ void NIDAQMxUSB6210::errorFun()
         DAQmxClearTask(taskHandleRead);
         taskHandleRead = nullptr;
     }
+#endif
 }
 
 std::string NIDAQMxUSB6210::errStr()
 {
     return std::string(errBuff);
 }
-#endif
+

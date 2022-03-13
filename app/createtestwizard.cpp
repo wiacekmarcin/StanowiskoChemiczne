@@ -123,27 +123,27 @@ bool CreateTestWizard::checkZawory() const
     if (selectedId == 1 || selectedId == 2 || selectedId == 7 || selectedId == 8)
         return false;
 
-    return !zawory[wentyl_1] || !zawory[wentyl_2] || !zawory[proznia] || !zawory[pom_stez_1] ||
-            !zawory[pom_stez_2] || !zawory[powietrze];
+    return !zawory[wentylacja_lewa] || !zawory[wentylacja_prawa] || !zawory[proznia] || !zawory[pom_stez_1] ||
+            !zawory[pom_stez_2] || !zawory[wlot_powietrza];
 }
 
 void CreateTestWizard::changeDigitalIn(int id, bool value)
 {
     //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
-    if (id == wentyl_1 || id == wentyl_2 || id == proznia || id == pom_stez_1
-            || id == pom_stez_2 || id == powietrze) {
+    if (id == wentylacja_lewa || id == wentylacja_prawa || id == proznia || id == pom_stez_1
+            || id == pom_stez_2 || id == wlot_powietrza) {
         zawory[id] = value;
         showWarning(checkZawory());
         if (dlgOtwarte != nullptr)
             dlgOtwarte->set(id, value);
     }
 
-    if (id == kont_komora_A) {
+    if (id == drzwi_lewe) {
         zamknietaKomoraA = value;
         emit komora(getZamknietaKomora());
     }
 
-    if (id == kont_komora_B) {
+    if (id == drzwi_prawe) {
         zamknietaKomoraB = value;
         emit komora(getZamknietaKomora());
     }
@@ -151,20 +151,20 @@ void CreateTestWizard::changeDigitalIn(int id, bool value)
 
 void CreateTestWizard::changeAnalog(int id, double value)
 {
-    if (id == wentyl_1 || id == wentyl_2 || id == proznia || id == pom_stez_1
-            || id == pom_stez_2 || id == powietrze)
+    if (id == wentylacja_lewa || id == wentylacja_prawa || id == proznia || id == pom_stez_1
+            || id == pom_stez_2 || id == wlot_powietrza)
         zawory[id] = value;
 }
 
 void CreateTestWizard::clickedZawory()
 {
     dlgOtwarte = new OtwarteZawory(this);
-    dlgOtwarte->set(wentyl_1, zawory[wentyl_1]);
-    dlgOtwarte->set(wentyl_2, zawory[wentyl_2]);
+    dlgOtwarte->set(wentylacja_lewa, zawory[wentylacja_lewa]);
+    dlgOtwarte->set(wentylacja_prawa, zawory[wentylacja_prawa]);
     dlgOtwarte->set(proznia,  zawory[proznia]);
     dlgOtwarte->set(pom_stez_1,  zawory[pom_stez_1]);
     dlgOtwarte->set(pom_stez_2,  zawory[pom_stez_2]);
-    dlgOtwarte->set(powietrze,  zawory[powietrze]);
+    dlgOtwarte->set(wlot_powietrza,  zawory[wlot_powietrza]);
     dlgOtwarte->exec();
     if (dlgOtwarte != nullptr)
         delete dlgOtwarte;

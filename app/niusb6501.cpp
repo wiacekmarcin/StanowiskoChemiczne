@@ -1,15 +1,18 @@
 #include "niusb6501.h"
 
-#ifndef L_COMP
-#include <QDebug>
 
+#include <QDebug>
+#ifndef L_COMP
 #define DAQmxErrChk(functionCall) if( DAQmxFailed(error=(functionCall)) ) goto Error; else
+#endif
 
 NIDAQMxUSB6501::NIDAQMxUSB6501()
 {
     error = 0;
+#ifndef L_COMP
     taskHandleRead = nullptr;
     taskHandleWrite = nullptr;
+#endif
     for (int i = 0; i < 16; ++i)
         dataWrite[i] = 0;
 
@@ -19,6 +22,7 @@ NIDAQMxUSB6501::NIDAQMxUSB6501()
 
 NIDAQMxUSB6501::~NIDAQMxUSB6501()
 {
+#ifndef L_COMP
     if (taskHandleRead != nullptr) {
         DAQmxStopTask(taskHandleRead);
         DAQmxClearTask(taskHandleRead);
@@ -29,15 +33,21 @@ NIDAQMxUSB6501::~NIDAQMxUSB6501()
         DAQmxClearTask(taskHandleWrite);
         taskHandleWrite = nullptr;
     }
+#endif
 }
 
 bool NIDAQMxUSB6501::isConnected()
 {
-    return taskHandleRead != nullptr /* && taskHandleWrite != nullptr */;
+#ifndef L_COMP
+    return taskHandleRead != nullptr && taskHandleWrite != nullptr ;
+#else
+    return false;
+#endif
 }
 
 bool NIDAQMxUSB6501::configure(const QString & readDevice, const QString & writeDevice)
 {
+#ifndef L_COMP
     qDebug("%s %s", readDevice.toStdString().c_str(), writeDevice.toStdString().c_str());
     if (isConnected())
         return true;
@@ -58,6 +68,7 @@ bool NIDAQMxUSB6501::configure(const QString & readDevice, const QString & write
 Error:
     errorFun();
     qDebug("%d %p %p %s", __LINE__, taskHandleRead, taskHandleWrite, errStr().c_str());
+#endif
     return false;
 }
 
@@ -65,7 +76,7 @@ bool NIDAQMxUSB6501::readValue(uInt16 & val)
 {
     if (!isConnected())
         return false;
-
+#ifndef L_COMP
     //qDebug("%d task = %d", __LINE__, taskHandleRead);
     DAQmxErrChk(DAQmxReadDigitalU32(taskHandleRead, 1, 10.0, DAQmx_Val_GroupByChannel, &dataRead, 1, &read, NULL));
 
@@ -78,6 +89,7 @@ bool NIDAQMxUSB6501::readValue(uInt16 & val)
 Error:
     errorFun();
     qDebug("%d %d %s", __LINE__, taskHandleRead, errStr().c_str());
+#endif
     return false;
 }
 
@@ -85,14 +97,14 @@ bool NIDAQMxUSB6501::writeValue(uInt16& val)
 {
     if (!isConnected())
         return false;
-
+#ifndef L_COMP
     qDebug("%d write %04x", __LINE__, val);
     for (int i = 0; i < 10; ++i) {
         qDebug("%d val_wr=%d", __LINE__, ((~val >> i) & 0x1));
         dataWrite[i] = ((~val >> i) & 0x1);
     }
 
-    for (int i = 0; i < 10; ++i)
+    //for (int i = 0; i < 10; ++i)
         //qDebug("%d", dataWrite[i]);
     //qDebug("==");
 
@@ -102,11 +114,13 @@ bool NIDAQMxUSB6501::writeValue(uInt16& val)
 
 Error:
     errorFun();
+#endif
     return false;
 }
 
 void NIDAQMxUSB6501::errorFun()
 {
+#ifndef L_COMP
     if (DAQmxFailed(error))
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
 
@@ -127,10 +141,11 @@ void NIDAQMxUSB6501::errorFun()
     //printf("End of program, press Enter key to quit\n");
     //getchar();
     //return 0;
+#endif
 }
 
 std::string NIDAQMxUSB6501::errStr()
 {
     return std::string(errBuff);
 }
-#endif
+

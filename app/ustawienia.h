@@ -4,41 +4,42 @@
 #include <QString>
 #include <QSettings>
 
-typedef enum analoginIn {
-    analog_1 = 1,
-    analog_2,
-    analog_3,
-    analog_4,
-    analog_5,
-    analog_6,
-    analog_7,
-    analog_8,
-} AnalogoweWejscia;
+typedef enum _aInput {
+    a_vol1 = 0,
+    a_vol2,
+    a_o2,
+    a_co2,
+    a_temp_parownik,
+    a_temp_komory,
+    a_cisn_komora,
+    a_8
+} analogIn;
 
-typedef enum digitalIn {
-    kont_komora_A = 1,
-    kont_komora_B,
-    wentyl_1,
-    wentyl_2,
-    proznia,
-    pom_stez_1,
-    pom_stez_2,
-    powietrze,
-    pilot
-} CyfroweWejscia;
+typedef enum _iDig {
+    drzwi_lewe      = 0x001,
+    wentylacja_lewa = 0x002,
+    proznia         = 0x004,
+    pom_stez_1      = 0x008,
+    drzwi_prawe     = 0x010,
+    wentylacja_prawa= 0x020,
+    wlot_powietrza  = 0x040,
+    pom_stez_2      = 0x080,
+    pilot           = 0x100,
+} digitalIn;
 
-typedef enum digitalOut {
-    iskra_elektr_onoff = 1,
-    iskra_elektr_hv,
-    iskra_zaplon,
-    iskra_mechaniczna,
-    grzalka_onoff,
-    pompa_prozniowa,
-    pompa_mebramowa,
-    wentylator,
-    mieszadlo,
-    kamera,
-} CyfroweWyjscia;
+typedef enum _oDig {
+    hv_onoff        = 0x001,
+    hv_zaplon       = 0x002,
+    hw_iskra        = 0x004,
+    mech_iskra      = 0x008,
+    plomien         = 0x010,
+    pompa_prozniowa = 0x020,
+    pompa_powietrza = 0x040,
+    wentylator      = 0x080,
+    mieszadlo       = 0x100,
+    trigger         = 0x200,
+} digitalOut;
+
 
 void delay(unsigned int time);
 

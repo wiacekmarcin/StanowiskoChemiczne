@@ -22,39 +22,7 @@ class Urzadzenia : public QDialog
 {
     Q_OBJECT
 public:
-    typedef enum _aInput {
-        vol1,
-        vol2,
-        o2,
-        co2,
-        wika_a10,
-        temp_komory
-    } analogIn;
 
-    typedef enum _iDig {
-        drzwi_lewe      = 0x001,
-        wentylacja_lewa = 0x002,
-        proznia         = 0x004,
-        probka_in       = 0x008,
-        drzwi_prawe     = 0x010,
-        wentylacja_prawa= 0x020,
-        wlot_powietrza  = 0x040,
-        probka_out      = 0x080,
-        pilot           = 0x100,
-    } digitalIn;
-
-    typedef enum _oDig {
-        high_voltage    = 0x001,
-        bezpiecznik     = 0x002,
-        hw_iskra        = 0x004,
-        mech_iskra      = 0x008,
-        plomien         = 0x010,
-        pompa_proznia   = 0x020,
-        pompa_powietrza = 0x040,
-        wentylator      = 0x080,
-        mieszadlo       = 0x100,
-        trigger         = 0x200,
-    } digitalOut;
 
 
 public:

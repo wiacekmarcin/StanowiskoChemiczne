@@ -142,13 +142,13 @@ void OknoStatusowe::setZawor(int idZ, bool otwarte)
         bZawor3 = otwarte; break;
     case Urzadzenia::digitalIn::proznia:
         bZawor8 = otwarte; break;
-    case Urzadzenia::digitalIn::probka_in:
+    case Urzadzenia::digitalIn::pom_stez_1:
         bZawor5 = otwarte; break;
     case Urzadzenia::digitalIn::wentylacja_prawa:
         bZawor4 = otwarte; break;
     case Urzadzenia::digitalIn::wlot_powietrza:
         bZawor7 = otwarte; break;
-    case Urzadzenia::digitalIn::probka_out:
+    case Urzadzenia::digitalIn::pom_stez_2:
         bZawor6 = otwarte; break;
     default:
         break;

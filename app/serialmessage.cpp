@@ -120,7 +120,7 @@ void SerialMessage::connectToSerial()
             }
         }
     }
-    qDebug("%s %d", __FILE__, __LINE__);
+    //qDebug("%s %d", __FILE__, __LINE__);
     connSerial = false;
     emit successOpenDevice(false);
 }

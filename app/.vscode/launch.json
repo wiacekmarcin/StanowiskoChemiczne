@@ -14,7 +14,8 @@
             "cwd": "${fileDirname}",
             "environment": [],
             "console": "externalTerminal",
-            "preLaunchTask": "C/C++: cl.exe kompiluj aktywny plik"
+            "preLaunchTask": "C/C++: cl.exe kompiluj aktywny plik",
+            "visualizerFile": "/home/marcin/.config/Code/User/workspaceStorage/595dc1369f2687f20ea55069cab3f18a/tonka3000.qtvsctools/qt.natvis.xml"
         }
     ]
 }
