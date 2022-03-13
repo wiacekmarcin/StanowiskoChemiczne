@@ -290,6 +290,7 @@ void Urzadzenia::checkUsbCard()
     if (usbAnal && usbDio)
         return;
     char buf[128];
+#ifndef L_COMP
     DAQmxErrChk(DAQmxGetSysDevNames(buf, 128));
 
 Error:
@@ -344,6 +345,7 @@ Error:
             }
         }
     }
+#endif
 }
 
 void Urzadzenia::checkSerial()
@@ -461,14 +463,14 @@ void Urzadzenia::timeoutDI100ms()
     emit zawor(wentylacja_prawa, val & wentylacja_prawa);
 
     //in5 pomiar stezenia 1
-    ui->in_5->setValue(~val & probka_in);
-    emit zawor(probka_in, val & probka_in);
+    ui->in_5->setValue(~val & pom_stez_1);
+    emit zawor(pom_stez_1, val & pom_stez_1);
 
     //in6 pomiar stezenia 2
-    ui->in_6->setValue(~val & probka_out);
-    emit zawor(probka_out, val & probka_out);
+    ui->in_6->setValue(~val & pom_stez_2);
+    emit zawor(pom_stez_2, val & pom_stez_2);
 
-    //in7 powietrze
+    //in7 wlot_powietrza
     ui->in_7->setValue(~val & wlot_powietrza);
     emit zawor(wlot_powietrza, val & wlot_powietrza);
 
@@ -537,13 +539,13 @@ void Urzadzenia::on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, ui
 void Urzadzenia::on_tb_out_1_clicked()
 {
     //iskra elektryczna on_off
-    on_tb_out_clicked(ui->tb_out_1, ui->out_1, high_voltage);
+    on_tb_out_clicked(ui->tb_out_1, ui->out_1, hv_onoff);
 }
 
 void Urzadzenia::on_tb_out_2_clicked()
 {
     //iskra elektryczna bezpiecznik
-    on_tb_out_clicked(ui->tb_out_2, ui->out_2, bezpiecznik);
+    on_tb_out_clicked(ui->tb_out_2, ui->out_2, hv_zaplon);
 }
 
 void Urzadzenia::on_tb_out_3_clicked()
@@ -555,19 +557,19 @@ void Urzadzenia::on_tb_out_3_clicked()
 void Urzadzenia::on_tb_out_4_clicked()
 {
     //iskra mechaniczna
-    on_tb_out_clicked(ui->tb_out_4, ui->out_4, mech_iskra);
+    on_tb_out_clicked(ui->tb_out_4, ui->out_4, iskra_mechaniczna);
 }
 
 void Urzadzenia::on_tb_out_5_clicked()
 {
-    //plomien
-    on_tb_out_clicked(ui->tb_out_5, ui->out_5, plomien);
+    //grzalka
+    on_tb_out_clicked(ui->tb_out_5, ui->out_5, grzalka);
 }
 
 void Urzadzenia::on_tb_out_6_clicked()
 {
     //pompa_proznioewa
-    on_tb_out_clicked(ui->tb_out_6, ui->out_6, pompa_proznia);
+    on_tb_out_clicked(ui->tb_out_6, ui->out_6, pompa_prozniowa);
 }
 
 void Urzadzenia::on_tb_out_7_clicked()
