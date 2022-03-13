@@ -195,11 +195,13 @@ void Message::sendRawMessage(uint8_t s, uint8_t* buf, uint8_t len)
 void Message::messageWrite1(uint8_t* buf, uint8_t len)
 {
     Serial.write(buf, len);
+    Serial.flush();
 }
 
 void Message::messageWrite2(uint8_t* buf, uint8_t len)
 {
     Serial1.write(buf, len);
+    Serial1.flush();
 }
 
 void Message::sendError(const char *buf, uint8_t len)
