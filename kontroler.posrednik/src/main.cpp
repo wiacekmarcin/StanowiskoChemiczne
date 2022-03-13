@@ -4,8 +4,8 @@ Message msg;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
-  Serial1.begin(115200);
+  Serial.begin(9600, SERIAL_8O2);
+  Serial1.begin(9600, SERIAL_8O2);
 
   msg.init();
 
