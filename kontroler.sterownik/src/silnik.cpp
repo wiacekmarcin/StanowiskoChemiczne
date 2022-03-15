@@ -3,8 +3,8 @@
 unsigned int Silnik::maxSteps = 0;
 bool Silnik::reverse;
 
-Silnik::Silnik(uint16_t mlstime, uint8_t en, uint8_t dir, uint8_t pulse, uint8_t limit, void (*intFun)())
-: mls_motor(mlstime), enPin(en), dirPin(dir), pulsePin(pulse), limitPin(limit), stopNow(false), intFunPtr(intFun)
+Silnik::Silnik(uint16_t mlstime, uint8_t dir, uint8_t pulse, uint8_t limPin)
+: mls_motor(mlstime), dirPin(dir), pulsePin(pulse), limitPin(limPin), stopNow(false)
 
 {
 	//interrupt = &Silnik::interruptFun;
@@ -19,57 +19,54 @@ void Silnik::init()
 {
     pinMode(dirPin, OUTPUT);
     pinMode(pulsePin, OUTPUT);
-    pinMode(limitPin, INPUT);
-    //attachInterrupt(digitalPinToInterrupt(limitPin), [this](){ interruptFun(); }, CHANGE);
+    //pinMode(limitPIN, INPUT_PU);
 }
 
 uint32_t Silnik::start(uint32_t steps)
 {
-    attachInterrupt(digitalPinToInterrupt(limitPin), intFunPtr, FALLING);
+    Serial.print("dirPin=");
+    Serial.println(goForward(true));
     digitalWrite(dirPin , goForward(true));
-    //digitalWrite(enPin, LOW);
-    stopNow = false;
     if (steps < 0)
         steps = -steps;
     uint32_t s = 0;    
-    digitalWrite(13, HIGH);
-    
     for (; s < steps && s < maxSteps /* && !stopNow */; s++) {
         digitalWrite(pulsePin, HIGH);    
-        delay(mls_motor);
+        delayMicroseconds(mls_motor);
         digitalWrite(pulsePin, LOW);        
-        delay(mls_motor);
+        delayMicroseconds(mls_motor);
     }
-    digitalWrite(13, LOW);
     stop();
-    digitalWrite(dirPin , goForward(false));
     return s;
 }
 
 uint32_t Silnik::home()
 {
-    attachInterrupt(digitalPinToInterrupt(limitPin), intFunPtr, FALLING);
-    digitalWrite(dirPin , goBack(true));
+    //interrupts();
+    Serial.print("dirPin=LOW");
+    //Serial.println(goBack(true));
+    digitalWrite(dirPin , HIGH);
     //digitalWrite(enPin, LOW);
-    stopNow = false;
+    stopNow = 0;
     uint32_t s = 0;
-    digitalWrite(13, HIGH);
-    for (; s < maxSteps && !stopNow; s++) {
+    Serial.print("stopNow=");
+    Serial.println(stopNow,DEC);
+    for (; s < maxSteps /*&& digitalRead(limitPin) == HIGH*/; s++) {
         digitalWrite(pulsePin, HIGH);
-        delay(mls_motor);
+        delayMicroseconds(mls_motor);
         digitalWrite(pulsePin, LOW);
-        delay(mls_motor);
+        delayMicroseconds(mls_motor);
     }
-    digitalWrite(13, LOW);
+    Serial.print("stopNow=");
+    Serial.println(stopNow,DEC);
     stop();
-    digitalWrite(dirPin , goBack(false));
+    //noInterrupts();
     return s;
 }
 
 void Silnik::stop()
 {
-    detachInterrupt(digitalPinToInterrupt(limitPin));
-    //digitalWrite(enPin, HIGH);
+    stopNow = true;
 }
 
 uint8_t Silnik::goBack(bool val) const
