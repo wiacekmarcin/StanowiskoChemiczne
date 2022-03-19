@@ -12,8 +12,8 @@ NIDAQMxUSB6210::NIDAQMxUSB6210()
 #ifndef L_COMP
     error = 0;
     taskHandleRead = nullptr;
-#endif;
-    errBuff[2048] = { '\0' };
+#endif
+    errBuff[2047] = { '\0' };
 }
 
 NIDAQMxUSB6210::~NIDAQMxUSB6210()
@@ -41,14 +41,17 @@ bool NIDAQMxUSB6210::configure(const QString & deviceString)
 #ifndef L_COMP
     if (isConnected())
         return true;
+    //qDebug("%s:%d", __FILE__, __LINE__);
     /*********************************************/
     // DAQmx Configure Code
     /*********************************************/
     DAQmxErrChk(DAQmxCreateTask("readAnalogValues", &taskHandleRead));
-
+    //qDebug("%s:%d", __FILE__, __LINE__);
     DAQmxErrChk(DAQmxCreateAIVoltageChan(taskHandleRead, deviceString.toStdString().c_str(),
             "", DAQmx_Val_RSE, -10.0, 10.0, DAQmx_Val_Volts, NULL));
+    //qDebug("%s:%d", __FILE__, __LINE__);
     DAQmxErrChk(DAQmxStartTask(taskHandleRead));
+    //qDebug("%s:%d", __FILE__, __LINE__);
 
     return true;
 

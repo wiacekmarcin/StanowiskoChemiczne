@@ -26,7 +26,7 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia 
 
     for (int i = 0; i < sett.maxCzujekAnal; i++) {
         createOneElement(i, QString("Czujnik %1").arg(i+1));
-        czujniki[i]->setData(sett.getName(i+1), sett.getUnit(i+1), sett.getRatio(i+1));
+        czujniki[i]->setData(sett.getName(i), sett.getUnit(i), sett.getRatio(i));
         connect(czujniki[i], &CzujnikAnalogowyUstawieniaWidget::updateCzujnik,
                 this, &CzujnikAnalogowyUstawieniaOkno::updateCzujnik);
     }
@@ -56,7 +56,7 @@ CzujnikAnalogowyUstawieniaOkno::~CzujnikAnalogowyUstawieniaOkno()
 void CzujnikAnalogowyUstawieniaOkno::saveData(Ustawienia &ust)
 {
     for (int i = 0; i < ust.maxCzujekAnal; ++i) {
-        ust.setCzujka(i+1, czujniki[i]->name(), czujniki[i]->unit(), czujniki[i]->ratio());
+        ust.setCzujka(i, czujniki[i]->name(), czujniki[i]->unit(), czujniki[i]->ratio());
     }
 }
 

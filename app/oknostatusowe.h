@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <QTimer>
 #include <QFrame>
+#include <QMap>
 
 #include "ustawienia.h"
 
+class StanCzujnika;
 namespace Ui {
 class OknoStatusowe;
 }
@@ -35,19 +37,14 @@ private:
     Ui::OknoStatusowe *ui;
     QTimer timer;
 
-
-    bool bZawor1;
-    bool bZawor2;
-    bool bZawor3;
-    bool bZawor4;
-    bool bZawor5;
-    bool bZawor6;
-    bool bZawor7;
-    bool bZawor8;
-    bool bpilot;
     bool busb6210;
     bool busb6501;
     bool bdozownik;
+
+    QMap<unsigned int, bool> bMapZawor;
+    QMap<unsigned int, StanCzujnika*> sMapZawor;
+    const unsigned int mapDigitalOrder[10];
+    const short maxZawors;
 };
 
 #endif // OKNOSTATUSOWE_H

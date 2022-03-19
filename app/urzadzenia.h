@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QDialog>
 #include <QTimer>
+#include <QMap>
 
 #include "ustawienia.h"
 #include "serialmessage.h"
@@ -17,6 +18,8 @@ class Urzadzenia;
 
 class QToolButton;
 class DigitalOutWidget;
+class HighLowDigitalWidget;
+class QSlider;
 
 class Urzadzenia : public QDialog
 {
@@ -34,7 +37,7 @@ public:
     void setUstawienia(const Ustawienia & ust);
     void setUstawienia(Ustawienia *ust_);
 signals:
-    void analogValueChanged(int id, int mV);
+    void analogValueChanged(int id, double val_in_unit);
     void digitalValueChanged(int id, bool high);
 
     void dozownik(bool ok);
@@ -44,6 +47,13 @@ signals:
     void drzwi_komory(bool prawe, bool otwarte);
     void zawor(int idz, bool otwarty);
     void pilot_btn(bool otwarty);
+
+    /* serial */
+    void connectToSerial();
+    void echo();
+    void setPositionHome(short dozownikNr);
+    void setSettings(bool reverse, uint32_t maxImp);
+    void setPosition(short dozownikNr, uint32_t x);
 
 private slots:
 
@@ -102,20 +112,14 @@ private slots:
 
     void on_sbDozownik_valueChanged(int arg1);
 
-
-signals:
-    /* serial */
-    void connectToSerial();
-    void echo();
-    void setPositionHome(short dozownikNr);
-    void setSettings(bool reverse, uint32_t maxImp);
-    void setPosition(short dozownikNr, uint32_t x);
 protected:
     short getDozownikNr() { return dozownikNr; };
     void checkUsbCard();
     void checkSerial();
 
     void on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask);
+    void changeDigital(int maks, bool val);
+    void changeAnalog(unsigned short aId, double val, bool device);
 private:
     Ui::Urzadzenia *ui;
 
@@ -140,6 +144,11 @@ private:
     QString readAnalString;
 
     Ustawienia * ust;
+    const unsigned int inMap[10];
+    const unsigned int outMap[11];
+    const unsigned int anMap[8];
+    QMap<unsigned int, HighLowDigitalWidget*> inRevMap;
+    QMap<unsigned short, QSlider*> anRevMap;
 };
 
 #endif // URZADZENIA_H

@@ -13,39 +13,35 @@ void delay(unsigned int time)
 
 Ustawienia::Ustawienia()
 {
-    qDebug("%s %d",__FILE__,__LINE__);
+    initialSetting();
 
-    for (int i = 1; i < maxCzujekAnal; ++i) {
-        czujki[i-1].name = settings.value(QString("czujnikianalogowe/%1/name").arg(i), QString("Czujnik analogowy %1").arg(i)).toString();
-        czujki[i-1].unit = settings.value(QString("czujnikianalogowe/%1/unit").arg(i), QString("jedn.")).toString();
-        czujki[i-1].ratio = settings.value(QString("czujnikianalogowe/%1/unit").arg(i), 1.0).toDouble();
+    for (int i = 0; i < maxCzujekAnal; ++i) {
+        czujki[i].name = settings.value(QString("czujnikianalogowe/%1/name").arg(i), QString("Czujnik analogowy %1").arg(i+1)).toString();
+        czujki[i].unit = settings.value(QString("czujnikianalogowe/%1/unit").arg(i), QString("jedn.")).toString();
+        czujki[i].ratio = settings.value(QString("czujnikianalogowe/%1/ratio").arg(i), 1.0).toDouble();
+        qDebug("%s:%d %s %s %f", __FILE__,__LINE__,czujki[i].name.toStdString().c_str(),czujki[i].unit.toStdString().c_str(),czujki[i].ratio);
     }
-    qDebug("%s %d",__FILE__,__LINE__);
 
-    for (int i = 1; i <= maxCzujekCyfrIn; ++i) {
-        wejscia[i-1] = settings.value(QString("wejsciacyfrowe/%1/name").arg(i), QString("Wejscie cyfrowe %1").arg(i)).toString();
+    for (int i = 0; i < maxCzujekCyfrIn; ++i) {
+        wejscia[0x1 << i] = settings.value(QString("wejsciacyfrowe/%1/name").arg(0x1 << i), QString("Wejscie cyfrowe %1").arg(i)).toString();
     }
-    qDebug("%s %d",__FILE__,__LINE__);
 
-    for (int i = 1; i <= maxCzujekCyfrOut; ++i) {
-        wyjscia[i-1] = settings.value(QString("wyjsciacyfrowe/%1/name").arg(i), QString("Wyjscie cyfrowe %1").arg(i)).toString();
+    for (int i = 0; i < maxCzujekCyfrOut; ++i) {
+        wyjscia[0x1 << i] = settings.value(QString("wyjsciacyfrowe/%1/name").arg(0x1 << i), QString("Wyjscie cyfrowe %1").arg(i)).toString();
     }
-    qDebug("%s %d",__FILE__,__LINE__);
 
     reverseMotors = settings.value(QString("dozownik/rerverseMotor")).toBool();
     maxImp = settings.value(QString("dozownik/maxImpMotor")).toInt();
-
-    qDebug("%s %d",__FILE__,__LINE__);
 
 }
 
 void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, const double &ratio)
 {
-    if (id > maxCzujekAnal || id <= 0)
+    if (id >= maxCzujekAnal || id < 0)
         return;
-    czujki[id-1].name = name;
-    czujki[id-1].unit = unit;
-    czujki[id-1].ratio = ratio;
+    czujki[id].name = name;
+    czujki[id].unit = unit;
+    czujki[id].ratio = ratio;
     settings.setValue(QString("czujnikianalogowe/%1/name").arg(id), QVariant::fromValue(name));
     settings.setValue(QString("czujnikianalogowe/%1/unit").arg(id), QVariant::fromValue(unit));
     settings.setValue(QString("czujnikianalogowe/%1/ratio").arg(id), QVariant::fromValue(ratio));
@@ -53,60 +49,52 @@ void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, c
 
 Ustawienia::CzujnikAnalogowy Ustawienia::getCzujka(short id) const
 {
-    if (id > maxCzujekAnal || id <= 0)
+    if (id >= maxCzujekAnal || id < 0)
         return Ustawienia::CzujnikAnalogowy();
-    return czujki[id-1];
+    return czujki[id];
 }
 
 QString Ustawienia::getName(short id) const
 {
-    if (id > maxCzujekAnal || id <= 0)
+    if (id >= maxCzujekAnal || id < 0)
         return QString();
-    return czujki[id-1].name;
+    return czujki[id].name;
 }
 
 QString Ustawienia::getUnit(short id) const
 {
-    if (id > maxCzujekAnal || id <= 0)
+    if (id >= maxCzujekAnal || id < 0)
         return QString();
-    return czujki[id-1].unit;
+    return czujki[id].unit;
 }
 
 double Ustawienia::getRatio(short id) const
 {
-    if (id > maxCzujekAnal || id <= 0)
+    if (id >= maxCzujekAnal || id < 0)
         return 0.0;
-    return czujki[id-1].ratio;
+    return czujki[id].ratio;
 }
 
 void Ustawienia::setWejscie(int id, const QString &name)
 {
-    if (id > maxCzujekCyfrIn || id <= 0)
-        return;
-    wejscia[id-1] = name;
+    wejscia[id] = name;
     settings.setValue(QString("wejsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
 }
 
 QString Ustawienia::wejscie(int id) const
 {
-    if (id > maxCzujekCyfrIn || id <= 0)
-        return QString();
-    return wejscia[id-1];
+    return wejscia[id];
 }
 
 void Ustawienia::setWyjscie(int id, const QString &name)
 {
-    if (id > maxCzujekCyfrOut || id <= 0)
-        return;
-    wyjscia[id-1] = name;
+    wyjscia[id] = name;
     settings.setValue(QString("wyjsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
 }
 
 QString Ustawienia::wyjscie(int id) const
 {
-    if (id > maxCzujekCyfrOut || id <= 0)
-        return QString();
-    return wyjscia[id-1];
+    return wyjscia[id];
 }
 
 bool Ustawienia::getReverseMotors() const
@@ -129,4 +117,40 @@ void Ustawienia::setMaxImp(int newMaxImp)
 {
     maxImp = newMaxImp;
     settings.setValue(QString("dozownik/maxImpMotor"), QVariant::fromValue(newMaxImp));
+}
+
+void Ustawienia::initialSetting()
+{
+    if (settings.value("initial", false).toBool()) return;
+
+    settings.setValue("initial",QVariant::fromValue(true));
+    setCzujka(a_cisn_komora,   QString::fromUtf8("Ci\305\233nenie w komorze"), QString::fromUtf8("kPa"), 1.0);
+    setCzujka(a_vol1,          QString::fromUtf8("St\304\231\305\274enie VOC 1"), QString::fromUtf8("%"), 1.0);
+    setCzujka(a_o2,            QString::fromUtf8("St\304\231\305\274enie O2"), QString::fromUtf8("%"), 1.0);
+    setCzujka(a_co2,           QString::fromUtf8("St\304\231\305\274enie CO2"), QString::fromUtf8("%"), 1.0);
+    setCzujka(a_temp_komory,   QString::fromUtf8("Temperatura w komorze"), QString::fromUtf8("st C"), 1.0);
+    setCzujka(a_temp_parownik, QString::fromUtf8("Temperatura parownika"), QString::fromUtf8("st C"), 1.0);
+    setCzujka(a_vol2,          QString::fromUtf8("St\304\231\305\274enie VOC 2"), QString::fromUtf8("%"), 1.0);
+    setCzujka(a_8,             QString::fromUtf8("Syg. analogowy 8"), QString::fromUtf8("mV"), 1.0);
+
+    setWejscie(drzwi_lewe,         QString::fromUtf8("Komora drzwi lewe"));
+    setWejscie(drzwi_prawe,        QString::fromUtf8("Komora drzwi prawe"));
+    setWejscie(wentylacja_lewa,    QString::fromUtf8("Wentylacja lewa"));
+    setWejscie(wentylacja_prawa,   QString::fromUtf8("Wentylacja prawa"));
+    setWejscie(pom_stez_1,         QString::fromUtf8("Pomiar st\304\231\305\274enia 1"));
+    setWejscie(pom_stez_2,         QString::fromUtf8("Pomiar st\304\231\305\274enia 2"));
+    setWejscie(wlot_powietrza,     QString::fromUtf8("Powietrze"));
+    setWejscie(proznia,            QString::fromUtf8("Pr\303\263\305\272nia"));
+    setWejscie(pilot,              QString::fromUtf8("Pilot zdalnego sterowania"));
+
+    setWyjscie(hv_onoff,           QString::fromUtf8("Iskra elektryczna ON/OFF"));
+    setWyjscie(hv_zaplon,          QString::fromUtf8("Iskra elektryczna High Voltage"));
+    setWyjscie(hw_iskra,           QString::fromUtf8("Iskra elektryczna Zap\305\202on"));
+    setWyjscie(mech_iskra,         QString::fromUtf8("Iskra mechaniczna (ON/OFF silnik DC)"));
+    setWyjscie(plomien,            QString::fromUtf8("P\305\202omie\305\204 (ON/OFF grza\305\202ki)"));
+    setWyjscie(pompa_prozniowa,    QString::fromUtf8("Pompa pr\303\263\305\274niowa"));
+    setWyjscie(pompa_powietrza,    QString::fromUtf8("Pompka mebramowa"));
+    setWyjscie(wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
+    setWyjscie(mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
+    setWyjscie(trigger,            QString::fromUtf8("Trigger kamery"));
 }

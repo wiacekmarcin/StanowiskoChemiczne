@@ -1,17 +1,30 @@
 #include "urzadzenia.h"
-#include "ui_urzadzenia.h"
+
 #include "ustawienia.h"
 
+#define DEBUG_GUI 1
+
+#ifdef DEBUG_GUI
+#include "ui_urzadzenia.h"
+#endif
+
+#define DBG_IN(N) qDebug("%s:%d %04x %p", __FILE__,__LINE__, inMap[N], ui->in_##N)
 
 Urzadzenia::Urzadzenia(QWidget *parent) :
     QDialog(parent),
+#ifdef DEBUG_GUI
     ui(new Ui::Urzadzenia),
+#endif
     dozownikLoop(this),
-    readDigString("USB6501/port2,USB6501/port1/Line5:6"),
-    writeDigString("USB6501/port0,USB6501/port1/Line0:4"),
+    readDigString("USB6501/port2,USB6501/port1/Line4"),
+    writeDigString("USB6501/port0,USB6501/port1/Line0:2"),
     readAnalString("USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6"),
-    ust(NULL)
+    ust(NULL),
+    inMap{0, drzwi_lewe, drzwi_prawe, pilot, wentylacja_lewa, wentylacja_prawa, pom_stez_1, pom_stez_2, proznia, wlot_powietrza},
+    outMap{0, hv_onoff, hv_zaplon, hw_iskra, mech_iskra, plomien, pompa_prozniowa, pompa_powietrza, wentylator, mieszadlo, trigger},
+    anMap{a_vol1, a_vol2, a_o2, a_co2, a_cisn_komora, a_temp_komory, a_temp_parownik, a_8 }
 {
+#ifdef DEBUG_GUI
     ui->setupUi(this);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
 
@@ -25,6 +38,35 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     connect(ui->in_8, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_8);
     connect(ui->in_9, &HighLowDigitalWidget::valueChange, this, &Urzadzenia::changeDigital_9);
 
+    anRevMap.clear();
+    anRevMap[0] = ui->analog_1;
+    anRevMap[1] = ui->analog_2;
+    anRevMap[2] = ui->analog_3;
+    anRevMap[3] = ui->analog_4;
+    anRevMap[4] = ui->analog_5;
+    anRevMap[5] = ui->analog_6;
+    anRevMap[6] = ui->analog_7;
+    anRevMap[7] = ui->analog_8;
+
+    for (int i =0 ; i < 8; ++i) {
+        anRevMap[i]->setMinimum(-10000);
+        anRevMap[i]->setMaximum(10000);
+        anRevMap[i]->setSingleStep(1);
+        anRevMap[i]->setValue(0);
+    }
+    
+
+    inRevMap.clear();
+    inRevMap[inMap[1]] = ui->in_1;    //DBG_IN(1);
+    inRevMap[inMap[2]] = ui->in_2;    //DBG_IN(2);
+    inRevMap[inMap[3]] = ui->in_3;    //DBG_IN(3);
+    inRevMap[inMap[4]] = ui->in_4;    //DBG_IN(4);
+    inRevMap[inMap[5]] = ui->in_5;    //DBG_IN(5);
+    inRevMap[inMap[6]] = ui->in_6;    //DBG_IN(6);
+    inRevMap[inMap[7]] = ui->in_7;    //DBG_IN(7);
+    inRevMap[inMap[8]] = ui->in_8;    //DBG_IN(8);
+    inRevMap[inMap[9]] = ui->in_9;    //DBG_IN(9);
+#endif
     /*serial*/
     connect(&smg, &SerialMessage::successOpenDevice, this, &Urzadzenia::successOpenDevice);
     connect(&smg, &SerialMessage::dozownik, this, &Urzadzenia::echoOK);
@@ -35,22 +77,19 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     smg.connectToSerial();
     dozownikLoop.setInterval(10000);
     connect(&dozownikLoop, &QTimer::timeout, this, &Urzadzenia::dozownikTimeout);
-
+#ifdef DEBUG_UI
     ui->impulsyml->setValue(1.0);
     onlyOne = false;
     ui->rbDirectionLeft->setChecked(true);
     ui->maxSteps->setValue(1000);
-
+#endif
     timerDI100.setInterval(100);
     connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
     timerDI100.start();
 
-
-
     timerAI100.setInterval(100);
     connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
     timerAI100.start();
-
 
     timerCheckDevice.setInterval(1000);
     connect(&timerCheckDevice, &QTimer::timeout, this, &Urzadzenia::timerUsbDevice);
@@ -60,40 +99,6 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     
     dozownikNr = 1;
 
-    ui->analog_1->setMinimum(-10000);
-    ui->analog_1->setMaximum(10000);
-    ui->analog_1->setSingleStep(1);
-    ui->analog_1->setValue(0);
-
-    ui->analog_2->setMinimum(-10000);
-    ui->analog_2->setMaximum(10000);
-    ui->analog_2->setSingleStep(1);
-    ui->analog_2->setValue(0);
-
-    ui->analog_3->setMinimum(-10000);
-    ui->analog_3->setMaximum(10000);
-    ui->analog_3->setSingleStep(1);
-    ui->analog_3->setValue(0);
-
-    ui->analog_4->setMinimum(-10000);
-    ui->analog_4->setMaximum(10000);
-    ui->analog_4->setSingleStep(1);
-    ui->analog_4->setValue(0);
-
-    ui->analog_5->setMinimum(-10000);
-    ui->analog_5->setMaximum(10000);
-    ui->analog_5->setSingleStep(1);
-    ui->analog_5->setValue(0);
-
-    ui->analog_6->setMinimum(-10000);
-    ui->analog_6->setMaximum(10000);
-    ui->analog_6->setSingleStep(1);
-    ui->analog_6->setValue(0);
-
-    ui->analog_7->setMinimum(-10000);
-    ui->analog_7->setMaximum(10000);
-    ui->analog_7->setSingleStep(1);
-    ui->analog_7->setValue(0);
 
 }
 
@@ -103,47 +108,56 @@ Urzadzenia::~Urzadzenia()
     timerDI100.stop();
     timerAI100.stop();
     timerCheckDevice.stop();
+#ifdef DEBUG_UI
     delete ui;
+#endif
 }
+
+#define AN_SET(N) ui->cz_label_##N##->setText(ust.getName(anMap[N-1]))
+#define IN_SET(N) ui->l_in_##N##->setText(ust.wejscie(inMap[N]))
+#define OUT_SET(N,M) ui->l_out_##N##->setText(ust.wejscie(outMap[M]))
 
 void Urzadzenia::setLabels(const Ustawienia &ust)
 {
-    ui->cz_label_1->setText(ust.getName(1));
-    ui->cz_label_2->setText(ust.getName(2));
-    ui->cz_label_3->setText(ust.getName(3));
-    ui->cz_label_4->setText(ust.getName(4));
-    ui->cz_label_5->setText(ust.getName(5));
-    ui->cz_label_6->setText(ust.getName(6));
-    ui->cz_label_7->setText(ust.getName(7));
-    ui->cz_label_8->setText(ust.getName(8));
+#ifdef DEBUG_UI
+    AN_SET(1);
+    AN_SET(2);
+    AN_SET(3);
+    AN_SET(4);
+    AN_SET(5);
+    AN_SET(6);
+    AN_SET(7);
+    AN_SET(8);
 
-    ui->l_in_1->setText(ust.wejscie(1));
-    ui->l_in_2->setText(ust.wejscie(2));
-    ui->l_in_3->setText(ust.wejscie(3));
-    ui->l_in_4->setText(ust.wejscie(4));
-    ui->l_in_5->setText(ust.wejscie(5));
-    ui->l_in_6->setText(ust.wejscie(6));
-    ui->l_in_7->setText(ust.wejscie(7));
-    ui->l_in_8->setText(ust.wejscie(8));
-    ui->l_in_9->setText(ust.wejscie(9));
+    IN_SET(1);
+    IN_SET(2);
+    IN_SET(3);
+    IN_SET(4);
+    IN_SET(5);
+    IN_SET(6);
+    IN_SET(7);
+    IN_SET(8);
+    IN_SET(9);
 
-    ui->l_out_1->setText(ust.wyjscie(1));
-    ui->l_out_2->setText(ust.wyjscie(2));
-    ui->l_out_3->setText(ust.wyjscie(3));
-    ui->l_out_4->setText(ust.wyjscie(4));
-    ui->l_out_5->setText(ust.wyjscie(5));
-    ui->l_out_6->setText(ust.wyjscie(6));
-    ui->l_out_7->setText(ust.wyjscie(7));
-    ui->l_out_8->setText(ust.wyjscie(8));
-    ui->l_out_9->setText(ust.wyjscie(9));
-    ui->l_out_a->setText(ust.wyjscie(10));
 
-    for (short in = 0; in < 7 ; in++) {
-        emit analogValueChanged(in+1, 0);
+    OUT_SET(1,1);
+    OUT_SET(2,2);
+    OUT_SET(3,3);
+    OUT_SET(4,4);
+    OUT_SET(5,5);
+    OUT_SET(6,6);
+    OUT_SET(7,7);
+    OUT_SET(8,8);
+    OUT_SET(9,9);
+    OUT_SET(a,10);
+
+#endif
+    for (short in = 0; in < 9 ; in++) {
+        emit analogValueChanged(in, 0);
     }
 
-    for (short in = 0 ; in < 10; in++) {
-         emit digitalValueChanged(in+1, false);
+    for (short in = 1 ; in < 10; in++) {
+         emit digitalValueChanged(inMap[in], false);
     }
 }
 
@@ -157,97 +171,38 @@ void Urzadzenia::setUstawienia(const Ustawienia &ust)
     smg.setSettings(ust.getReverseMotors(), ust.getMaxImp());
 }
 
-void Urzadzenia::on_analog_1_valueChanged(int value)
-{
-    double ratio = ust ? ust->getRatio(1) : 1.00;
-    emit analogValueChanged(1, ratio*value);
-}
+#define FUN_ANALOG_CHANGE(N) void Urzadzenia::on_analog_##N##_valueChanged(int value) { \
+    double ratio = ust ? ust->getRatio(anMap[N-1]) : 1.0; \
+    changeAnalog(N-1, ratio*value/10000, false); }
 
-void Urzadzenia::on_analog_2_valueChanged(int value)
-{
-    double ratio = ust ? ust->getRatio(2) : 1.00;
-    emit analogValueChanged(2, ratio*value);
-}
+FUN_ANALOG_CHANGE(1)
+FUN_ANALOG_CHANGE(2)
+FUN_ANALOG_CHANGE(3)
+FUN_ANALOG_CHANGE(4)
+FUN_ANALOG_CHANGE(5)
+FUN_ANALOG_CHANGE(6)
+FUN_ANALOG_CHANGE(7)
+FUN_ANALOG_CHANGE(8)
 
-void Urzadzenia::on_analog_3_valueChanged(int value)
-{
-    double ratio = ust ? ust->getRatio(3) : 1.00;
-    emit analogValueChanged(3, ratio*value);
-}
+#define FUN_DIGITAL_CHANGE(N) void Urzadzenia::changeDigital_##N(bool val) { \
+    Q_EMIT digitalValueChanged(inMap[N], val); }
 
-void Urzadzenia::on_analog_4_valueChanged(int value)
-{
-    double ratio = ust ? ust->getRatio(4) : 1.00;
-    emit analogValueChanged(4, ratio*value);
-}
+FUN_DIGITAL_CHANGE(1)
+FUN_DIGITAL_CHANGE(2)
+FUN_DIGITAL_CHANGE(3)
+FUN_DIGITAL_CHANGE(4)
+FUN_DIGITAL_CHANGE(5)
+FUN_DIGITAL_CHANGE(6)
+FUN_DIGITAL_CHANGE(7)
+FUN_DIGITAL_CHANGE(8)
+FUN_DIGITAL_CHANGE(9)
 
-void Urzadzenia::on_analog_5_valueChanged(int value)
+void Urzadzenia::changeDigital(int maks, bool val)
 {
-    double ratio = ust ? ust->getRatio(5) : 1.00;
-    emit analogValueChanged(5, ratio*value);
-}
-
-void Urzadzenia::on_analog_6_valueChanged(int value)
-{
-    double ratio = ust ? ust->getRatio(6) : 1.00;
-    emit analogValueChanged(6, ratio*value);
-}
-
-void Urzadzenia::on_analog_7_valueChanged(int value)
-{
-    double ratio = ust ? ust->getRatio(7) : 1.00;
-    emit analogValueChanged(7, ratio*value);
-}
-
-void Urzadzenia::on_analog_8_valueChanged(int value)
-{
-    double ratio = ust ? ust->getRatio(8) : 1.00;
-    emit analogValueChanged(8, ratio*value);
-}
-
-void Urzadzenia::changeDigital_1(bool val)
-{
-    emit digitalValueChanged(1, val);
-}
-
-void Urzadzenia::changeDigital_2(bool val)
-{
-    emit digitalValueChanged(2, val);
-}
-
-void Urzadzenia::changeDigital_3(bool val)
-{
-    emit digitalValueChanged(3, val);
-}
-
-void Urzadzenia::changeDigital_4(bool val)
-{
-    emit digitalValueChanged(4, val);
-}
-
-void Urzadzenia::changeDigital_5(bool val)
-{
-    emit digitalValueChanged(5, val);
-}
-
-void Urzadzenia::changeDigital_6(bool val)
-{
-    emit digitalValueChanged(6, val);
-}
-
-void Urzadzenia::changeDigital_7(bool val)
-{
-    emit digitalValueChanged(7, val);
-}
-
-void Urzadzenia::changeDigital_8(bool val)
-{
-    emit digitalValueChanged(8, val);
-}
-
-void Urzadzenia::changeDigital_9(bool val)
-{
-    emit digitalValueChanged(9, val);
+    //qDebug("%s:%d mask = %04x val = %d", __FILE__, __LINE__, maks, val);
+#ifdef DEBUG_GUI
+    inRevMap[maks]->setValue(val);
+#endif
 }
 
 void Urzadzenia::dozownikTimeout()
@@ -324,9 +279,12 @@ Error:
 
             qDebug("devs=%s deviceid=%d serial=%d => name=%s", buffer2, deviceid, serialid, name.toStdString().c_str());
             if (QString(buffer2) == QString("USB-6210") && deviceid == 14643 && serialid == 33770223) {
+                qDebug("%s:%d uusbAnal = %d", __FILE__,__LINE__, usbAnal);
                 if (!usbAnal) {
                     readAnalString.replace("USB6210", name);
                     usbAnal = ai.configure(readAnalString);
+                    qDebug("%s:%d configure %d", __FILE__,__LINE__,usbAnal);
+                    qDebug("%s:%d %s", __FILE__,__LINE__, ai.errStr().c_str());
                     emit usb6210(usbAnal);
                 }
             }
@@ -337,9 +295,6 @@ Error:
                     readDigString.replace("USB6501", name);
                     writeDigString.replace("USB6501", name);
                     usbDio = dio.configure(readDigString, writeDigString);
-                    qDebug("%d usbDio = %d", __LINE__,usbDio);
-                    if (usbDio)
-                        qDebug("%d write ret %d %s", __LINE__, dio.writeValue(vals),dio.errStr().c_str());
                     emit usb6501(usbDio);
                 }
             }
@@ -444,45 +399,45 @@ void Urzadzenia::timeoutDI100ms()
         return;
     }
     
-
     //qDebug("val = %d", val);
     //in1 zakmniecie komory lewe
-    ui->in_1->setValue(~val & drzwi_lewe);
+    changeDigital(drzwi_lewe, ~val & drzwi_lewe);
     emit drzwi_komory(false, val & drzwi_lewe);
 
     //in2 zamkniecie komory prawe
-    ui->in_2->setValue(~val & drzwi_prawe);
+    changeDigital(drzwi_prawe, ~val & drzwi_prawe);
     emit drzwi_komory(true, val & drzwi_prawe);
 
     //in3 wentylacja 1
-    ui->in_3->setValue(~val & wentylacja_lewa);
+    changeDigital(wentylacja_lewa, ~val & wentylacja_lewa);
     emit zawor(wentylacja_lewa, val & wentylacja_lewa);
 
     //in4 wentylacja 2
-    ui->in_4->setValue(~val & wentylacja_prawa);
+    changeDigital(wentylacja_prawa, ~val & wentylacja_prawa);
     emit zawor(wentylacja_prawa, val & wentylacja_prawa);
 
     //in5 pomiar stezenia 1
-    ui->in_5->setValue(~val & pom_stez_1);
+    changeDigital(pom_stez_1, ~val & pom_stez_1);
     emit zawor(pom_stez_1, val & pom_stez_1);
 
     //in6 pomiar stezenia 2
-    ui->in_6->setValue(~val & pom_stez_2);
+    changeDigital(pom_stez_2, ~val & pom_stez_2);
     emit zawor(pom_stez_2, val & pom_stez_2);
 
     //in7 wlot_powietrza
-    ui->in_7->setValue(~val & wlot_powietrza);
+    changeDigital(wlot_powietrza, ~val & wlot_powietrza);
     emit zawor(wlot_powietrza, val & wlot_powietrza);
 
     //in8 proznia
-    ui->in_8->setValue(~val & proznia);
+    changeDigital(proznia, ~val & proznia);
     emit zawor(proznia, val & proznia);
 
     //in9 pilot
-    ui->in_9->setValue(~val & pilot);
+    changeDigital(pilot, ~val & pilot);
     emit pilot_btn(val & pilot);
-
 }
+
+#define AN_CHANGE(N) changeAnalog(anMap[N], val##N, true)
 
 void Urzadzenia::timeoutAI100ms()
 {
@@ -495,30 +450,28 @@ void Urzadzenia::timeoutAI100ms()
         usbAnal = false;
         return;
     }
-
-    //analog1 cisnienie w komorze ai4
-    ui->analog_1->setValue(1000*val4);
-
-    //analog2 stezenie voc ai0
-    ui->analog_2->setValue(1000*val0);
-
-    //analog3 stezenie o2 ai2
-    ui->analog_3->setValue(1000*val2);
-
-    //analog4 stezenie co2 ai3
-    ui->analog_4->setValue(1000*val3);
-
-    //analog5 temperatrura w komorze ai5
-    ui->analog_5->setValue(1000*val5);
-
-    //analog6 temperatrura parownika ai6
-    ui->analog_6->setValue(1000*val6);
-
-    //analog7 stezenie voc2 ai1
-    ui->analog_7->setValue(1000*val1);
+    qDebug("%s:%d %f %f %f %f %f %f %f", __FILE__,__LINE__, val0, val1, val2, val3, val4, val5, val6);
+    AN_CHANGE(0);
+    AN_CHANGE(1);
+    AN_CHANGE(2);
+    AN_CHANGE(3);
+    AN_CHANGE(4);
+    AN_CHANGE(5);
+    AN_CHANGE(6);
 
 }
 
+void Urzadzenia::changeAnalog(unsigned short aId, double val, bool device)
+{
+#ifdef DEBUG_GUI
+    if (device)
+        anRevMap[aId]->setValue((int)10000*val);
+    else
+        emit analogValueChanged(anMap[aId], ust->getRatio(anMap[aId])*val);
+#else
+    emit analogValueChanged(anMap[aId], ust->getRatio(anMap[aId])*val);
+#endif
+}
 
 void Urzadzenia::on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask)
 {
@@ -557,13 +510,13 @@ void Urzadzenia::on_tb_out_3_clicked()
 void Urzadzenia::on_tb_out_4_clicked()
 {
     //iskra mechaniczna
-    on_tb_out_clicked(ui->tb_out_4, ui->out_4, iskra_mechaniczna);
+    on_tb_out_clicked(ui->tb_out_4, ui->out_4, mech_iskra);
 }
 
 void Urzadzenia::on_tb_out_5_clicked()
 {
     //grzalka
-    on_tb_out_clicked(ui->tb_out_5, ui->out_5, grzalka);
+    on_tb_out_clicked(ui->tb_out_5, ui->out_5, plomien);
 }
 
 void Urzadzenia::on_tb_out_6_clicked()

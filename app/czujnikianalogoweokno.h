@@ -17,9 +17,9 @@ public:
     explicit CzujnikiAnalogoweOkno(QWidget *parent = 0);
     ~CzujnikiAnalogoweOkno();
     void setParams(const Ustawienia & ust);
+    void setHorizontalSize(unsigned int w);
 public slots:
     void updateValue(int id, const double & val);
-
 
 protected:
     void createOne(int id);

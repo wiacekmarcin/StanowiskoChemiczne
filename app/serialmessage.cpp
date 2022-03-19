@@ -193,7 +193,7 @@ void SerialMessage::echo()
     //qDebug("%s %d echo %d", __FILE__, __LINE__, connSerial);
     if (!connSerial)
     {
-        qDebug("dozownik = false");
+        //qDebug("dozownik = false");
         emit dozownik(false);
         connectToSerial();
         lenEcho = 0;
@@ -202,7 +202,7 @@ void SerialMessage::echo()
 
     //emit debug(QString("Echo [%1] [%2]").arg(echoMsg().toHex().toStdString().c_str()).arg(lenEcho));
     if (++lenEcho == 5) {
-        qDebug("dozownik = false");
+        //qDebug("dozownik = false");
         connSerial = false;
         closeDevice();
         emit dozownik(false);

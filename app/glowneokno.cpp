@@ -11,7 +11,7 @@
 #include <QTreeWidgetItem>
 #include <QStackedWidget>
 #include <QSignalMapper>
-
+#include <QResizeEvent>
 
 #include "videowidget.h"
 #include "createtestwizard.h"
@@ -28,32 +28,27 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     selectedProject(nullptr),
     selectedTest(nullptr)
 {
-    qDebug("%s %d",__FILE__,__LINE__);
-    initialSetting();
-    qDebug("%s %d",__FILE__,__LINE__);
     ui->setupUi(this);
+    ui->frCzujniki->setLabels(settings);
     ui->widget->setParams(settings);
-    qDebug("%s %d",__FILE__,__LINE__);
     dlgUrz = new Urzadzenia(this);
-    qDebug("%s %d",__FILE__,__LINE__);
     dlgUrz->setLabels(settings);
-    qDebug("%s %d",__FILE__,__LINE__);
     dlgUrz->setUstawienia(settings);
     dlgUrz->setUstawienia(&settings);
-    qDebug("%s %d",__FILE__,__LINE__);
     dlgUrz->setHidden(true);
-    qDebug("%s %d",__FILE__,__LINE__);
+
+
     connect(dlgUrz,&Urzadzenia::analogValueChanged, this, &GlowneOkno::valueChanged);
-    connect(this, &GlowneOkno::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
+    connect(dlgUrz,&Urzadzenia::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
+ 
     connect(dlgUrz, &Urzadzenia::drzwi_komory, ui->frCzujniki, &OknoStatusowe::setDrzwiKomory);
     connect(dlgUrz, &Urzadzenia::zawor, ui->frCzujniki, &OknoStatusowe::setZawor);
     connect(dlgUrz, &Urzadzenia::pilot_btn, ui->frCzujniki, &OknoStatusowe::setPilot);
     connect(dlgUrz, &Urzadzenia::usb6210, ui->frCzujniki, &OknoStatusowe::setUSB6210);
     connect(dlgUrz, &Urzadzenia::usb6501, ui->frCzujniki, &OknoStatusowe::setUSB6501);
     connect(dlgUrz, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
-    qDebug("%s %d",__FILE__,__LINE__);
-    ui->frCzujniki->setLabels(settings);
-    qDebug("%s %d",__FILE__,__LINE__);
+    
+
 
     signalMapper = new QSignalMapper(this);
 
@@ -117,7 +112,7 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     connect(this, &GlowneOkno::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
 //end
     changeSelectedTest();
-
+    //resize(1024,768);
 }
 
 GlowneOkno::~GlowneOkno()
@@ -231,11 +226,14 @@ void GlowneOkno::showIO()
     dlgUrz->show();
 }
 
-void GlowneOkno::valueChanged(int id, int mv)
+void GlowneOkno::valueChanged(int id, double mv)
 {
-    double valratio = settings.getRatio(id) * mv;
-    emit analogValueChanged(id, valratio);
+    //emit analogValueChanged(id, mv);
+}
 
+void GlowneOkno::resizeEvent(QResizeEvent *event)
+{
+    ui->widget->setHorizontalSize(event->size().width());
 }
 
 void GlowneOkno::changeSelectedTest()
@@ -266,38 +264,5 @@ void GlowneOkno::setActionText()
     }
 }
 
-void GlowneOkno::initialSetting()
-{
-    //if (cos) return;
 
-    settings.setCzujka(a_cisn_komora,   QString::fromUtf8("Ci\305\233nenie w komorze"), QString::fromUtf8("kPa"), 1.0);
-    settings.setCzujka(a_vol1,          QString::fromUtf8("St\304\231\305\274enie VOC 1"), QString::fromUtf8("%"), 1.0);
-    settings.setCzujka(a_o2,            QString::fromUtf8("St\304\231\305\274enie O2"), QString::fromUtf8("%"), 1.0);
-    settings.setCzujka(a_co2,           QString::fromUtf8("St\304\231\305\274enie CO2"), QString::fromUtf8("%"), 1.0);
-    settings.setCzujka(a_temp_komory,   QString::fromUtf8("Temperatura w komorze"), QString::fromUtf8("\u00B0 C"), 1.0);
-    settings.setCzujka(a_temp_parownik, QString::fromUtf8("Temperatura parownika"), QString::fromUtf8("\u00B0 C"), 1.0);
-    settings.setCzujka(a_vol2,          QString::fromUtf8("St\304\231\305\274enie VOC 2"), QString::fromUtf8("mV"), 1.0);
-    settings.setCzujka(a_8,             QString::fromUtf8("Syg. analogowy 8"), QString::fromUtf8("mV"), 1.0);
-
-    settings.setWejscie(drzwi_lewe,         QString::fromUtf8("Kontaktron drzwi lewe komory"));
-    settings.setWejscie(drzwi_prawe,        QString::fromUtf8("Kontaktron drzwi lewe komory"));
-    settings.setWejscie(wentylacja_lewa,    QString::fromUtf8("Wentylacja lewa"));
-    settings.setWejscie(wentylacja_prawa,   QString::fromUtf8("Wentylacja prawa"));
-    settings.setWejscie(pom_stez_1,         QString::fromUtf8("Pomiar st\304\231\305\274enia 1"));
-    settings.setWejscie(pom_stez_2,         QString::fromUtf8("Pomiar st\304\231\305\274enia 2"));
-    settings.setWejscie(wlot_powietrza,     QString::fromUtf8("Powietrze"));
-    settings.setWejscie(proznia,            QString::fromUtf8("Pr\303\263\305\272nia"));
-    settings.setWejscie(pilot,              QString::fromUtf8("Pilot zdalnego sterowania"));
-
-    settings.setWyjscie(hv_onoff,           QString::fromUtf8("Iskra elektryczna ON/OFF"));
-    settings.setWyjscie(hv_zaplon           QString::fromUtf8("Iskra elektryczna High Voltage"));
-    settings.setWyjscie(hw_iskra,           QString::fromUtf8("Iskra elektryczna Zap\305\202on"));
-    settings.setWyjscie(iskra_mechaniczna, QString::fromUtf8("Iskra mechaniczna (ON/OFF silnik DC)"));
-    settings.setWyjscie(grzalka_onoff, QString::fromUtf8("P\305\202omie\305\204 (ON/OFF grza\305\202ki)"));
-    settings.setWyjscie(pompa_prozniowa, QString::fromUtf8("Pompa pr\303\263\305\274niowa"));
-    settings.setWyjscie(pompa_mebramowa, QString::fromUtf8("Pompka mebramowa"));
-    settings.setWyjscie(wentylator, QString::fromUtf8("Wentylator do przedmuchu"));
-    settings.setWyjscie(mieszadlo, QString::fromUtf8("Mieszad\305\202o"));
-    settings.setWyjscie(kamera, QString::fromUtf8("Trigger kamery"));
-}
 
