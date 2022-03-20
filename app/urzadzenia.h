@@ -36,6 +36,8 @@ public:
 
     void setUstawienia(const Ustawienia & ust);
     void setUstawienia(Ustawienia *ust_);
+
+    SerialMessage* getSerial() { return &smg; }
 signals:
     void analogValueChanged(int id, double val_in_unit);
     void digitalValueChanged(int id, bool high);

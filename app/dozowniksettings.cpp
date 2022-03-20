@@ -113,7 +113,7 @@ void DozownikSettings::on_pb_home_##N##_clicked()\
     NrDozownik = N-1;\
     srlmsg->setReset();\
 }\
-void DozownikSettings::on_pb_set_1_clicked()\
+void DozownikSettings::on_pb_set_##N##_clicked()\
 {\
     setHome = false;\
     NrDozownik = N-1;\
@@ -130,6 +130,14 @@ FUN_ON_PB_CLICKED(5)
 void DozownikSettings::setSmg(SerialMessage * msg_)
 {
     srlmsg = msg_;
+    connect(srlmsg, &SerialMessage::resetDone, this, &DozownikSettings::resetDone);
+    connect(srlmsg, &SerialMessage::setParamsDone, this, &DozownikSettings::setParamsDone);
+    connect(srlmsg, &SerialMessage::dozownik, this, &DozownikSettings::dozownik);
+    connect(srlmsg, &SerialMessage::errorSerial, this, &DozownikSettings::errorSerial);
+    connect(srlmsg, &SerialMessage::debug, this, &DozownikSettings::debug);
+    connect(srlmsg, &SerialMessage::donePositionHome, this, &DozownikSettings::donePositionHome);
+    connect(srlmsg, &SerialMessage::donePosition, this, &DozownikSettings::donePosition);
+    connect(srlmsg, &SerialMessage::successOpenDevice, this, &DozownikSettings::successOpenDevice);
 }
 
 void DozownikSettings::resetDone()
@@ -147,17 +155,17 @@ void DozownikSettings::setParamsDone()
 
 void DozownikSettings::dozownik(bool conn)
 {
-
+     debug(QString("Open Dozownik %1").arg(conn));
 }
 
-void DozownikSettings::errorSerial(QString)
+void DozownikSettings::errorSerial(QString  err)
 {
-
+    ui->errorTxt->appendPlainText(err);
 }
 
-void DozownikSettings::debug(QString)
+void DozownikSettings::debug(QString dbg)
 {
-
+    ui->debugText->appendPlainText(dbg);
 }
 
 void DozownikSettings::donePositionHome(bool ok)

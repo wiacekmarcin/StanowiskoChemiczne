@@ -41,14 +41,6 @@ private slots:
     ON_PB_CLICKED(4)
     ON_PB_CLICKED(5)
 
-    void dozownik(bool conn);
-    void errorSerial(const QString &err);
-    void debug(const QString & dbg);
-    void donePositionHome(bool ok);
-    void donePosition();
-    void successOpenDevice(bool success);
-    void echoOK(bool ok);
-
 private slots:
     void resetDone();
     void setParamsDone();
