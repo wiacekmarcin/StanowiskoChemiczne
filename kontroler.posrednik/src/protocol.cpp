@@ -72,7 +72,8 @@ Message::Work Message::getStatusWork() const
 bool Message::parse1() {
 
     switch(rozkaz[0]) {
-        
+        case NOP_REQ:
+            return true;
         // get info |HEAD| CRC
         case WELCOME_REQ:   //get info 
         {                          //1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  

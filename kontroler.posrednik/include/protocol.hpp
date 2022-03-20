@@ -47,6 +47,7 @@
 class Message {
     public:
     typedef enum _cmd {
+        NOP_REQ = 0,
         WELCOME_REQ = 1,
         WELCOME_REP = 2,
         SET_PARAM_REQ = 3,
