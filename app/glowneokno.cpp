@@ -21,6 +21,7 @@
 #include "testdata.h"
 #include "testtabswidget.h"
 #include "urzadzenia.h"
+#include "dozowniksettings.h"
 
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
@@ -80,6 +81,14 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
     debugAct->setText(QString::fromUtf8("Symulator wej\305\233\304\207/wyj\305\233\304\207"));
     ui->menuBar->addAction(debugAct);
     connect(debugAct, &QAction::triggered, this, &GlowneOkno::showIO);
+
+    QAction * debugDozo = new QAction(this);
+    debugDozo->setObjectName("debugactiondozo");
+    debugDozo->setText(QString::fromUtf8("Dozownik - test"));
+    ui->menuBar->addAction(debugDozo);
+    connect(debugDozo, &QAction::triggered, this, &GlowneOkno::dozownikTest);
+
+
     changeSelectedTest();
 // testowy test
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
@@ -224,6 +233,13 @@ void GlowneOkno::showIO()
     //else
     //    dlgUrz->hide();
     dlgUrz->show();
+}
+
+void GlowneOkno::dozownikTest()
+{
+    DozownikSettings * dlg = new DozownikSettings(this);
+    dlg->exec();
+    delete dlg;
 }
 
 void GlowneOkno::valueChanged(int id, double mv)

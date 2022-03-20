@@ -37,6 +37,7 @@ SOURCES += \
     czujnikianalogoweokno.cpp \
     czujnikanalogowyustawieniaokno.cpp \
     digitaloutwidget.cpp \
+    dozowniksettings.cpp \
     main.cpp \
     glowneokno.cpp \
     nowyprojectdlg.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
     czujnikianalogoweokno.h \
     czujnikanalogowyustawieniaokno.h \
     digitaloutwidget.h \
+    dozowniksettings.h \
     glowneokno.h \
     nowyprojectdlg.h \
     oknostatusowe.h \
@@ -117,6 +119,7 @@ FORMS += \
     czujnikanalogowyustawieniawidget.ui \
     czujnikanalogowywidget.ui \
     digitaloutwidget.ui \
+    dozowniksettings.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
     oknostatusowe.ui \

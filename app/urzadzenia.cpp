@@ -67,6 +67,8 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     inRevMap[inMap[8]] = ui->in_8;    //DBG_IN(8);
     inRevMap[inMap[9]] = ui->in_9;    //DBG_IN(9);
 #endif
+
+
     /*serial*/
     connect(&smg, &SerialMessage::successOpenDevice, this, &Urzadzenia::successOpenDevice);
     connect(&smg, &SerialMessage::dozownik, this, &Urzadzenia::echoOK);
@@ -464,10 +466,11 @@ void Urzadzenia::timeoutAI100ms()
 void Urzadzenia::changeAnalog(unsigned short aId, double val, bool device)
 {
 #ifdef DEBUG_GUI
-    if (device)
+    if (device) {
         anRevMap[aId]->setValue((int)10000*val);
-    else
+    } else {
         emit analogValueChanged(anMap[aId], ust->getRatio(anMap[aId])*val);
+    }
 #else
     emit analogValueChanged(anMap[aId], ust->getRatio(anMap[aId])*val);
 #endif

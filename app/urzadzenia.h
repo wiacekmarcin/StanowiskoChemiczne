@@ -53,6 +53,7 @@ signals:
     void echo();
     void setPositionHome(short dozownikNr);
     void setSettings(bool reverse, uint32_t maxImp);
+    void setSettingsAll(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp);
     void setPosition(short dozownikNr, uint32_t x);
 
 private slots:
