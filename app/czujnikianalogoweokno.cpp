@@ -4,16 +4,19 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include "czujnikanalogowywidget.h"
+#include <QResizeEvent>
 
 CzujnikiAnalogoweOkno::CzujnikiAnalogoweOkno(QWidget *parent) :
     QWidget(parent)
 {
     setObjectName(QString::fromUtf8("CzujnikiAnalogoweOkno"));
-    resize(990, 130);
-    setMinimumSize(QSize(960, 130));
+    resize(1540, 130);
+    setMinimumSize(QSize(1540, 130));
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
     gridLayout = new QGridLayout(this);
     gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
     QMetaObject::connectSlotsByName(this);
+    gridLayout->setMargin(10);
 
     for (int i=0; i< Ustawienia::maxCzujekAnal; ++i) {
         createOne(i);
@@ -28,16 +31,18 @@ CzujnikiAnalogoweOkno::~CzujnikiAnalogoweOkno()
 void CzujnikiAnalogoweOkno::setParams(const Ustawienia &ust)
 {
     for (int i=0; i<ust.maxCzujekAnal; ++i) {
-        czujniki[i]->setParam(ust.getName(i+1), ust.getRatio(i+1), ust.getUnit(i+1));
+        czujniki[i]->setParam(ust.getName(i), ust.getRatio(i), ust.getUnit(i));
     }
 }
 
 void CzujnikiAnalogoweOkno::updateValue(int id, const double & val)
 {
-    if (id <= 0 || id > Ustawienia::maxCzujekAnal)
+    qDebug("%s:%d %d %f",__FILE__,__LINE__,id,val);
+    if (id < 0 || id >= Ustawienia::maxCzujekAnal)
         return;
-    czujniki[id-1]->setValue(val);
+    czujniki[id]->setValue(val);
 }
+
 
 void CzujnikiAnalogoweOkno::createOne(int id)
 {
@@ -49,7 +54,8 @@ void CzujnikiAnalogoweOkno::createOne(int id)
     QHBoxLayout *horizontalLayout = new QHBoxLayout(frame);
     horizontalLayout->setSpacing(0);
     horizontalLayout->setObjectName(QString("horizontalLayout_%1").arg(id));
-    horizontalLayout->setContentsMargins(0, 0, 0, 0);
+    horizontalLayout->setContentsMargins(1,1,1,1);
+    frame->setFrameShape(QFrame::Box);
 
     CzujnikAnalogowyWidget *widget = new CzujnikAnalogowyWidget(frame);
     widget->setObjectName(QString::fromUtf8("widget_%1").arg(id));
@@ -57,5 +63,16 @@ void CzujnikiAnalogoweOkno::createOne(int id)
     horizontalLayout->addWidget(widget);
 
     gridLayout->addWidget(frame, id/4, id%4, 1, 1);
+
     czujniki[id] = widget;
+}
+
+
+void CzujnikiAnalogoweOkno::setHorizontalSize(unsigned int w)
+{
+    for (int i = 0; i < Ustawienia::maxCzujekAnal; ++i) {
+        QSize s = czujniki[i]->size();
+        s.setWidth(2 * w / Ustawienia::maxCzujekAnal);
+        czujniki[i]->setFixedSize(s);
+    }
 }

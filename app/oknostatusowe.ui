@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>138</width>
-    <height>425</height>
+    <width>218</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -120,6 +120,13 @@
      </property>
     </widget>
    </item>
+    <item>
+    <widget class="Line" name="line2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="StanCzujnika" name="zawor5" native="true">
      <property name="sizePolicy">
@@ -205,6 +212,13 @@
        <width>1000</width>
        <height>35</height>
       </size>
+     </property>
+    </widget>
+   </item>
+    <item>
+    <widget class="Line" name="line3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

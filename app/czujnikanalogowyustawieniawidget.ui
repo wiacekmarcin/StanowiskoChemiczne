@@ -10,8 +10,8 @@
     <height>105</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
+    <property name="windowTitle">
+   <string>Ustawienia czujników analogowych</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">

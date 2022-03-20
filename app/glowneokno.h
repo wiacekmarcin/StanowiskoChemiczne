@@ -32,14 +32,14 @@ private slots:
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void wybierzCzujke(int id);
     void showIO();
-    void valueChanged(int id, int mv);
-
+    void dozownikTest();
+    void valueChanged(int id, double mv);
+    void resizeEvent(QResizeEvent * event);
 signals:
     void analogValueChanged(int id, double val);
 protected:
     void changeSelectedTest();
     void setActionText();
-    void initialSetting();
 
 private:
     Ui::GlowneOkno *ui;

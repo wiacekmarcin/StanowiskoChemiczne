@@ -19,7 +19,7 @@ protected:
     void errorFun();
 
 private:
-#if !defined L_COMP
+#ifndef L_COMP
     int32		error;
     TaskHandle	taskHandleRead;
 #endif

@@ -37,15 +37,21 @@ double CzujnikAnalogowyUstawieniaWidget::ratio() const
 
 bool CzujnikAnalogowyUstawieniaWidget::valid()
 {
-    if (name().isEmpty())
+
+    if (ui->name->text().isEmpty())
         return false;
-    if (unit().isEmpty())
+
+    if (ui->unit->text().isEmpty())
         return false;
     QString r = ui->ratio->text();
+
     if (r.isEmpty())
         return false;
     bool ok;
     rr = r.toDouble(&ok);
+    //qDebug("name=%s unit=%s ratio=%s [%f] [ok=%d]",
+    //        name().toStdString().c_str(), unit().toStdString().c_str(),ui->ratio->text().toStdString().c_str(),
+    //       rr,ok);
     return ok && rr > 0;
 }
 
@@ -56,6 +62,7 @@ void CzujnikAnalogowyUstawieniaWidget::textChange()
 
 void CzujnikAnalogowyUstawieniaWidget::setData(const QString &name, const QString &unit, const double &ratio)
 {
+    qDebug("%s %s %f", name.toStdString().c_str(), unit.toStdString().c_str(), ratio);
     ui->name->setText(name);
     ui->unit->setText(unit);
     ui->ratio->setText(QString::number(ratio));

@@ -17,8 +17,8 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS L_COMP
-
+DEFINES += QT_DEPRECATED_WARNINGS
+#DEFINES += L_COMP
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -37,6 +37,7 @@ SOURCES += \
     czujnikianalogoweokno.cpp \
     czujnikanalogowyustawieniaokno.cpp \
     digitaloutwidget.cpp \
+    dozowniksettings.cpp \
     main.cpp \
     glowneokno.cpp \
     nowyprojectdlg.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
     czujnikianalogoweokno.h \
     czujnikanalogowyustawieniaokno.h \
     digitaloutwidget.h \
+    dozowniksettings.h \
     glowneokno.h \
     nowyprojectdlg.h \
     oknostatusowe.h \
@@ -117,6 +119,7 @@ FORMS += \
     czujnikanalogowyustawieniawidget.ui \
     czujnikanalogowywidget.ui \
     digitaloutwidget.ui \
+    dozowniksettings.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
     oknostatusowe.ui \
@@ -147,7 +150,7 @@ DISTFILES += \
     StanowiskoChemiczne_pl_PL.ts \
     path
 
-#LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx
+LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx
 
 INCLUDEPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include
 DEPENDPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include
