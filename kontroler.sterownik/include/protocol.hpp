@@ -69,6 +69,7 @@ class Message {
     void setPosDone(uint32_t steps) const;
     void setResetDone() const;
 
+    uint32_t parseNumber(uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4);
 protected:
 
     bool parse();

@@ -13,10 +13,6 @@ void Message::init()
 bool Message::check(unsigned char c)
 {
     data[posCmd++] = c;
-    //Serial.print("recv=");
-    //Serial.print((char)c);
-    //Serial.print(" ");
-    //Serial.println(c, HEX);
 
     if (posCmd-1 == 0) {    
         crc.restart();
@@ -70,7 +66,7 @@ bool Message::parse() {
         case POSITION_REQ: 
         {
             nrDozownika = data[1];
-            steps = Silnik::maxSteps = (data[2] << 24) | (data[3] << 16) | (data[4] << 8) | data[5];
+            steps = parseNumber(data[2], data[3], data[4], data[5]);
             actWork = POS_START;
             return true;
         }
@@ -84,13 +80,13 @@ bool Message::parse() {
         case SET_PARAM_REQ:
         {
             reverseByte = data[1];
-            Silnik::maxSteps = (data[2] << 24) + (data[3] << 16) + (data[4] << 8) + data[5];
-            Silnik::mls_motor = (data[6] << 8) + data[7];
+            Silnik::maxSteps = parseNumber(data[2], data[3], data[4], data[5]);
+            Silnik::mls_motor = parseNumber(0, 0, data[6], data[7]);
             if (Silnik::mls_motor == 0)
                 Silnik::mls_motor = 200;
             Serial.print("MaxSteps=");
             Serial.print(Silnik::maxSteps, DEC);
-            Serial.print("mls_motor=");
+            Serial.print(", mls_motor=");
             Serial.println(Silnik::mls_motor, DEC);
             sendMessage(SET_PARAM_REP, NULL, 0);
             actWork = SETTING;
@@ -166,4 +162,13 @@ void Message::setResetDone() const
 bool Message::getReverse(uint8_t s)
 {
     return reverseByte & (0x1 << s);
+}
+
+uint32_t Message::parseNumber(uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4)
+{
+    uint32_t d1 = b1 & 0xff;
+    uint32_t d2 = b2 & 0xff;
+    uint32_t d3 = b3 & 0xff;
+    uint32_t d4 = b4 & 0xff;
+    return (d1 << 24) + (d2 << 16) + (d3 << 8) + d4;
 }

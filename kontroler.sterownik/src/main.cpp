@@ -68,7 +68,7 @@ void setup() {
   s[3].init();
   s[4].init();
 
-  Serial1.begin(9600, SERIAL_8O2);
+  Serial1.begin(115200, SERIAL_8O1);
   Serial.begin(115200);
   delay(100);
   msg.setResetDone();
