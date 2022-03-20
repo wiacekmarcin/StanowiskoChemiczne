@@ -238,6 +238,7 @@ void GlowneOkno::showIO()
 void GlowneOkno::dozownikTest()
 {
     DozownikSettings * dlg = new DozownikSettings(this);
+    dlg->setSmg(dlgUrz->getSerial());
     dlg->exec();
     delete dlg;
 }

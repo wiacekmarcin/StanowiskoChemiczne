@@ -468,10 +468,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="plainTextEdit"/>
+       <widget class="QPlainTextEdit" name="errorTxt"/>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="plainTextEdit_2"/>
+       <widget class="QPlainTextEdit" name="debugText"/>
       </item>
      </layout>
     </widget>
