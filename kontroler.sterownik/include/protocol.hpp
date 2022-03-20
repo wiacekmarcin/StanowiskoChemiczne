@@ -54,6 +54,7 @@ class Message {
         NOP,
         POS_START,
         RETURN_HOME,
+        SETTING
     } Work;
 
     void init();
@@ -62,6 +63,7 @@ class Message {
     Work getStatusWork() const;
     uint8_t getNrDozownika() const;
     uint32_t getSteps() const;
+    bool getReverse(uint8_t s);
 
     void setHomeDone(uint32_t steps) const;
     void setPosDone(uint32_t steps) const;
@@ -87,6 +89,7 @@ protected:
     Work actWork;
     uint8_t nrDozownika;
     uint32_t steps;
+    uint8_t reverseByte;
 };
 
     

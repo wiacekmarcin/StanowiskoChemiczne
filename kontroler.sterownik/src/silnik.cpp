@@ -1,13 +1,13 @@
 #include "silnik.hpp"  
 
-unsigned int Silnik::maxSteps = 0;
-bool Silnik::reverse;
+uint32_t Silnik::maxSteps = 55000;
+uint16_t Silnik::mls_motor = 200;
 
-Silnik::Silnik(uint16_t mlstime, uint8_t dir, uint8_t pulse, uint8_t limPin)
-: mls_motor(mlstime), dirPin(dir), pulsePin(pulse), limitPin(limPin), stopNow(false)
+Silnik::Silnik(uint8_t dir, uint8_t pulse, uint8_t limPin, uint8_t hLevel)
+: dirPin(dir), pulsePin(pulse), limitPin(limPin), homeLevel(hLevel)
 
 {
-	//interrupt = &Silnik::interruptFun;
+	stepsPos = 0;
 }
 	
 Silnik::~Silnik()
@@ -19,58 +19,49 @@ void Silnik::init()
 {
     pinMode(dirPin, OUTPUT);
     pinMode(pulsePin, OUTPUT);
-    //pinMode(limitPIN, INPUT_PU);
 }
 
 uint32_t Silnik::start(uint32_t steps)
 {
-    Serial.print("dirPin=");
-    Serial.println(goForward(true));
-    digitalWrite(dirPin , goForward(true));
-    if (steps < 0)
-        steps = -steps;
+    digitalWrite(dirPin , !homeLevel);
     uint32_t s = 0;    
-    for (; s < steps && s < maxSteps /* && !stopNow */; s++) {
+    for (; s < steps && stepsPos < maxSteps; ++s, ++stepsPos) {
         digitalWrite(pulsePin, HIGH);    
         delayMicroseconds(mls_motor);
         digitalWrite(pulsePin, LOW);        
         delayMicroseconds(mls_motor);
     }
-    stop();
     return s;
 }
 
 uint32_t Silnik::home()
 {
-    //interrupts();
-    Serial.print("dirPin=LOW");
-    //Serial.println(goBack(true));
-    digitalWrite(dirPin , HIGH);
-    //digitalWrite(enPin, LOW);
-    stopNow = 0;
+    digitalWrite(dirPin , homeLevel);
+    uint8_t pinT[10] = {1,1,1,1,1,1,1,1,1,1};
     uint32_t s = 0;
-    Serial.print("stopNow=");
-    Serial.println(stopNow,DEC);
-    for (; s < maxSteps /*&& digitalRead(limitPin) == HIGH*/; s++) {
+    for (int i=0; i<8; i++) {
+        pinT[i] = digitalRead(limitPin);
+        delayMicroseconds(2*mls_motor);
+    }
+
+    for (; s < maxSteps && check(pinT, 8); s++) {
+        pinT[s & 0x7] = digitalRead(limitPin);
         digitalWrite(pulsePin, HIGH);
         delayMicroseconds(mls_motor);
         digitalWrite(pulsePin, LOW);
         delayMicroseconds(mls_motor);
     }
-    Serial.print("stopNow=");
-    Serial.println(stopNow,DEC);
-    stop();
-    //noInterrupts();
+    stepsPos = 0;
     return s;
 }
 
-void Silnik::stop()
-{
-    stopNow = true;
+bool Silnik::check(uint8_t tab[], uint8_t s) {
+  uint8_t * ptr = tab;
+  uint8_t sum = 0;
+  for (int i = 0; i < s; ++i) {
+    sum+= *ptr++;
+  }
+  return sum > 0;
 }
 
-uint8_t Silnik::goBack(bool val) const
-{
-    return ((reverse ^ val) ? HIGH : LOW);
-}
 

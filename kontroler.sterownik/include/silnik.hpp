@@ -19,7 +19,7 @@ class Silnik
 		 * @param limit - pin dla limit
 		 */
 
-		Silnik(uint16_t mls_motor, uint8_t dir, uint8_t pulse, uint8_t limit);
+		Silnik(uint8_t dir, uint8_t pulse, uint8_t limit, uint8_t home);
 		~Silnik();
 
 		void init();
@@ -27,18 +27,18 @@ class Silnik
 		void stop();
 		uint32_t home();
 
-		inline void interruptFun() { noInterrupts(); ++stopNow; }
-		static unsigned int maxSteps;
-		static bool reverse;
-		uint8_t goBack(bool val) const;
-		uint8_t goForward(bool val) const { return ((goBack(val) == LOW) ? HIGH : LOW); } 
+		void setHomeLevel(uint8_t hlevel) { homeLevel = hlevel; }
+
+
+		static uint32_t maxSteps;
+		static uint16_t mls_motor;
+		bool check(uint8_t tab[], uint8_t s);
 private:
-	const uint16_t mls_motor;
 	const uint8_t dirPin;
 	const uint8_t pulsePin;
 	const uint8_t limitPin;
-	uint32_t stopNow;
-
+	uint8_t homeLevel;
+	uint16_t stepsPos;
 
 	
 	

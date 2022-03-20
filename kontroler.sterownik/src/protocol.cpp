@@ -72,29 +72,28 @@ bool Message::parse() {
             nrDozownika = data[1];
             steps = Silnik::maxSteps = (data[2] << 24) | (data[3] << 16) | (data[4] << 8) | data[5];
             actWork = POS_START;
-            Serial.print("Dozownik=");
-            Serial.println(nrDozownika,DEC);
-            Serial.print("steps=");
-            Serial.println(steps,DEC);
             return true;
         }
         
         case MOVEHOME_REQ:
         {
             nrDozownika = data[1];
-            Serial.print("Dozownik=");
-            Serial.println(nrDozownika,DEC);
             actWork = RETURN_HOME;
             return true;
         }
         case SET_PARAM_REQ:
         {
-            Silnik::reverse = data[1] == 0x01;
-            Silnik::maxSteps = (data[2] << 24) | (data[3] << 16) | (data[4] << 8) | data[5];
+            reverseByte = data[1];
+            Silnik::maxSteps = (data[2] << 24) + (data[3] << 16) + (data[4] << 8) + data[5];
+            Silnik::mls_motor = (data[6] << 8) + data[7];
+            if (Silnik::mls_motor == 0)
+                Silnik::mls_motor = 200;
+            Serial.print("MaxSteps=");
+            Serial.print(Silnik::maxSteps, DEC);
+            Serial.print("mls_motor=");
+            Serial.println(Silnik::mls_motor, DEC);
             sendMessage(SET_PARAM_REP, NULL, 0);
-            Serial.print("maxsteps=");
-            Serial.println(Silnik::maxSteps,DEC);
-            actWork = NOP;
+            actWork = SETTING;
             return true;
         }
         
@@ -162,4 +161,9 @@ void Message::setPosDone(uint32_t steps) const
 void Message::setResetDone() const
 {
     sendMessage(RESET_REP, nullptr, 0);
+}
+
+bool Message::getReverse(uint8_t s)
+{
+    return reverseByte & (0x1 << s);
 }
