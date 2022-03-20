@@ -9,8 +9,9 @@ void setup() {
 
   msg.init();
 
-  pinMode(A3, OUTPUT);
-  digitalWrite(A3, HIGH);
+  pinMode(2, OUTPUT);
+  digitalWrite(2, HIGH);
+  //pinMode(13, OUTPUT);
 }
 
 void loop() {

@@ -16,25 +16,33 @@
 // 0x10 CRC8 - req
 // 0x2f [15B] CRC8 - rep
 
-// setError
-//0x4f nrE CRC8 - rep
+//set parameters
+//0x3a REVERSEBTE X4 X3 X2 X1 CRC8- ustawianie parametrow  
+//0x40 CRC8 - ACK
 
 //setPos 
 //0x58 X4 X3 X2 X1 CRC8 - req
 //0x61 S/K CRC8 - reply setting position in proges S=start, K=end
 
+//echo 
+//0x70 CRC8 - req echo
+//0x80 CRC8 - reply echo
+
 //set home position
 //0x90 CRC8 - req 
 //0xa1 s/K CRC8 - s=start, K=stop
 
-//set parameters
-//0x3a 0x01 STATUSBYTE X4 X3 X2 X1 Y4 Y3 Y2 Y1 CRC8- ustawianie parametrow 
-//0x39 0x02 X4 X3 X2 X1 Y4 Y3 Y2 Y1 CRC8- ustawianie parametrow 
-//0x40 CRC8 - ACK
+//0xb0 CRC8 -reset req
+//0xc0 CRC8 - reply req
 
-//echo 
-//0x70 CRC8 - req echo
-//0x80 CRC8 - reply echo
+
+// setError
+//0xfx MSG CRC8 - rep
+
+
+
+
+
 
 class Message {
     public:

@@ -108,9 +108,11 @@ bool Message::parse1() {
         }
         case RESET_REQ: 
         {
-            digitalWrite(A3, LOW);
+            digitalWrite(2, LOW);
+            //digitalWrite(13, HIGH);
             delay(1000);
-            digitalWrite(A3, HIGH);
+            digitalWrite(2, HIGH);
+            //digitalWrite(13, LOW);
             //sendMessage1(RESET_REP, nullptr, 0);
             return true;
         }
