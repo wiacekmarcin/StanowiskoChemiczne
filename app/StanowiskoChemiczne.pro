@@ -45,6 +45,7 @@ SOURCES += \
     otwartezawory.cpp \
     serialmessage.cpp \
     stanczujnika.cpp \
+    ustawieniadozownika.cpp \
     videowidget.cpp \
     ustawieniadozownikaokno.cpp \
     sygnalanalparam.cpp \
@@ -87,6 +88,7 @@ HEADERS += \
     otwartezawory.h \
     serialmessage.h \
     stanczujnika.h \
+    ustawieniadozownika.h \
     videowidget.h \
     ustawieniadozownikaokno.h \
     sygnalanalparam.h \
@@ -125,6 +127,7 @@ FORMS += \
     oknostatusowe.ui \
     otwartezawory.ui \
     stanczujnika.ui \
+    ustawieniadozownika.ui \
     videowidget.ui \
     ustawieniadozownikaokno.ui \
     nowytest_1.ui \
@@ -148,6 +151,7 @@ RESOURCES += \
 
 DISTFILES += \
     StanowiskoChemiczne_pl_PL.ts \
+    lista.txt \
     path
 
 LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx

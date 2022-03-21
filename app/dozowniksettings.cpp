@@ -33,7 +33,8 @@ DozownikSettings::DozownikSettings(QWidget *parent) :
     ui(new Ui::DozownikSettings),
     ratio_steps2ml(50.0),
     NrDozownik(0),
-    setHome(false)    
+    setHome(false),
+    onlySetParameters(false)
 
 {
     ui->setupUi(this);
@@ -111,13 +112,13 @@ void DozownikSettings::on_pb_home_##N##_clicked()\
 {\
     setHome = true;\
     NrDozownik = N-1;\
-    srlmsg->setReset();\
+    /*srlmsg->setReset(); */ setParamsDone();\
 }\
 void DozownikSettings::on_pb_set_##N##_clicked()\
 {\
     setHome = false;\
     NrDozownik = N-1;\
-    srlmsg->setReset();\
+    /*srlmsg->setReset(); */ setParamsDone();\
 }
 
 FUN_ON_PB_CLICKED(1)
@@ -142,11 +143,16 @@ void DozownikSettings::setSmg(SerialMessage * msg_)
 
 void DozownikSettings::resetDone()
 {
-    srlmsg->setParameters();
+    srlmsg->setSettings5(praweObr[0], praweObr[1], praweObr[2], praweObr[3], praweObr[4],
+            ui->spMaxSteps->value(), ui->spImpTime->value());
 }
 
 void DozownikSettings::setParamsDone()
 {
+    if (onlySetParameters) {
+        onlySetParameters = false;
+        return;
+    }
     if (setHome)
         srlmsg->setPositionHome(NrDozownik);
     else
@@ -170,6 +176,7 @@ void DozownikSettings::debug(QString dbg)
 
 void DozownikSettings::donePositionHome(bool ok)
 {
+    debug(QString("Pozycjonowanie zakonczone %1").arg(ok ? "sukcesem" : "porażką"));
     ui->gb_1->setDisabled(false);
     ui->gb_2->setDisabled(false);
     ui->gb_3->setDisabled(false);
@@ -199,8 +206,11 @@ void DozownikSettings::successOpenDevice(bool success)
 void DozownikSettings::on_pbSetParameters_clicked()
 {
     ratio_steps2ml = 1.0/ui->spmlonsteps->value();
+    onlySetParameters = true;
     srlmsg->setMaxImp(ui->spMaxSteps->value());
     srlmsg->setImpTime(ui->spImpTime->value());
-    srlmsg->setParameters();
+    srlmsg->setSettings5(ui->rbP_1->isChecked(), ui->rbP_2->isChecked(), ui->rbP_3->isChecked(),
+                          ui->rbP_4->isChecked(), ui->rbP_5->isChecked(), ui->spMaxSteps->value(),
+                          ui->spImpTime->value());
 }
 

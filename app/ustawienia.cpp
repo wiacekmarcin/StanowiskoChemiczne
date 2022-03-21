@@ -11,6 +11,14 @@ void delay(unsigned int time)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
+void delayMs(unsigned int ms)
+{
+    QTime dieTime= QTime::currentTime().addMSecs(ms);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 10);
+}
+
+#define REVERSE_INIT(N,D) do { reverse_##N = settings.value(QString("dozownik/rerverse_%1").arg(N), D).toBool(); } while(false)
 Ustawienia::Ustawienia()
 {
     initialSetting();
@@ -30,9 +38,13 @@ Ustawienia::Ustawienia()
         wyjscia[0x1 << i] = settings.value(QString("wyjsciacyfrowe/%1/name").arg(0x1 << i), QString("Wyjscie cyfrowe %1").arg(i)).toString();
     }
 
-    reverseMotors = settings.value(QString("dozownik/rerverseMotor")).toBool();
-    maxImp = settings.value(QString("dozownik/maxImpMotor")).toInt();
-
+    REVERSE_INIT(1,false);
+    REVERSE_INIT(2,false);
+    REVERSE_INIT(3,false);
+    REVERSE_INIT(4,false);
+    REVERSE_INIT(5,true);
+    maxImp = settings.value(QString("dozownik/maxImpMotor"), 50000).toInt();
+    impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toInt();
 }
 
 void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, const double &ratio)
@@ -97,16 +109,22 @@ QString Ustawienia::wyjscie(int id) const
     return wyjscia[id];
 }
 
-bool Ustawienia::getReverseMotors() const
-{
-    return reverseMotors;
+#define REVERSE_FUN(N) bool Ustawienia::getReverse_##N() const \
+{\
+    return reverse_##N;\
+}\
+\
+void Ustawienia::setReverse_##N(bool newReverse)\
+{\
+    reverse_##N = newReverse;\
+    settings.setValue(QString("dozownik/rerverse_%1").arg(N), QVariant::fromValue(newReverse));\
 }
 
-void Ustawienia::setReverseMotors(bool newReverseMotors)
-{
-    reverseMotors = newReverseMotors;
-    settings.setValue(QString("dozownik/rerverseMotor"), QVariant::fromValue(newReverseMotors));
-}
+REVERSE_FUN(1)
+REVERSE_FUN(2)
+REVERSE_FUN(3)
+REVERSE_FUN(4)
+REVERSE_FUN(5)
 
 int Ustawienia::getMaxImp() const
 {
@@ -144,7 +162,7 @@ void Ustawienia::initialSetting()
     setWejscie(pilot,              QString::fromUtf8("Pilot zdalnego sterowania"));
 
     setWyjscie(hv_onoff,           QString::fromUtf8("Iskra elektryczna ON/OFF"));
-    setWyjscie(hv_zaplon,          QString::fromUtf8("Iskra elektryczna High Voltage"));
+    setWyjscie(hv_bezpieczenstwa,          QString::fromUtf8("Iskra elektryczna Bezpiecznik"));
     setWyjscie(hw_iskra,           QString::fromUtf8("Iskra elektryczna Zap\305\202on"));
     setWyjscie(mech_iskra,         QString::fromUtf8("Iskra mechaniczna (ON/OFF silnik DC)"));
     setWyjscie(plomien,            QString::fromUtf8("P\305\202omie\305\204 (ON/OFF grza\305\202ki)"));
@@ -153,4 +171,14 @@ void Ustawienia::initialSetting()
     setWyjscie(wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
     setWyjscie(mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
     setWyjscie(trigger,            QString::fromUtf8("Trigger kamery"));
+}
+
+int Ustawienia::getImpTime() const
+{
+    return impTime;
+}
+
+void Ustawienia::setImpTime(int newImpTime)
+{
+    impTime = newImpTime;
 }

@@ -25,6 +25,6 @@ void CzujnikAnalogowyWidget::setParam(const QString & _name, const double & _rat
 
 void CzujnikAnalogowyWidget::setValue(const double &val)
 {
-    valConv = ratio*val;
-    ui->value->setText(QString::number(valConv, 'G',5));
+    //valConv = val;
+    ui->value->setText(QString::number(val, 'G',5));
 }

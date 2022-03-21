@@ -38,8 +38,12 @@ public:
     void setUstawienia(Ustawienia *ust_);
 
     SerialMessage* getSerial() { return &smg; }
+
+    void setIskra();
+    void setDigital(uint16_t mask, bool value);
 signals:
-    void analogValueChanged(int id, double val_in_unit);
+    void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
+
     void digitalValueChanged(int id, bool high);
 
     void dozownik(bool ok);
@@ -103,6 +107,8 @@ private slots:
     void on_tb_out_8_clicked();
     void on_tb_out_9_clicked();
     void on_tb_out_a_clicked();
+
+    void on_pb_iskramechaniczna_clicked();
 
 protected:
     short getDozownikNr() { return dozownikNr; };

@@ -288,8 +288,14 @@
      <addaction name="menuWyzwalanie_wyj"/>
      <addaction name="actionParametry_rejestracji_ci_nienia"/>
     </widget>
+    <widget class="QMenu" name="menuD_ozownik">
+     <property name="title">
+      <string>D&amp;ozownik</string>
+     </property>
+     <addaction name="actionUstawienia"/>
+    </widget>
     <addaction name="menuDataq_Card"/>
-    <addaction name="actionDozownik"/>
+    <addaction name="menuD_ozownik"/>
    </widget>
    <widget class="QMenu" name="menuPomoc">
     <property name="title">
@@ -336,11 +342,6 @@
     <string>&amp;Wyjście</string>
    </property>
   </action>
-  <action name="actionDozownik">
-   <property name="text">
-    <string>D&amp;ozownik</string>
-   </property>
-  </action>
   <action name="actionInstrukcja">
    <property name="text">
     <string>&amp;Instrukcja</string>
@@ -354,6 +355,11 @@
   <action name="actionParametry_rejestracji_ci_nienia">
    <property name="text">
     <string>Parametry &amp;rejestracji ciśnienia</string>
+   </property>
+  </action>
+  <action name="actionUstawienia">
+   <property name="text">
+    <string>Ustawienia</string>
    </property>
   </action>
  </widget>

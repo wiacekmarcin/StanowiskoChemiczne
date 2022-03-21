@@ -243,7 +243,7 @@ void GlowneOkno::dozownikTest()
     delete dlg;
 }
 
-void GlowneOkno::valueChanged(int id, double mv)
+void GlowneOkno::valueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8)
 {
     //emit analogValueChanged(id, mv);
 }
@@ -282,4 +282,10 @@ void GlowneOkno::setActionText()
 }
 
 
+
+
+void GlowneOkno::on_actionUstawienia_triggered()
+{
+
+}
 

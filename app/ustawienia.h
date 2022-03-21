@@ -16,11 +16,11 @@ typedef enum _aInput {
 } analogIn;
 
 typedef enum _iDig {
-    drzwi_lewe      = 0x001, //P2.0 
+    drzwi_prawe     = 0x001, //P2.0
     wentylacja_lewa = 0x002, //P2.1
     proznia         = 0x004, //P2.2
     pom_stez_1      = 0x008, //P2.3
-    drzwi_prawe     = 0x010, //p2.4
+    drzwi_lewe      = 0x010, //p2.4
     wentylacja_prawa= 0x020, //P2.5
     wlot_powietrza  = 0x040, //P2.6
     pom_stez_2      = 0x080, //P2.7
@@ -29,7 +29,7 @@ typedef enum _iDig {
 
 typedef enum _oDig {
     hv_onoff        = 0x001, //P0.0 X1
-    hv_zaplon       = 0x002, //P0.1 X2
+    hv_bezpieczenstwa = 0x002, //P0.1 X2
     hw_iskra        = 0x004, //P0.2 X3
     mech_iskra      = 0x008, //P0.3 X4
     plomien         = 0x010, //P0.4 X5
@@ -44,6 +44,11 @@ typedef enum _oDig {
 
 
 void delay(unsigned int time);
+void delayMs(unsigned int ms);
+
+#define SETGET_REVERSE(N) bool getReverse_##N() const; void setReverse_##N(bool newReverse);
+#define REVERSE(N) bool reverse_##N;
+
 
 class Ustawienia
 {
@@ -72,11 +77,17 @@ public:
     void setWyjscie(int id, const QString & name);
     QString wyjscie(int id) const;
 
-    bool getReverseMotors() const;
-    void setReverseMotors(bool newReverseMotors);
+    SETGET_REVERSE(1)
+    SETGET_REVERSE(2)
+    SETGET_REVERSE(3)
+    SETGET_REVERSE(4)
+    SETGET_REVERSE(5)
 
     int getMaxImp() const;
     void setMaxImp(int newMaxImp);
+
+    int getImpTime() const;
+    void setImpTime(int newImpTime);
 
 protected:
     void initialSetting();
@@ -87,8 +98,13 @@ private:
     QMap<unsigned int, QString> wejscia;
     QMap<unsigned int, QString> wyjscia;
     QSettings settings;
-    bool reverseMotors;
+    REVERSE(1)
+    REVERSE(2)
+    REVERSE(3)
+    REVERSE(4)
+    REVERSE(5)
     long maxImp;
+    int impTime;
 };
 
 #endif // USTAWIENIA_H

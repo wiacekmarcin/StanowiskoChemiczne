@@ -63,6 +63,7 @@ private:
     SerialMessage * srlmsg;
     short NrDozownik;
     bool setHome;
+    bool onlySetParameters;
 };
 
 #endif // DOZOWNIKSETTINGS_H

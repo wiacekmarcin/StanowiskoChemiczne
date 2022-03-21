@@ -85,6 +85,7 @@ bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val
     val6 = val[5];
     val7 = val[6];
 
+    //qDebug("%s:%d %f %f %f %f %f %f %f", __FILE__, __LINE__, val1, val2, val3, val4, val5, val6, val7);
     return true;
 
 Error:

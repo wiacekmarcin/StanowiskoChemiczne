@@ -10,6 +10,11 @@
 
 #define DBG_IN(N) qDebug("%s:%d %04x %p", __FILE__,__LINE__, inMap[N], ui->in_##N)
 
+#define HVON(X) setDigital(hv_onoff, X); ui->out_1->setLevel(X); ui->tb_out_1->setText(X ? "H" : "L");
+#define HBEZ(X) setDigital(hv_bezpieczenstwa, X); ui->out_2->setLevel(X); ui->tb_out_2->setText(X ? "H" : "L");
+#define HZAP(X) setDigital(hw_iskra, X); ui->out_3->setLevel(X); ui->tb_out_3->setText(X ? "H" : "L");
+
+
 Urzadzenia::Urzadzenia(QWidget *parent) :
     QDialog(parent),
 #ifdef DEBUG_GUI
@@ -21,7 +26,7 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     readAnalString("USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6"),
     ust(NULL),
     inMap{0, drzwi_lewe, drzwi_prawe, pilot, wentylacja_lewa, wentylacja_prawa, pom_stez_1, pom_stez_2, proznia, wlot_powietrza},
-    outMap{0, hv_onoff, hv_zaplon, hw_iskra, mech_iskra, plomien, pompa_prozniowa, pompa_powietrza, wentylator, mieszadlo, trigger},
+    outMap{0, hv_onoff, hv_bezpieczenstwa, hw_iskra, mech_iskra, plomien, pompa_prozniowa, pompa_powietrza, wentylator, mieszadlo, trigger},
     anMap{a_vol1, a_vol2, a_o2, a_co2, a_cisn_komora, a_temp_komory, a_temp_parownik, a_8 }
 {
 #ifdef DEBUG_GUI
@@ -85,23 +90,24 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     ui->rbDirectionLeft->setChecked(true);
     ui->maxSteps->setValue(1000);
 #endif
-    //timerDI100.setInterval(100);
-    //connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
-    //timerDI100.start();
+    timerDI100.setInterval(100);
+    connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
+    timerDI100.start();
 
-    //timerAI100.setInterval(100);
-    //connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
-    //timerAI100.start();
+    timerAI100.setInterval(100);
+    connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
+    timerAI100.start();
 
-    timerCheckDevice.setInterval(100);
+    timerCheckDevice.setInterval(5000);
     connect(&timerCheckDevice, &QTimer::timeout, this, &Urzadzenia::timerUsbDevice);
     timerCheckDevice.start();
 
     vals = 0;
     
     dozownikNr = 1;
-
-
+    HVON(false)
+    HBEZ(true)
+    HZAP(false)
 }
 
 
@@ -154,13 +160,14 @@ void Urzadzenia::setLabels(const Ustawienia &ust)
     OUT_SET(a,10);
 
 #endif
-    for (short in = 0; in < 9 ; in++) {
-        emit analogValueChanged(in, 0);
-    }
+    //for (short in = 0; in < 9 ; in++) {
+        emit analogValueChanged(0, 0, 0, 0, 0, 0, 0, 0);
+    //}
 
     for (short in = 1 ; in < 10; in++) {
          emit digitalValueChanged(inMap[in], false);
     }
+
 }
 
 void Urzadzenia::setUstawienia(Ustawienia * ust_)
@@ -168,9 +175,34 @@ void Urzadzenia::setUstawienia(Ustawienia * ust_)
     ust = ust_;
 }
 
+
+void Urzadzenia::setIskra()
+{
+    qDebug("Rozpoczynam zaplon iskry elektrycznej");
+    //setDigital(hv_onoff, true);
+    HVON(true)
+    HBEZ(false)
+    HZAP(false)
+
+    delayMs(2000);
+    qDebug("Wyzwolenie iskry");
+
+    HVON(false)
+    HBEZ(false)
+    HZAP(true)
+
+    delayMs(1000);
+    qDebug("Koniec pracy");
+    HVON(false)
+    HBEZ(true)
+    HZAP(false)
+
+}
+
 void Urzadzenia::setUstawienia(const Ustawienia &ust)
 {
-    smg.setSettings(ust.getReverseMotors(), ust.getMaxImp());
+    smg.setSettings5(ust.getReverse_1(),ust.getReverse_2(),ust.getReverse_3(),ust.getReverse_4(),ust.getReverse_5(),
+                     ust.getMaxImp(), ust.getImpTime());
 }
 
 #define FUN_ANALOG_CHANGE(N) void Urzadzenia::on_analog_##N##_valueChanged(int value) { \
@@ -229,14 +261,14 @@ void Urzadzenia::dozownikTimeout()
 
 void Urzadzenia::timerUsbDevice()
 {
-    static unsigned short counter = 0;
-    if (++counter == 20) {
+    //static unsigned short counter = 0;
+    //if (++counter == 20) {
         checkUsbCard();
         checkSerial();
-        counter = 0;
-    }
-    timeoutAI100ms();
-    timeoutDI100ms();
+        //counter = 0;
+    //}
+    //timeoutAI100ms();
+    //timeoutDI100ms();
 }
 
 //devs=USB6210
@@ -254,7 +286,7 @@ void Urzadzenia::timerUsbDevice()
 void Urzadzenia::checkUsbCard()
 {
     int32		error;
-    qDebug("bools = %d %d", usbAnal, usbDio);
+    //qDebug("%s:%d bools = %d %d", __FILE__, __LINE__, usbAnal, usbDio);
     if (usbAnal && usbDio)
         return;
     char buf[128];
@@ -310,6 +342,17 @@ Error:
                     usbDio = dio.configure(readDigString, writeDigString);
                     qDebug("%s:%d configure %d", __FILE__,__LINE__,usbDio);
                     emit usb6501(usbDio);
+                    setDigital(hv_onoff, false);
+                    setDigital(hv_bezpieczenstwa, true);
+                    setDigital(hw_iskra, false);
+                    setDigital(mech_iskra, false);
+                    setDigital(plomien, false);
+                    setDigital(pompa_prozniowa, false);
+                    setDigital(pompa_powietrza, false);
+                    setDigital(wentylator, false);
+                    setDigital(mieszadlo, false);
+                    setDigital(unknown, false);
+                    setDigital(trigger, false);
                 }
             }
         }
@@ -319,7 +362,7 @@ Error:
 
 void Urzadzenia::checkSerial()
 {
-    qDebug("%s:%d check Serial Device", __FILE__, __LINE__);
+    //qDebug("%s:%d check Serial Device", __FILE__, __LINE__);
     smg.echo();
     if (connect2Serial)
         return;
@@ -331,7 +374,7 @@ void Urzadzenia::checkSerial()
 
 void Urzadzenia::successOpenDevice(bool open)
 {
-    qDebug("%s:%d open Device %d", __FILE__,__LINE__, open);
+    //qDebug("%s:%d open Device %d", __FILE__,__LINE__, open);
     connect2Serial = open;
     if (open) {
 
@@ -340,7 +383,7 @@ void Urzadzenia::successOpenDevice(bool open)
 
 void Urzadzenia::echoOK(bool ok)
 {
-    qDebug("%s %d echo %d", __FILE__, __LINE__, ok);
+    //qDebug("%s %d echo %d", __FILE__, __LINE__, ok);
     emit dozownik(ok);
 }
 
@@ -427,20 +470,43 @@ void Urzadzenia::timeoutAI100ms()
     AN_CHANGE(4);
     AN_CHANGE(5);
     AN_CHANGE(6);
+    emit analogValueChanged(val0 * ust->getRatio(0),
+                      val1 * ust->getRatio(1),
+                      val2 * ust->getRatio(2),
+                      val3 * ust->getRatio(3),
+                      val4 * ust->getRatio(4),
+                      val5 * ust->getRatio(5),
+                      val6 * ust->getRatio(6),
+                      val0 * ust->getRatio(0) * 100
+                      );
 
 }
 
 void Urzadzenia::changeAnalog(unsigned short aId, double val, bool device)
 {
+
+    //qDebug("%s:%d id=%d val=%f ratio=%f", __FILE__, __LINE__, aId, val, ust->getRatio(aId));
 #ifdef DEBUG_GUI
     if (device) {
         anRevMap[aId]->setValue((int)10000*val);
-    } else {
-        emit analogValueChanged(anMap[aId], ust->getRatio(anMap[aId])*val);
-    }
+    }// else {
+     //   emit analogValueChanged(aId, ust->getRatio(aId)*val);
+    //}
 #else
-    emit analogValueChanged(anMap[aId], ust->getRatio(anMap[aId])*val);
+    //emit analogValueChanged(aId, ust->getRatio(aId)*val);
 #endif
+}
+
+
+void Urzadzenia::setDigital(uint16_t mask, bool value)
+{
+    if (value) {
+        vals |= mask;
+        dio.writeValue(vals);
+    } else {
+        vals &= ~mask;
+        dio.writeValue(vals);
+    }
 }
 
 void Urzadzenia::on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask)
@@ -468,7 +534,7 @@ void Urzadzenia::on_tb_out_1_clicked()
 void Urzadzenia::on_tb_out_2_clicked()
 {
     //iskra elektryczna bezpiecznik
-    on_tb_out_clicked(ui->tb_out_2, ui->out_2, hv_zaplon);
+    on_tb_out_clicked(ui->tb_out_2, ui->out_2, hv_bezpieczenstwa);
 }
 
 void Urzadzenia::on_tb_out_3_clicked()
@@ -521,4 +587,10 @@ void Urzadzenia::on_tb_out_a_clicked()
 
 
 
+
+
+void Urzadzenia::on_pb_iskramechaniczna_clicked()
+{
+    setIskra();
+}
 

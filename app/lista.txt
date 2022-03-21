@@ -1,0 +1,40 @@
+1. Dodać parametr - czas uruchomienia mechanicznej iskry od 100mls do 5s
+2. Iskra elektryczna
+hv_onoff        = 0x001, //P0.0 X1
+hv_bezpieczenstwa = 0x002, //P0.1 X2
+hw_iskra        = 0x004, //P0.2 X3
+
+Start urzadzenia
+hv_onoff wyłączone (wysoki)
+hv_bezpieczenstwa wlaczone (niski)
+hw_iskra wyłączona (wysoki)
+
+1. Załączenie wysokiego napięcia
+hv_onoff włączone
+hv_bezpieczenstwa wyłączone
+hv_iska wyłaczone
+czas trwania 2 sekundy
+
+2. Wyzwolenie iskry
+hv_onff wyłączone
+hv_bezpieczenstwa wyłączone
+hv_iskra włączone
+Czas trwania 1s
+
+3. Koniec pracy
+hv_onoff wyłączone (wysoki)
+hv_bezpieczenstwa wlaczone (niski)
+hw_iskra wyłączona (wysoki)
+
+
+//LLLLH - tak trzeba wyslac aby dobrze dzialo
+//3710000... limit 50000
+//jak nie ma pozycji home to nie moze sie krecic (kontroler)
+Procedura napelniania strzykawki
+1. Dojazd do krancowki
+2. Jezeli jest na krancowce to odjazd i dojazd do krancowki (do zaimplementowania w sterowniku)
+
+
+
+
+

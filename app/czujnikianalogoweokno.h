@@ -19,7 +19,7 @@ public:
     void setParams(const Ustawienia & ust);
     void setHorizontalSize(unsigned int w);
 public slots:
-    void updateValue(int id, const double & val);
+    void updateValue(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
 
 protected:
     void createOne(int id);

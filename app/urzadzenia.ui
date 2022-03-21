@@ -245,79 +245,20 @@
    <item row="2" column="1">
     <widget class="QGroupBox" name="gbDozownik">
      <property name="title">
-      <string>Dozownik - ustawienia ogólne</string>
+      <string>Wyjścia ogolne</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QRadioButton" name="rbDirectionLeft">
-          <property name="text">
-           <string>Lewy</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="rbDirectionRight">
-          <property name="text">
-           <string>Prawy</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="maxSteps">
-        <property name="maximum">
-         <number>999999</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="lparameter">
+       <widget class="QPushButton" name="pb_iskramechaniczna">
         <property name="text">
-         <string>Ustaw parametry</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="lMaxStep">
-        <property name="text">
-         <string>Maksymalna ilość impulsów</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="parameters">
-        <property name="text">
-         <string>Ustaw</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="lratioimpml">
-        <property name="text">
-         <string>ilosc impulsow na ml</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="impulsyml">
-        <property name="decimals">
-         <number>3</number>
-        </property>
-        <property name="maximum">
-         <double>999.990000000000009</double>
-        </property>
-        <property name="value">
-         <double>1.000000000000000</double>
+         <string>Start</string>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="lKierynekObrotow">
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>Kierunek obrotów</string>
+         <string>Wyzwolenie iskry elektrycznej</string>
         </property>
        </widget>
       </item>
@@ -462,7 +403,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="l_out_2">
            <property name="text">
-            <string>High Voltage</string>
+            <string>Bezpiecznik</string>
            </property>
           </widget>
          </item>

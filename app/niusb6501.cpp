@@ -67,6 +67,8 @@ bool NIDAQMxUSB6501::configure(const QString & readDevice, const QString & write
     DAQmxErrChk(DAQmxStartTask(taskHandleWrite));
     //qDebug("%s:%d",__FILE__,__LINE__);
 
+    uInt8 dataWriteNow[16] = {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+    DAQmxErrChk(DAQmxWriteDigitalLines(taskHandleWrite, 1, 1, 10.0, DAQmx_Val_GroupByChannel, dataWriteNow, NULL, NULL));
 
     return true;
 
@@ -103,7 +105,7 @@ bool NIDAQMxUSB6501::writeValue(uInt16& val)
     if (!isConnected())
         return false;
 #ifndef L_COMP
-    //qDebug("%d write %04x", __LINE__, val);
+    qDebug("%d write %04x", __LINE__, val);
     for (int i = 0; i < 10; ++i) {
         //qDebug("%s:%d val_wr[%02x,%04x]=%d", __FILE__, __LINE__, ~val, 0x1 << i, ((~val >> i) & 0x1));
         dataWrite[i] = ((~val >> i) & 0x1);
