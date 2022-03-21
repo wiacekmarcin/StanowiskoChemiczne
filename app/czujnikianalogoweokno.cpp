@@ -37,7 +37,7 @@ void CzujnikiAnalogoweOkno::setParams(const Ustawienia &ust)
 
 void CzujnikiAnalogoweOkno::updateValue(int id, const double & val)
 {
-    qDebug("%s:%d %d %f",__FILE__,__LINE__,id,val);
+    //qDebug("%s:%d %d %f",__FILE__,__LINE__,id,val);
     if (id < 0 || id >= Ustawienia::maxCzujekAnal)
         return;
     czujniki[id]->setValue(val);

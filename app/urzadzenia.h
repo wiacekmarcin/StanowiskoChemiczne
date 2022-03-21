@@ -93,14 +93,6 @@ private slots:
     void debug(QString);
 
 
-    void on_ml_valueChanged(int arg1);
-    void on_steps_valueChanged(int arg1);
-    void on_pbUstaw_clicked();
-    void on_rbDirectionLeft_clicked(bool checked);
-    void on_parameters_clicked();
-    void on_pbReturn_clicked();
-
-
     void on_tb_out_1_clicked();
     void on_tb_out_2_clicked();
     void on_tb_out_3_clicked();
@@ -112,9 +104,6 @@ private slots:
     void on_tb_out_9_clicked();
     void on_tb_out_a_clicked();
 
-
-    void on_sbDozownik_valueChanged(int arg1);
-
 protected:
     short getDozownikNr() { return dozownikNr; };
     void checkUsbCard();
@@ -123,6 +112,7 @@ protected:
     void on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask);
     void changeDigital(int maks, bool val);
     void changeAnalog(unsigned short aId, double val, bool device);
+    void digitalChange(int id, bool val);
 private:
     Ui::Urzadzenia *ui;
 
@@ -139,6 +129,7 @@ private:
     QTimer timerDI100;
     QTimer timerAI100;
     QTimer timerCheckDevice;
+
     short dozownikNr;
     bool usbDio;
     bool usbAnal;

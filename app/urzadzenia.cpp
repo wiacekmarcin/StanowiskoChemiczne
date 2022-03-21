@@ -85,15 +85,15 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     ui->rbDirectionLeft->setChecked(true);
     ui->maxSteps->setValue(1000);
 #endif
-    timerDI100.setInterval(100);
-    connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
-    timerDI100.start();
+    //timerDI100.setInterval(100);
+    //connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
+    //timerDI100.start();
 
-    timerAI100.setInterval(100);
-    connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
-    timerAI100.start();
+    //timerAI100.setInterval(100);
+    //connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
+    //timerAI100.start();
 
-    timerCheckDevice.setInterval(1000);
+    timerCheckDevice.setInterval(100);
     connect(&timerCheckDevice, &QTimer::timeout, this, &Urzadzenia::timerUsbDevice);
     timerCheckDevice.start();
 
@@ -187,7 +187,7 @@ FUN_ANALOG_CHANGE(7)
 FUN_ANALOG_CHANGE(8)
 
 #define FUN_DIGITAL_CHANGE(N) void Urzadzenia::changeDigital_##N(bool val) { \
-    Q_EMIT digitalValueChanged(inMap[N], val); }
+    digitalChange(inMap[N], val); }
 
 FUN_DIGITAL_CHANGE(1)
 FUN_DIGITAL_CHANGE(2)
@@ -199,6 +199,11 @@ FUN_DIGITAL_CHANGE(7)
 FUN_DIGITAL_CHANGE(8)
 FUN_DIGITAL_CHANGE(9)
 
+void Urzadzenia::digitalChange(int id, bool val)
+{
+    emit digitalValueChanged(id, val);
+}
+
 void Urzadzenia::changeDigital(int maks, bool val)
 {
     //qDebug("%s:%d mask = %04x val = %d", __FILE__, __LINE__, maks, val);
@@ -209,7 +214,7 @@ void Urzadzenia::changeDigital(int maks, bool val)
 
 void Urzadzenia::dozownikTimeout()
 {
-    //qDebug("dozownikTimeout");
+    qDebug("dozownikTimeout");
     if (!connect2Serial) {
         emit connectToSerial();
         return;
@@ -224,8 +229,14 @@ void Urzadzenia::dozownikTimeout()
 
 void Urzadzenia::timerUsbDevice()
 {
-    checkUsbCard();
-    checkSerial();
+    static unsigned short counter = 0;
+    if (++counter == 20) {
+        checkUsbCard();
+        checkSerial();
+        counter = 0;
+    }
+    timeoutAI100ms();
+    timeoutDI100ms();
 }
 
 //devs=USB6210
@@ -243,7 +254,7 @@ void Urzadzenia::timerUsbDevice()
 void Urzadzenia::checkUsbCard()
 {
     int32		error;
-    //qDebug("bools = %d %d", usbAnal, usbDio);
+    qDebug("bools = %d %d", usbAnal, usbDio);
     if (usbAnal && usbDio)
         return;
     char buf[128];
@@ -297,6 +308,7 @@ Error:
                     readDigString.replace("USB6501", name);
                     writeDigString.replace("USB6501", name);
                     usbDio = dio.configure(readDigString, writeDigString);
+                    qDebug("%s:%d configure %d", __FILE__,__LINE__,usbDio);
                     emit usb6501(usbDio);
                 }
             }
@@ -307,6 +319,7 @@ Error:
 
 void Urzadzenia::checkSerial()
 {
+    qDebug("%s:%d check Serial Device", __FILE__, __LINE__);
     smg.echo();
     if (connect2Serial)
         return;
@@ -318,6 +331,7 @@ void Urzadzenia::checkSerial()
 
 void Urzadzenia::successOpenDevice(bool open)
 {
+    qDebug("%s:%d open Device %d", __FILE__,__LINE__, open);
     connect2Serial = open;
     if (open) {
 
@@ -326,7 +340,7 @@ void Urzadzenia::successOpenDevice(bool open)
 
 void Urzadzenia::echoOK(bool ok)
 {
-    //qDebug("%s %d", __FILE__, __LINE__);
+    qDebug("%s %d echo %d", __FILE__, __LINE__, ok);
     emit dozownik(ok);
 }
 
@@ -339,54 +353,6 @@ void Urzadzenia::errorSerial(QString err)
 void Urzadzenia::debug(QString debug)
 {
     qDebug("debug %s", debug.toStdString().c_str());
-}
-
-void Urzadzenia::on_ml_valueChanged(int arg1)
-{
-    if (onlyOne)
-        return;
-    onlyOne = true;
-    ui->steps->setValue(ui->impulsyml->value()*arg1);
-    onlyOne = false;
-}
-
-
-void Urzadzenia::on_steps_valueChanged(int arg1)
-{
-    if (onlyOne)
-        return;
-    onlyOne = true;
-    ui->ml->setValue(arg1/ui->impulsyml->value());
-    onlyOne = false;
-}
-
-
-void Urzadzenia::on_pbUstaw_clicked()
-{
-    smg.setPosition(getDozownikNr(), ui->steps->value());
-}
-
-
-void Urzadzenia::on_rbDirectionLeft_clicked(bool checked)
-{
-    ui->rbDirectionLeft->setChecked(checked);
-    ui->rbDirectionRight->setChecked(!checked);
-}
-
-
-void Urzadzenia::on_parameters_clicked()
-{
-    if (ust) {
-        ust->setReverseMotors(ui->rbDirectionLeft->isChecked());
-        ust->setMaxImp(ui->maxSteps->value());
-    }
-    smg.setSettings(ui->rbDirectionLeft->isChecked(), ui->maxSteps->value());
-}
-
-
-void Urzadzenia::on_pbReturn_clicked()
-{
-    smg.setPositionHome(getDozownikNr());
 }
 
 void Urzadzenia::timeoutDI100ms()
@@ -448,11 +414,12 @@ void Urzadzenia::timeoutAI100ms()
 
     float val0, val1, val2, val3, val4, val5, val6;
     if (!ai.readValue(val0, val1, val2, val3, val4, val5, val6)) {
+        qDebug("%s:%d false read...", __FILE__, __LINE__);
         emit usb6210(false);
         usbAnal = false;
         return;
     }
-    qDebug("%s:%d %f %f %f %f %f %f %f", __FILE__,__LINE__, val0, val1, val2, val3, val4, val5, val6);
+    //qDebug("%s:%d %f %f %f %f %f %f %f", __FILE__,__LINE__, val0, val1, val2, val3, val4, val5, val6);
     AN_CHANGE(0);
     AN_CHANGE(1);
     AN_CHANGE(2);
@@ -550,11 +517,6 @@ void Urzadzenia::on_tb_out_a_clicked()
 {
     //trigger
     on_tb_out_clicked(ui->tb_out_a, ui->out_a, trigger);
-}
-
-void Urzadzenia::on_sbDozownik_valueChanged(int arg1)
-{
-    dozownikNr = arg1;
 }
 
 

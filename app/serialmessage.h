@@ -53,13 +53,16 @@ public:
     void setMaxImp(uint32_t newMaxImp);
 
     void setSettings(bool reverse, uint32_t maxImp);
-    void setSettings5(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp);
+    void setSettings5(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp, uint16_t imptime);
     void connectToSerial();
     void echo();
     void setPositionHome(short DozownikNr);
     void setPosition(short DozwnikNr, uint32_t x);
     void setReset();
     void setParameters();
+
+    uint16_t getImpTime() const;
+    void setImpTime(uint16_t newImpTime);
 
 signals:
     void dozownik(bool conn);
@@ -92,7 +95,7 @@ protected:
     QByteArray prepareMessage(uint8_t cmd, uint8_t tab[], uint8_t len);
     void writeMessage(const QByteArray &writeData);
     QByteArray settingsMsg(bool reverse, uint32_t maxImp);
-    QByteArray settingsMsg5(uint8_t byteRev, uint32_t maxImp);
+    QByteArray settingsMsg5(uint8_t byteRev, uint32_t maxImp, uint16_t impTime);
     QByteArray resetMsg();
 
 
@@ -110,6 +113,7 @@ private:
     bool reverse;
     uint8_t revByte;
     uint32_t maxImp;
+    uint16_t impTime;
 
 };
 

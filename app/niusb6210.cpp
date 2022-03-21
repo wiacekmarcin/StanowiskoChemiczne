@@ -66,15 +66,17 @@ Error:
 
 bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val4, float& val5, float& val6, float& val7)
 {
+    static short tryRead = 0;
+    //qDebug("%s:%d isconnected=%d", __FILE__, __LINE__, isConnected());
     if (!isConnected())
         return false;
 #ifndef L_COMP
     int32       read;
     
     float64 val[8];
-
-    DAQmxErrChk(DAQmxReadAnalogF64(taskHandleRead, 1, 1.0, DAQmx_Val_GroupByChannel, val, 7, &read, NULL));
-
+    tryRead++;
+    DAQmxErrChk(DAQmxReadAnalogF64(taskHandleRead, 1, 0.1, DAQmx_Val_GroupByChannel, val, 7, &read, NULL));
+    tryRead = 0;
     val1 = val[0];
     val2 = val[1];
     val3 = val[2];
@@ -86,8 +88,11 @@ bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val
     return true;
 
 Error:
+    if (tryRead == 1) {
+        return readValue(val1, val2, val3, val4, val5, val6, val7);
+    }
     errorFun();
-    qDebug("%d %d %s", __LINE__, taskHandleRead, errStr().c_str());
+    qDebug("%s:%d %d %s", __FILE__,__LINE__, taskHandleRead, errStr().c_str());
 #endif
     return false;
 }

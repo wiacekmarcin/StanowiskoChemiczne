@@ -50,8 +50,10 @@ SerialMessage::SerialMessage(QObject *parent) :
     connSerial = false;
     lenEcho=0;
     reverse=false;
-    maxImp=0;
-    revByte = 0;
+
+    revByte = 0x0f;
+    maxImp = 55000;
+    impTime = 200;
 
     connect(&m_serialPort, SIGNAL(readyRead()), this, SLOT(handleReadyRead()));
     connect(&m_serialPort, SIGNAL(errorOccurred(QSerialPort::SerialPortError)), this, SLOT(serialError(QSerialPort::SerialPortError)));
@@ -72,7 +74,7 @@ SerialMessage::~SerialMessage()
 void SerialMessage::handleReadyRead()
 {
     QByteArray readData = m_serialPort.readAll();
-    //qDebug("%s %d Recv data %d", __FILE__,__LINE__, readData.size());
+    emit debug(QString("Odebralem %1 bytes %2").arg(readData.size()).arg(readData.toHex().toStdString().c_str()));
     while (readData.size() > 0 ) {
         unsigned char c = readData.at(0);
         readData.remove(0,1);
@@ -230,7 +232,7 @@ void SerialMessage::setSettings(bool reverse_, uint32_t maxImp_)
     }
 }
 
-void SerialMessage::setSettings5(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp_)
+void SerialMessage::setSettings5(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp_, uint16_t imptime)
 {
     qDebug("%s %d Set settings (%d)", __FILE__, __LINE__, connSerial);
     revByte = 0;
@@ -240,10 +242,11 @@ void SerialMessage::setSettings5(bool reverse1, bool reverse2, bool reverse3, bo
     revByte |= reverse4 ? 0x1<<3 : 0;
     revByte |= reverse5 ? 0x1<<4 : 0;
     maxImp = maxImp_;
+    impTime = imptime;
     if (connSerial) {
-        emit debug(QString("Ustawiam parametry reverse = %1,%2,%3,%4,%5 maxImp = %6 [%7]").arg(reverse1).arg(reverse2)
-                   .arg(reverse3).arg(reverse4).arg(reverse5).arg(maxImp).arg(settingsMsg5(revByte, maxImp).toHex().toStdString().c_str()));
-        writeMessage(settingsMsg5(revByte, maxImp));
+        emit debug(QString("Ustawiam parametry reverse = %1,%2,%3,%4,%5 maxImp = %6 timeImp = %7 [%8]").arg(reverse1).arg(reverse2)
+                   .arg(reverse3).arg(reverse4).arg(reverse5).arg(maxImp).arg(impTime).arg(settingsMsg5(revByte, maxImp,impTime).toHex().toStdString().c_str()));
+        writeMessage(settingsMsg5(revByte, maxImp, impTime));
     }
 }
 
@@ -261,8 +264,9 @@ void SerialMessage::setReset()
 
 void SerialMessage::setParameters()
 {
-    emit debug(QString("Ustawiam parametry reverse = %1 maxImp = %2 [%3]").arg(revByte, 16).arg(maxImp).arg(settingsMsg(reverse, maxImp).toHex().toStdString().c_str()));
-    writeMessage(settingsMsg5(revByte, maxImp));
+    emit debug(QString("Ustawiam parametry reverse = %1 maxImp = %2 timeImp = %3 [%4]").arg(revByte, 16).arg(maxImp).arg(impTime).
+               arg(settingsMsg5(reverse, maxImp,impTime).toHex().toStdString().c_str()));
+    writeMessage(settingsMsg5(revByte, maxImp, impTime));
 }
 
 void SerialMessage::closeDevice()
@@ -372,7 +376,7 @@ QByteArray SerialMessage::settingsMsg(bool reverse, uint32_t maxImp)
     return prepareMessage(SET_PARAM_REQ, tab, 5);
 }
 
-QByteArray SerialMessage::settingsMsg5(uint8_t reverse, uint32_t maxImp)
+QByteArray SerialMessage::settingsMsg5(uint8_t reverse, uint32_t maxImp, uint16_t impTime)
 {
     uint8_t tab[10];
     tab[0] = reverse;
@@ -380,12 +384,24 @@ QByteArray SerialMessage::settingsMsg5(uint8_t reverse, uint32_t maxImp)
     tab[2] = (maxImp >> 16) & 0xff;
     tab[3] = (maxImp >> 8) & 0xff;
     tab[4] = maxImp & 0xff;
-    return prepareMessage(SET_PARAM_REQ, tab, 5);
+    tab[5] = (impTime >> 8) & 0xff;
+    tab[6] = impTime & 0xff;
+    return prepareMessage(SET_PARAM_REQ, tab, 7);
 }
 
 QByteArray SerialMessage::resetMsg()
 {
     return QByteArray();
+}
+
+uint16_t SerialMessage::getImpTime() const
+{
+    return impTime;
+}
+
+void SerialMessage::setImpTime(uint16_t newImpTime)
+{
+    impTime = newImpTime;
 }
 
 uint32_t SerialMessage::getMaxImp() const

@@ -52,6 +52,8 @@ private slots:
     void successOpenDevice(bool success);
 
 
+    void on_pbSetParameters_clicked();
+
 private:
     Ui::DozownikSettings *ui;
     double ratio_steps2ml;

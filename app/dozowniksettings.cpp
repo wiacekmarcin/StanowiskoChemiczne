@@ -195,3 +195,12 @@ void DozownikSettings::successOpenDevice(bool success)
     ui->gb_5->setDisabled(!success);
 }
 
+
+void DozownikSettings::on_pbSetParameters_clicked()
+{
+    ratio_steps2ml = 1.0/ui->spmlonsteps->value();
+    srlmsg->setMaxImp(ui->spMaxSteps->value());
+    srlmsg->setImpTime(ui->spImpTime->value());
+    srlmsg->setParameters();
+}
+
