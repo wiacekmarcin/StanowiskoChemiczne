@@ -22,6 +22,7 @@
 #include "testtabswidget.h"
 #include "urzadzenia.h"
 #include "dozowniksettings.h"
+#include "ustawieniadozownika.h"
 
 GlowneOkno::GlowneOkno(QWidget *parent) :
     QMainWindow(parent),
@@ -286,6 +287,7 @@ void GlowneOkno::setActionText()
 
 void GlowneOkno::on_actionUstawienia_triggered()
 {
-
+    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, this);
+    dlg->exec();
 }
 

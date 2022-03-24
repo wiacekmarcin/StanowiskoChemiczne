@@ -7,35 +7,21 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>247</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Ustawienia dozownków</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="lPortName">
-     <property name="text">
-      <string>Nazwa portu szeregowego</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
+   <item row="0" column="0">
     <widget class="QLabel" name="Ldozownik1">
      <property name="text">
       <string>Dozownik 1</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="0" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_1">
      <item>
       <widget class="QRadioButton" name="rb_l_1">
@@ -45,6 +31,9 @@
        <property name="checked">
         <bool>true</bool>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -52,18 +41,21 @@
        <property name="text">
         <string>Prawe</string>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
+   <item row="1" column="0">
     <widget class="QLabel" name="Ldozownik1">
      <property name="text">
       <string>Dozownik 2</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="1" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QRadioButton" name="rb_l_2">
@@ -73,6 +65,9 @@
        <property name="checked">
         <bool>true</bool>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -80,18 +75,21 @@
        <property name="text">
         <string>Prawe</string>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="4" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="Ldozownik3">
      <property name="text">
       <string>Dozownik 3</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="2" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QRadioButton" name="rb_l_3">
@@ -101,6 +99,9 @@
        <property name="checked">
         <bool>true</bool>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -108,18 +109,21 @@
        <property name="text">
         <string>Prawe</string>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="5" column="0">
+   <item row="3" column="0">
     <widget class="QLabel" name="Ldozownik4">
      <property name="text">
       <string>Dozownik 4</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="3" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QRadioButton" name="rb_l_4">
@@ -129,6 +133,9 @@
        <property name="checked">
         <bool>true</bool>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -136,18 +143,21 @@
        <property name="text">
         <string>Prawe</string>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="6" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="Ldozownik5">
      <property name="text">
       <string>Dozownik 5</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="4" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QRadioButton" name="rb_l_5">
@@ -155,6 +165,9 @@
         <string>Lewe</string>
        </property>
        <property name="checked">
+        <bool>false</bool>
+       </property>
+       <property name="autoExclusive">
         <bool>false</bool>
        </property>
       </widget>
@@ -167,25 +180,28 @@
        <property name="checked">
         <bool>true</bool>
        </property>
+       <property name="autoExclusive">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="lMaxSteps">
-     <property name="text">
-      <string>Maksymalna ilość kroków</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="2">
+   <item row="5" column="0" colspan="2">
     <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="6" column="0">
+    <widget class="QLabel" name="lMaxSteps">
+     <property name="text">
+      <string>Maksymalna ilość kroków</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
     <widget class="QSpinBox" name="MaxSteps">
      <property name="maximum">
       <number>100000</number>
@@ -198,7 +214,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Czas w microsekundach pomiędzy impulsami</string>
@@ -208,7 +224,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="7" column="1">
     <widget class="QSpinBox" name="ImpulsTime">
      <property name="minimum">
       <number>100</number>
@@ -218,20 +234,34 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0" colspan="2">
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Ilość kroków na 1 ml</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QDoubleSpinBox" name="steps_on_ml">
+     <property name="maximum">
+      <double>99999.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="2">
     <widget class="Line" name="line_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="11" column="0" colspan="2">
+   <item row="10" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Save</set>
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
      </property>
     </widget>
    </item>

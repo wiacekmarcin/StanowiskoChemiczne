@@ -89,6 +89,9 @@ public:
     int getImpTime() const;
     void setImpTime(int newImpTime);
 
+    double getStepsOnMl() const;
+    void setStepsOnMl(double newStepsOnMl);
+
 protected:
     void initialSetting();
 
@@ -105,6 +108,7 @@ private:
     REVERSE(5)
     long maxImp;
     int impTime;
+    double stepsOnMl;
 };
 
 #endif // USTAWIENIA_H

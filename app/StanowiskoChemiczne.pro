@@ -40,6 +40,7 @@ SOURCES += \
     dozowniksettings.cpp \
     main.cpp \
     glowneokno.cpp \
+    nicards.cpp \
     nowyprojectdlg.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
     digitaloutwidget.h \
     dozowniksettings.h \
     glowneokno.h \
+    nicards.h \
     nowyprojectdlg.h \
     oknostatusowe.h \
     otwartezawory.h \

@@ -45,6 +45,8 @@ Ustawienia::Ustawienia()
     REVERSE_INIT(5,true);
     maxImp = settings.value(QString("dozownik/maxImpMotor"), 50000).toInt();
     impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toInt();
+
+    stepsOnMl = settings.value(QString("dozownik/stepsOnMl"), 1.0).toDouble();
 }
 
 void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, const double &ratio)
@@ -171,6 +173,17 @@ void Ustawienia::initialSetting()
     setWyjscie(wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
     setWyjscie(mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
     setWyjscie(trigger,            QString::fromUtf8("Trigger kamery"));
+}
+
+double Ustawienia::getStepsOnMl() const
+{
+    return stepsOnMl;
+}
+
+void Ustawienia::setStepsOnMl(double newStepsOnMl)
+{
+    stepsOnMl = newStepsOnMl;
+    settings.setValue(QString("dozownik/stepsOnMl"), QVariant::fromValue(newStepsOnMl));
 }
 
 int Ustawienia::getImpTime() const
