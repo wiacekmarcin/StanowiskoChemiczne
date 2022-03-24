@@ -131,7 +131,8 @@ void CreateTestWizard::changeDigitalIn(int id, bool value)
 {
     //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
     if (id == wentylacja_lewa || id == wentylacja_prawa || id == proznia || id == pom_stez_1
-            || id == pom_stez_2 || id == wlot_powietrza) {
+            || id == pom_stez_2 || id == wlot_powietrza || id == drzwi_lewe || id == drzwi_prawe
+            ) {
         zawory[id] = value;
         showWarning(checkZawory());
         if (dlgOtwarte != nullptr)
@@ -165,6 +166,8 @@ void CreateTestWizard::clickedZawory()
     dlgOtwarte->set(pom_stez_1,  zawory[pom_stez_1]);
     dlgOtwarte->set(pom_stez_2,  zawory[pom_stez_2]);
     dlgOtwarte->set(wlot_powietrza,  zawory[wlot_powietrza]);
+    dlgOtwarte->set(drzwi_lewe,  zawory[drzwi_lewe]);
+    dlgOtwarte->set(drzwi_prawe,  zawory[drzwi_prawe]);
     dlgOtwarte->exec();
     if (dlgOtwarte != nullptr)
         delete dlgOtwarte;
@@ -247,6 +250,16 @@ void CreateTestWizard::showWarning(bool value)
 {
     if (pages.contains(selectedId))
         pages[selectedId]->showZaworWarning(value);
+}
+
+void CreateTestWizard::setUst(Ustawienia *newUst)
+{
+    ust = newUst;
+}
+
+Ustawienia *CreateTestWizard::getUst() const
+{
+    return ust;
 }
 
 bool CreateTestWizard::getZamknietaKomora() const
