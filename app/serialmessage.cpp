@@ -394,6 +394,16 @@ QByteArray SerialMessage::resetMsg()
     return QByteArray();
 }
 
+uint32_t SerialMessage::getRSteps() const
+{
+    return rSteps;
+}
+
+void SerialMessage::setRSteps(uint32_t newRSteps)
+{
+    rSteps = newRSteps;
+}
+
 uint16_t SerialMessage::getImpTime() const
 {
     return impTime;
@@ -573,22 +583,12 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
             //set home position
             //0xB0 CRC8 - req
             //0xC1 s/K/E CRC8 - s=start,K=stop
-            if (len == 1) {
-                switch(data[0]) {
-                    case 's':
-                        emit debug("Rozpoczynam pozycjonowanie do bazy");
-                        return true;
-                    case 'K':
-                        emit debug("Zakonczylem pozycjonowanie do bazy");
-                        emit donePositionHome(true);
-                        return true;
-                    case 'E':
-                        emit debug("Blad podczas pozycjonowania do bazy");
-                        emit donePositionHome(false);
-                        return true;
-                    default:
-                        return false;
-                }
+            if (len == 4) {
+                uint32_t word = ((unsigned int)data[0])<<24 + ((unsigned int)data[1])<<16 + ((unsigned int)data[2])<<8 + (unsigned int)data[3];
+                qDebug("%s:%d %d", __FILE__, __LINE__, word); 
+                rSteps = word;
+                emit donePositionHome(true);
+               return true;
             }
             return false;
         }
@@ -597,18 +597,11 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
         {
             qDebug("%s %d Recv position Msg", __FILE__,__LINE__);
         //0xC1 s/K CRC8 - s=start, K=stop
-            if (len == 1) {
-                switch(data[0]) {
-                    case 's':
-                        emit debug("Rozpoczynam ustawianie pozycji");
-                        return true;
-                    case 'K':
-                        emit debug("Zakonczylem ustawianie pozycji");
-                        emit donePosition();
-                        return true;
-                    default:
-                        return false;
-                }
+            if (len == 4) {
+                uint32_t word = ((unsigned int)data[0])<<24 + ((unsigned int)data[1])<<16 + ((unsigned int)data[2])<<8 + (unsigned int)data[3];
+                qDebug("%s:%d %d", __FILE__, __LINE__, word);
+                emit donePosition();
+                return true;
             }
             return false;
         }

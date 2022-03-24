@@ -16,10 +16,10 @@
 
 #define INITIAL_FORM(N) \
     ui->sb_ml_##N->setMinimum(0);\
-    ui->sb_ml_##N->setMaximum(10);\
+    ui->sb_ml_##N->setMaximum(100);\
     ui->sb_ml_##N->setDecimals(2);\
     ui->sb_ml_##N->setSingleStep(0.01);\
-    ui->sb_steps_##N->setMaximum(10000);\
+    ui->sb_steps_##N->setMaximum(1000000);\
     ui->sb_steps_##N->setMinimum(0);\
     ui->sb_steps_##N->setSingleStep(1); \
     ui->rbP_##N->setChecked(true);\
@@ -113,12 +113,14 @@ void DozownikSettings::on_pb_home_##N##_clicked()\
     setHome = true;\
     NrDozownik = N-1;\
     /*srlmsg->setReset(); */ setParamsDone();\
+    setBigSteps(steps[N-1]);\
 }\
 void DozownikSettings::on_pb_set_##N##_clicked()\
 {\
     setHome = false;\
     NrDozownik = N-1;\
     /*srlmsg->setReset(); */ setParamsDone();\
+    setBigSteps(steps[N-1]);\
 }
 
 FUN_ON_PB_CLICKED(1)
@@ -153,9 +155,12 @@ void DozownikSettings::setParamsDone()
         onlySetParameters = false;
         return;
     }
+    if (runTest)
+        return;
+
     if (setHome)
         srlmsg->setPositionHome(NrDozownik);
-    else
+    else 
         srlmsg->setPosition(NrDozownik, steps[NrDozownik]);
 }
 
@@ -166,7 +171,7 @@ void DozownikSettings::dozownik(bool conn)
 
 void DozownikSettings::errorSerial(QString  err)
 {
-    ui->errorTxt->appendPlainText(err);
+    //ui->errorTxt->appendPlainText(err);
 }
 
 void DozownikSettings::debug(QString dbg)
@@ -182,6 +187,11 @@ void DozownikSettings::donePositionHome(bool ok)
     ui->gb_3->setDisabled(false);
     ui->gb_4->setDisabled(false);
     ui->gb_5->setDisabled(false);
+    if (runTest) {
+        int uiSteps = srlmsg->getRSteps();
+        ui->rsteps->setText(QString("%1").arg(ui->rsteps->text().toInt() + uiSteps));
+        nastepnyCykl();
+    }
 }
 
 void DozownikSettings::donePosition()
@@ -191,6 +201,9 @@ void DozownikSettings::donePosition()
     ui->gb_3->setDisabled(false);
     ui->gb_4->setDisabled(false);
     ui->gb_5->setDisabled(false);
+    if (runTest) {
+        srlmsg->setPositionHome(NrDozownik);
+    }
 }
 
 void DozownikSettings::successOpenDevice(bool success)
@@ -209,8 +222,74 @@ void DozownikSettings::on_pbSetParameters_clicked()
     onlySetParameters = true;
     srlmsg->setMaxImp(ui->spMaxSteps->value());
     srlmsg->setImpTime(ui->spImpTime->value());
+    //srlmsg->setSettings5(ui->rbP_1->isChecked(), ui->rbP_2->isChecked(), ui->rbP_3->isChecked(),
+    //                      ui->rbP_4->isChecked(), ui->rbP_5->isChecked(), ui->spMaxSteps->value(),
+    //                      ui->spImpTime->value());
+    srlmsg->setSettings5(false, false, false, false, true, ui->spMaxSteps->value(), ui->spImpTime->value());
+}
+
+
+void DozownikSettings::on_pushButton_clicked()
+{
+    nrCykl = 0;
+    runTest = true;
+    ui->rsteps->setText(0);
+    srlmsg->setMaxImp(ui->spMaxSteps->value());
+    srlmsg->setImpTime(ui->spImpTime->value());
     srlmsg->setSettings5(ui->rbP_1->isChecked(), ui->rbP_2->isChecked(), ui->rbP_3->isChecked(),
                           ui->rbP_4->isChecked(), ui->rbP_5->isChecked(), ui->spMaxSteps->value(),
                           ui->spImpTime->value());
+    srlmsg->setPositionHome(0);
+    //nastepnyCykl();
+
+}
+
+void DozownikSettings::setBigSteps(unsigned long steps) {
+    runTest = true;
+    restSteps = steps;
+    srlmsg->setPositionHome(NrDozownik);
+}
+
+void DozownikSettings::nastepnyCykl()
+{
+    qDebug("%s:%d nastepny cykl %d", __FILE__, __LINE__, restSteps);
+
+    if (restSteps > 0) {
+        runTest = true;
+        uint32_t st = restSteps > 50000 ? 50000 : restSteps;
+        srlmsg->setPosition(NrDozownik, st);
+        restSteps -= st;
+    } else {
+        runTest = false;
+    }
+
+}
+/*
+void DozownikSettings::nastepnyCykl()
+{
+    ++nrCykl;
+    qDebug("%s:%d nastepny cykl %d", __FILE__, __LINE__, nrCykl);
+
+    if (nrCykl <= 5) {
+        runTest = true;
+        srlmsg->setPosition(0,50000);
+    } else {
+        runTest = false;
+    }
+
+}
+*/
+
+void DozownikSettings::on_pbStopCykle_clicked()
+{
+    runTest = false;
+    nrCykl = 0;
+    srlmsg->setReset();
+}
+
+
+void DozownikSettings::on_spmlonsteps_valueChanged(int arg1)
+{
+    ratio_steps2ml = arg1;
 }
 

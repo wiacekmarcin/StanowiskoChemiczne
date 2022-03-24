@@ -35,6 +35,6 @@ Procedura napelniania strzykawki
 2. Jezeli jest na krancowce to odjazd i dojazd do krancowki (do zaimplementowania w sterowniku)
 
 
+Dodać sprawdzenie pozycji strzykawki (czy na pewno jest na dole przy krancowce)
 
-
-
+50sekund trwa dojazd i odjazd (1 cykl)

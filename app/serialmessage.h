@@ -64,6 +64,10 @@ public:
     uint16_t getImpTime() const;
     void setImpTime(uint16_t newImpTime);
 
+    void setRSteps(uint32_t newRSteps);
+
+    uint32_t getRSteps() const;
+
 signals:
     void dozownik(bool conn);
     void errorSerial(QString);
@@ -114,6 +118,8 @@ private:
     uint8_t revByte;
     uint32_t maxImp;
     uint16_t impTime;
+
+    uint32_t rSteps;
 
 };
 

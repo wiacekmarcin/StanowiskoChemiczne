@@ -54,6 +54,15 @@ private slots:
 
     void on_pbSetParameters_clicked();
 
+    void on_pushButton_clicked();
+    void nastepnyCykl();
+    //void nastepnyCykl2();
+
+    void on_pbStopCykle_clicked();
+    void setBigSteps(unsigned long steps);
+
+    void on_spmlonsteps_valueChanged(int arg1);
+
 private:
     Ui::DozownikSettings *ui;
     double ratio_steps2ml;
@@ -64,6 +73,10 @@ private:
     short NrDozownik;
     bool setHome;
     bool onlySetParameters;
+    unsigned short nrCykl;
+    unsigned long long nrSteps;
+    bool runTest;
+    unsigned long long restSteps;
 };
 
 #endif // DOZOWNIKSETTINGS_H

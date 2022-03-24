@@ -34,10 +34,10 @@ void NICards::run()
 
         if (loopNr == 0) {
             if (!anConf)
-                anConf = analog.configure();
+                anConf = analog.configure(analogConfString);
 
             if (!digConf)
-                digConf = digital.configure();
+                digConf = digital.configure(readDigString, writeDigString);
 
             if (anConf && !analog.isConnected()) {
                 resetDevice(true, false);
@@ -61,7 +61,7 @@ void NICards::run()
         if (digConf && digital.isConnected())  {
             writeDigital();
         }
-        currentThread::::msleep(100);
+        //currentThread::::msleep(100);
 
         ++loopNr;
     }
@@ -138,12 +138,9 @@ void NICards::resetDevice(bool analog, bool digital)
         if(DAQmxFailed(errCode=DAQmxResetDevice(analogDevice.toStdString().c_str()))) {
             emit debug(QString("Błąd podczas resetu karty analogowej %d").arg(errCode));
             anConf = false;
-            continue;
-        }
-        if(DAQmxFailed(errCode=DAQmxSelfTestDevice(analogDevice.toStdString().c_str()))) {
+        } else if (DAQmxFailed(errCode=DAQmxSelfTestDevice(analogDevice.toStdString().c_str()))) {
             emit debug(QString("Błąd podczas testu karty analogowej %d").arg(errCode));
             anConf = false;
-            continue;
         }
     }
     if (digital) {
@@ -151,12 +148,9 @@ void NICards::resetDevice(bool analog, bool digital)
         if(DAQmxFailed(errCode=DAQmxResetDevice(digitalDevice.toStdString().c_str()))) {
             emit debug(QString("Błąd podczas resetu karty cyfrowej %1").arg(errCode));
             digConf = false;
-            continue;
-        }
-        if(DAQmxFailed(errCode=DAQmxSelfTestDevice(digitalDevice.toStdString().c_str()))) {
+        } else if (DAQmxFailed(errCode=DAQmxSelfTestDevice(digitalDevice.toStdString().c_str()))) {
             emit debug(QString("Błąd podczas testu karty cyfrowej %1").arg(errCode));
             digConf = false;
-            continue;
         }
     }
 }
@@ -164,7 +158,7 @@ void NICards::resetDevice(bool analog, bool digital)
 void NICards::readAnalog()
 {
     float val0, val1, val2, val3, val4, val5, val6;
-    if (!ai.readValue(val0, val1, val2, val3, val4, val5, val6)) {
+    if (!analog.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         emit debug("Nie mogę odczytać analoga");
         emit usb6210(false);
         return;
@@ -174,7 +168,7 @@ void NICards::readAnalog()
 
 void NICards::writeDigital()
 {
-    if (!digital.write(maskOutput)) {
+    if (!digital.writeValue(maskOutput)) {
         emit usb6501(false);
     }
 }

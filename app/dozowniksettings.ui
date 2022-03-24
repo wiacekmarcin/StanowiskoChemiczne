@@ -57,10 +57,18 @@
         <item row="1" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_2_1">
           <item>
-           <widget class="QSpinBox" name="sb_steps_1"/>
+           <widget class="QSpinBox" name="sb_steps_1">
+            <property name="maximum">
+             <number>1000000</number>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="sb_ml_1"/>
+           <widget class="QDoubleSpinBox" name="sb_ml_1">
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -430,7 +438,7 @@
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>10000</number>
+            <number>100000</number>
            </property>
           </widget>
          </item>
@@ -509,7 +517,44 @@
        </widget>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="errorTxt"/>
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>IIlość kroków</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>10 cykli</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="rsteps">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="pbStopCykle">
+           <property name="text">
+            <string>Stop</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
        <widget class="QPlainTextEdit" name="debugText"/>
@@ -551,8 +596,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>254</x>
+     <y>293</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -567,8 +612,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>322</x>
+     <y>293</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

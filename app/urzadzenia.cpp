@@ -251,12 +251,12 @@ void Urzadzenia::dozownikTimeout()
         emit connectToSerial();
         return;
     }
-    cntEcho += 1;
-    if (cntEcho > 3) {
-        emit dozownik(false);
-        connect2Serial = false;
-    }
-    emit echo();
+    //cntEcho += 1;
+    //if (cntEcho > 3) {
+    //    emit dozownik(false);
+    //    connect2Serial = false;
+    //}
+    //emit echo();
 }
 
 void Urzadzenia::timerUsbDevice()
@@ -363,7 +363,7 @@ Error:
 void Urzadzenia::checkSerial()
 {
     //qDebug("%s:%d check Serial Device", __FILE__, __LINE__);
-    smg.echo();
+    //smg.echo();
     if (connect2Serial)
         return;
 

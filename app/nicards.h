@@ -59,9 +59,9 @@ private:
     bool digConf;
 
     bool m_quit;
-    const QString readDigString;
-    const QString writeDigString;
     const QString readAnalString;
+    const QString writeDigString;
+    const QString readDigString;
 
     QString analogDevice;
     QString analogConfString;
