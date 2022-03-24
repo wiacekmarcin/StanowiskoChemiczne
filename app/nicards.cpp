@@ -1,6 +1,8 @@
 #include "nicards.h"
 #include "NIDAQmx.h"
 
+#include "ustawienia.h"
+
 NICards::NICards(QObject *parent)
     : QThread{parent},
       anConf(false),
@@ -24,46 +26,43 @@ NICards::~NICards()
 void NICards::run()
 {
     unsigned short loopNr = 0;
-    int32 errCode;
-    //emit cards(false, false);
     find();
+    resetDevice(true, true);
     while (!m_quit) {
         if (loopNr == 10)
             loopNr = 0;
 
-        if (!anConf)
-            anConf = analog.configure(analogConfString);
+        if (loopNr == 0) {
+            if (!anConf)
+                anConf = analog.configure();
 
-        if (!digConf)
-            digConf = digital.configure(digitalConfString);
+            if (!digConf)
+                digConf = digital.configure();
 
-        if (anConf && !analog.isConnected()) {
-            emit debug(QString("Reset i testy karty analogowej"));
-            if(DAQmxFailed(errCode=DAQmxResetDevice(analogDevice.toStdString().c_str()))) {
-                emit debug(QString("Błąd podczas resetu karty analogowej"));
+            if (anConf && !analog.isConnected()) {
+                resetDevice(true, false);
                 anConf = false;
-                continue;
             }
-            if(DAQmxFailed(errCode=DAQmxSelfTestDevice(analogDevice.toStdString().c_str()))) {
-                emit debug(QString("Błąd podczas testu karty analogowej"));
-                anConf = false;
-                continue;
+
+            if (digConf && !digital.isConnected()) {
+                resetDevice(false, true);
+                digConf = false;
             }
         }
 
-        if (digConf && !digital.isConnected()) {
-            emit debug(QString("Reset i testy karty cyfrowej"));
-            if(DAQmxFailed(errCode=DAQmxResetDevice(digitalDevice.toStdString().c_str()))) {
-                emit debug(QString("Błąd podczas resetu karty cyfrowej"));
-                digConf = false;
-                continue;
-            }
-            if(DAQmxFailed(errCode=DAQmxSelfTestDevice(digitalDevice.toStdString().c_str()))) {
-                emit debug(QString("Błąd podczas testu karty cyfrowej"));
-                digConf = false;
-                continue;
-            }
+        if (anConf && analog.isConnected())  {
+            readAnalog();
         }
+
+        if (digConf && digital.isConnected())  {
+            readDigital();
+        }
+
+        if (digConf && digital.isConnected())  {
+            writeDigital();
+        }
+        currentThread::::msleep(100);
+
         ++loopNr;
     }
 }
@@ -72,7 +71,6 @@ void NICards::run()
 void NICards::find() {
     int32		errCode;
     char buf[128];
-#ifndef L_COMP
     if(DAQmxFailed(errCode=DAQmxGetSysDevNames(buf, 128))) {
         DAQmxGetExtendedErrorInfo(buf, 128);
         emit error(QString::fromUtf8("Błąd podczas pobierania listy kart NI [%1]").arg(buf));
@@ -82,7 +80,6 @@ void NICards::find() {
     QString allNames(buf);
     QStringList names = allNames.split(",");
     char bufProduct[128];
-    unsigned deviceId;
     for (auto & name : names) {
         if (DAQmxFailed(DAQmxGetDevProductType(name.toStdString().c_str(), bufProduct, 128))) {
             continue;
@@ -99,40 +96,96 @@ void NICards::find() {
                    arg(deviceid).arg(serialid));
 
         if (anConf && analog.isConnected() && QString(bufProduct) == QString("USB-6210") &&
-                deviceid == 14643 && serialid == 33770223) {
+                                                deviceid == 14643 && serialid == 33770223) {
             emit debug(QString("Znalazłem kartę analogową : %1").arg(name));
             analogDevice = name;
             analogConfString = QString(readAnalString).replace("USB6210", name);
-            anConf = analog.configure(analogConfString);
-            emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
-            emit usb6210(anConf && analog.isConnected());
+            analogConfigure();
         }
 
         if (digConf && digital.isConnected() && QString(bufProduct) == QString("USB-6501") &&
-            deviceid == 14646 && serialid == 33665651) {
-
-        if (QString(buffer2) == QString("USB-6501") && deviceid == 14646 && serialid == 33665651) {
-            qDebug("%d usbDio = %d", __LINE__,usbDio);
-            if (!usbDio) {
-                readDigString.replace("USB6501", name);
-                writeDigString.replace("USB6501", name);
-                usbDio = dio.configure(readDigString, writeDigString);
-                qDebug("%s:%d configure %d", __FILE__,__LINE__,usbDio);
-                emit usb6501(usbDio);
-                setDigital(hv_onoff, false);
-                setDigital(hv_bezpieczenstwa, true);
-                setDigital(hw_iskra, false);
-                setDigital(mech_iskra, false);
-                setDigital(plomien, false);
-                setDigital(pompa_prozniowa, false);
-                setDigital(pompa_powietrza, false);
-                setDigital(wentylator, false);
-                setDigital(mieszadlo, false);
-                setDigital(unknown, false);
-                setDigital(trigger, false);
-            }
+                                                deviceid == 14646 && serialid == 33665651) {
+            emit debug(QString("Znalazłem kartę cyfrową : %1").arg(name));
+            digitalDevice = name;
+            digitalConfReadString = QString(readDigString).replace("USB6501", name);
+            digitalConfWriteString = QString(writeDigString).replace("USB6501", name);
+            digitalConfigure();
         }
     }
 }
-#endif
+
+void NICards::analogConfigure()
+{
+    
+    anConf = analog.configure(analogConfString);
+    emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
+    emit usb6210(anConf && analog.isConnected());
+}
+
+void NICards::digitalConfigure()
+{
+    digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
+    emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
+    emit usb6501(digConf && digital.isConnected());
+    maskOutput = ~hv_bezpieczenstwa; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
+}
+
+void NICards::resetDevice(bool analog, bool digital)
+{
+    int32 errCode;
+    if (analog) {
+        emit debug(QString("Reset i testy karty analogowej"));
+        if(DAQmxFailed(errCode=DAQmxResetDevice(analogDevice.toStdString().c_str()))) {
+            emit debug(QString("Błąd podczas resetu karty analogowej %d").arg(errCode));
+            anConf = false;
+            continue;
+        }
+        if(DAQmxFailed(errCode=DAQmxSelfTestDevice(analogDevice.toStdString().c_str()))) {
+            emit debug(QString("Błąd podczas testu karty analogowej %d").arg(errCode));
+            anConf = false;
+            continue;
+        }
+    }
+    if (digital) {
+        emit debug(QString("Reset i testy karty cyfrowej"));
+        if(DAQmxFailed(errCode=DAQmxResetDevice(digitalDevice.toStdString().c_str()))) {
+            emit debug(QString("Błąd podczas resetu karty cyfrowej %1").arg(errCode));
+            digConf = false;
+            continue;
+        }
+        if(DAQmxFailed(errCode=DAQmxSelfTestDevice(digitalDevice.toStdString().c_str()))) {
+            emit debug(QString("Błąd podczas testu karty cyfrowej %1").arg(errCode));
+            digConf = false;
+            continue;
+        }
+    }
+}
+
+void NICards::readAnalog()
+{
+    float val0, val1, val2, val3, val4, val5, val6;
+    if (!ai.readValue(val0, val1, val2, val3, val4, val5, val6)) {
+        emit debug("Nie mogę odczytać analoga");
+        emit usb6210(false);
+        return;
+    }
+    emit analogValueChanged(val0, val1, val2, val3, val4, val5, val6);
+}
+
+void NICards::writeDigital()
+{
+    if (!digital.write(maskOutput)) {
+        emit usb6501(false);
+    }
+}
+
+void NICards::readDigital()
+{
+    uint16_t val;
+    if (!digital.readValue(val)) {
+        emit usb6501(false);
+        return;
+    }
+
+    emit digitalRead(~val & 0x1ff);
 }
