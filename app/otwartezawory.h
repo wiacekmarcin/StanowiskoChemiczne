@@ -2,7 +2,7 @@
 #define OTWARTEZAWORY_H
 
 #include <QDialog>
-
+#include "ustawienia.h"
 namespace Ui {
 class OtwarteZawory;
 }
@@ -16,6 +16,8 @@ public:
     ~OtwarteZawory();
 
     void set(int id, bool open);
+    void setSettings(const Ustawienia &set);
+
 private slots:
     void on_pbOk_clicked();
 

@@ -7,11 +7,11 @@ NICards::NICards(QObject *parent)
     : QThread{parent},
       anConf(false),
       digConf(false),
-      readDigString("USB6501/port2,USB6501/port1/Line4"),
+      readAnalString("USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6"),
       writeDigString("USB6501/port0,USB6501/port1/Line0:2"),
-      readAnalString("USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6")
+      readDigString("USB6501/port2,USB6501/port1/Line4")
 {
-
+    start();
 }
 
 NICards::~NICards()
@@ -27,7 +27,7 @@ void NICards::run()
 {
     unsigned short loopNr = 0;
     find();
-    resetDevice(true, true);
+    //resetDevice(true, true);
     while (!m_quit) {
         if (loopNr == 10)
             loopNr = 0;
@@ -61,14 +61,14 @@ void NICards::run()
         if (digConf && digital.isConnected())  {
             writeDigital();
         }
-        //currentThread::::msleep(100);
-
+        currentThread()->msleep(100);
         ++loopNr;
     }
 }
 
 //find cards
 void NICards::find() {
+    qDebug("%s:%d find", __FILE__, __LINE__);
     int32		errCode;
     char buf[128];
     if(DAQmxFailed(errCode=DAQmxGetSysDevNames(buf, 128))) {
@@ -95,15 +95,16 @@ void NICards::find() {
         emit debug(QString("Device %1 ProductType=%2 DeviceID=%3 SerialID=%4").arg(name).arg(bufProduct).
                    arg(deviceid).arg(serialid));
 
-        if (anConf && analog.isConnected() && QString(bufProduct) == QString("USB-6210") &&
+        if (!anConf && !analog.isConnected() && QString(bufProduct) == QString("USB-6210") &&
                                                 deviceid == 14643 && serialid == 33770223) {
+            qDebug("Znalazlem!!!!");
             emit debug(QString("Znalazłem kartę analogową : %1").arg(name));
             analogDevice = name;
             analogConfString = QString(readAnalString).replace("USB6210", name);
             analogConfigure();
         }
 
-        if (digConf && digital.isConnected() && QString(bufProduct) == QString("USB-6501") &&
+        if (!digConf && !digital.isConnected() && QString(bufProduct) == QString("USB-6501") &&
                                                 deviceid == 14646 && serialid == 33665651) {
             emit debug(QString("Znalazłem kartę cyfrową : %1").arg(name));
             digitalDevice = name;
@@ -116,7 +117,7 @@ void NICards::find() {
 
 void NICards::analogConfigure()
 {
-    
+    qDebug("Konfiguracja ANAL");
     anConf = analog.configure(analogConfString);
     emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
     emit usb6210(anConf && analog.isConnected());
@@ -124,6 +125,7 @@ void NICards::analogConfigure()
 
 void NICards::digitalConfigure()
 {
+    qDebug("Konfiguracja DIG");
     digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
     emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
     emit usb6501(digConf && digital.isConnected());
@@ -157,6 +159,7 @@ void NICards::resetDevice(bool analog, bool digital)
 
 void NICards::readAnalog()
 {
+    qDebug("READ ANAL");
     float val0, val1, val2, val3, val4, val5, val6;
     if (!analog.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         emit debug("Nie mogę odczytać analoga");
@@ -168,6 +171,7 @@ void NICards::readAnalog()
 
 void NICards::writeDigital()
 {
+    qDebug("WRITE DIGIT");
     if (!digital.writeValue(maskOutput)) {
         emit usb6501(false);
     }
@@ -175,6 +179,7 @@ void NICards::writeDigital()
 
 void NICards::readDigital()
 {
+    qDebug("READ DIG");
     uint16_t val;
     if (!digital.readValue(val)) {
         emit usb6501(false);

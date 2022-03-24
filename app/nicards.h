@@ -25,7 +25,6 @@ public:
     void setGrzalka(unsigned int t);
 
 signals:
-    void analogRead(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
     void digitalRead(uint16_t vals);
     void error(const QString &s);
     void timeout(const QString &s);

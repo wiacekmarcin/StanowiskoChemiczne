@@ -8,6 +8,10 @@
 #include "ui_urzadzenia.h"
 #endif
 
+
+//#define NEWCARDS
+
+
 #define DBG_IN(N) qDebug("%s:%d %04x %p", __FILE__,__LINE__, inMap[N], ui->in_##N)
 
 #define HVON(X) setDigital(hv_onoff, X); ui->out_1->setLevel(X); ui->tb_out_1->setText(X ? "H" : "L");
@@ -90,6 +94,7 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     ui->rbDirectionLeft->setChecked(true);
     ui->maxSteps->setValue(1000);
 #endif
+#ifndef NEWCARDS
     timerDI100.setInterval(100);
     connect(&timerDI100, &QTimer::timeout, this, &Urzadzenia::timeoutDI100ms);
     timerDI100.start();
@@ -97,7 +102,7 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     timerAI100.setInterval(100);
     connect(&timerAI100, &QTimer::timeout, this, &Urzadzenia::timeoutAI100ms);
     timerAI100.start();
-
+#endif
     timerCheckDevice.setInterval(5000);
     connect(&timerCheckDevice, &QTimer::timeout, this, &Urzadzenia::timerUsbDevice);
     timerCheckDevice.start();
@@ -108,6 +113,16 @@ Urzadzenia::Urzadzenia(QWidget *parent) :
     HVON(false)
     HBEZ(true)
     HZAP(false)
+
+#ifndef NEWCARDS
+    connect(&nicards, &NICards::digitalRead, this, &Urzadzenia::ni_digitalRead);
+    connect(&nicards, &NICards::error, this, &Urzadzenia::ni_error);
+    connect(&nicards, &NICards::timeout, this, &Urzadzenia::ni_timeout);
+    connect(&nicards, &NICards::debug, this, &Urzadzenia::ni_debug);
+    cconnect(&nicards, &NICards::usb6210, this, &Urzadzenia::ni_usb6210);
+    connect(&nicards, &NICards::usb6501, this, &Urzadzenia::usb6501);
+    connect(&nicards, &NICards::analogValueChanged, this, &Urzadzenia::analogValueChanged);
+#endif
 }
 
 
@@ -263,7 +278,9 @@ void Urzadzenia::timerUsbDevice()
 {
     //static unsigned short counter = 0;
     //if (++counter == 20) {
+#ifndef NEWCARDS
         checkUsbCard();
+#endif
         checkSerial();
         //counter = 0;
     //}
@@ -327,9 +344,11 @@ Error:
                 qDebug("%s:%d uusbAnal = %d", __FILE__,__LINE__, usbAnal);
                 if (!usbAnal) {
                     readAnalString.replace("USB6210", name);
+#ifndef NEWCARDS
                     usbAnal = ai.configure(readAnalString);
+#endif
                     qDebug("%s:%d configure %d", __FILE__,__LINE__,usbAnal);
-                    qDebug("%s:%d %s", __FILE__,__LINE__, ai.errStr().c_str());
+                    //qDebug("%s:%d %s", __FILE__,__LINE__, ai.errStr().c_str());
                     emit usb6210(usbAnal);
                 }
             }
@@ -339,8 +358,10 @@ Error:
                 if (!usbDio) {
                     readDigString.replace("USB6501", name);
                     writeDigString.replace("USB6501", name);
+#ifndef NEWCARDS
                     usbDio = dio.configure(readDigString, writeDigString);
-                    qDebug("%s:%d configure %d", __FILE__,__LINE__,usbDio);
+#endif
+                    //qDebug("%s:%d configure %d", __FILE__,__LINE__,usbDio);
                     emit usb6501(usbDio);
                     setDigital(hv_onoff, false);
                     setDigital(hv_bezpieczenstwa, true);
@@ -398,8 +419,10 @@ void Urzadzenia::debug(QString debug)
     qDebug("debug %s", debug.toStdString().c_str());
 }
 
+
 void Urzadzenia::timeoutDI100ms()
 {
+#ifndef NEWCARDS
     if(!usbDio)
         return;
     
@@ -446,12 +469,14 @@ void Urzadzenia::timeoutDI100ms()
     //in9 pilot
     changeDigital(pilot, ~val & pilot);
     emit pilot_btn(val & pilot);
+#endif
 }
 
 #define AN_CHANGE(N) changeAnalog(anMap[N], val##N, true)
 
 void Urzadzenia::timeoutAI100ms()
 {
+ #ifndef NEWCARDS
     if (!usbAnal)
         return;
 
@@ -479,7 +504,7 @@ void Urzadzenia::timeoutAI100ms()
                       val6 * ust->getRatio(6),
                       val0 * ust->getRatio(0) * 100
                       );
-
+#endif
 }
 
 void Urzadzenia::changeAnalog(unsigned short aId, double val, bool device)
@@ -502,10 +527,14 @@ void Urzadzenia::setDigital(uint16_t mask, bool value)
 {
     if (value) {
         vals |= mask;
+#ifndef NEWCARDS
         dio.writeValue(vals);
+#endif
     } else {
         vals &= ~mask;
+#ifndef NEWCARDS
         dio.writeValue(vals);
+#endif
     }
 }
 
@@ -514,12 +543,16 @@ void Urzadzenia::on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, ui
     if (tb->text() == QString("L")) {
         tb->setText("H");
         vals |= mask;
+#ifndef NEWCARDS
         dio.writeValue(vals);
+#endif
         dow->setLevel(true);
     } else {
         tb->setText("L");
         vals &= ~mask;
+#ifndef NEWCARDS        
         dio.writeValue(vals);
+#endif
         dow->setLevel(false);
     }
 }
@@ -594,3 +627,41 @@ void Urzadzenia::on_pb_iskramechaniczna_clicked()
     setIskra();
 }
 
+#ifdef NEWCARDS
+
+void Urzadzenia::ni_digitalRead(uint16_t vals)
+{
+
+}
+
+void Urzadzenia::ni_error(const QString &s)
+{
+
+}
+
+void Urzadzenia::ni_timeout(const QString &s)
+{
+
+}
+
+void Urzadzenia::ni_debug(const QString &d)
+{
+    qDebug("NI %s", d.toStdString().c_str());
+}
+
+void Urzadzenia::ni_usb6210(bool ok)
+{
+
+}
+
+void Urzadzenia::ni_usb6501(bool ok)
+{
+
+}
+
+void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6)
+{
+
+}
+
+#endif

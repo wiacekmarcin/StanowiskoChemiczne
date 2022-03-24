@@ -118,6 +118,7 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
+    testy[selectedTest]->createTestWizard()->setUst(&settings);
     connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(this, &GlowneOkno::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
 //end
@@ -189,6 +190,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
+    testy[selectedTest]->createTestWizard()->setUst(&settings);
 
     connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(this, &GlowneOkno::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);

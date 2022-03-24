@@ -38,3 +38,5 @@ Procedura napelniania strzykawki
 Dodać sprawdzenie pozycji strzykawki (czy na pewno jest na dole przy krancowce)
 
 50sekund trwa dojazd i odjazd (1 cykl)
+
+//Zawory

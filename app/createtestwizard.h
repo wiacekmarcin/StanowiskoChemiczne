@@ -26,6 +26,10 @@ public:
     bool checkZawory() const;
     bool getZamknietaKomora() const;
 
+    Ustawienia *getUst() const;
+
+    void setUst(Ustawienia *newUst);
+
 public slots:
     void changeDigitalIn(int id, bool value);
     void changeAnalog(int id, double value);
@@ -69,6 +73,8 @@ private:
     OtwarteZawory * dlgOtwarte;
     bool zamknietaKomoraA;
     bool zamknietaKomoraB;
+
+    Ustawienia * ust;
 };
 
 #endif // CREATETESTWIZARD_H

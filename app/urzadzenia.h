@@ -12,6 +12,8 @@
 #include "niusb6501.h"
 #include "niusb6210.h"
 
+#include "nicards.h"
+
 namespace Ui {
 class Urzadzenia;
 }
@@ -26,6 +28,7 @@ class Urzadzenia : public QDialog
     Q_OBJECT
 public:
 
+#define NEWCARDS 1
 
 
 public:
@@ -110,6 +113,17 @@ private slots:
 
     void on_pb_iskramechaniczna_clicked();
 
+#ifdef NEWCARDS
+    void ni_digitalRead(uint16_t vals);
+    void ni_error(const QString &s);
+    void ni_timeout(const QString &s);
+    void ni_debug(const QString &d);
+
+    void ni_usb6210(bool ok);
+    void ni_usb6501(bool ok);
+    void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
+#endif
+
 protected:
     short getDozownikNr() { return dozownikNr; };
     void checkUsbCard();
@@ -127,10 +141,10 @@ private:
     short cntEcho;
     QTimer dozownikLoop;
     bool onlyOne;
-
+#ifndef NEWCARDS
     NIDAQMxUSB6501 dio;
     NIDAQMxUSB6210 ai;
-
+#endif
     uint16_t vals; //wyjscia
     QTimer timerDI100;
     QTimer timerAI100;
@@ -149,6 +163,9 @@ private:
     const unsigned int anMap[8];
     QMap<unsigned int, HighLowDigitalWidget*> inRevMap;
     QMap<unsigned short, QSlider*> anRevMap;
+
+
+    NICards nicards;
 };
 
 #endif // URZADZENIA_H
