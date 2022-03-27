@@ -18,20 +18,15 @@ public:
 
     
 
-    void setOutputOnTime(digitalOut out, bool val, unsigned long = 0);
-
-    void setIskraElektryczna(unsigned int t1, unsigned int t2);
-    void setIskraMechaniczna(unsigned int t);
-    void setGrzalka(unsigned int t);
+    void digitalWrite(uint16_t out, bool val);
 
 signals:
     void digitalRead(uint16_t vals);
     void error(const QString &s);
-    void timeout(const QString &s);
     void debug(const QString &d);
 
-    void usb6210(bool ok);
-    void usb6501(bool ok);
+    void usb6210(bool open, bool conf);
+    void usb6501(bool ok, bool conf);
     void analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
 
 protected:
@@ -48,9 +43,8 @@ protected:
 private:
     uint16_t maskInput;
     uint16_t maskOutput;
-    int m_waitTimeout = 0;
+
     QMutex m_mutex;
-    QWaitCondition m_cond;
 
     NIDAQMxUSB6210 analog;
     bool anConf;

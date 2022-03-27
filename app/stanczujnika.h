@@ -21,6 +21,7 @@ public:
     void setOk(bool ok);
 
     void update();
+    void setState(bool open, bool conf);
 private:
     Ui::StanCzujnika *ui;
     bool isOk;

@@ -2,6 +2,8 @@
 #include <QApplication>
 //#include <QWindowsStyle>
 
+#include "ustawienia.h"
+#include "urzadzenia.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,8 +13,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("StanowiskoChemiczne");
     //a.setStyle("Windows");
     //QApplication::setStyle(QWindowsStyle());
-    GlowneOkno w;
-    w.show();
+    Ustawienia u;
+    Urzadzenia urzadz(u);
+
+    GlowneOkno w(u, &urzadz);
+    //w.show();
 
     return a.exec();
 

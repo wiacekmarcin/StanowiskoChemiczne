@@ -44,6 +44,7 @@ SOURCES += \
     nowyprojectdlg.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
+    serialdevice.cpp \
     serialmessage.cpp \
     stanczujnika.cpp \
     ustawieniadozownika.cpp \
@@ -71,9 +72,9 @@ SOURCES += \
     dispushbutton.cpp \
     highlowdigitalwidget.cpp \
     urzadzenia.cpp \
-    ustawienia.cpp \
     niusb6210.cpp \
-    niusb6501.cpp
+    niusb6501.cpp \
+    ustawienia.cpp
 
 HEADERS += \
     crc8.h \
@@ -88,6 +89,7 @@ HEADERS += \
     nowyprojectdlg.h \
     oknostatusowe.h \
     otwartezawory.h \
+    serialdevice.h \
     serialmessage.h \
     stanczujnika.h \
     ustawieniadozownika.h \
@@ -145,8 +147,7 @@ FORMS += \
     nowytest_7.ui \
     nowytest_8.ui \
     disablebutton.ui \
-    highlowdigitalwidget.ui \
-    urzadzenia.ui
+    highlowdigitalwidget.ui
 
 RESOURCES += \
     ikony.qrc
@@ -156,7 +157,15 @@ DISTFILES += \
     lista.txt \
     path
 
-LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx
+win32 {
+     !contains(QMAKE_TARGET.arch, x86_64) {
+        LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib32/msvc/ -lNIDAQmx
+    } else {
+        LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx
+    }
+}
+
+
 
 INCLUDEPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include
 DEPENDPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include

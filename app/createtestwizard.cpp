@@ -168,6 +168,7 @@ void CreateTestWizard::clickedZawory()
     dlgOtwarte->set(wlot_powietrza,  zawory[wlot_powietrza]);
     dlgOtwarte->set(drzwi_lewe,  zawory[drzwi_lewe]);
     dlgOtwarte->set(drzwi_prawe,  zawory[drzwi_prawe]);
+    //dlgOtwarte->setSettings
     dlgOtwarte->exec();
     if (dlgOtwarte != nullptr)
         delete dlgOtwarte;
@@ -250,16 +251,6 @@ void CreateTestWizard::showWarning(bool value)
 {
     if (pages.contains(selectedId))
         pages[selectedId]->showZaworWarning(value);
-}
-
-void CreateTestWizard::setUst(Ustawienia *newUst)
-{
-    ust = newUst;
-}
-
-Ustawienia *CreateTestWizard::getUst() const
-{
-    return ust;
 }
 
 bool CreateTestWizard::getZamknietaKomora() const

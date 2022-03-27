@@ -6,7 +6,7 @@
 #include <QDoubleSpinBox>
 #include <QDebug>
 
-#include "serialmessage.h"
+#include "serialdevice.h"
 
 #define CONNECT_RB(N) connect(ui->rbL_##N, &QRadioButton::clicked, this, &DozownikSettings::on_rbL_##N##_clicked); \
                       connect(ui->rbP_##N, &QRadioButton::clicked, this, &DozownikSettings::on_rbP_##N##_clicked);
@@ -65,8 +65,8 @@ DozownikSettings::~DozownikSettings()
     delete ui;
 }
 
-#define FUN_ON_RP_CLICKED(N) void DozownikSettings::on_rbP_##N##_clicked() { praweObr[N-1] = true; srlmsg->setReverse##N(true); } \
-                             void DozownikSettings::on_rbL_##N##_clicked() { praweObr[N-1] = false; srlmsg->setReverse##N(false); } \
+#define FUN_ON_RP_CLICKED(N) void DozownikSettings::on_rbP_##N##_clicked() { praweObr[N-1] = true;  /*srlmsg->setReverse##N(true);*/ } \
+                             void DozownikSettings::on_rbL_##N##_clicked() { praweObr[N-1] = false; /*srlmsg->setReverse##N(false);*/ } \
 
 
 FUN_ON_RP_CLICKED(1)
@@ -130,22 +130,22 @@ FUN_ON_PB_CLICKED(4)
 FUN_ON_PB_CLICKED(5)
 
 
-void DozownikSettings::setSmg(SerialMessage * msg_)
+void DozownikSettings::setSmg(SerialDevice * msg_)
 {
     srlmsg = msg_;
-    connect(srlmsg, &SerialMessage::resetDone, this, &DozownikSettings::resetDone);
-    connect(srlmsg, &SerialMessage::setParamsDone, this, &DozownikSettings::setParamsDone);
-    connect(srlmsg, &SerialMessage::dozownik, this, &DozownikSettings::dozownik);
-    connect(srlmsg, &SerialMessage::errorSerial, this, &DozownikSettings::errorSerial);
-    connect(srlmsg, &SerialMessage::debug, this, &DozownikSettings::debug);
-    connect(srlmsg, &SerialMessage::donePositionHome, this, &DozownikSettings::donePositionHome);
-    connect(srlmsg, &SerialMessage::donePosition, this, &DozownikSettings::donePosition);
-    connect(srlmsg, &SerialMessage::successOpenDevice, this, &DozownikSettings::successOpenDevice);
+    connect(srlmsg, &SerialDevice::resetDone, this, &DozownikSettings::resetDone);
+    connect(srlmsg, &SerialDevice::setParamsDone, this, &DozownikSettings::setParamsDone);
+    connect(srlmsg, &SerialDevice::dozownikConfigured, this, &DozownikSettings::dozownik);
+    connect(srlmsg, &SerialDevice::errorSerial, this, &DozownikSettings::errorSerial);
+    connect(srlmsg, &SerialDevice::debug, this, &DozownikSettings::debug);
+    connect(srlmsg, &SerialDevice::setPositionHomeDone, this, &DozownikSettings::donePositionHome);
+    connect(srlmsg, &SerialDevice::setPositionDone, this, &DozownikSettings::donePosition);
+    connect(srlmsg, &SerialDevice::dozownikConfigured, this, &DozownikSettings::successOpenDevice);
 }
 
 void DozownikSettings::resetDone()
 {
-    srlmsg->setSettings5(praweObr[0], praweObr[1], praweObr[2], praweObr[3], praweObr[4],
+    srlmsg->setSettings(praweObr[0], praweObr[1], praweObr[2], praweObr[3], praweObr[4],
             ui->spMaxSteps->value(), ui->spImpTime->value());
 }
 
@@ -188,8 +188,8 @@ void DozownikSettings::donePositionHome(bool ok)
     ui->gb_4->setDisabled(false);
     ui->gb_5->setDisabled(false);
     if (runTest) {
-        int uiSteps = srlmsg->getRSteps();
-        ui->rsteps->setText(QString("%1").arg(ui->rsteps->text().toInt() + uiSteps));
+        //int uiSteps = srlmsg->getRSteps();
+        //ui->rsteps->setText(QString("%1").arg(ui->rsteps->text().toInt() + uiSteps));
         nastepnyCykl();
     }
 }
@@ -206,8 +206,9 @@ void DozownikSettings::donePosition()
     }
 }
 
-void DozownikSettings::successOpenDevice(bool success)
+void DozownikSettings::successOpenDevice(bool open, bool conf)
 {
+    bool success = open && conf;
     ui->gb_1->setDisabled(!success);
     ui->gb_2->setDisabled(!success);
     ui->gb_3->setDisabled(!success);
@@ -225,7 +226,7 @@ void DozownikSettings::on_pbSetParameters_clicked()
     //srlmsg->setSettings5(ui->rbP_1->isChecked(), ui->rbP_2->isChecked(), ui->rbP_3->isChecked(),
     //                      ui->rbP_4->isChecked(), ui->rbP_5->isChecked(), ui->spMaxSteps->value(),
     //                      ui->spImpTime->value());
-    srlmsg->setSettings5(false, false, false, false, true, ui->spMaxSteps->value(), ui->spImpTime->value());
+    srlmsg->setSettings(false, false, false, false, true, ui->spMaxSteps->value(), ui->spImpTime->value());
 }
 
 
@@ -234,9 +235,7 @@ void DozownikSettings::on_pushButton_clicked()
     nrCykl = 0;
     runTest = true;
     ui->rsteps->setText(0);
-    srlmsg->setMaxImp(ui->spMaxSteps->value());
-    srlmsg->setImpTime(ui->spImpTime->value());
-    srlmsg->setSettings5(ui->rbP_1->isChecked(), ui->rbP_2->isChecked(), ui->rbP_3->isChecked(),
+    srlmsg->setSettings(ui->rbP_1->isChecked(), ui->rbP_2->isChecked(), ui->rbP_3->isChecked(),
                           ui->rbP_4->isChecked(), ui->rbP_5->isChecked(), ui->spMaxSteps->value(),
                           ui->spImpTime->value());
     srlmsg->setPositionHome(0);

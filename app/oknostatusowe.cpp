@@ -12,9 +12,9 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OknoStatusowe),
     timer(this),
-    busb6210(false),
-    busb6501(false),
-    bdozownik(false),
+    bOpenUsb6210(false),
+    bOpenUsb6501(false),
+    bOpenDozownik(false),
     mapDigitalOrder{ 0, drzwi_lewe, wentylacja_lewa, proznia, pom_stez_1, drzwi_prawe, wentylacja_prawa, wlot_powietrza, pom_stez_2, pilot},
     maxZawors(10)
 {
@@ -84,19 +84,22 @@ void OknoStatusowe::setDigitalValue(int id, bool val)
     bMapZawor[id] = val;
 }
 
-void OknoStatusowe::setDozownik(bool ok)
+void OknoStatusowe::setDozownik(bool open, bool conf)
 {
-    bdozownik = ok;
+    bOpenDozownik = open;
+    bConfDozownik = conf;
 }
 
-void OknoStatusowe::setUSB6210(bool ok)
+void OknoStatusowe::setUSB6210(bool open, bool conf)
 {
-    busb6210 = ok;
+    bOpenUsb6210 = open;
+    bConfUsb6210 = conf;
 }
 
-void OknoStatusowe::setUSB6501(bool ok)
+void OknoStatusowe::setUSB6501(bool open, bool conf)
 {
-    busb6501 = ok;
+    bOpenUsb6501 = open;
+    bConfUsb6501 = conf;
 }
 
 void OknoStatusowe::setDrzwiKomory(bool prawe, bool otwarte)
@@ -123,9 +126,9 @@ void OknoStatusowe::timeout()
         sMapZawor[mapDigitalOrder[id]]->setOk(bMapZawor[mapDigitalOrder[id]]);
         sMapZawor[mapDigitalOrder[id]]->update();
     }
-    ui->usb6210->setOk(busb6210);
-    ui->usb6501->setOk(busb6501);
-    ui->dozownik->setOk(bdozownik);
+    ui->usb6210->setState(bOpenUsb6210, bConfUsb6210);
+    ui->usb6501->setState(bOpenUsb6501, bConfUsb6501);
+    ui->dozownik->setState(bOpenDozownik, bConfDozownik);
 
     ui->usb6210->update();
     ui->usb6501->update();

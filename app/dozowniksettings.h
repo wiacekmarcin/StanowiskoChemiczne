@@ -2,7 +2,7 @@
 #define DOZOWNIKSETTINGS_H
 
 #include <QDialog>
-class SerialMessage;
+class SerialDevice;
 namespace Ui {
 class DozownikSettings;
 }
@@ -20,7 +20,7 @@ class DozownikSettings : public QDialog
 public:
     explicit DozownikSettings(QWidget *parent = nullptr);
     ~DozownikSettings();
-    void setSmg(SerialMessage * msg_);
+    void setSmg(SerialDevice * msg_);
 
 private slots:
     ON_RB_CLICKED(1)
@@ -49,7 +49,7 @@ private slots:
     void debug(QString);
     void donePositionHome(bool ok);
     void donePosition();
-    void successOpenDevice(bool success);
+    void successOpenDevice(bool openend, bool configured);
 
 
     void on_pbSetParameters_clicked();
@@ -69,7 +69,7 @@ private:
     bool praweObr[5];
     unsigned int steps[5];
     short nomodifysteps[5];
-    SerialMessage * srlmsg;
+    SerialDevice * srlmsg;
     short NrDozownik;
     bool setHome;
     bool onlySetParameters;

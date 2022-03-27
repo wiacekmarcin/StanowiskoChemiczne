@@ -24,31 +24,26 @@
 #include "dozowniksettings.h"
 #include "ustawieniadozownika.h"
 
-GlowneOkno::GlowneOkno(QWidget *parent) :
+GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GlowneOkno),
+    urzadzenia(urzadz),
+    settings(ust),
     selectedProject(nullptr),
     selectedTest(nullptr)
 {
     ui->setupUi(this);
     ui->frCzujniki->setLabels(settings);
     ui->widget->setParams(settings);
-    dlgUrz = new Urzadzenia(this);
-    dlgUrz->setLabels(settings);
-    dlgUrz->setUstawienia(settings);
-    dlgUrz->setUstawienia(&settings);
-    dlgUrz->setHidden(true);
 
+    connect(urzadzenia, &Urzadzenia::analogValueChanged, this,       &GlowneOkno::valueChanged);
+    connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
+    //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue);
+    //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue);
 
-    connect(dlgUrz,&Urzadzenia::analogValueChanged, this, &GlowneOkno::valueChanged);
-    connect(dlgUrz,&Urzadzenia::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
- 
-    connect(dlgUrz, &Urzadzenia::drzwi_komory, ui->frCzujniki, &OknoStatusowe::setDrzwiKomory);
-    connect(dlgUrz, &Urzadzenia::zawor, ui->frCzujniki, &OknoStatusowe::setZawor);
-    connect(dlgUrz, &Urzadzenia::pilot_btn, ui->frCzujniki, &OknoStatusowe::setPilot);
-    connect(dlgUrz, &Urzadzenia::usb6210, ui->frCzujniki, &OknoStatusowe::setUSB6210);
-    connect(dlgUrz, &Urzadzenia::usb6501, ui->frCzujniki, &OknoStatusowe::setUSB6501);
-    connect(dlgUrz, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
+    connect(urzadzenia, &Urzadzenia::usb6210,  ui->frCzujniki, &OknoStatusowe::setUSB6210);
+    connect(urzadzenia, &Urzadzenia::usb6501,  ui->frCzujniki, &OknoStatusowe::setUSB6501);
+    connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
     
 
 
@@ -118,8 +113,8 @@ GlowneOkno::GlowneOkno(QWidget *parent) :
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
-    testy[selectedTest]->createTestWizard()->setUst(&settings);
-    connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
+    //testy[selectedTest]->createTestWizard()->setUst(&settings);
+    //connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(this, &GlowneOkno::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
 //end
     changeSelectedTest();
@@ -190,9 +185,9 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
-    testy[selectedTest]->createTestWizard()->setUst(&settings);
+    //testy[selectedTest]->createTestWizard()->setUst(&settings);
 
-    connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
+    //connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(this, &GlowneOkno::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
     changeSelectedTest();
 }
@@ -235,13 +230,13 @@ void GlowneOkno::showIO()
     //    dlgUrz->show();
     //else
     //    dlgUrz->hide();
-    dlgUrz->show();
+    //dlgUrz->show();
 }
 
 void GlowneOkno::dozownikTest()
 {
     DozownikSettings * dlg = new DozownikSettings(this);
-    dlg->setSmg(dlgUrz->getSerial());
+    //dlg->setSmg(dlgUrz->getSerial());
     dlg->exec();
     delete dlg;
 }

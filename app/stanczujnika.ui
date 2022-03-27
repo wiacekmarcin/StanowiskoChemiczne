@@ -100,6 +100,22 @@
     <string>Status</string>
    </property>
   </widget>
+  <widget class="QLabel" name="yellow">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="ikony.qrc">:/status/yellow.png</pixmap>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="ikony.qrc"/>

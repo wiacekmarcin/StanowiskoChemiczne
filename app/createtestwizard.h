@@ -28,7 +28,7 @@ public:
 
     Ustawienia *getUst() const;
 
-    void setUst(Ustawienia *newUst);
+    //void setUst(Ustawienia *newUst);
 
 public slots:
     void changeDigitalIn(int id, bool value);

@@ -22,7 +22,7 @@ class GlowneOkno : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GlowneOkno(QWidget *parent = 0);
+    explicit GlowneOkno(Ustawienia & ust, Urzadzenia *urzadzenia, QWidget *parent = 0);
     ~GlowneOkno();
 
 private slots:
@@ -45,17 +45,20 @@ protected:
 
 private:
     Ui::GlowneOkno *ui;
+    Urzadzenia * urzadzenia;
+    Ustawienia & settings;
+
     QMap<QTreeWidgetItem*, ProjectItem> projekty;
     QMap<QTreeWidgetItem*, TestTabsWidget*> testy;
     QMap<QTreeWidgetItem*, QTreeWidgetItem*> mapTesty;
     QTreeWidgetItem* selectedProject;
     QTreeWidgetItem* selectedTest;
-    Ustawienia settings;
+
     QAction * act_wykresy[Ustawienia::maxCzujekAnal];
     QAction * act_wyzwal[Ustawienia::maxCzujekAnal];
     QSignalMapper *signalMapper;
     bool showDebugDlg;
-    Urzadzenia * dlgUrz;
+
 };
 
 
