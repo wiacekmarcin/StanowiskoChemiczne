@@ -7,7 +7,15 @@
 #define _STR(X) #X
 #define STR(X) _STR(X)
 #define CON(X, Y) X ## Y
-#define INIT_MAP(N) bMapZawor[mapDigitalOrder[N]] = false; sMapZawor[mapDigitalOrder[N]] = ui->zawor##N;
+#define INIT_MAP(N) \
+    bMapZawor[mapDigitalOrder[N]] = false; \
+    sMapZawor[mapDigitalOrder[N]] = ui->zawor##N;\
+    ui->zawor##N->setText("Zawór "#N);\
+    ui->zawor##N->setObjectName("Zawor"#N);\
+    ui->zawor##N->setOk(false);
+
+#define SETZAWOR(N)
+
 OknoStatusowe::OknoStatusowe(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::OknoStatusowe),
@@ -33,41 +41,29 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     bMapZawor[mapDigitalOrder[9]] = false;
     sMapZawor[mapDigitalOrder[9]] = ui->pilot;
 
-
-    ui->zawor1->setText("Zawór 1");
-    ui->zawor2->setText("Zawór 2");
-    ui->zawor3->setText("Zawór 3");
-    ui->zawor4->setText("Zawór 4");
-    ui->zawor5->setText("Zawór 5");
-    ui->zawor6->setText("Zawór 6");
-    ui->zawor7->setText("Zawór 7");
-    ui->zawor8->setText("Zawór 8");
     ui->pilot->setText("Pilot");
+    ui->pilot->setObjectName("Pilot");
+    ui->pilot->setOk(false);
+
+
     ui->usb6210->setText("USB6210");
     ui->usb6501->setText("USB6501");
     ui->dozownik->setText("Dozownik");
 
-    ui->zawor1->setOk(false);
-    ui->zawor2->setOk(false);
-    ui->zawor3->setOk(false);
-    ui->zawor4->setOk(false);
-    ui->zawor5->setOk(false);
-    ui->zawor6->setOk(false);
-    ui->zawor7->setOk(false);
-    ui->zawor8->setOk(false);
-    ui->pilot->setOk(false);
-    ui->usb6210->setOk(false);
-    ui->usb6501->setOk(false);
-    ui->dozownik->setOk(false);
+    ui->usb6210->setState(true, false);
+    ui->usb6501->setState(true, false);
+    ui->dozownik->setState(true, false);
 
     timer.setInterval(1000);
     connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer.start();
+
     adjustSize();
 }
 
 OknoStatusowe::~OknoStatusowe()
 {
+    timer.stop();
     delete ui;
 }
 
@@ -100,24 +96,6 @@ void OknoStatusowe::setUSB6501(bool open, bool conf)
 {
     bOpenUsb6501 = open;
     bConfUsb6501 = conf;
-}
-
-void OknoStatusowe::setDrzwiKomory(bool prawe, bool otwarte)
-{
-    if (prawe)
-        bMapZawor[drzwi_lewe] = otwarte;
-    else
-        bMapZawor[drzwi_prawe] = otwarte;
-}
-
-void OknoStatusowe::setZawor(int idZ, bool otwarte)
-{
-    bMapZawor[idZ] = otwarte;
-}
-
-void OknoStatusowe::setPilot(bool przycisk)
-{
-    bMapZawor[pilot] = przycisk;
 }
 
 void OknoStatusowe::timeout()

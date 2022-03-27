@@ -41,6 +41,8 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue);
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue);
 
+    connect(urzadzenia, &Urzadzenia::digitalRead,   ui->frCzujniki, &OknoStatusowe::setDigitalValue);
+
     connect(urzadzenia, &Urzadzenia::usb6210,  ui->frCzujniki, &OknoStatusowe::setUSB6210);
     connect(urzadzenia, &Urzadzenia::usb6501,  ui->frCzujniki, &OknoStatusowe::setUSB6501);
     connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);

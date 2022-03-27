@@ -7,13 +7,19 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
       ustawienia(ustawiania_)
 
 {
-    connect(&nicards, &NICards::digitalRead,    this,       &Urzadzenia::digitalRead);
+    connect(&nicards, &NICards::digitalRead,    this,       &Urzadzenia::ni_digitalRead);
     connect(&nicards, &NICards::error,          this,       &Urzadzenia::ni_error);
     connect(&nicards, &NICards::debug,          this,       &Urzadzenia::ni_debug);
     connect(&nicards, &NICards::usb6210,        this,       &Urzadzenia::usb6210);
     connect(&nicards, &NICards::usb6501,        this,       &Urzadzenia::ni_usb6501);
     connect(&nicards, &NICards::analogValueChanged, this,   &Urzadzenia::ni_analogValueChanged);
 
+    connect(&serial, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
+
+
+    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
+        m_inputsMap[0x1 << i] = false;
+    }
 
 
 }
@@ -48,6 +54,22 @@ void Urzadzenia::ni_usb6501(bool open, bool conf)
     emit usb6210(open, conf);
 }
 
+void Urzadzenia::ni_digitalRead(uint16_t vals)
+{
+    qDebug("%s:%d", __FILE__,__LINE__);
+    uint32_t mask;
+    bool bval;
+    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
+        mask = 0x1 << i;
+        bval = ~vals & mask;
+        if (bval != m_inputsMap[mask]) {
+            m_inputsMap[mask] = bval;
+            qDebug("%s:%d", __FILE__,__LINE__);
+            emit digitalRead(mask, bval);
+        }
+    }
+}
+
 void Urzadzenia::ds_error(const QString &s)
 {
     qDebug("ds_error %s", s.toStdString().c_str());
@@ -66,6 +88,6 @@ void Urzadzenia::ds_errorSerial(const QString & s)
 void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)
 {
     digitalConn = open && conf;
-    emit connDozownik(open && conf);
+    emit dozownik(open, conf);
 }
 

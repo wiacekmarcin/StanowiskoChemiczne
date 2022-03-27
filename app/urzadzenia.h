@@ -18,7 +18,7 @@ signals:
     void usb6210(bool open, bool conf);
     void usb6501(bool open, bool conf);
     void dozownik(bool open, bool conf);
-    void digitalRead(uint16_t vals);
+    void digitalRead(uint16_t vals, bool open);
 
     void connDozownik(bool);
     void resetDone(bool);
@@ -34,6 +34,7 @@ private slots:
     void ni_debug(const QString &d);
     void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
     void ni_usb6501(bool open, bool conf);
+    void ni_digitalRead(uint16_t vals);
 
     void ds_error(const QString &s);
     void ds_debug(const QString &d);
@@ -48,6 +49,8 @@ private:
 
      bool digitalConn;
      bool dozownikConn;
+
+     QMap<unsigned int, bool> m_inputsMap;
 };
 
 #endif // URZADZENIA_H

@@ -114,6 +114,7 @@ private:
     QSerialPort m_serial;
     bool m_connected;
     bool m_configured;
+    bool readError;
 
     QByteArray replyData;
 

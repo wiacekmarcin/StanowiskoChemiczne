@@ -121,6 +121,9 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
     SerialMessage msg;
     msg.setInvalidReply();
     qDebug("%s:%d write = %s", __FILE__, __LINE__, currentRequest.toHex().constData());
+    readError = false;
+    if (currentRequest.size() == 0)
+        return msg;
     m_serial.write(currentRequest);
     if (m_serial.waitForBytesWritten(currentWaitWriteTimeout)) {
         // read response
@@ -128,8 +131,8 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
         if (m_serial.waitForReadyRead(currentReadWaitTimeout)) {
             QByteArray responseData = m_serial.readAll();
             qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
-            while (m_serial.waitForReadyRead(10))
-                responseData += m_serial.readAll();
+            //while (m_serial.waitForReadyRead(10))
+            //    responseData += m_serial.readAll();
             qDebug("%s:%d read all done %d -> parse", __FILE__, __LINE__, responseData.size());
             return parseMessage(responseData);
         } else {
@@ -137,14 +140,14 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
             //emit timeout(tr("Wait read response timeout %1")
             //             .arg(QTime::currentTime().toString()));
             msg.setTimeoutReply(false);
-            m_connected = false;
+            readError = true;
         }
     } else {
         qDebug("%s:%d %s", __FILE__, __LINE__, "Timeout przy zapisie");
         //emit timeout(tr("Wait write request timeout %1")
         //             .arg(QTime::currentTime().toString()));
         msg.setTimeoutReply(true);
-        m_configured = false;
+        readError = true;
     }
     qDebug("%s:%d Nieudany zapis/odczyt", __FILE__, __LINE__);
     return msg;
@@ -172,7 +175,7 @@ bool SerialDevice::configureDeviceJob()
     qDebug("%s:%d", __FILE__, __LINE__);
     s = write(SerialMessage::setSettingsMsg(reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp),
               100, 100).getParseReply();
-
+    qDebug("%s:%d", __FILE__, __LINE__);
     if (s != SerialMessage::SETPARAMS_REPLY)
         return false;
     qDebug("%s:%d", __FILE__, __LINE__);
@@ -340,7 +343,7 @@ void SerialDevice::setPosJob()
 
 bool SerialDevice::openDevice(const QSerialPortInfo &port)
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d open Devicedd", __FILE__, __LINE__);
     m_serial.setPort(port);
     m_portName = port.portName();
 
@@ -371,7 +374,7 @@ bool SerialDevice::openDevice(const QSerialPortInfo &port)
 SerialMessage SerialDevice::parseMessage(const QByteArray &reply)
 {
     SerialMessage msg;
-    msg.parseCommand(reply);
+    qDebug("%s:%d parse = %d", __FILE__,__LINE__, msg.parseCommand(reply));
     return msg;
 }
 
@@ -393,9 +396,9 @@ void SerialDevice::connectToSerialJob()
     QString description;
     QString manufacturer;
     QString serialNumber;
+    static short tryConfigure = 0;
     //const QString serialNumberKontroler = "D76ED16151514C4B39202020FF012E1C";
-    closeDevice();
-    m_connected = m_configured = false;
+
     emit dozownikConfigured(m_connected, m_configured);
     for (const QSerialPortInfo &serialPortInfo : serialPortInfos) {
         description = serialPortInfo.description();
@@ -412,13 +415,21 @@ void SerialDevice::connectToSerialJob()
             emit debug(QString("Znaleziono kandydata"));
             qDebug("%s:%d", __FILE__, __LINE__);
             if (vendorId == 6991 && productId == 37382 /* && serialNumber == serialNumberKontroler */) {
-                m_connected = openDevice(serialPortInfo);
+               m_connected = openDevice(serialPortInfo);
                 emit dozownikConfigured(m_connected, m_configured);
                 qDebug("%s:%d conn = %d", __FILE__, __LINE__, m_connected);
                 emit debug(QString("Urzadzenie %1 zostalo otwarte").arg(m_portName));
                 if (m_connected) {
                     m_configured = configureDeviceJob();
-                    qDebug("%s:%d  conf = %d", __FILE__, __LINE__, m_configured);
+                    qDebug("%s:%d conn = %d conf = %d", __FILE__, __LINE__, m_connected, m_configured);
+                    if (!m_configured) {
+                        if (tryConfigure++ > 5) {
+                            tryConfigure = 0;
+                            closeDevice();
+                            m_connected = false;
+                        }
+                    }
+                    qDebug("%s:%d  conn = %d, conf = %d", __FILE__, __LINE__, m_connected, m_configured);
                     emit debug(QString("Konfiguracja urządzenia %1").arg(m_configured ? "Sukces" : "Porażka"));
                     emit dozownikConfigured(m_connected, m_configured);
                 }
@@ -523,12 +534,24 @@ void SerialThread::run()
     m_mutex.lock();
     short zadanie = nrZadania;
     m_mutex.unlock();
-
+    short nrTrying = 0;
     while (!m_quit) {
         qDebug("%s:%d zadanie %d", __FILE__,__LINE__, zadanie);
         switch(zadanie) {
         case IDLE:
-            qDebug("conn=%d conf=%d",sd->m_connected,sd->m_configured);
+            qDebug("conn=%d conf=%d read",sd->m_connected,sd->m_configured, sd->readError);
+            if (sd->readError) {
+                if (nrTrying++ > 5) {
+                    nrTrying = 0;
+                    zadanie = CONNECT;
+                    sd->closeDevice();
+                    sd->readError = false;
+                    sd->m_connected = false;
+                } else {
+                    sd->readError = false;
+                    zadanie = CONFIGURE;
+                }
+            }
             if (!sd->m_connected) {
                 zadanie = CONNECT;
                 sleep(1);
@@ -549,6 +572,13 @@ void SerialThread::run()
                 zadanie = CONNECT;
                 sleep(1);
             } else if (!sd->m_configured) {
+                if (nrTrying++ > 5) {
+                    nrTrying = 0;
+                    zadanie = CONNECT;
+                    sd->closeDevice();
+                    sd->readError = false;
+                    sd->m_connected = false;
+                }
                 zadanie = CONFIGURE;
                 sleep(1);
             } else

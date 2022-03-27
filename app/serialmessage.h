@@ -26,6 +26,9 @@ public:
         ECHO_REP = 8,
         MOVEHOME_REQ = 9,
         MOVEHOME_REP = 10,
+        RESET_REQ = 11,
+        RESET_REP = 12,
+        ERROR_REP = 15,
 
     } CMD;
 

@@ -27,10 +27,6 @@ public slots:
     void setUSB6210(bool open, bool conf);
     void setUSB6501(bool open, bool conf);
 
-    void setDrzwiKomory(bool prawe, bool otwarte);
-    void setZawor(int idZ, bool otwarte);
-    void setPilot(bool przycisk);
-
 private slots:
     void timeout();
 private:

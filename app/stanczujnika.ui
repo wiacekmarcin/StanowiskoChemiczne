@@ -52,6 +52,34 @@
    <property name="pixmap">
     <pixmap resource="ikony.qrc">:/status/green.png</pixmap>
    </property>
+   <property name="indent">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="yellow">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>25</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="ikony.qrc">:/status/yellow.png</pixmap>
+   </property>
+   <property name="indent">
+    <number>0</number>
+   </property>
   </widget>
   <widget class="QLabel" name="red">
    <property name="geometry">
@@ -67,6 +95,18 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>25</width>
+     <height>25</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>25</width>
+     <height>25</height>
+    </size>
    </property>
    <property name="text">
     <string/>
@@ -98,22 +138,6 @@
    </property>
    <property name="text">
     <string>Status</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="yellow">
-   <property name="geometry">
-    <rect>
-     <x>5</x>
-     <y>5</y>
-     <width>25</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="ikony.qrc">:/status/yellow.png</pixmap>
    </property>
   </widget>
  </widget>

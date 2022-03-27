@@ -53,7 +53,7 @@ QByteArray SerialMessage::setPosition(short dozownikNr, uint32_t x)
 
 QByteArray SerialMessage::setReset()
 {
-    return QByteArray();
+    return prepareMessage(RESET_REQ, nullptr, 0);
 }
 
 QByteArray SerialMessage::echoMsg()
@@ -206,6 +206,12 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
             return true;
         }
 
+        case RESET_REP:
+        {
+            qDebug("%s %d Set params Msg", __FILE__,__LINE__);
+            parseReply = RESET_REPLY;
+            return true;
+        }
         default:
             errT = QString("Nieznana komenda");
             errB = true;

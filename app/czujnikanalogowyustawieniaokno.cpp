@@ -50,7 +50,7 @@ CzujnikAnalogowyUstawieniaOkno::CzujnikAnalogowyUstawieniaOkno(const Ustawienia 
 
 CzujnikAnalogowyUstawieniaOkno::~CzujnikAnalogowyUstawieniaOkno()
 {
-
+    t.stop();
 }
 
 void CzujnikAnalogowyUstawieniaOkno::saveData(Ustawienia &ust)
