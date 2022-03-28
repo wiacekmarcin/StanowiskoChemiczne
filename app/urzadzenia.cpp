@@ -1,5 +1,7 @@
 #include "urzadzenia.h"
 
+
+#define NO_DEVICE
 Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     : QObject{parent},
       nicards(this),
@@ -7,21 +9,28 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
       ustawienia(ustawiania_)
 
 {
+#ifndef NO_DEVICE
     connect(&nicards, &NICards::digitalRead,    this,       &Urzadzenia::ni_digitalRead);
     connect(&nicards, &NICards::error,          this,       &Urzadzenia::ni_error);
     connect(&nicards, &NICards::debug,          this,       &Urzadzenia::ni_debug);
     connect(&nicards, &NICards::usb6210,        this,       &Urzadzenia::usb6210);
     connect(&nicards, &NICards::usb6501,        this,       &Urzadzenia::ni_usb6501);
     connect(&nicards, &NICards::analogValueChanged, this,   &Urzadzenia::ni_analogValueChanged);
-
+#endif
     connect(&serial, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
-
+    connect(&serial, &SerialDevice::setCykleDone, this,     &Urzadzenia::setCykleDone);
 
     for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
         m_inputsMap[0x1 << i] = false;
     }
 
 
+}
+
+void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
+{
+    qDebug("%s:%d setCykle [%d %d]", __FILE__, __LINE__, nrDoz, nrCyckli);
+    serial.setCykle(nrDoz,nrCyckli);
 }
 
 void Urzadzenia::ni_error(const QString &s)

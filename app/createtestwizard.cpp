@@ -18,14 +18,18 @@
 #include <QVariant>
 #include <QDebug>
 
+#include "urzadzenia.h"
+#include "glowneokno.h"
+
 CreateTestWizard::CreateTestWizard(QWidget *parent) :
     QStackedWidget(parent),
     dlgOtwarte(nullptr)
 {
     selectedId = -1;
-    init();
-    zamknietaKomoraA = false;
-    zamknietaKomoraB = false;
+    zamknietaKomoraLewa = false;
+    zamknietaKomoraPrawa = false;
+    setObjectName(QString::fromUtf8("TestWizard"));
+    addPage(new NowyTest_1(this), 1);
 }
 
 void CreateTestWizard::setTestData(const TestData &dt)
@@ -40,23 +44,27 @@ void CreateTestWizard::setTestData(const TestData &dt)
     initializePage();
 }
 
+void CreateTestWizard::setUstawienia(const Ustawienia & ust)
+{
+    numberInitDozCycles = ust.getNrInitializeCycles();
+    for (short id = 0; id < Ustawienia::maxCzujekCyfrIn; ++id)
+        m_namesZawory[id] = ust.wejscie(0x1 << id);
+}
+
+
+
 CreateTestWizard::~CreateTestWizard()
 {
 
 }
 
-void CreateTestWizard::init()
+void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust)
 {
-    setObjectName(QString::fromUtf8("TestWizard"));
 
-    for (int i=0; i<9; ++i) {
-        zawory[i+1] = false;
-        stezenia[i+1] = 0.0;
-    }
-    stezenia[10] = 0.0;
+    NowyTest_2 * page_2 = new NowyTest_2(u, ust.getNrInitializeCycles(), this);
+    connect(this, &CreateTestWizard::zamknietaKomora, page_2, &NowyTest_2::zamknietaKomora);
+    addPage(page_2, 2);
 
-    addPage(new NowyTest_1(this), 1);
-    addPage(new NowyTest_2(this), 2);
     addPage(new NowyTest_3(this), 3);
     addPage(new NowyTest_4(this), 4);
     addPage(new NowyTest_5(this), 5);
@@ -66,8 +74,8 @@ void CreateTestWizard::init()
     selectedId = 1;
     finished = false;
 
-
     initializePage();
+    connect(u, &Urzadzenia::digitalRead, this, &CreateTestWizard::changeDigitalIn);
 }
 
 void CreateTestWizard::initializePage()
@@ -108,8 +116,6 @@ void CreateTestWizard::addPage(TestPage *page, int id)
 
     connect(t, &TestPageForm::clickButton, this, &CreateTestWizard::nextPage);
     connect(page, &TestPage::completeChanged, this, &CreateTestWizard::checkValidPage);
-    connect(this, &CreateTestWizard::komora, page, &TestPage::komora);
-    page->komora(getZamknietaKomora());
 }
 
 
@@ -140,26 +146,36 @@ void CreateTestWizard::changeDigitalIn(int id, bool value)
     }
 
     if (id == drzwi_lewe) {
-        zamknietaKomoraA = value;
-        emit komora(getZamknietaKomora());
+        zamknietaKomoraLewa = value;
+        emit zamknietaKomora(getZamknietaKomora());
     }
 
     if (id == drzwi_prawe) {
-        zamknietaKomoraB = value;
-        emit komora(getZamknietaKomora());
+        zamknietaKomoraPrawa = value;
+        emit zamknietaKomora(getZamknietaKomora());
     }
 }
 
-void CreateTestWizard::changeAnalog(int id, double value)
+void CreateTestWizard::changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7)
 {
-    if (id == wentylacja_lewa || id == wentylacja_prawa || id == proznia || id == pom_stez_1
-            || id == pom_stez_2 || id == wlot_powietrza)
-        zawory[id] = value;
+    double vals[8] = { val0, val1, val2, val3, val4, val5, val6, val7};
+    /*
+    a_vol1              = 0,
+    a_vol2              = 1,
+    a_o2                = 2,
+    a_co2               = 3,
+    a_cisn_komora       = 4,
+    a_temp_komory       = 5,
+    a_temp_parownik     = 6,
+    a_8                 = 7
+ */
+    cisnienieKomory = vals[a_cisn_komora];
+    temperaturaKomory = vals[a_temp_komory];
 }
 
 void CreateTestWizard::clickedZawory()
 {
-    dlgOtwarte = new OtwarteZawory(this);
+    dlgOtwarte = new OtwarteZawory(m_namesZawory, this);
     dlgOtwarte->set(wentylacja_lewa, zawory[wentylacja_lewa]);
     dlgOtwarte->set(wentylacja_prawa, zawory[wentylacja_prawa]);
     dlgOtwarte->set(proznia,  zawory[proznia]);
@@ -255,7 +271,7 @@ void CreateTestWizard::showWarning(bool value)
 
 bool CreateTestWizard::getZamknietaKomora() const
 {
-    return zamknietaKomoraA && zamknietaKomoraB;
+    return zamknietaKomoraLewa && zamknietaKomoraPrawa;
 }
 
 

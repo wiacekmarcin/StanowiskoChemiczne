@@ -38,57 +38,6 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="cbYes">
-     <property name="text">
-      <string>Tak</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="4">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="lquestion1">
-       <property name="text">
-        <string>Czy układ dozownika </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="dozowniknr">
-       <property name="text">
-        <string>X</string>
-       </property>
-       <property name="margin">
-        <number>2</number>
-       </property>
-       <property name="indent">
-        <number>0</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="lquestion2">
-       <property name="text">
-        <string>jest napelniony</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
    <item row="2" column="0" colspan="4">
     <widget class="QFrame" name="frame">
      <property name="enabled">
@@ -123,7 +72,7 @@
        <number>0</number>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="lstep1">
+       <widget class="QLabel" name="lQuestion2">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -148,7 +97,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="DisPushButton" name="pbStep1">
+         <widget class="DisPushButton" name="pbQuestion2">
           <property name="text">
            <string>OK</string>
           </property>
@@ -156,137 +105,6 @@
         </item>
         <item>
          <spacer name="horizontalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="lstep3">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>Czy układ się napełnił</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="cbStep3Yes">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Tak</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="lYes2">
-          <property name="text">
-           <string>Tak</string>
-          </property>
-          <property name="indent">
-           <number>5</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="cbStep3No">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Nie</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="lNo2">
-          <property name="text">
-           <string>Nie</string>
-          </property>
-          <property name="indent">
-           <number>5</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="12" column="0">
-       <widget class="QLabel" name="lstep4">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>Ustaw końcówki dozowników pod parownikiem 
-i zamknij komorę</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_7">
-        <item>
-         <spacer name="horizontalSpacer_10">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="DisPushButton" name="pbStep4">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Zrobione</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_11">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -313,49 +131,6 @@ i zamknij komorę</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="lstep2">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Rozpocznij napełnanie układu dozownika</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="dozowniknr_2">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>X</string>
-          </property>
-          <property name="margin">
-           <number>2</number>
-          </property>
-          <property name="indent">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_12">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
       <item row="3" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
@@ -372,7 +147,7 @@ i zamknij komorę</string>
          </spacer>
         </item>
         <item>
-         <widget class="DisPushButton" name="pbStep2">
+         <widget class="DisPushButton" name="pb3Run">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -409,6 +184,80 @@ i zamknij komorę</string>
         </property>
        </widget>
       </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="lQuestion4">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Czy układ się napełnił</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="l4Yes">
+          <property name="text">
+           <string>Tak</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="cbFull4Yes">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Tak</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="cbFull4No">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Nie</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="l4No">
+          <property name="text">
+           <string>Nie</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
       <item row="10" column="0" colspan="2">
        <widget class="QWidget" name="wstep3a" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -428,7 +277,7 @@ i zamknij komorę</string>
           <number>0</number>
          </property>
          <item>
-          <widget class="QPushButton" name="pbStep3aRun">
+          <widget class="QPushButton" name="pb5Run">
            <property name="enabled">
             <bool>true</bool>
            </property>
@@ -451,7 +300,7 @@ i zamknij komorę</string>
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pbStep3aOk">
+          <widget class="QPushButton" name="pb5Full">
            <property name="enabled">
             <bool>true</bool>
            </property>
@@ -476,13 +325,94 @@ i zamknij komorę</string>
         </property>
        </widget>
       </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="lQuestion6">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Ustaw końcówki dozowników pod parownikiem
+ i zamknij komorę</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <spacer name="horizontalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="DisPushButton" name="pb6Ok">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Zrobione</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="lQuestion3">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Rozpocznij napełnanie układu dozownika %1</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="dozowniknr_2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="margin">
+           <number>2</number>
+          </property>
+          <property name="indent">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QCheckBox" name="cbNo">
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="cbFull1Yes">
      <property name="text">
-      <string>Nie</string>
+      <string>Tak</string>
      </property>
     </widget>
    </item>
@@ -499,6 +429,30 @@ i zamknij komorę</string>
      </property>
     </spacer>
    </item>
+   <item row="0" column="0" colspan="4">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="lQuestion1">
+       <property name="text">
+        <string>Czy układ dozownika %1 jest napełniony </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
    <item row="1" column="3">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
@@ -513,12 +467,16 @@ i zamknij komorę</string>
     </spacer>
    </item>
    <item row="1" column="2">
-    <widget class="QLabel" name="lNie">
+    <widget class="QLabel" name="l1Nie">
      <property name="text">
       <string>Nie</string>
      </property>
-     <property name="indent">
-      <number>5</number>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="cbFull1No">
+     <property name="text">
+      <string>Nie</string>
      </property>
     </widget>
    </item>
@@ -538,14 +496,14 @@ i zamknij komorę</string>
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>cbYes</tabstop>
-  <tabstop>cbNo</tabstop>
-  <tabstop>pbStep2</tabstop>
-  <tabstop>cbStep3Yes</tabstop>
-  <tabstop>cbStep3No</tabstop>
-  <tabstop>pbStep3aRun</tabstop>
-  <tabstop>pbStep3aOk</tabstop>
-  <tabstop>pbStep4</tabstop>
+  <tabstop>cbFull1Yes</tabstop>
+  <tabstop>cbFull1No</tabstop>
+  <tabstop>pb3Run</tabstop>
+  <tabstop>cbFull4Yes</tabstop>
+  <tabstop>cbFull4No</tabstop>
+  <tabstop>pb5Run</tabstop>
+  <tabstop>pb5Full</tabstop>
+  <tabstop>pb6Ok</tabstop>
  </tabstops>
  <resources/>
  <connections/>

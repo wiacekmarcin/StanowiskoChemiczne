@@ -83,7 +83,7 @@ void SerialDevice::setReset()
     my_thread.command(SerialThread::RESET);
 }
 
-void SerialDevice::setCycle(uint8_t nrDoz, uint32_t nrCyckli)
+void SerialDevice::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 {
     dozownikNr = nrDoz;
     val1 = nrCyckli;
@@ -238,32 +238,32 @@ void SerialDevice::setResetJob()
     emit resetDone(true);
 }
 
-void SerialDevice::setCycleJob()
+void SerialDevice::setCykleJob()
 {
     qDebug("%s:%d", __FILE__, __LINE__);
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
-        emit setCycleDone(false);
+        emit setCykleDone(false);
         return;
     }
 
-    qDebug("%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d val1=%d", __FILE__, __LINE__, val1);
     for (uint32_t n = 0; n < val1; ++n) {
         s = write(SerialMessage::setPosition(dozownikNr, maxImp), 100, 60000).getParseReply();
-        if (s != SerialMessage::ECHO_REPLY) {
-            emit setCycleDone(false);
+        if (s != SerialMessage::POSITION_REPLY) {
+            emit setCykleDone(false);
             return;
         }
 
         s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
         if (s != SerialMessage::MOVEHOME_REPLY) {
-            emit setCycleDone(false);
+            emit setCykleDone(false);
             return;
         }
     }
 
-    emit setCycleDone(true);
+    emit setCykleDone(true);
 }
 
 void SerialDevice::setStepsJob()
@@ -284,7 +284,7 @@ void SerialDevice::setStepsJob()
 
         s = write(SerialMessage::setPosition(dozownikNr, steps), 100, 60000).getParseReply();
         if (s != SerialMessage::ECHO_REPLY) {
-            emit setCycleDone(false);
+            emit setCykleDone(false);
             return;
         }
 
@@ -521,7 +521,8 @@ SerialThread::~SerialThread()
 void SerialThread::command(Task curr)
 {
     const QMutexLocker locker(&m_mutex);
-    actTask = curr;
+
+    nrZadania = curr;
     if (! isRunning())
          start();
     else
@@ -602,6 +603,13 @@ void SerialThread::run()
             sd->setHomeJob();
             zadanie = IDLE;
             break;
+        case SET_CYCLE:
+            qDebug("%s:%d zadanie SET_CYCLE ", __FILE__,__LINE__);
+            sd->setCykleJob();
+            zadanie = IDLE;
+            break;
+        default:
+            zadanie = IDLE;
         }
     }
 }

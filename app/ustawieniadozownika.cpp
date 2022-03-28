@@ -19,9 +19,6 @@ UstawieniaDozownika::UstawieniaDozownika(Ustawienia & ust, QWidget *parent) :
     connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &UstawieniaDozownika::on_buttonBox_clicked);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &UstawieniaDozownika::on_buttonBox_accepted);
 
-    connect(ui->rb_l_1, &QRadioButton::clicked, this, &UstawieniaDozownika::on_rb_l_1_clicked);
-    connect(ui->rb_p_1, &QRadioButton::clicked, this, &UstawieniaDozownika::on_rb_p_1_clicked);
-
     CONNECT_RB(1);
     CONNECT_RB(2);
     CONNECT_RB(3);

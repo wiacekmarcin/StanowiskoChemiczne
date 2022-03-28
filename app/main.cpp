@@ -2,9 +2,14 @@
 #include <QApplication>
 //#include <QWindowsStyle>
 
+
 #include "ustawienia.h"
 #include "urzadzenia.h"
 
+#define DEBUG_DEVICE 1
+#ifdef DEBUG_DEVICE
+#include "urzadzenia_debug.h"
+#endif
 int main(int argc, char *argv[])
 {
     qRegisterMetaType<uint16_t>("uint16_t");
@@ -18,6 +23,12 @@ int main(int argc, char *argv[])
     Ustawienia u;
     Urzadzenia urzadz(u);
 
+#ifdef DEBUG_DEVICE
+    UrzadzeniaDebug * dlg = new UrzadzeniaDebug;
+    dlg->setLabels(u);
+    dlg->setUrzadzenie(&urzadz);
+    dlg->show();
+#endif
     GlowneOkno w(u, &urzadz);
     w.show();
 

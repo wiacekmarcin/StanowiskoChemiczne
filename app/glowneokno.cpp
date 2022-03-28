@@ -105,20 +105,22 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
 
 
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
+                                            settings,
                                             testDane,
                                             ui->testyStackedWidget);
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
     ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
+    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings);
     testy[selectedTest]->setActive();
 
     projekty[selectedProject].addTest(testDane);
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
-    //testy[selectedTest]->createTestWizard()->setUst(&settings);
-    //connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
-    connect(this, &GlowneOkno::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
-//end
+
+    connect(urzadzenia, &Urzadzenia::digitalRead,        testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
+    connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
+
     changeSelectedTest();
     //resize(1024,768);
 }
@@ -177,20 +179,21 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
 
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
+                                            settings,
                                             testDane,
                                             ui->testyStackedWidget);
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
     ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
+    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings);
     testy[selectedTest]->setActive();
+
+    connect(urzadzenia, &Urzadzenia::digitalRead,        testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
+    connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
 
     projekty[selectedProject].addTest(testDane);
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
-    //testy[selectedTest]->createTestWizard()->setUst(&settings);
-
-    //connect(dlgUrz, &Urzadzenia::digitalValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
-    connect(this, &GlowneOkno::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
     changeSelectedTest();
 }
 

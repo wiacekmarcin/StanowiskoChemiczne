@@ -49,7 +49,7 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="Ldozownik1">
+    <widget class="QLabel" name="Ldozownik2">
      <property name="text">
       <string>Dozownik 2</string>
      </property>

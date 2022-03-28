@@ -189,7 +189,7 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
             qDebug("%s %d Recv position Msg", __FILE__,__LINE__);
               if (len == 4) {
                 uint32_t word = (((unsigned int)data[0])<<24) + (((unsigned int)data[1])<<16) + (((unsigned int)data[2])<<8) + (unsigned int)data[3];
-                qDebug("%s:%d %d", __FILE__, __LINE__, word);
+                qDebug("%s:%d %u", __FILE__, __LINE__, word);
                 steps = word;
                 parseReply = POSITION_REPLY;
                 return true;

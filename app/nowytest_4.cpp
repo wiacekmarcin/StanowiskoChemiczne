@@ -49,7 +49,7 @@ bool NowyTest_4::isComplete() const
 void NowyTest_4::on_pbStep2OK_clicked()
 {
     ui->pbStep2OK->setEnabled(false);
-    emit dozownik(field("dozownik").toInt(), field("objetosc").toInt());
+    //emit dozownik(field("dozownik").toInt(), field("objetosc").toInt());
     QTimer::singleShot(1000, this, &NowyTest_4::runDone2);
 }
 

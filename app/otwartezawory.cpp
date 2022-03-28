@@ -2,14 +2,23 @@
 #include "ui_otwartezawory.h"
 #include "ustawienia.h"
 
-OtwarteZawory::OtwarteZawory(QWidget *parent) :
+#define SET_LABEL(N,ID) ui->label_##N->setText(names[ID]); set(ID, false)
+
+OtwarteZawory::OtwarteZawory(const QMap<unsigned int, QString> & names, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OtwarteZawory)
 {
     ui->setupUi(this);
     setWindowTitle("Ostrzeżenie, otwarte zawory");
-    for (int i=0;i<8;++i)
-        set(i+1, false);
+
+    SET_LABEL(1, wentylacja_lewa);
+    SET_LABEL(2, wentylacja_prawa);
+    SET_LABEL(3, proznia);
+    SET_LABEL(4, wlot_powietrza);
+    SET_LABEL(5, pom_stez_1);
+    SET_LABEL(6, pom_stez_2);
+    SET_LABEL(7, drzwi_lewe);
+    SET_LABEL(8, drzwi_prawe);
     ui->frame_1->setVisible(false);
     ui->frame_2->setVisible(false);
     adjustSize();
@@ -20,29 +29,6 @@ OtwarteZawory::~OtwarteZawory()
     delete ui;
 }
 
-void OtwarteZawory::setSettings(const Ustawienia &set)
-{
-    ui->label_1->setText(set.wejscie(wentylacja_lewa));
-    ui->label_2->setText(set.wejscie(wentylacja_prawa));
-    ui->label_3->setText(set.wejscie(proznia));
-    ui->label_4->setText(set.wejscie(wlot_powietrza));
-    ui->label_5->setText(set.wejscie(pom_stez_1));
-    ui->label_6->setText(set.wejscie(pom_stez_2));
-    ui->label_7->setText(set.wejscie(drzwi_lewe));
-    ui->label_7->setText(set.wejscie(drzwi_prawe));
-}
-
-//typedef enum _iDig {
-//drzwi_prawe     = 0x001, //P2.0
-//wentylacja_lewa = 0x002, //P2.1
-//proznia         = 0x004, //P2.2
-//pom_stez_1      = 0x008, //P2.3
-//drzwi_lewe      = 0x010, //p2.4
-//wentylacja_prawa= 0x020, //P2.5
-//wlot_powietrza  = 0x040, //P2.6
-//pom_stez_2      = 0x080, //P2.7
-//pilot           = 0x100, //P1.4
-//} digitalIn;
 void OtwarteZawory::set(int id, bool open)
 {
     //qDebug("OtwarteZawory::set(int id, bool open) %d %d", id, open);

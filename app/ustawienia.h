@@ -92,6 +92,9 @@ public:
     double getStepsOnMl() const;
     void setStepsOnMl(double newStepsOnMl);
 
+    unsigned short getNrInitializeCycles() const;
+    void setNrInitializeCycles(unsigned short newNrInitializeCycles);
+
 protected:
     void initialSetting();
 
@@ -109,6 +112,8 @@ private:
     long maxImp;
     int impTime;
     double stepsOnMl;
+
+    unsigned short nrInitializeCycles;
 };
 
 #endif // USTAWIENIA_H

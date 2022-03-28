@@ -43,10 +43,11 @@ Ustawienia::Ustawienia()
     REVERSE_INIT(3,false);
     REVERSE_INIT(4,false);
     REVERSE_INIT(5,true);
-    maxImp = settings.value(QString("dozownik/maxImpMotor"), 50000).toInt();
-    impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toInt();
-
+    maxImp = settings.value(QString("dozownik/maxImpMotor"), 50000).toUInt();
+    impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toUInt();
     stepsOnMl = settings.value(QString("dozownik/stepsOnMl"), 1.0).toDouble();
+    nrInitializeCycles = settings.value(QString("dozownik/numberOfInitializeCycles"), 10).toUInt();
+
 }
 
 void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, const double &ratio)
@@ -173,6 +174,17 @@ void Ustawienia::initialSetting()
     setWyjscie(wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
     setWyjscie(mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
     setWyjscie(trigger,            QString::fromUtf8("Trigger kamery"));
+}
+
+unsigned short Ustawienia::getNrInitializeCycles() const
+{
+    return nrInitializeCycles;
+}
+
+void Ustawienia::setNrInitializeCycles(unsigned short newNrInitializeCycles)
+{
+    nrInitializeCycles = newNrInitializeCycles;
+    settings.setValue(QString("dozownik/numberOfInitializeCycles"), QVariant::fromValue(newNrInitializeCycles));
 }
 
 double Ustawienia::getStepsOnMl() const

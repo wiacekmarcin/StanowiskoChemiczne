@@ -27,13 +27,17 @@ public:
     QString getNazwa() const;
     void setNazwa(const QString &value);
 
+    unsigned short getNrCykliInit() const;
+    void setNrCykliInit(unsigned short newNrCykliInit);
+
 private:
-    short dozownik;
+    unsigned short dozownik;
     QString ciecz;
     double objetosc;
     QString zaplon;
     QString zaplon_ext;
     QString nazwa;
+    unsigned short nrCykliInit;
 
 };
 

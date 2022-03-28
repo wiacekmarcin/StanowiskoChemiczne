@@ -10,14 +10,19 @@
 
 class TestPage;
 class OtwarteZawory;
+class Urzadzenia;
+class GlowneOkno;
+
 class CreateTestWizard : public QStackedWidget
 {
     Q_OBJECT
 
 public:
     explicit CreateTestWizard(QWidget *parent = 0);
-    void setTestData(const TestData & dt);
     ~CreateTestWizard();
+    void setTestData(const TestData & dt);
+    void setUstawienia(const Ustawienia &ust);
+    void init(Urzadzenia *u, const Ustawienia &ust);
 
     void setField(const QString & key, const QVariant & val);
     QVariant field(const QString & key) const;
@@ -26,13 +31,11 @@ public:
     bool checkZawory() const;
     bool getZamknietaKomora() const;
 
-    Ustawienia *getUst() const;
-
-    //void setUst(Ustawienia *newUst);
 
 public slots:
     void changeDigitalIn(int id, bool value);
-    void changeAnalog(int id, double value);
+    void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
+
     void clickedZawory();
 
     void zaworProzni(bool open);
@@ -47,11 +50,13 @@ public slots:
 
 
 signals:
+    void zamknietaKomora(bool);
+
     void zaplon(const QString & zaplon, const QString & zaplonExt);
     void triggerCamera(bool on);
     void pomiarCisnienia(int idCzujnik, unsigned long time_ms);
 
-    void komora(bool);
+
 
     void setDigitalOut(int id, bool value);
 
@@ -60,7 +65,7 @@ protected slots:
     void nextPage(int id);
     void checkValidPage();
 protected:
-    void init();
+
     void initializePage();
     void showWarning(bool value);
 private:
@@ -68,13 +73,19 @@ private:
     QMap<int, TestPageForm*> pages;
     short selectedId;
     bool finished;
-    QMap<int, bool> zawory;
+    QMap<unsigned int, bool> zawory;
     QMap<int, double> stezenia;
     OtwarteZawory * dlgOtwarte;
-    bool zamknietaKomoraA;
-    bool zamknietaKomoraB;
+    bool zamknietaKomoraLewa;
+    bool zamknietaKomoraPrawa;
 
-    Ustawienia * ust;
+    double temperaturaKomory;
+    double cisnienieKomory;
+
+    unsigned short numberInitDozCycles;
+    QMap<unsigned int, QString> m_namesZawory;
+
+    //Ustawienia & ustawienia;
 };
 
 #endif // CREATETESTWIZARD_H

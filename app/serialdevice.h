@@ -67,7 +67,7 @@ public:
     void setPositionHome(uint8_t nrDoz);
     void setPosition(uint8_t nrDoz, uint32_t imp);
     void setReset();
-    void setCycle(uint8_t nrDoz, uint32_t nrCyckli);
+    void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
     void setImpulse(uint8_t nrDoz, uint64_t steps);
 
 signals:
@@ -82,7 +82,7 @@ signals:
     void errorSerial(QString);
     void setPositionHomeDone(bool);
     void setPositionDone(bool);
-    void setCycleDone(bool);
+    void setCykleDone(bool);
     void setStepsDone(bool);
     //void successOpenDevice(bool);
 
@@ -94,7 +94,7 @@ protected:
     void setHomeJob();
     void setPosJob();
     void setResetJob();
-    void setCycleJob();
+    void setCykleJob();
     void setStepsJob();
 
     void closeDevice();

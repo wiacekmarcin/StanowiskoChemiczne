@@ -47,9 +47,10 @@ SOURCES += \
     serialdevice.cpp \
     serialmessage.cpp \
     stanczujnika.cpp \
+    urzadzenia_debug.cpp \
     ustawieniadozownika.cpp \
+    ustawieniatestu.cpp \
     videowidget.cpp \
-    ustawieniadozownikaokno.cpp \
     sygnalanalparam.cpp \
     wejsciaanalogowe.cpp \
     nowytest_1.cpp \
@@ -92,9 +93,10 @@ HEADERS += \
     serialdevice.h \
     serialmessage.h \
     stanczujnika.h \
+    urzadzenia_debug.h \
     ustawieniadozownika.h \
+    ustawieniatestu.h \
     videowidget.h \
-    ustawieniadozownikaokno.h \
     sygnalanalparam.h \
     wejsciaanalogowe.h \
     nowytest_1.h \
@@ -131,9 +133,10 @@ FORMS += \
     oknostatusowe.ui \
     otwartezawory.ui \
     stanczujnika.ui \
+    urzadzenia_debug.ui \
     ustawieniadozownika.ui \
+    ustawieniatestu.ui \
     videowidget.ui \
-    ustawieniadozownikaokno.ui \
     nowytest_1.ui \
     nowytestdlg.ui \
     testpageform.ui \

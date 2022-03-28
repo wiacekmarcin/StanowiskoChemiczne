@@ -67,3 +67,13 @@ void TestData::setNazwa(const QString &value)
     nazwa = value;
 }
 
+unsigned short TestData::getNrCykliInit() const
+{
+    return nrCykliInit;
+}
+
+void TestData::setNrCykliInit(unsigned short newNrCykliInit)
+{
+    nrCykliInit = newNrCykliInit;
+}
+

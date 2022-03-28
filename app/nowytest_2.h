@@ -7,34 +7,41 @@ namespace Ui {
 class NowyTest_2;
 }
 
+class Urzadzenia;
+
 class NowyTest_2 : public TestPage
 {
     Q_OBJECT
 
 public:
-    explicit NowyTest_2(QWidget *parent = nullptr);
+    explicit NowyTest_2(Urzadzenia * u, unsigned short initCykle, QWidget *parent = nullptr);
     ~NowyTest_2();
     virtual void initializePage() override;
     virtual bool isComplete() const override;
 
+public slots:
+    void dozownikDone(bool succes);
+    void zamknietaKomora(bool komora);
+signals:
+    void fillDozownik(uint8_t, uint8_t);
+
 private slots:
-    void on_cbYes_toggled(bool checked);
-    void on_cbNo_toggled(bool checked);
+    void on_cbFull1Yes_toggled(bool checked);
+    void on_cbFull1No_toggled(bool checked);
 
-    void on_pbStep1_clicked();
-    void on_pbStep2_clicked();
-    void on_cbStep3Yes_toggled(bool checked);
-    void on_cbStep3No_toggled(bool checked);
-    void on_pbStep3aRun_clicked();
-    void on_pbStep3aOk_clicked();
-    void on_pbStep4_clicked();
-
-    void komora(bool val);
+    void on_pbQuestion2_clicked();
+    void on_pb3Run_clicked();
+    void on_cbFull4Yes_toggled(bool checked);
+    void on_cbFull4No_toggled(bool checked);
+    void on_pb5Run_clicked();
+    void on_pb5Full_clicked();
+    void on_pb6Ok_clicked();
 
 
 protected:
-    void step1();
-    void step3();
+    void isInitFiling(bool yes);
+    void isFilling4(bool full);
+
     void runDone1();
     void runDone2();
 
@@ -42,8 +49,11 @@ private:
     Ui::NowyTest_2 *ui;
     bool ign;
     bool dozownikFull;
-    bool zamknietaKomora;
-    bool showPb4;
+    bool showPb6Ok;
+    short tempFiling;
+    short dozownikNr;
+    unsigned short initCykle;
+    bool czyZamkKom;
 };
 
 #endif // NOWYTEST_2_H
