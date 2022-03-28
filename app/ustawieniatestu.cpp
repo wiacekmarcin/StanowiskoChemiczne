@@ -23,6 +23,7 @@ void UstawieniaTestu::on_buttonBox_clicked(QAbstractButton *button)
     if ((QPushButton*)button == ui->buttonBox->button(QDialogButtonBox::RestoreDefaults))
     {
         ui->sBCykle->setValue(10);
+        ui->prozniaVal->setValue(0.01);
     }
     if ((QPushButton*)button == ui->buttonBox->button(QDialogButtonBox::Apply))
     {
@@ -39,4 +40,5 @@ void UstawieniaTestu::on_buttonBox_accepted()
 void UstawieniaTestu::save()
 {
     ustawienia.setNrInitializeCycles(ui->sBCykle->value());
+    ustawienia.setCisnienieProzni(ui->prozniaVal->value());
 }

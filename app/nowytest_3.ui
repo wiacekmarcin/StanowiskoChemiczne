@@ -30,7 +30,7 @@
    <item row="0" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_8">
      <item>
-      <widget class="DisPushButton" name="pbStep2_OK">
+      <widget class="DisPushButton" name="pbSetProznia">
        <property name="text">
         <string>Próżnia</string>
        </property>
@@ -70,7 +70,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="DisPushButton" name="pbStep2_Skip">
+      <widget class="DisPushButton" name="pbSetSkip">
        <property name="text">
         <string>Pomiń</string>
        </property>
@@ -108,7 +108,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="DisPushButton" name="pbStep2A_OK">
+      <widget class="DisPushButton" name="pbProzniaDone">
        <property name="text">
         <string>OK</string>
        </property>

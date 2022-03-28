@@ -18,6 +18,8 @@ UrzadzeniaDebug::UrzadzeniaDebug(QWidget *parent) :
 {
     inputs = 0;
     ui->setupUi(this);
+    timerAnalog.setInterval(100);
+    connect(&timerAnalog, &QTimer::timeout, this, &UrzadzeniaDebug::updateAnalog);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
 
     connect(ui->in_1, &HighLowDigitalWidget::valueChange, this, &UrzadzeniaDebug::changeDigital_1);
@@ -72,6 +74,11 @@ void UrzadzeniaDebug::setUrzadzenie(Urzadzenia * u)
     connect(this, &UrzadzeniaDebug::ni_digitalRead, u, &Urzadzenia::ni_digitalRead);
 }
 
+void UrzadzeniaDebug::updateAnalog()
+{
+    emit ni_analogValueChanged(anValue[0], anValue[1], anValue[2], anValue[3], anValue[4], anValue[5], anValue[6]);
+}
+
 #define AN_SET(N) ui->cz_label_##N->setText(ust.getName(anMap[N-1]))
 #define IN_SET(N) ui->l_in_##N->setText(ust.wejscie(inMap[N]))
 #define OUT_SET(N,M) ui->l_out_##N->setText(ust.wejscie(outMap[M]))
@@ -111,11 +118,11 @@ void UrzadzeniaDebug::setLabels(const Ustawienia &ust)
     OUT_SET(a,10);
 
 
-     emit analogValueChanged(0, 0, 0, 0, 0, 0, 0, 0);
+     //emit analogValueChanged(0, 0, 0, 0, 0, 0, 0, 0);
 
-    for (short in = 1 ; in < 10; in++) {
-         emit digitalValueChanged(inMap[in], false);
-    }
+    //for (short in = 1 ; in < 10; in++) {
+    //     emit digitalValueChanged(inMap[in], false);
+    //}
 
 }
 
@@ -165,6 +172,7 @@ FUN_DIGITAL_CHANGE(9)
 void UrzadzeniaDebug::changeAnalog(unsigned short aId, double val, bool device)
 {
     anValue[aId] = val;
+    emit ni_analogValueChanged(anValue[0], anValue[1], anValue[2], anValue[3], anValue[4], anValue[5], anValue[6]);
 }
 
 void UrzadzeniaDebug::digitalChange(int id, bool val, bool device)

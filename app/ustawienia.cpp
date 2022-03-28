@@ -47,6 +47,7 @@ Ustawienia::Ustawienia()
     impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toUInt();
     stepsOnMl = settings.value(QString("dozownik/stepsOnMl"), 1.0).toDouble();
     nrInitializeCycles = settings.value(QString("dozownik/numberOfInitializeCycles"), 10).toUInt();
+    cisnienieProzni = settings.value(QString("testy/cisnienieWprozni"), 0.01).toDouble();
 
 }
 
@@ -174,6 +175,17 @@ void Ustawienia::initialSetting()
     setWyjscie(wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
     setWyjscie(mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
     setWyjscie(trigger,            QString::fromUtf8("Trigger kamery"));
+}
+
+double Ustawienia::getCisnienieProzni() const
+{
+    return cisnienieProzni;
+}
+
+void Ustawienia::setCisnienieProzni(double newCisnienieProzni)
+{
+    cisnienieProzni = newCisnienieProzni;
+    settings.setValue(QString("testy/cisnienieWprozni"), QVariant::fromValue(newCisnienieProzni));
 }
 
 unsigned short Ustawienia::getNrInitializeCycles() const

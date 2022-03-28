@@ -65,7 +65,12 @@ void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust)
     connect(this, &CreateTestWizard::zamknietaKomora, page_2, &NowyTest_2::zamknietaKomora);
     addPage(page_2, 2);
 
-    addPage(new NowyTest_3(this), 3);
+    NowyTest_3 * page_3 = new NowyTest_3(ust.getCisnienieProzni(), this);
+    connect(this, &CreateTestWizard::openZawor, page_3, &NowyTest_3::openZawor);
+    connect(this, &CreateTestWizard::cisnienieVal, page_3, &NowyTest_3::cisnienieKomory);
+    addPage(page_3, 3);
+
+
     addPage(new NowyTest_4(this), 4);
     addPage(new NowyTest_5(this), 5);
     addPage(new NowyTest_6(this), 6);
@@ -140,6 +145,7 @@ void CreateTestWizard::changeDigitalIn(int id, bool value)
             || id == pom_stez_2 || id == wlot_powietrza || id == drzwi_lewe || id == drzwi_prawe
             ) {
         zawory[id] = value;
+        emit openZawor(id, value);
         showWarning(checkZawory());
         if (dlgOtwarte != nullptr)
             dlgOtwarte->set(id, value);
@@ -170,6 +176,7 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
     a_8                 = 7
  */
     cisnienieKomory = vals[a_cisn_komora];
+    emit cisnienieVal(cisnienieKomory);
     temperaturaKomory = vals[a_temp_komory];
 }
 

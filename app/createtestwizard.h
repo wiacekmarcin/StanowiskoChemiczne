@@ -51,6 +51,10 @@ public slots:
 
 signals:
     void zamknietaKomora(bool);
+    void openZawor(unsigned int id, bool val);
+    void cisnienieVal(double val);
+
+
 
     void zaplon(const QString & zaplon, const QString & zaplonExt);
     void triggerCamera(bool on);

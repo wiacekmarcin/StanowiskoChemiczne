@@ -95,6 +95,9 @@ public:
     unsigned short getNrInitializeCycles() const;
     void setNrInitializeCycles(unsigned short newNrInitializeCycles);
 
+    double getCisnienieProzni() const;
+    void setCisnienieProzni(double newCisnienieProzni);
+
 protected:
     void initialSetting();
 
@@ -112,8 +115,8 @@ private:
     long maxImp;
     int impTime;
     double stepsOnMl;
-
     unsigned short nrInitializeCycles;
+    double cisnienieProzni;
 };
 
 #endif // USTAWIENIA_H
