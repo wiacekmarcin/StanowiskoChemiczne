@@ -63,7 +63,6 @@ signals:
     void completeChanged();
     void changePage(int id);
 
-    void cykleDozownik(uint8_t nrDoz, uint32_t nrCyckli);
     void zaworProzni(bool open);
     void pompaProzniowa(bool start);
     void mieszadlo(bool start);

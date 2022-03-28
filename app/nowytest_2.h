@@ -23,7 +23,8 @@ public slots:
     void dozownikDone(bool succes);
     void zamknietaKomora(bool komora);
 signals:
-    void fillDozownik(uint8_t, uint8_t);
+    void cykleDozownik(uint8_t, uint32_t);
+
 
 private slots:
     void on_cbFull1Yes_toggled(bool checked);
@@ -54,6 +55,7 @@ private:
     short dozownikNr;
     unsigned short initCykle;
     bool czyZamkKom;
+    bool dozownikPodParow;
 };
 
 #endif // NOWYTEST_2_H

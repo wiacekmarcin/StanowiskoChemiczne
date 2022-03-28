@@ -13,6 +13,7 @@ NowyTest_2::NowyTest_2(Urzadzenia * u, unsigned short initC, QWidget *parent) :
     ui->setupUi(this);
     ign = false;
     czyZamkKom = false;
+    dozownikPodParow = true;
     showPb6Ok = false;
 
     connect(this, &NowyTest_2::cykleDozownik, u, &Urzadzenia::setCykle);
@@ -76,9 +77,13 @@ bool NowyTest_2::isComplete() const
     if (!dozownikFull)
         return false;
 
+    if (!dozownikPodParow)
+        return false;
+
     if (!czyZamkKom)
-        return true;
-    return false;
+        return false;
+
+    return true;
 }
 
 void NowyTest_2::on_cbFull1Yes_toggled(bool checked)
@@ -89,6 +94,7 @@ void NowyTest_2::on_cbFull1Yes_toggled(bool checked)
     ui->frame->setEnabled(!checked);
     isInitFiling(!checked);
     dozownikFull = true;
+    dozownikPodParow = checked;
     emit completeChanged();
 }
 
@@ -100,6 +106,7 @@ void NowyTest_2::on_cbFull1No_toggled(bool checked)
     ui->frame->setEnabled(checked);
     isInitFiling(checked);
     dozownikFull = false;
+    dozownikPodParow = !checked;
     emit completeChanged();
 }
 
@@ -122,6 +129,7 @@ void NowyTest_2::on_pbQuestion2_clicked()
 
 void NowyTest_2::on_pb3Run_clicked()
 {
+    dozownikPodParow = false;
     tempFiling = 1;
     qDebug("%s:%d runCycle", __FILE__,__LINE__);
     ui->pb3Run->setEnabled(false);
@@ -151,7 +159,8 @@ void NowyTest_2::dozownikDone(bool succes)
 void NowyTest_2::zamknietaKomora(bool komora)
 {
     czyZamkKom = komora;
-    ui->pb6Ok->setDisabled(!showPb6Ok || !czyZamkKom);
+    ui->pb6Ok->setEnabled(showPb6Ok && czyZamkKom);
+
     emit completeChanged();
 
 }
@@ -243,6 +252,7 @@ void NowyTest_2::on_pb6Ok_clicked()
     ui->l4Yes->setVisible(true);
     ui->pb6Ok->setDone(true);
     dozownikFull = true;
+    dozownikPodParow = true;
     emit completeChanged();
 }
 
