@@ -1,6 +1,8 @@
 #ifndef NICARDS_H
 #define NICARDS_H
 
+#ifndef SYMULATOR
+
 #include <QThread>
 #include <QMutex>
 #include <QWaitCondition>
@@ -8,6 +10,7 @@
 #include "ustawienia.h"
 #include "niusb6210.h"
 #include "niusb6501.h"
+
 
 class NICards : public QThread
 {
@@ -63,6 +66,7 @@ private:
     QString digitalConfWriteString;
 
 };
+#endif
 #endif
 
 

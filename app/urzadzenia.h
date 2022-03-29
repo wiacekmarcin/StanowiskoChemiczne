@@ -2,6 +2,7 @@
 #define URZADZENIA_H
 
 #include <QObject>
+#include <QString>
 
 #include "nicards.h"
 #include "ustawienia.h"
@@ -48,7 +49,9 @@ private slots:
 
 
 private:
+#ifndef SYMULATOR
      NICards nicards;
+#endif
      SerialDevice serial;
      Ustawienia & ustawienia;
 

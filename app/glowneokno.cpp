@@ -4,10 +4,10 @@
 #include "nowyprojectdlg.h"
 #include "czujnikanalogowyustawieniaokno.h"
 
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
+//#include <QMediaPlayer>
+//#include <QMediaPlaylist>
 #include <QFile>
-#include <QVideoWidget>
+//#include <QVideoWidget>
 #include <QTreeWidgetItem>
 #include <QStackedWidget>
 #include <QSignalMapper>
@@ -23,6 +23,7 @@
 #include "urzadzenia.h"
 #include "dozowniksettings.h"
 #include "ustawieniadozownika.h"
+#include "ustawienia.h"
 
 GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     QMainWindow(parent),

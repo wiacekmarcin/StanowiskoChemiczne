@@ -1,5 +1,7 @@
-#pragma once
+#ifndef _NIUSB6210_H_
+#define _NIUSB6210_H_
 
+#ifndef SYMULATOR
 #include <NIDAQmx.h>
 #include <QString>
 
@@ -25,3 +27,5 @@ private:
 #endif
     char		errBuff[2048];
 };
+#endif
+#endif

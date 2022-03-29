@@ -2,6 +2,8 @@
 #define DOZOWNIKSETTINGS_H
 
 #include <QDialog>
+#include <QString>
+
 class SerialDevice;
 namespace Ui {
 class DozownikSettings;

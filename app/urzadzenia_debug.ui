@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Urzadzenia</class>
- <widget class="QDialog" name="Urzadzenia">
+ <class>UrzadzeniaDebug</class>
+ <widget class="QDialog" name="UrzadzeniaDebug">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
+    <width>474</width>
     <height>810</height>
    </rect>
   </property>
@@ -14,8 +14,203 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="4" column="0" colspan="2">
-    <widget class="QPlainTextEdit" name="plainTextEdit"/>
+   <item row="0" column="1" rowspan="2">
+    <widget class="QGroupBox" name="gbOut">
+     <property name="title">
+      <string>Wyjścia cyfrowe</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="5" column="0">
+       <widget class="QLabel" name="l_out_8">
+        <property name="text">
+         <string>Wentylator do przedmuchu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QToolButton" name="tb_out_9">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="DigitalOutWidget" name="out_9" native="true"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="DigitalOutWidget" name="out_5" native="true"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="l_out_4">
+        <property name="text">
+         <string>Iskra mechaniczna (ON/OFF silnik DC)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="l_out_a">
+        <property name="text">
+         <string>Trigger kamery</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="l_out_6">
+        <property name="text">
+         <string>Pompa próżniowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="tb_out_4">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QToolButton" name="tb_out_8">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="DigitalOutWidget" name="out_8" native="true"/>
+      </item>
+      <item row="7" column="2">
+       <widget class="QToolButton" name="tb_out_a">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="l_out_9">
+        <property name="text">
+         <string>Mieszadło</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="l_out_7">
+        <property name="text">
+         <string>Pompka mebramowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QToolButton" name="tb_out_7">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="l_out_5">
+        <property name="text">
+         <string>Płomień (ON/OFF grzałki)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>Iskra elektryczna</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="1" column="1">
+          <widget class="DigitalOutWidget" name="out_2" native="true"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="l_out_3">
+           <property name="text">
+            <string>Zapłon</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="DigitalOutWidget" name="out_3" native="true"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="l_out_1">
+           <property name="text">
+            <string>ON/OFF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="l_out_2">
+           <property name="text">
+            <string>Bezpiecznik</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="DigitalOutWidget" name="out_1" native="true"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QToolButton" name="tb_out_1">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QToolButton" name="tb_out_2">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QToolButton" name="tb_out_3">
+           <property name="text">
+            <string>L</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="DigitalOutWidget" name="out_7" native="true"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="DigitalOutWidget" name="out_4" native="true"/>
+      </item>
+      <item row="7" column="1">
+       <widget class="DigitalOutWidget" name="out_a" native="true"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QToolButton" name="tb_out_6">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QToolButton" name="tb_out_5">
+        <property name="text">
+         <string>L</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="DigitalOutWidget" name="out_6" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" rowspan="3">
     <widget class="QGroupBox" name="gbIn">
@@ -242,227 +437,6 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QGroupBox" name="gbDozownik">
-     <property name="title">
-      <string>Wyjścia ogolne</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pb_iskramechaniczna">
-        <property name="text">
-         <string>Start</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Wyzwolenie iskry elektrycznej</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" rowspan="2">
-    <widget class="QGroupBox" name="gbOut">
-     <property name="title">
-      <string>Wyjścia cyfrowe</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_6">
-      <item row="5" column="0">
-       <widget class="QLabel" name="l_out_8">
-        <property name="text">
-         <string>Wentylator do przedmuchu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="2">
-       <widget class="QToolButton" name="tb_out_9">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="DigitalOutWidget" name="out_9" native="true"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="DigitalOutWidget" name="out_5" native="true"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="l_out_4">
-        <property name="text">
-         <string>Iskra mechaniczna (ON/OFF silnik DC)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="l_out_a">
-        <property name="text">
-         <string>Trigger kamery</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="l_out_6">
-        <property name="text">
-         <string>Pompa próżniowa</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QToolButton" name="tb_out_4">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QToolButton" name="tb_out_8">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="DigitalOutWidget" name="out_8" native="true"/>
-      </item>
-      <item row="7" column="2">
-       <widget class="QToolButton" name="tb_out_a">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="l_out_9">
-        <property name="text">
-         <string>Mieszadło</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="l_out_7">
-        <property name="text">
-         <string>Pompka mebramowa</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QToolButton" name="tb_out_7">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="l_out_5">
-        <property name="text">
-         <string>Płomień (ON/OFF grzałki)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="title">
-         <string>Iskra elektryczna</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <item row="1" column="1">
-          <widget class="DigitalOutWidget" name="out_2" native="true"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="l_out_3">
-           <property name="text">
-            <string>Zapłon</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="DigitalOutWidget" name="out_3" native="true"/>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="l_out_1">
-           <property name="text">
-            <string>ON/OFF</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="l_out_2">
-           <property name="text">
-            <string>Bezpiecznik</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="DigitalOutWidget" name="out_1" native="true"/>
-         </item>
-         <item row="0" column="2">
-          <widget class="QToolButton" name="tb_out_1">
-           <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QToolButton" name="tb_out_2">
-           <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QToolButton" name="tb_out_3">
-           <property name="text">
-            <string>L</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="DigitalOutWidget" name="out_7" native="true"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="DigitalOutWidget" name="out_4" native="true"/>
-      </item>
-      <item row="7" column="1">
-       <widget class="DigitalOutWidget" name="out_a" native="true"/>
-      </item>
-      <item row="3" column="2">
-       <widget class="QToolButton" name="tb_out_6">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QToolButton" name="tb_out_5">
-        <property name="text">
-         <string>L</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="DigitalOutWidget" name="out_6" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QGroupBox" name="gbAnalog">
      <property name="title">
@@ -578,6 +552,29 @@
        <widget class="QSlider" name="analog_8">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QGroupBox" name="gbDozownik">
+     <property name="title">
+      <string>Wyjścia ogolne</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="pb_iskramechaniczna">
+        <property name="text">
+         <string>Start</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Wyzwolenie iskry elektrycznej</string>
         </property>
        </widget>
       </item>

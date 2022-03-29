@@ -1,7 +1,11 @@
 #include "nicards.h"
+
+
+#ifndef SYMULATOR
 #include "NIDAQmx.h"
 
 #include "ustawienia.h"
+
 
 NICards::NICards(QObject *parent)
     : QThread{parent},
@@ -211,3 +215,5 @@ void NICards::readDigital()
 
     emit digitalRead(~val & 0x1ff);
 }
+
+#endif

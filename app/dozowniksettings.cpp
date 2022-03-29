@@ -5,6 +5,7 @@
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QDebug>
+#include <math.h>
 
 #include "serialdevice.h"
 

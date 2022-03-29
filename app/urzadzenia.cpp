@@ -1,15 +1,16 @@
 #include "urzadzenia.h"
 
 
-#define NO_DEVICE
 Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     : QObject{parent},
+#ifndef SYMULATOR
       nicards(this),
+#endif
       serial(ustawiania_, this),
       ustawienia(ustawiania_)
 
 {
-#ifndef NO_DEVICE
+#ifndef SYMULATOR
     connect(&nicards, &NICards::digitalRead,    this,       &Urzadzenia::ni_digitalRead);
     connect(&nicards, &NICards::error,          this,       &Urzadzenia::ni_error);
     connect(&nicards, &NICards::debug,          this,       &Urzadzenia::ni_debug);

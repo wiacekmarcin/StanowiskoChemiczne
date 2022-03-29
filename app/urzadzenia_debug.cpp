@@ -3,7 +3,6 @@
 
 #include "ustawienia.h"
 #include "urzadzenia.h"
-//#define NEWCARDS
 
 
 #define DBG_IN(N) qDebug("%s:%d %04x %p", __FILE__,__LINE__, inMap[N], ui->in_##N)

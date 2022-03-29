@@ -1,6 +1,8 @@
 #include "niusb6501.h"
 
 
+#ifndef SYMULATOR
+
 #include <QDebug>
 #ifndef L_COMP
 #define DAQmxErrChk(functionCall) if( DAQmxFailed(error=(functionCall)) ) goto Error; else
@@ -156,3 +158,4 @@ std::string NIDAQMxUSB6501::errStr()
     return std::string(errBuff);
 }
 
+#endif
