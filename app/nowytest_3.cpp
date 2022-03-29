@@ -62,6 +62,7 @@ void NowyTest_3::initializePage()
      setField("Podcisnienie", QVariant::fromValue((int)0));
      setField("zaworPompy", QVariant::fromValue((bool)false));
      valid = false;
+     prozniaTask = false;
      emit completeChanged();
 }
 
@@ -69,6 +70,9 @@ void NowyTest_3::openZawor(unsigned int id, bool val)
 {
     if (id == proznia) {
         zaworProzni = val;
+        if (prozniaTask && !val) {
+            ui->pbProzniaDone->setEnabled(true);
+        }
     } else if (id == wlot_powietrza) {
         zaworPowietrza = val;
     }
@@ -86,12 +90,13 @@ void NowyTest_3::on_pbSetProznia_clicked()
 {
     ui->pbSetProznia->setDone(true);
     ui->lstep2A->setEnabled(true);
-    ui->pbProzniaDone->setEnabled(true);
+    //ui->pbProzniaDone->setEnabled(true);
+    prozniaTask = true;
 
     ui->pbSetProznia->setDone(true);
     ui->pbSetSkip->setEnabled(false);
     ui->pb100mBar->setEnabled(false);
-    //prozniaTimer.start();
+    prozniaTimer.start();
 
 }
 
@@ -157,7 +162,7 @@ void NowyTest_3::updateProznia()
     double val = getCisnKomory();
 
     qDebug("%s:%d avg = %f cisn = %f  [%f] <%f %f>",__FILE__, __LINE__, avg, val, cisnieWProzni, 0.95*val, 1.05*val);
-    if (0.95*val > avg && 1.05*avg < val && val < cisnieWProzni) {
+    if (0.95*val < avg && 1.05*avg > val && avg < cisnieWProzni) {
         ui->pbProzniaDone->setEnabled(true);
         ui->pbProzniaDone->setDone(true);
         valid = true;
@@ -177,12 +182,14 @@ double NowyTest_3::getAvgCisnienie()
 {
     QMutexLocker lock(&mutexCisnienie);
     double avg = 0.0;
+    /*
     qDebug("%s:%d %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
            __FILE__, __LINE__, prevCisnienie[0], prevCisnienie[1],
            prevCisnienie[3], prevCisnienie[4], prevCisnienie[5],
            prevCisnienie[6], prevCisnienie[7], prevCisnienie[8],
            prevCisnienie[10],prevCisnienie[11], prevCisnienie[12],
            prevCisnienie[13], prevCisnienie[14],prevCisnienie[15]);
+    */
     for (unsigned short id = 0; id < 16 ; ++id) {
         avg += prevCisnienie[id];
     }
@@ -194,12 +201,14 @@ void NowyTest_3::setCisnKomory(double newCisnKomory)
     QMutexLocker lock(&mutexCisnienie);
     cisnKomory = newCisnKomory;
     idPrev = (idPrev + 1) & 0xf;
-    qDebug("%s:%d idprev = %d", __FILE__, __LINE__, idPrev);
+    //qDebug("%s:%d idprev = %d", __FILE__, __LINE__, idPrev);
     prevCisnienie[idPrev] = newCisnKomory;
+    /*
     qDebug("%s:%d %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
            __FILE__, __LINE__, prevCisnienie[0], prevCisnienie[1],
            prevCisnienie[3], prevCisnienie[4], prevCisnienie[5],
            prevCisnienie[6], prevCisnienie[7], prevCisnienie[8],
            prevCisnienie[10],prevCisnienie[11], prevCisnienie[12],
            prevCisnienie[13], prevCisnienie[14],prevCisnienie[15]);
+           */
 }

@@ -48,9 +48,10 @@ private:
     unsigned short task;
     double cisnieWProzni;
     QMutex mutexCisnienie;
-    bool prevCisnienie[16];
+    double prevCisnienie[16];
     unsigned short idPrev;
     QTimer prozniaTimer;
+    bool prozniaTask;
 };
 
 #endif // NOWYTEST_3_H

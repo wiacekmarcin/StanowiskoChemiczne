@@ -20,7 +20,7 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
 
     this->moveToThread(&my_thread);
     m_serial.moveToThread(&my_thread);
-    my_thread.start();
+    //my_thread.start();
     
     //my_thread.command(SerialThread::IDLE);
 }
