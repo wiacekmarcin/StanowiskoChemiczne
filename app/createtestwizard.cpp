@@ -62,10 +62,10 @@ void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust)
 {
 
     NowyTest_2 * page_2 = new NowyTest_2(u, ust.getNrInitializeCycles(), this);
-    connect(this, &CreateTestWizard::zamknietaKomora, page_2, &NowyTest_2::zamknietaKomora);
+    connect(u, &Urzadzenia::digitalAllRead, page_2, &TestPage::readAll);
     addPage(page_2, 2);
 
-    NowyTest_3 * page_3 = new NowyTest_3(ust.getCisnienieProzni(), this);
+    NowyTest_3 * page_3 = new NowyTest_3(u, ust.getCisnienieProzni(), this);
     connect(this, &CreateTestWizard::openZawor, page_3, &NowyTest_3::openZawor);
     connect(this, &CreateTestWizard::cisnienieVal, page_3, &NowyTest_3::cisnienieKomory);
     addPage(page_3, 3);
@@ -74,13 +74,20 @@ void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust)
     addPage(new NowyTest_4(this), 4);
     addPage(new NowyTest_5(this), 5);
     addPage(new NowyTest_6(this), 6);
-    addPage(new NowyTest_7(this), 7);
+
+    NowyTest_7 * page_7 = new NowyTest_7(u, this);
+    connect(u, &Urzadzenia::digitalAllRead, page_7, &TestPage::readAll);
+    addPage(page_7, 7);
+
+
     addPage(new NowyTest_8(this), 8);
     selectedId = 1;
     finished = false;
 
     initializePage();
     connect(u, &Urzadzenia::digitalRead, this, &CreateTestWizard::changeDigitalIn);
+
+    nextPage(1);
 }
 
 void CreateTestWizard::initializePage()
@@ -121,6 +128,7 @@ void CreateTestWizard::addPage(TestPage *page, int id)
 
     connect(t, &TestPageForm::clickButton, this, &CreateTestWizard::nextPage);
     connect(page, &TestPage::completeChanged, this, &CreateTestWizard::checkValidPage);
+    connect(page, &TestPage::updateData, this, &CreateTestWizard::updatePageData);
 }
 
 
@@ -198,50 +206,12 @@ void CreateTestWizard::clickedZawory()
     dlgOtwarte = nullptr;
 }
 
-void CreateTestWizard::zaworProzni(bool open)
+void CreateTestWizard::updatePageData()
 {
-    //emit setDigitalOut(int id, open);
-
-}
-
-void CreateTestWizard::pompaProzniowa(bool start)
-{
-
-}
-
-void CreateTestWizard::mieszadlo(bool start)
-{
-
-}
-
-void CreateTestWizard::zaworPowietrza(bool open)
-{
-
-}
-
-void CreateTestWizard::pomiary(bool start)
-{
-
-}
-
-void CreateTestWizard::pompaMembramowa(bool start)
-{
-
-}
-
-void CreateTestWizard::pomiarSingle(int idCzujka)
-{
-
-}
-
-void CreateTestWizard::pomiarStezen()
-{
-
-}
-
-void CreateTestWizard::wentylator(bool start)
-{
-
+    qDebug("%s:%d --- ", __FILE__, __LINE__);
+    auto currPage = currentPage();
+    if (currPage)
+        currPage->changeData();
 }
 
 void CreateTestWizard::nextPage(int id)
@@ -256,9 +226,9 @@ void CreateTestWizard::nextPage(int id)
     }
     initializePage();
     if (id == 7) {
-        emit zaplon(field("zaplon").toString(), field("zaplonExt").toString());
-        emit triggerCamera(true);
-        emit pomiarCisnienia(1 /*cisnienie*/, 5*60&1000);
+        //emit zaplon(field("zaplon").toString(), field("zaplonExt").toString());
+        //emit triggerCamera(true);
+        //emit pomiarCisnienia(1 /*cisnienie*/, 5*60&1000);
     }
     if (id == 8)
         finished = true;

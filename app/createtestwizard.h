@@ -28,25 +28,20 @@ public:
     QVariant field(const QString & key) const;
     void addPage(TestPage * page, int id);
     TestPage * currentPage() const;
+    void changePage(unsigned short id);
+
     bool checkZawory() const;
     bool getZamknietaKomora() const;
 
 
 public slots:
+    void nextPage(int id);
+
     void changeDigitalIn(int id, bool value);
     void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
 
     void clickedZawory();
-
-    void zaworProzni(bool open);
-    void pompaProzniowa(bool start);
-    void mieszadlo(bool start);
-    void zaworPowietrza(bool open);
-    void pomiary(bool start);
-    void pompaMembramowa(bool start);
-    void pomiarSingle(int idCzujka);
-    void pomiarStezen();
-    void wentylator(bool start);
+    void updatePageData();
 
 
 signals:
@@ -66,7 +61,7 @@ signals:
 
 
 protected slots:
-    void nextPage(int id);
+
     void checkValidPage();
 protected:
 

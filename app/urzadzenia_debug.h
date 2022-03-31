@@ -42,7 +42,9 @@ signals:
 
     //void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
     //void digitalValueChanged(int id, bool high);
-    void writeValues(uint32_t mask);
+    void writeValues(uint16_t mask);
+public slots:
+    void digitalWrite(uint16_t mask);
 
 private slots:
     void updateAnalog();

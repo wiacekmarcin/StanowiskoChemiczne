@@ -1,5 +1,5 @@
 #include "urzadzenia.h"
-
+#include "common.h"
 
 Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     : QObject{parent},
@@ -34,6 +34,24 @@ void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
     serial.setCykle(nrDoz,nrCyckli);
 }
 
+void Urzadzenia::setPompaPowietrza(bool on)
+{
+    nicards.digitalWrite(pompa_powietrza, on);
+    emit digitalWrite(nicards.getDigitalWrite());
+}
+
+void Urzadzenia::setPompaProzniowa(bool on)
+{
+    nicards.digitalWrite(pompa_prozniowa, on);
+    emit digitalWrite(nicards.getDigitalWrite());
+}
+
+void Urzadzenia::setWentylator(bool on)
+{
+    nicards.digitalWrite(wentylator, on);
+    emit digitalWrite(nicards.getDigitalWrite());
+}
+
 void Urzadzenia::ni_error(const QString &s)
 {
     qDebug("ni_error %s", s.toStdString().c_str());
@@ -66,18 +84,24 @@ void Urzadzenia::ni_usb6501(bool open, bool conf)
 
 void Urzadzenia::ni_digitalRead(uint16_t vals)
 {
-    qDebug("%s:%d", __FILE__,__LINE__);
+    qDebug("%s:%d read=%04x", __FILE__,__LINE__, vals);
     uint32_t mask;
     bool bval;
+    emit digitalAllRead(~vals);
     for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
         mask = 0x1 << i;
         bval = ~vals & mask;
         if (bval != m_inputsMap[mask]) {
             m_inputsMap[mask] = bval;
-            qDebug("%s:%d", __FILE__,__LINE__);
+            //qDebug("%s:%d", __FILE__,__LINE__);
             emit digitalRead(mask, bval);
         }
     }
+}
+
+void Urzadzenia::digitalWriteDebug(uint16_t vals)
+{
+    nicards.digitalWriteDebug(vals);
 }
 
 void Urzadzenia::ds_error(const QString &s)

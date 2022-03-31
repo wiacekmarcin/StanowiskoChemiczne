@@ -54,28 +54,30 @@ public:
     void setForm(TestPageForm *value);
     virtual void initializePage();
     virtual bool isComplete() const { return true; }
-    virtual int nextPage() const;
+    virtual int nextPageId() const;
+    virtual void nextPage(short idPage);
+    virtual void changeData() { }
+    virtual void updateWejscia() {};
 
 public slots:
-    virtual void komora(bool){ /*qDebug("%d komora", id); */ } ;
+   void readAll(uint16_t vals);
+
 
 signals:
     void completeChanged();
     void changePage(int id);
-
-    void zaworProzni(bool open);
-    void pompaProzniowa(bool start);
-    void mieszadlo(bool start);
-    void zaworPowietrza(bool open);
-    void pomiary(bool start);
-    void pompaMembramowa(bool start);
-    void pomiarSingle(int idCzujka);
-    void pomiarStezen();
-    void wentylator(bool start);
+    void updateData(uint16_t vals);
 
 
 protected:
     bool valid;
+    bool b_drzwi_prawe, b_wentylacja_lewa, b_proznia, b_pom_stez_1, b_drzwi_lewe, b_wentylacja_prawa, b_wlot_powietrza, b_pom_stez_2, b_pilot;
+
+    bool isZamknietyZawor() {
+        qDebug("%d%d%d%d%d%d%d%d", b_drzwi_prawe, b_wentylacja_lewa, b_proznia, b_pom_stez_1, b_drzwi_lewe, b_wentylacja_prawa, b_wlot_powietrza, b_pom_stez_2);
+        return b_drzwi_prawe && b_wentylacja_lewa && b_proznia && b_pom_stez_1 && b_drzwi_lewe && b_wentylacja_prawa && b_wlot_powietrza && b_pom_stez_2;
+    }
+
 private:
     CreateTestWizard * wiz;
     TestPageForm * form;
@@ -83,6 +85,9 @@ private:
     QString m_title;
     QString m_subTitle;
     QString m_buttonName;
+
+    uint16_t prevVals;
+
 };
 
 #endif // TESTPAGE_H

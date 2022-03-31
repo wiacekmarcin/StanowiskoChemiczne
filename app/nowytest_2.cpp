@@ -1,9 +1,11 @@
 #include "nowytest_2.h"
 #include "ui_nowytest_2.h"
 #include "createtestwizard.h"
-#include <QTimer>
 #include "urzadzenia.h"
 #include "ustawienia.h"
+
+#include <QTimer>
+#include <QMessageBox>
 
 NowyTest_2::NowyTest_2(Urzadzenia * u, unsigned short initC, QWidget *parent) :
     TestPage(parent),
@@ -11,10 +13,6 @@ NowyTest_2::NowyTest_2(Urzadzenia * u, unsigned short initC, QWidget *parent) :
     initCykle(initC)
 {
     ui->setupUi(this);
-    ign = false;
-    czyZamkKom = false;
-    dozownikPodParow = true;
-    showPb6Ok = false;
 
     connect(this, &NowyTest_2::cykleDozownik, u, &Urzadzenia::setCykle);
     connect(u, &Urzadzenia::setCykleDone, this, &NowyTest_2::dozownikDone);
@@ -28,42 +26,20 @@ NowyTest_2::~NowyTest_2()
 
 void NowyTest_2::initializePage()
 {
-    ign = true;
+    m_DozownikPelny = false;
+    pojedynczyCykl = false;
+    ui->frame_2->setVisible(false);
+    ui->frame_3->setVisible(false);
+    ui->frame_4->setVisible(false);
+    ui->frame_5->setVisible(false);
+
+    ui->rb1_yes->setChecked(true);
+    ui->rb4_yes->setChecked(true);
+
     dozownikNr = field("dozownik").toUInt()-1;
-    ui->lQuestion1->setText(QString("Czy uład dozownika %1 jest napełniony").arg(dozownikNr+1));
-    ui->lQuestion3->setText(QString("Czy rozpocząć napełnianie układu dozownika %1").arg(dozownikNr+1));
-    ui->l1Nie->setVisible(false);
-    ui->cbFull1No->setEnabled(true);
-    ui->cbFull1Yes->setEnabled(true);
-    ui->cbFull1No->setChecked(false);
-    ui->cbFull1Yes->setChecked(false);
-
-    isInitFiling(false);
-
-    ui->lQuestion3->setEnabled(false);
-    ui->pb3Run->setEnabled(false);
-    ui->lQuestion4->setEnabled(false);
-    ui->cbFull4No->setChecked(false);
-    ui->cbFull4Yes->setChecked(false);
-    ui->cbFull4No->setEnabled(false);
-    ui->cbFull4Yes->setEnabled(false);
-    ui->l4No->setVisible(false);
-    ui->l4Yes->setVisible(false);
-    ui->pb5Full->setEnabled(false);
-    ui->pb5Run->setEnabled(false);
-    ui->lQuestion6->setEnabled(false);
-    ui->pb6Ok->setEnabled(false);
-
-    ign = false;
-    dozownikFull = false;
+    komoraL = true;
+    komoraP = true;
     emit completeChanged();
-}
-
-void NowyTest_2::isInitFiling(bool yes)
-{
-    ui->frame->setEnabled(yes);
-    ui->lQuestion2->setEnabled(yes);
-    ui->pbQuestion2->setEnabled(yes);
 }
 
 bool NowyTest_2::isComplete() const
@@ -74,187 +50,146 @@ bool NowyTest_2::isComplete() const
     if (!TestPage::isComplete())
         return false;
 
-    if (!dozownikFull)
-        return false;
-
-    if (!dozownikPodParow)
-        return false;
-
-    if (!czyZamkKom)
-        return false;
-
     return true;
 }
 
-void NowyTest_2::on_cbFull1Yes_toggled(bool checked)
+void NowyTest_2::updateWejscia()
 {
-    if (ign)
-        return;
-    ui->cbFull1No->setChecked(!checked);
-    ui->frame->setEnabled(!checked);
-    isInitFiling(!checked);
-    dozownikFull = true;
-    dozownikPodParow = checked;
-    emit completeChanged();
-}
-
-void NowyTest_2::on_cbFull1No_toggled(bool checked)
-{
-    if (ign)
-        return;
-    ui->cbFull1Yes->setChecked(!checked);
-    ui->frame->setEnabled(checked);
-    isInitFiling(checked);
-    dozownikFull = false;
-    dozownikPodParow = !checked;
-    emit completeChanged();
-}
-
-void NowyTest_2::on_pbQuestion2_clicked()
-{
-    ui->cbFull1No->setEnabled(false);
-    ui->cbFull1No->setText("");
-    ui->l1Nie->setVisible(true);
-    ui->cbFull1Yes->setEnabled(false);
-    ui->pbQuestion2->setEnabled(true);
-    ui->pbQuestion2->setDone(true);
-
-    ui->lQuestion3->setEnabled(true);
-    ui->dozowniknr_2->setEnabled(true);
-    ui->pb3Run->setEnabled(true);
-    showPb6Ok = false;
+    if (!komoraL && !b_drzwi_lewe)
+        komoraL = false;
+    if (!komoraP && !b_drzwi_prawe)
+        komoraP = false;
 }
 
 
 
-void NowyTest_2::on_pb3Run_clicked()
-{
-    dozownikPodParow = false;
-    tempFiling = 1;
-    qDebug("%s:%d runCycle", __FILE__,__LINE__);
-    ui->pb3Run->setEnabled(false);
-    //emit cykleDozownik(dozownikNr, initCykle);
-    QTimer::singleShot(1000, this, &NowyTest_2::runDone1);
 
-
-}
 
 void NowyTest_2::dozownikDone(bool succes)
 {
-    if (succes) {
-        if (tempFiling == 1) {
-            ui->lQuestion4->setEnabled(true);
-            ui->cbFull4No->setEnabled(true);
-            ui->cbFull4Yes->setEnabled(true);
-            ui->pb3Run->setDone(true);
-        } else {
-            ui->pb5Run->setEnabled(true);
-            ui->pb5Full->setEnabled(true);
-        }
+    if (!succes) {
+        int ret = QMessageBox::warning(this, tr("Dozownik"),
+                                       tr("Nie udało się zadozować cieczy.\n"
+                                          "Czy chcesz kontynuować?"),
+                                       QMessageBox::Yes | QMessageBox::No,
+                                       QMessageBox::No);
+        if (ret == QMessageBox::No)
+            //emit abort
+            return;
+
+    }
+    if (pojedynczyCykl) {
+        m_DozownikPelny = true;
+        ui->pbOk_4->setEnabled(true);
+        ui->rb4_no->setChecked(false);
+        ui->rb4_yes->setChecked(true);
+
     } else {
-        ui->pb3Run->setEnabled(true);
+        pojedynczyCykl = true;
+        ui->arrow_3->setVisible(false);
+        ui->frame_4->setVisible(true);
     }
 }
 
-void NowyTest_2::zamknietaKomora(bool komora)
-{
-    czyZamkKom = komora;
-    ui->pb6Ok->setEnabled(showPb6Ok && czyZamkKom);
-
-    emit completeChanged();
-
-}
-
-void NowyTest_2::isFilling4(bool full)
-{
-    ui->pb5Full->setEnabled(full);
-    ui->pb5Run->setEnabled(full);
-}
-
-void NowyTest_2::runDone1()
+void NowyTest_2::runDone()
 {
     dozownikDone(true);
 }
 
-void NowyTest_2::runDone2()
+//nowe
+void NowyTest_2::on_rb1_yes_toggled(bool checked)
 {
-    dozownikDone(true);
+    m_DozownikPelny = checked;
 }
 
-void NowyTest_2::on_cbFull4Yes_toggled(bool checked)
+void NowyTest_2::on_rb1_no_toggled(bool checked)
 {
-    if (ign)
-        return;
-    ui->cbFull4No->setChecked(!checked);
-    isFilling4(!checked);
-    dozownikFull = true;
-    if (checked) {
-        ui->lQuestion6->setEnabled(true);
-        showPb6Ok = true;
-        ui->pb6Ok->setEnabled(czyZamkKom);
+    m_DozownikPelny = !checked;
+}
+
+void NowyTest_2::on_pbOk_1_clicked()
+{
+    if (m_DozownikPelny) {
+        nextPage(3);
     } else {
-        ui->lQuestion6->setEnabled(false);
-        showPb6Ok = false;
-        ui->pb6Ok->setEnabled(false);
+        ui->pbOk_1->setEnabled(false);
+        ui->arrow_1->setVisible(false);
+        ui->frame_2->setVisible(true);
+        ui->rb1_no->setEnabled(false);
+        ui->rb1_yes->setEnabled(false);
     }
-    emit completeChanged();
 }
 
-void NowyTest_2::on_cbFull4No_toggled(bool checked)
+void NowyTest_2::on_pbOK_2_clicked()
 {
-    if (ign)
-        return;
-    ui->cbFull4Yes->setChecked(!checked);
-    isFilling4(checked);
-    dozownikFull = false;
-    emit completeChanged();
+    ui->pbOK_2->setEnabled(false);
+    if (komoraL && komoraP) {
+        int ret = QMessageBox::warning(this, tr("Dozownik"),
+                                       tr("Nie wykryto otwartych drzwiczek.\n"
+                                          "Czy chcesz kontynuować?"),
+                                       QMessageBox::Yes | QMessageBox::No,
+                                       QMessageBox::No);
+        if (ret == QMessageBox::No)
+            //emit abort
+            return;
+
+    }
+
+    ui->arrow_2->setVisible(false);
+    ui->frame_3->setVisible(true);
 }
 
-void NowyTest_2::on_pb5Run_clicked()
+void NowyTest_2::on_pbOk_3_clicked()
 {
-    ui->cbFull4No->setEnabled(false);
-    ui->cbFull4No->setText("");
-    ui->l4No->setVisible(true);
-    ui->cbFull4Yes->setEnabled(false);
-    ui->cbFull4Yes->setVisible(false);
-    ui->l4Yes->setVisible(false);
-
-    tempFiling = 2;
-    ui->pb5Run->setEnabled(false);
-    ui->pb5Full->setEnabled(false);
-    //emit cykleDozownik(dozownikNr, 1);
-    QTimer::singleShot(1000, this, &NowyTest_2::runDone2);
+    qDebug("%s:%d runCycle", __FILE__,__LINE__);
+    ui->pbOk_3->setEnabled(false);
+    m_DozownikPelny = true;
+    //emit cykleDozownik(dozownikNr, initCykle);
+    QTimer::singleShot(1000, this, &NowyTest_2::runDone);
 
 }
 
-void NowyTest_2::on_pb5Full_clicked()
+void NowyTest_2::on_rb4_yes_toggled(bool checked)
 {
-    ui->cbFull4No->setEnabled(false);
-    ui->cbFull4No->setText("");
-    ui->l4No->setVisible(true);
-    ui->pb5Run->setEnabled(false);
-    ui->pb5Full->setEnabled(false);
-    dozownikFull = true;
-
-    ui->lQuestion6->setEnabled(true);
-    ui->pb6Ok->setEnabled(czyZamkKom);
+    qDebug("m_DozownikPelny");
+    m_DozownikPelny = checked;
 }
 
-
-
-void NowyTest_2::on_pb6Ok_clicked()
+void NowyTest_2::on_rb4_no_toggled(bool checked)
 {
-    ui->cbFull4No->setEnabled(false);
-    ui->cbFull4No->setText("");
-    ui->cbFull4Yes->setEnabled(false);
-    ui->cbFull4Yes->setText("");
-    ui->l4Yes->setEnabled(false);
-    ui->l4Yes->setVisible(true);
-    ui->pb6Ok->setDone(true);
-    dozownikFull = true;
-    dozownikPodParow = true;
-    emit completeChanged();
+    m_DozownikPelny = !checked;
+}
+
+void NowyTest_2::on_pbOk_4_clicked()
+{
+    if (!m_DozownikPelny) {
+        qDebug("%s:%d runCycle", __FILE__,__LINE__);
+        ui->pbOk_4->setEnabled(false);
+        //emit cykleDozownik(dozownikNr, 1);
+        QTimer::singleShot(1000, this, &NowyTest_2::runDone);
+    } else {
+        ui->pbOk_4->setEnabled(false);
+        ui->arrow_4->setVisible(false);
+        ui->frame_5->setVisible(true);
+        ui->rb4_no->setEnabled(false);
+        ui->rb4_yes->setEnabled(false);
+    }
 }
 
 
+void NowyTest_2::on_pbOk_5_clicked()
+{
+    ui->pbOk_5->setEnabled(false);
+    while (!b_drzwi_lewe && !b_drzwi_prawe) {
+        int ret = QMessageBox::warning(this, tr("Dozownik"),
+                                       tr("Wykryto otwarte drzwi komory.\n"
+                                          "Zamknij je w celu kontynuacji."),
+                                       QMessageBox::Ok | QMessageBox::Abort,
+                                       QMessageBox::Ok);
+        if (ret == QMessageBox::Abort)
+            //emit abort
+            return;
+    }
+    nextPage(3);
+}
 

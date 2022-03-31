@@ -1,6 +1,6 @@
 #include "niusb6210.h"
 
-#ifndef SYMULATOR
+#if NIDEVICE
 
 #include <QDebug>
 

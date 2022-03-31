@@ -71,6 +71,33 @@ void UrzadzeniaDebug::setUrzadzenie(Urzadzenia * u)
 {
     connect(this, &UrzadzeniaDebug::ni_analogValueChanged, u, &Urzadzenia::ni_analogValueChanged);
     connect(this, &UrzadzeniaDebug::ni_digitalRead, u, &Urzadzenia::ni_digitalRead);
+
+    connect(u, &Urzadzenia::digitalWrite, this, &UrzadzeniaDebug::digitalWrite);
+    connect(this, &UrzadzeniaDebug::writeValues, u, &Urzadzenia::digitalWriteDebug);
+}
+
+void UrzadzeniaDebug::digitalWrite(uint16_t mask)
+{
+    QToolButton * tb[] = {ui->tb_out_1, ui->tb_out_2, ui->tb_out_3, ui->tb_out_4, ui->tb_out_5, ui->tb_out_6,
+                          ui->tb_out_7, ui->tb_out_8, ui->tb_out_9, nullptr, ui->tb_out_a};
+
+    DigitalOutWidget * dow[] = {ui->out_1, ui->out_2, ui->out_3, ui->out_4, ui->out_5, ui->out_6,
+                                ui->out_7, ui->out_8, ui->out_9, nullptr, ui->out_a};
+    uint16_t maskIn = 0;
+    DigitalOutWidget * dowOne;
+    QToolButton * tbOne;
+    bool val;
+    for (unsigned int i = 0; i < Ustawienia::maxCzujekCyfrOut; ++i) {
+        maskIn = 0x1 << i;
+        tbOne = tb[i];
+        dowOne = dow[i];
+        if (tbOne == nullptr || dowOne == nullptr)
+            continue;
+        val = (mask & maskIn) ? true : false;
+        tbOne->setText(val ? "H" : "L");
+        dowOne->setLevel(val);
+    }
+    outputs = mask;
 }
 
 void UrzadzeniaDebug::updateAnalog()
@@ -80,7 +107,7 @@ void UrzadzeniaDebug::updateAnalog()
 
 #define AN_SET(N) ui->cz_label_##N->setText(ust.getName(anMap[N-1]))
 #define IN_SET(N) ui->l_in_##N->setText(ust.wejscie(inMap[N]))
-#define OUT_SET(N,M) ui->l_out_##N->setText(ust.wejscie(outMap[M]))
+#define OUT_SET(N,M) ui->l_out_##N->setText(ust.wyjscie(outMap[M]))
 
 void UrzadzeniaDebug::setLabels(const Ustawienia &ust)
 {

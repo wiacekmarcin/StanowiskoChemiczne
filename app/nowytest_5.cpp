@@ -35,25 +35,25 @@ void NowyTest_5::initializePage()
 {
     valid = false;
     emit completeChanged();
-    emit pomiary(true);
+    //emit pomiary(true);
 }
 
 void NowyTest_5::on_pbStep2_clicked()
 {
     ui->pbStep2->setEnabled(false);
-    emit pompaMembramowa(true);
-    emit mieszadlo(true);
+    //emit pompaMembramowa(true);
+    //emit mieszadlo(true);
     QTimer::singleShot(1000, this, &NowyTest_5::runDone2);
 
 }
 
 void NowyTest_5::on_pbStep3_clicked()
 {
-    emit pompaMembramowa(false);
-    emit pomiarSingle(1); //voc
-    emit pomiarSingle(2); //o2
-    emit pomiarSingle(3); //co2
-    emit pomiarStezen();
+    //emit pompaMembramowa(false);
+   // emit pomiarSingle(1); //voc
+    //emit pomiarSingle(2); //o2
+    //emit pomiarSingle(3); //co2
+    //emit pomiarStezen();
     ui->pbStep3->setDone(true);
     valid = true;
     emit completeChanged();

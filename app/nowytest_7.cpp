@@ -1,15 +1,27 @@
 #include "nowytest_7.h"
 #include "ui_nowytest_7.h"
 
-NowyTest_7::NowyTest_7(QWidget *parent) :
+#include "urzadzenia.h"
+#include <QMessageBox>
+
+NowyTest_7::NowyTest_7(Urzadzenia * u, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_7)
 {
     ui->setupUi(this);
-    ui->lStep1A->setEnabled(false);
-    ui->pbStep1OK->setEnabled(false);
     initial = false;
     next = 8;
+    wykrytyZaplon = true;
+
+    if (wykrytyZaplon)
+        ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
+   "<html><head/><body><p>Program <span style=\" font-weight:700;\">wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
+    else
+        ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
+    "<html><head/><body><p>Program <span style=\" font-weight:700;\">nie wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
+
+
+    //ui->pbOK_1->setEnabled(false);
 }
 
 NowyTest_7::~NowyTest_7()
@@ -19,29 +31,9 @@ NowyTest_7::~NowyTest_7()
 
 void NowyTest_7::initializePage()
 {
+    ui->rb1_yes->setChecked(true);
+    ui->frame_1yes->setVisible(false);
     TestPage::initializePage();
-
-    ui->lStep1A->setEnabled(true);
-    ui->pbStep1OK->setEnabled(true);
-    ui->gbBrakZaplonu->setEnabled(false);
-    ui->rbBrakZaplonu->setEnabled(true);
-    ui->rbZaplon->setEnabled(true);
-    ui->rbZaplon->setChecked(true);
-    ui->pbNo->setEnabled(true);
-    ui->pbYes->setEnabled(true);
-    ui->pbBrakZaplonu->setEnabled(true);
-    ui->pbZaplon->setEnabled(true);
-    ui->lbrakZaplonuBrakaplonu->setEnabled(true);
-    ui->lStep1A->setEnabled(true);
-    initial = true;
-    ui->rbBrakZaplonu->setChecked(false);
-    ui->rbZaplon->setChecked(false);
-    initial = false;
-    ui->pbBrakZaplonu->setDone(false);
-    ui->pbNo->setDone(false);
-    ui->pbStep1OK->setDone(false);
-    ui->pbYes->setDone(false);
-    ui->pbZaplon->setDone(false);
 
     valid = false;
     emit completeChanged();
@@ -52,93 +44,61 @@ bool NowyTest_7::isComplete() const
     return TestPage::isComplete() && valid;
 }
 
-int NowyTest_7::nextPage() const
+int NowyTest_7::nextPageId() const
 {
     return next;
 }
 
-void NowyTest_7::on_rbZaplon_clicked()
+void NowyTest_7::changeData()
 {
-    if (initial)
-        return;
-    ui->rbZaplon->setChecked(true);
-    ui->lStep1A->setEnabled(true);
-    ui->pbStep1OK->setEnabled(true);
-    ui->rbBrakZaplonu->setChecked(false);
-    ui->gbBrakZaplonu->setEnabled(false);
-}
-
-void NowyTest_7::on_rbBrakZaplonu_clicked()
-{
-    if (initial)
-        return;
-
-    ui->rbZaplon->setChecked(false);
-    ui->lStep1A->setEnabled(false);
-    ui->pbStep1OK->setEnabled(false);
-    ui->rbBrakZaplonu->setChecked(true);
-    ui->gbBrakZaplonu->setEnabled(true);
-    ui->lbrakZaplonuBrakaplonu->setEnabled(false);
-    ui->pbNo->setEnabled(false);
-    ui->pbYes->setEnabled(false);
-}
-
-void NowyTest_7::on_pbStep1OK_clicked()
-{
-    setField(QString("brakzaplonu"),QVariant::fromValue(false));
-    ui->rbBrakZaplonu->setEnabled(false);
-    emit wentylator(true);
-    ui->pbStep1OK->setDone(true);
-    valid = true;
-    emit completeChanged();
-    next = 8;
+    qDebug("%s:%d %d-%d", __FILE__, __LINE__, b_wentylacja_prawa, b_wentylacja_lewa);
 }
 
 
-void NowyTest_7::on_pbBrakZaplonu_clicked()
+void NowyTest_7::on_pbOK_1_clicked()
 {
-    ui->pbBrakZaplonu->setDone(true);
-    ui->rbZaplon->setChecked(false);
-    ui->lStep1A->setEnabled(false);
-    ui->pbStep1OK->setEnabled(false);
-    ui->rbBrakZaplonu->setChecked(true);
-    ui->rbZaplon->setEnabled(false);
-    ui->pbZaplon->setEnabled(false);
-    ui->pbNo->setEnabled(true);
-    ui->pbYes->setEnabled(true);
-    ui->lbrakZaplonuBrakaplonu->setEnabled(true);
+    if (wykrytyZaplon && wybranyZaplon) {
+        ui->frame_1yes->setVisible(true);
+        ui->arrow_1->setVisible(false);
+    }
 }
 
-void NowyTest_7::on_pbYes_clicked()
+void NowyTest_7::on_rb1_yes_toggled(bool checked)
 {
-    //emit changePage(6-1);
-    ui->pbYes->setDone(true);
-    ui->pbNo->setEnabled(false);
-    valid = true;
-    next = 6;
-    emit completeChanged();
+    if (wykrytyZaplon)
+        wybranyZaplon = checked;
+    else
+        wybranyZaplon = !checked;
 }
 
-void NowyTest_7::on_pbNo_clicked()
+void NowyTest_7::on_rb1_no_toggled(bool checked)
 {
-    //emit changePage(8-1);
-    setField(QString("brakzaplonu"),QVariant::fromValue(true));
-    ui->pbNo->setDone(true);
-    ui->pbYes->setEnabled(false);
-    valid = true;
-    next = 8;
-    emit completeChanged();
+    if (!wykrytyZaplon)
+        wybranyZaplon = checked;
+    else
+        wybranyZaplon = !checked;
 }
 
-void NowyTest_7::on_pbZaplon_clicked()
+void NowyTest_7::on_pbOK_2yes_clicked()
 {
-    valid = true;
-    next = 7;
-    ui->rbBrakZaplonu->setEnabled(false);
-    ui->rbZaplon->setEnabled(false);
-    ui->lStep1A->setEnabled(false);
-    ui->pbStep1OK->setEnabled(false);
-    ui->pbZaplon->setDone(true);
-    ui->pbBrakZaplonu->setEnabled(false);
-    emit completeChanged();
+
+   while (!(!b_wentylacja_lewa && !b_wentylacja_prawa &&
+          b_drzwi_prawe && b_proznia && b_pom_stez_1 && b_drzwi_lewe &&
+          b_wlot_powietrza && b_pom_stez_2)) {
+       qDebug("--------------%d %d", b_wentylacja_lewa, wentylacja_prawa);
+        QMessageBox msgBox;
+        msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
+        msgBox.setInformativeText("Zawory A i B powinny być otwarte a pozostałe zawory powinny być zamknięte");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        //msgBox.setDefaultButton(QMessageBox::Save);
+        int ret = msgBox.exec();
+
+        delay(1000);
+    }
 }
+
+
+
+
+
+

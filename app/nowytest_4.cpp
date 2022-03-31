@@ -56,14 +56,14 @@ void NowyTest_4::on_pbStep2OK_clicked()
 void NowyTest_4::on_pbStep3OK_clicked()
 {
     ui->pbStep3OK->setEnabled(false);
-    emit mieszadlo(true);
+    //emit mieszadlo(true);
     QTimer::singleShot(1000, this, &NowyTest_4::runDone3);
 }
 
 void NowyTest_4::on_pbStep4OK_clicked()
 {
     ui->pbStep4OK->setEnabled(false);
-    emit zaworPowietrza(true);
+    //emit zaworPowietrza(true);
     QTimer::singleShot(1000, this, &NowyTest_4::runDone4);
 }
 

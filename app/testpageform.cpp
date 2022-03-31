@@ -68,7 +68,7 @@ void TestPageForm::showZaworWarning(bool show)
 
 void TestPageForm::click()
 {
-    emit clickButton(widget()->nextPage());
+    emit clickButton(widget()->nextPageId());
 }
 
 TestPageForm::~TestPageForm()

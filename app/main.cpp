@@ -6,7 +6,7 @@
 #include "ustawienia.h"
 #include "urzadzenia.h"
 
-#define DEBUG_DEVICE 1
+
 #ifdef DEBUG_DEVICE
 #include "urzadzenia_debug.h"
 #endif
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     Ustawienia u;
     Urzadzenia urzadz(u);
 
-#ifdef DEBUG_DEVICE
+#if SYMULATOR
     UrzadzeniaDebug * dlg = new UrzadzeniaDebug;
     dlg->setLabels(u);
     dlg->setUrzadzenie(&urzadz);

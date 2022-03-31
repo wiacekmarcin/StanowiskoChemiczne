@@ -4,6 +4,7 @@
         <file>red.png</file>
         <file>warning_small.png</file>
         <file>yellow.png</file>
+        <file>arrow.png</file>
     </qresource>
     <qresource prefix="/zawory" lang="pl">
         <file>zawor.png</file>

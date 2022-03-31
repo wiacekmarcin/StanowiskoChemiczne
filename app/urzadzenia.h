@@ -14,8 +14,14 @@ class Urzadzenia : public QObject
 public:
     explicit Urzadzenia(Ustawienia & ustawiania, QObject *parent = nullptr);
 
+
+    void setPompaPowietrza(bool on);
+    void setPompaProzniowa(bool on);
+    void setWentylator(bool on);
+
 public slots:
     void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
+
 
 signals:
     void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
@@ -23,6 +29,9 @@ signals:
     void usb6501(bool open, bool conf);
     void dozownik(bool open, bool conf);
     void digitalRead(uint16_t vals, bool open);
+    void digitalAllRead(uint16_t vals);
+
+    void digitalWrite(uint16_t vals);
 
     void connDozownik(bool);
     void resetDone(bool);
@@ -35,6 +44,8 @@ signals:
 public slots:
     void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
     void ni_digitalRead(uint16_t vals);
+
+    void digitalWriteDebug(uint16_t vals);
 
 private slots:
 
