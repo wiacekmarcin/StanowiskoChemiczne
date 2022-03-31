@@ -54,70 +54,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="frWarning">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="likon">
-        <property name="minimumSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="ikony.qrc">:/status/warning_small.png</pixmap>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="lWarning">
-        <property name="text">
-         <string>Nie wszystkie zawory kulowe zostały zamknięte</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbZobaczOtwarteZawory">
-        <property name="text">
-         <string>Zobacz</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QFrame" name="frTestPage">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -176,12 +112,24 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QPushButton" name="pbMieszadloOn">
+       <property name="text">
+        <string>Mieszadło ON</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbWiatrakOn">
+       <property name="text">
+        <string>Wiatrak ON</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="ikony.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

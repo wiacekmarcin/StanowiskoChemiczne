@@ -195,13 +195,13 @@ FUN_DIGITAL_CHANGE(9)
 
 
 
-void UrzadzeniaDebug::changeAnalog(unsigned short aId, double val, bool device)
+void UrzadzeniaDebug::changeAnalog(unsigned short aId, double val, bool /*device*/)
 {
     anValue[aId] = val;
     emit ni_analogValueChanged(anValue[0], anValue[1], anValue[2], anValue[3], anValue[4], anValue[5], anValue[6]);
 }
 
-void UrzadzeniaDebug::digitalChange(int id, bool val, bool device)
+void UrzadzeniaDebug::digitalChange(int id, bool val, bool /*device*/)
 {
     uint16_t prev = inputs;
     if (val) {

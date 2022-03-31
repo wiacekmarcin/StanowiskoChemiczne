@@ -540,7 +540,7 @@ void SerialThread::run()
         qDebug("%s:%d zadanie %d", __FILE__,__LINE__, zadanie);
         switch(zadanie) {
         case IDLE:
-            qDebug("conn=%d conf=%d read",sd->m_connected,sd->m_configured, sd->readError);
+            qDebug("conn=%d conf=%d read=%d",sd->m_connected,sd->m_configured, sd->readError);
             if (sd->readError) {
                 if (nrTrying++ > 5) {
                     nrTrying = 0;
@@ -591,6 +591,7 @@ void SerialThread::run()
             qDebug("%s:%d zadanie CONFIGURE ", __FILE__,__LINE__);
             sd->m_configured = sd->configureDeviceJob();
             zadanie = IDLE;
+            break;
 
         case SET_PARAMS:
             qDebug("%s:%d zadanie SET_PARAMS ", __FILE__,__LINE__);
@@ -603,6 +604,7 @@ void SerialThread::run()
             sd->setHomeJob();
             zadanie = IDLE;
             break;
+
         case SET_CYCLE:
             qDebug("%s:%d zadanie SET_CYCLE ", __FILE__,__LINE__);
             sd->setCykleJob();

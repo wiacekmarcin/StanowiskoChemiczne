@@ -35,12 +35,12 @@ public:
     void setTitle(const QString & title);
     void setSubTitle(const QString & title);
     void setButtonName(const QString & name);
+    void showVisibleButton(bool value);
     void isComplete();
     void initializePage();
     QFrame * widgetFrame();
 
     void setCreateTestWizard(CreateTestWizard * wiz);
-    void showZaworWarning(bool show);
 
 protected slots:
     void click();

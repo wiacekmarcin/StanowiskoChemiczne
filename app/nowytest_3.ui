@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>640</width>
-    <height>169</height>
+    <height>231</height>
    </rect>
   </property>
   <property name="title" stdset="0">
@@ -179,8 +179,8 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QFrame" name="frame_4">
+   <item row="4" column="1">
+    <widget class="QFrame" name="frame_5">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -189,6 +189,59 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
+       <widget class="QLabel" name="arrow_5">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="text5">
+        <property name="text">
+         <string>Uzyskano podciśnienie [CISNIENIE] mBar .</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbRun_5">
+        <property name="text">
+         <string>Uruchom pompę </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbOk_5">
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QFrame" name="frame_4">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
        <widget class="QLabel" name="arrow_4">
         <property name="text">
          <string>*</string>
@@ -196,14 +249,49 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="txt_4">
         <property name="text">
-         <string>Uzyskano podciśnienie :</string>
+         <string>Ciśnienie zadane:</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_4">
+       <widget class="QLabel" name="cisnienie_zad">
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt_4_2">
+        <property name="text">
+         <string>Aktualne cisnienie :</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="act_cisnienie">
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Różnica %</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="delta_percent">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>

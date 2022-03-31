@@ -8,6 +8,15 @@ TestPage::TestPage(QWidget *parent) :
 {
     prevVals = 0;
     b_drzwi_prawe = b_wentylacja_lewa = b_proznia = b_pom_stez_1 = b_drzwi_lewe = b_wentylacja_prawa = b_wlot_powietrza = b_pom_stez_2 = b_pilot = false;
+    restricted = false;
+    restrictedMap[drzwi_prawe] = true;
+    restrictedMap[drzwi_lewe] = true;
+    restrictedMap[wentylacja_prawa] = true;
+    restrictedMap[wentylacja_lewa] = true;
+    restrictedMap[proznia] = true;
+    restrictedMap[wlot_powietrza] = true;
+    restrictedMap[pom_stez_1] = true;
+    restrictedMap[pom_stez_2] = true;
 }
 
 TestPage::~TestPage()
@@ -84,6 +93,12 @@ void TestPage::setButtonName(const QString &t)
     m_buttonName = t;
 }
 
+void TestPage::showButton(bool value)
+{
+    if (form)
+        form->showVisibleButton(value);
+}
+
 TestPageForm *TestPage::getForm() const
 {
     return form;
@@ -131,6 +146,11 @@ void TestPage::readAll(uint16_t vals)
         emit updateData(vals);
     }
     prevVals = vals;
+    if (restricted) {
+        for (QMap<uint16_t, bool>::const_iterator it = restrictedMap.begin(); it != restrictedMap.end(); ++it) {
+
+        }
+    }
 }
 
 

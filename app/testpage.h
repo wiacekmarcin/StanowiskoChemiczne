@@ -78,6 +78,7 @@ protected:
         return b_drzwi_prawe && b_wentylacja_lewa && b_proznia && b_pom_stez_1 && b_drzwi_lewe && b_wentylacja_prawa && b_wlot_powietrza && b_pom_stez_2;
     }
 
+    void showButton(bool value);
 private:
     CreateTestWizard * wiz;
     TestPageForm * form;
@@ -85,7 +86,8 @@ private:
     QString m_title;
     QString m_subTitle;
     QString m_buttonName;
-
+    bool restricted;
+    QMap<uint16_t, bool> restrictedMap;
     uint16_t prevVals;
 
 };

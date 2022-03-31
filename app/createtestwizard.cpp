@@ -242,8 +242,7 @@ void CreateTestWizard::checkValidPage()
 
 void CreateTestWizard::showWarning(bool value)
 {
-    if (pages.contains(selectedId))
-        pages[selectedId]->showZaworWarning(value);
+
 }
 
 bool CreateTestWizard::getZamknietaKomora() const

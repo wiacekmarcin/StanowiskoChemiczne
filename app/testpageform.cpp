@@ -11,7 +11,6 @@ TestPageForm::TestPageForm(QWidget *parent) :
     ui->setupUi(this);
     ui->subtitle->setVisible(false);
     ui->title->setVisible(false);
-    ui->frWarning->setVisible(false);
     connect(ui->pbNext, &QPushButton::clicked, this, &TestPageForm::click);
 }
 
@@ -39,6 +38,11 @@ void TestPageForm::setButtonName(const QString &name)
     ui->pbNext->setVisible(!name.isEmpty());
 }
 
+void TestPageForm::showVisibleButton(bool value)
+{
+    ui->pbNext->setVisible(value);
+}
+
 void TestPageForm::isComplete()
 {
     disableButton(!widget()->isComplete());
@@ -46,7 +50,6 @@ void TestPageForm::isComplete()
 
 void TestPageForm::initializePage()
 {
-    ui->frWarning->setVisible(wizard->checkZawory());
     widget()->initializePage();
 }
 
@@ -58,12 +61,6 @@ QFrame *TestPageForm::widgetFrame()
 void TestPageForm::setCreateTestWizard(CreateTestWizard *wiz)
 {
     wizard = wiz;
-    connect(ui->pbZobaczOtwarteZawory, &QPushButton::clicked, wiz, &CreateTestWizard::clickedZawory);
-}
-
-void TestPageForm::showZaworWarning(bool show)
-{
-    ui->frWarning->setVisible(show);
 }
 
 void TestPageForm::click()

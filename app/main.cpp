@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     Ustawienia u;
     Urzadzenia urzadz(u);
 
-#if SYMULATOR
+#if GUI_DEBUG
     UrzadzeniaDebug * dlg = new UrzadzeniaDebug;
     dlg->setLabels(u);
     dlg->setUrzadzenie(&urzadz);

@@ -10,11 +10,11 @@
 #include "niusb6501.h"
 
 
-#if !NIDEVICE
+#if SYMULATOR
 
 class TestAnalog {
 public:
-    bool configure(const QString &deviceString) { return true; }
+    bool configure(const QString &) { return true; }
     bool readValue(float & val1, float& val2, float& val3, float& val4, float& val5, float& val6, float& val7){
         val1 = val2 = val3 = val4 = val5 = val6 = val7 = 0; return true;
     }
@@ -24,9 +24,9 @@ public:
 
 class TestDigital {
 public:
-    bool configure(const QString &readDevice, const QString &writeDevice) {return true; }
+    bool configure(const QString &, const QString &) {return true; }
     bool readValue(uint16_t & dataRead) { dataRead = 0; return true; }
-    bool writeValue(const uint16_t& dataWrite) { return true; }
+    bool writeValue(const uint16_t&) { return true; }
     std::string errStr() { return ""; }
     bool isConnected() { return true; }
 };
@@ -73,7 +73,7 @@ private:
     uint16_t maskOutput;
 
     QMutex m_mutex;
-#if NIDEVICE
+#if !SYMULATOR
     NIDAQMxUSB6210 analog;
     NIDAQMxUSB6501 digital;
 #else

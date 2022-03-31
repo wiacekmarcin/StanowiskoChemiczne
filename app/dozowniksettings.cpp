@@ -170,7 +170,7 @@ void DozownikSettings::dozownik(bool conn)
      debug(QString("Open Dozownik %1").arg(conn));
 }
 
-void DozownikSettings::errorSerial(QString  err)
+void DozownikSettings::errorSerial(QString  /*err*/)
 {
     //ui->errorTxt->appendPlainText(err);
 }
@@ -252,7 +252,7 @@ void DozownikSettings::setBigSteps(unsigned long steps) {
 
 void DozownikSettings::nastepnyCykl()
 {
-    qDebug("%s:%d nastepny cykl %d", __FILE__, __LINE__, restSteps);
+    qDebug("%s:%d nastepny cykl %lld", __FILE__, __LINE__, restSteps);
 
     if (restSteps > 0) {
         runTest = true;

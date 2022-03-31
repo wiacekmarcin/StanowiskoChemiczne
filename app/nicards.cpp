@@ -1,8 +1,9 @@
 #include "nicards.h"
 
 
-#ifndef SYMULATOR
+#if  !SYMULATOR
 #include "NIDAQmx.h"
+#endif
 
 #include "ustawienia.h"
 
@@ -93,6 +94,7 @@ void NICards::run()
 
 //find cards
 void NICards::find() {
+#if !SYMULATOR
     emit usb6210(false, false);
     emit usb6501(false, false);
     qDebug("%s:%d find", __FILE__, __LINE__);
@@ -140,6 +142,7 @@ void NICards::find() {
             digitalConfigure();
         }
     }
+#endif
 }
 
 void NICards::analogConfigure()
@@ -162,6 +165,7 @@ void NICards::digitalConfigure()
 
 void NICards::resetDevice(bool analog, bool digital)
 {
+#if !SYMULATOR
     int32 errCode;
     if (analog) {
         emit debug(QString("Reset i testy karty analogowej"));
@@ -183,6 +187,10 @@ void NICards::resetDevice(bool analog, bool digital)
             digConf = false;
         }
     }
+#else
+    (void)analog;
+    (void)digital;
+#endif
 }
 
 void NICards::readAnalog()
@@ -216,4 +224,3 @@ void NICards::readDigital()
     emit digitalRead(~val & 0x1ff);
 }
 
-#endif

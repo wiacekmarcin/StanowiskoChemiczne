@@ -224,7 +224,7 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column *
     }
 }
 
-void GlowneOkno::wybierzCzujke(int id)
+void GlowneOkno::wybierzCzujke(int /*id*/)
 {
     //qDebug("%d", id);
 }
@@ -249,6 +249,14 @@ void GlowneOkno::dozownikTest()
 
 void GlowneOkno::valueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8)
 {
+    (void)val1;
+    (void)val2;
+    (void)val3;
+    (void)val4;
+    (void)val5;
+    (void)val6;
+    (void)val7;
+    (void)val8;
     //emit analogValueChanged(id, mv);
 }
 

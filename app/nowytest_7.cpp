@@ -4,7 +4,7 @@
 #include "urzadzenia.h"
 #include <QMessageBox>
 
-NowyTest_7::NowyTest_7(Urzadzenia * u, QWidget *parent) :
+NowyTest_7::NowyTest_7(Urzadzenia * /*u*/, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_7)
 {
@@ -91,7 +91,7 @@ void NowyTest_7::on_pbOK_2yes_clicked()
         msgBox.setInformativeText("Zawory A i B powinny być otwarte a pozostałe zawory powinny być zamknięte");
         msgBox.setStandardButtons(QMessageBox::Ok);
         //msgBox.setDefaultButton(QMessageBox::Save);
-        int ret = msgBox.exec();
+        //int ret = msgBox.exec();
 
         delay(1000);
     }

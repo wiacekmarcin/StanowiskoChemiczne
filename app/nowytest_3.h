@@ -34,6 +34,16 @@ private slots:
 
     void on_pbOk_1_clicked();
 
+    void on_pb_Skip2_clicked();
+
+    void on_pbUstaw_2_clicked();
+
+    void on_pbOk_3_clicked();
+
+    void on_pbOk_5_clicked();
+
+    void on_pbRun_5_clicked();
+
 protected:
     double getCisnKomory();
     void setCisnKomory(double newCisnKomory);
@@ -55,6 +65,10 @@ private:
     double wybrCisnienie;
     bool pomp_powietrza;
     Urzadzenia * urzadzenia;
+
+    uint32_t timePompaProzniowa;
+    double cisnienie_zad;
+    double ustaloneCisnienie;
 };
 
 #endif // NOWYTEST_3_H

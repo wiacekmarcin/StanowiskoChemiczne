@@ -36,20 +36,32 @@ void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 
 void Urzadzenia::setPompaPowietrza(bool on)
 {
+#if !SYMULATOR
     nicards.digitalWrite(pompa_powietrza, on);
     emit digitalWrite(nicards.getDigitalWrite());
+#else
+    (void)on;
+#endif
 }
 
 void Urzadzenia::setPompaProzniowa(bool on)
 {
+#if !SYMULATOR
     nicards.digitalWrite(pompa_prozniowa, on);
     emit digitalWrite(nicards.getDigitalWrite());
+#else
+    (void)on;
+#endif
 }
 
 void Urzadzenia::setWentylator(bool on)
 {
+#if !SYMULATOR
     nicards.digitalWrite(wentylator, on);
     emit digitalWrite(nicards.getDigitalWrite());
+#else
+    (void)on;
+#endif
 }
 
 void Urzadzenia::ni_error(const QString &s)
@@ -101,7 +113,11 @@ void Urzadzenia::ni_digitalRead(uint16_t vals)
 
 void Urzadzenia::digitalWriteDebug(uint16_t vals)
 {
+#if !SYMULATOR
     nicards.digitalWriteDebug(vals);
+#else
+    (void)vals;
+#endif
 }
 
 void Urzadzenia::ds_error(const QString &s)

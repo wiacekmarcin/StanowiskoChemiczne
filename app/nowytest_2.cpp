@@ -39,6 +39,8 @@ void NowyTest_2::initializePage()
     dozownikNr = field("dozownik").toUInt()-1;
     komoraL = true;
     komoraP = true;
+
+    showButton(false);
     emit completeChanged();
 }
 

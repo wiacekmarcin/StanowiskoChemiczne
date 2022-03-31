@@ -46,12 +46,10 @@ private slots:
 
 private:
 
-
+    Ui::NowyTest_2 *ui;
     short dozownikNr;
     unsigned short initCykle;
 
-
-    Ui::NowyTest_2 *ui;
     bool m_DozownikPelny;
     bool pojedynczyCykl;
     bool komoraL;
