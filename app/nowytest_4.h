@@ -26,7 +26,10 @@ private slots:
     void runDone3();
     void runDone4();
 
+    void on_pbOk_1_clicked();
+
 private:
     Ui::NowyTest_4 *ui;
+    QString infoString;
 };
 #endif // NOWYTEST_4_H
