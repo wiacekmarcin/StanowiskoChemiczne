@@ -3,6 +3,7 @@
 #include "createtestwizard.h"
 
 #include <QTimer>
+#include <QMessageBox>
 
 NowyTest_5::NowyTest_5(QWidget *parent) :
     TestPage(parent),
@@ -11,8 +12,6 @@ NowyTest_5::NowyTest_5(QWidget *parent) :
     ui->setupUi(this);
 
     valid = false;
-    ui->pbStep3->setEnabled(false);
-    ui->lStep3->setEnabled(false);
 }
 
 NowyTest_5::~NowyTest_5()
@@ -35,35 +34,49 @@ void NowyTest_5::initializePage()
 {
     valid = false;
     emit completeChanged();
+    ui->frame_2->setVisible(false);
+    ui->arrow_1->setVisible(true);
+    ui->pbOK_1->setEnabled(true);
+    ui->pbOK_2->setEnabled(true);
     //emit pomiary(true);
 }
 
-void NowyTest_5::on_pbStep2_clicked()
+void NowyTest_5::runDone()
 {
-    ui->pbStep2->setEnabled(false);
+    ui->pbOK_2->setEnabled(true);
+    //ui->pbStep2->setEnabled(true);
+    //ui->pbStep2->setDone(true);
+    //ui->lStep3->setEnabled(true);
+    //ui->pbStep3->setEnabled(true);
+}
+
+
+void NowyTest_5::on_pbOK_1_clicked()
+{
+    ui->pbOK_1->setEnabled(false);
+    if (!isZamknietyZawor()) {
+            QMessageBox msgBox;
+            msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
+            msgBox.setInformativeText("Wszystkie zawory X i Y powinny byc otwarte. \n Czy chcesz kontynuować");
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::No);
+            int ret = msgBox.exec();
+            if (ret == QMessageBox::No)
+                return;
+    }
+    ui->arrow_1->setVisible(false);
+    ui->frame_2->setVisible(true);
+    ui->pbOK_2->setEnabled(false);
+
+    //emit pomiary(true);
     //emit pompaMembramowa(true);
     //emit mieszadlo(true);
-    QTimer::singleShot(1000, this, &NowyTest_5::runDone2);
-
+    QTimer::singleShot(2000, this, &NowyTest_5::runDone);
 }
 
-void NowyTest_5::on_pbStep3_clicked()
-{
-    //emit pompaMembramowa(false);
-   // emit pomiarSingle(1); //voc
-    //emit pomiarSingle(2); //o2
-    //emit pomiarSingle(3); //co2
-    //emit pomiarStezen();
-    ui->pbStep3->setDone(true);
-    valid = true;
-    emit completeChanged();
-}
 
-void NowyTest_5::runDone2()
+void NowyTest_5::on_pbOK_2_clicked()
 {
-    ui->pbStep2->setEnabled(true);
-    ui->pbStep2->setDone(true);
-    ui->lStep3->setEnabled(true);
-    ui->pbStep3->setEnabled(true);
+    nextPage(nextPageId());
 }
 

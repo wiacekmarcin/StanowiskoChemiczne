@@ -22,7 +22,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -96,33 +95,6 @@
       <widget class="QPushButton" name="pbNext">
        <property name="text">
         <string>Dalej</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbMieszadloOn">
-       <property name="text">
-        <string>Mieszadło ON</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbWiatrakOn">
-       <property name="text">
-        <string>Wiatrak ON</string>
        </property>
       </widget>
      </item>

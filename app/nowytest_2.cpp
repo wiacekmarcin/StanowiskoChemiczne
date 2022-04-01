@@ -112,7 +112,7 @@ void NowyTest_2::on_rb1_no_toggled(bool checked)
 void NowyTest_2::on_pbOk_1_clicked()
 {
     if (m_DozownikPelny) {
-        nextPage(3);
+        nextPage(nextPageId());
     } else {
         ui->pbOk_1->setEnabled(false);
         ui->arrow_1->setVisible(false);
@@ -192,6 +192,6 @@ void NowyTest_2::on_pbOk_5_clicked()
             //emit abort
             return;
     }
-    nextPage(3);
+    nextPage(nextPageId());
 }
 

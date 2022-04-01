@@ -4,6 +4,7 @@
 #include "createtestwizard.h"
 #include "testpage.h"
 #include <QTimer>
+#include <QMessageBox>
 
 NowyTest_4::NowyTest_4(QWidget *parent) :
     TestPage(parent),
@@ -23,14 +24,15 @@ NowyTest_4::NowyTest_4(QWidget *parent) :
 
 void NowyTest_4::initializePage()
 {
-    //ui->lciecz->setText(field("ciecz").toString());
-    //ui->ldozownik->setText(field("dozownik").toString());
-    //ui->lobjetosc->setText(field("objetosc").toString());
     infoString.replace("[CIECZ]", field("ciecz").toString());
     infoString.replace("[DOZOWNIK]", field("dozownik").toString());
     infoString.replace("[OBJETOSC]", field("objetosc").toString());
     ui->text_1->setTextFormat(Qt::RichText);
     ui->text_1->setText(infoString);
+    ui->arrow_1->setVisible(true);
+    ui->arrow_2->setVisible(true);
+    ui->frame_2->setVisible(false);
+    ui->frame_3->setVisible(false);
     showButton(false);
     valid = false;
     emit completeChanged();
@@ -52,54 +54,19 @@ bool NowyTest_4::isComplete() const
     return valid;
 }
 
-void NowyTest_4::on_pbStep2OK_clicked()
+void NowyTest_4::dozownikDone(bool success)
 {
-    //ui->pbStep2OK->setEnabled(false);
-    //emit dozownik(field("dozownik").toInt(), field("objetosc").toInt());
-    QTimer::singleShot(1000, this, &NowyTest_4::runDone2);
-}
-
-void NowyTest_4::on_pbStep3OK_clicked()
-{
-    //ui->pbStep3OK->setEnabled(false);
-    //emit mieszadlo(true);
-    QTimer::singleShot(1000, this, &NowyTest_4::runDone3);
-}
-
-void NowyTest_4::on_pbStep4OK_clicked()
-{
-    //ui->pbStep4OK->setEnabled(false);
-    //emit zaworPowietrza(true);
-    QTimer::singleShot(1000, this, &NowyTest_4::runDone4);
-}
-
-void NowyTest_4::runDone2()
-{
-    //ui->pbStep2OK->setEnabled(true);
-    //ui->pbStep2OK->setDone(true);
-    //ui->pbStep3OK->setEnabled(true);
-    //ui->lStep3->setEnabled(true);
-}
-
-void NowyTest_4::runDone3()
-{
-    //ui->pbStep3OK->setEnabled(true);
-    //ui->pbStep3OK->setDone(true);
-    if (field("zaworPompy").toBool()) {
-        //ui->lStep4->setEnabled(true);
-        //ui->pbStep4OK->setEnabled(true);
-    } else {
-        valid = true;
-        emit completeChanged();
+    if (!success) {
+        QMessageBox msgBox;
+        msgBox.setText("Nie udało się zadozować cieczy.");
+        msgBox.setInformativeText("Czy chcesz kontynuować");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        int ret = msgBox.exec();
+        if (ret == QMessageBox::No)
+            return;
     }
-}
 
-void NowyTest_4::runDone4()
-{
-    //ui->pbStep4OK->setEnabled(true);
-    //ui->pbStep4OK->setDone(true);
-    valid = true;
-    emit completeChanged();
 }
 
 void NowyTest_4::on_pbOk_1_clicked()
@@ -108,4 +75,22 @@ void NowyTest_4::on_pbOk_1_clicked()
     ui->frame_2->setVisible(true);
     ui->pbOk_1->setEnabled(false);
     //emit dozownik(field("dozownik").toInt(), field("objetosc").toInt());
+    QTimer::singleShot(1000, this, &NowyTest_4::runDone);
 }
+
+void NowyTest_4::on_pbOk_2_clicked()
+{
+    if (field("pompa_prozniowa").toBool()) {
+        ui->arrow_2->setVisible(false);
+        ui->frame_3->setVisible(true);
+        ui->pbOk_3->setEnabled(false);
+    } else {
+        nextPage(nextPageId());
+    }
+}
+
+void NowyTest_4::runDone()
+{
+    dozownikDone(true);
+}
+

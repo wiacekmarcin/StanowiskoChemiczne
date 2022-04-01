@@ -18,16 +18,10 @@ public:
     virtual void initializePage() override;
 
 private slots:
-    void on_pbStep2OK_clicked();
-    void on_pbStep3OK_clicked();
-    void on_pbStep4OK_clicked();
-
-    void runDone2();
-    void runDone3();
-    void runDone4();
-
+    void dozownikDone(bool success);
     void on_pbOk_1_clicked();
-
+    void on_pbOk_2_clicked();
+    void runDone();
 private:
     Ui::NowyTest_4 *ui;
     QString infoString;

@@ -87,7 +87,7 @@ void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust)
     initializePage();
     connect(u, &Urzadzenia::digitalRead, this, &CreateTestWizard::changeDigitalIn);
 
-    nextPage(4);
+    nextPage(5);
 }
 
 void CreateTestWizard::initializePage()
