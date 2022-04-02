@@ -39,7 +39,6 @@ SOURCES += \
     czujnikanalogowyustawieniaokno.cpp \
     digitaloutwidget.cpp \
     dozowniksettings.cpp \
-    frame.cpp \
     main.cpp \
     glowneokno.cpp \
     nicards.cpp \
@@ -52,12 +51,9 @@ SOURCES += \
     serialmessage.cpp \
     stanczujnika.cpp \
     stanwyjscia.cpp \
-    urzadzenia_debug.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
     videowidget.cpp \
-    sygnalanalparam.cpp \
-    wejsciaanalogowe.cpp \
     createtestwizard.cpp \
     projectitem.cpp \
     testpage.cpp \
@@ -72,8 +68,6 @@ SOURCES += \
     nowytest_6.cpp \
     nowytest_7.cpp \
     nowytest_8.cpp \
-    dispushbutton.cpp \
-    highlowdigitalwidget.cpp \
     urzadzenia.cpp \
     niusb6210.cpp \
     niusb6501.cpp \
@@ -88,7 +82,6 @@ HEADERS += \
     czujnikanalogowyustawieniaokno.h \
     digitaloutwidget.h \
     dozowniksettings.h \
-    frame.h \
     glowneokno.h \
     nicards.h \
     nowyprojectdlg.h \
@@ -100,12 +93,9 @@ HEADERS += \
     serialmessage.h \
     stanczujnika.h \
     stanwyjscia.h \
-    urzadzenia_debug.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \
     videowidget.h \
-    sygnalanalparam.h \
-    wejsciaanalogowe.h \
     createtestwizard.h \
     projectitem.h \
     testpage.h \
@@ -120,8 +110,6 @@ HEADERS += \
     nowytest_6.h \
     nowytest_7.h \
     nowytest_8.h \
-    dispushbutton.h \
-    highlowdigitalwidget.h \
     urzadzenia.h \
     ustawienia.h \
     niusb6210.h \
@@ -132,7 +120,6 @@ FORMS += \
     czujnikanalogowywidget.ui \
     digitaloutwidget.ui \
     dozowniksettings.ui \
-    frame.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
     oczekiwanienazaplon.ui \
@@ -141,7 +128,6 @@ FORMS += \
     otwartezawory.ui \
     stanczujnika.ui \
     stanwyjscia.ui \
-    urzadzenia_debug.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \
     videowidget.ui \
@@ -155,8 +141,7 @@ FORMS += \
     nowytest_5.ui \
     nowytest_6.ui \
     nowytest_7.ui \
-    nowytest_8.ui \
-    highlowdigitalwidget.ui
+    nowytest_8.ui
 
 RESOURCES += \
     ikony.qrc
