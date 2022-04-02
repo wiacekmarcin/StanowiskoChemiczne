@@ -2,7 +2,7 @@
 #define _NIUSB6210_H_
 #include "common.h"
 
-#if NIDEVICE
+#if !SYMULATOR
 #include <NIDAQmx.h>
 #include <QString>
 

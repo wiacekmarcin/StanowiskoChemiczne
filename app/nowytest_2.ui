@@ -10,9 +10,8 @@
     <height>471</height>
    </rect>
   </property>
-    <property name="font">
+  <property name="font">
    <font>
-    <family>Tahoma</family>
     <pointsize>12</pointsize>
    </font>
   </property>
@@ -133,7 +132,7 @@
       <item>
        <widget class="QLabel" name="text_2">
         <property name="text">
-         <string>Wyjmij końcówki dozownika poza komorę</string>
+         <string>Wyjmij parownik poza komorę</string>
         </property>
        </widget>
       </item>
@@ -252,7 +251,7 @@
       <item>
        <widget class="QRadioButton" name="rb4_no">
         <property name="text">
-         <string>Nie</string>
+         <string> Nie (+1 cykl napełniania)</string>
         </property>
        </widget>
       </item>
@@ -298,7 +297,7 @@
       <item>
        <widget class="QLabel" name="text_5">
         <property name="text">
-         <string>Ustaw końcówki dozowników pod parownikiem i zamknij komorę</string>
+         <string>Ustaw parownik w komorze i zamknij komorę</string>
         </property>
        </widget>
       </item>

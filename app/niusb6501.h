@@ -1,7 +1,7 @@
 #ifndef _NIUSB6501_H_
 #define _NIUSB6501_H_
 #include "common.h"
-#if NIDEVICE
+#if !SYMULATOR
 #include <QString>
 #include <NIDAQmx.h>
 

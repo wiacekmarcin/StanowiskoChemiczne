@@ -25,7 +25,7 @@ public:
 
     void setField(TestPage::Value key, const QVariant & val);
     QVariant field(TestPage::Value key) const;
-    void addPage(TestPage * page, TestPage::PageId id, short step);
+    void addPage(TestPage * page, TestPage::PageId id, short step, const Ustawienia &ust, Urzadzenia *urz);
     TestPage * currentPage() const;
     void changePage(TestPage::PageId id);
     void setFinished(bool success);
@@ -40,6 +40,8 @@ public slots:
     void changeDigitalIn(int id, bool value);
     void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
 
+    void changeDigitalOut(int16_t vals);
+
     void clickedZawory();
     void updatePageData();
 
@@ -47,6 +49,7 @@ public slots:
 signals:
     void changeTestName(QString);
     void finishedTest(bool success);
+    void writeOutValues(uint16_t, bool on);
 
     void zamknietaKomora(bool);
     void openZawor(unsigned int id, bool val);

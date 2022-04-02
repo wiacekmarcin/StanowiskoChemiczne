@@ -89,11 +89,13 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
 
     changeSelectedTest();
 // testowy test
+
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
     projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Lista czlonkow",
                                             "/home/test", "Komentarz", "Dzisiejsza data");
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
+    /*
 
     qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Nowy test")));
 
@@ -117,9 +119,11 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
 
     connect(urzadzenia, &Urzadzenia::digitalRead,        testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
-
+    connect(urzadzenia, &Urzadzenia::digitalWriteDevice, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalOut);
     changeSelectedTest();
     //resize(1024,768);
+    */
+    urzadz->digitalWriteDebug(0x2);
 }
 
 GlowneOkno::~GlowneOkno()

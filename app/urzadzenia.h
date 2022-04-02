@@ -15,13 +15,10 @@ public:
     explicit Urzadzenia(Ustawienia & ustawiania, QObject *parent = nullptr);
 
 
-    void setPompaPowietrza(bool on);
-    void setPompaProzniowa(bool on);
-    void setWentylator(bool on);
-
 public slots:
     void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
-
+    void digitalWriteAll(uint16_t vals);
+    void digitalWrite(uint16_t mask, bool on);
 
 signals:
     void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
@@ -31,7 +28,7 @@ signals:
     void digitalRead(uint16_t vals, bool open);
     void digitalAllRead(uint16_t vals);
 
-    void digitalWrite(uint16_t vals);
+    void digitalWriteDevice(uint16_t vals);
 
     void connDozownik(bool);
     void resetDone(bool);
@@ -60,7 +57,7 @@ private slots:
 
 
 private:
-#ifndef SYMULATOR
+#if !SYMULATOR
      NICards nicards;
 #endif
      SerialDevice serial;

@@ -50,35 +50,35 @@ void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust,
                             const QString & testName)
 {
     NowyTest_1 * page_1 = new NowyTest_1(testName, this);
-    addPage(page_1, TestPage::PAGE_1, 1);
+    addPage(page_1, TestPage::PAGE_1, 1, ust, u);
 
     NowyTest_2 * page_2 = new NowyTest_2(u, ust.getNrInitializeCycles(), this);
     connect(u, &Urzadzenia::digitalAllRead, page_2, &TestPage::readAll);
-    addPage(page_2, TestPage::PAGE_2, 2);
+    addPage(page_2, TestPage::PAGE_2, 2, ust, u);
 
     NowyTest_3 * page_3 = new NowyTest_3(u, ust.getCisnienieProzni(), this);
     connect(this, &CreateTestWizard::openZawor, page_3, &NowyTest_3::openZawor);
     connect(this, &CreateTestWizard::cisnienieVal, page_3, &NowyTest_3::cisnienieKomory);
-    addPage(page_3, TestPage::PAGE_3, 3);
+    addPage(page_3, TestPage::PAGE_3, 3, ust, u);
 
 
-    addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
-    addPage(new NowyTest_5(this), TestPage::PAGE_5, 5);
-    addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
+    addPage(new NowyTest_4(this), TestPage::PAGE_4, 4, ust, u);
+    addPage(new NowyTest_5(this), TestPage::PAGE_5, 5, ust, u);
+    addPage(new NowyTest_6(this), TestPage::PAGE_6, 6, ust, u);
 
     NowyTest_7 * page_7 = new NowyTest_7(u, this);
     connect(u, &Urzadzenia::digitalAllRead, page_7, &TestPage::readAll);
-    addPage(page_7, TestPage::PAGE_7, 7);
+    addPage(page_7, TestPage::PAGE_7, 7, ust, u);
 
 
-    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
+    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8, ust, u);
     selectedId = TestPage::PAGE_1;
     finished = false;
 
     initializePage();
     connect(u, &Urzadzenia::digitalRead, this, &CreateTestWizard::changeDigitalIn);
 
-    nextPage(TestPage::PAGE_6);
+    nextPage(TestPage::PAGE_1);
 }
 
 void CreateTestWizard::initializePage()
@@ -102,14 +102,16 @@ QVariant CreateTestWizard::field(TestPage::Value key) const
     return QVariant();
 }
 
-void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step)
+void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step, const Ustawienia & ust, Urzadzenia *urz)
 {
     TestPageForm *t = new TestPageForm(this);
     t->setStep(step);
     page->setId(id);
 
+
     t->addWidget(page);
     t->setCreateTestWizard(this);
+    t->setLabels(ust);
 
     page->setParent(t->widgetFrame());
     page->setWizard(this);
@@ -118,6 +120,7 @@ void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step)
     pages[id] = t;
     addWidget(t);
 
+    connect(t, &TestPageForm::writeDigital, urz, &Urzadzenia::digitalWrite);
     connect(page, &TestPage::completeChanged, this, &CreateTestWizard::checkValidPage);
     connect(page, &TestPage::updateData, this, &CreateTestWizard::updatePageData);
 }
@@ -184,6 +187,14 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
     cisnienieKomory = vals[a_cisn_komora];
     emit cisnienieVal(cisnienieKomory);
     temperaturaKomory = vals[a_temp_komory];
+}
+
+void CreateTestWizard::changeDigitalOut(int16_t vals)
+{
+    for (QMap<TestPage::PageId, TestPageForm*>::iterator it = pages.begin(); it != pages.end(); ++it)
+    {
+        it.value()->setOnOff(vals);
+    }
 }
 
 void CreateTestWizard::clickedZawory()

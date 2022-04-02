@@ -1,7 +1,7 @@
 #include "niusb6501.h"
 
 
-#if NIDEVICE
+#if !SYMULATOR
 
 #include <QDebug>
 #include "ustawienia.h"
@@ -94,20 +94,20 @@ bool NIDAQMxUSB6501::writeValue(uInt16& val)
 {
     if (!isConnected())
         return false;
-    qDebug("%s:%d write %04x", __FILE__,__LINE__, val);
+    //qDebug("%s:%d write %04x", __FILE__,__LINE__, val);
     for (int i = 0; i < Ustawienia::maxCzujekCyfrOut; ++i) {
-        qDebug("%s:%d val_wr[%02x,%04x]=%d", __FILE__, __LINE__, ~val, ~val >> i, ((~val >> i) & 0x1));
+        //qDebug("%s:%d val_wr[%02x,%04x]=%d", __FILE__, __LINE__, ~val, ~val >> i, ((~val >> i) & 0x1));
         dataWrite[i] = ((~val >> i) & 0x1);
     }
 
-    qDebug("%s:%d write %d%d%d %d%d%d%d %d%d%d%d", __FILE__,__LINE__, dataWrite[10],dataWrite[9],dataWrite[8],dataWrite[7],dataWrite[6],
-            dataWrite[5],dataWrite[4],dataWrite[3],dataWrite[2],dataWrite[1],dataWrite[0]);
+    //qDebug("%s:%d write %d%d%d %d%d%d%d %d%d%d%d", __FILE__,__LINE__, dataWrite[10],dataWrite[9],dataWrite[8],dataWrite[7],dataWrite[6],
+    //        dataWrite[5],dataWrite[4],dataWrite[3],dataWrite[2],dataWrite[1],dataWrite[0]);
     //for (int i = 0; i < 10; ++i)
         //qDebug("%d", dataWrite[i]);
     //qDebug("==");
 
     DAQmxErrChk(DAQmxWriteDigitalLines(taskHandleWrite, 1, 1, 10.0, DAQmx_Val_GroupByChannel, dataWrite, NULL, NULL));
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     return true;
 
 Error:

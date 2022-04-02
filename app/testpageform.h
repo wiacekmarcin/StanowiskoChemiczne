@@ -27,8 +27,12 @@ public:
     void isComplete();
     void initializePage();
     QFrame * widgetFrame();
-
+    void setLabels(const Ustawienia & ust);
     void setCreateTestWizard(CreateTestWizard * wiz);
+    void setOnOff(uint16_t mask);
+
+signals:
+    void writeDigital(uint16_t mask, bool on);
 
 public:
     ~TestPageForm();

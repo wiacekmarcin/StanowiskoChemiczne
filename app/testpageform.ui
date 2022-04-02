@@ -76,8 +76,19 @@
      </property>
     </spacer>
    </item>
+   <item>
+    <widget class="OknoStanoweWyjscia" name="wyjscia" native="true"/>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>OknoStanoweWyjscia</class>
+   <extends>QWidget</extends>
+   <header location="global">oknostanowewyjscia.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

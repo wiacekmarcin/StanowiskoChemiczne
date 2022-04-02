@@ -29,6 +29,7 @@ void NowyTest_2::initializePage()
 {
     m_DozownikPelny = false;
     pojedynczyCykl = false;
+    showWarning = false;
     ui->frame_2->setVisible(false);
     ui->frame_3->setVisible(false);
     ui->frame_4->setVisible(false);
@@ -56,7 +57,17 @@ bool NowyTest_2::isComplete() const
 
 void NowyTest_2::updateWejscia()
 {
-
+    qDebug("%s:%d %d %d",__FILE__,__LINE__);
+    if (showWarning) {
+        if (b_drzwi_lewe && b_drzwi_prawe) {
+            showWarning = false;
+            QMessageBox::warning(this, tr("Komora"),
+                                           tr("Zamknięto komorę.\n"
+                                              "Otwórz komorę aby kontynuować"),
+                                           QMessageBox::Ok);
+            showWarning = true;
+        }
+    }
 }
 
 
@@ -121,10 +132,11 @@ void NowyTest_2::on_pbOk_1_clicked()
 void NowyTest_2::on_pbOK_2_clicked()
 {
     ui->pbOK_2->setEnabled(false);
+    showWarning = false;
     while (b_drzwi_lewe && b_drzwi_prawe) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Nie wykryto otwartych drzwiczek.\n"
-                                          "Czy chcesz kontynuować?"),
+                                          "Czy chcesz kontynuować test otwierając drzwi - Tak, przerwij - Test Nie?"),
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
         if (ret == QMessageBox::No) {
@@ -132,6 +144,7 @@ void NowyTest_2::on_pbOK_2_clicked()
             return;
         }
     }
+    showWarning = true;
 
     ui->arrow_2->setVisible(false);
     ui->frame_3->setVisible(true);
@@ -142,8 +155,8 @@ void NowyTest_2::on_pbOk_3_clicked()
     qDebug("%s:%d runCycle", __FILE__,__LINE__);
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
-    //emit cykleDozownik(dozownikNr, initCykle);
-    QTimer::singleShot(1000, this, &NowyTest_2::runDone);
+    emit cykleDozownik(dozownikNr, 4);
+    //QTimer::singleShot(1000, this, &NowyTest_2::runDone);
 
 }
 
@@ -163,8 +176,8 @@ void NowyTest_2::on_pbOk_4_clicked()
     if (!m_DozownikPelny) {
         qDebug("%s:%d runCycle", __FILE__,__LINE__);
         ui->pbOk_4->setEnabled(false);
-        //emit cykleDozownik(dozownikNr, 1);
-        QTimer::singleShot(1000, this, &NowyTest_2::runDone);
+        emit cykleDozownik(dozownikNr, 1);
+        //QTimer::singleShot(1000, this, &NowyTest_2::runDone);
     } else {
         ui->pbOk_4->setEnabled(false);
         ui->arrow_4->setVisible(false);
@@ -178,10 +191,11 @@ void NowyTest_2::on_pbOk_4_clicked()
 void NowyTest_2::on_pbOk_5_clicked()
 {
     ui->pbOk_5->setEnabled(false);
-    while (!b_drzwi_lewe && !b_drzwi_prawe) {
+    showWarning = false;
+    while (!b_drzwi_lewe || !b_drzwi_prawe) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Wykryto otwarte drzwi komory.\n"
-                                          "Zamknij je w celu kontynuacji."),
+                                          "Zamknij je w celu kontynuacji. Zamknięto drzwi OK, przewanie testu Anuluj"),
                                        QMessageBox::Ok | QMessageBox::Abort | QMessageBox::Cancel,
                                        QMessageBox::Ok);
         if (ret == QMessageBox::Abort) {

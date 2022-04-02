@@ -10,9 +10,8 @@
     <height>95</height>
    </rect>
   </property>
-    <property name="font">
+  <property name="font">
    <font>
-    <family>Tahoma</family>
     <pointsize>12</pointsize>
    </font>
   </property>

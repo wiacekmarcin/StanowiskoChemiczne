@@ -10,7 +10,7 @@
 #include "niusb6501.h"
 
 
-#if SYMULATOR
+#if !SYMULATOR
 
 class TestAnalog {
 public:

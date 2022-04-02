@@ -16,6 +16,7 @@ NICards::NICards(QObject *parent)
       writeDigString("USB6501/port0,USB6501/port1/Line0:2"),
       readDigString("USB6501/port2,USB6501/port1/Line4")
 {
+    m_quit = false;
     start();
     maskOutput = hv_bezpieczenstwa;
 }
@@ -30,6 +31,7 @@ NICards::~NICards()
 
 void NICards::digitalWrite(uint16_t out, bool val)
 {
+    qDebug("%s:%d", __FILE__,__LINE__);
     unsigned short i = 0;
     unsigned long mask = 0x1;
     m_mutex.lock();
@@ -53,6 +55,7 @@ void NICards::run()
     find();
     //resetDevice(true, true);
     while (!m_quit) {
+        qDebug("%s:%d", __FILE__, __LINE__);
         if (loopNr == 10)
             loopNr = 0;
 
@@ -195,7 +198,7 @@ void NICards::resetDevice(bool analog, bool digital)
 
 void NICards::readAnalog()
 {
-    qDebug("READ ANAL");
+    //qDebug("READ ANAL");
     float val0, val1, val2, val3, val4, val5, val6;
     if (!analog.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         emit debug("Nie mogę odczytać analoga");

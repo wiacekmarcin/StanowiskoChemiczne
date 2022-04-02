@@ -3,14 +3,14 @@
 
 Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     : QObject{parent},
-#ifndef SYMULATOR
+#if !SYMULATOR
       nicards(this),
 #endif
       serial(ustawiania_, this),
       ustawienia(ustawiania_)
 
 {
-#ifndef SYMULATOR
+#if !SYMULATOR
     connect(&nicards, &NICards::digitalRead,    this,       &Urzadzenia::ni_digitalRead);
     connect(&nicards, &NICards::error,          this,       &Urzadzenia::ni_error);
     connect(&nicards, &NICards::debug,          this,       &Urzadzenia::ni_debug);
@@ -34,32 +34,23 @@ void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
     serial.setCykle(nrDoz,nrCyckli);
 }
 
-void Urzadzenia::setPompaPowietrza(bool on)
+void Urzadzenia::digitalWriteAll(uint16_t vals)
 {
 #if !SYMULATOR
-    nicards.digitalWrite(pompa_powietrza, on);
-    emit digitalWrite(nicards.getDigitalWrite());
+    nicards.digitalWriteDebug(vals);
+    emit digitalWriteDevice(nicards.getDigitalWrite());
 #else
-    (void)on;
+    (void)vals;
 #endif
 }
 
-void Urzadzenia::setPompaProzniowa(bool on)
+void Urzadzenia::digitalWrite(uint16_t mask, bool on)
 {
 #if !SYMULATOR
-    nicards.digitalWrite(pompa_prozniowa, on);
-    emit digitalWrite(nicards.getDigitalWrite());
+    nicards.digitalWrite(mask, on);
+    emit digitalWriteDevice(nicards.getDigitalWrite());
 #else
-    (void)on;
-#endif
-}
-
-void Urzadzenia::setWentylator(bool on)
-{
-#if !SYMULATOR
-    nicards.digitalWrite(wentylator, on);
-    emit digitalWrite(nicards.getDigitalWrite());
-#else
+    (void)mask;
     (void)on;
 #endif
 }
@@ -96,7 +87,7 @@ void Urzadzenia::ni_usb6501(bool open, bool conf)
 
 void Urzadzenia::ni_digitalRead(uint16_t vals)
 {
-    qDebug("%s:%d read=%04x", __FILE__,__LINE__, vals);
+    //qDebug("%s:%d read=%04x", __FILE__,__LINE__, vals);
     uint32_t mask;
     bool bval;
     emit digitalAllRead(~vals);
@@ -115,6 +106,7 @@ void Urzadzenia::digitalWriteDebug(uint16_t vals)
 {
 #if !SYMULATOR
     nicards.digitalWriteDebug(vals);
+    emit digitalWriteDevice(nicards.getDigitalWrite());
 #else
     (void)vals;
 #endif

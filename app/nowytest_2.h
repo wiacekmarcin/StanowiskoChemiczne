@@ -52,6 +52,8 @@ private:
 
     bool m_DozownikPelny;
     bool pojedynczyCykl;
+
+    bool showWarning;
 };
 
 #endif // NOWYTEST_2_H

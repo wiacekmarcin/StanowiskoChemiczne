@@ -11,6 +11,7 @@ TestPageForm::TestPageForm(QWidget *parent) :
     ui->setupUi(this);
     ui->subtitle->setVisible(false);
     ui->title->setVisible(false);
+    connect(ui->wyjscia, &OknoStanoweWyjscia::writeDigital, this, &TestPageForm::writeDigital);
 }
 
 void TestPageForm::addWidget(TestPage *page_)
@@ -46,9 +47,19 @@ QFrame *TestPageForm::widgetFrame()
     return ui->frTestPage;
 }
 
+void TestPageForm::setLabels(const Ustawienia &ust)
+{
+    ui->wyjscia->setLabels(ust);
+}
+
 void TestPageForm::setCreateTestWizard(CreateTestWizard *wiz)
 {
     wizard = wiz;
+}
+
+void TestPageForm::setOnOff(uint16_t mask)
+{
+    ui->wyjscia->setOnOff(mask);
 }
 
 TestPageForm::~TestPageForm()

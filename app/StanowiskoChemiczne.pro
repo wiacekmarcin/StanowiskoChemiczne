@@ -39,16 +39,19 @@ SOURCES += \
     czujnikanalogowyustawieniaokno.cpp \
     digitaloutwidget.cpp \
     dozowniksettings.cpp \
+    frame.cpp \
     main.cpp \
     glowneokno.cpp \
     nicards.cpp \
     nowyprojectdlg.cpp \
     oczekiwanienazaplon.cpp \
+    oknostanowewyjscia.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
     serialdevice.cpp \
     serialmessage.cpp \
     stanczujnika.cpp \
+    stanwyjscia.cpp \
     urzadzenia_debug.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
@@ -86,15 +89,18 @@ HEADERS += \
     czujnikanalogowyustawieniaokno.h \
     digitaloutwidget.h \
     dozowniksettings.h \
+    frame.h \
     glowneokno.h \
     nicards.h \
     nowyprojectdlg.h \
     oczekiwanienazaplon.h \
+    oknostanowewyjscia.h \
     oknostatusowe.h \
     otwartezawory.h \
     serialdevice.h \
     serialmessage.h \
     stanczujnika.h \
+    stanwyjscia.h \
     urzadzenia_debug.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \
@@ -128,12 +134,15 @@ FORMS += \
     czujnikanalogowywidget.ui \
     digitaloutwidget.ui \
     dozowniksettings.ui \
+    frame.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
     oczekiwanienazaplon.ui \
+    oknostanowewyjscia.ui \
     oknostatusowe.ui \
     otwartezawory.ui \
     stanczujnika.ui \
+    stanwyjscia.ui \
     urzadzenia_debug.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \

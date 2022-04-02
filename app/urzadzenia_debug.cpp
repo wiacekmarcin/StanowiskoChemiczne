@@ -72,7 +72,7 @@ void UrzadzeniaDebug::setUrzadzenie(Urzadzenia * u)
     connect(this, &UrzadzeniaDebug::ni_analogValueChanged, u, &Urzadzenia::ni_analogValueChanged);
     connect(this, &UrzadzeniaDebug::ni_digitalRead, u, &Urzadzenia::ni_digitalRead);
 
-    connect(u, &Urzadzenia::digitalWrite, this, &UrzadzeniaDebug::digitalWrite);
+    connect(u, &Urzadzenia::digitalWriteDevice, this, &UrzadzeniaDebug::digitalWrite);
     connect(this, &UrzadzeniaDebug::writeValues, u, &Urzadzenia::digitalWriteDebug);
 }
 
@@ -210,6 +210,7 @@ void UrzadzeniaDebug::digitalChange(int id, bool val, bool /*device*/)
         inputs &= ~id;
     }
     if (prev != inputs) {
+        qDebug("%s:%d",__FILE__,__LINE__);
         emit ni_digitalRead(inputs);
     }
 }

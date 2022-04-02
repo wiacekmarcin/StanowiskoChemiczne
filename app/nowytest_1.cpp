@@ -137,6 +137,10 @@ void NowyTest_1::checkValid()
         if (ui->cbZaplon->currentIndex() == 1) {
             v = ui->cbenergiaIskry->currentIndex() > 0;
         }
+
+        if (ui->iloscCieczy->value() < 0.1) {
+            v=false;
+        }
         break;
     }
     ui->pbNext->setEnabled(v);

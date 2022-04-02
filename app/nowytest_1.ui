@@ -12,7 +12,6 @@
   </property>
   <property name="font">
    <font>
-    <family>Tahoma</family>
     <pointsize>12</pointsize>
    </font>
   </property>
@@ -160,6 +159,9 @@
       <widget class="QDoubleSpinBox" name="iloscCieczy">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="decimals">
+        <number>1</number>
        </property>
       </widget>
      </item>
