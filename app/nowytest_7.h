@@ -29,6 +29,10 @@ private slots:
 
     void on_pbOK_2yes_clicked();
 
+    void on_pBNo_3_clicked();
+
+    void on_pbYes_3_clicked();
+
 private:
     Ui::NowyTest_7 *ui;
     PageId next;

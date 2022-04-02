@@ -32,7 +32,7 @@ NowyTest_7::~NowyTest_7()
 void NowyTest_7::initializePage()
 {
     ui->rb1_yes->setChecked(true);
-    ui->frame_1yes->setVisible(false);
+    ui->frame_1->setVisible(false);
     TestPage::initializePage();
 
     valid = false;
@@ -57,7 +57,7 @@ void NowyTest_7::changeData()
 
 void NowyTest_7::on_pbOK_1_clicked()
 {
-    if (wykrytyZaplon && rbYes || !wykrytyZaplon && !rbYes) {
+    if ((wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes)) {
         nextPage(nextPageId());
         ui->arrow_1->setVisible(false);
         ui->pbOK_1->setEnabled(false);

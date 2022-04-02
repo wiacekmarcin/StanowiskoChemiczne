@@ -15,7 +15,6 @@
 
 #include "videowidget.h"
 #include "createtestwizard.h"
-#include "nowytestdlg.h"
 #include "projectitem.h"
 #include "nowyprojectdlg.h"
 
