@@ -54,15 +54,18 @@ void NowyTest_5::runDone()
 void NowyTest_5::on_pbOK_1_clicked()
 {
     ui->pbOK_1->setEnabled(false);
-    if (!isZamknietyZawor()) {
-            QMessageBox msgBox;
-            msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-            msgBox.setInformativeText("Wszystkie zawory X i Y powinny byc otwarte. \n Czy chcesz kontynuować");
-            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            msgBox.setDefaultButton(QMessageBox::No);
-            int ret = msgBox.exec();
-            if (ret == QMessageBox::No)
-                return;
+    while (!isZamknietyZawor()) {
+        QMessageBox msgBox;
+        msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
+        msgBox.setInformativeText("Wszystkie zawory powinny byc zamkniete. \n Czy chcesz kontynuować");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::No);
+        int ret = msgBox.exec();
+        if (ret == QMessageBox::No) {
+            setFinished(false);
+            return;
+        } else if (ret == QMessageBox::Cancel)
+            break;
     }
     ui->arrow_1->setVisible(false);
     ui->frame_2->setVisible(true);

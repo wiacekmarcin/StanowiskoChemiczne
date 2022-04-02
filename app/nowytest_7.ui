@@ -10,6 +10,12 @@
     <height>293</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Tahoma</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="title" stdset="0">
    <string>Czyności poeksplozyjne</string>
   </property>
@@ -39,6 +45,7 @@
     <widget class="QFrame" name="frame_all">
      <property name="font">
       <font>
+       <family>Tahoma</family>
        <pointsize>10</pointsize>
       </font>
      </property>
@@ -62,9 +69,6 @@
           <widget class="QLabel" name="arrow_1">
            <property name="text">
             <string>*</string>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="ikony.qrc">:/status/arrow.png</pixmap>
            </property>
           </widget>
          </item>
@@ -129,7 +133,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_1yes">
+       <widget class="QFrame" name="frame_2">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -138,20 +142,17 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="leftMargin">
-          <number>100</number>
+          <number>6</number>
          </property>
          <item>
-          <widget class="QLabel" name="arrow_1_yes">
+          <widget class="QLabel" name="arrow_2">
            <property name="text">
             <string>*</string>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="ikony.qrc">:/status/arrow.png</pixmap>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="txt_2">
            <property name="text">
             <string>Otwórz zawory A i B</string>
            </property>
@@ -171,9 +172,134 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pbOK_2yes">
+          <widget class="QPushButton" name="pbOK_2">
            <property name="text">
             <string>OK</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_3">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="arrow_3">
+           <property name="text">
+            <string>* Czy chcesz powtórzyc procedurę zapłonu ?</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pbYes_3">
+           <property name="text">
+            <string>Tak</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pBNo_3">
+           <property name="text">
+            <string>Nie</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_4">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="arrow_4">
+           <property name="text">
+            <string>*</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rb4_zaplon">
+           <property name="text">
+            <string>Procedura zapłonu</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rb4_ciecz">
+           <property name="text">
+            <string>Procedura dozowania cieczy</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>279</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pbOK_4">
+           <property name="text">
+            <string>OK</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_5">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>*</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Podawanie ciez</string>
            </property>
           </widget>
          </item>
@@ -206,8 +332,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="ikony.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

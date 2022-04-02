@@ -43,6 +43,7 @@ SOURCES += \
     glowneokno.cpp \
     nicards.cpp \
     nowyprojectdlg.cpp \
+    oczekiwanienazaplon.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
     serialdevice.cpp \
@@ -54,14 +55,13 @@ SOURCES += \
     videowidget.cpp \
     sygnalanalparam.cpp \
     wejsciaanalogowe.cpp \
-    nowytest_1.cpp \
     createtestwizard.cpp \
-    nowytestdlg.cpp \
     projectitem.cpp \
     testpage.cpp \
     testpageform.cpp \
     projektwidget.cpp \
     testtabswidget.cpp \
+    nowytest_1.cpp \
     nowytest_2.cpp \
     nowytest_3.cpp \
     nowytest_4.cpp \
@@ -89,6 +89,7 @@ HEADERS += \
     glowneokno.h \
     nicards.h \
     nowyprojectdlg.h \
+    oczekiwanienazaplon.h \
     oknostatusowe.h \
     otwartezawory.h \
     serialdevice.h \
@@ -100,14 +101,13 @@ HEADERS += \
     videowidget.h \
     sygnalanalparam.h \
     wejsciaanalogowe.h \
-    nowytest_1.h \
     createtestwizard.h \
-    nowytestdlg.h \
     projectitem.h \
     testpage.h \
     testpageform.h \
     projektwidget.h \
     testtabswidget.h \
+    nowytest_1.h \
     nowytest_2.h \
     nowytest_3.h \
     nowytest_4.h \
@@ -130,6 +130,7 @@ FORMS += \
     dozowniksettings.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
+    oczekiwanienazaplon.ui \
     oknostatusowe.ui \
     otwartezawory.ui \
     stanczujnika.ui \
@@ -137,11 +138,10 @@ FORMS += \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \
     videowidget.ui \
-    nowytest_1.ui \
-    nowytestdlg.ui \
     testpageform.ui \
     projektwidget.ui \
     testtabswidget.ui \
+    nowytest_1.ui \
     nowytest_2.ui \
     nowytest_3.ui \
     nowytest_4.ui \

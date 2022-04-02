@@ -10,6 +10,12 @@
     <height>471</height>
    </rect>
   </property>
+    <property name="font">
+   <font>
+    <family>Tahoma</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -18,9 +24,6 @@
   </property>
   <property name="subTitle" stdset="0">
    <string>Należy się upewnić, że układ dozownika jest napełniony. Jeżeli układ jest pusty lub niepełny, to należy wykonać poniższe czynności.</string>
-  </property>
-  <property name="buttonName" stdset="0">
-   <string>Dalej</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0">
    <property name="spacing">
@@ -55,7 +58,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="txt_1">
         <property name="text">
          <string>Czy układ dozownika &lt;DOZOWNIK&gt; jest napełniony ?</string>
         </property>

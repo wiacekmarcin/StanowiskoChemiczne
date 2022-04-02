@@ -41,7 +41,6 @@ Dodać sprawdzenie pozycji strzykawki (czy na pewno jest na dole przy krancowce)
 
 //Zawory
 
-1. Przeniesienie okna dialogowego do obszarus roboczego
 2. Mozliwosc przerwania testu w trakcie z usunieciem testu z listy
 
 

@@ -16,9 +16,6 @@
   <property name="subTitle" stdset="0">
    <string/>
   </property>
-  <property name="buttonName" stdset="0">
-   <string/>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>

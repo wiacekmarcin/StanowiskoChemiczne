@@ -13,7 +13,8 @@ NowyTest_2::NowyTest_2(Urzadzenia * u, unsigned short initC, QWidget *parent) :
     initCykle(initC)
 {
     ui->setupUi(this);
-
+    ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?"));
+    ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>"));
     connect(this, &NowyTest_2::cykleDozownik, u, &Urzadzenia::setCykle);
     connect(u, &Urzadzenia::setCykleDone, this, &NowyTest_2::dozownikDone);
 
@@ -35,10 +36,9 @@ void NowyTest_2::initializePage()
 
     ui->rb1_yes->setChecked(true);
     ui->rb4_yes->setChecked(true);
-
     dozownik = field(dozownikNr).toUInt()-1;
-    komoraL = true;
-    komoraP = true;
+    ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?").replace("<DOZOWNIK>", QString::number(dozownik+1)));
+    ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>").replace("<DOZOWNIK>", QString::number(dozownik+1)));
 
     emit completeChanged();
 }
@@ -56,10 +56,7 @@ bool NowyTest_2::isComplete() const
 
 void NowyTest_2::updateWejscia()
 {
-    if (!komoraL && !b_drzwi_lewe)
-        komoraL = false;
-    if (!komoraP && !b_drzwi_prawe)
-        komoraP = false;
+
 }
 
 
@@ -74,10 +71,10 @@ void NowyTest_2::dozownikDone(bool succes)
                                           "Czy chcesz kontynuować?"),
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
-        if (ret == QMessageBox::No)
-            //emit abort
+        if (ret == QMessageBox::No) {
+            setFinished(false);
             return;
-
+        }
     }
     if (pojedynczyCykl) {
         m_DozownikPelny = true;
@@ -124,16 +121,16 @@ void NowyTest_2::on_pbOk_1_clicked()
 void NowyTest_2::on_pbOK_2_clicked()
 {
     ui->pbOK_2->setEnabled(false);
-    if (komoraL && komoraP) {
+    while (b_drzwi_lewe && b_drzwi_prawe) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Nie wykryto otwartych drzwiczek.\n"
                                           "Czy chcesz kontynuować?"),
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
-        if (ret == QMessageBox::No)
-            //emit abort
+        if (ret == QMessageBox::No) {
+            setFinished(false);
             return;
-
+        }
     }
 
     ui->arrow_2->setVisible(false);
@@ -185,11 +182,13 @@ void NowyTest_2::on_pbOk_5_clicked()
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Wykryto otwarte drzwi komory.\n"
                                           "Zamknij je w celu kontynuacji."),
-                                       QMessageBox::Ok | QMessageBox::Abort,
+                                       QMessageBox::Ok | QMessageBox::Abort | QMessageBox::Cancel,
                                        QMessageBox::Ok);
-        if (ret == QMessageBox::Abort)
-            //emit abort
+        if (ret == QMessageBox::Abort) {
+            setFinished(false);
             return;
+        } else if (ret == QMessageBox::Cancel)
+            break;
     }
     nextPage(nextPageId());
 }

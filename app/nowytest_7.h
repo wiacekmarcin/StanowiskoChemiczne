@@ -34,7 +34,7 @@ private:
     PageId next;
     bool initial;
     bool wykrytyZaplon;
-    bool wybranyZaplon;
+    bool rbYes;
 };
 
 #endif // NOWYTEST_7_H

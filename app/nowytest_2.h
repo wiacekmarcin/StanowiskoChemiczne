@@ -52,8 +52,6 @@ private:
 
     bool m_DozownikPelny;
     bool pojedynczyCykl;
-    bool komoraL;
-    bool komoraP;
 };
 
 #endif // NOWYTEST_2_H

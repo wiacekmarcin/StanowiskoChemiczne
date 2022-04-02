@@ -57,26 +57,26 @@ void NowyTest_7::changeData()
 
 void NowyTest_7::on_pbOK_1_clicked()
 {
-    if (wykrytyZaplon && wybranyZaplon) {
-        ui->frame_1yes->setVisible(true);
+    if (wykrytyZaplon && rbYes || !wykrytyZaplon && !rbYes) {
+        nextPage(nextPageId());
         ui->arrow_1->setVisible(false);
+        ui->pbOK_1->setEnabled(false);
+        ui->frame_2->setVisible(true);
+    } else {
+        ui->arrow_1->setVisible(false);
+        ui->frame_3->setVisible(true);
     }
+
 }
 
 void NowyTest_7::on_rb1_yes_toggled(bool checked)
 {
-    if (wykrytyZaplon)
-        wybranyZaplon = checked;
-    else
-        wybranyZaplon = !checked;
+    rbYes = checked;
 }
 
 void NowyTest_7::on_rb1_no_toggled(bool checked)
 {
-    if (!wykrytyZaplon)
-        wybranyZaplon = checked;
-    else
-        wybranyZaplon = !checked;
+    rbYes = !checked;
 }
 
 void NowyTest_7::on_pbOK_2yes_clicked()
@@ -88,17 +88,38 @@ void NowyTest_7::on_pbOK_2yes_clicked()
        qDebug("--------------%d %d", b_wentylacja_lewa, wentylacja_prawa);
         QMessageBox msgBox;
         msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-        msgBox.setInformativeText("Zawory A i B powinny być otwarte a pozostałe zawory powinny być zamknięte");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        //msgBox.setDefaultButton(QMessageBox::Save);
-        //int ret = msgBox.exec();
+        msgBox.setInformativeText("Zawory A i B powinny być otwarte a pozostałe zawory powinny być zamknięte.\n Czy chcesz kontynouwac?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::No);
+        int ret = msgBox.exec();
+        if (ret == QMessageBox::No){
+            setFinished(false);
+            return;
+        } else if (ret == QMessageBox::Cancel)
+            break;
 
-        delay(1000);
-    }
+   }
+   //emit zalacz wentylator
+   nextPage(nextPageId());
 }
 
 
 
 
 
+
+
+void NowyTest_7::on_pBNo_3_clicked()
+{
+    nextPage(nextPageId());
+}
+
+
+void NowyTest_7::on_pbYes_3_clicked()
+{
+    ui->pbYes_3->setEnabled(false);
+    ui->pBNo_3->setEnabled(false);
+    ui->arrow_3->setVisible(false);
+    ui->frame_4->setEnabled(true);
+}
 

@@ -159,15 +159,18 @@ void NowyTest_3::setCisnKomory(double newCisnKomory)
 void NowyTest_3::on_pbOk_1_clicked()
 {
     qDebug("%s:%d",__FILE__, __LINE__);
-    if (!isZamknietyZawor()) {
+    while (!isZamknietyZawor()) {
         QMessageBox msgBox;
         msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-        msgBox.setInformativeText("Zawory A i B powinny być otwarte a pozostałe zawory powinny być zamknięte. \n Czy chcesz kontynuować");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setInformativeText("Wszystkie zawory powinny być zamknięte. \n Czy chcesz kontynuować");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::No);
         int ret = msgBox.exec();
-        if (ret == QMessageBox::No)
+        if (ret == QMessageBox::No) {
+            setFinished(false);
             return;
+        } else if (ret == QMessageBox::Cancel)
+            break;
     }
     ui->pbOk_1->setEnabled(false);
     ui->frame_2->setVisible(true);
@@ -192,15 +195,19 @@ void NowyTest_3::on_pbUstaw_2_clicked()
 
 void NowyTest_3::on_pbOk_3_clicked()
 {
-    if (!isZamknietyZawor()) {
+   while(!b_drzwi_prawe && !b_wentylacja_lewa && b_proznia && !b_pom_stez_1 && !b_drzwi_lewe
+         && !b_wentylacja_prawa && !b_wlot_powietrza && !b_pom_stez_2) {
             QMessageBox msgBox;
             msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-            msgBox.setInformativeText("Wszystkie zawory powinny być otwarte. \n Czy chcesz kontynuować");
-            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setInformativeText("Zawór proznia powinien być otwarty, reszta zamknieta. \n Czy chcesz kontynuować");
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
             msgBox.setDefaultButton(QMessageBox::No);
             int ret = msgBox.exec();
-            if (ret == QMessageBox::No)
+            if (ret == QMessageBox::No) {
+                setFinished(false);
                 return;
+            } else if (ret == QMessageBox::Cancel)
+                break;
     }
     ui->pbOk_3->setEnabled(false);
     timePompaProzniowa = 100;

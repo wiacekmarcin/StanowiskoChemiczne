@@ -2,7 +2,7 @@
 #include "ui_nowytest_6.h"
 #include "createtestwizard.h"
 #include "testpage.h"
-
+#include "oczekiwanienazaplon.h"
 NowyTest_6::NowyTest_6(QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_6)
@@ -41,4 +41,24 @@ bool NowyTest_6::isComplete() const
     return valid;
 }
 
+void NowyTest_6::changeData()
+{
+    if (b_pilot) {
+        OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this);
+        dlg->exec();
+        delete dlg;
+        nextPage(nextPageId());
+
+    }
+}
+
+
+
+void NowyTest_6::on_pushButton_clicked()
+{
+    OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this);
+    dlg->exec();
+    delete dlg;
+    nextPage(nextPageId());
+}
 
