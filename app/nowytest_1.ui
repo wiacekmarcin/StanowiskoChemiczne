@@ -7,14 +7,8 @@
     <x>0</x>
     <y>0</y>
     <width>709</width>
-    <height>283</height>
+    <height>237</height>
    </rect>
-  </property>
-  <property name="font">
-   <font>
-    <family>Tahoma</family>
-    <pointsize>10</pointsize>
-   </font>
   </property>
   <property name="windowTitle">
    <string>Nowy Test</string>
@@ -25,16 +19,7 @@
   <property name="subTitle" stdset="0">
    <string/>
   </property>
-  <property name="buttonName" stdset="0">
-   <string>Rozpocznij</string>
-  </property>
   <layout class="QFormLayout" name="formLayout">
-   <property name="topMargin">
-    <number>10</number>
-   </property>
-   <property name="bottomMargin">
-    <number>10</number>
-   </property>
    <item row="1" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
@@ -213,45 +198,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_9">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_8">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_7">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
    </item>
    <item row="11" column="1">
@@ -337,6 +283,43 @@
      </item>
     </layout>
    </item>
+   <item row="14" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbNext">
+       <property name="text">
+        <string>Dalej</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -361,7 +344,8 @@
    <item row="9" column="0">
     <widget class="QLabel" name="lbojetoscicieczy">
      <property name="text">
-      <string>Podaj objętość cieczy do zadozowania</string>
+      <string>Podaj objętość cieczy
+do zadozowania</string>
      </property>
     </widget>
    </item>
@@ -378,27 +362,10 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Iskra elektryczna energia, napięcie</string>
+      <string>Iskra elektryczna
+energia, napięcie</string>
      </property>
     </widget>
-   </item>
-   <item row="14" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
-     <item>
-      <widget class="QPushButton" name="pbCancel">
-       <property name="text">
-        <string>Anuluj</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pbNext">
-       <property name="text">
-        <string>Dalej</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
   </layout>
  </widget>
