@@ -35,8 +35,6 @@ protected:
 private slots:
     void on_pbNext_clicked();
 
-    void on_pbCancel_clicked();
-
 private:
     bool valid;
     QMap<QString, int> maxVal;

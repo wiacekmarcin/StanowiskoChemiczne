@@ -19,30 +19,24 @@ public:
     ~NowyTest_3();
     virtual bool isComplete() const override;
     virtual void initializePage() override;
+    virtual void updateWejscia() override;
+
+signals:
+    void updateOutput(uint16_t mask, bool on);
+
 
 public slots:
-    void openZawor(unsigned int id, bool val);
     void cisnienieKomory(double val);
-
-
-
-
-
 
 private slots:
     void updateCisnieie();
-
     void on_pbOk_1_clicked();
-
     void on_pb_Skip2_clicked();
-
     void on_pbUstaw_2_clicked();
-
     void on_pbOk_3_clicked();
-
     void on_pbOk_5_clicked();
-
     void on_pbRun_5_clicked();
+
 
 protected:
     double getCisnKomory();
@@ -69,6 +63,7 @@ private:
     uint32_t timePompaProzniowa;
     double cisnienie_zad;
     double ustaloneCisnienie;
+    bool ustalanieCisnienia;
 };
 
 #endif // NOWYTEST_3_H

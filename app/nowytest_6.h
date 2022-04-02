@@ -21,7 +21,11 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pbOK_1_clicked();
+
 private:
     Ui::NowyTest_6 *ui;
+    bool runDialog;
+    bool step2;
 };
 #endif // NOWYTEST_7_H

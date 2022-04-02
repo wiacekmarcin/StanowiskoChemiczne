@@ -20,7 +20,7 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
 
     this->moveToThread(&my_thread);
     m_serial.moveToThread(&my_thread);
-    my_thread.start();
+    //my_thread.start();
     
     //my_thread.command(SerialThread::IDLE);
 }
@@ -131,8 +131,8 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
         if (m_serial.waitForReadyRead(currentReadWaitTimeout)) {
             QByteArray responseData = m_serial.readAll();
             qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
-            //while (m_serial.waitForReadyRead(10))
-            //    responseData += m_serial.readAll();
+            while (m_serial.waitForReadyRead(10))
+                responseData += m_serial.readAll();
             qDebug("%s:%d read all done %d -> parse", __FILE__, __LINE__, responseData.size());
             return parseMessage(responseData);
         } else {
@@ -157,6 +157,8 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
 
 bool SerialDevice::configureDeviceJob()
 {
+
+
     qDebug("%s:%d", __FILE__, __LINE__);
     emit debug(QString("Konfiguracja %1%2%3%4%5 %6 %7").arg(reverse1).arg(reverse2).arg(reverse3).arg(reverse4).arg(reverse5).
                arg(maxImp).arg(timeImp));
@@ -367,6 +369,26 @@ bool SerialDevice::openDevice(const QSerialPortInfo &port)
     m_serial.clear();
     m_serial.flush();
 
+    while(false) {
+        QByteArray zerowaMsg(1, (char)0);
+        m_serial.write(zerowaMsg);
+        if (m_serial.waitForBytesWritten(100)) {
+            // read response
+            qDebug("%s:%d write done wait for read", __FILE__, __LINE__);
+            if (m_serial.waitForReadyRead(100)) {
+                QByteArray responseData = m_serial.readAll();
+                qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
+                while (m_serial.waitForReadyRead(10))
+                    responseData += m_serial.readAll();
+                break;
+                qDebug("%s:%d read all done %d -> parse", __FILE__, __LINE__, responseData.size());
+            } else {
+                qDebug("%s:%d %s", __FILE__, __LINE__, "Timeout przy odczycie");
+            }
+        } else {
+            qDebug("%s:%d %s", __FILE__, __LINE__, "Timeout przy zapisie");
+        }
+    }
     qDebug("%s:%d", __FILE__, __LINE__);
     return true;
 }

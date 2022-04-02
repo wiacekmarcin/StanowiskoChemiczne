@@ -16,6 +16,7 @@ public:
     ~SerialMessage();
 
     typedef enum _cmd {
+        NOP_REQ = 0,
         WELCOME_REQ = 1,
         WELCOME_REP = 2,
         SET_PARAM_REQ = 3,
@@ -28,7 +29,8 @@ public:
         MOVEHOME_REP = 10,
         RESET_REQ = 11,
         RESET_REP = 12,
-        ERROR_REP = 15,
+        ERROR_REP = 14,
+        NOP_REP = 15
 
     } CMD;
 

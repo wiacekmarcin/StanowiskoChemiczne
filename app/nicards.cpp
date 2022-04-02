@@ -55,7 +55,7 @@ void NICards::run()
     find();
     //resetDevice(true, true);
     while (!m_quit) {
-        qDebug("%s:%d", __FILE__, __LINE__);
+        //qDebug("%s:%d", __FILE__, __LINE__);
         if (loopNr == 10)
             loopNr = 0;
 

@@ -58,23 +58,14 @@ void NowyTest_3::initializePage()
      emit completeChanged();
 }
 
-void NowyTest_3::openZawor(unsigned int id, bool val)
+void NowyTest_3::updateWejscia()
 {
-    if (id == proznia) {
-        zaworProzni = val;
-        if (prozniaTask && !val) {
-            //ui->pbProzniaDone->setEnabled(true);
-        }
-    } else if (id == wlot_powietrza) {
-        zaworPowietrza = val;
-    }
+
 }
-
-
 
 void NowyTest_3::cisnienieKomory(double val)
 {
-    qDebug("%s:%d val =%f", __FILE__,__LINE__, val);
+    //qDebug("%s:%d val =%f", __FILE__,__LINE__, val);
     setCisnKomory(val);
 }
 
@@ -82,6 +73,9 @@ void NowyTest_3::cisnienieKomory(double val)
 
 void NowyTest_3::updateCisnieie()
 {
+    if (!ustalanieCisnienia)
+        return;
+
     double avg = getAvgCisnienie();
     double val = getCisnKomory();
 
@@ -89,11 +83,14 @@ void NowyTest_3::updateCisnieie()
     if (--timePompaProzniowa == 0) {
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
-        ui->text5->setText(ui->text5->text().replace(QString("[CISNIENIE]"), QString::number(ustaloneCisnienie)));
+        ustaloneCisnienie = avg;
+        ui->text5->setText(QString("Uzyskano podciśnienie %1 mBar.").arg(avg));
         valid = true;
         cisnienieTimer.stop();
         emit completeChanged();
-        ustaloneCisnienie = avg;
+
+        emit updateOutput(pompa_prozniowa, false);
+        ustalanieCisnienia = false;
     }
 
     qDebug("%s:%d avg = %f cisn = %f  [%f] <%f %f>",__FILE__, __LINE__, avg, val, cisnieWProzni, 0.95*val, 1.05*val);
@@ -104,9 +101,11 @@ void NowyTest_3::updateCisnieie()
         cisnienieTimer.stop();
         emit completeChanged();
         ustaloneCisnienie = avg;
-        ui->text5->setText(ui->text5->text().replace(QString("[CISNIENIE]"), QString::number(ustaloneCisnienie, 'e', 3)));
+        ui->text5->setText(QString("Uzyskano podciśnienie %1 mBar.").arg(ustaloneCisnienie));
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
+        ustalanieCisnienia = false;
+        emit updateOutput(pompa_prozniowa, false);
     }
 
 }
@@ -137,6 +136,8 @@ double NowyTest_3::getAvgCisnienie()
 }
 void NowyTest_3::setCisnKomory(double newCisnKomory)
 {
+    if (!ustalanieCisnienia)
+        return;
     QMutexLocker lock(&mutexCisnienie);
     cisnKomory = newCisnKomory;
     idPrev = (idPrev + 1) & 0xf;
@@ -158,23 +159,7 @@ void NowyTest_3::setCisnKomory(double newCisnKomory)
 
 void NowyTest_3::on_pbOk_1_clicked()
 {
-    qDebug("%s:%d",__FILE__, __LINE__);
-    while (!isZamknietyZawor()) {
-        QMessageBox msgBox;
-        msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-        msgBox.setInformativeText("Wszystkie zawory powinny być zamknięte. \n Czy chcesz kontynuować");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::No);
-        int ret = msgBox.exec();
-        if (ret == QMessageBox::No) {
-            setFinished(false);
-            return;
-        } else if (ret == QMessageBox::Cancel)
-            break;
-    }
-    ui->pbOk_1->setEnabled(false);
-    ui->frame_2->setVisible(true);
-    ui->arrow_1->setVisible(false);
+    sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
 }
 
 
@@ -195,23 +180,15 @@ void NowyTest_3::on_pbUstaw_2_clicked()
 
 void NowyTest_3::on_pbOk_3_clicked()
 {
-   while(!b_drzwi_prawe && !b_wentylacja_lewa && b_proznia && !b_pom_stez_1 && !b_drzwi_lewe
-         && !b_wentylacja_prawa && !b_wlot_powietrza && !b_pom_stez_2) {
-            QMessageBox msgBox;
-            msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-            msgBox.setInformativeText("Zawór proznia powinien być otwarty, reszta zamknieta. \n Czy chcesz kontynuować");
-            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-            msgBox.setDefaultButton(QMessageBox::No);
-            int ret = msgBox.exec();
-            if (ret == QMessageBox::No) {
-                setFinished(false);
-                return;
-            } else if (ret == QMessageBox::Cancel)
-                break;
-    }
+   if (!sprawdzOtwarteZaworProzni())
+       return;
+
     ui->pbOk_3->setEnabled(false);
+    emit updateOutput(pompa_prozniowa, true);
+    ustalanieCisnienia = true;
     timePompaProzniowa = 100;
     cisnienieTimer.start();
+     setField(czyPompaMebr, QVariant::fromValue((bool)true));
 
     ui->arrow_3->setVisible(false);
     ui->frame_4->setVisible(true);
@@ -226,21 +203,15 @@ void NowyTest_3::on_pbOk_5_clicked()
 
 void NowyTest_3::on_pbRun_5_clicked()
 {
+    if (!sprawdzOtwarteZaworProzni())
+        return;
+
     ui->frame_5->setVisible(false);
     ui->arrow_4->setVisible(true);
 
-    if (!isZamknietyZawor()) {
-            QMessageBox msgBox;
-            msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-            msgBox.setInformativeText("Wszystkie zawory powinny być otwarte. \n Czy chcesz kontynuować");
-            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            msgBox.setDefaultButton(QMessageBox::No);
-            int ret = msgBox.exec();
-            if (ret == QMessageBox::No)
-                return;
-    }
-    //ui->pbOk_3->setEnabled(false);
     timePompaProzniowa = 100;
+    emit updateOutput(pompa_prozniowa, true);
+    ustalanieCisnienia = true;
     cisnienieTimer.start();
     setField(czyPompaMebr, QVariant::fromValue((bool)true));
 

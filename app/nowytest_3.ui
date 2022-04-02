@@ -10,9 +10,8 @@
     <height>231</height>
    </rect>
   </property>
-    <property name="font">
+  <property name="font">
    <font>
-    <family>Tahoma</family>
     <pointsize>12</pointsize>
    </font>
   </property>
@@ -21,12 +20,6 @@
   </property>
   <property name="subTitle" stdset="0">
    <string>Ustaw odpowiednie ciśnienie w komorze,</string>
-  </property>
-    <property name="font">
-   <font>
-    <family>Tahoma</family>
-    <pointsize>12</pointsize>
-   </font>
   </property>
   <layout class="QFormLayout" name="formLayout_2">
    <item row="0" column="1">

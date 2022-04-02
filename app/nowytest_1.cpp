@@ -215,9 +215,3 @@ void NowyTest_1::on_pbNext_clicked()
     nextPage(nextPageId());
 }
 
-
-void NowyTest_1::on_pbCancel_clicked()
-{
-
-}
-

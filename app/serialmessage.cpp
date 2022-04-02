@@ -89,6 +89,8 @@ bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & le
     len = arr[0] & 0x0f;
 
     //emit debug(QString("cmd = %1 len = %2").arg(cmd).arg(len));
+    if (cmd == NOP_REP && len == 0xf)
+        return true;
     CRC8 crc;
     data = QByteArray(len, Qt::Uninitialized);
     //crc.add(arr.at(0));
@@ -141,6 +143,8 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
     qDebug("%s:%d", __FILE__, __LINE__);
 
     switch (cmd) {
+        case NOP_REP:
+            return true;
         case WELCOME_REP:
         {
             qDebug("%s %d Recv Welcome Msg", __FILE__,__LINE__);

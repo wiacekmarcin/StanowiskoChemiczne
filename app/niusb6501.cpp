@@ -81,7 +81,7 @@ bool NIDAQMxUSB6501::readValue(uInt16 & val)
     uint16_t corrval = (dataRead & 0x00ff) | (((dataRead & 0xff00) >> 4));
     val = (~corrval) & 0x01ff;
 
-    //qDebug("%s:%d inR=%04x corrV=%04x val=%04x ", __FILE__, __LINE__, dataRead, corrval, val);
+    qDebug("%s:%d inR=%04x corrV=%04x val=%04x ", __FILE__, __LINE__, dataRead, corrval, val);
     return true;
 
 Error:

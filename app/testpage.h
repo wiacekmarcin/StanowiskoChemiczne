@@ -8,6 +8,11 @@
 
 class CreateTestWizard;
 class TestPageForm;
+class QFrame;
+class QPushButton;
+class QLabel;
+
+
 
 class TestPage : public QWidget
 {
@@ -83,10 +88,15 @@ protected:
 
     bool isZamknietyZawor() {
         qDebug("%d%d%d%d%d%d%d%d", b_drzwi_prawe, b_wentylacja_lewa, b_proznia, b_pom_stez_1, b_drzwi_lewe, b_wentylacja_prawa, b_wlot_powietrza, b_pom_stez_2);
-        return b_drzwi_prawe && b_wentylacja_lewa && b_proznia && b_pom_stez_1 && b_drzwi_lewe && b_wentylacja_prawa && b_wlot_powietrza && b_pom_stez_2;
+        return b_drzwi_prawe || b_wentylacja_lewa || b_proznia || b_pom_stez_1 || b_drzwi_lewe || b_wentylacja_prawa || b_wlot_powietrza || b_pom_stez_2;
     }
     void setFinished(bool success);
 
+    bool sprawdzZawory(QPushButton *pbOk_1, QLabel * arrow_1, QFrame * frame_2);
+
+    bool sprawdzOtwarteZaworProzni();
+    bool sprawdzOtwarteZaworPowietrza();
+    bool sprawdzOtwarteZaworStezenia();
 private:
     CreateTestWizard * wiz;
     TestPageForm * form;

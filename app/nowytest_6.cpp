@@ -26,7 +26,10 @@ void NowyTest_6::initializePage()
         //zaplon = zaplon + QString (" ( %1 )").arg(zaplonExt);
     //}
     //ui->lStep2->setText(ui->lStep2->text().replace("[ZAPLON]", zaplon));
+    ui->frame_2->setVisible(false);
     valid = true;
+    runDialog = false;
+    step2 = false;
     emit completeChanged();
 }
 
@@ -43,7 +46,9 @@ bool NowyTest_6::isComplete() const
 
 void NowyTest_6::changeData()
 {
-    if (b_pilot) {
+    qDebug("%s%d %d",__FILE__,__LINE__, b_pilot);
+    if (step2 && b_pilot && !runDialog) {
+        runDialog = true;
         OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this);
         dlg->exec();
         delete dlg;
@@ -60,5 +65,12 @@ void NowyTest_6::on_pushButton_clicked()
     dlg->exec();
     delete dlg;
     nextPage(nextPageId());
+}
+
+
+void NowyTest_6::on_pbOK_1_clicked()
+{
+    if (sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2))
+        step2 = true;
 }
 

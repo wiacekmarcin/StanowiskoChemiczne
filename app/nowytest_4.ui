@@ -10,9 +10,8 @@
     <height>188</height>
    </rect>
   </property>
-    <property name="font">
+  <property name="font">
    <font>
-    <family>Tahoma</family>
     <pointsize>12</pointsize>
    </font>
   </property>
@@ -34,7 +33,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QLabel" name="arrow_1">
         <property name="text">
@@ -43,20 +42,20 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="text_1">
+       <widget class="QLabel" name="txt_1">
         <property name="text">
-         <string>Rozpocznij dozowanie [CIECZ] z dozonika {DOZOWNIK] w objętości [OBJETOSC]</string>
+         <string>Zamknij wszystkie zawory</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_2">
+       <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>389</width>
           <height>20</height>
          </size>
         </property>
@@ -80,7 +79,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLabel" name="arrow_2">
         <property name="text">
@@ -89,14 +88,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="text_2">
         <property name="text">
-         <string>Poczekaj aż cała ciecz odparowuje i ciśnienie w komorze się ustabilizuje</string>
+         <string>Rozpocznij dozowanie [CIECZ] z dozonika {DOZOWNIK] w objętości [OBJETOSC]</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_3">
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -126,7 +125,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="arrow_3">
         <property name="text">
@@ -135,7 +134,53 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="txt_3">
+        <property name="text">
+         <string>Poczekaj aż cała ciecz odparowuje i ciśnienie w komorze się ustabilizuje</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbOk_3">
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_4">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="arrow_4">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt_4">
         <property name="text">
          <string>Otwórz zawór podawania powietrza i poczekaj aż ciśnienie się w komorze się ustabiluzje</string>
         </property>
@@ -155,7 +200,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pbOk_3">
+       <widget class="QPushButton" name="pbOk_4">
         <property name="text">
          <string>OK</string>
         </property>

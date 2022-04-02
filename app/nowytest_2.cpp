@@ -57,7 +57,7 @@ bool NowyTest_2::isComplete() const
 
 void NowyTest_2::updateWejscia()
 {
-    qDebug("%s:%d %d %d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     if (showWarning) {
         if (b_drzwi_lewe && b_drzwi_prawe) {
             showWarning = false;
@@ -155,8 +155,8 @@ void NowyTest_2::on_pbOk_3_clicked()
     qDebug("%s:%d runCycle", __FILE__,__LINE__);
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
-    emit cykleDozownik(dozownikNr, 4);
-    //QTimer::singleShot(1000, this, &NowyTest_2::runDone);
+    //emit cykleDozownik(dozownik, 4);
+    QTimer::singleShot(1000, this, &NowyTest_2::runDone);
 
 }
 
@@ -176,8 +176,8 @@ void NowyTest_2::on_pbOk_4_clicked()
     if (!m_DozownikPelny) {
         qDebug("%s:%d runCycle", __FILE__,__LINE__);
         ui->pbOk_4->setEnabled(false);
-        emit cykleDozownik(dozownikNr, 1);
-        //QTimer::singleShot(1000, this, &NowyTest_2::runDone);
+        //emit cykleDozownik(dozownik, 1);
+        QTimer::singleShot(1000, this, &NowyTest_2::runDone);
     } else {
         ui->pbOk_4->setEnabled(false);
         ui->arrow_4->setVisible(false);

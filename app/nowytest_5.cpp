@@ -35,41 +35,39 @@ void NowyTest_5::initializePage()
     valid = false;
     emit completeChanged();
     ui->frame_2->setVisible(false);
+    ui->frame_3->setVisible(false);
     ui->arrow_1->setVisible(true);
+    ui->arrow_2->setVisible(true);
     ui->pbOK_1->setEnabled(true);
     ui->pbOK_2->setEnabled(true);
+    ui->pbOK_3->setEnabled(true);
     //emit pomiary(true);
 }
 
 void NowyTest_5::runDone()
 {
-    ui->pbOK_2->setEnabled(true);
+    ui->pbOK_3->setEnabled(true);
     //ui->pbStep2->setEnabled(true);
     //ui->pbStep2->setDone(true);
     //ui->lStep3->setEnabled(true);
     //ui->pbStep3->setEnabled(true);
 }
 
-
 void NowyTest_5::on_pbOK_1_clicked()
 {
-    ui->pbOK_1->setEnabled(false);
-    while (!isZamknietyZawor()) {
-        QMessageBox msgBox;
-        msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-        msgBox.setInformativeText("Wszystkie zawory powinny byc zamkniete. \n Czy chcesz kontynuować");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::No);
-        int ret = msgBox.exec();
-        if (ret == QMessageBox::No) {
-            setFinished(false);
-            return;
-        } else if (ret == QMessageBox::Cancel)
-            break;
-    }
-    ui->arrow_1->setVisible(false);
-    ui->frame_2->setVisible(true);
+    sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2);
+}
+
+
+void NowyTest_5::on_pbOK_2_clicked()
+{
+    if (!sprawdzOtwarteZaworStezenia())
+        return;
+
     ui->pbOK_2->setEnabled(false);
+    ui->arrow_2->setVisible(false);
+    ui->frame_3->setVisible(true);
+    ui->pbOK_3->setEnabled(false);
 
     //emit pomiary(true);
     //emit pompaMembramowa(true);
@@ -78,8 +76,10 @@ void NowyTest_5::on_pbOK_1_clicked()
 }
 
 
-void NowyTest_5::on_pbOK_2_clicked()
+void NowyTest_5::on_pbOK_3_clicked()
 {
+    if (!sprawdzOtwarteZaworStezenia())
+        return;
     nextPage(nextPageId());
 }
 

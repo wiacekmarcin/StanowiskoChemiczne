@@ -21,9 +21,9 @@ public:
 
 private slots:
     void runDone();
-
     void on_pbOK_1_clicked();
     void on_pbOK_2_clicked();
+    void on_pbOK_3_clicked();
 
 private:
     Ui::NowyTest_5 *ui;

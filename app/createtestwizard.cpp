@@ -57,14 +57,24 @@ void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust,
     addPage(page_2, TestPage::PAGE_2, 2, ust, u);
 
     NowyTest_3 * page_3 = new NowyTest_3(u, ust.getCisnienieProzni(), this);
-    connect(this, &CreateTestWizard::openZawor, page_3, &NowyTest_3::openZawor);
     connect(this, &CreateTestWizard::cisnienieVal, page_3, &NowyTest_3::cisnienieKomory);
+    connect(u, &Urzadzenia::digitalAllRead, page_3, &TestPage::readAll);
+    connect(page_3, &NowyTest_3::updateOutput, u, &Urzadzenia::digitalWrite);
     addPage(page_3, TestPage::PAGE_3, 3, ust, u);
 
+    NowyTest_4 * page_4 = new NowyTest_4(this);
 
-    addPage(new NowyTest_4(this), TestPage::PAGE_4, 4, ust, u);
-    addPage(new NowyTest_5(this), TestPage::PAGE_5, 5, ust, u);
-    addPage(new NowyTest_6(this), TestPage::PAGE_6, 6, ust, u);
+    connect(u, &Urzadzenia::digitalAllRead, page_4, &TestPage::readAll);
+    connect(page_4, &NowyTest_4::updateOutput, u, &Urzadzenia::digitalWrite);
+    addPage(page_4, TestPage::PAGE_4, 4, ust, u);
+
+    NowyTest_5 * page_5 = new NowyTest_5(this);
+    connect(u, &Urzadzenia::digitalAllRead, page_5, &TestPage::readAll);
+    addPage(page_5 , TestPage::PAGE_5, 5, ust, u);
+
+    NowyTest_6 * page_6 = new NowyTest_6(this);
+    connect(u, &Urzadzenia::digitalAllRead, page_6, &TestPage::readAll);
+    addPage(page_6, TestPage::PAGE_6, 6, ust, u);
 
     NowyTest_7 * page_7 = new NowyTest_7(u, this);
     connect(u, &Urzadzenia::digitalAllRead, page_7, &TestPage::readAll);
@@ -78,7 +88,7 @@ void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust,
     initializePage();
     connect(u, &Urzadzenia::digitalRead, this, &CreateTestWizard::changeDigitalIn);
 
-    nextPage(TestPage::PAGE_1);
+    nextPage(TestPage::PAGE_5);
 }
 
 void CreateTestWizard::initializePage()
@@ -217,7 +227,7 @@ void CreateTestWizard::clickedZawory()
 
 void CreateTestWizard::updatePageData()
 {
-    qDebug("%s:%d --- ", __FILE__, __LINE__);
+    //qDebug("%s:%d --- ", __FILE__, __LINE__);
     auto currPage = currentPage();
     if (currPage)
         currPage->changeData();
