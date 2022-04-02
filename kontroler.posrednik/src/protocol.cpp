@@ -73,6 +73,8 @@ bool Message::parse1() {
 
     switch(rozkaz[0]) {
         case NOP_REQ:
+            uint8_t sendData[1] = {0xff};
+            messageWrite1(sendData,1);
             return true;
         // get info |HEAD| CRC
         case WELCOME_REQ:   //get info 

@@ -60,7 +60,7 @@ class Message {
         MOVEHOME_REP = 10,
         RESET_REQ = 11,
         RESET_REP = 12,
-        ERROR_REP = 15,
+        ERROR_REP = 14,
     } CMD;
 
     typedef enum _work {
