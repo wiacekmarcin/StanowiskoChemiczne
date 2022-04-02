@@ -72,7 +72,6 @@ SOURCES += \
     nowytest_6.cpp \
     nowytest_7.cpp \
     nowytest_8.cpp \
-    disablebutton.cpp \
     dispushbutton.cpp \
     highlowdigitalwidget.cpp \
     urzadzenia.cpp \
@@ -121,7 +120,6 @@ HEADERS += \
     nowytest_6.h \
     nowytest_7.h \
     nowytest_8.h \
-    disablebutton.h \
     dispushbutton.h \
     highlowdigitalwidget.h \
     urzadzenia.h \
@@ -158,7 +156,6 @@ FORMS += \
     nowytest_6.ui \
     nowytest_7.ui \
     nowytest_8.ui \
-    disablebutton.ui \
     highlowdigitalwidget.ui
 
 RESOURCES += \
