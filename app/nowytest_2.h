@@ -47,7 +47,7 @@ private slots:
 private:
 
     Ui::NowyTest_2 *ui;
-    short dozownikNr;
+    short dozownik;
     unsigned short initCykle;
 
     bool m_DozownikPelny;

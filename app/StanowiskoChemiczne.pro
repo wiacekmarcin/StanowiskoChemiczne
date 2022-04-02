@@ -58,7 +58,6 @@ SOURCES += \
     createtestwizard.cpp \
     nowytestdlg.cpp \
     projectitem.cpp \
-    testdata.cpp \
     testpage.cpp \
     testpageform.cpp \
     projektwidget.cpp \
@@ -105,7 +104,6 @@ HEADERS += \
     createtestwizard.h \
     nowytestdlg.h \
     projectitem.h \
-    testdata.h \
     testpage.h \
     testpageform.h \
     projektwidget.h \

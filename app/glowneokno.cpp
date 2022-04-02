@@ -18,7 +18,7 @@
 #include "nowytestdlg.h"
 #include "projectitem.h"
 #include "nowyprojectdlg.h"
-#include "testdata.h"
+
 #include "testtabswidget.h"
 #include "urzadzenia.h"
 #include "dozowniksettings.h"
@@ -102,19 +102,16 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     selectedProject->addChild(qtreewidgetitem);
 
     selectedTest = qtreewidgetitem;
-    TestData testDane("Woda 1mg", 1, "Woda", 1.0, "Iskra mechaniczna", "--");
-
 
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
                                             settings,
-                                            testDane,
-                                            ui->testyStackedWidget);
+                                             ui->testyStackedWidget);
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
     ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
-    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings);
+    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings, qtreewidgetitem->data(0, Qt::DisplayRole).toString());
+
     testy[selectedTest]->setActive();
 
-    projekty[selectedProject].addTest(testDane);
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
@@ -160,42 +157,36 @@ void GlowneOkno::on_actionNowy_projekt_triggered()
 
 void GlowneOkno::on_actionNowy_Test_triggered()
 {
-
-    auto * dlg = new NowyTestDlg(this);
-    if (dlg->exec() == QDialog::Rejected) {
-        return;
-    }
-
+    static unsigned int nrTest = 1;
     if (selectedProject == nullptr)
         return;
 
-    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(dlg->getName()));
-
-
+    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Test %1").arg(nrTest++)));
     selectedProject->addChild(qtreewidgetitem);
 
     selectedTest = qtreewidgetitem;
-    TestData testDane(dlg->getName(), dlg->getDozownik(), dlg->getLuquid(),
-             dlg->getVolume(), dlg->getIngition(), dlg->getIngitionExt());
-
-
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
                                             settings,
-                                            testDane,
                                             ui->testyStackedWidget);
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
     ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
-    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings);
+
+    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings,
+                                                  qtreewidgetitem->data(0, Qt::DisplayRole).toString());
+
     testy[selectedTest]->setActive();
 
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeTestName, this, &GlowneOkno::changeTestName);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest);
     connect(urzadzenia, &Urzadzenia::digitalRead,        testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
 
-    projekty[selectedProject].addTest(testDane);
 
     ui->treeWidget->setCurrentItem(selectedTest);
     mapTesty[selectedTest] = selectedProject;
     changeSelectedTest();
+    disableNowyTest(true);
+
 }
 
 void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column */)
@@ -293,6 +284,15 @@ void GlowneOkno::setActionText()
     }
 }
 
+void GlowneOkno::disableNowyTest(bool dis)
+{
+    ui->treeWidget->setEnabled(!dis);
+    ui->actionDodaj_film->setEnabled(!dis);
+    ui->actionDodaj_zdj_cie->setEnabled(!dis);
+    ui->actionNowy_Test->setEnabled(!dis);
+    ui->actionNowy_projekt->setEnabled(!dis);
+}
+
 
 
 
@@ -300,5 +300,25 @@ void GlowneOkno::on_actionUstawienia_triggered()
 {
     UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, this);
     dlg->exec();
+}
+
+void GlowneOkno::changeTestName(const QString &name)
+{
+    if (selectedTest) {
+        selectedTest->setData(0, Qt::DisplayRole, QVariant::fromValue(name));
+    }
+}
+
+void GlowneOkno::finishedTest(bool success)
+{
+    qDebug("%s:%d %d",__FILE__,__LINE__,success);
+    disableNowyTest(false);
+    if (!success) {
+        selectedProject->removeChild(selectedTest);
+        delete testy[selectedTest];
+        testy.remove(selectedTest);
+        selectedTest = nullptr;
+        changeSelectedTest();
+    }
 }
 

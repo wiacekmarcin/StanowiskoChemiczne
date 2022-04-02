@@ -17,7 +17,7 @@ public:
     ~NowyTest_7();
     virtual void initializePage() override;
     virtual bool isComplete() const override;
-    virtual int nextPageId() const override;
+    virtual PageId nextPageId() const override;
     virtual void changeData() override;
 
 private slots:
@@ -31,7 +31,7 @@ private slots:
 
 private:
     Ui::NowyTest_7 *ui;
-    int next;
+    PageId next;
     bool initial;
     bool wykrytyZaplon;
     bool wybranyZaplon;

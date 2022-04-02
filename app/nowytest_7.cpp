@@ -10,7 +10,7 @@ NowyTest_7::NowyTest_7(Urzadzenia * /*u*/, QWidget *parent) :
 {
     ui->setupUi(this);
     initial = false;
-    next = 8;
+    next = PAGE_8;
     wykrytyZaplon = true;
 
     if (wykrytyZaplon)
@@ -44,7 +44,7 @@ bool NowyTest_7::isComplete() const
     return TestPage::isComplete() && valid;
 }
 
-int NowyTest_7::nextPageId() const
+TestPage::PageId NowyTest_7::nextPageId() const
 {
     return next;
 }

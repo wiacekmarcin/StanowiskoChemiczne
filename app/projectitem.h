@@ -1,6 +1,5 @@
 #ifndef PROJECTITEM_H
 #define PROJECTITEM_H
-#include "testdata.h"
 
 
 #include <QList>
@@ -31,7 +30,6 @@ public:
     QString getCreateData() const;
     void setCreateData(const QString &value);
 
-    void addTest(const TestData & val);
     void setWidget(ProjektWidget *w);
 
 private:
@@ -41,7 +39,6 @@ private:
     QString comment;
     QString createData;
 
-    QList<TestData> tests;
 };
 
 #endif // PROJECTITEM_H

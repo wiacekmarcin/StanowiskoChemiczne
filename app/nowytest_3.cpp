@@ -48,11 +48,9 @@ bool NowyTest_3::isComplete() const
 
 void NowyTest_3::initializePage()
 {
-     setField("Podcisnienie", QVariant::fromValue((int)0));
-     setField("pompa_prozniowa", QVariant::fromValue((bool)false));
+     setField(czyPompaMebr, QVariant::fromValue((bool)false));
      valid = false;
      prozniaTask = false;
-     showButton(false);
      ui->frame_2->setVisible(false);
      ui->frame_3->setVisible(false);
      ui->frame_4->setVisible(false);
@@ -237,7 +235,7 @@ void NowyTest_3::on_pbRun_5_clicked()
     //ui->pbOk_3->setEnabled(false);
     timePompaProzniowa = 100;
     cisnienieTimer.start();
-    setField("pompa_prozniowa", QVariant::fromValue((bool)true));
+    setField(czyPompaMebr, QVariant::fromValue((bool)true));
 
     //ui->arrow_3->setVisible(false);
     ui->frame_4->setVisible(true);

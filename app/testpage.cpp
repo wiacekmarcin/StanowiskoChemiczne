@@ -24,17 +24,14 @@ TestPage::~TestPage()
 
 }
 
-void TestPage::setField(const QString &key, const QVariant &val)
+void TestPage::setField(Value key, const QVariant &val)
 {
-    if (wiz)
-        wiz->setField(key, val);
+    wiz->setField(key, val);
 }
 
-QVariant TestPage::field(const QString &key) const
+QVariant TestPage::field(Value key) const
 {
-    if (wiz)
-        return wiz->field(key);
-    return QVariant();
+    return wiz->field(key);
 }
 
 void TestPage::setWizard(CreateTestWizard *wizard)
@@ -47,12 +44,12 @@ CreateTestWizard *TestPage::wizard() const
     return wiz;
 }
 
-int TestPage::getId() const
+TestPage::PageId TestPage::getId() const
 {
     return id;
 }
 
-void TestPage::setId(int value)
+void TestPage::setId(TestPage::PageId value)
 {
     id = value;
 }
@@ -81,24 +78,6 @@ void TestPage::setSubTitle(const QString &t)
     m_subTitle = t;
 }
 
-QString TestPage::buttonName() const
-{
-    return m_buttonName;
-}
-
-void TestPage::setButtonName(const QString &t)
-{
-    if (form)
-        form->setButtonName(t);
-    m_buttonName = t;
-}
-
-void TestPage::showButton(bool value)
-{
-    if (form)
-        form->showVisibleButton(value);
-}
-
 TestPageForm *TestPage::getForm() const
 {
     return form;
@@ -109,7 +88,6 @@ void TestPage::setForm(TestPageForm *value)
     form = value;
     setSubTitle(subTitle());
     setTitle(title());
-    setButtonName(buttonName());
 }
 
 void TestPage::initializePage()
@@ -117,12 +95,12 @@ void TestPage::initializePage()
     //qDebug("TestPage::initializePage()");
 }
 
-int TestPage::nextPageId() const
+TestPage::PageId TestPage::nextPageId() const
 {
-    return id+1;
+    return (PageId) ( (int)id+1);
 }
 
-void TestPage::nextPage(short idPage)
+void TestPage::nextPage(TestPage::PageId idPage)
 {
     wiz->nextPage(idPage);
 }
@@ -153,5 +131,8 @@ void TestPage::readAll(uint16_t vals)
     }
 }
 
-
+void TestPage::setFinished(bool success)
+{
+    wiz->setFinished(success);
+}
 

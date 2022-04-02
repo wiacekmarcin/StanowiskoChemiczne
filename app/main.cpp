@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     dlg->show();
 #endif
     GlowneOkno w(u, &urzadz);
-    w.show();
+    w.showMaximized();
 
     return a.exec();
 

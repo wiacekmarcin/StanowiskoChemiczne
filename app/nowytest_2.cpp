@@ -36,11 +36,10 @@ void NowyTest_2::initializePage()
     ui->rb1_yes->setChecked(true);
     ui->rb4_yes->setChecked(true);
 
-    dozownikNr = field("dozownik").toUInt()-1;
+    dozownik = field(dozownikNr).toUInt()-1;
     komoraL = true;
     komoraP = true;
 
-    showButton(false);
     emit completeChanged();
 }
 

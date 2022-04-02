@@ -24,16 +24,15 @@ NowyTest_4::NowyTest_4(QWidget *parent) :
 
 void NowyTest_4::initializePage()
 {
-    infoString.replace("[CIECZ]", field("ciecz").toString());
-    infoString.replace("[DOZOWNIK]", field("dozownik").toString());
-    infoString.replace("[OBJETOSC]", field("objetosc").toString());
+    infoString.replace("[CIECZ]", field(ciecz).toString());
+    infoString.replace("[DOZOWNIK]", QString::number(field(dozownikNr).toUInt()));
+    infoString.replace("[OBJETOSC]", QString::number(field(objetosc).toUInt()));
     ui->text_1->setTextFormat(Qt::RichText);
     ui->text_1->setText(infoString);
     ui->arrow_1->setVisible(true);
     ui->arrow_2->setVisible(true);
     ui->frame_2->setVisible(false);
     ui->frame_3->setVisible(false);
-    showButton(false);
     valid = false;
     emit completeChanged();
 }
@@ -74,13 +73,13 @@ void NowyTest_4::on_pbOk_1_clicked()
     ui->arrow_1->setVisible(false);
     ui->frame_2->setVisible(true);
     ui->pbOk_1->setEnabled(false);
-    //emit dozownik(field("dozownik").toInt(), field("objetosc").toInt());
+    //emit dozownik(field(dozownikNr).toUInt(), field(objetosc).toUInt());
     QTimer::singleShot(1000, this, &NowyTest_4::runDone);
 }
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
-    if (field("pompa_prozniowa").toBool()) {
+    if (field(czyPompaMebr).toBool()) {
         ui->arrow_2->setVisible(false);
         ui->frame_3->setVisible(true);
         ui->pbOk_3->setEnabled(false);

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "projectitem.h"
-#include "testdata.h"
+
 #include "testtabswidget.h"
 #include "ustawienia.h"
 namespace Ui {
@@ -37,11 +37,15 @@ private slots:
     void resizeEvent(QResizeEvent * event);
     void on_actionUstawienia_triggered();
 
+    void changeTestName(const QString &name);
+    void finishedTest(bool success);
+
 signals:
     void analogValueChanged(int id, double val);
 protected:
     void changeSelectedTest();
     void setActionText();
+    void disableNowyTest(bool dis);
 
 private:
     Ui::GlowneOkno *ui;

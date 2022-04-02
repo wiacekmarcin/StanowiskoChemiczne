@@ -8,14 +8,13 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const Ustawienia & ust, const TestData &t, QWidget *parent) :
+TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const Ustawienia & ust, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestTabsWidget),
-    projekt(pr), test(t)
+    projekt(pr)
 {
     ui->setupUi(this);
 
-    ui->stackedWidget->setTestData(t);
     ui->stackedWidget->setUstawienia(ust);
 
     ui->tabFoto->setEnabled(false);

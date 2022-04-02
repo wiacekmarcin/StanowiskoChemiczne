@@ -16,6 +16,7 @@
 
 #include <QAbstractButton>
 #include <QVariant>
+#include <QTreeWidgetItem>
 #include <QDebug>
 
 #include "urzadzenia.h"
@@ -25,23 +26,10 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     QStackedWidget(parent),
     dlgOtwarte(nullptr)
 {
-    selectedId = -1;
+    selectedId = TestPage::PAGE_U;
     zamknietaKomoraLewa = false;
     zamknietaKomoraPrawa = false;
     setObjectName(QString::fromUtf8("TestWizard"));
-    addPage(new NowyTest_1(this), 1);
-}
-
-void CreateTestWizard::setTestData(const TestData &dt)
-{
-    setField(QString("nazwa"), QVariant::fromValue(dt.getNazwa()));
-    setField(QString("dozownik"), QVariant::fromValue(dt.getDozownik()));
-    setField(QString("ciecz"), QVariant::fromValue(dt.getCiecz()));
-    setField(QString("objetosc"), QVariant::fromValue(dt.getObjetosc()));
-    setField(QString("zaplon"), QVariant::fromValue(dt.getZaplon()));
-    setField(QString("zaplonExt"), QVariant::fromValue(dt.getZaplonExt()));
-    selectedId = 1;
-    initializePage();
 }
 
 void CreateTestWizard::setUstawienia(const Ustawienia & ust)
@@ -58,36 +46,39 @@ CreateTestWizard::~CreateTestWizard()
 
 }
 
-void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust)
+void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust,
+                            const QString & testName)
 {
+    NowyTest_1 * page_1 = new NowyTest_1(testName, this);
+    addPage(page_1, TestPage::PAGE_1, 1);
 
     NowyTest_2 * page_2 = new NowyTest_2(u, ust.getNrInitializeCycles(), this);
     connect(u, &Urzadzenia::digitalAllRead, page_2, &TestPage::readAll);
-    addPage(page_2, 2);
+    addPage(page_2, TestPage::PAGE_2, 2);
 
     NowyTest_3 * page_3 = new NowyTest_3(u, ust.getCisnienieProzni(), this);
     connect(this, &CreateTestWizard::openZawor, page_3, &NowyTest_3::openZawor);
     connect(this, &CreateTestWizard::cisnienieVal, page_3, &NowyTest_3::cisnienieKomory);
-    addPage(page_3, 3);
+    addPage(page_3, TestPage::PAGE_3, 3);
 
 
-    addPage(new NowyTest_4(this), 4);
-    addPage(new NowyTest_5(this), 5);
-    addPage(new NowyTest_6(this), 6);
+    addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
+    addPage(new NowyTest_5(this), TestPage::PAGE_5, 5);
+    addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
 
     NowyTest_7 * page_7 = new NowyTest_7(u, this);
     connect(u, &Urzadzenia::digitalAllRead, page_7, &TestPage::readAll);
-    addPage(page_7, 7);
+    addPage(page_7, TestPage::PAGE_7, 7);
 
 
-    addPage(new NowyTest_8(this), 8);
-    selectedId = 1;
+    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
+    selectedId = TestPage::PAGE_1;
     finished = false;
 
     initializePage();
     connect(u, &Urzadzenia::digitalRead, this, &CreateTestWizard::changeDigitalIn);
 
-    nextPage(5);
+    nextPage(TestPage::PAGE_1);
 }
 
 void CreateTestWizard::initializePage()
@@ -97,22 +88,24 @@ void CreateTestWizard::initializePage()
         pages[selectedId]->initializePage();
 }
 
-void CreateTestWizard::setField(const QString &key, const QVariant &val)
+void CreateTestWizard::setField(TestPage::Value key, const QVariant &val)
 {
+    if (key == TestPage::nazwaTest)
+        emit changeTestName(val.toString());
     values[key] = val;
 }
 
-QVariant CreateTestWizard::field(const QString &key) const
+QVariant CreateTestWizard::field(TestPage::Value key) const
 {
     if (values.contains(key))
         return values[key];
     return QVariant();
 }
 
-void CreateTestWizard::addPage(TestPage *page, int id)
+void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step)
 {
     TestPageForm *t = new TestPageForm(this);
-    t->setId(id);
+    t->setStep(step);
     page->setId(id);
 
     t->addWidget(page);
@@ -125,8 +118,6 @@ void CreateTestWizard::addPage(TestPage *page, int id)
     pages[id] = t;
     addWidget(t);
 
-
-    connect(t, &TestPageForm::clickButton, this, &CreateTestWizard::nextPage);
     connect(page, &TestPage::completeChanged, this, &CreateTestWizard::checkValidPage);
     connect(page, &TestPage::updateData, this, &CreateTestWizard::updatePageData);
 }
@@ -135,6 +126,13 @@ void CreateTestWizard::addPage(TestPage *page, int id)
 TestPage *CreateTestWizard::currentPage() const
 {
     return static_cast<TestPageForm*>(currentWidget())->widget();
+}
+
+void CreateTestWizard::setFinished(bool success)
+{
+    finished = success;
+    emit finishedTest(success);
+
 }
 
 bool CreateTestWizard::checkZawory() const
@@ -214,7 +212,7 @@ void CreateTestWizard::updatePageData()
         currPage->changeData();
 }
 
-void CreateTestWizard::nextPage(int id)
+void CreateTestWizard::nextPage(TestPage::PageId id)
 {
     //qDebug("nextPage %d", id);
     if (finished)
@@ -225,12 +223,12 @@ void CreateTestWizard::nextPage(int id)
         setCurrentWidget(pages[selectedId]);
     }
     initializePage();
-    if (id == 7) {
+    if (id == TestPage::PAGE_7) {
         //emit zaplon(field("zaplon").toString(), field("zaplonExt").toString());
         //emit triggerCamera(true);
         //emit pomiarCisnienia(1 /*cisnienie*/, 5*60&1000);
     }
-    if (id == 8)
+    if (id == TestPage::PAGE_8)
         finished = true;
 }
 
