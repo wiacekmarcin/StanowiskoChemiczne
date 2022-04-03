@@ -6,40 +6,161 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>655</width>
-    <height>70</height>
+    <width>779</width>
+    <height>129</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>WizardPage</string>
+  </property>
   <property name="title" stdset="0">
-   <string>Podsumowanie</string>
+   <string>Rozpoczęcie pomiarów</string>
   </property>
   <property name="subTitle" stdset="0">
-   <string/>
+   <string>Stanowisko jest gotowe do rozpoczęcia pomiarów.</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Badanie zakończone &lt;span style=&quot; font-weight:600; color:#8ae234;&quot;&gt;[ZAPLON]&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#cc0000;&quot;&gt;[BRAKZAPLONU] &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;mieszaniny par &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;[CIECZ] &lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;z pomiarem stężenia &lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;[STEZENIE]&lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt; poprzez [&lt;/span&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;ZRODLOZAPLONU&lt;/span&gt;&lt;span style=&quot; color:#000000;&quot;&gt;]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <widget class="QFrame" name="frame_1">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="wordWrap">
-      <bool>true</bool>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="arrow_1">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt_1">
+        <property name="text">
+         <string>Zamknij wszystkie zawory i drzwi do komory</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>518</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbOK_1">
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_2">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="arrow_2">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt_2">
+        <property name="text">
+         <string>Otwórz zawory X i Y oraz rozpocznij pomiar stężenia gazów w wewnątrzn komory</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>332</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbOK_2">
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_3">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="arrow_3">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt_3">
+        <property name="text">
+         <string>Poczekaj na ustabilizowanie się pomiarów stężenia gazów</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>426</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbOK_3">
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

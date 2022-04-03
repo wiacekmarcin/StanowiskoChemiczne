@@ -32,6 +32,7 @@ void NowyTest_5::initializePage()
 void NowyTest_5::runDone()
 {
     ui->pbOK_3->setEnabled(true);
+    updateOutput(pompa_powietrza, false);
     //ui->pbStep2->setEnabled(true);
     //ui->pbStep2->setDone(true);
     //ui->lStep3->setEnabled(true);
@@ -54,10 +55,11 @@ void NowyTest_5::on_pbOK_2_clicked()
     ui->frame_3->setVisible(true);
     ui->pbOK_3->setEnabled(false);
 
+    updateOutput(pompa_powietrza, true);
     //emit pomiary(true);
     //emit pompaMembramowa(true);
     //emit mieszadlo(true);
-    QTimer::singleShot(2000, this, &NowyTest_5::runDone);
+    QTimer::singleShot(5000, this, &NowyTest_5::runDone);
 }
 
 

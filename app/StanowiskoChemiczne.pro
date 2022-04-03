@@ -67,7 +67,7 @@ SOURCES += \
     nowytest_5.cpp \
     nowytest_6.cpp \
     nowytest_7.cpp \
-    nowytest_8.cpp \
+    nowytest_9.cpp \
     urzadzenia.cpp \
     niusb6210.cpp \
     niusb6501.cpp \
@@ -109,7 +109,7 @@ HEADERS += \
     nowytest_5.h \
     nowytest_6.h \
     nowytest_7.h \
-    nowytest_8.h \
+    nowytest_9.h \
     urzadzenia.h \
     ustawienia.h \
     niusb6210.h \
@@ -141,7 +141,7 @@ FORMS += \
     nowytest_5.ui \
     nowytest_6.ui \
     nowytest_7.ui \
-    nowytest_8.ui
+    nowytest_9.ui
 
 RESOURCES += \
     ikony.qrc

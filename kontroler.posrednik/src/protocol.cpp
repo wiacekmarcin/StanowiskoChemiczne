@@ -217,3 +217,8 @@ void Message::sendError(const char *buf, uint8_t len)
     }
     sendError(b, len);
 }
+
+void Message::reset()
+{
+    init();
+}

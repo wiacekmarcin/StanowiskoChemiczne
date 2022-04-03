@@ -10,7 +10,7 @@
 #include "nowytest_5.h"
 #include "nowytest_6.h"
 #include "nowytest_7.h"
-#include "nowytest_8.h"
+#include "nowytest_9.h"
 
 #include "otwartezawory.h"
 
@@ -87,7 +87,7 @@ void CreateTestWizard::init(const Ustawienia & ust,
     addPage(page_7, TestPage::PAGE_7, 7);
     qDebug("%s:%d",__FILE__,__LINE__);
 
-    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
+    addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
     qDebug("%s:%d",__FILE__,__LINE__);
     selectedId = TestPage::PAGE_1;
     finished = false;

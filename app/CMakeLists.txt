@@ -50,7 +50,7 @@ add_executable (StanowiskoChemiczne "main.cpp"
     "nowytest_5.cpp" "nowytest_5.h" "nowytest_5.ui"
     "nowytest_6.cpp" "nowytest_6.h" "nowytest_6.ui"
     "nowytest_7.cpp" "nowytest_7.h" "nowytest_7.ui"
-    "nowytest_8.cpp" "nowytest_8.h" "nowytest_8.ui"
+    "nowytest_9.cpp" "nowytest_9.h" "nowytest_9.ui"
     "projectitem.cpp" "projectitem.h"
     "testdata.cpp" "testdata.h"
     "testpage.cpp" "testpage.h"
@@ -117,7 +117,7 @@ include_directories("C:/Qt/5.15.2/msvc2019_64/include")
 #CMakeProject2\CMakeFiles\CMakeProject2.dir\nowytest_5.cpp.obj
 #CMakeProject2\CMakeFiles\CMakeProject2.dir\nowytest_6.cpp.obj
 #CMakeProject2\CMakeFiles\CMakeProject2.dir\nowytest_7.cpp.obj
-#CMakeProject2\CMakeFiles\CMakeProject2.dir\nowytest_8.cpp.obj
+#CMakeProject2\CMakeFiles\CMakeProject2.dir\nowytest_9.cpp.obj
 #CMakeProject2\CMakeFiles\CMakeProject2.dir\projectitem.cpp.obj
 #CMakeProject2\CMakeFiles\CMakeProject2.dir\testdata.cpp.obj
 #CMakeProject2\CMakeFiles\CMakeProject2.dir\testpage.cpp.obj

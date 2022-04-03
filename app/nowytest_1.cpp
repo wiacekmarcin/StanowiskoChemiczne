@@ -1,6 +1,7 @@
 #include "nowytest_1.h"
 #include "ui_nowytest_1.h"
 #include <QDebug>
+#include "ustawienia.h"
 
 NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
     TestPage(parent),
@@ -32,8 +33,11 @@ NowyTest_1::~NowyTest_1()
 void NowyTest_1::initializePage()
 {
     ui->pbNext->setEnabled(false);
+    updateOutput(pompa_prozniowa, false);
+    updateOutput(pompa_powietrza, false);
+    updateOutput(wentylator, false);
+    updateOutput(mieszadlo, false);
 }
-
 
 QString NowyTest_1::getName() const
 {
@@ -113,6 +117,8 @@ void NowyTest_1::dozownikChanged(int index)
     checkValid();
 
 }
+
+
 
 void NowyTest_1::checkValid()
 {

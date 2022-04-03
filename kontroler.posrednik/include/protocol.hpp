@@ -77,6 +77,7 @@ class Message {
     bool check1(unsigned char c);
     bool check2(unsigned char c);
     Work getStatusWork() const;
+    void reset();
 
 protected:
 

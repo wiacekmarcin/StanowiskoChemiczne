@@ -27,7 +27,10 @@ void NowyTest_6::initializePage()
     info += zaplon;
     info += ".";
     ui->lStep2->setText(info);
+
     ui->frame_2->setVisible(false);
+    ui->arrow_1->setVisible(true);
+    ui->pbOK_1->setEnabled(true);
     runDialog = false;
     step2 = false;
 }

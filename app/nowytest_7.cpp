@@ -39,6 +39,10 @@ void NowyTest_7::initializePage()
     ui->frame_4->setVisible(false);
     ui->arrow_4->setVisible(true);
     ui->rb1_yes->setChecked(true);
+    ui->pbOK_1->setEnabled(true);
+    ui->pbOK_2->setEnabled(true);
+    ui->pbOK_3->setEnabled(true);
+    ui->pbOk_4->setEnabled(true);
     TestPage::initializePage();
     ui->rb3_zaplon->setEnabled(field(TestPage::rodzajZaplonu).toInt() != ISKRA_PLOMIEN);
 }

@@ -142,7 +142,7 @@ void NowyTest_2::on_pbOk_3_clicked()
     qDebug("%s:%d runCycle", __FILE__,__LINE__);
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
-    //emit cykleDozownik(dozownik, 4);
+    emit cykleDozownik(dozownik, 4);
     QTimer::singleShot(1000, this, &NowyTest_2::runDone);
 
 }

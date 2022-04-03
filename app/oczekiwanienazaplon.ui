@@ -12,18 +12,17 @@
   </property>
   <property name="font">
    <font>
-    <family>Tahoma</family>
     <pointsize>14</pointsize>
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Komora</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Oczekiwanie na pojawienie się zapłonu</string>
+      <string>Wykrywanie zapłonu</string>
      </property>
     </widget>
    </item>

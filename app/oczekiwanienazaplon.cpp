@@ -26,7 +26,7 @@ void OczekiwanieNaZaplon::updateTime()
     secs++;
     if (secs > maxSecs) {
         timer.stop();
-        emit accept();
+        accept();
     }
     ui->pbTime->setValue(secs);
 }

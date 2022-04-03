@@ -1,7 +1,9 @@
 #include "nowytest_8.h"
 #include "ui_nowytest_8.h"
 #include "createtestwizard.h"
-#include "testpage.h"
+
+#include <QTimer>
+#include <QMessageBox>
 
 NowyTest_8::NowyTest_8(QWidget *parent) :
     TestPage(parent),
@@ -17,22 +19,54 @@ NowyTest_8::~NowyTest_8()
 
 void NowyTest_8::initializePage()
 {
-    QString ciecz = field(TestPage::ciecz).toString();
-    QString zaplon = field(TestPage::zaplon).toString();
-    QString zaplonExt = field(zaplonExtra).toString();
-    if (zaplonExt != QString("--"))
-        zaplon = zaplon + QString (" ( %1 )").arg(zaplonExt);
+    ui->frame_2->setVisible(false);
+    ui->frame_3->setVisible(false);
+    ui->arrow_1->setVisible(true);
+    ui->arrow_2->setVisible(true);
+    ui->pbOK_1->setEnabled(true);
+    ui->pbOK_2->setEnabled(true);
+    ui->pbOK_3->setEnabled(true);
+    //emit pomiary(true);
+}
 
-    QString resultat = ui->label->text();
-    resultat = resultat.replace("[ZRODLOZAPLONU]", zaplon);
-    resultat = resultat.replace("[CIECZ]", ciecz);
-    bool brakzaplonu = field(brakZaplonu).toBool();
-    resultat = resultat.replace("[ZAPLON]", brakzaplonu ? "" : QString::fromUtf8("zap\305\202onem"));
-    resultat = resultat.replace("[BRAKZAPLONU]", brakzaplonu ? QString::fromUtf8("brakiem zap\305\202onu"):"");
-    ui->label->setText(resultat);
-    setFinished(true);
+void NowyTest_8::runDone()
+{
+    ui->pbOK_3->setEnabled(true);
+    updateOutput(pompa_powietrza, false);
+    //ui->pbStep2->setEnabled(true);
+    //ui->pbStep2->setDone(true);
+    //ui->lStep3->setEnabled(true);
+    //ui->pbStep3->setEnabled(true);
+}
+
+void NowyTest_8::on_pbOK_1_clicked()
+{
+    sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2);
 }
 
 
+void NowyTest_8::on_pbOK_2_clicked()
+{
+    if (!sprawdzOtwarteZaworStezenia())
+        return;
 
+    ui->pbOK_2->setEnabled(false);
+    ui->arrow_2->setVisible(false);
+    ui->frame_3->setVisible(true);
+    ui->pbOK_3->setEnabled(false);
+
+    updateOutput(pompa_powietrza, true);
+    //emit pomiary(true);
+    //emit pompaMembramowa(true);
+    //emit mieszadlo(true);
+    QTimer::singleShot(5000, this, &NowyTest_8::runDone);
+}
+
+
+void NowyTest_8::on_pbOK_3_clicked()
+{
+    if (!sprawdzOtwarteZaworStezenia())
+        return;
+    nextPage(nextPageId());
+}
 

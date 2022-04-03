@@ -35,7 +35,8 @@ public:
         PAGE_5,
         PAGE_6,
         PAGE_7,
-        PAGE_8
+        PAGE_8,
+        PAGE_9
     } PageId;
 
     typedef enum _value {

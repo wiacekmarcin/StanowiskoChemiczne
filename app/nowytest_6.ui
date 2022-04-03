@@ -53,7 +53,7 @@
       <item>
        <widget class="QLabel" name="txt_1">
         <property name="text">
-         <string>Zamknij wszystkie zawory</string>
+         <string>Zamknij wszystkie zawory i drzwi do komory</string>
         </property>
        </widget>
       </item>

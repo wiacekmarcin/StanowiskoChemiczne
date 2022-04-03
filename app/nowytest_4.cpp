@@ -28,14 +28,23 @@ void NowyTest_4::initializePage()
                         field(calaObjetosc).toDouble() + field(objetosc).toDouble()
                                                                    ));
     }
+
+
     ui->text_2->setTextFormat(Qt::RichText);
     ui->text_2->setText(infoString);
     ui->arrow_1->setVisible(true);
     ui->arrow_2->setVisible(true);
     ui->arrow_3->setVisible(true);
+    ui->arrow_4->setVisible(true);
+
     ui->frame_2->setVisible(false);
     ui->frame_3->setVisible(false);
     ui->frame_4->setVisible(false);
+
+    ui->pbOk_1->setEnabled(true);
+    ui->pbOk_2->setEnabled(true);
+    ui->pbOk_3->setEnabled(true);
+    ui->pbOk_4->setEnabled(true);
 }
 
 NowyTest_4::~NowyTest_4()
