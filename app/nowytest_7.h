@@ -13,12 +13,11 @@ class NowyTest_7 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_7(Urzadzenia * u, QWidget *parent = 0);
+    explicit NowyTest_7(QWidget *parent = 0);
     ~NowyTest_7();
     virtual void initializePage() override;
-    virtual bool isComplete() const override;
     virtual PageId nextPageId() const override;
-    virtual void changeData() override;
+
 
 private slots:
 

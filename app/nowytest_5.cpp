@@ -10,8 +10,6 @@ NowyTest_5::NowyTest_5(QWidget *parent) :
     ui(new Ui::NowyTest_5)
 {
     ui->setupUi(this);
-
-    valid = false;
 }
 
 NowyTest_5::~NowyTest_5()
@@ -19,21 +17,8 @@ NowyTest_5::~NowyTest_5()
     delete ui;
 }
 
-bool NowyTest_5::isComplete() const
-{
-    if (wizard()->currentPage() != this)
-        return true;
-
-    if (!TestPage::isComplete())
-        return false;
-
-    return valid;
-}
-
 void NowyTest_5::initializePage()
 {
-    valid = false;
-    emit completeChanged();
     ui->frame_2->setVisible(false);
     ui->frame_3->setVisible(false);
     ui->arrow_1->setVisible(true);

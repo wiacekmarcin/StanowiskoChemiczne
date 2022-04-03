@@ -33,15 +33,13 @@ private slots:
     void wybierzCzujke(int id);
     void showIO();
     void dozownikTest();
-    void valueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
+
     void resizeEvent(QResizeEvent * event);
     void on_actionUstawienia_triggered();
 
     void changeTestName(const QString &name);
     void finishedTest(bool success);
 
-signals:
-    void analogValueChanged(int id, double val);
 protected:
     void changeSelectedTest();
     void setActionText();

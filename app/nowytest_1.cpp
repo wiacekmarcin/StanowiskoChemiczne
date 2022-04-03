@@ -6,17 +6,21 @@ NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_1)
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     ui->setupUi(this);
+    qDebug("%s:%d",__FILE__,__LINE__);
     ui->nameTest->setText(testName);
+    qDebug("%s:%d",__FILE__,__LINE__);
     valid = false;
     checkValid();
+    qDebug("%s:%d",__FILE__,__LINE__);
     connect(ui->nameTest, &QLineEdit::textChanged, this, &NowyTest_1::nameTestChanged);
     connect(ui->cbDozownik, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::dozownikChanged);
     connect(ui->cbCiecz, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::cieczChanged);
     connect(ui->iloscCieczy, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &NowyTest_1::iloscCieczyChanged);
     connect(ui->cbZaplon, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::zaplonChanged);
     connect(ui->cbenergiaIskry, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::energiaIskryChanged);
-
+    qDebug("%s:%d",__FILE__,__LINE__);
 }
 
 

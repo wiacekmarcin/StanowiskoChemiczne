@@ -8,8 +8,6 @@ NowyTest_8::NowyTest_8(QWidget *parent) :
     ui(new Ui::NowyTest_8)
 {
     ui->setupUi(this);
-
-    valid = false;
 }
 
 NowyTest_8::~NowyTest_8()

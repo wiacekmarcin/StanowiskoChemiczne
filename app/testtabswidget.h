@@ -17,7 +17,7 @@ class TestTabsWidget : public QWidget
 
 public:
     explicit TestTabsWidget(QWidget *parent = 0);
-    TestTabsWidget(const ProjectItem & pr, const Ustawienia & ust, QWidget * parent);
+    TestTabsWidget(const ProjectItem & pr, QWidget * parent);
     ~TestTabsWidget();
     void setActive();
     CreateTestWizard * createTestWizard() const;

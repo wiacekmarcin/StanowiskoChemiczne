@@ -14,11 +14,9 @@
 #include <QMessageBox>
 
 
-NowyTest_3::NowyTest_3(Urzadzenia * u, double cisnienie, QWidget *parent) :
+NowyTest_3::NowyTest_3(QWidget *parent) :
     TestPage(parent),
-    ui(new Ui::NowyTest_3),
-    cisnieWProzni(cisnienie),
-    urzadzenia(u)
+    ui(new Ui::NowyTest_3)
 {
     ui->setupUi(this);
     task = 0;
@@ -35,41 +33,19 @@ NowyTest_3::~NowyTest_3()
 
 }
 
-bool NowyTest_3::isComplete() const
-{
-    if (wizard()->currentPage() != this)
-        return true;
-
-    if (!TestPage::isComplete())
-        return false;
-
-    return valid;
-}
-
 void NowyTest_3::initializePage()
 {
      setField(czyPompaMebr, QVariant::fromValue((bool)false));
-     valid = false;
-     prozniaTask = false;
      ui->frame_2->setVisible(false);
      ui->frame_3->setVisible(false);
      ui->frame_4->setVisible(false);
      ui->frame_5->setVisible(false);
-     emit completeChanged();
 }
 
 void NowyTest_3::updateWejscia()
 {
 
 }
-
-void NowyTest_3::cisnienieKomory(double val)
-{
-    //qDebug("%s:%d val =%f", __FILE__,__LINE__, val);
-    setCisnKomory(val);
-}
-
-
 
 void NowyTest_3::updateCisnieie()
 {
@@ -85,11 +61,9 @@ void NowyTest_3::updateCisnieie()
         ui->arrow_4->setVisible(false);
         ustaloneCisnienie = avg;
         ui->text5->setText(QString("Uzyskano podciśnienie %1 mBar.").arg(avg));
-        valid = true;
         cisnienieTimer.stop();
-        emit completeChanged();
 
-        emit updateOutput(pompa_prozniowa, false);
+        updateOutput(pompa_prozniowa, false);
         ustalanieCisnienia = false;
     }
 
@@ -97,15 +71,13 @@ void NowyTest_3::updateCisnieie()
     if (0.95*val > avg && 1.05*val < avg /*&& avg < cisnieWProzni*/) {
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
-        valid = true;
         cisnienieTimer.stop();
-        emit completeChanged();
         ustaloneCisnienie = avg;
         ui->text5->setText(QString("Uzyskano podciśnienie %1 mBar.").arg(ustaloneCisnienie));
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
         ustalanieCisnienia = false;
-        emit updateOutput(pompa_prozniowa, false);
+        updateOutput(pompa_prozniowa, false);
     }
 
 }
@@ -134,7 +106,7 @@ double NowyTest_3::getAvgCisnienie()
     qDebug("%s:%d avg=%f", __FILE__, __LINE__, avg);
     return avg/16.0;
 }
-void NowyTest_3::setCisnKomory(double newCisnKomory)
+void NowyTest_3::setCisnKomory(const double & newCisnKomory)
 {
     if (!ustalanieCisnienia)
         return;
@@ -184,7 +156,7 @@ void NowyTest_3::on_pbOk_3_clicked()
        return;
 
     ui->pbOk_3->setEnabled(false);
-    emit updateOutput(pompa_prozniowa, true);
+    updateOutput(pompa_prozniowa, true);
     ustalanieCisnienia = true;
     timePompaProzniowa = 100;
     cisnienieTimer.start();
@@ -210,7 +182,7 @@ void NowyTest_3::on_pbRun_5_clicked()
     ui->arrow_4->setVisible(true);
 
     timePompaProzniowa = 100;
-    emit updateOutput(pompa_prozniowa, true);
+    updateOutput(pompa_prozniowa, true);
     ustalanieCisnienia = true;
     cisnienieTimer.start();
     setField(czyPompaMebr, QVariant::fromValue((bool)true));

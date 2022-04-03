@@ -34,14 +34,18 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
 {
     ui->setupUi(this);
     ui->frCzujniki->setLabels(settings);
-    ui->widget->setParams(settings);
+    ui->analog->setParams(settings);
+    ui->wyjscia->setLabels(settings);
 
-    connect(urzadzenia, &Urzadzenia::analogValueChanged, this,       &GlowneOkno::valueChanged);
-    connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->widget, &CzujnikiAnalogoweOkno::updateValue);
+
+    connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue);
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue);
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue);
 
     connect(urzadzenia, &Urzadzenia::digitalRead,   ui->frCzujniki, &OknoStatusowe::setDigitalValue);
+
+    connect(urzadzenia, &Urzadzenia::digitalWriteDevice,   ui->wyjscia, &OknoStanoweWyjscia::setOnOff);
+    connect(ui->wyjscia, &OknoStanoweWyjscia::writeValue, urzadzenia, &Urzadzenia::digitalWrite);
 
     connect(urzadzenia, &Urzadzenia::usb6210,  ui->frCzujniki, &OknoStatusowe::setUSB6210);
     connect(urzadzenia, &Urzadzenia::usb6501,  ui->frCzujniki, &OknoStatusowe::setUSB6501);
@@ -137,7 +141,7 @@ void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
     if (dlg->exec() == QDialog::Accepted)
     {
         dlg->saveData(settings);
-        ui->widget->setParams(settings);
+        ui->analog->setParams(settings);
         setActionText();
     }
 }
@@ -163,32 +167,46 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     static unsigned int nrTest = 1;
     if (selectedProject == nullptr)
         return;
-
+    qDebug("%s%d",__FILE__,__LINE__);
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Test %1").arg(nrTest++)));
+    qDebug("%s%d",__FILE__,__LINE__);
     selectedProject->addChild(qtreewidgetitem);
+    qDebug("%s%d",__FILE__,__LINE__);
 
     selectedTest = qtreewidgetitem;
+    qDebug("%s%d",__FILE__,__LINE__);
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
-                                            settings,
                                             ui->testyStackedWidget);
+    qDebug("%s%d",__FILE__,__LINE__);
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
+    qDebug("%s%d",__FILE__,__LINE__);
     ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
+    qDebug("%s%d",__FILE__,__LINE__);
 
-    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings,
+    testy[selectedTest]->createTestWizard()->init(/*urzadzenia, */settings,
                                                   qtreewidgetitem->data(0, Qt::DisplayRole).toString());
+    qDebug("%s%d",__FILE__,__LINE__);
 
     testy[selectedTest]->setActive();
+    qDebug("%s%d",__FILE__,__LINE__);
 
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeTestName, this, &GlowneOkno::changeTestName);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest);
     connect(urzadzenia, &Urzadzenia::digitalRead,        testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
-
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::setDigitalOut, urzadzenia, &Urzadzenia::digitalWrite);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::cykleDozownik, urzadzenia, &Urzadzenia::setCykle);
+    connect(urzadzenia, &Urzadzenia::setCykleDone, testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
+    qDebug("%s%d",__FILE__,__LINE__);
 
     ui->treeWidget->setCurrentItem(selectedTest);
+    qDebug("%s%d",__FILE__,__LINE__);
     mapTesty[selectedTest] = selectedProject;
+    qDebug("%s%d",__FILE__,__LINE__);
     changeSelectedTest();
+    qDebug("%s%d",__FILE__,__LINE__);
     disableNowyTest(true);
+    qDebug("%s%d",__FILE__,__LINE__);
 
 }
 
@@ -241,22 +259,11 @@ void GlowneOkno::dozownikTest()
     delete dlg;
 }
 
-void GlowneOkno::valueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8)
-{
-    (void)val1;
-    (void)val2;
-    (void)val3;
-    (void)val4;
-    (void)val5;
-    (void)val6;
-    (void)val7;
-    (void)val8;
-    //emit analogValueChanged(id, mv);
-}
-
 void GlowneOkno::resizeEvent(QResizeEvent *event)
 {
-    ui->widget->setHorizontalSize(event->size().width());
+    ui->analog->setHorizontalSize(event->size().width());
+    //ui->wyjscia->
+
 }
 
 void GlowneOkno::changeSelectedTest()

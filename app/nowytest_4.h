@@ -14,11 +14,7 @@ class NowyTest_4 : public TestPage
 public:
     explicit NowyTest_4(QWidget *parent = nullptr);
     ~NowyTest_4();
-    virtual bool isComplete() const override;
     virtual void initializePage() override;
-
-signals:
-    void updateOutput(uint16_t mask, bool on);
 
 private slots:
     void dozownikDone(bool success);

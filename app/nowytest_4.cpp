@@ -16,10 +16,6 @@ NowyTest_4::NowyTest_4(QWidget *parent) :
     ui->frame_2->setVisible(false);
     ui->frame_3->setVisible(false);
     ui->frame_4->setVisible(false);
-
-    valid = false;
-
-
 }
 
 void NowyTest_4::initializePage()
@@ -35,24 +31,11 @@ void NowyTest_4::initializePage()
     ui->frame_2->setVisible(false);
     ui->frame_3->setVisible(false);
     ui->frame_4->setVisible(false);
-    valid = false;
-    emit completeChanged();
 }
 
 NowyTest_4::~NowyTest_4()
 {
     delete ui;
-}
-
-bool NowyTest_4::isComplete() const
-{
-    if (wizard()->currentPage() != this)
-        return true;
-
-    if (!TestPage::isComplete())
-        return false;
-
-    return valid;
 }
 
 void NowyTest_4::dozownikDone(bool success)
@@ -82,7 +65,7 @@ void NowyTest_4::on_pbOk_1_clicked()
 void NowyTest_4::on_pbOk_2_clicked()
 {
     //emit dozownik(field(dozownikNr).toUInt(), field(objetosc).toUInt());
-    emit updateOutput(pompa_prozniowa, false);
+    updateOutput(pompa_prozniowa, false);
 
     QTimer::singleShot(1000, this, &NowyTest_4::runDone);
 }

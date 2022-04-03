@@ -21,9 +21,7 @@ public:
     void setOnOff(uint16_t mask);
 
 signals:
-    void writeDigital(uint16_t mask, bool on);
-
-
+    void writeValue(uint16_t mask, uint8_t value);
 private:
     Ui::OknoStanoweWyjscia *ui;
     QMap<uint16_t, StanWyjscia*> wyjscia;

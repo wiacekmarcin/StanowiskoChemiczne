@@ -21,18 +21,26 @@ public:
     explicit CreateTestWizard(QWidget *parent = 0);
     ~CreateTestWizard();
     void setUstawienia(const Ustawienia &ust);
-    void init(Urzadzenia *u, const Ustawienia &ust, const QString &testName);
+    void init(const Ustawienia &ust, const QString &testName);
 
     void setField(TestPage::Value key, const QVariant & val);
     QVariant field(TestPage::Value key) const;
-    void addPage(TestPage * page, TestPage::PageId id, short step, const Ustawienia &ust, Urzadzenia *urz);
+    void addPage(TestPage * page, TestPage::PageId id, short step);
     TestPage * currentPage() const;
     void changePage(TestPage::PageId id);
     void setFinished(bool success);
 
-    bool checkZawory() const;
-    bool getZamknietaKomora() const;
+    bool z_drzwi_prawe();
+    bool z_wentylacja_lewa();
+    bool z_proznia();
+    bool z_pom_stez_1();
+    bool z_drzwi_lewe();
+    bool z_wentylacja_prawa();
+    bool z_wlot_powietrza();
+    bool z_pom_stez_2();
+    bool z_pilot();
 
+    void updateOutput(uint16_t mask, bool on);
 
 public slots:
     void nextPage(TestPage::PageId id);
@@ -40,21 +48,13 @@ public slots:
     void changeDigitalIn(int id, bool value);
     void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
 
-    void changeDigitalOut(int16_t vals);
-
-    void clickedZawory();
-    void updatePageData();
-
+    void dozownikDone(bool succes);
 
 signals:
     void changeTestName(QString);
     void finishedTest(bool success);
     void writeOutValues(uint16_t, bool on);
-
-    void zamknietaKomora(bool);
-    void openZawor(unsigned int id, bool val);
-    void cisnienieVal(double val);
-
+    void cykleDozownik(uint8_t nr, uint32_t steps);
 
 
     void zaplon(const QString & zaplon, const QString & zaplonExt);
@@ -65,10 +65,6 @@ signals:
 
     void setDigitalOut(int id, bool value);
 
-
-protected slots:
-
-    void checkValidPage();
 protected:
 
     void initializePage();
@@ -76,17 +72,12 @@ protected:
 private:
     QMap<TestPage::Value,  QVariant> values;
     QMap<TestPage::PageId, TestPageForm*> pages;
+    //QMap<TestPage::PageId, TestPageForm*> pages;
     TestPage::PageId selectedId;
 
     bool finished;
-    QMap<unsigned int, bool> zawory;
-    QMap<int, double> stezenia;
     OtwarteZawory * dlgOtwarte;
-    bool zamknietaKomoraLewa;
-    bool zamknietaKomoraPrawa;
 
-    double temperaturaKomory;
-    double cisnienieKomory;
 
     unsigned short numberInitDozCycles;
     QMap<unsigned int, QString> m_namesZawory;
@@ -100,6 +91,8 @@ private:
     QString m_zaplon;
     QString m_zaplonExt; //tylko w przypadku zaplonu elektrycznego
     bool zaplonExt; //
+
+    uint16_t m_inputs;
 };
 
 #endif // CREATETESTWIZARD_H

@@ -66,30 +66,33 @@ public:
     TestPageForm *getForm() const;
     void setForm(TestPageForm *value);
     virtual void initializePage();
-    virtual bool isComplete() const { return true; }
+
     virtual PageId nextPageId() const;
     virtual void nextPage(PageId idPage);
-    virtual void changeData() { }
     virtual void updateWejscia() {};
+    virtual void dozownikDone(bool) {};
+    virtual void setCisnKomory(const double & ) {};
 
-public slots:
-   void readAll(uint16_t vals);
-
+    void updateOutput(uint16_t mask, bool on);
+    void cykleDozownik(uint8_t nr, uint32_t steps);
 
 signals:
-    void completeChanged();
     void changePage(TestPage::PageId id);
-    void updateData(uint16_t vals);
+
 
 
 protected:
-    bool valid;
-    bool b_drzwi_prawe, b_wentylacja_lewa, b_proznia, b_pom_stez_1, b_drzwi_lewe, b_wentylacja_prawa, b_wlot_powietrza, b_pom_stez_2, b_pilot;
 
-    bool isZamknietyZawor() {
-        qDebug("%d%d%d%d%d%d%d%d", b_drzwi_prawe, b_wentylacja_lewa, b_proznia, b_pom_stez_1, b_drzwi_lewe, b_wentylacja_prawa, b_wlot_powietrza, b_pom_stez_2);
-        return b_drzwi_prawe || b_wentylacja_lewa || b_proznia || b_pom_stez_1 || b_drzwi_lewe || b_wentylacja_prawa || b_wlot_powietrza || b_pom_stez_2;
-    }
+    bool z_drzwi_prawe();
+    bool z_wentylacja_lewa();
+    bool z_proznia();
+    bool z_pom_stez_1();
+    bool z_drzwi_lewe();
+    bool z_wentylacja_prawa();
+    bool z_wlot_powietrza();
+    bool z_pom_stez_2();
+    bool z_pilot();
+
     void setFinished(bool success);
 
     bool sprawdzZawory(QPushButton *pbOk_1, QLabel * arrow_1, QFrame * frame_2);

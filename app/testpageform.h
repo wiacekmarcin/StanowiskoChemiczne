@@ -24,15 +24,9 @@ public:
     TestPage*  widget() const { return page; }
     void setTitle(const QString & title);
     void setSubTitle(const QString & title);
-    void isComplete();
     void initializePage();
     QFrame * widgetFrame();
-    void setLabels(const Ustawienia & ust);
     void setCreateTestWizard(CreateTestWizard * wiz);
-    void setOnOff(uint16_t mask);
-
-signals:
-    void writeDigital(uint16_t mask, bool on);
 
 public:
     ~TestPageForm();

@@ -4,7 +4,7 @@
 #include "urzadzenia.h"
 #include <QMessageBox>
 
-NowyTest_7::NowyTest_7(Urzadzenia * /*u*/, QWidget *parent) :
+NowyTest_7::NowyTest_7(QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_7)
 {
@@ -34,26 +34,12 @@ void NowyTest_7::initializePage()
     ui->rb1_yes->setChecked(true);
     ui->frame_1->setVisible(false);
     TestPage::initializePage();
-
-    valid = false;
-    emit completeChanged();
-}
-
-bool NowyTest_7::isComplete() const
-{
-    return TestPage::isComplete() && valid;
 }
 
 TestPage::PageId NowyTest_7::nextPageId() const
 {
     return next;
 }
-
-void NowyTest_7::changeData()
-{
-    qDebug("%s:%d %d-%d", __FILE__, __LINE__, b_wentylacja_prawa, b_wentylacja_lewa);
-}
-
 
 void NowyTest_7::on_pbOK_1_clicked()
 {
@@ -81,7 +67,7 @@ void NowyTest_7::on_rb1_no_toggled(bool checked)
 
 void NowyTest_7::on_pbOK_2yes_clicked()
 {
-
+/*
    while (!(!b_wentylacja_lewa && !b_wentylacja_prawa &&
           b_drzwi_prawe && b_proznia && b_pom_stez_1 && b_drzwi_lewe &&
           b_wlot_powietrza && b_pom_stez_2)) {
@@ -98,7 +84,7 @@ void NowyTest_7::on_pbOK_2yes_clicked()
         } else if (ret == QMessageBox::Cancel)
             break;
 
-   }
+   }*/
    //emit zalacz wentylator
    nextPage(nextPageId());
 }

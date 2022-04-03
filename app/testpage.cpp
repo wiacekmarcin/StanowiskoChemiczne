@@ -8,20 +8,11 @@
 #include <QFrame>
 
 TestPage::TestPage(QWidget *parent) :
-    QWidget(parent), valid(true), wiz(nullptr), form(nullptr)
+    QWidget(parent), wiz(nullptr), form(nullptr)
 
 {
     prevVals = 0;
-    b_drzwi_prawe = b_wentylacja_lewa = b_proznia = b_pom_stez_1 = b_drzwi_lewe = b_wentylacja_prawa = b_wlot_powietrza = b_pom_stez_2 = b_pilot = false;
-    restricted = false;
-    restrictedMap[drzwi_prawe] = true;
-    restrictedMap[drzwi_lewe] = true;
-    restrictedMap[wentylacja_prawa] = true;
-    restrictedMap[wentylacja_lewa] = true;
-    restrictedMap[proznia] = true;
-    restrictedMap[wlot_powietrza] = true;
-    restrictedMap[pom_stez_1] = true;
-    restrictedMap[pom_stez_2] = true;
+    qDebug("%s:%d",__FILE__,__LINE__);
 }
 
 TestPage::~TestPage()
@@ -31,21 +22,25 @@ TestPage::~TestPage()
 
 void TestPage::setField(Value key, const QVariant &val)
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     wiz->setField(key, val);
 }
 
 QVariant TestPage::field(Value key) const
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     return wiz->field(key);
 }
 
 void TestPage::setWizard(CreateTestWizard *wizard)
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     wiz = wizard;
 }
 
 CreateTestWizard *TestPage::wizard() const
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     return wiz;
 }
 
@@ -66,6 +61,7 @@ QString TestPage::title() const
 
 void TestPage::setTitle(const QString &t)
 {
+    qDebug("%s:%d %p",__FILE__,__LINE__, form);
     if (form)
         form->setTitle(t);
     m_title = t;
@@ -78,6 +74,7 @@ QString TestPage::subTitle() const
 
 void TestPage::setSubTitle(const QString &t)
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     if (form)
         form->setSubTitle(t);
     m_subTitle = t;
@@ -90,6 +87,7 @@ TestPageForm *TestPage::getForm() const
 
 void TestPage::setForm(TestPageForm *value)
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     form = value;
     setSubTitle(subTitle());
     setTitle(title());
@@ -107,43 +105,52 @@ TestPage::PageId TestPage::nextPageId() const
 
 void TestPage::nextPage(TestPage::PageId idPage)
 {
+    qDebug("%s:%d",__FILE__,__LINE__);
     wiz->nextPage(idPage);
 }
 
-#define CHECK_BOOL(X) b_##X = vals & X
-void TestPage::readAll(uint16_t vals)
+void TestPage::updateOutput(uint16_t mask, bool on)
 {
-    //qDebug("%s:%d", __FILE__, __LINE__);
-    CHECK_BOOL(drzwi_prawe);
-    CHECK_BOOL(drzwi_lewe);
-    CHECK_BOOL(wentylacja_lewa);
-    CHECK_BOOL(wentylacja_prawa);
-    CHECK_BOOL(pom_stez_1);
-    CHECK_BOOL(pom_stez_2);
-    CHECK_BOOL(wlot_powietrza);
-    CHECK_BOOL(proznia);
-    CHECK_BOOL(pilot);
-    qDebug("%s:%d %x %d", __FILE__,__LINE__,vals,b_pilot);
-
-    if (vals != prevVals) {
-        updateWejscia();
-        emit updateData(vals);
-    }
-    prevVals = vals;
-    if (restricted) {
-        for (QMap<uint16_t, bool>::const_iterator it = restrictedMap.begin(); it != restrictedMap.end(); ++it) {
-
-        }
-    }
+    qDebug("%s:%d",__FILE__,__LINE__);
+    wiz->updateOutput(mask, on);
 }
+
+void TestPage::cykleDozownik(uint8_t nr, uint32_t steps)
+{
+    qDebug("%s:%d",__FILE__,__LINE__);
+    emit wiz->cykleDozownik(nr, steps);
+}
+
+
+
+#define FUN_ZAWOR(Z) bool TestPage::z_##Z() { return wiz->z_##Z(); }
+FUN_ZAWOR(drzwi_prawe)
+FUN_ZAWOR(drzwi_lewe)
+FUN_ZAWOR(wentylacja_prawa)
+FUN_ZAWOR(wentylacja_lewa)
+FUN_ZAWOR(pom_stez_1)
+FUN_ZAWOR(pom_stez_2)
+FUN_ZAWOR(wlot_powietrza)
+FUN_ZAWOR(proznia)
 
 void TestPage::setFinished(bool success)
 {
     wiz->setFinished(success);
 }
 
+#define B_ZAWOR(Z) bool b_##Z = z_##Z()
+#define BOOLS_ZAWORY B_ZAWOR(wentylacja_lewa);\
+                     B_ZAWOR(wentylacja_prawa);\
+                     B_ZAWOR(pom_stez_1);\
+                     B_ZAWOR(pom_stez_2);\
+                     B_ZAWOR(wlot_powietrza);\
+                     B_ZAWOR(proznia);\
+                     B_ZAWOR(drzwi_prawe);\
+                     B_ZAWOR(drzwi_lewe);
+
 bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame_2)
 {
+    BOOLS_ZAWORY
     if (!b_wentylacja_lewa || !b_wentylacja_prawa || !b_pom_stez_1 || !b_pom_stez_2 || !b_wlot_powietrza || !b_proznia ) {
         QMessageBox msgBox;
         QString s("Otwarte zawory : [");
@@ -184,6 +191,7 @@ bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame
 
 bool TestPage::sprawdzOtwarteZaworProzni()
 {
+    BOOLS_ZAWORY
    if(!b_drzwi_prawe || !b_wentylacja_lewa || b_proznia || !b_pom_stez_1 || !b_drzwi_lewe
          || !b_wentylacja_prawa || !b_wlot_powietrza || !b_pom_stez_2) {
        QMessageBox msgBox;
@@ -219,6 +227,7 @@ bool TestPage::sprawdzOtwarteZaworProzni()
 }
 bool TestPage::sprawdzOtwarteZaworPowietrza()
 {
+    BOOLS_ZAWORY
     if(!b_drzwi_prawe || !b_wentylacja_lewa || !b_proznia || !b_pom_stez_1 || !b_drzwi_lewe
           || !b_wentylacja_prawa || b_wlot_powietrza || !b_pom_stez_2) {
         QMessageBox msgBox;
@@ -256,6 +265,7 @@ bool TestPage::sprawdzOtwarteZaworPowietrza()
 
 bool TestPage::sprawdzOtwarteZaworStezenia()
 {
+    BOOLS_ZAWORY
     while (!b_drzwi_prawe || !b_wentylacja_lewa || !b_proznia || b_pom_stez_1 || !b_drzwi_lewe
              || !b_wentylacja_prawa || !b_wlot_powietrza || b_pom_stez_2) {
         QMessageBox msgBox;

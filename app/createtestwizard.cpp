@@ -27,18 +27,8 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     dlgOtwarte(nullptr)
 {
     selectedId = TestPage::PAGE_U;
-    zamknietaKomoraLewa = false;
-    zamknietaKomoraPrawa = false;
     setObjectName(QString::fromUtf8("TestWizard"));
 }
-
-void CreateTestWizard::setUstawienia(const Ustawienia & ust)
-{
-    numberInitDozCycles = ust.getNrInitializeCycles();
-    for (short id = 0; id < Ustawienia::maxCzujekCyfrIn; ++id)
-        m_namesZawory[id] = ust.wejscie(0x1 << id);
-}
-
 
 
 CreateTestWizard::~CreateTestWizard()
@@ -46,49 +36,55 @@ CreateTestWizard::~CreateTestWizard()
 
 }
 
-void CreateTestWizard::init(Urzadzenia * u, const Ustawienia & ust,
+void CreateTestWizard::init(const Ustawienia & ust,
                             const QString & testName)
 {
+    numberInitDozCycles = ust.getNrInitializeCycles();
+    //for (short id = 0; id < Ustawienia::maxCzujekCyfrIn; ++id)
+    //    m_namesZawory[id] = ust.wejscie(0x1 << id);
+    qDebug("%s:%d",__FILE__,__LINE__);
     NowyTest_1 * page_1 = new NowyTest_1(testName, this);
-    addPage(page_1, TestPage::PAGE_1, 1, ust, u);
+    qDebug("%s:%d",__FILE__,__LINE__);
+     addPage(page_1, TestPage::PAGE_1, 1);
+    qDebug("%s:%d",__FILE__,__LINE__);
 
-    NowyTest_2 * page_2 = new NowyTest_2(u, ust.getNrInitializeCycles(), this);
-    connect(u, &Urzadzenia::digitalAllRead, page_2, &TestPage::readAll);
-    addPage(page_2, TestPage::PAGE_2, 2, ust, u);
+    NowyTest_2 * page_2 = new NowyTest_2(ust.getNrInitializeCycles(), this);
+    qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_2, TestPage::PAGE_2, 2);
+    qDebug("%s:%d",__FILE__,__LINE__);
 
-    NowyTest_3 * page_3 = new NowyTest_3(u, ust.getCisnienieProzni(), this);
-    connect(this, &CreateTestWizard::cisnienieVal, page_3, &NowyTest_3::cisnienieKomory);
-    connect(u, &Urzadzenia::digitalAllRead, page_3, &TestPage::readAll);
-    connect(page_3, &NowyTest_3::updateOutput, u, &Urzadzenia::digitalWrite);
-    addPage(page_3, TestPage::PAGE_3, 3, ust, u);
+    NowyTest_3 * page_3 = new NowyTest_3(this);
+    qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_3, TestPage::PAGE_3, 3);
+    qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_4 * page_4 = new NowyTest_4(this);
-
-    connect(u, &Urzadzenia::digitalAllRead, page_4, &TestPage::readAll);
-    connect(page_4, &NowyTest_4::updateOutput, u, &Urzadzenia::digitalWrite);
-    addPage(page_4, TestPage::PAGE_4, 4, ust, u);
+    qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_4, TestPage::PAGE_4, 4);
+    qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_5 * page_5 = new NowyTest_5(this);
-    connect(u, &Urzadzenia::digitalAllRead, page_5, &TestPage::readAll);
-    addPage(page_5 , TestPage::PAGE_5, 5, ust, u);
+    qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_5 , TestPage::PAGE_5, 5);
+    qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_6 * page_6 = new NowyTest_6(this);
-    connect(u, &Urzadzenia::digitalAllRead, page_6, &TestPage::readAll);
-    addPage(page_6, TestPage::PAGE_6, 6, ust, u);
+    qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_6, TestPage::PAGE_6, 6);
+    qDebug("%s:%d",__FILE__,__LINE__);
 
-    NowyTest_7 * page_7 = new NowyTest_7(u, this);
-    connect(u, &Urzadzenia::digitalAllRead, page_7, &TestPage::readAll);
-    addPage(page_7, TestPage::PAGE_7, 7, ust, u);
+    NowyTest_7 * page_7 = new NowyTest_7(this);
+    qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_7, TestPage::PAGE_7, 7);
+    qDebug("%s:%d",__FILE__,__LINE__);
 
-
-    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8, ust, u);
+    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
+    qDebug("%s:%d",__FILE__,__LINE__);
     selectedId = TestPage::PAGE_1;
     finished = false;
 
     initializePage();
-    connect(u, &Urzadzenia::digitalRead, this, &CreateTestWizard::changeDigitalIn);
-
-    nextPage(TestPage::PAGE_5);
+    nextPage(TestPage::PAGE_1);
 }
 
 void CreateTestWizard::initializePage()
@@ -112,16 +108,14 @@ QVariant CreateTestWizard::field(TestPage::Value key) const
     return QVariant();
 }
 
-void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step, const Ustawienia & ust, Urzadzenia *urz)
+void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step)
 {
     TestPageForm *t = new TestPageForm(this);
     t->setStep(step);
     page->setId(id);
 
-
     t->addWidget(page);
     t->setCreateTestWizard(this);
-    t->setLabels(ust);
 
     page->setParent(t->widgetFrame());
     page->setWizard(this);
@@ -130,9 +124,7 @@ void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step, 
     pages[id] = t;
     addWidget(t);
 
-    connect(t, &TestPageForm::writeDigital, urz, &Urzadzenia::digitalWrite);
-    connect(page, &TestPage::completeChanged, this, &CreateTestWizard::checkValidPage);
-    connect(page, &TestPage::updateData, this, &CreateTestWizard::updatePageData);
+
 }
 
 
@@ -148,37 +140,10 @@ void CreateTestWizard::setFinished(bool success)
 
 }
 
-bool CreateTestWizard::checkZawory() const
-{
-    if (selectedId == 1 || selectedId == 2 || selectedId == 7 || selectedId == 8)
-        return false;
-
-    return !zawory[wentylacja_lewa] || !zawory[wentylacja_prawa] || !zawory[proznia] || !zawory[pom_stez_1] ||
-            !zawory[pom_stez_2] || !zawory[wlot_powietrza];
-}
-
 void CreateTestWizard::changeDigitalIn(int id, bool value)
 {
     //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
-    if (id == wentylacja_lewa || id == wentylacja_prawa || id == proznia || id == pom_stez_1
-            || id == pom_stez_2 || id == wlot_powietrza || id == drzwi_lewe || id == drzwi_prawe
-            ) {
-        zawory[id] = value;
-        emit openZawor(id, value);
-        showWarning(checkZawory());
-        if (dlgOtwarte != nullptr)
-            dlgOtwarte->set(id, value);
-    }
 
-    if (id == drzwi_lewe) {
-        zamknietaKomoraLewa = value;
-        emit zamknietaKomora(getZamknietaKomora());
-    }
-
-    if (id == drzwi_prawe) {
-        zamknietaKomoraPrawa = value;
-        emit zamknietaKomora(getZamknietaKomora());
-    }
 }
 
 void CreateTestWizard::changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7)
@@ -194,43 +159,16 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
     a_temp_parownik     = 6,
     a_8                 = 7
  */
-    cisnienieKomory = vals[a_cisn_komora];
-    emit cisnienieVal(cisnienieKomory);
-    temperaturaKomory = vals[a_temp_komory];
+    if (selectedId == TestPage::PAGE_3)
+        currentPage()->setCisnKomory(vals[4]);
 }
 
-void CreateTestWizard::changeDigitalOut(int16_t vals)
+void CreateTestWizard::dozownikDone(bool success)
 {
-    for (QMap<TestPage::PageId, TestPageForm*>::iterator it = pages.begin(); it != pages.end(); ++it)
-    {
-        it.value()->setOnOff(vals);
+    if (selectedId == TestPage::PAGE_2 || selectedId == TestPage::PAGE_4) {
+        currentPage()->dozownikDone(success);
     }
-}
 
-void CreateTestWizard::clickedZawory()
-{
-    dlgOtwarte = new OtwarteZawory(m_namesZawory, this);
-    dlgOtwarte->set(wentylacja_lewa, zawory[wentylacja_lewa]);
-    dlgOtwarte->set(wentylacja_prawa, zawory[wentylacja_prawa]);
-    dlgOtwarte->set(proznia,  zawory[proznia]);
-    dlgOtwarte->set(pom_stez_1,  zawory[pom_stez_1]);
-    dlgOtwarte->set(pom_stez_2,  zawory[pom_stez_2]);
-    dlgOtwarte->set(wlot_powietrza,  zawory[wlot_powietrza]);
-    dlgOtwarte->set(drzwi_lewe,  zawory[drzwi_lewe]);
-    dlgOtwarte->set(drzwi_prawe,  zawory[drzwi_prawe]);
-    //dlgOtwarte->setSettings
-    dlgOtwarte->exec();
-    if (dlgOtwarte != nullptr)
-        delete dlgOtwarte;
-    dlgOtwarte = nullptr;
-}
-
-void CreateTestWizard::updatePageData()
-{
-    //qDebug("%s:%d --- ", __FILE__, __LINE__);
-    auto currPage = currentPage();
-    if (currPage)
-        currPage->changeData();
 }
 
 void CreateTestWizard::nextPage(TestPage::PageId id)
@@ -244,19 +182,8 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
         setCurrentWidget(pages[selectedId]);
     }
     initializePage();
-    if (id == TestPage::PAGE_7) {
-        //emit zaplon(field("zaplon").toString(), field("zaplonExt").toString());
-        //emit triggerCamera(true);
-        //emit pomiarCisnienia(1 /*cisnienie*/, 5*60&1000);
-    }
     if (id == TestPage::PAGE_8)
         finished = true;
-}
-
-void CreateTestWizard::checkValidPage()
-{
-    if (pages.contains(selectedId))
-        pages[selectedId]->isComplete();
 }
 
 void CreateTestWizard::showWarning(bool value)
@@ -264,9 +191,21 @@ void CreateTestWizard::showWarning(bool value)
 
 }
 
-bool CreateTestWizard::getZamknietaKomora() const
+
+#define ZAWOR_DEFINE(Z) bool CreateTestWizard::z_##Z() { return m_inputs & Z; }
+ZAWOR_DEFINE(drzwi_prawe)
+ZAWOR_DEFINE(drzwi_lewe)
+ZAWOR_DEFINE(wentylacja_lewa)
+ZAWOR_DEFINE(wentylacja_prawa)
+ZAWOR_DEFINE(proznia)
+ZAWOR_DEFINE(wlot_powietrza)
+ZAWOR_DEFINE(pom_stez_1)
+ZAWOR_DEFINE(pom_stez_2)
+ZAWOR_DEFINE(pilot)
+
+void CreateTestWizard::updateOutput(uint16_t mask, bool on)
 {
-    return zamknietaKomoraLewa && zamknietaKomoraPrawa;
+    emit writeOutValues(mask, on);
 }
 
 

@@ -14,18 +14,13 @@ class NowyTest_2 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_2(Urzadzenia * u, unsigned short initCykle, QWidget *parent = nullptr);
+    explicit NowyTest_2(unsigned short initCykle, QWidget *parent = nullptr);
     ~NowyTest_2();
     virtual void initializePage() override;
-    virtual bool isComplete() const override;
     virtual void updateWejscia() override;
 
+    void dozownikDone(bool succes) override;
 
-public slots:
-    void dozownikDone(bool succes);
-
-signals:
-    void cykleDozownik(uint8_t, uint32_t);
 
 
 private slots:

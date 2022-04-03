@@ -15,8 +15,6 @@ public:
     ~NowyTest_6();
 
     virtual void initializePage() override;
-    virtual bool isComplete() const override;
-    virtual void changeData() override;
 
 private slots:
     void on_pushButton_clicked();

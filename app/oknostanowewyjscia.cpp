@@ -12,7 +12,7 @@
     w##N->setMaskId(M, V);\
     wyjscia[M] = w##N;\
     ui->gridLayout->addWidget(w##N, R, C, 1, 1);\
-    connect(w##N, &StanWyjscia::writeValue, this, &OknoStanoweWyjscia::writeDigital);\
+    connect(w##N, &StanWyjscia::writeValue, this, &OknoStanoweWyjscia::writeValue);\
 } while(false)
 
 
@@ -27,11 +27,11 @@ OknoStanoweWyjscia::OknoStanoweWyjscia(QWidget *parent) :
     SETSTANWYJSCIA(3, pompa_powietrza, true, 0, 2);
     SETSTANWYJSCIA(4, pompa_prozniowa, true, 0, 3);
     SETSTANWYJSCIA(5, trigger, true, 0, 4);
-    SETSTANWYJSCIA(6, plomien, true, 1, 0);
-    SETSTANWYJSCIA(7, hv_onoff, true, 1, 1);
-    SETSTANWYJSCIA(8, hv_bezpieczenstwa, true, 1, 2);
-    SETSTANWYJSCIA(9, hw_iskra, true, 1, 3);
-    SETSTANWYJSCIA(10, mech_iskra, true, 1, 4);
+    SETSTANWYJSCIA(6, plomien, false, 0, 5);
+    SETSTANWYJSCIA(7, hv_onoff, false, 0, 6);
+    SETSTANWYJSCIA(8, hv_bezpieczenstwa, false, 0, 7);
+    SETSTANWYJSCIA(9, hw_iskra, false, 0, 8);
+    SETSTANWYJSCIA(10, mech_iskra, false, 0, 9);
 }
 
 OknoStanoweWyjscia::~OknoStanoweWyjscia()
@@ -61,3 +61,4 @@ void OknoStanoweWyjscia::setOnOff(uint16_t mask)
         it.value()->digitalWrite(mask);
     }
 }
+

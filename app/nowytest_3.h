@@ -15,17 +15,13 @@ class NowyTest_3 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_3(Urzadzenia * u, double cisnienie, QWidget *parent = nullptr);
+    explicit NowyTest_3(QWidget *parent = nullptr);
     ~NowyTest_3();
-    virtual bool isComplete() const override;
     virtual void initializePage() override;
     virtual void updateWejscia() override;
+    virtual void setCisnKomory(const double & val) override;
 
-signals:
-    void updateOutput(uint16_t mask, bool on);
-
-
-public slots:
+public:
     void cisnienieKomory(double val);
 
 private slots:
@@ -40,7 +36,6 @@ private slots:
 
 protected:
     double getCisnKomory();
-    void setCisnKomory(double newCisnKomory);
     double getAvgCisnienie();
 private:
     Ui::NowyTest_3 *ui;
@@ -58,7 +53,6 @@ private:
     bool prozniaTask;
     double wybrCisnienie;
     bool pomp_powietrza;
-    Urzadzenia * urzadzenia;
 
     uint32_t timePompaProzniowa;
     double cisnienie_zad;

@@ -16,7 +16,6 @@ class NowyTest_5 : public TestPage
 public:
     explicit NowyTest_5(QWidget *parent = nullptr);
     ~NowyTest_5();
-    virtual bool isComplete() const override;
     virtual void initializePage() override;
 
 private slots:

@@ -9,8 +9,6 @@ NowyTest_6::NowyTest_6(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    valid = false;
-    emit completeChanged();
 }
 
 NowyTest_6::~NowyTest_6()
@@ -27,23 +25,11 @@ void NowyTest_6::initializePage()
     //}
     //ui->lStep2->setText(ui->lStep2->text().replace("[ZAPLON]", zaplon));
     ui->frame_2->setVisible(false);
-    valid = true;
     runDialog = false;
     step2 = false;
-    emit completeChanged();
 }
 
-bool NowyTest_6::isComplete() const
-{
-    if (wizard()->currentPage() != this)
-        return true;
-
-    if (!TestPage::isComplete())
-        return false;
-
-    return valid;
-}
-
+/*
 void NowyTest_6::changeData()
 {
     qDebug("%s%d %d",__FILE__,__LINE__, b_pilot);
@@ -56,7 +42,7 @@ void NowyTest_6::changeData()
 
     }
 }
-
+*/
 
 
 void NowyTest_6::on_pushButton_clicked()

@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <QMessageBox>
 
-NowyTest_2::NowyTest_2(Urzadzenia * u, unsigned short initC, QWidget *parent) :
+NowyTest_2::NowyTest_2(unsigned short initC, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_2),
     initCykle(initC)
@@ -15,8 +15,7 @@ NowyTest_2::NowyTest_2(Urzadzenia * u, unsigned short initC, QWidget *parent) :
     ui->setupUi(this);
     ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?"));
     ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>"));
-    connect(this, &NowyTest_2::cykleDozownik, u, &Urzadzenia::setCykle);
-    connect(u, &Urzadzenia::setCykleDone, this, &NowyTest_2::dozownikDone);
+
 
  }
 
@@ -41,25 +40,13 @@ void NowyTest_2::initializePage()
     ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?").replace("<DOZOWNIK>", QString::number(dozownik+1)));
     ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>").replace("<DOZOWNIK>", QString::number(dozownik+1)));
 
-    emit completeChanged();
-}
-
-bool NowyTest_2::isComplete() const
-{
-    if (wizard()->currentPage() != this)
-        return false;
-
-    if (!TestPage::isComplete())
-        return false;
-
-    return true;
 }
 
 void NowyTest_2::updateWejscia()
 {
     //qDebug("%s:%d",__FILE__,__LINE__);
     if (showWarning) {
-        if (b_drzwi_lewe && b_drzwi_prawe) {
+        if (z_drzwi_lewe() && z_drzwi_prawe()) {
             showWarning = false;
             QMessageBox::warning(this, tr("Komora"),
                                            tr("Zamknięto komorę.\n"
@@ -133,7 +120,7 @@ void NowyTest_2::on_pbOK_2_clicked()
 {
     ui->pbOK_2->setEnabled(false);
     showWarning = false;
-    while (b_drzwi_lewe && b_drzwi_prawe) {
+    while (z_drzwi_lewe() && z_drzwi_prawe()) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Nie wykryto otwartych drzwiczek.\n"
                                           "Czy chcesz kontynuować test otwierając drzwi - Tak, przerwij - Test Nie?"),
@@ -192,7 +179,7 @@ void NowyTest_2::on_pbOk_5_clicked()
 {
     ui->pbOk_5->setEnabled(false);
     showWarning = false;
-    while (!b_drzwi_lewe || !b_drzwi_prawe) {
+    while (!z_drzwi_lewe() || !z_drzwi_prawe()) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Wykryto otwarte drzwi komory.\n"
                                           "Zamknij je w celu kontynuacji. Zamknięto drzwi OK, przewanie testu Anuluj"),
