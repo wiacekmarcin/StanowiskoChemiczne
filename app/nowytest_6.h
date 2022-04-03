@@ -15,6 +15,7 @@ public:
     ~NowyTest_6();
 
     virtual void initializePage() override;
+    virtual void updateWejscia() override;
 
 private slots:
     void on_pushButton_clicked();

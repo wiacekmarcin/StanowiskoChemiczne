@@ -28,6 +28,15 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
 {
     selectedId = TestPage::PAGE_U;
     setObjectName(QString::fromUtf8("TestWizard"));
+    zaworyMap[drzwi_prawe] = false;
+    zaworyMap[wentylacja_lewa] = false;
+    zaworyMap[proznia] = false;
+    zaworyMap[pom_stez_1] = false;
+    zaworyMap[drzwi_lewe] = false;
+    zaworyMap[wentylacja_prawa] = false;
+    zaworyMap[wlot_powietrza] = false;
+    zaworyMap[pom_stez_2] = false;
+    zaworyMap[pilot] = false;
 }
 
 
@@ -140,9 +149,13 @@ void CreateTestWizard::setFinished(bool success)
 
 }
 
-void CreateTestWizard::changeDigitalIn(int id, bool value)
+void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 {
-    //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
+    qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
+    zaworyMap[id] = value;
+    if (selectedId == TestPage::PAGE_6 && id == pilot) {
+            currentPage()->updateWejscia();
+    }
 
 }
 
@@ -192,7 +205,7 @@ void CreateTestWizard::showWarning(bool value)
 }
 
 
-#define ZAWOR_DEFINE(Z) bool CreateTestWizard::z_##Z() { return m_inputs & Z; }
+#define ZAWOR_DEFINE(Z) bool CreateTestWizard::z_##Z() { return zaworyMap[Z]; }
 ZAWOR_DEFINE(drzwi_prawe)
 ZAWOR_DEFINE(drzwi_lewe)
 ZAWOR_DEFINE(wentylacja_lewa)
@@ -208,4 +221,14 @@ void CreateTestWizard::updateOutput(uint16_t mask, bool on)
     emit writeOutValues(mask, on);
 }
 
+void CreateTestWizard::runZaplon(short id)
+{
+    qDebug("%s:%d", __FILE__, __LINE__);
+    emit zaplon(id);
+}
+
+void CreateTestWizard::runCykleDozownik(uint8_t nr, uint32_t steps)
+{
+    emit cykleDozownik(nr, steps);
+}
 

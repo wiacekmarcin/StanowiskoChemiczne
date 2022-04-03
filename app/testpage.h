@@ -42,11 +42,13 @@ public:
         nazwaTest = 0,
         ciecz,
         objetosc,
+        calaObjetosc,
         zaplon,
         zaplonExtra,
         dozownikNr,
         czyPompaMebr,
         brakZaplonu,
+        rodzajZaplonu,
     } Value;
 
     void setField(Value key, const QVariant & val);
@@ -75,6 +77,7 @@ public:
 
     void updateOutput(uint16_t mask, bool on);
     void cykleDozownik(uint8_t nr, uint32_t steps);
+    void runZaplon(short idZaplon);
 
 signals:
     void changePage(TestPage::PageId id);
@@ -109,6 +112,7 @@ private:
     bool restricted;
     QMap<uint16_t, bool> restrictedMap;
     uint16_t prevVals;
+
 
 };
 

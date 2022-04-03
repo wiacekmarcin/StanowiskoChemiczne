@@ -9,7 +9,7 @@
 NowyTest_4::NowyTest_4(QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_4),
-    infoString(QString("Rozpocznij dozowanie <b>[CIECZ]</b> z dozonika <b>[DOZOWNIK]</b> w objętości <b>[OBJETOSC]</b>."))
+    infoString(QString("Rozpocznij dozowanie <b>[CIECZ]</b> z dozonika <b>[DOZOWNIK]</b> w objętości <b>[OBJETOSC]</b> ml."))
 {
     ui->setupUi(this);
 
@@ -22,7 +22,12 @@ void NowyTest_4::initializePage()
 {
     infoString.replace("[CIECZ]", field(ciecz).toString());
     infoString.replace("[DOZOWNIK]", QString::number(field(dozownikNr).toUInt()));
-    infoString.replace("[OBJETOSC]", QString::number(field(objetosc).toUInt()));
+    infoString.replace("[OBJETOSC]", QString::number(field(objetosc).toDouble()));
+    if (field(calaObjetosc).toDouble() > 0) {
+        infoString += QString(" Razem bedzie <b>%1<b> ml").arg(QString::number(
+                        field(calaObjetosc).toDouble() + field(objetosc).toDouble()
+                                                                   ));
+    }
     ui->text_2->setTextFormat(Qt::RichText);
     ui->text_2->setText(infoString);
     ui->arrow_1->setVisible(true);
@@ -50,6 +55,8 @@ void NowyTest_4::dozownikDone(bool success)
         if (ret == QMessageBox::No)
             return;
     } else {
+        setField(calaObjetosc, QVariant::fromValue(field(calaObjetosc).toDouble() + field(objetosc).toDouble()));
+        ui->pbOk_2->setEnabled(false);
         ui->arrow_2->setVisible(false);
         ui->frame_3->setVisible(true);
         ui->pbOk_2->setVisible(true);
@@ -65,7 +72,8 @@ void NowyTest_4::on_pbOk_1_clicked()
 void NowyTest_4::on_pbOk_2_clicked()
 {
     //emit dozownik(field(dozownikNr).toUInt(), field(objetosc).toUInt());
-    updateOutput(pompa_prozniowa, false);
+    updateOutput(mieszadlo, true);
+
 
     QTimer::singleShot(1000, this, &NowyTest_4::runDone);
 }

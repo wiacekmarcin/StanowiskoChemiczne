@@ -95,6 +95,8 @@ private:
     QString digitalConfReadString;
     QString digitalConfWriteString;
 
+    uint16_t prevInputs;
+
 };
 #endif
 

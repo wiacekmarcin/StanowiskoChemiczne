@@ -16,6 +16,8 @@ public:
     explicit NowyTest_1(const QString& testName, QWidget *parent = 0);
     ~NowyTest_1();
     virtual void initializePage() override;
+
+    virtual PageId nextPageId() const override { return PAGE_6; };
 protected slots:
     void nameTestChanged(const QString &arg1);
     void dozownikChanged(int index);
@@ -23,6 +25,8 @@ protected slots:
     void iloscCieczyChanged(double arg1);
     void zaplonChanged(int index);
     void energiaIskryChanged(int index);
+
+
 
 protected:
     void checkValid();

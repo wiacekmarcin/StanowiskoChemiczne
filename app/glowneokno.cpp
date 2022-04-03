@@ -52,7 +52,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
     
 
-
+    urzadzenia->readInputs();
     signalMapper = new QSignalMapper(this);
 
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
@@ -167,28 +167,22 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     static unsigned int nrTest = 1;
     if (selectedProject == nullptr)
         return;
-    qDebug("%s%d",__FILE__,__LINE__);
-    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Test %1").arg(nrTest++)));
-    qDebug("%s%d",__FILE__,__LINE__);
-    selectedProject->addChild(qtreewidgetitem);
-    qDebug("%s%d",__FILE__,__LINE__);
 
-    selectedTest = qtreewidgetitem;
+    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Test %1").arg(nrTest++)));
+    selectedProject->addChild(qtreewidgetitem);
+     selectedTest = qtreewidgetitem;
     qDebug("%s%d",__FILE__,__LINE__);
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
                                             ui->testyStackedWidget);
-    qDebug("%s%d",__FILE__,__LINE__);
-    ui->testyStackedWidget->addWidget(testy[selectedTest]);
-    qDebug("%s%d",__FILE__,__LINE__);
-    ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
-    qDebug("%s%d",__FILE__,__LINE__);
 
-    testy[selectedTest]->createTestWizard()->init(/*urzadzenia, */settings,
+    ui->testyStackedWidget->addWidget(testy[selectedTest]);
+    ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
+    testy[selectedTest]->createTestWizard()->init(settings,
                                                   qtreewidgetitem->data(0, Qt::DisplayRole).toString());
-    qDebug("%s%d",__FILE__,__LINE__);
+
 
     testy[selectedTest]->setActive();
-    qDebug("%s%d",__FILE__,__LINE__);
+
 
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeTestName, this, &GlowneOkno::changeTestName);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest);
@@ -196,7 +190,11 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::setDigitalOut, urzadzenia, &Urzadzenia::digitalWrite);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::cykleDozownik, urzadzenia, &Urzadzenia::setCykle);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::writeOutValues, urzadzenia, &Urzadzenia::digitalWrite);
     connect(urzadzenia, &Urzadzenia::setCykleDone, testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
+     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::zaplon, urzadzenia, &Urzadzenia::zaplon);
+
+    urzadzenia->readInputs();
     qDebug("%s%d",__FILE__,__LINE__);
 
     ui->treeWidget->setCurrentItem(selectedTest);

@@ -19,6 +19,8 @@ public slots:
     void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
     void digitalWriteAll(uint16_t vals);
     void digitalWrite(uint16_t mask, bool on);
+    void zaplon(short idiskra);
+
 
 signals:
     void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
@@ -41,8 +43,8 @@ signals:
 public slots:
     void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
     void ni_digitalRead(uint16_t vals);
-
     void digitalWriteDebug(uint16_t vals);
+    void readInputs();
 
 private slots:
 
@@ -55,6 +57,16 @@ private slots:
     void ds_errorSerial(const QString &s);
     void ds_dozownikConfigured(bool open, bool conf);
 
+protected:
+    void runIskraElektryczna();
+    void runIskraMechaniczna();
+    void runPlomien();
+
+private slots:
+    void runIskraElektryczna1();
+    void runIskraElektryczna2();
+    void runIskraMechaniczna1();
+    void runPlomien1();
 
 private:
 #if !SYMULATOR
@@ -66,7 +78,11 @@ private:
      bool digitalConn;
      bool dozownikConn;
 
-     QMap<unsigned int, bool> m_inputsMap;
+     uint16_t m_inputs;
+
+     QTimer plTimer;
+     QTimer imTimer;
+     QTimer elTimer;
 };
 
 #endif // URZADZENIA_H

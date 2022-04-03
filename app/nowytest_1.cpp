@@ -213,9 +213,12 @@ void NowyTest_1::on_pbNext_clicked()
 {
     setField(TestPage::nazwaTest, QVariant::fromValue(getName()));
     setField(TestPage::ciecz, QVariant::fromValue(getLuquid()));
+    setField(TestPage::objetosc, QVariant::fromValue(getVolume()));
+    setField(TestPage::calaObjetosc, QVariant::fromValue(0.0));
     setField(TestPage::dozownikNr, QVariant::fromValue(getDozownik()));
     setField(TestPage::zaplon, QVariant::fromValue(getIngition()));
     setField(TestPage::zaplonExtra, QVariant::fromValue(getIngitionExt()));
+    setField(TestPage::rodzajZaplonu, QVariant::fromValue(ui->cbZaplon->currentIndex()));
     nextPage(nextPageId());
 }
 

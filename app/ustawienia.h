@@ -42,6 +42,11 @@ typedef enum _oDig {
 
 } digitalOut;
 
+#define ISKRA_ELEKTRYCZNA 1
+#define ISKRA_MECHANICZNA 2
+#define ISKRA_PLOMIEN     3
+
+
 
 void delay(unsigned int time);
 void delayMs(unsigned int ms);

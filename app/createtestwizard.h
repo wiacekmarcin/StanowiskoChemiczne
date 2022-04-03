@@ -41,11 +41,13 @@ public:
     bool z_pilot();
 
     void updateOutput(uint16_t mask, bool on);
+    void runZaplon(short id);
+    void runCykleDozownik(uint8_t nr, uint32_t steps);
 
 public slots:
     void nextPage(TestPage::PageId id);
 
-    void changeDigitalIn(int id, bool value);
+    void changeDigitalIn(uint16_t id, bool value);
     void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
 
     void dozownikDone(bool succes);
@@ -55,11 +57,8 @@ signals:
     void finishedTest(bool success);
     void writeOutValues(uint16_t, bool on);
     void cykleDozownik(uint8_t nr, uint32_t steps);
+    void zaplon(short Id);
 
-
-    void zaplon(const QString & zaplon, const QString & zaplonExt);
-    void triggerCamera(bool on);
-    void pomiarCisnienia(int idCzujnik, unsigned long time_ms);
 
 
 
@@ -92,7 +91,7 @@ private:
     QString m_zaplonExt; //tylko w przypadku zaplonu elektrycznego
     bool zaplonExt; //
 
-    uint16_t m_inputs;
+    QMap<uint16_t, bool> zaworyMap;
 };
 
 #endif // CREATETESTWIZARD_H

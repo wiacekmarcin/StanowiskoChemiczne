@@ -111,14 +111,21 @@ void TestPage::nextPage(TestPage::PageId idPage)
 
 void TestPage::updateOutput(uint16_t mask, bool on)
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    qDebug("%s:%d %04x %d",__FILE__,__LINE__, mask, on);
     wiz->updateOutput(mask, on);
 }
 
 void TestPage::cykleDozownik(uint8_t nr, uint32_t steps)
 {
     qDebug("%s:%d",__FILE__,__LINE__);
-    emit wiz->cykleDozownik(nr, steps);
+    wiz->runCykleDozownik(nr, steps);
+}
+
+void TestPage::runZaplon(short idZaplon)
+{
+    qDebug("%s:%d %d, %p",__FILE__,__LINE__, idZaplon, wiz);
+
+    wiz->runZaplon(idZaplon);
 }
 
 
@@ -132,6 +139,7 @@ FUN_ZAWOR(pom_stez_1)
 FUN_ZAWOR(pom_stez_2)
 FUN_ZAWOR(wlot_powietrza)
 FUN_ZAWOR(proznia)
+FUN_ZAWOR(pilot)
 
 void TestPage::setFinished(bool success)
 {
@@ -222,6 +230,7 @@ bool TestPage::sprawdzOtwarteZaworProzni()
                 return false;
             } else if (ret == QMessageBox::Cancel)
                 return true;
+       return false;
     }
    return true;
 }
@@ -299,3 +308,4 @@ bool TestPage::sprawdzOtwarteZaworStezenia()
     }
     return true;
 }
+

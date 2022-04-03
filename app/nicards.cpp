@@ -19,6 +19,7 @@ NICards::NICards(QObject *parent)
     m_quit = false;
     start();
     maskOutput = hv_bezpieczenstwa;
+    prevInputs = 0;
 }
 
 NICards::~NICards()
@@ -217,13 +218,15 @@ void NICards::writeDigital()
 
 void NICards::readDigital()
 {
-    emit digitalRead(0x0f);
     uint16_t val;
     if (!digital.readValue(val)) {
         emit usb6501(true, false);
         return;
     }
-
-    emit digitalRead(~val & 0x1ff);
+    if (prevInputs != val) {
+        qDebug("%s:%d %04x", __FILE__,__LINE__, val);
+        prevInputs = val;
+        emit digitalRead(val);
+    }
 }
 

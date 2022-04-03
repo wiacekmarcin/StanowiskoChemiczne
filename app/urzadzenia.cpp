@@ -21,11 +21,6 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     connect(&serial, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
     connect(&serial, &SerialDevice::setCykleDone, this,     &Urzadzenia::setCykleDone);
 
-    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
-        m_inputsMap[0x1 << i] = false;
-    }
-
-
 }
 
 void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
@@ -53,6 +48,25 @@ void Urzadzenia::digitalWrite(uint16_t mask, bool on)
     (void)mask;
     (void)on;
 #endif
+}
+
+void Urzadzenia::zaplon(short idiskra)
+{
+    switch(idiskra) {
+    case ISKRA_ELEKTRYCZNA:
+        runIskraElektryczna();
+        break;
+    case ISKRA_MECHANICZNA:
+        runIskraMechaniczna();
+        break;
+    case ISKRA_PLOMIEN:
+        runPlomien();
+        break;
+    default:
+        break;
+    }
+
+    qDebug("%s:%d run_iskra %d", __FILE__, __LINE__, idiskra);
 }
 
 void Urzadzenia::ni_error(const QString &s)
@@ -87,19 +101,25 @@ void Urzadzenia::ni_usb6501(bool open, bool conf)
 
 void Urzadzenia::ni_digitalRead(uint16_t vals)
 {
-    //qDebug("%s:%d read=%04x", __FILE__,__LINE__, vals);
-    uint32_t mask;
-    bool bval;
-    emit digitalAllRead(~vals);
-    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
-        mask = 0x1 << i;
-        bval = ~vals & mask;
-        if (bval != m_inputsMap[mask]) {
-            m_inputsMap[mask] = bval;
-            //qDebug("%s:%d", __FILE__,__LINE__);
-            emit digitalRead(mask, bval);
-        }
+
+    if (m_inputs == vals)
+        return;
+
+    if (m_inputs != vals) {
+        emit digitalAllRead(vals);
     }
+
+    uint16_t changeMask = vals ^ m_inputs;
+    uint16_t mask = 0x1;
+
+    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
+        if (mask & changeMask) {
+            qDebug("%s:%d %04x %d", __FILE__,__LINE__,mask, vals & mask ? 1 : 0);
+            emit digitalRead(mask, vals & mask);
+        }
+        mask <<= 1;
+    }
+    m_inputs = vals;
 }
 
 void Urzadzenia::digitalWriteDebug(uint16_t vals)
@@ -110,6 +130,17 @@ void Urzadzenia::digitalWriteDebug(uint16_t vals)
 #else
     (void)vals;
 #endif
+}
+
+void Urzadzenia::readInputs()
+{
+     emit digitalAllRead(m_inputs);
+
+    uint16_t mask = 0x1;
+    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
+        emit digitalRead(mask, m_inputs & mask);
+        mask <<= 1;
+    }
 }
 
 void Urzadzenia::ds_error(const QString &s)
@@ -132,4 +163,63 @@ void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)
     digitalConn = open && conf;
     emit dozownik(open, conf);
 }
+
+void Urzadzenia::runIskraElektryczna()
+{
+
+    digitalWrite(hv_onoff, true);
+    digitalWrite(hv_bezpieczenstwa, false);
+    digitalWrite(hw_iskra, false);
+
+    QTimer::singleShot(2000, this, &Urzadzenia::runIskraElektryczna1);
+}
+
+void Urzadzenia::runIskraElektryczna1()
+{
+    digitalWrite(trigger, true);
+    digitalWrite(hv_onoff, false);
+    digitalWrite(hv_bezpieczenstwa, false);
+    digitalWrite(hw_iskra, true);
+
+    QTimer::singleShot(1000, this, &Urzadzenia::runIskraElektryczna2);
+}
+
+void Urzadzenia::runIskraElektryczna2()
+{
+    digitalWrite(trigger, false);
+    digitalWrite(hv_onoff, false);
+    digitalWrite(hv_bezpieczenstwa, true);
+    digitalWrite(hw_iskra, false);
+}
+
+void Urzadzenia::runIskraMechaniczna()
+{
+    digitalWrite(trigger, true);
+    digitalWrite(mech_iskra, true);
+    QTimer::singleShot(2000, this, &Urzadzenia::runIskraMechaniczna1);
+}
+
+void Urzadzenia::runIskraMechaniczna1()
+{
+    digitalWrite(trigger, false);
+    digitalWrite(mech_iskra, false);
+}
+
+void Urzadzenia::runPlomien()
+{
+    digitalWrite(trigger, true);
+    digitalWrite(plomien, true);
+    QTimer::singleShot(6000, this, &Urzadzenia::runPlomien1);
+
+}
+
+void Urzadzenia::runPlomien1()
+{
+    digitalWrite(trigger, false);
+    digitalWrite(plomien, false);
+}
+
+
+
+
 

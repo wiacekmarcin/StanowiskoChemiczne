@@ -156,6 +156,7 @@ void NowyTest_3::on_pbOk_3_clicked()
        return;
 
     ui->pbOk_3->setEnabled(false);
+    qDebug("%s:%d Pompa prozniowa on", __FILE__, __LINE__);
     updateOutput(pompa_prozniowa, true);
     ustalanieCisnienia = true;
     timePompaProzniowa = 100;
@@ -170,6 +171,7 @@ void NowyTest_3::on_pbOk_3_clicked()
 
 void NowyTest_3::on_pbOk_5_clicked()
 {
+    updateOutput(pompa_prozniowa, false);
     nextPage(nextPageId());
 }
 
