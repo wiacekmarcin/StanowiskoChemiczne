@@ -17,7 +17,6 @@ public:
     ~NowyTest_1();
     virtual void initializePage() override;
 
-    virtual PageId nextPageId() const override { return PAGE_6; };
 protected slots:
     void nameTestChanged(const QString &arg1);
     void dozownikChanged(int index);
