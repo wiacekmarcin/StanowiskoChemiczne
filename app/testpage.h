@@ -103,6 +103,7 @@ protected:
     bool sprawdzOtwarteZaworProzni();
     bool sprawdzOtwarteZaworPowietrza();
     bool sprawdzOtwarteZaworStezenia();
+    bool sprawdzOtwarteZawor2Calowe();
 private:
     CreateTestWizard * wiz;
     TestPageForm * form;

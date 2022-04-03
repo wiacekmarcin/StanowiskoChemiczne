@@ -25,18 +25,19 @@ private slots:
     void on_pbOK_1_clicked();
     void on_rb1_yes_toggled(bool checked);
     void on_rb1_no_toggled(bool checked);
+    void on_pbOK_2_clicked();
+    void on_rb3_zaplon_toggled(bool checked);
+    void on_rb3_ciecz_toggled(bool checked);
+    void on_pbOK_3_clicked();
 
-    void on_pbOK_2yes_clicked();
-
-    void on_pBNo_3_clicked();
-
-    void on_pbYes_3_clicked();
+    void on_pbOk_4_clicked();
 
 private:
     Ui::NowyTest_7 *ui;
     PageId next;
     bool initial;
     bool wykrytyZaplon;
+    bool dozowanieCieczy;
     bool rbYes;
 };
 

@@ -4,6 +4,7 @@
 #include "urzadzenia.h"
 #include <QMessageBox>
 
+
 NowyTest_7::NowyTest_7(QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_7)
@@ -31,9 +32,15 @@ NowyTest_7::~NowyTest_7()
 
 void NowyTest_7::initializePage()
 {
+    ui->frame_2->setVisible(false);
+    ui->arrow_2->setVisible(true);
+    ui->frame_3->setVisible(false);
+    ui->arrow_3->setVisible(true);
+    ui->frame_4->setVisible(false);
+    ui->arrow_4->setVisible(true);
     ui->rb1_yes->setChecked(true);
-    ui->frame_1->setVisible(false);
     TestPage::initializePage();
+    ui->rb3_zaplon->setEnabled(field(TestPage::rodzajZaplonu).toInt() != ISKRA_PLOMIEN);
 }
 
 TestPage::PageId NowyTest_7::nextPageId() const
@@ -44,11 +51,12 @@ TestPage::PageId NowyTest_7::nextPageId() const
 void NowyTest_7::on_pbOK_1_clicked()
 {
     if ((wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes)) {
-        nextPage(nextPageId());
         ui->arrow_1->setVisible(false);
         ui->pbOK_1->setEnabled(false);
         ui->frame_2->setVisible(true);
+        next = TestPage::PAGE_8;
     } else {
+        ui->pbOK_1->setEnabled(false);
         ui->arrow_1->setVisible(false);
         ui->frame_3->setVisible(true);
     }
@@ -65,47 +73,56 @@ void NowyTest_7::on_rb1_no_toggled(bool checked)
     rbYes = !checked;
 }
 
-void NowyTest_7::on_pbOK_2yes_clicked()
+void NowyTest_7::on_pbOK_2_clicked()
 {
-/*
-   while (!(!b_wentylacja_lewa && !b_wentylacja_prawa &&
-          b_drzwi_prawe && b_proznia && b_pom_stez_1 && b_drzwi_lewe &&
-          b_wlot_powietrza && b_pom_stez_2)) {
-       qDebug("--------------%d %d", b_wentylacja_lewa, wentylacja_prawa);
-        QMessageBox msgBox;
-        msgBox.setText("Wykryto nie prawidłowe ustawienie zaworów.");
-        msgBox.setInformativeText("Zawory A i B powinny być otwarte a pozostałe zawory powinny być zamknięte.\n Czy chcesz kontynouwac?");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::No);
-        int ret = msgBox.exec();
-        if (ret == QMessageBox::No){
-            setFinished(false);
-            return;
-        } else if (ret == QMessageBox::Cancel)
-            break;
-
-   }*/
-   //emit zalacz wentylator
-   nextPage(nextPageId());
+    if (sprawdzOtwarteZawor2Calowe()) {
+        updateOutput(wentylator, true);
+        nextPage(nextPageId());
+    }
 }
 
 
-
-
-
-
-
-void NowyTest_7::on_pBNo_3_clicked()
+void NowyTest_7::on_rb3_zaplon_toggled(bool checked)
 {
-    nextPage(nextPageId());
+    if (checked) {
+        next = TestPage::PAGE_6;
+        dozowanieCieczy = false;
+    }
 }
 
 
-void NowyTest_7::on_pbYes_3_clicked()
+void NowyTest_7::on_rb3_ciecz_toggled(bool checked)
 {
-    ui->pbYes_3->setEnabled(false);
-    ui->pBNo_3->setEnabled(false);
+    if (checked) {
+        dozowanieCieczy = true;
+        next = TestPage::PAGE_4;
+    }
+}
+
+
+void NowyTest_7::on_pbOK_3_clicked()
+{
+    if (!ui->rb3_ciecz->isChecked() && !ui->rb3_zaplon->isChecked()) {
+        QMessageBox::information(this, QString("Wybór procedury postępowania"), QString("Nie wybrano żadnej opcji"));
+        return;
+    }
+    if (!dozowanieCieczy) {
+        nextPage(nextPageId());
+        return;
+    }
     ui->arrow_3->setVisible(false);
-    ui->frame_4->setEnabled(true);
+    ui->pbOK_3->setEnabled(false);
+    ui->frame_4->setVisible(true);
+}
+
+
+void NowyTest_7::on_pbOk_4_clicked()
+{
+    if (ui->cbCiecz->value() == 0) {
+        QMessageBox::information(this, QString("Dozowanie cieczy"), QString("Wybierz więcej niż 0ml"));
+        return;
+    }
+     setField(TestPage::objetosc, QVariant::fromValue(ui->cbCiecz->value()));
+     nextPage(nextPageId());
 }
 
