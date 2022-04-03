@@ -30,7 +30,7 @@ void NowyTest_8::initializePage()
     resultat = resultat.replace("[ZAPLON]", brakzaplonu ? "" : QString::fromUtf8("zap\305\202onem"));
     resultat = resultat.replace("[BRAKZAPLONU]", brakzaplonu ? QString::fromUtf8("brakiem zap\305\202onu"):"");
     ui->label->setText(resultat);
-
+    setFinished(true);
 }
 
 

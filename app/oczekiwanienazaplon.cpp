@@ -8,7 +8,7 @@ OczekiwanieNaZaplon::OczekiwanieNaZaplon(QWidget *parent) :
     ui->setupUi(this);
     ui->pbTime->setMaximum(30);
     secs = 0;
-    maxSecs = 30;
+    maxSecs = 10;
     ui->pbTime->setMaximum(maxSecs);
     ui->pbTime->setValue(secs);
     connect(&timer, &QTimer::timeout, this, &OczekiwanieNaZaplon::updateTime);
