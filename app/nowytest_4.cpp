@@ -89,7 +89,7 @@ void NowyTest_4::on_pbOk_2_clicked()
 
 void NowyTest_4::on_pbOk_3_clicked()
 {
-    qDebug( "%s:%d %d", __FILE__, __LINE__, field(czyPompaMebr).toBool());
+    //qDebug "%s:%d %d", __FILE__, __LINE__, field(czyPompaMebr).toBool());
 
     if (field(czyPompaMebr).toBool()) {
         ui->pbOk_3->setEnabled(false);

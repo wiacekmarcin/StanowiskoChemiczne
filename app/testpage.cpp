@@ -12,7 +12,7 @@ TestPage::TestPage(QWidget *parent) :
 
 {
     prevVals = 0;
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
 }
 
 TestPage::~TestPage()
@@ -22,25 +22,25 @@ TestPage::~TestPage()
 
 void TestPage::setField(Value key, const QVariant &val)
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     wiz->setField(key, val);
 }
 
 QVariant TestPage::field(Value key) const
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     return wiz->field(key);
 }
 
 void TestPage::setWizard(CreateTestWizard *wizard)
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     wiz = wizard;
 }
 
 CreateTestWizard *TestPage::wizard() const
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     return wiz;
 }
 
@@ -61,7 +61,7 @@ QString TestPage::title() const
 
 void TestPage::setTitle(const QString &t)
 {
-    qDebug("%s:%d %p",__FILE__,__LINE__, form);
+    //qDebug"%s:%d %p",__FILE__,__LINE__, form);
     if (form)
         form->setTitle(t);
     m_title = t;
@@ -74,7 +74,7 @@ QString TestPage::subTitle() const
 
 void TestPage::setSubTitle(const QString &t)
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     if (form)
         form->setSubTitle(t);
     m_subTitle = t;
@@ -87,7 +87,7 @@ TestPageForm *TestPage::getForm() const
 
 void TestPage::setForm(TestPageForm *value)
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     form = value;
     setSubTitle(subTitle());
     setTitle(title());
@@ -95,7 +95,7 @@ void TestPage::setForm(TestPageForm *value)
 
 void TestPage::initializePage()
 {
-    //qDebug("TestPage::initializePage()");
+    ////qDebug"TestPage::initializePage()");
 }
 
 TestPage::PageId TestPage::nextPageId() const
@@ -105,25 +105,25 @@ TestPage::PageId TestPage::nextPageId() const
 
 void TestPage::nextPage(TestPage::PageId idPage)
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     wiz->nextPage(idPage);
 }
 
 void TestPage::updateOutput(uint16_t mask, bool on)
 {
-    qDebug("%s:%d %04x %d",__FILE__,__LINE__, mask, on);
+    //qDebug"%s:%d %04x %d",__FILE__,__LINE__, mask, on);
     wiz->updateOutput(mask, on);
 }
 
 void TestPage::cykleDozownik(uint8_t nr, uint32_t steps)
 {
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug"%s:%d",__FILE__,__LINE__);
     wiz->runCykleDozownik(nr, steps);
 }
 
 void TestPage::runZaplon(short idZaplon)
 {
-    qDebug("%s:%d %d, %p",__FILE__,__LINE__, idZaplon, wiz);
+    //qDebug"%s:%d %d, %p",__FILE__,__LINE__, idZaplon, wiz);
 
     wiz->runZaplon(idZaplon);
 }
@@ -314,7 +314,7 @@ bool TestPage::sprawdzOtwarteZawor2Calowe()
     BOOLS_ZAWORY
     if(!b_drzwi_prawe || b_wentylacja_lewa || !b_proznia || !b_pom_stez_1 || !b_drzwi_lewe
             || b_wentylacja_prawa || !b_wlot_powietrza || !b_pom_stez_2) {
-        qDebug("--------------%d %d", b_wentylacja_lewa, wentylacja_prawa);
+        //qDebug"--------------%d %d", b_wentylacja_lewa, wentylacja_prawa);
         QMessageBox msgBox;
         QString s("Otwarte zawory : [ ");
         if (!b_drzwi_prawe)

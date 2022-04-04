@@ -14,7 +14,7 @@ class NowyTest_8 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_5(QWidget *parent = nullptr);
+    explicit NowyTest_8(QWidget *parent = nullptr);
     ~NowyTest_8();
     virtual void initializePage() override;
 

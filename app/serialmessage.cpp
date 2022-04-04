@@ -83,8 +83,8 @@ bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & le
         return false;
     }
 
-    qDebug("cmd ascii = %s", arr.toStdString().c_str());
-    qDebug("cmd hex = %s", arr.toHex().toStdString().c_str());
+    //qDebug"cmd ascii = %s", arr.toStdString().c_str());
+    //qDebug"cmd hex = %s", arr.toHex().toStdString().c_str());
     cmd = (arr[0] >> 4) & 0x0f;
     len = arr[0] & 0x0f;
 
@@ -118,9 +118,9 @@ bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & le
         errT = QString("Nie zgodne crc");
         errB = true;
         //emit debug(QString("crc = x%1 val=x%2").arg(crc.getCRC(), 16).arg(msgcrc,16));
-        //qDebug("arr = %s", arr.toHex().toStdString().c_str());
-        //qDebug("cmd = %d", cmd);
-        //qDebug("len = %d", len);
+        ////qDebug"arr = %s", arr.toHex().toStdString().c_str());
+        ////qDebug"cmd = %d", cmd);
+        ////qDebug"len = %d", len);
         return false;
     }
     //emit debug("Naglowek OK");
@@ -129,25 +129,25 @@ bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & le
 
 bool SerialMessage::parseCommand(const QByteArray &arr)
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug"%s:%d", __FILE__, __LINE__);
     uint8_t cmd;
     uint8_t len;
     QByteArray data;
     errB = false;
     parseReply = INVALID_REPLY;
     if (!checkHead(arr, cmd, len, data)) {
-        qDebug("%s:%d INVALID HEADER", __FILE__, __LINE__);
-        qDebug("%s", errT.toStdString().c_str());
+        //qDebug"%s:%d INVALID HEADER", __FILE__, __LINE__);
+        //qDebug"%s", errT.toStdString().c_str());
         return false;
     }
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug"%s:%d", __FILE__, __LINE__);
 
     switch (cmd) {
         case NOP_REP:
             return true;
         case WELCOME_REP:
         {
-            qDebug("%s %d Recv Welcome Msg", __FILE__,__LINE__);
+            //qDebug"%s %d Recv Welcome Msg", __FILE__,__LINE__);
             if (len != 15) {
                 errT = QString("Nie poprawna dlugosc wiadomosci powitalnej %d").arg(len);
                 errB = true;
@@ -162,7 +162,7 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
                     return false;
                 }
             }
-            qDebug("%s:%d", __FILE__, __LINE__);
+            //qDebug"%s:%d", __FILE__, __LINE__);
             parseReply = WELCOME_REPLY;
             return true;
         }
@@ -172,13 +172,13 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
 
     case MOVEHOME_REP:
         {
-            qDebug("%s %d MoveHome Msg", __FILE__,__LINE__);
+            //qDebug"%s %d MoveHome Msg", __FILE__,__LINE__);
             //set home position
             //0xB0 CRC8 - req
             //0xC1 s/K/E CRC8 - s=start,K=stop
             if (len == 4) {
                 uint32_t word = (((unsigned int)data[0])<<24) + (((unsigned int)data[1])<<16) + (((unsigned int)data[2])<<8) + (unsigned int)data[3];
-                qDebug("%s:%d %d", __FILE__, __LINE__, word); 
+                //qDebug"%s:%d %d", __FILE__, __LINE__, word); 
                 steps = word;
                 parseReply = MOVEHOME_REPLY;
                 return true;
@@ -190,10 +190,10 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
 
         case POSITION_REP:
         {
-            qDebug("%s %d Recv position Msg", __FILE__,__LINE__);
+            //qDebug"%s %d Recv position Msg", __FILE__,__LINE__);
               if (len == 4) {
                 uint32_t word = (((unsigned int)data[0])<<24) + (((unsigned int)data[1])<<16) + (((unsigned int)data[2])<<8) + (unsigned int)data[3];
-                qDebug("%s:%d %u", __FILE__, __LINE__, word);
+                //qDebug"%s:%d %u", __FILE__, __LINE__, word);
                 steps = word;
                 parseReply = POSITION_REPLY;
                 return true;
@@ -205,14 +205,14 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
 
         case SET_PARAM_REP:
         {
-            qDebug("%s %d Set params Msg", __FILE__,__LINE__);
+            //qDebug"%s %d Set params Msg", __FILE__,__LINE__);
             parseReply = SETPARAMS_REPLY;
             return true;
         }
 
         case RESET_REP:
         {
-            qDebug("%s %d Set params Msg", __FILE__,__LINE__);
+            //qDebug"%s %d Set params Msg", __FILE__,__LINE__);
             parseReply = RESET_REPLY;
             return true;
         }

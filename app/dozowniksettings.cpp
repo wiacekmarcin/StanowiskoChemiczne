@@ -252,7 +252,7 @@ void DozownikSettings::setBigSteps(unsigned long steps) {
 
 void DozownikSettings::nastepnyCykl()
 {
-    qDebug("%s:%d nastepny cykl %lld", __FILE__, __LINE__, restSteps);
+    //qDebug"%s:%d nastepny cykl %lld", __FILE__, __LINE__, restSteps);
 
     if (restSteps > 0) {
         runTest = true;
@@ -268,7 +268,7 @@ void DozownikSettings::nastepnyCykl()
 void DozownikSettings::nastepnyCykl()
 {
     ++nrCykl;
-    qDebug("%s:%d nastepny cykl %d", __FILE__, __LINE__, nrCykl);
+    //qDebug"%s:%d nastepny cykl %d", __FILE__, __LINE__, nrCykl);
 
     if (nrCykl <= 5) {
         runTest = true;

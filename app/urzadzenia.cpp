@@ -25,7 +25,7 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
 
 void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 {
-    qDebug("%s:%d setCykle [%d %d]", __FILE__, __LINE__, nrDoz, nrCyckli);
+    //qDebug"%s:%d setCykle [%d %d]", __FILE__, __LINE__, nrDoz, nrCyckli);
     serial.setCykle(nrDoz,nrCyckli);
 }
 
@@ -66,17 +66,17 @@ void Urzadzenia::zaplon(short idiskra)
         break;
     }
 
-    qDebug("%s:%d run_iskra %d", __FILE__, __LINE__, idiskra);
+    //qDebug"%s:%d run_iskra %d", __FILE__, __LINE__, idiskra);
 }
 
 void Urzadzenia::ni_error(const QString &s)
 {
-    qDebug("ni_error %s", s.toStdString().c_str());
+    //qDebug"ni_error %s", s.toStdString().c_str());
 }
 
 void Urzadzenia::ni_debug(const QString &d)
 {
-    qDebug("NI %s", d.toStdString().c_str());
+    //qDebug"NI %s", d.toStdString().c_str());
 }
 
 void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6)
@@ -114,7 +114,7 @@ void Urzadzenia::ni_digitalRead(uint16_t vals)
 
     for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
         if (mask & changeMask) {
-            qDebug("%s:%d %04x %d", __FILE__,__LINE__,mask, vals & mask ? 1 : 0);
+            //qDebug"%s:%d %04x %d", __FILE__,__LINE__,mask, vals & mask ? 1 : 0);
             emit digitalRead(mask, vals & mask);
         }
         mask <<= 1;
@@ -145,17 +145,17 @@ void Urzadzenia::readInputs()
 
 void Urzadzenia::ds_error(const QString &s)
 {
-    qDebug("ds_error %s", s.toStdString().c_str());
+    //qDebug"ds_error %s", s.toStdString().c_str());
 }
 
 void Urzadzenia::ds_debug(const QString &d)
 {
-    qDebug("DS %s", d.toStdString().c_str());
+    //qDebug"DS %s", d.toStdString().c_str());
 }
 
 void Urzadzenia::ds_errorSerial(const QString & s)
 {
-    qDebug("ds_error_serial %s", s.toStdString().c_str());
+    //qDebug"ds_error_serial %s", s.toStdString().c_str());
 }
 
 void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)

@@ -171,7 +171,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Test %1").arg(nrTest++)));
     selectedProject->addChild(qtreewidgetitem);
      selectedTest = qtreewidgetitem;
-    qDebug("%s%d",__FILE__,__LINE__);
+    //qDebug"%s%d",__FILE__,__LINE__);
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
                                             ui->testyStackedWidget);
 
@@ -195,16 +195,16 @@ void GlowneOkno::on_actionNowy_Test_triggered()
      connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::zaplon, urzadzenia, &Urzadzenia::zaplon);
 
     urzadzenia->readInputs();
-    qDebug("%s%d",__FILE__,__LINE__);
+    //qDebug"%s%d",__FILE__,__LINE__);
 
     ui->treeWidget->setCurrentItem(selectedTest);
-    qDebug("%s%d",__FILE__,__LINE__);
+    //qDebug"%s%d",__FILE__,__LINE__);
     mapTesty[selectedTest] = selectedProject;
-    qDebug("%s%d",__FILE__,__LINE__);
+    //qDebug"%s%d",__FILE__,__LINE__);
     changeSelectedTest();
-    qDebug("%s%d",__FILE__,__LINE__);
+    //qDebug"%s%d",__FILE__,__LINE__);
     disableNowyTest(true);
-    qDebug("%s%d",__FILE__,__LINE__);
+    //qDebug"%s%d",__FILE__,__LINE__);
 
 }
 
@@ -236,7 +236,7 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column *
 
 void GlowneOkno::wybierzCzujke(int /*id*/)
 {
-    //qDebug("%d", id);
+    ////qDebug"%d", id);
 }
 
 void GlowneOkno::showIO()
@@ -319,7 +319,7 @@ void GlowneOkno::changeTestName(const QString &name)
 
 void GlowneOkno::finishedTest(bool success)
 {
-    qDebug("%s:%d %d",__FILE__,__LINE__,success);
+    //qDebug"%s:%d %d",__FILE__,__LINE__,success);
     disableNowyTest(false);
     if (!success) {
         selectedProject->removeChild(selectedTest);

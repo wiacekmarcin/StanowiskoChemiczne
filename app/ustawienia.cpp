@@ -27,7 +27,7 @@ Ustawienia::Ustawienia()
         czujki[i].name = settings.value(QString("czujnikianalogowe/%1/name").arg(i), QString("Czujnik analogowy %1").arg(i+1)).toString();
         czujki[i].unit = settings.value(QString("czujnikianalogowe/%1/unit").arg(i), QString("jedn.")).toString();
         czujki[i].ratio = settings.value(QString("czujnikianalogowe/%1/ratio").arg(i), 1.0).toDouble();
-        qDebug("%s:%d %s %s %f", __FILE__,__LINE__,czujki[i].name.toStdString().c_str(),czujki[i].unit.toStdString().c_str(),czujki[i].ratio);
+        //qDebug"%s:%d %s %s %f", __FILE__,__LINE__,czujki[i].name.toStdString().c_str(),czujki[i].unit.toStdString().c_str(),czujki[i].ratio);
     }
 
     for (int i = 0; i < maxCzujekCyfrIn; ++i) {

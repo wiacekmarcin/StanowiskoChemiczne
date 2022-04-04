@@ -19,7 +19,7 @@ UstawieniaTestu::~UstawieniaTestu()
 
 void UstawieniaTestu::on_buttonBox_clicked(QAbstractButton *button)
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug"%s:%d", __FILE__, __LINE__);
     if ((QPushButton*)button == ui->buttonBox->button(QDialogButtonBox::RestoreDefaults))
     {
         ui->sBCykle->setValue(10);
@@ -33,7 +33,7 @@ void UstawieniaTestu::on_buttonBox_clicked(QAbstractButton *button)
 
 void UstawieniaTestu::on_buttonBox_accepted()
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug"%s:%d", __FILE__, __LINE__);
     save();
 }
 

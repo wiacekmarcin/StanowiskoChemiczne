@@ -10,6 +10,7 @@
 #include "nowytest_5.h"
 #include "nowytest_6.h"
 #include "nowytest_7.h"
+#include "nowytest_8.h"
 #include "nowytest_9.h"
 
 #include "otwartezawory.h"
@@ -51,44 +52,46 @@ void CreateTestWizard::init(const Ustawienia & ust,
     numberInitDozCycles = ust.getNrInitializeCycles();
     //for (short id = 0; id < Ustawienia::maxCzujekCyfrIn; ++id)
     //    m_namesZawory[id] = ust.wejscie(0x1 << id);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     NowyTest_1 * page_1 = new NowyTest_1(testName, this);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
      addPage(page_1, TestPage::PAGE_1, 1);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_2 * page_2 = new NowyTest_2(ust.getNrInitializeCycles(), this);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     addPage(page_2, TestPage::PAGE_2, 2);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_3 * page_3 = new NowyTest_3(this);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     addPage(page_3, TestPage::PAGE_3, 3);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_4 * page_4 = new NowyTest_4(this);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     addPage(page_4, TestPage::PAGE_4, 4);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_5 * page_5 = new NowyTest_5(this);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     addPage(page_5 , TestPage::PAGE_5, 5);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_6 * page_6 = new NowyTest_6(this);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     addPage(page_6, TestPage::PAGE_6, 6);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
     NowyTest_7 * page_7 = new NowyTest_7(this);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     addPage(page_7, TestPage::PAGE_7, 7);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+
+    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
 
     addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     selectedId = TestPage::PAGE_1;
     finished = false;
 
@@ -98,7 +101,7 @@ void CreateTestWizard::init(const Ustawienia & ust,
 
 void CreateTestWizard::initializePage()
 {
-    //qDebug("CreateTestWizard::initializePage()");
+    ////qDebug("CreateTestWizard::initializePage()");
     if (pages.contains(selectedId))
         pages[selectedId]->initializePage();
 }
@@ -151,7 +154,7 @@ void CreateTestWizard::setFinished(bool success)
 
 void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 {
-    qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
+    //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
     zaworyMap[id] = value;
     if (selectedId == TestPage::PAGE_6 && id == pilot) {
             currentPage()->updateWejscia();
@@ -186,7 +189,7 @@ void CreateTestWizard::dozownikDone(bool success)
 
 void CreateTestWizard::nextPage(TestPage::PageId id)
 {
-    //qDebug("nextPage %d", id);
+    ////qDebug("nextPage %d", id);
     if (finished)
         return;
 
@@ -223,7 +226,7 @@ void CreateTestWizard::updateOutput(uint16_t mask, bool on)
 
 void CreateTestWizard::runZaplon(short id)
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     emit zaplon(id);
 }
 
