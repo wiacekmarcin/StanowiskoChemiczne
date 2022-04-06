@@ -61,6 +61,7 @@ class Message {
         RESET_REQ = 11,
         RESET_REP = 12,
         ERROR_REP = 14,
+        NOP_REP = 15,
     } CMD;
 
     typedef enum _work {

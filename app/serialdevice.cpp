@@ -120,19 +120,19 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
 {
     SerialMessage msg;
     msg.setInvalidReply();
-    //qDebug"%s:%d write = %s", __FILE__, __LINE__, currentRequest.toHex().constData());
+    qDebug("%s:%d write = %s", __FILE__, __LINE__, currentRequest.toHex().constData());
     readError = false;
     if (currentRequest.size() == 0)
         return msg;
     m_serial.write(currentRequest);
     if (m_serial.waitForBytesWritten(currentWaitWriteTimeout)) {
         // read response
-        //qDebug"%s:%d write done wait for read", __FILE__, __LINE__);
+        qDebug("%s:%d write done wait for read", __FILE__, __LINE__);
         if (m_serial.waitForReadyRead(currentReadWaitTimeout)) {
             QByteArray responseData = m_serial.readAll();
-            //qDebug"%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
-            while (m_serial.waitForReadyRead(10))
-                responseData += m_serial.readAll();
+            qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
+            //while (m_serial.waitForReadyRead(10))
+            //    responseData += m_serial.readAll();
             //qDebug"%s:%d read all done %d -> parse", __FILE__, __LINE__, responseData.size());
             return parseMessage(responseData);
         } else {
@@ -163,24 +163,24 @@ bool SerialDevice::configureDeviceJob()
     emit debug(QString("Konfiguracja %1%2%3%4%5 %6 %7").arg(reverse1).arg(reverse2).arg(reverse3).arg(reverse4).arg(reverse5).
                arg(maxImp).arg(timeImp));
 
-    //qDebug"%s:%d", __FILE__, __LINE__);
+   qDebug("%s:%d", __FILE__, __LINE__);
     auto s = write(SerialMessage::welcomeMsg(), 100, 100).getParseReply();
 
     if (s != SerialMessage::WELCOME_REPLY)
         return false;
 
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d", __FILE__, __LINE__);
     s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
     if (s != SerialMessage::RESET_REPLY)
         return false;
 
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d", __FILE__, __LINE__);
     s = write(SerialMessage::setSettingsMsg(reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp),
               100, 100).getParseReply();
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d", __FILE__, __LINE__);
     if (s != SerialMessage::SETPARAMS_REPLY)
         return false;
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d", __FILE__, __LINE__);
 
     return true;
 }
@@ -345,7 +345,7 @@ void SerialDevice::setPosJob()
 
 bool SerialDevice::openDevice(const QSerialPortInfo &port)
 {
-    //qDebug"%s:%d open Devicedd", __FILE__, __LINE__);
+    qDebug("%s:%d open Devicedd", __FILE__, __LINE__);
     m_serial.setPort(port);
     m_portName = port.portName();
 
@@ -354,32 +354,36 @@ bool SerialDevice::openDevice(const QSerialPortInfo &port)
         emit error(QString("Nie można otworzyć urządzenia %1, error  %2").arg(m_portName, m_serial.errorString()));
         return false;
     }
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d", __FILE__, __LINE__);
     m_serial.flush();
     m_serial.clear();
     m_serial.clearError();
 
 
-    m_serial.setBaudRate(QSerialPort::Baud9600);
+    //m_serial.setBaudRate(QSerialPort::Baud9600);
+    m_serial.setBaudRate(QSerialPort::Baud38400);
     m_serial.setDataBits(QSerialPort::Data8);
     m_serial.setFlowControl(QSerialPort::NoFlowControl);
     m_serial.setParity(QSerialPort::OddParity);
-    m_serial.setStopBits(QSerialPort::TwoStop);
+    m_serial.setStopBits(QSerialPort::OneStop);
     m_serial.setReadBufferSize(20);
     m_serial.clear();
     m_serial.flush();
 
-    while(false) {
-        QByteArray zerowaMsg(1, (char)0);
+    int try5 = 5;
+    while(try5--) {
+        QByteArray zerowaMsg(17, (char)0);
+        qDebug("%s:%d write", __FILE__, __LINE__);
         m_serial.write(zerowaMsg);
         if (m_serial.waitForBytesWritten(100)) {
             // read response
-            //qDebug"%s:%d write done wait for read", __FILE__, __LINE__);
+            qDebug("%s:%d write done wait for read", __FILE__, __LINE__);
             if (m_serial.waitForReadyRead(100)) {
                 QByteArray responseData = m_serial.readAll();
-                //qDebug"%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
+                qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
                 while (m_serial.waitForReadyRead(10))
                     responseData += m_serial.readAll();
+                qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
                 break;
                 //qDebug"%s:%d read all done %d -> parse", __FILE__, __LINE__, responseData.size());
             } else {
@@ -388,8 +392,18 @@ bool SerialDevice::openDevice(const QSerialPortInfo &port)
         } else {
             //qDebug"%s:%d %s", __FILE__, __LINE__, "Timeout przy zapisie");
         }
+        delay(1);
     }
-    //qDebug"%s:%d", __FILE__, __LINE__);
+
+    if (try5 <=0 ) {
+         delay(5);
+         m_serial.flush();
+         m_serial.clear();
+         m_serial.clearError();
+         m_serial.close();
+        return false;
+    }
+    qDebug("%s:%d", __FILE__, __LINE__);
     return true;
 }
 
@@ -435,15 +449,16 @@ void SerialDevice::connectToSerialJob()
             auto vendorId = serialPortInfo.vendorIdentifier();
             auto productId = serialPortInfo.productIdentifier();
             emit debug(QString("Znaleziono kandydata"));
-            //qDebug"%s:%d", __FILE__, __LINE__);
+            qDebug("%s:%d", __FILE__, __LINE__);
             if (vendorId == 6991 && productId == 37382 /* && serialNumber == serialNumberKontroler */) {
                m_connected = openDevice(serialPortInfo);
+
                 emit dozownikConfigured(m_connected, m_configured);
-                //qDebug"%s:%d conn = %d", __FILE__, __LINE__, m_connected);
+                qDebug("%s:%d conn = %d", __FILE__, __LINE__, m_connected);
                 emit debug(QString("Urzadzenie %1 zostalo otwarte").arg(m_portName));
                 if (m_connected) {
                     m_configured = configureDeviceJob();
-                    //qDebug"%s:%d conn = %d conf = %d", __FILE__, __LINE__, m_connected, m_configured);
+                    qDebug("%s:%d conn = %d conf = %d", __FILE__, __LINE__, m_connected, m_configured);
                     if (!m_configured) {
                         if (tryConfigure++ > 5) {
                             tryConfigure = 0;

@@ -59,7 +59,7 @@ signals:
 
 protected:
     void run() override;
-    void find();
+    bool find();
     void analogConfigure();
     void digitalConfigure();
     void resetDevice(bool analog, bool digital);

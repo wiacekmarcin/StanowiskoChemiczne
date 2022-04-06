@@ -53,12 +53,17 @@ void NICards::digitalWrite(uint16_t out, bool val)
 void NICards::run()
 {
     unsigned short loopNr = 0;
-    find();
+    bool fDev = find();
     //resetDevice(true, true);
     while (!m_quit) {
         //qDebug("%s:%d", __FILE__, __LINE__);
-        if (loopNr == 10)
+        if (loopNr == 10) {
             loopNr = 0;
+            if (!fDev)
+                fDev = find();
+        }
+        if (!fDev)
+            continue;
 
         if (loopNr == 0) {
             if (!anConf)
@@ -97,7 +102,8 @@ void NICards::run()
 }
 
 //find cards
-void NICards::find() {
+bool NICards::find() {
+    return false;
 #if !SYMULATOR
     emit usb6210(false, false);
     emit usb6501(false, false);
@@ -107,12 +113,13 @@ void NICards::find() {
     if(DAQmxFailed(errCode=DAQmxGetSysDevNames(buf, 128))) {
         DAQmxGetExtendedErrorInfo(buf, 128);
         emit error(QString::fromUtf8("Błąd podczas pobierania listy kart NI [%1]").arg(buf));
-        return;
+        return false;
     }
 
     QString allNames(buf);
     QStringList names = allNames.split(",");
     char bufProduct[128];
+    bool ret = false;
     for (auto & name : names) {
         if (DAQmxFailed(DAQmxGetDevProductType(name.toStdString().c_str(), bufProduct, 128))) {
             continue;
@@ -135,6 +142,7 @@ void NICards::find() {
             analogDevice = name;
             analogConfString = QString(readAnalString).replace("USB6210", name);
             analogConfigure();
+            ret = true;
         }
 
         if (!digConf && !digital.isConnected() && QString(bufProduct) == QString("USB-6501") &&
@@ -144,9 +152,11 @@ void NICards::find() {
             digitalConfReadString = QString(readDigString).replace("USB6501", name);
             digitalConfWriteString = QString(writeDigString).replace("USB6501", name);
             digitalConfigure();
+            ret = true;
         }
     }
 #endif
+    return ret;
 }
 
 void NICards::analogConfigure()
