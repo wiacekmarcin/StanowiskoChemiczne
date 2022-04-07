@@ -7,7 +7,7 @@
 QT       += core gui
 QT += multimedia multimediawidgets
 #QT += charts
-QT += serialport
+#QT += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = StanowiskoChemiczne
@@ -19,7 +19,7 @@ TEMPLATE = app
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += SYMULATOR
-DEFINES += DEBUG_DEVICE
+#DEFINES += DEBUG_DEVICE
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -72,7 +72,8 @@ SOURCES += \
     urzadzenia.cpp \
     niusb6210.cpp \
     niusb6501.cpp \
-    ustawienia.cpp
+    ustawienia.cpp \
+    rs232.cpp
 
 HEADERS += \
     common.h \
@@ -115,7 +116,8 @@ HEADERS += \
     urzadzenia.h \
     ustawienia.h \
     niusb6210.h \
-    niusb6501.h
+    niusb6501.h \
+    rs232.h
 
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \
@@ -157,11 +159,14 @@ DISTFILES += \
 win32 {
      !contains(QMAKE_TARGET.arch, x86_64) {
         LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib32/msvc/ -lNIDAQmx
+        LIBS += -L$$PWD/../setupapilib/32/setupapi/ -lsetupAPI
+        LIBS += -L$$PWD/../setupapilib/32/setupapi/ -ladvAPI32
     } else {
         LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx
+        LIBS += -L$$PWD/../setupapilib/64/setupapi/ -lsetupAPI
+        LIBS += -L$$PWD/../setupapilib/64/setupapi/ -ladvAPI32
     }
 }
-
 
 
 INCLUDEPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include

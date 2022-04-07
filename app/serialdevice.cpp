@@ -1,6 +1,7 @@
 #include "serialdevice.h"
 #include <QTime>
-#include <QSerialPortInfo>
+#include <QThread>
+#include "rs232.h"
 
 
 #define setReverse(N) reverse##N = ustawienia.getReverse_##N()
@@ -19,7 +20,6 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
     timeImp = ustawienia.getImpTime();
 
     this->moveToThread(&my_thread);
-    m_serial.moveToThread(&my_thread);
     my_thread.start();
     
     //my_thread.command(SerialThread::IDLE);
@@ -124,33 +124,14 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
     readError = false;
     if (currentRequest.size() == 0)
         return msg;
-    m_serial.write(currentRequest);
-    if (m_serial.waitForBytesWritten(currentWaitWriteTimeout)) {
-        // read response
-        qDebug("%s:%d write done wait for read", __FILE__, __LINE__);
-        if (m_serial.waitForReadyRead(currentReadWaitTimeout)) {
-            QByteArray responseData = m_serial.readAll();
-            qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
-            //while (m_serial.waitForReadyRead(10))
-            //    responseData += m_serial.readAll();
-            //qDebug"%s:%d read all done %d -> parse", __FILE__, __LINE__, responseData.size());
-            return parseMessage(responseData);
-        } else {
-            //qDebug"%s:%d %s", __FILE__, __LINE__, "Timeout przy odczycie");
-            //emit timeout(tr("Wait read response timeout %1")
-            //             .arg(QTime::currentTime().toString()));
-            msg.setTimeoutReply(false);
-            readError = true;
-        }
-    } else {
-        //qDebug"%s:%d %s", __FILE__, __LINE__, "Timeout przy zapisie");
-        //emit timeout(tr("Wait write request timeout %1")
-        //             .arg(QTime::currentTime().toString()));
-        msg.setTimeoutReply(true);
-        readError = true;
-    }
-    //qDebug"%s:%d Nieudany zapis/odczyt", __FILE__, __LINE__);
-    return msg;
+
+    RS232_SendBuf(handlePort, (unsigned char*)currentRequest.constData(), currentRequest.size());
+    qDebug("%s:%d write done", __FILE__, __LINE__);
+    unsigned char recvBuffor[20];
+    int rc = RS232_PollComport(handlePort, recvBuffor, 20);
+    QByteArray responseData((const char*)recvBuffor, rc);
+    qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
+    return parseMessage(responseData);
 }
 
 
@@ -343,66 +324,20 @@ void SerialDevice::setPosJob()
     emit setPositionDone(true);
 }
 
-bool SerialDevice::openDevice(const QSerialPortInfo &port)
+bool SerialDevice::openDevice()
 {
     qDebug("%s:%d open Devicedd", __FILE__, __LINE__);
-    m_serial.setPort(port);
-    m_portName = port.portName();
-
-    if (!m_serial.open(QIODevice::ReadWrite)) {
-        serialError(m_serial.error());
-        emit error(QString("Nie można otworzyć urządzenia %1, error  %2").arg(m_portName, m_serial.errorString()));
-        return false;
-    }
+    char mode[]={'8','O','1',0};
+    handlePort = RS232_OpenComport(portNr, 115200, mode, 0);
     qDebug("%s:%d", __FILE__, __LINE__);
-    m_serial.flush();
-    m_serial.clear();
-    m_serial.clearError();
+    RS232_flushRXTX(handlePort);
 
+    const unsigned char startBuf[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    int rs = RS232_SendBuf(handlePort, (unsigned char*)startBuf, 16);
 
-    //m_serial.setBaudRate(QSerialPort::Baud9600);
-    m_serial.setBaudRate(QSerialPort::Baud38400);
-    m_serial.setDataBits(QSerialPort::Data8);
-    m_serial.setFlowControl(QSerialPort::NoFlowControl);
-    m_serial.setParity(QSerialPort::OddParity);
-    m_serial.setStopBits(QSerialPort::OneStop);
-    m_serial.setReadBufferSize(20);
-    m_serial.clear();
-    m_serial.flush();
-
-    int try5 = 5;
-    while(try5--) {
-        QByteArray zerowaMsg(17, (char)0);
-        qDebug("%s:%d write", __FILE__, __LINE__);
-        m_serial.write(zerowaMsg);
-        if (m_serial.waitForBytesWritten(100)) {
-            // read response
-            qDebug("%s:%d write done wait for read", __FILE__, __LINE__);
-            if (m_serial.waitForReadyRead(100)) {
-                QByteArray responseData = m_serial.readAll();
-                qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
-                while (m_serial.waitForReadyRead(10))
-                    responseData += m_serial.readAll();
-                qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
-                break;
-                //qDebug"%s:%d read all done %d -> parse", __FILE__, __LINE__, responseData.size());
-            } else {
-                //qDebug"%s:%d %s", __FILE__, __LINE__, "Timeout przy odczycie");
-            }
-        } else {
-            //qDebug"%s:%d %s", __FILE__, __LINE__, "Timeout przy zapisie");
-        }
-        delay(1);
-    }
-
-    if (try5 <=0 ) {
-         delay(5);
-         m_serial.flush();
-         m_serial.clear();
-         m_serial.clearError();
-         m_serial.close();
-        return false;
-    }
+    unsigned char recvBuf[100];
+    int recv = RS232_PollComport(handlePort, recvBuf, 100);;
+    
     qDebug("%s:%d", __FILE__, __LINE__);
     return true;
 }
@@ -410,132 +345,48 @@ bool SerialDevice::openDevice(const QSerialPortInfo &port)
 SerialMessage SerialDevice::parseMessage(const QByteArray &reply)
 {
     SerialMessage msg;
+    msg.parseCommand(reply);
     //qDebug"%s:%d parse = %d", __FILE__,__LINE__, msg.parseCommand(reply));
     return msg;
 }
 
 void SerialDevice::closeDevice()
 {
-    if (m_serial.isOpen()) {
-        m_serial.flush();
-        m_serial.clear();
-        m_serial.clearError();
-        m_serial.close();
-    }
+    RS232_CloseComport(handlePort);
     m_connected = false;
 }
 
 void SerialDevice::connectToSerialJob()
 {
-    const auto serialPortInfos = QSerialPortInfo::availablePorts();
-
     QString description;
     QString manufacturer;
     QString serialNumber;
     static short tryConfigure = 0;
     //const QString serialNumberKontroler = "D76ED16151514C4B39202020FF012E1C";
 
+    emit dozownikConfigured(false, false);
+    char bufPortName[12] = {0};
+    portNr = -1;
+    GetComPortUsb(bufPortName,"1bf4","9206");
+    portNr = RS232_GetPortnr(bufPortName);
+    if (portNr == -1)
+        return;
+    openDevice();
+
+    m_configured = configureDeviceJob();
+    qDebug("%s:%d conn = %d conf = %d", __FILE__, __LINE__, m_connected, m_configured);
+    if (!m_configured) {
+        closeDevice();
+        m_connected = false;
+        return;
+    }
+    //qDebug"%s:%d  conn = %d, conf = %d", __FILE__, __LINE__, m_connected, m_configured);
+    emit debug(QString("Konfiguracja urządzenia %1").arg(m_configured ? "Sukces" : "Porażka"));
     emit dozownikConfigured(m_connected, m_configured);
-    for (const QSerialPortInfo &serialPortInfo : serialPortInfos) {
-        description = serialPortInfo.description();
-        manufacturer = serialPortInfo.manufacturer();
-        serialNumber = serialPortInfo.serialNumber();
-        emit debug(QString("DESC ") + description);
-        emit debug(QString("MENU ") + manufacturer);
-        emit debug(QString("SERIAL") + serialNumber);
-        //qDebug"%s:%d", __FILE__, __LINE__);
 
-        if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
-            auto vendorId = serialPortInfo.vendorIdentifier();
-            auto productId = serialPortInfo.productIdentifier();
-            emit debug(QString("Znaleziono kandydata"));
-            qDebug("%s:%d", __FILE__, __LINE__);
-            if (vendorId == 6991 && productId == 37382 /* && serialNumber == serialNumberKontroler */) {
-               m_connected = openDevice(serialPortInfo);
 
-                emit dozownikConfigured(m_connected, m_configured);
-                qDebug("%s:%d conn = %d", __FILE__, __LINE__, m_connected);
-                emit debug(QString("Urzadzenie %1 zostalo otwarte").arg(m_portName));
-                if (m_connected) {
-                    m_configured = configureDeviceJob();
-                    qDebug("%s:%d conn = %d conf = %d", __FILE__, __LINE__, m_connected, m_configured);
-                    if (!m_configured) {
-                        if (tryConfigure++ > 5) {
-                            tryConfigure = 0;
-                            closeDevice();
-                            m_connected = false;
-                        }
-                    }
-                    //qDebug"%s:%d  conn = %d, conf = %d", __FILE__, __LINE__, m_connected, m_configured);
-                    emit debug(QString("Konfiguracja urządzenia %1").arg(m_configured ? "Sukces" : "Porażka"));
-                    emit dozownikConfigured(m_connected, m_configured);
-                }
-                return;
-            }
-        }
-    }
-    ////qDebug"%s %d", __FILE__, __LINE__);
-    m_connected = false;
 }
 
-void SerialDevice::serialError(const QSerialPort::SerialPortError &errorSer)
-{
-    switch (errorSer) {
-    case QSerialPort::NoError:
-    default:
-        break;
-
-    case QSerialPort::DeviceNotFoundError:
-        emit error("Nie znaleziono urządzenia");
-        break;
-
-    case QSerialPort::PermissionError:
-        emit error("Brak uprawnień do urządzenia");
-        break;
-
-    case QSerialPort::OpenError:
-        emit error("Błąd podczas otwierania urządzenia");
-        break;
-
-    case QSerialPort::ParityError:
-        emit error("Błąd parzystości");
-        break;
-
-    case QSerialPort::FramingError:
-    case QSerialPort::BreakConditionError:
-        emit error("Błąd danych");
-        break;
-
-    case QSerialPort::WriteError:
-        emit error("Błąd zapisu");
-        break;
-
-    case QSerialPort::ReadError:
-        emit error("Błąd odczytu");
-        break;
-
-    case QSerialPort::ResourceError:
-        emit error("Błąd zasobu");
-        break;
-
-    case QSerialPort::UnsupportedOperationError:
-        emit error("Niedozwolona operacja");
-        break;
-
-    case QSerialPort::UnknownError:
-        emit error("Nieznany błąd");
-        break;
-
-    case QSerialPort::TimeoutError:
-        emit error("Błąd timeout");
-        break;
-
-    case QSerialPort::NotOpenError:
-        emit error("Inny błąd");
-        break;
-
-    }
-}
 
 SerialThread::SerialThread(SerialDevice * device, QObject *parent) :
     QThread(parent), sd(device)

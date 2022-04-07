@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Qt/5.15.2/msvc2019_64/include",
+                "E:/Qt5/5.15.2/msvc2019_64/include",
+                "E:/devel/StanowiskoChemiczne-source/StanowiskoChemiczne/NI/DAQmx_ANSI_C_Dev/include"
             ],
             "defines": [
                 "_DEBUG",

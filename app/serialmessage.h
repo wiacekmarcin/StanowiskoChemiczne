@@ -2,8 +2,7 @@
 #define SERIALMESSAGE_H
 
 #include <QObject>
-#include <QSerialPortInfo>
-#include <QSerialPort>
+
 #include <QTimer>
 
 class SerialMessage

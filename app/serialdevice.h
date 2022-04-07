@@ -6,8 +6,6 @@
 #include <QThread>
 #include <QWaitCondition>
 #include <QByteArray>
-#include <QSerialPort>
-#include <QSerialPortInfo>
 #include "serialmessage.h"
 #include "ustawienia.h"
 
@@ -98,8 +96,7 @@ protected:
     void setStepsJob();
 
     void closeDevice();
-    bool openDevice(const QSerialPortInfo &port);
-    void serialError(const QSerialPort::SerialPortError &error);
+    bool openDevice();
     SerialMessage write(const QByteArray & req, int currentWaitWriteTimeout, int currentReadWaitTimeout);
     SerialMessage parseMessage(const QByteArray & reply);
 
@@ -110,8 +107,9 @@ private:
     //void run() override;
 
     QString m_portName;
+    int portNr;
+    int handlePort;
 
-    QSerialPort m_serial;
     bool m_connected;
     bool m_configured;
     bool readError;
