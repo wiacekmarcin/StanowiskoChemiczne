@@ -3,7 +3,8 @@ import crc8
 
 
 while True:
-    i = raw_input('Podaj komende\n\t1. Welcone\n\t2. Set Param\n\t3. Position\n\t4. Echo\n\t5. MoveHome\n\t6. Reset\n\n\t0 - Wyjscie\n[1-5]:')
+    i = raw_input('Podaj komende\n\t1. Welcone\n\t2. Set Param\n\t3. Position\n\t4. Echo\n\t5. MoveHome\n\t6. Reset\n'
+    '\t7. Echo\n\n\t0 - Wyjscie\n[1-5]:')
     hash = crc8.crc8()
     if i =='0':
         sys.exit(0)
@@ -37,9 +38,9 @@ while True:
         c = hash.hexdigest()
         print ("55%02x%02x%02x%02x%02x%s" % (dozo, step >> 24, (step >> 16) & 0xff, (step >> 8) & 0xff, step & 0xff, c))
     if i == '4':
-        hash.update("%c" % 0x70)
+        hash.update("%c%c" % (0x71,0x00))
         c = hash.hexdigest()
-        print ("70%s" % c)
+        print ("7100%s" % c)
     if i == '5':
         dozo = int(raw_input("Podaj nr dozownika: "))
         hash.update("%c%c" % (0x91, dozo))
@@ -49,3 +50,7 @@ while True:
         hash.update("%c" % 0xb0)
         c = hash.hexdigest()
         print ("b0%s" % c)
+    if i == '7':
+        hash.update("%c%c" % (0x71,0x01))
+        c = hash.hexdigest()
+        print ("7101%s" % c)
