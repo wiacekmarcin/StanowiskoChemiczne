@@ -108,7 +108,7 @@ private:
 
     QString m_portName;
     int portNr;
-    int handlePort;
+    //int handlePort;
 
     bool m_connected;
     bool m_configured;

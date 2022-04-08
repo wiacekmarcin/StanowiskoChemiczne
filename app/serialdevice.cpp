@@ -18,11 +18,12 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
 
     maxImp = ustawienia.getMaxImp();
     timeImp = ustawienia.getImpTime();
-
+    qDebug("%s:%d",__FILE__,__LINE__);
     this->moveToThread(&my_thread);
     my_thread.start();
+    qDebug("%s:%d",__FILE__,__LINE__);
     
-    //my_thread.command(SerialThread::IDLE);
+    my_thread.command(SerialThread::IDLE);
 }
 
 SerialDevice::~SerialDevice()
@@ -125,12 +126,14 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
     if (currentRequest.size() == 0)
         return msg;
 
-    RS232_SendBuf(handlePort, (unsigned char*)currentRequest.constData(), currentRequest.size());
+    RS232_SendBuf(portNr, (unsigned char*)currentRequest.constData(), currentRequest.size());
     qDebug("%s:%d write done", __FILE__, __LINE__);
     unsigned char recvBuffor[20];
-    int rc = RS232_PollComport(handlePort, recvBuffor, 20);
+    QThread::msleep(currentWaitWriteTimeout + currentReadWaitTimeout);
+    int rc = RS232_PollComport(portNr, recvBuffor, 20);
+    qDebug("%s:%d read done %d", __FILE__, __LINE__, rc);
     QByteArray responseData((const char*)recvBuffor, rc);
-    qDebug("%s:%d read done %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
+    qDebug("%s:%d parse %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
     return parseMessage(responseData);
 }
 
@@ -150,17 +153,17 @@ bool SerialDevice::configureDeviceJob()
     if (s != SerialMessage::WELCOME_REPLY)
         return false;
 
+    //qDebug("%s:%d", __FILE__, __LINE__);
+    //s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
+    //if (s != SerialMessage::RESET_REPLY)
+    //    return false;
+    QThread::msleep(2000);
     qDebug("%s:%d", __FILE__, __LINE__);
-    s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
-    if (s != SerialMessage::RESET_REPLY)
-        return false;
-
-    qDebug("%s:%d", __FILE__, __LINE__);
-    s = write(SerialMessage::setSettingsMsg(reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp),
-              100, 100).getParseReply();
-    qDebug("%s:%d", __FILE__, __LINE__);
-    if (s != SerialMessage::SETPARAMS_REPLY)
-        return false;
+    //s = write(SerialMessage::setSettingsMsg(reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp),
+    //          100, 100).getParseReply();
+    //qDebug("%s:%d", __FILE__, __LINE__);
+    //if (s != SerialMessage::SETPARAMS_REPLY)
+    //    return false;
     qDebug("%s:%d", __FILE__, __LINE__);
 
     return true;
@@ -328,17 +331,25 @@ bool SerialDevice::openDevice()
 {
     qDebug("%s:%d open Devicedd", __FILE__, __LINE__);
     char mode[]={'8','O','1',0};
-    handlePort = RS232_OpenComport(portNr, 115200, mode, 0);
+    if (RS232_OpenComport(portNr, 115200, mode, 0)) {
+        m_connected = false;
+        return false;
+    }
     qDebug("%s:%d", __FILE__, __LINE__);
-    RS232_flushRXTX(handlePort);
+    RS232_flushRXTX(portNr);
 
     const unsigned char startBuf[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    int rs = RS232_SendBuf(handlePort, (unsigned char*)startBuf, 16);
-
+    int rs = RS232_SendBuf(portNr, (unsigned char*)startBuf, 16);
+    qDebug("%s:%d write %d", __FILE__,__LINE__,rs);
+    if (rs <= 0) {
+        RS232_CloseComport(portNr);
+        return false;
+    }
+    QThread::msleep(200);
     unsigned char recvBuf[100];
-    int recv = RS232_PollComport(handlePort, recvBuf, 100);;
+    int recv = RS232_PollComport(portNr, recvBuf, 100);;
     
-    qDebug("%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d recv=%d", __FILE__, __LINE__, recv);
     return true;
 }
 
@@ -352,7 +363,7 @@ SerialMessage SerialDevice::parseMessage(const QByteArray &reply)
 
 void SerialDevice::closeDevice()
 {
-    RS232_CloseComport(handlePort);
+    RS232_CloseComport(portNr);
     m_connected = false;
 }
 
@@ -367,11 +378,18 @@ void SerialDevice::connectToSerialJob()
     emit dozownikConfigured(false, false);
     char bufPortName[12] = {0};
     portNr = -1;
-    GetComPortUsb(bufPortName,"1bf4","9206");
+    qDebug("%s:%d",__FILE__,__LINE__);
+    GetComPortUsb(bufPortName,"1B4F","9206");
+    qDebug("%s:%d [%s]",__FILE__,__LINE__, bufPortName);
+
     portNr = RS232_GetPortnr(bufPortName);
+    portNr = RS232_GetPortnr("COM5");
+    qDebug("%s:%d portNr=%d",__FILE__,__LINE__, portNr);
     if (portNr == -1)
         return;
-    openDevice();
+    m_connected = openDevice();
+    if(!m_connected)
+        return;
 
     m_configured = configureDeviceJob();
     qDebug("%s:%d conn = %d conf = %d", __FILE__, __LINE__, m_connected, m_configured);
@@ -419,16 +437,16 @@ void SerialThread::command(Task curr)
 
 void SerialThread::run()
 {
-    //qDebug"%s:%d run", __FILE__,__LINE__);
+    qDebug("%s:%d run", __FILE__,__LINE__);
     m_mutex.lock();
     short zadanie = nrZadania;
     m_mutex.unlock();
     short nrTrying = 0;
     while (!m_quit) {
-        //qDebug"%s:%d zadanie %d", __FILE__,__LINE__, zadanie);
+        qDebug("%s:%d zadanie %d", __FILE__,__LINE__, zadanie);
         switch(zadanie) {
         case IDLE:
-            //qDebug"conn=%d conf=%d read=%d",sd->m_connected,sd->m_configured, sd->readError);
+            qDebug("conn=%d conf=%d read=%d",sd->m_connected,sd->m_configured, sd->readError);
             if (sd->readError) {
                 if (nrTrying++ > 5) {
                     nrTrying = 0;
@@ -455,7 +473,7 @@ void SerialThread::run()
             }
             break;
         case CONNECT:
-            //qDebug"%s:%d zadanie CONNECT ", __FILE__,__LINE__);
+            qDebug("%s:%d zadanie CONNECT ", __FILE__,__LINE__);
             sd->connectToSerialJob();
             if (!sd->m_connected) {
                 zadanie = CONNECT;

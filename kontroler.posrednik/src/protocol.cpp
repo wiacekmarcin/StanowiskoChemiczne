@@ -72,11 +72,13 @@ Message::Work Message::getStatusWork() const
 bool Message::parse1() {
 
     switch(rozkaz[0]) {
-        case NOP_REQ:
-            uint8_t sendData[2] = {0xff,0x00};
-            messageWrite1(sendData,2);
+        case NOP_REQ: 
+        {
+            uint8_t sendData2[2] = {0xff,0x00};
+            messageWrite1(sendData2,2);
             sendMessage1(NOP_REP, nullptr, 0);
             return true;
+        }
         // get info |HEAD| CRC
         case WELCOME_REQ:   //get info 
         {                          //1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
