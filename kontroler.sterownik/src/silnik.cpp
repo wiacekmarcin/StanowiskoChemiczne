@@ -44,7 +44,7 @@ uint32_t Silnik::home()
         delayMicroseconds(2*mls_motor);
     }
 
-    for (; s < maxSteps && check(pinT, 8); s++) {
+    for (; (s>>1) < maxSteps &&check(pinT, 8); ++s) {
         pinT[s & 0x7] = digitalRead(limitPin);
         digitalWrite(pulsePin, HIGH);
         delayMicroseconds(mls_motor);

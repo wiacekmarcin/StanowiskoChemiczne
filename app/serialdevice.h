@@ -63,10 +63,12 @@ public:
 
     void setImpTime(uint16_t timeImp);
     void setPositionHome(uint8_t nrDoz);
-    void setPosition(uint8_t nrDoz, uint32_t imp);
+    void setSteps(uint8_t nrDoz, uint64_t imp);
     void setReset();
     void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
-    void setImpulse(uint8_t nrDoz, uint64_t steps);
+    void setPosition(uint8_t nrDoz, uint32_t steps);
+
+    bool getPositionHome(uint8_t nrDoz);
 
 signals:
 
@@ -125,6 +127,7 @@ private:
     short dozownikNr;
     uint32_t val1;
     uint64_t val2;
+    uint8_t homePositionMask;
 };
 
 

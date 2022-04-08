@@ -58,7 +58,14 @@ QByteArray SerialMessage::setReset()
 
 QByteArray SerialMessage::echoMsg()
 {
-    return prepareMessage(ECHO_REQ, NULL, 0);
+    uint8_t tab[1] = {0};
+    return prepareMessage(ECHO_REQ, tab, 1);
+}
+
+QByteArray SerialMessage::echoMsg2()
+{
+    uint8_t tab[1] = {1};
+    return prepareMessage(ECHO_REQ, tab, 1);
 }
 
 QByteArray SerialMessage::welcomeMsg()
@@ -167,10 +174,26 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
             return true;
         }
         case ECHO_REP:
-            parseReply = ECHO_REPLY;
-            return true;
-
-    case MOVEHOME_REP:
+        {
+            if (len != 2) {
+                errT = QString("Nie poprawna dlugosc wiadomosci echo %d").arg(len);
+                errB = true;
+                return false;
+            }
+            if ((unsigned int)data[0] == 0) {
+                parseReply = ECHO_REPLY;
+                return true;
+            }
+            if ((unsigned int)data[0] == 1) {
+                parseReply = ECHO_REPLY2;
+                homePosition = (unsigned int)data[1];
+                return true;
+            }
+            errT = QString("Nie poprawna wiadomosc echo %d != [0,1]").arg(data[0]);
+            errB = true;
+            return false;
+        }
+        case MOVEHOME_REP:
         {
             //qDebug"%s %d MoveHome Msg", __FILE__,__LINE__);
             //set home position
@@ -276,6 +299,11 @@ QByteArray SerialMessage::prepareMessage(uint8_t cmd, uint8_t tab[], uint8_t len
     ret.append(arr);
     //emit debug(QString("Wysylam:")+QString(ret.toHex(' ').data()));
     return ret;
+}
+
+uint8_t SerialMessage::getHomePosition() const
+{
+    return homePosition;
 }
 
 short SerialMessage::getParseReply() const

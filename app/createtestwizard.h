@@ -43,6 +43,7 @@ public:
     void updateOutput(uint16_t mask, bool on);
     void runZaplon(short id);
     void runCykleDozownik(uint8_t nr, uint32_t steps);
+    void runDozownikMl(uint8_t nr, uint32_t mlx10);
 
 public slots:
     void nextPage(TestPage::PageId id);
@@ -57,6 +58,7 @@ signals:
     void finishedTest(bool success);
     void writeOutValues(uint16_t, bool on);
     void cykleDozownik(uint8_t nr, uint32_t steps);
+    void dozownikMl(uint8_t nr, uint32_t mlx10);
     void zaplon(short Id);
 
 

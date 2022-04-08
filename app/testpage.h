@@ -78,6 +78,7 @@ public:
 
     void updateOutput(uint16_t mask, bool on);
     void cykleDozownik(uint8_t nr, uint32_t steps);
+    void dozownikMl(uint8_t nr, uint32_t mlx10);
     void runZaplon(short idZaplon);
 
 signals:

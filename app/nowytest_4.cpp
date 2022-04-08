@@ -80,11 +80,8 @@ void NowyTest_4::on_pbOk_1_clicked()
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
-    //emit dozownik(field(dozownikNr).toUInt(), field(objetosc).toUInt());
+    dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
     updateOutput(mieszadlo, true);
-
-
-    QTimer::singleShot(1000, this, &NowyTest_4::runDone);
 }
 
 void NowyTest_4::on_pbOk_3_clicked()

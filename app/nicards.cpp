@@ -103,8 +103,12 @@ void NICards::run()
 
 //find cards
 bool NICards::find() {
+#if SYMULATOR
     return false;
-#if !SYMULATOR
+    emit usb6210(false, false);
+    emit usb6501(false, false);
+#endif
+
     emit usb6210(false, false);
     emit usb6501(false, false);
     qDebug("%s:%d find", __FILE__, __LINE__);
@@ -155,7 +159,6 @@ bool NICards::find() {
             ret = true;
         }
     }
-#endif
     return ret;
 }
 

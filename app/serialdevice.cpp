@@ -3,6 +3,7 @@
 #include <QThread>
 #include "rs232.h"
 
+#define COMPORT "COM7"
 
 #define setReverse(N) reverse##N = ustawienia.getReverse_##N()
 
@@ -17,11 +18,15 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
     setReverse(5);
 
     maxImp = ustawienia.getMaxImp();
-    timeImp = ustawienia.getImpTime();
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //TODO timeImp = 50000; sprawdzic to
+    //timeImp = ustawienia.getImpTime();
+    timeImp = 150;
+
+    qDebug("%s:%d ratiomlimp = %f",__FILE__,__LINE__, ustawienia.getStepsOnMl());
     this->moveToThread(&my_thread);
     my_thread.start();
     qDebug("%s:%d",__FILE__,__LINE__);
+    homePositionMask = 0;
     
     my_thread.command(SerialThread::IDLE);
 }
@@ -72,11 +77,11 @@ void SerialDevice::setPositionHome(uint8_t nrDoz)
     my_thread.command(SerialThread::SET_HOME);
 }
 
-void SerialDevice::setPosition(uint8_t nrDoz, uint32_t pos)
+void SerialDevice::setSteps(uint8_t nrDoz, uint64_t pos)
 {
     dozownikNr = nrDoz;
-    val1 = pos;
-    my_thread.command(SerialThread::SET_PARAMS);
+    val2 = pos;
+    my_thread.command(SerialThread::SET_STEPS);
 }
 
 void SerialDevice::setReset()
@@ -91,10 +96,17 @@ void SerialDevice::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
     my_thread.command(SerialThread::SET_CYCLE);
 }
 
-void SerialDevice::setImpulse(uint8_t nrDoz, uint64_t steps)
+void SerialDevice::setPosition(uint8_t nrDoz, uint32_t steps)
 {
+    qDebug("%s:%d %d %d",__FILE__, __LINE__, nrDoz, steps);
     dozownikNr = nrDoz;
-    val2 = steps;
+    val1 = steps;
+    my_thread.command(SerialThread::SET_POSITION);
+}
+
+bool SerialDevice::getPositionHome(uint8_t nrDoz)
+{
+    return (~homePositionMask)&(0x1 << nrDoz);
 }
 
 #define SET_GET_REVERSE_DEFINTION(N) \
@@ -127,11 +139,20 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
         return msg;
 
     RS232_SendBuf(portNr, (unsigned char*)currentRequest.constData(), currentRequest.size());
-    qDebug("%s:%d write done", __FILE__, __LINE__);
+    QThread::msleep(currentWaitWriteTimeout);
+    //qDebug("%s:%d write done", __FILE__, __LINE__);
     unsigned char recvBuffor[20];
-    QThread::msleep(currentWaitWriteTimeout + currentReadWaitTimeout);
-    int rc = RS232_PollComport(portNr, recvBuffor, 20);
-    qDebug("%s:%d read done %d", __FILE__, __LINE__, rc);
+    int readTimeout = currentReadWaitTimeout;
+    int rc = 0;
+    do {
+
+        rc = RS232_PollComport(portNr, recvBuffor, 20);
+        if (rc == 0) {
+            readTimeout -= 50;
+            QThread::msleep(50);
+        }
+    } while(rc == 0 && readTimeout > 0);
+    //qDebug("%s:%d read done %d", __FILE__, __LINE__, rc);
     QByteArray responseData((const char*)recvBuffor, rc);
     qDebug("%s:%d parse %d [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData());
     return parseMessage(responseData);
@@ -141,7 +162,7 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
 
 bool SerialDevice::configureDeviceJob()
 {
-
+    homePositionMask = 0;
 
     //qDebug"%s:%d", __FILE__, __LINE__);
     emit debug(QString("Konfiguracja %1%2%3%4%5 %6 %7").arg(reverse1).arg(reverse2).arg(reverse3).arg(reverse4).arg(reverse5).
@@ -153,18 +174,26 @@ bool SerialDevice::configureDeviceJob()
     if (s != SerialMessage::WELCOME_REPLY)
         return false;
 
-    //qDebug("%s:%d", __FILE__, __LINE__);
-    //s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
-    //if (s != SerialMessage::RESET_REPLY)
-    //    return false;
+    qDebug("%s:%d", __FILE__, __LINE__);
+    s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
+    if (s != SerialMessage::RESET_REPLY)
+        return false;
     QThread::msleep(2000);
+    qDebug("%s:%d %d%d%d%d%d, %d %d", __FILE__, __LINE__, reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp);
+    s = write(SerialMessage::setSettingsMsg(reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp),
+              100, 100).getParseReply();
     qDebug("%s:%d", __FILE__, __LINE__);
-    //s = write(SerialMessage::setSettingsMsg(reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp),
-    //          100, 100).getParseReply();
-    //qDebug("%s:%d", __FILE__, __LINE__);
-    //if (s != SerialMessage::SETPARAMS_REPLY)
-    //    return false;
+    if (s != SerialMessage::SETPARAMS_REPLY)
+        return false;
     qDebug("%s:%d", __FILE__, __LINE__);
+
+    qDebug("%s:%d write echo2 msg", __FILE__, __LINE__);
+    auto s2 = write(SerialMessage::echoMsg2(), 100, 100);
+    qDebug("%s:%d", __FILE__, __LINE__);
+    if (s2.getParseReply() != SerialMessage::ECHO_REPLY2)
+        return false;
+    homePositionMask = s2.getHomePosition();
+    qDebug("%s:%d %0x", __FILE__, __LINE__, homePositionMask);
 
     return true;
 }
@@ -226,7 +255,7 @@ void SerialDevice::setResetJob()
 
 void SerialDevice::setCykleJob()
 {
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d", __FILE__, __LINE__);
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
@@ -234,7 +263,13 @@ void SerialDevice::setCykleJob()
         return;
     }
 
-    //qDebug"%s:%d val1=%d", __FILE__, __LINE__, val1);
+    s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
+    if (s != SerialMessage::MOVEHOME_REPLY) {
+        emit setCykleDone(false);
+        return;
+    }
+
+    qDebug("%s:%d", __FILE__, __LINE__);
     for (uint32_t n = 0; n < val1; ++n) {
         s = write(SerialMessage::setPosition(dozownikNr, maxImp), 100, 60000).getParseReply();
         if (s != SerialMessage::POSITION_REPLY) {
@@ -254,7 +289,7 @@ void SerialDevice::setCykleJob()
 
 void SerialDevice::setStepsJob()
 {
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d setStepsJob", __FILE__, __LINE__);
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
@@ -265,11 +300,12 @@ void SerialDevice::setStepsJob()
     uint64_t stepsAll = val2;
     uint32_t steps;
     while (stepsAll > 0) {
+
         steps = stepsAll > maxImp ? maxImp : stepsAll - maxImp;
         stepsAll -= steps;
-
+        qDebug("%s:%d %d %ld" ,__FILE__,__LINE__, steps, stepsAll);
         s = write(SerialMessage::setPosition(dozownikNr, steps), 100, 60000).getParseReply();
-        if (s != SerialMessage::ECHO_REPLY) {
+        if (s != SerialMessage::POSITION_REPLY) {
             emit setCykleDone(false);
             return;
         }
@@ -307,16 +343,18 @@ void SerialDevice::setHomeJob()
 
 void SerialDevice::setPosJob()
 {
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    qDebug("%s:%d", __FILE__, __LINE__);
     emit debug(QString("Ustaw pozycje %1").arg(val1));
 
-    //qDebug"%s:%d", __FILE__, __LINE__);
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setPositionDone(false);
         return;
     }
+
+    qDebug("%s:%d", __FILE__, __LINE__);
+
 
     s = write(SerialMessage::setPosition(dozownikNr, val1), 100, 60000).getParseReply();
     if (s != SerialMessage::POSITION_REP) {
@@ -338,8 +376,8 @@ bool SerialDevice::openDevice()
     qDebug("%s:%d", __FILE__, __LINE__);
     RS232_flushRXTX(portNr);
 
-    const unsigned char startBuf[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    int rs = RS232_SendBuf(portNr, (unsigned char*)startBuf, 16);
+    const unsigned char startBuf[17] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    int rs = RS232_SendBuf(portNr, (unsigned char*)startBuf, 17);
     qDebug("%s:%d write %d", __FILE__,__LINE__,rs);
     if (rs <= 0) {
         RS232_CloseComport(portNr);
@@ -383,7 +421,7 @@ void SerialDevice::connectToSerialJob()
     qDebug("%s:%d [%s]",__FILE__,__LINE__, bufPortName);
 
     portNr = RS232_GetPortnr(bufPortName);
-    portNr = RS232_GetPortnr("COM5");
+    portNr = RS232_GetPortnr(COMPORT);
     qDebug("%s:%d portNr=%d",__FILE__,__LINE__, portNr);
     if (portNr == -1)
         return;
@@ -514,6 +552,16 @@ void SerialThread::run()
         case SET_CYCLE:
             //qDebug"%s:%d zadanie SET_CYCLE ", __FILE__,__LINE__);
             sd->setCykleJob();
+            zadanie = IDLE;
+            break;
+
+        case SET_POSITION:
+            sd->setPosJob();
+            zadanie = IDLE;
+            break;
+
+        case SET_STEPS:
+            sd->setStepsJob();
             zadanie = IDLE;
             break;
         default:

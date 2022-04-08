@@ -121,6 +121,12 @@ void TestPage::cykleDozownik(uint8_t nr, uint32_t steps)
     wiz->runCykleDozownik(nr, steps);
 }
 
+void TestPage::dozownikMl(uint8_t nr, uint32_t mlx10)
+{
+    //qDebug"%s:%d",__FILE__,__LINE__);
+    wiz->runDozownikMl(nr, mlx10);
+}
+
 void TestPage::runZaplon(short idZaplon)
 {
     //qDebug"%s:%d %d, %p",__FILE__,__LINE__, idZaplon, wiz);

@@ -17,6 +17,8 @@ public:
 
 public slots:
     void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
+
+    void setMl(uint8_t nrDoz, uint32_t ml);
     void digitalWriteAll(uint16_t vals);
     void digitalWrite(uint16_t mask, bool on);
     void zaplon(short idiskra);
@@ -61,6 +63,7 @@ protected:
     void runIskraElektryczna();
     void runIskraMechaniczna();
     void runPlomien();
+    void setSteps(uint8_t nrDoz, uint32_t impuls);
 
 private slots:
     void runIskraElektryczna1();

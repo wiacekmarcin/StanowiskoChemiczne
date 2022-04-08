@@ -92,7 +92,15 @@ bool Message::parse() {
             actWork = SETTING;
             return true;
         }
-        
+        case ECHO_REQ:
+        {
+            if (data[1] == 0x01) {
+                Serial.println("ËCHO");
+                actWork = ECHO;
+                return true;
+            }
+            return false;
+        }
         default:
             sendError("NIEZNANA WIAD.", 14);
             Serial.println("Unknown Message");
@@ -159,10 +167,18 @@ void Message::setResetDone() const
     sendMessage(RESET_REP, nullptr, 0);
 }
 
+void Message::setEcho(uint8_t ins) const
+{
+    uint8_t tab[2] = { 0x1, ins };
+    sendMessage(ECHO_REP, tab, 2);
+}
+
 bool Message::getReverse(uint8_t s)
 {
     return reverseByte & (0x1 << s);
 }
+
+
 
 uint32_t Message::parseNumber(uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4)
 {

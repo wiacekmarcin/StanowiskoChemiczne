@@ -29,6 +29,13 @@ void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
     serial.setCykle(nrDoz,nrCyckli);
 }
 
+void Urzadzenia::setMl(uint8_t nrDoz, uint32_t mlx10)
+{
+    uint32_t steps = round(mlx10 * ustawienia.getStepsOnMl() / 10.0);
+    qDebug("%s:%d %f ml => %d steps", __FILE__, __LINE__, mlx10/10.0, steps);
+    setSteps(nrDoz, steps);
+}
+
 void Urzadzenia::digitalWriteAll(uint16_t vals)
 {
 #if !SYMULATOR
@@ -211,6 +218,11 @@ void Urzadzenia::runPlomien()
     digitalWrite(plomien, true);
     QTimer::singleShot(6000, this, &Urzadzenia::runPlomien1);
 
+}
+
+void Urzadzenia::setSteps(uint8_t nrDoz, uint32_t impuls)
+{
+    serial.setSteps(nrDoz,impuls);
 }
 
 void Urzadzenia::runPlomien1()

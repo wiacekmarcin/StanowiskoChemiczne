@@ -40,6 +40,7 @@ public:
         INPROGRESS_REPLY = 0,
         WELCOME_REPLY = 1,
         ECHO_REPLY,
+        ECHO_REPLY2,
         MOVEHOME_REPLY,
         POSITION_REPLY,
         RESET_REPLY,
@@ -50,6 +51,7 @@ public:
     static QByteArray setSettingsMsg(uint8_t revByte, uint32_t maxImp, uint16_t imptime);
     static QByteArray setDefaultSettingsMsg();
     static QByteArray echoMsg();
+    static QByteArray echoMsg2();
     static QByteArray welcomeMsg();
     static QByteArray setPositionHome(short DozownikNr);
     static QByteArray setPosition(short DozwnikNr, uint32_t x);
@@ -65,6 +67,8 @@ public:
     bool isInProgressReply();
     bool isTimeoutWriteReply();
     bool isTimeoutReadReply();
+    uint8_t getHomePosition() const;
+
 protected:
 
     bool checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & len, QByteArray & data);
@@ -80,6 +84,7 @@ private:
     bool errB;
 
     uint32_t steps;
+    uint8_t homePosition;
     short parseReply;
 
 };

@@ -12,11 +12,6 @@ void setup() {
   pinMode(2, OUTPUT);
   digitalWrite(2, HIGH);
   //pinMode(13, OUTPUT);
-  delay(10000);
-  while(Serial.available()>0) {
-    Serial.write(Serial.read());
-  }
-  delay(1000);
 }
 
 unsigned long timeMsg;

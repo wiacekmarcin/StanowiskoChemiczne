@@ -142,9 +142,7 @@ void NowyTest_2::on_pbOk_3_clicked()
     //qDebug"%s:%d runCycle", __FILE__,__LINE__);
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
-    emit cykleDozownik(dozownik, 4);
-    QTimer::singleShot(1000, this, &NowyTest_2::runDone);
-
+    cykleDozownik(dozownik, 4);
 }
 
 void NowyTest_2::on_rb4_yes_toggled(bool checked)
@@ -163,8 +161,7 @@ void NowyTest_2::on_pbOk_4_clicked()
     if (!m_DozownikPelny) {
         //qDebug"%s:%d runCycle", __FILE__,__LINE__);
         ui->pbOk_4->setEnabled(false);
-        //emit cykleDozownik(dozownik, 1);
-        QTimer::singleShot(1000, this, &NowyTest_2::runDone);
+        cykleDozownik(dozownik, 1);
     } else {
         ui->pbOk_4->setEnabled(false);
         ui->arrow_4->setVisible(false);

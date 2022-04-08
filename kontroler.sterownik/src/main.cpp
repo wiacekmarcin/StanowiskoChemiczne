@@ -108,6 +108,26 @@ void loop() {
           Serial.print(" reverse=");
           Serial.println(msg.getReverse(i),DEC);
         }
+      } else if (msg.getStatusWork() == msg.ECHO) {
+          uint8_t lp1 = 0, lp2 = 0;
+          uint8_t tryN = 10;
+          do {
+              lp1 |= digitalRead(LIMIT1PIN) << 0;
+              lp1 |= digitalRead(LIMIT2PIN) << 1;
+              lp1 |= digitalRead(LIMIT3PIN) << 2;
+              lp1 |= digitalRead(LIMIT4PIN) << 3;
+              lp1 |= digitalRead(LIMIT5PIN) << 4;
+              delay(50);
+              lp2 |= digitalRead(LIMIT1PIN) << 0;
+              lp2 |= digitalRead(LIMIT2PIN) << 1;
+              lp2 |= digitalRead(LIMIT3PIN) << 2;
+              lp2 |= digitalRead(LIMIT4PIN) << 3;
+              lp2 |= digitalRead(LIMIT5PIN) << 4;
+              delay(50);
+          } while (lp1 != lp2 && tryN-- > 0);
+          msg.setEcho(lp1);
+          Serial.print("Echo Message : ");
+          Serial.println(lp1, BIN);
       } else if (msg.getStatusWork() == msg.NOP) {
 
       } else {

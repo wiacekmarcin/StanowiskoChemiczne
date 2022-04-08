@@ -33,8 +33,14 @@
 //0x40 CRC8 - ACK
 
 //echo 
-//0x70 CRC8 - req echo
+//0x71 00 CRC8 - req echo
 //0x80 CRC8 - reply echo
+//0x71 01 CRC8 - req echo from silnik
+//0x81 01 CRC8 - reply echo from silnik and home position strzykawek
+//0x82 01 STANY CRC8 - req echo and is home position
+//
+// 
+
 
 class Message {
     public:
@@ -43,18 +49,22 @@ class Message {
         SET_PARAM_REP = 4,
         POSITION_REQ = 5,
         POSITION_REP = 6,
+        ECHO_REQ = 7,
+        ECHO_REP = 8,
         MOVEHOME_REQ = 9,
         MOVEHOME_REP = 10,
         RESET_REQ = 11,
         RESET_REP = 12,
-        ERROR_REP = 15,
+        ERROR_REP = 14,
+        NOP_REP = 15,
     } CMD;
 
     typedef enum _work {
         NOP,
         POS_START,
         RETURN_HOME,
-        SETTING
+        SETTING,
+        ECHO,
     } Work;
 
     void init();
@@ -68,6 +78,7 @@ class Message {
     void setHomeDone(uint32_t steps) const;
     void setPosDone(uint32_t steps) const;
     void setResetDone() const;
+    void setEcho(uint8_t ins) const ;
 
     uint32_t parseNumber(uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4);
 protected:

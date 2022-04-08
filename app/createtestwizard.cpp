@@ -235,3 +235,7 @@ void CreateTestWizard::runCykleDozownik(uint8_t nr, uint32_t steps)
     emit cykleDozownik(nr, steps);
 }
 
+void CreateTestWizard::runDozownikMl(uint8_t nr, uint32_t mlx10)
+{
+    emit dozownikMl(nr, mlx10);
+}

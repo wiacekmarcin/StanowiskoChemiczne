@@ -94,9 +94,16 @@ bool Message::parse1() {
             return true;
         }
         case ECHO_REQ: 
-        {
-            sendMessage1(ECHO_REP, nullptr, 0);
-            return true;
+        {   
+            if (data[0][1] == 0) {
+                uint8_t sdata[1] = {0};
+                sendMessage1(ECHO_REP, sdata, 1);
+                return true;
+            }
+            if (data[0][1] == 1) {
+                sendRawMessage2(data[0], dlugosc[0]+2);
+                return true;
+            }
         }
         case MOVEHOME_REQ:
         {
@@ -148,6 +155,11 @@ bool Message::parse2() {
             return true;
         }
         case SET_PARAM_REP:
+        {
+            sendRawMessage1(data[1], dlugosc[1]+2);
+            return true;
+        }
+        case ECHO_REP:
         {
             sendRawMessage1(data[1], dlugosc[1]+2);
             return true;

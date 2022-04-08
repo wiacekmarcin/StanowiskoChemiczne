@@ -190,9 +190,10 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::setDigitalOut, urzadzenia, &Urzadzenia::digitalWrite);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::cykleDozownik, urzadzenia, &Urzadzenia::setCykle);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikMl, urzadzenia, &Urzadzenia::setMl);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::writeOutValues, urzadzenia, &Urzadzenia::digitalWrite);
     connect(urzadzenia, &Urzadzenia::setCykleDone, testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
-     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::zaplon, urzadzenia, &Urzadzenia::zaplon);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::zaplon, urzadzenia, &Urzadzenia::zaplon);
 
     urzadzenia->readInputs();
     //qDebug"%s%d",__FILE__,__LINE__);
