@@ -298,16 +298,16 @@ void SerialDevice::setStepsJob()
         return;
     }
 
-    uint64_t stepsAll = val2;
+    int64_t stepsAll = val2;
     uint32_t steps;
     while (stepsAll > 0) {
 
-        steps = stepsAll > maxImp ? maxImp : stepsAll - maxImp;
+        steps = stepsAll > maxImp ? maxImp : stepsAll;
         stepsAll -= steps;
         qDebug("%s:%d %d %ld" ,__FILE__,__LINE__, steps, stepsAll);
         s = write(SerialMessage::setPosition(dozownikNr, steps), 100, 60000).getParseReply();
         if (s != SerialMessage::POSITION_REPLY) {
-            emit setCykleDone(false);
+            emit setStepsDone(false);
             return;
         }
 

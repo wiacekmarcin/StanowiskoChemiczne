@@ -21,6 +21,7 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
 #endif
     connect(&serial, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
     connect(&serial, &SerialDevice::setCykleDone, this,     &Urzadzenia::setCykleDone);
+    connect(&serial, &SerialDevice::setStepsDone, this,     &Urzadzenia::setStepsDone);
     connect(&serial, &SerialDevice::checkPositionHomeDone, this,     &Urzadzenia::checkPositionHomeDone);
 
 }

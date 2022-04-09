@@ -54,6 +54,7 @@ NowyTest_4::~NowyTest_4()
 
 void NowyTest_4::dozownikDone(bool success)
 {
+    qDebug("%s:%d",__FILE__, __LINE__);
     if (!success) {
         QMessageBox msgBox;
         msgBox.setText("Nie udało się zadozować cieczy.");

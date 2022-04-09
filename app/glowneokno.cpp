@@ -190,6 +190,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     connect(urzadzenia, &Urzadzenia::digitalRead,           testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
     connect(urzadzenia, &Urzadzenia::analogValueChanged,    testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
     connect(urzadzenia, &Urzadzenia::setCykleDone,          testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
+    connect(urzadzenia, &Urzadzenia::setStepsDone,          testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
     connect(urzadzenia, &Urzadzenia::checkPositionHomeDone, testy[selectedTest]->createTestWizard(), &CreateTestWizard::checkPositionHomeDone);
 
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::setDigitalOut, urzadzenia, &Urzadzenia::digitalWrite);
