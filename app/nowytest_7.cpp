@@ -125,8 +125,10 @@ void NowyTest_7::on_pbOk_4_clicked()
     if (ui->cbCiecz->value() == 0) {
         QMessageBox::information(this, QString("Dozowanie cieczy"), QString("Wybierz więcej niż 0ml"));
         return;
-    }
-     setField(TestPage::objetosc, QVariant::fromValue(ui->cbCiecz->value()));
-     nextPage(nextPageId());
+     }
+    qDebug("%s:%d %f %f",__FILE__,__LINE__, field(TestPage::objetosc).toDouble(), field(TestPage::calaObjetosc).toDouble());
+    setField(TestPage::objetosc, QVariant::fromValue(ui->cbCiecz->value()));
+    qDebug("%s:%d %f %f",__FILE__,__LINE__, field(TestPage::objetosc).toDouble(), field(TestPage::calaObjetosc).toDouble());
+    nextPage(nextPageId());
 }
 

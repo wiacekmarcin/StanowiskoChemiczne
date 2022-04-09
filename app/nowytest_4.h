@@ -27,6 +27,6 @@ private slots:
 
 private:
     Ui::NowyTest_4 *ui;
-    QString infoString;
+    const QString infoString;
 };
 #endif // NOWYTEST_4_H

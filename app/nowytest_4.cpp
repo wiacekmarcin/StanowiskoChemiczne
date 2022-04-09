@@ -9,7 +9,7 @@
 NowyTest_4::NowyTest_4(QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_4),
-    infoString(QString("Rozpocznij dozowanie <b>[CIECZ]</b> z dozonika <b>[DOZOWNIK]</b> w objętości <b>[OBJETOSC]</b> ml."))
+    infoString("Rozpocznij dozowanie <b>[CIECZ]</b> z dozonika <b>[DOZOWNIK]</b> w objętości <b>[OBJETOSC]</b> ml.")
 {
     ui->setupUi(this);
 
@@ -20,18 +20,20 @@ NowyTest_4::NowyTest_4(QWidget *parent) :
 
 void NowyTest_4::initializePage()
 {
-    infoString.replace("[CIECZ]", field(ciecz).toString());
-    infoString.replace("[DOZOWNIK]", QString::number(field(dozownikNr).toUInt()));
-    infoString.replace("[OBJETOSC]", QString::number(field(objetosc).toDouble()));
+    qDebug("%s:%d %f %f",__FILE__,__LINE__, field(TestPage::objetosc).toDouble(), field(TestPage::calaObjetosc).toDouble());
+    QString info = infoString;
+    info.replace("[CIECZ]", field(ciecz).toString());
+    info.replace("[DOZOWNIK]", QString::number(field(dozownikNr).toUInt()));
+    info.replace("[OBJETOSC]", QString::number(field(objetosc).toDouble()));
     if (field(calaObjetosc).toDouble() > 0) {
-        infoString += QString(" Razem bedzie <b>%1<b> ml").arg(QString::number(
-                        field(calaObjetosc).toDouble() + field(objetosc).toDouble()
-                                                                   ));
-    }
+        info += QString(" Razem bedzie <b>%1<b> ml").arg(QString::number(
+                            field(calaObjetosc).toDouble() + field(objetosc).toDouble()
+                                                                       ));
+        }
 
 
     ui->text_2->setTextFormat(Qt::RichText);
-    ui->text_2->setText(infoString);
+    ui->text_2->setText(info);
     ui->arrow_1->setVisible(true);
     ui->arrow_2->setVisible(true);
     ui->arrow_3->setVisible(true);
@@ -81,6 +83,7 @@ void NowyTest_4::on_pbOk_1_clicked()
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
+    ui->pbOk_2->setEnabled(false);
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
     updateOutput(mieszadlo, true);
 }

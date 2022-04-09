@@ -10,6 +10,11 @@
     <height>143</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>16</pointsize>
+   </font>
+  </property>
   <property name="title" stdset="0">
    <string>Podsumowanie</string>
   </property>

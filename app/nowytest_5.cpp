@@ -32,7 +32,7 @@ void NowyTest_5::initializePage()
 void NowyTest_5::runDone()
 {
     ui->pbOK_3->setEnabled(true);
-    updateOutput(pompa_powietrza, false);
+    //updateOutput(pompa_powietrza, false);
     //ui->pbStep2->setEnabled(true);
     //ui->pbStep2->setDone(true);
     //ui->lStep3->setEnabled(true);
@@ -67,6 +67,7 @@ void NowyTest_5::on_pbOK_3_clicked()
 {
     if (!sprawdzOtwarteZaworStezenia())
         return;
+    updateOutput(pompa_powietrza, false);
     nextPage(nextPageId());
 }
 

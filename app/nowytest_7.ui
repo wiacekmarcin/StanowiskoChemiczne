@@ -72,6 +72,11 @@
          </item>
          <item>
           <widget class="QLabel" name="text_1">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Program &lt;span style=&quot; font-weight:700;&quot;&gt;wykryl/nie wykryl&lt;/span&gt; zapłon. Czy Potwierdzasz ?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -95,6 +100,11 @@
          </item>
          <item>
           <widget class="QRadioButton" name="rb1_yes">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Tak</string>
            </property>
@@ -102,6 +112,11 @@
          </item>
          <item>
           <widget class="QRadioButton" name="rb1_no">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Nie</string>
            </property>
@@ -122,6 +137,11 @@
          </item>
          <item>
           <widget class="QPushButton" name="pbOK_1">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>OK</string>
            </property>
@@ -151,6 +171,11 @@
          </item>
          <item>
           <widget class="QLabel" name="txt_2">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Otwórz zawory A i B</string>
            </property>
@@ -171,6 +196,11 @@
          </item>
          <item>
           <widget class="QPushButton" name="pbOK_2">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>OK</string>
            </property>
@@ -197,6 +227,11 @@
          </item>
          <item>
           <widget class="QLabel" name="text_3">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Czy chcesz powtórzyc procedurę zapłonu czy dozowanie cieczy?</string>
            </property>
@@ -217,6 +252,11 @@
          </item>
          <item>
           <widget class="QRadioButton" name="rb3_zaplon">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Procedura zapłonu</string>
            </property>
@@ -224,6 +264,11 @@
          </item>
          <item>
           <widget class="QRadioButton" name="rb3_ciecz">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Procedura dozowania cieczy</string>
            </property>
@@ -244,6 +289,11 @@
          </item>
          <item>
           <widget class="QPushButton" name="pbOK_3">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>OK</string>
            </property>
@@ -270,6 +320,11 @@
          </item>
          <item>
           <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Ile cieczy należy dodać </string>
            </property>
@@ -277,6 +332,11 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="cbCiecz">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="decimals">
             <number>1</number>
            </property>
@@ -304,6 +364,11 @@
          </item>
          <item>
           <widget class="QPushButton" name="pbOk_4">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>OK</string>
            </property>
