@@ -19,7 +19,8 @@ public:
     virtual void initializePage() override;
     virtual void updateWejscia() override;
 
-    void dozownikDone(bool succes) override;
+    virtual void dozownikDone(bool succes) override;
+    virtual void checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5) override;
 
 
 
@@ -49,6 +50,8 @@ private:
     bool pojedynczyCykl;
 
     bool showWarning;
+    bool okDozownik;
+    bool homeDozownik[5];
 };
 
 #endif // NOWYTEST_2_H

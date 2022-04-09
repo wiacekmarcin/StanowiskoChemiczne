@@ -7,7 +7,7 @@
 QT       += core gui
 QT += multimedia multimediawidgets
 #QT += charts
-#QT += serialport
+QT += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = StanowiskoChemiczne

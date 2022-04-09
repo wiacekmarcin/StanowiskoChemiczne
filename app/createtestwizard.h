@@ -44,6 +44,7 @@ public:
     void runZaplon(short id);
     void runCykleDozownik(uint8_t nr, uint32_t steps);
     void runDozownikMl(uint8_t nr, uint32_t mlx10);
+    void runCheckPositionHome();
 
 public slots:
     void nextPage(TestPage::PageId id);
@@ -52,6 +53,7 @@ public slots:
     void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
 
     void dozownikDone(bool succes);
+    void checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5);
 
 signals:
     void changeTestName(QString);
@@ -60,7 +62,7 @@ signals:
     void cykleDozownik(uint8_t nr, uint32_t steps);
     void dozownikMl(uint8_t nr, uint32_t mlx10);
     void zaplon(short Id);
-
+    void checkPositionHome();
 
 
 

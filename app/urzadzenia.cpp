@@ -16,10 +16,12 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     connect(&nicards, &NICards::debug,          this,       &Urzadzenia::ni_debug);
     connect(&nicards, &NICards::usb6210,        this,       &Urzadzenia::usb6210);
     connect(&nicards, &NICards::usb6501,        this,       &Urzadzenia::ni_usb6501);
+    connect(&nicards, &NICards::usb6501,        this,       &Urzadzenia::usb6501);
     connect(&nicards, &NICards::analogValueChanged, this,   &Urzadzenia::ni_analogValueChanged);
 #endif
     connect(&serial, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
     connect(&serial, &SerialDevice::setCykleDone, this,     &Urzadzenia::setCykleDone);
+    connect(&serial, &SerialDevice::checkPositionHomeDone, this,     &Urzadzenia::checkPositionHomeDone);
 
 }
 
@@ -76,6 +78,11 @@ void Urzadzenia::zaplon(short idiskra)
     //qDebug"%s:%d run_iskra %d", __FILE__, __LINE__, idiskra);
 }
 
+void Urzadzenia::checkPositionHome()
+{
+    serial.checkPositionHome();
+}
+
 void Urzadzenia::ni_error(const QString &s)
 {
     //qDebug"ni_error %s", s.toStdString().c_str());
@@ -102,8 +109,8 @@ void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, do
 
 void Urzadzenia::ni_usb6501(bool open, bool conf)
 {
+    qDebug("%s:%d n_usb6501 %d:%d",__FILE__,__LINE__,open,conf);
     digitalConn = open && conf;
-    emit usb6210(open, conf);
 }
 
 void Urzadzenia::ni_digitalRead(uint16_t vals)

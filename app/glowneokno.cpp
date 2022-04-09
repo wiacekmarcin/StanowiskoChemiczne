@@ -186,14 +186,19 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeTestName, this, &GlowneOkno::changeTestName);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest);
-    connect(urzadzenia, &Urzadzenia::digitalRead,        testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
-    connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
+
+    connect(urzadzenia, &Urzadzenia::digitalRead,           testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
+    connect(urzadzenia, &Urzadzenia::analogValueChanged,    testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
+    connect(urzadzenia, &Urzadzenia::setCykleDone,          testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
+    connect(urzadzenia, &Urzadzenia::checkPositionHomeDone, testy[selectedTest]->createTestWizard(), &CreateTestWizard::checkPositionHomeDone);
+
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::setDigitalOut, urzadzenia, &Urzadzenia::digitalWrite);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::cykleDozownik, urzadzenia, &Urzadzenia::setCykle);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikMl, urzadzenia, &Urzadzenia::setMl);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::writeOutValues, urzadzenia, &Urzadzenia::digitalWrite);
-    connect(urzadzenia, &Urzadzenia::setCykleDone, testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::zaplon, urzadzenia, &Urzadzenia::zaplon);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::checkPositionHome, urzadzenia, &Urzadzenia::checkPositionHome);
+
 
     urzadzenia->readInputs();
     //qDebug"%s%d",__FILE__,__LINE__);

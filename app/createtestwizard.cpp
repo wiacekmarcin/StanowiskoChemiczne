@@ -184,7 +184,14 @@ void CreateTestWizard::dozownikDone(bool success)
     if (selectedId == TestPage::PAGE_2 || selectedId == TestPage::PAGE_4) {
         currentPage()->dozownikDone(success);
     }
+}
 
+void CreateTestWizard::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
+{
+    qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
+    if (selectedId == TestPage::PAGE_2) {
+        currentPage()->checkPositionHomeDone(ok, d1, d2, d3, d4, d5);
+    }
 }
 
 void CreateTestWizard::nextPage(TestPage::PageId id)
@@ -238,4 +245,9 @@ void CreateTestWizard::runCykleDozownik(uint8_t nr, uint32_t steps)
 void CreateTestWizard::runDozownikMl(uint8_t nr, uint32_t mlx10)
 {
     emit dozownikMl(nr, mlx10);
+}
+
+void CreateTestWizard::runCheckPositionHome()
+{
+    emit checkPositionHome();
 }

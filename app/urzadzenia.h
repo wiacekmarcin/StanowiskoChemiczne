@@ -22,7 +22,7 @@ public slots:
     void digitalWriteAll(uint16_t vals);
     void digitalWrite(uint16_t mask, bool on);
     void zaplon(short idiskra);
-
+    void checkPositionHome();
 
 signals:
     void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
@@ -41,6 +41,7 @@ signals:
     void setPositionDone(bool);
     void setCykleDone(bool);
     void setStepsDone(bool);
+    void checkPositionHomeDone(bool,bool,bool,bool,bool,bool);
 
 public slots:
     void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);

@@ -16,7 +16,12 @@ NowyTest_2::NowyTest_2(unsigned short initC, QWidget *parent) :
     ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?"));
     ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>"));
 
-
+    okDozownik = false;
+    homeDozownik[0] = false;
+    homeDozownik[1] = false;
+    homeDozownik[2] = false;
+    homeDozownik[3] = false;
+    homeDozownik[4] = false;
  }
 
 NowyTest_2::~NowyTest_2()
@@ -39,7 +44,7 @@ void NowyTest_2::initializePage()
     dozownik = field(dozownikNr).toUInt()-1;
     ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?").replace("<DOZOWNIK>", QString::number(dozownik+1)));
     ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>").replace("<DOZOWNIK>", QString::number(dozownik+1)));
-
+    checkPositionHome();
 }
 
 void NowyTest_2::updateWejscia()
@@ -87,6 +92,17 @@ void NowyTest_2::dozownikDone(bool succes)
     }
 }
 
+void NowyTest_2::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
+{
+    qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
+    okDozownik = ok;
+    homeDozownik[0] = d1;
+    homeDozownik[1] = d2;
+    homeDozownik[2] = d3;
+    homeDozownik[3] = d4;
+    homeDozownik[4] = d5;
+}
+
 void NowyTest_2::runDone()
 {
     dozownikDone(true);
@@ -105,6 +121,15 @@ void NowyTest_2::on_rb1_no_toggled(bool checked)
 
 void NowyTest_2::on_pbOk_1_clicked()
 {
+    if (okDozownik && !homeDozownik[dozownik])
+    {
+        if (QMessageBox::warning(this, "Dozownik",
+              QString("Wykryto nie prawidłowe ustawienie dozownika nr %1.\nCzy chcesz kontynuować procedurę napełniania?").arg(dozownik+1),
+              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::No) {
+            setFinished(false);
+        }
+        m_DozownikPelny = false;
+    }
     if (m_DozownikPelny) {
         nextPage(nextPageId());
     } else {
@@ -163,6 +188,7 @@ void NowyTest_2::on_pbOk_4_clicked()
         ui->pbOk_4->setEnabled(false);
         cykleDozownik(dozownik, 1);
     } else {
+        checkPositionHome();
         ui->pbOk_4->setEnabled(false);
         ui->arrow_4->setVisible(false);
         ui->frame_5->setVisible(true);

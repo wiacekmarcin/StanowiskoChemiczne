@@ -127,6 +127,11 @@ void TestPage::dozownikMl(uint8_t nr, uint32_t mlx10)
     wiz->runDozownikMl(nr, mlx10);
 }
 
+void TestPage::checkPositionHome()
+{
+    wiz->checkPositionHome();
+}
+
 void TestPage::runZaplon(short idZaplon)
 {
     //qDebug"%s:%d %d, %p",__FILE__,__LINE__, idZaplon, wiz);

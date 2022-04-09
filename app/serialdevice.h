@@ -23,7 +23,8 @@ public:
         SET_POSITION,
         SET_HOME,
         SET_CYCLE,
-        SET_STEPS
+        SET_STEPS,
+        SET_ECHO2,
     } Task;
 
     explicit SerialThread(SerialDevice * sd, QObject *parent = nullptr);
@@ -67,6 +68,7 @@ public:
     void setReset();
     void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
     void setPosition(uint8_t nrDoz, uint32_t steps);
+    void checkPositionHome();
 
     bool getPositionHome(uint8_t nrDoz);
 
@@ -84,6 +86,7 @@ signals:
     void setPositionDone(bool);
     void setCykleDone(bool);
     void setStepsDone(bool);
+    void checkPositionHomeDone(bool ok, bool h1, bool h2, bool h3, bool h4, bool h5);
     //void successOpenDevice(bool);
 
 protected:
@@ -96,6 +99,7 @@ protected:
     void setResetJob();
     void setCykleJob();
     void setStepsJob();
+    void setEchoJob();
 
     void closeDevice();
     bool openDevice();

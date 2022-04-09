@@ -33,12 +33,10 @@ bool Message::check(uint8_t s, unsigned char c)
             posCmd[s] = 0;
             bool r = parse(s);
             if (!r)
-                sendError("ZLY ROZKAZ", 10);
-                ;
+                sendError("P:ZLY ROZKAZ", 12);
             return r;
         }
         posCmd[s] = 0;
-        sendError("ZLE CRC ", 7);
         return false;
 
     }
@@ -48,7 +46,7 @@ bool Message::check(uint8_t s, unsigned char c)
     
     if (posCmd[s] == MAXLENPROTO) {
         posCmd[s] = 0;
-        sendError("ZBYT DUZA WIAD.", 15);
+        sendError("P:ZBYT DUZA WI.", 15);
         return false;    
     }
     return false;
@@ -161,6 +159,7 @@ bool Message::parse2() {
         }
         case ECHO_REP:
         {
+            Serial.println("echo...rep");
             sendRawMessage1(data[1], dlugosc[1]+2);
             return true;
         }

@@ -176,12 +176,12 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
         case ECHO_REP:
         {
             if ((unsigned int)data[0] == 0 && len != 1) {
-                errT = QString("Nie poprawna dlugosc wiadomosci echo %d").arg(len);
+                errT = QString("Nie poprawna dlugosc wiadomosci echo %1").arg(len);
                 errB = true;
                 return false;
             }
             if ((unsigned int)data[0] == 1 && len != 2) {
-                errT = QString("Nie poprawna dlugosc wiadomosci echo %d").arg(len);
+                errT = QString("Nie poprawna dlugosc wiadomosci echo %1").arg(len);
                 errB = true;
                 return false;
             }
