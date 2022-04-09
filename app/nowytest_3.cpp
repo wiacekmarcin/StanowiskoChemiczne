@@ -40,6 +40,7 @@ void NowyTest_3::initializePage()
      ui->frame_3->setVisible(false);
      ui->frame_4->setVisible(false);
      ui->frame_5->setVisible(false);
+     setZ_criticalMask(0);
 }
 
 void NowyTest_3::updateWejscia()
@@ -132,6 +133,8 @@ void NowyTest_3::setCisnKomory(const double & newCisnKomory)
 void NowyTest_3::on_pbOk_1_clicked()
 {
     sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
+    setZ_criticalMask(0);
+    setZ_warningMask(wentylacja_lewa | wentylacja_prawa | drzwi_prawe | drzwi_lewe | pom_stez_1 | pom_stez_2 | wlot_powietrza | proznia);
 }
 
 
@@ -142,6 +145,8 @@ void NowyTest_3::on_pb_Skip2_clicked()
 
 void NowyTest_3::on_pbUstaw_2_clicked()
 {
+    if (!sprawdzOtwarteZawory(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | proznia | wlot_powietrza | wentylacja_lewa | wentylacja_prawa))
+        return;
     ui->arrow_2->setVisible(false);
     ui->pb_Skip2->setEnabled(false);
     ui->pbUstaw_2->setEnabled(false);
@@ -154,6 +159,12 @@ void NowyTest_3::on_pbOk_3_clicked()
 {
    if (!sprawdzOtwarteZaworProzni())
        return;
+
+    if (!sprawdzOtwarteZawory(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | wlot_powietrza | wentylacja_lewa | wentylacja_prawa))
+       return;
+
+    setZ_criticalMask(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | wlot_powietrza | wentylacja_lewa | wentylacja_prawa);
+    setZ_warningMask(proznia);
 
     ui->pbOk_3->setEnabled(false);
     //qDebug"%s:%d Pompa prozniowa on", __FILE__, __LINE__);
@@ -172,6 +183,7 @@ void NowyTest_3::on_pbOk_3_clicked()
 void NowyTest_3::on_pbOk_5_clicked()
 {
     updateOutput(pompa_prozniowa, false);
+    setZ_warningMask(0);
     nextPage(nextPageId());
 }
 

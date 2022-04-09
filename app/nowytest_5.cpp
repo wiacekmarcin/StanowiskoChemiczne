@@ -27,6 +27,8 @@ void NowyTest_5::initializePage()
     ui->pbOK_2->setEnabled(true);
     ui->pbOK_3->setEnabled(true);
     //emit pomiary(true);
+    setZ_criticalMask(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | proznia | wlot_powietrza | wentylacja_lewa | wentylacja_prawa);
+
 }
 
 void NowyTest_5::runDone()
@@ -42,6 +44,8 @@ void NowyTest_5::runDone()
 void NowyTest_5::on_pbOK_1_clicked()
 {
     sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2);
+    setZ_criticalMask(drzwi_lewe | drzwi_prawe | wentylacja_prawa | wentylacja_lewa | proznia | wlot_powietrza );
+
 }
 
 

@@ -121,7 +121,7 @@
       <item>
        <widget class="QPushButton" name="pbUstaw_2">
         <property name="text">
-         <string>Ustaw</string>
+         <string>Zatwierdź</string>
         </property>
        </widget>
       </item>

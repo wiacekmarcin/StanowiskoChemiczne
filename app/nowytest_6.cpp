@@ -66,6 +66,7 @@ void NowyTest_6::on_pbOK_1_clicked()
     if (sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2)) {
         step2 = true;
         updateOutput(mieszadlo, false);
+        setZ_criticalMask(drzwi_lewe | drzwi_prawe | wentylacja_prawa | wentylacja_lewa | proznia | wlot_powietrza | pom_stez_1 | pom_stez_2);
     }
 }
 

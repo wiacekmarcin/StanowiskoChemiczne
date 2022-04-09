@@ -25,6 +25,13 @@
    <string/>
   </property>
   <layout class="QFormLayout" name="formLayout">
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Nazwa testu</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
@@ -55,6 +62,13 @@
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="lchDozownik">
+     <property name="text">
+      <string>Wybierz dozownik</string>
      </property>
     </widget>
    </item>
@@ -109,6 +123,13 @@
      </item>
     </layout>
    </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="lchCiecz">
+     <property name="text">
+      <string>Wybierz ciecz</string>
+     </property>
+    </widget>
+   </item>
    <item row="7" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -153,6 +174,14 @@
      </item>
     </layout>
    </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="lbojetoscicieczy">
+     <property name="text">
+      <string>Podaj objętość cieczy
+do zadozowania</string>
+     </property>
+    </widget>
+   </item>
    <item row="9" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -162,6 +191,9 @@
        </property>
        <property name="decimals">
         <number>1</number>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
        </property>
       </widget>
      </item>
@@ -208,6 +240,13 @@
      </item>
     </layout>
    </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="lzaplon">
+     <property name="text">
+      <string>Wybór źródła zapłonu</string>
+     </property>
+    </widget>
+   </item>
    <item row="11" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -253,45 +292,6 @@
     </layout>
    </item>
    <item row="13" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QComboBox" name="cbenergiaIskry">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <item>
-        <property name="text">
-         <string>--</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Energia wybierana manualnie</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Przełącznik mechaniczny</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_6">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="14" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <spacer name="horizontalSpacer_7">
@@ -327,53 +327,6 @@
       </spacer>
      </item>
     </layout>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Nazwa testu</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="lchDozownik">
-     <property name="text">
-      <string>Wybierz dozownik</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="lchCiecz">
-     <property name="text">
-      <string>Wybierz ciecz</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="lbojetoscicieczy">
-     <property name="text">
-      <string>Podaj objętość cieczy
-do zadozowania</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="lzaplon">
-     <property name="text">
-      <string>Wybór źródła zapłonu</string>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="0">
-    <widget class="QLabel" name="liskra">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Iskra elektryczna
-energia, napięcie</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

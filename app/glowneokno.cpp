@@ -184,22 +184,41 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     testy[selectedTest]->setActive();
 
 
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeTestName, this, &GlowneOkno::changeTestName);
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeTestName,
+            this, &GlowneOkno::changeTestName, Qt::QueuedConnection);
+    connect(testy[selectedTest]->createTestWizard(),
+            &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest, Qt::QueuedConnection);
 
-    connect(urzadzenia, &Urzadzenia::digitalRead,           testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
-    connect(urzadzenia, &Urzadzenia::analogValueChanged,    testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
-    connect(urzadzenia, &Urzadzenia::setCykleDone,          testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
-    connect(urzadzenia, &Urzadzenia::setStepsDone,          testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone);
-    connect(urzadzenia, &Urzadzenia::checkPositionHomeDone, testy[selectedTest]->createTestWizard(), &CreateTestWizard::checkPositionHomeDone);
+    connect(urzadzenia, &Urzadzenia::digitalRead,
+            testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn,
+            Qt::DirectConnection);
+    connect(urzadzenia, &Urzadzenia::analogValueChanged,
+            testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog,
+            Qt::DirectConnection);
+    connect(urzadzenia, &Urzadzenia::setCykleDone,
+            testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone,
+            Qt::QueuedConnection);
+    connect(urzadzenia, &Urzadzenia::setStepsDone,
+            testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikDone,
+            Qt::QueuedConnection);
+    connect(urzadzenia, &Urzadzenia::checkPositionHomeDone,
+            testy[selectedTest]->createTestWizard(), &CreateTestWizard::checkPositionHomeDone,
+            Qt::QueuedConnection);
 
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::setDigitalOut, urzadzenia, &Urzadzenia::digitalWrite);
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::cykleDozownik, urzadzenia, &Urzadzenia::setCykle);
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikMl, urzadzenia, &Urzadzenia::setMl);
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::writeOutValues, urzadzenia, &Urzadzenia::digitalWrite);
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::zaplon, urzadzenia, &Urzadzenia::zaplon);
-    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::checkPositionHome, urzadzenia, &Urzadzenia::checkPositionHome);
-
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::setDigitalOut,
+            urzadzenia, &Urzadzenia::digitalWrite, Qt::DirectConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::cykleDozownik,
+            urzadzenia, &Urzadzenia::setCykle, Qt::DirectConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::dozownikMl,
+            urzadzenia, &Urzadzenia::setMl, Qt::DirectConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::writeOutValues,
+            urzadzenia, &Urzadzenia::digitalWrite, Qt::DirectConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::zaplon,
+            urzadzenia, &Urzadzenia::zaplon, Qt::DirectConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::checkPositionHome,
+            urzadzenia, &Urzadzenia::checkPositionHome, Qt::DirectConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::readsInputs,
+            urzadzenia, &Urzadzenia::readInputs, Qt::QueuedConnection);
 
     urzadzenia->readInputs();
     //qDebug"%s%d",__FILE__,__LINE__);

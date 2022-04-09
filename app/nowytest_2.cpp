@@ -45,6 +45,7 @@ void NowyTest_2::initializePage()
     ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?").replace("<DOZOWNIK>", QString::number(dozownik+1)));
     ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>").replace("<DOZOWNIK>", QString::number(dozownik+1)));
     checkPositionHome();
+    setZ_criticalMask(0);
 }
 
 void NowyTest_2::updateWejscia()

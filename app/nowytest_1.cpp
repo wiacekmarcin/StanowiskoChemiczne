@@ -20,8 +20,14 @@ NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
     connect(ui->cbCiecz, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::cieczChanged);
     connect(ui->iloscCieczy, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &NowyTest_1::iloscCieczyChanged);
     connect(ui->cbZaplon, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::zaplonChanged);
-    connect(ui->cbenergiaIskry, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::energiaIskryChanged);
     //qDebug"%s:%d",__FILE__,__LINE__);
+    currCiecz = "";
+    valCieczy = 0.0;
+
+    maxVal[QString("Woda")] = 100;
+    maxVal[QString("Benzyna")] = 10;
+    maxVal[QString("Ropa")] = 20;
+    maxVal[QString("Alkohol")] = 40;
 }
 
 
@@ -37,6 +43,8 @@ void NowyTest_1::initializePage()
     updateOutput(pompa_powietrza, false);
     updateOutput(wentylator, false);
     updateOutput(mieszadlo, false);
+    setZ_criticalMask(0);
+    setZ_warningMask(0);
 }
 
 QString NowyTest_1::getName() const
@@ -70,11 +78,6 @@ QString NowyTest_1::getIngition() const
     return ui->cbZaplon->currentText();
 }
 
-QString NowyTest_1::getIngitionExt() const
-{
-    return ui->cbenergiaIskry->currentText();
-}
-
 void NowyTest_1::nameTestChanged(const QString &arg1)
 {
     if (arg1.isEmpty()) {
@@ -93,17 +96,16 @@ void NowyTest_1::dozownikChanged(int index)
     if (index == 0) {
         ui->iloscCieczy->setValue(0);
         ui->cbZaplon->setCurrentIndex(0);
-        ui->cbenergiaIskry->setCurrentIndex(0);
         ui->iloscCieczy->setEnabled(false);
-        ui->cbZaplon->setEnabled(false);
-        ui->cbenergiaIskry->setEnabled(false);
-        checkValid();
+        //ui->cbZaplon->setEnabled(false);
         valid = false;
+        checkValid();
         return;
     }
     valid = true;
     ui->cbCiecz->setEnabled(true);
     ui->cbCiecz->clear();
+    valCieczy = 0.0;
 
     QList<QStringList> ciecze;
     ciecze.append(QStringList() << "--");
@@ -112,6 +114,9 @@ void NowyTest_1::dozownikChanged(int index)
     ciecze.append(QStringList() << "--" << "Woda" << "Alkohol"); //3
     ciecze.append(QStringList() << "--" << "Benzyna" << "Ropa"); //4
     ciecze.append(QStringList() << "--" << "Alkohol"); //5
+
+
+
 
     ui->cbCiecz->addItems(ciecze.at(index));
     checkValid();
@@ -123,45 +128,45 @@ void NowyTest_1::dozownikChanged(int index)
 void NowyTest_1::checkValid()
 {
     bool v = valid;
+    qDebug("\n\n%s:%d v=%d",__FILE__,__LINE__, v);
     while(v) {
         if (ui->nameTest->text().isEmpty()) {
             v = false;
             break;
         }
-
+        qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
         if (ui->cbDozownik->currentIndex() == 0) {
             v = false;
             break;
         }
-
+        qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
         if (ui->cbCiecz->currentIndex() == 0) {
             v = false;
             break;
         }
-
+        qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
         if (ui->cbZaplon->currentIndex() == 0) {
             v = false;
             break;
         }
-
-        if (ui->cbZaplon->currentIndex() == 1) {
-            v = ui->cbenergiaIskry->currentIndex() > 0;
-        }
-
-        if (ui->iloscCieczy->value() < 0.1) {
-            v=false;
-        }
         break;
+        if (valCieczy < 0.1) {
+            v = false;
+            break;
+        }
     }
+    qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
     ui->pbNext->setEnabled(v);
 }
 
 void NowyTest_1::cieczChanged(int index)
 {
+    currCiecz = ui->cbCiecz->currentText();
+
+    qDebug("%s:%d %d %s",__FILE__,__LINE__, index, currCiecz.toStdString().c_str());
     if (index == 0) {
         ui->iloscCieczy->setEnabled(false);
         ui->cbZaplon->setEnabled(false);
-        ui->cbenergiaIskry->setEnabled(false);
         valid = false;
         checkValid();
         return;
@@ -170,16 +175,8 @@ void NowyTest_1::cieczChanged(int index)
     ui->iloscCieczy->setEnabled(true);
     ui->cbZaplon->setEnabled(true);
 
-    QMap<QString, int> maxVal;
-    maxVal["Woda"] = 100;
-    maxVal["Benzyna"] = 10;
-    maxVal["Ropa"] = 20;
-    maxVal["Alkohol"] = 40;
     QString key = ui->cbCiecz->currentText();
     ui->maxcieczy->setText(QString::number(maxVal[key]));
-    ui->iloscCieczy->setMaximum(maxVal[key]);
-    if (ui->iloscCieczy->value() > maxVal[key])
-        ui->iloscCieczy->setValue(maxVal[key]);
 
 
     checkValid();
@@ -188,11 +185,12 @@ void NowyTest_1::cieczChanged(int index)
 void NowyTest_1::iloscCieczyChanged(double arg1)
 {
     valid = true;
-    if (arg1 < 0)
+    valCieczy = arg1;
+    if (arg1 < 0.1)
         valid = false;
-    if (arg1 > maxVal[ui->cbCiecz->currentText()])
+    if (arg1 > maxVal[currCiecz])
         valid = false;
-
+    qDebug("%s:%d %s %f < %f",__FILE__, __LINE__, currCiecz.toStdString().c_str(), arg1, maxVal[currCiecz]);
     checkValid();
 }
 
@@ -204,14 +202,6 @@ void NowyTest_1::zaplonChanged(int index)
         return;
     }
     valid = true;
-    ui->cbenergiaIskry->setEnabled(index == 1);
-    ui->liskra->setEnabled(index == 1);
-    checkValid();
-}
-
-void NowyTest_1::energiaIskryChanged(int index)
-{
-    valid = index != 0;
     checkValid();
 }
 
@@ -223,7 +213,6 @@ void NowyTest_1::on_pbNext_clicked()
     setField(TestPage::calaObjetosc, QVariant::fromValue(0.0));
     setField(TestPage::dozownikNr, QVariant::fromValue(getDozownik()));
     setField(TestPage::zaplon, QVariant::fromValue(getIngition()));
-    setField(TestPage::zaplonExtra, QVariant::fromValue(getIngitionExt()));
     setField(TestPage::rodzajZaplonu, QVariant::fromValue(ui->cbZaplon->currentIndex()));
     nextPage(nextPageId());
 }

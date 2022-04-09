@@ -23,6 +23,8 @@
 #include "urzadzenia.h"
 #include "glowneokno.h"
 
+#include <QMessageBox>
+
 CreateTestWizard::CreateTestWizard(QWidget *parent) :
     QStackedWidget(parent),
     dlgOtwarte(nullptr)
@@ -38,6 +40,11 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     zaworyMap[wlot_powietrza] = false;
     zaworyMap[pom_stez_2] = false;
     zaworyMap[pilot] = false;
+    showCrit = false;
+    showWarn = false;
+
+    connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot);
+    connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot);
 }
 
 
@@ -147,19 +154,33 @@ TestPage *CreateTestWizard::currentPage() const
 
 void CreateTestWizard::setFinished(bool success)
 {
-    finished = success;
-    emit finishedTest(success);
+    //finished = success;
+    //emit finishedTest(success);
 
 }
 
 void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 {
-    //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
+    qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
     zaworyMap[id] = value;
     if (selectedId == TestPage::PAGE_6 && id == pilot) {
             currentPage()->updateWejscia();
     }
-
+    qDebug("%s:%d %d %d", __FILE__,__LINE__, id, value);
+    if (criticalMap[id] && !value && !showCrit) {
+        showCrit = true;
+        emit criticalZaworOpenSignal(id);
+    }
+    if (criticalMap[id] && value && showCrit) {
+        showCrit = false;
+    }
+    if (warningMap[id] && value && !showWarn) {
+        showWarn = true;
+        emit warningZaworOpenSignal(id);
+    }
+    if (criticalMap[id] && !value && showWarn) {
+        showWarn = false;
+    }
 }
 
 void CreateTestWizard::changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7)
@@ -194,6 +215,51 @@ void CreateTestWizard::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3,
     }
 }
 
+void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
+{
+    QString s("Wykryto otwarty zawor :  ");
+    switch(idz) {
+    case drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
+    case wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
+    case proznia:           s+= QString("zawór próżni"); break;
+    case pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
+    case wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
+    case wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
+    case pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    default:                s+= QString(""); break;
+
+    }
+
+    QMessageBox::critical(this, s, "Wykryto owarty zawór ( lub drzwi w komorze ), jego otwarcie spowodowało zakończenie testu");
+    showCrit = false;
+    setFinished(false);
+    delay(2);
+    emit readsInputs();
+}
+
+void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
+{
+    QString s("Wykryto zamkniety zawor :  ");
+    switch(idz) {
+    case drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
+    case wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
+    case proznia:           s+= QString("zawór próżni"); break;
+    case pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
+    case wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
+    case wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
+    case pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    default:                s+= QString(""); break;
+
+    }
+
+    QMessageBox::warning(this, s, "Wykryto zamknięty zawór ( lub drzwi w komorze ).");
+    showWarn = false;
+    delay(2);
+    emit readsInputs();
+}
+
 void CreateTestWizard::nextPage(TestPage::PageId id)
 {
     ////qDebug("nextPage %d", id);
@@ -209,11 +275,35 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
         finished = true;
 }
 
-void CreateTestWizard::showWarning(bool value)
+
+#define SETCRITICALZAWOR(M) criticalMap[M] = (newZ_criticalMask & M) == M
+void CreateTestWizard::setZ_criticalMask(uint16_t newZ_criticalMask)
 {
 
+    SETCRITICALZAWOR(0x1);
+    SETCRITICALZAWOR(0x2);
+    SETCRITICALZAWOR(0x4);
+    SETCRITICALZAWOR(0x8);
+    SETCRITICALZAWOR(0x10);
+    SETCRITICALZAWOR(0x20);
+    SETCRITICALZAWOR(0x40);
+    SETCRITICALZAWOR(0x80);
+    SETCRITICALZAWOR(0x100);
 }
 
+#define SETWARNINGZAWOR(M) warningMap[M] = (newZ_warningMask & M) == M
+void CreateTestWizard::setZ_warningMask(uint16_t newZ_warningMask)
+{
+    SETWARNINGZAWOR(0x1);
+    SETWARNINGZAWOR(0x2);
+    SETWARNINGZAWOR(0x4);
+    SETWARNINGZAWOR(0x8);
+    SETWARNINGZAWOR(0x10);
+    SETWARNINGZAWOR(0x20);
+    SETWARNINGZAWOR(0x40);
+    SETWARNINGZAWOR(0x80);
+    SETWARNINGZAWOR(0x100);
+}
 
 #define ZAWOR_DEFINE(Z) bool CreateTestWizard::z_##Z() { return zaworyMap[Z]; }
 ZAWOR_DEFINE(drzwi_prawe)

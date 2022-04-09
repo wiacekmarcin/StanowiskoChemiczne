@@ -30,6 +30,7 @@ public:
     void changePage(TestPage::PageId id);
     void setFinished(bool success);
 
+
     bool z_drzwi_prawe();
     bool z_wentylacja_lewa();
     bool z_proznia();
@@ -45,6 +46,9 @@ public:
     void runCykleDozownik(uint8_t nr, uint32_t steps);
     void runDozownikMl(uint8_t nr, uint32_t mlx10);
     void runCheckPositionHome();
+
+    void setZ_criticalMask(uint16_t newZ_criticalMask);
+    void setZ_warningMask(uint16_t newZ_criticalMask);
 
 public slots:
     void nextPage(TestPage::PageId id);
@@ -63,15 +67,21 @@ signals:
     void dozownikMl(uint8_t nr, uint32_t mlx10);
     void zaplon(short Id);
     void checkPositionHome();
-
+    void criticalZaworOpenSignal(uint16_t idz);
+    void warningZaworOpenSignal(uint16_t idz);
 
 
     void setDigitalOut(int id, bool value);
+    void readsInputs();
+
+private slots:
+    void criticalZaworOpenSlot(uint16_t idz);
+    void warningZaworOpenSlot(uint16_t idz);
 
 protected:
 
     void initializePage();
-    void showWarning(bool value);
+
 private:
     QMap<TestPage::Value,  QVariant> values;
     QMap<TestPage::PageId, TestPageForm*> pages;
@@ -96,6 +106,12 @@ private:
     bool zaplonExt; //
 
     QMap<uint16_t, bool> zaworyMap;
+
+    QMap<uint16_t, bool> criticalMap;
+    bool showCrit;
+
+    QMap<uint16_t, bool> warningMap;
+    bool showWarn;
 };
 
 #endif // CREATETESTWIZARD_H

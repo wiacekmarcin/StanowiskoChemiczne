@@ -23,13 +23,9 @@ protected slots:
     void cieczChanged(int index);
     void iloscCieczyChanged(double arg1);
     void zaplonChanged(int index);
-    void energiaIskryChanged(int index);
-
-
 
 protected:
     void checkValid();
-    QString getIngitionExt() const;
     QString getIngition() const;
     double getVolume() const;
     QString getLuquid() const;
@@ -42,6 +38,9 @@ private:
     bool valid;
     QMap<QString, int> maxVal;
     Ui::NowyTest_1 *ui;
+    double valCieczy;
+    QString currCiecz;
+
 };
 
 #endif // NOWYTEST_1_H

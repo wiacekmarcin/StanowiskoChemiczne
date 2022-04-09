@@ -83,6 +83,10 @@ public:
     void runZaplon(short idZaplon);
     void checkPositionHome();
 
+    void setZ_warningMask(uint16_t newZ_warningMask);
+
+    void setZ_criticalMask(uint16_t newZ_criticalMask);
+
 signals:
     void changePage(TestPage::PageId id);
 
@@ -108,6 +112,8 @@ protected:
     bool sprawdzOtwarteZaworPowietrza();
     bool sprawdzOtwarteZaworStezenia();
     bool sprawdzOtwarteZawor2Calowe();
+
+    bool sprawdzOtwarteZawory(uint16_t mask);
 private:
     CreateTestWizard * wiz;
     TestPageForm * form;
@@ -117,6 +123,8 @@ private:
     bool restricted;
     QMap<uint16_t, bool> restrictedMap;
     uint16_t prevVals;
+
+
 
 
 };

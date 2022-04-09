@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     Urzadzenia urzadz(u);
 
     GlowneOkno w(u, &urzadz);
-    //w.showMaximized();
-    w.showMinimized();
+    w.showMaximized();
+    //w.showMinimized();
 
     return a.exec();
 

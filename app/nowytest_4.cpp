@@ -20,6 +20,7 @@ NowyTest_4::NowyTest_4(QWidget *parent) :
 
 void NowyTest_4::initializePage()
 {
+    setZ_criticalMask(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | proznia | wlot_powietrza | wentylacja_lewa | wentylacja_prawa);
     qDebug("%s:%d %f %f",__FILE__,__LINE__, field(TestPage::objetosc).toDouble(), field(TestPage::calaObjetosc).toDouble());
     QString info = infoString;
     info.replace("[CIECZ]", field(ciecz).toString());
@@ -83,6 +84,8 @@ void NowyTest_4::on_pbOk_1_clicked()
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
+    if (!sprawdzOtwarteZawory(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | proznia | wlot_powietrza | wentylacja_lewa | wentylacja_prawa))
+        return;
     ui->pbOk_2->setEnabled(false);
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
     updateOutput(mieszadlo, true);
@@ -96,6 +99,9 @@ void NowyTest_4::on_pbOk_3_clicked()
         ui->pbOk_3->setEnabled(false);
         ui->arrow_3->setVisible(false);
         ui->frame_4->setVisible(true);
+        setZ_criticalMask(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | proznia | wentylacja_lewa | wentylacja_prawa);
+
+
     } else {
         nextPage(nextPageId());
     }
@@ -111,6 +117,7 @@ void NowyTest_4::on_pbOk_4_clicked()
 {
     if (!sprawdzOtwarteZaworPowietrza())
         return;
+
     nextPage(nextPageId());
 }
 
