@@ -17,7 +17,7 @@ NICards::NICards(QObject *parent)
       readDigString("USB6501/port2,USB6501/port1/Line4")
 {
     m_quit = false;
-    start();
+    //start();
     maskOutput = hv_bezpieczenstwa;
     prevInputs = 0;
 }
