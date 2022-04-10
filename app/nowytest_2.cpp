@@ -149,7 +149,7 @@ void NowyTest_2::on_pbOK_2_clicked()
     while (z_drzwi_lewe() && z_drzwi_prawe()) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Nie wykryto otwartych drzwiczek.\n"
-                                          "Czy chcesz kontynuować test otwierając drzwi - Tak, przerwij - Test Nie?"),
+                                          "Czy chcesz kontynuować test?"),
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
         if (ret == QMessageBox::No) {

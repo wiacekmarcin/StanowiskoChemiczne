@@ -18,5 +18,7 @@ public:
 
 private:
     Ui::NowyTest_9 *ui;
+    QString textMessage;
+    QString textMsg1, zaplonMsg, brakZaplMsg, textMsg2, textMsg3, textMsg4, textMsg5, textMsg6, textMsg7;
 };
 #endif // NOWYTEST_8_H

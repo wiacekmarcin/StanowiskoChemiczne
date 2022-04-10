@@ -3,7 +3,7 @@
 
 #include "urzadzenia.h"
 #include <QMessageBox>
-
+#include "ustawienia.h"
 
 NowyTest_7::NowyTest_7(QWidget *parent) :
     TestPage(parent),
@@ -54,11 +54,18 @@ TestPage::PageId NowyTest_7::nextPageId() const
 
 void NowyTest_7::on_pbOK_1_clicked()
 {
+    setField(bylWybuch, (wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes));
     if ((wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes)) {
+        next = TestPage::PAGE_8;
+        setZ_criticalMask(drzwi_lewe | drzwi_prawe | proznia | wlot_powietrza | pom_stez_1 | pom_stez_2 | wentylacja_prawa | wentylacja_lewa);
+        nextPage(next);
+    } else if (field(TestPage::rodzajZaplonu).toInt() == ISKRA_PLOMIEN) {
         ui->arrow_1->setVisible(false);
         ui->pbOK_1->setEnabled(false);
         ui->frame_2->setVisible(true);
-        next = TestPage::PAGE_8;
+        next = TestPage::PAGE_9;
+        setZ_criticalMask(0);
+        setZ_warningMask(wentylacja_prawa | wentylacja_lewa);
     } else {
         ui->pbOK_1->setEnabled(false);
         ui->arrow_1->setVisible(false);
@@ -80,6 +87,8 @@ void NowyTest_7::on_rb1_no_toggled(bool checked)
 void NowyTest_7::on_pbOK_2_clicked()
 {
     if (sprawdzOtwarteZawor2Calowe()) {
+
+
         updateOutput(wentylator, true);
         nextPage(nextPageId());
     }

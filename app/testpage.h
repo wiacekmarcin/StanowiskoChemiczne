@@ -50,6 +50,7 @@ public:
         czyPompaMebr,
         brakZaplonu,
         rodzajZaplonu,
+        bylWybuch
     } Value;
 
     void setField(Value key, const QVariant & val);

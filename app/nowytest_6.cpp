@@ -19,10 +19,6 @@ NowyTest_6::~NowyTest_6()
 void NowyTest_6::initializePage()
 {
     QString zaplon = field(TestPage::zaplon).toString();
-    QString zaplonExt = field(TestPage::zaplonExtra).toString();
-    if (zaplonExt != QString("--")) {
-        zaplon = zaplon + QString (" ( %1 )").arg(zaplonExt);
-    }
     QString info("Wciśnięcie przycisku zdalnego sterowania spowoduje uruchomienie : ");
     info += zaplon;
     info += ".";
@@ -33,6 +29,8 @@ void NowyTest_6::initializePage()
     ui->pbOK_1->setEnabled(true);
     runDialog = false;
     step2 = false;
+
+    setZ_warningMask(0);
 }
 
 void NowyTest_6::updateWejscia()
