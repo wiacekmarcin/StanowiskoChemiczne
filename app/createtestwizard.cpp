@@ -160,7 +160,7 @@ void CreateTestWizard::setFinished(bool success)
 
 void CreateTestWizard::changeDigitalIn(uint16_t vals)
 {
-    qDebug("%s:%d %p, CreateTestWizard::changeDigitalIn val = %x", __FILE__, __LINE__, QThread::currentThreadId(), vals);
+    //qDebug("%s:%d %p, CreateTestWizard::changeDigitalIn val = %x", __FILE__, __LINE__, QThread::currentThreadId(), vals);
 
     uint16_t prev;
     mutex.lock();

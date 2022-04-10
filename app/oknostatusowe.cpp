@@ -83,14 +83,14 @@ void OknoStatusowe::setDigitalValue(uint16_t values)
 
 void OknoStatusowe::setDozownik(bool open, bool conf)
 {
-    qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
+    //qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
     bOpenDozownik = open;
     bConfDozownik = conf;
 }
 
 void OknoStatusowe::setUSB6210(bool open, bool conf)
 {
-    qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
+    //qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
     mutex.lock();
     bOpenUsb6210 = open;
     bConfUsb6210 = conf;
@@ -99,7 +99,7 @@ void OknoStatusowe::setUSB6210(bool open, bool conf)
 
 void OknoStatusowe::setUSB6501(bool open, bool conf)
 {
-    qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
+    //qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
     mutex.lock();
     bOpenUsb6501 = open;
     bConfUsb6501 = conf;
@@ -108,7 +108,7 @@ void OknoStatusowe::setUSB6501(bool open, bool conf)
 
 void OknoStatusowe::timeout()
 {
-    qDebug("%s:%d %p",__FILE__,__LINE__,QThread::currentThreadId());
+    //qDebug("%s:%d %p",__FILE__,__LINE__,QThread::currentThreadId());
     mutex.lock();
     for(short id = 1; id < 10; ++id) {
         sMapZawor[mapDigitalOrder[id]]->setOk(bMapZawor[mapDigitalOrder[id]]);
