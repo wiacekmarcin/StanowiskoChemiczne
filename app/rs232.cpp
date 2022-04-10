@@ -31,7 +31,7 @@ int RS232_OpenComport(int comport_number, int baudrate, const char *mode, int fl
 {
   if((comport_number>=RS232_PORTNR)||(comport_number<0))
   {
-    qDebug("illegal comport number\n");
+    //qDebug("illegal comport number\n");
     return(1);
   }
 
@@ -82,7 +82,7 @@ int RS232_OpenComport(int comport_number, int baudrate, const char *mode, int fl
 
   if(strlen(mode) != 3)
   {
-    qDebug("invalid mode \"%s\"\n", mode);
+    //qDebug("invalid mode \"%s\"\n", mode);
     return(1);
   }
 
@@ -155,9 +155,9 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
 
   if(Cport[comport_number]==INVALID_HANDLE_VALUE)
   {
-    qDebug("%s:%d unable to open comport\n",__FILE__,__LINE__);
-    qDebug("%s:%d %s", __FILE__, __LINE__,comports[comport_number]);
-    qDebug("%s:%d %d", __FILE__, __LINE__,GetLastError());
+    //qDebug("%s:%d unable to open comport\n",__FILE__,__LINE__);
+    //qDebug("%s:%d %s", __FILE__, __LINE__,comports[comport_number]);
+    //qDebug("%s:%d %d", __FILE__, __LINE__,GetLastError());
     return(1);
   }
 
@@ -167,7 +167,7 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
 
   if(!BuildCommDCBA(mode_str, &port_settings))
   {
-    qDebug("unable to set comport dcb settings\n");
+    //qDebug("unable to set comport dcb settings\n");
     CloseHandle(Cport[comport_number]);
     return(1);
   }
@@ -180,7 +180,7 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
 
   if(!SetCommState(Cport[comport_number], &port_settings))
   {
-    qDebug("unable to set comport cfg settings\n");
+    //qDebug("unable to set comport cfg settings\n");
     CloseHandle(Cport[comport_number]);
     return(1);
   }
@@ -195,7 +195,7 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
 
   if(!SetCommTimeouts(Cport[comport_number], &Cptimeouts))
   {
-    qDebug("unable to set comport time-out settings\n");
+    //qDebug("unable to set comport time-out settings\n");
     CloseHandle(Cport[comport_number]);
     return(1);
   }
@@ -243,7 +243,7 @@ int RS232_SendBuf(int comport_number, unsigned char *buf, int size)
   {
     return(n);
   }
-  qDebug("%s:%d err=%d", __FILE__,__LINE__, GetLastError());
+  //qDebug("%s:%d err=%d", __FILE__,__LINE__, GetLastError());
   return(-1);
 }
 
@@ -380,7 +380,7 @@ int RS232_GetPortnr(const char *devname)
 
 void GetComPortUsb(char *pszComePort, const char const * vid, const char const * pid)
 {
-    qDebug("%s:%d",__FILE__, __LINE__);
+    //qDebug("%s:%d",__FILE__, __LINE__);
     HDEVINFO DeviceInfoSet;
     DWORD DeviceIndex =0;
     SP_DEVINFO_DATA DeviceInfoData;
@@ -396,7 +396,7 @@ void GetComPortUsb(char *pszComePort, const char const * vid, const char const *
     //strcpy_s(ExpectedDeviceId + 4, vid);
     //strcpy_s(&ExpectedDeviceId[8], "&pid_");
     //strcpy_s(&ExpectedDeviceId[13], pid);
-    qDebug("expected %s", ExpectedDeviceId);
+    //qDebug("expected %s", ExpectedDeviceId);
     //SetupDiGetClassDevs returns a handle to a device information set
     DeviceInfoSet = SetupDiGetClassDevs(
                         NULL,
@@ -404,7 +404,7 @@ void GetComPortUsb(char *pszComePort, const char const * vid, const char const *
                         NULL,
                         DIGCF_ALLCLASSES | DIGCF_PRESENT);
     if (DeviceInfoSet == INVALID_HANDLE_VALUE) {
-        qDebug("%s:%d", __FILE__, __LINE__);
+        //qDebug("%s:%d", __FILE__, __LINE__);
         return;
     }
     //Fills a block of memory with zeros
@@ -416,14 +416,14 @@ void GetComPortUsb(char *pszComePort, const char const * vid, const char const *
                 DeviceIndex,
                 &DeviceInfoData))
     {
-        qDebug("%s:%d %d",__FILE__,__LINE__,GetLastError());
+        //qDebug("%s:%d %d",__FILE__,__LINE__,GetLastError());
     }
     while (SetupDiEnumDeviceInfo(
                 DeviceInfoSet,
                 DeviceIndex,
                 &DeviceInfoData))
     {
-        qDebug("%s:%d setup...",__FILE__,__LINE__);
+        //qDebug("%s:%d setup...",__FILE__,__LINE__);
         DeviceIndex++;
         //Retrieves a specified Plug and Play device property
         if (SetupDiGetDeviceRegistryProperty (DeviceInfoSet, &DeviceInfoData, SPDRP_HARDWAREID,
@@ -432,14 +432,14 @@ void GetComPortUsb(char *pszComePort, const char const * vid, const char const *
                                               &dwSize))
         {
             //qDebug("find Devices");
-            qDebug("%s:%d %s",__FILE__,__LINE__,(char*)szBuffer);
+            //qDebug("%s:%d %s",__FILE__,__LINE__,(char*)szBuffer);
             HKEY hDeviceRegistryKey;
             //Get the key
             hDeviceRegistryKey = SetupDiOpenDevRegKey(DeviceInfoSet, &DeviceInfoData,DICS_FLAG_GLOBAL, 0,DIREG_DEV, KEY_READ);
             if (hDeviceRegistryKey == INVALID_HANDLE_VALUE)
             {
                 Error = GetLastError();
-                qDebug("error = %d", Error);
+                //qDebug("error = %d", Error);
                 break; //Not able to open registry
             }
             else

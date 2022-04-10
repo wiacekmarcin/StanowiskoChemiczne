@@ -178,7 +178,7 @@ bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame
     QString message;
     bool show = false;
     QMessageBox msgBox;
-    qDebug("%s:%d %d %d", __FILE__,__LINE__, b_drzwi_prawe, b_drzwi_lewe);
+    //qDebug("%s:%d %d %d", __FILE__,__LINE__, b_drzwi_prawe, b_drzwi_lewe);
     if (!b_wentylacja_lewa || !b_wentylacja_prawa || !b_pom_stez_1 || !b_pom_stez_2 || !b_wlot_powietrza || !b_proznia ) {
 
         QString s("Otwarte zawory : [");

@@ -23,10 +23,10 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
     //timeImp = ustawienia.getImpTime();
     timeImp = 150;
 
-    qDebug("%s:%d ratiomlimp = %f",__FILE__,__LINE__, ustawienia.getStepsOnMl());
+    //qDebug("%s:%d ratiomlimp = %f",__FILE__,__LINE__, ustawienia.getStepsOnMl());
     this->moveToThread(&my_thread);
     my_thread.start();
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     homePositionMask = 0;
     
     my_thread.command(SerialThread::IDLE);
@@ -99,7 +99,7 @@ void SerialDevice::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 
 void SerialDevice::setPosition(uint8_t nrDoz, uint32_t steps)
 {
-    qDebug("%s:%d %d %d",__FILE__, __LINE__, nrDoz, steps);
+    //qDebug("%s:%d %d %d",__FILE__, __LINE__, nrDoz, steps);
     dozownikNr = nrDoz;
     val1 = steps;
     my_thread.command(SerialThread::SET_POSITION);
@@ -141,7 +141,7 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
 {
     SerialMessage msg;
     msg.setInvalidReply();
-    qDebug("%s:%d write = %s", __FILE__, __LINE__, currentRequest.toHex().constData());
+    //qDebug("%s:%d write = %s", __FILE__, __LINE__, currentRequest.toHex().constData());
     readError = false;
     if (currentRequest.size() == 0)
         return msg;
@@ -162,7 +162,7 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
     } while(rc == 0 && readTimeout > 0);
     //qDebug("%s:%d read done %d", __FILE__, __LINE__, rc);
     QByteArray responseData((const char*)recvBuffor, rc);
-    qDebug("%s:%d parse %d [%s] [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData(), responseData.toStdString().c_str());
+    //qDebug("%s:%d parse %d [%s] [%s]", __FILE__, __LINE__, responseData.size(), responseData.toHex().constData(), responseData.toStdString().c_str());
     return parseMessage(responseData);
 }
 
@@ -176,25 +176,25 @@ bool SerialDevice::configureDeviceJob()
     emit debug(QString("Konfiguracja %1%2%3%4%5 %6 %7").arg(reverse1).arg(reverse2).arg(reverse3).arg(reverse4).arg(reverse5).
                arg(maxImp).arg(timeImp));
 
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     auto s = write(SerialMessage::welcomeMsg(), 100, 100).getParseReply();
 
     if (s != SerialMessage::WELCOME_REPLY)
         return false;
 
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
     if (s != SerialMessage::RESET_REPLY)
         return false;
 
     QThread::msleep(2000);
-    qDebug("%s:%d %d%d%d%d%d, %d %d", __FILE__, __LINE__, reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp);
+    //qDebug("%s:%d %d%d%d%d%d, %d %d", __FILE__, __LINE__, reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp);
     s = write(SerialMessage::setSettingsMsg(reverse1, reverse2, reverse3, reverse4, reverse5, maxImp, timeImp),
               100, 100).getParseReply();
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     if (s != SerialMessage::SETPARAMS_REPLY)
         return false;
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     emit dozownikConfigured(true, true);
     return true;
 }
@@ -256,7 +256,7 @@ void SerialDevice::setResetJob()
 
 void SerialDevice::setCykleJob()
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
@@ -270,7 +270,7 @@ void SerialDevice::setCykleJob()
         return;
     }
 
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     for (uint32_t n = 0; n < val1; ++n) {
         s = write(SerialMessage::setPosition(dozownikNr, maxImp), 100, 60000).getParseReply();
         if (s != SerialMessage::POSITION_REPLY) {
@@ -290,7 +290,7 @@ void SerialDevice::setCykleJob()
 
 void SerialDevice::setStepsJob()
 {
-    qDebug("%s:%d setStepsJob", __FILE__, __LINE__);
+    //qDebug("%s:%d setStepsJob", __FILE__, __LINE__);
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
@@ -304,7 +304,7 @@ void SerialDevice::setStepsJob()
 
         steps = stepsAll > maxImp ? maxImp : stepsAll;
         stepsAll -= steps;
-        qDebug("%s:%d %d %ld" ,__FILE__,__LINE__, steps, stepsAll);
+        //qDebug("%s:%d %d %ld" ,__FILE__,__LINE__, steps, stepsAll);
         s = write(SerialMessage::setPosition(dozownikNr, steps), 100, 60000).getParseReply();
         if (s != SerialMessage::POSITION_REPLY) {
             emit setStepsDone(false);
@@ -333,18 +333,18 @@ void SerialDevice::setEchoJob()
         return;
     }
 
-    qDebug("%s:%d write echo2 msg", __FILE__, __LINE__);
+    //qDebug("%s:%d write echo2 msg", __FILE__, __LINE__);
     auto s2 = write(SerialMessage::echoMsg2(), 100, 200);
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     if (s2.getParseReply() != SerialMessage::ECHO_REPLY2) {
-        qDebug("%s:%d false", __FILE__, __LINE__);
+        //qDebug("%s:%d false", __FILE__, __LINE__);
         emit checkPositionHomeDone(false, false, false, false, false, false);
         return;
     }
     homePositionMask = ~s2.getHomePosition();
-    qDebug("%s:%d hmask=%0x", __FILE__, __LINE__, homePositionMask);
+    //qDebug("%s:%d hmask=%0x", __FILE__, __LINE__, homePositionMask);
 
-    qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, true,
+    //qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, true,
            (homePositionMask & 0x1) == 0x1,
            (homePositionMask & 0x2) == 0x2,
            (homePositionMask & 0x4) == 0x4,
@@ -382,7 +382,7 @@ void SerialDevice::setHomeJob()
 
 void SerialDevice::setPosJob()
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     emit debug(QString("Ustaw pozycje %1").arg(val1));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
@@ -392,7 +392,7 @@ void SerialDevice::setPosJob()
         return;
     }
 
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
 
 
     s = write(SerialMessage::setPosition(dozownikNr, val1), 100, 60000).getParseReply();
@@ -406,18 +406,18 @@ void SerialDevice::setPosJob()
 
 bool SerialDevice::openDevice()
 {
-    qDebug("%s:%d open Devicedd", __FILE__, __LINE__);
+    //qDebug("%s:%d open Devicedd", __FILE__, __LINE__);
     char mode[]={'8','O','1',0};
     if (RS232_OpenComport(portNr, 115200, mode, 0)) {
         m_connected = false;
         return false;
     }
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug("%s:%d", __FILE__, __LINE__);
     RS232_flushRXTX(portNr);
 
     const unsigned char startBuf[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     int rs = RS232_SendBuf(portNr, (unsigned char*)startBuf, 16);
-    qDebug("%s:%d write %d", __FILE__,__LINE__,rs);
+    //qDebug("%s:%d write %d", __FILE__,__LINE__,rs);
     if (rs <= 0) {
         RS232_CloseComport(portNr);
         return false;
@@ -426,7 +426,7 @@ bool SerialDevice::openDevice()
     unsigned char recvBuf[100];
     int recv = RS232_PollComport(portNr, recvBuf, 100);;
     
-    qDebug("%s:%d recv=%d", __FILE__, __LINE__, recv);
+    //qDebug("%s:%d recv=%d", __FILE__, __LINE__, recv);
     return true;
 }
 
@@ -467,11 +467,11 @@ void SerialDevice::connectToSerialJob()
             auto vendorId = serialPortInfo.vendorIdentifier();
             auto productId = serialPortInfo.productIdentifier();
             emit debug(QString("Znaleziono kandydata"));
-            qDebug("%s:%d %d:%d", __FILE__, __LINE__,vendorId, productId);
+            //qDebug("%s:%d %d:%d", __FILE__, __LINE__,vendorId, productId);
             if (vendorId == 6991 && productId == 37382 /* && serialNumber == serialNumberKontroler */) {
                 portName = serialPortInfo.portName();
                 systemLocation = serialPortInfo.systemLocation();
-                qDebug("%s:%d %s %s", __FILE__, __LINE__, portName.toStdString().c_str(), systemLocation.toStdString().c_str());
+                //qDebug("%s:%d %s %s", __FILE__, __LINE__, portName.toStdString().c_str(), systemLocation.toStdString().c_str());
                 findDevice = true;
             }
         }
@@ -483,13 +483,13 @@ void SerialDevice::connectToSerialJob()
     emit dozownikConfigured(true, false);
     //char bufPortName[12] = {0};
     portNr = -1;
-    qDebug("%s:%d",__FILE__,__LINE__);
+    //qDebug("%s:%d",__FILE__,__LINE__);
     //GetComPortUsb(bufPortName,"1B4F","9206");
     //qDebug("%s:%d [%s]",__FILE__,__LINE__, bufPortName);
 
     portNr = RS232_GetPortnr(portName.toStdString().c_str());
     //portNr = RS232_GetPortnr(COMPORT);
-    qDebug("%s:%d portNr=%d",__FILE__,__LINE__, portNr);
+    //qDebug("%s:%d portNr=%d",__FILE__,__LINE__, portNr);
     if (portNr == -1)
         return;
     m_connected = openDevice();
@@ -528,16 +528,16 @@ void SerialThread::command(Task curr)
 
 void SerialThread::run()
 {
-    qDebug("%s:%d run", __FILE__,__LINE__);
+    //qDebug("%s:%d run", __FILE__,__LINE__);
     m_mutex.lock();
     short zadanie = nrZadania;
     m_mutex.unlock();
     short nrTrying = 0;
     while (!m_quit) {
-        qDebug("%s:%d zadanie %d", __FILE__,__LINE__, zadanie);
+        //qDebug("%s:%d zadanie %d", __FILE__,__LINE__, zadanie);
         switch(zadanie) {
         case IDLE:
-            qDebug("conn=%d conf=%d read=%d",sd->m_connected,sd->m_configured, sd->readError);
+            //qDebug("conn=%d conf=%d read=%d",sd->m_connected,sd->m_configured, sd->readError);
             if (!sd->m_connected) {
                 zadanie = CONNECT;
                 sleep(1);
@@ -552,7 +552,7 @@ void SerialThread::run()
             }
             break;
         case CONNECT:
-            qDebug("%s:%d zadanie CONNECT ", __FILE__,__LINE__);
+            //qDebug("%s:%d zadanie CONNECT ", __FILE__,__LINE__);
             sd->connectToSerialJob();
             if (!sd->m_connected) {
                 zadanie = CONNECT;

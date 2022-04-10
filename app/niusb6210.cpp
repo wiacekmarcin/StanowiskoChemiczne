@@ -49,7 +49,7 @@ bool NIDAQMxUSB6210::configure(const QString & deviceString)
 
 Error:
     errorFun();
-    qDebug("%d %p %s", __LINE__, taskHandleRead, errStr().c_str());
+    //qDebug("%d %p %s", __LINE__, taskHandleRead, errStr().c_str());
     return false;
 }
 
@@ -81,7 +81,7 @@ Error:
         return readValue(val1, val2, val3, val4, val5, val6, val7);
     }
     errorFun();
-    qDebug("%s:%d %d %s", __FILE__,__LINE__, taskHandleRead, errStr().c_str());
+    //qDebug("%s:%d %d %s", __FILE__,__LINE__, taskHandleRead, errStr().c_str());
     return false;
 }
 

@@ -35,7 +35,7 @@ void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 void Urzadzenia::setMl(uint8_t nrDoz, uint32_t mlx10)
 {
     uint32_t steps = round(mlx10 * ustawienia.getStepsOnMl() / 10.0);
-    qDebug("%s:%d %f ml => %d steps", __FILE__, __LINE__, mlx10/10.0, steps);
+    //qDebug("%s:%d %f ml => %d steps", __FILE__, __LINE__, mlx10/10.0, steps);
     setSteps(nrDoz, steps);
 }
 
@@ -110,7 +110,7 @@ void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, do
 
 void Urzadzenia::ni_usb6501(bool open, bool conf)
 {
-    qDebug("%s:%d n_usb6501 %d:%d",__FILE__,__LINE__,open,conf);
+    //qDebug("%s:%d n_usb6501 %d:%d",__FILE__,__LINE__,open,conf);
     digitalConn = open && conf;
 }
 

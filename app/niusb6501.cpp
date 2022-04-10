@@ -41,7 +41,7 @@ bool NIDAQMxUSB6501::isConnected()
 
 bool NIDAQMxUSB6501::configure(const QString & readDevice, const QString & writeDevice)
 {
-    qDebug("%s:%d %s %s", __FILE__, __LINE__, readDevice.toStdString().c_str(), writeDevice.toStdString().c_str());
+    //qDebug("%s:%d %s %s", __FILE__, __LINE__, readDevice.toStdString().c_str(), writeDevice.toStdString().c_str());
     if (isConnected())
         return true;
     /*********************************************/
@@ -67,7 +67,7 @@ bool NIDAQMxUSB6501::configure(const QString & readDevice, const QString & write
 
 Error:
     errorFun();
-    qDebug("%d %p %p %s", __LINE__, taskHandleRead, taskHandleWrite, errStr().c_str());
+    //qDebug("%d %p %p %s", __LINE__, taskHandleRead, taskHandleWrite, errStr().c_str());
     return false;
 }
 
@@ -86,7 +86,7 @@ bool NIDAQMxUSB6501::readValue(uInt16 & val)
 
 Error:
     errorFun();
-    qDebug("%d %d %s", __LINE__, taskHandleRead, errStr().c_str());
+    //qDebug("%d %d %s", __LINE__, taskHandleRead, errStr().c_str());
     return false;
 }
 

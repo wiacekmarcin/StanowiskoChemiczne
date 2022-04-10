@@ -88,14 +88,14 @@ void OknoStatusowe::setDozownik(bool open, bool conf)
 
 void OknoStatusowe::setUSB6210(bool open, bool conf)
 {
-    qDebug("%s:%d %d:%d",__FILE__,__LINE__,open, conf);
+    //qDebug("%s:%d %d:%d",__FILE__,__LINE__,open, conf);
     bOpenUsb6210 = open;
     bConfUsb6210 = conf;
 }
 
 void OknoStatusowe::setUSB6501(bool open, bool conf)
 {
-    qDebug("%s:%d %d:%d",__FILE__,__LINE__,open, conf);
+    //qDebug("%s:%d %d:%d",__FILE__,__LINE__,open, conf);
     bOpenUsb6501 = open;
     bConfUsb6501 = conf;
 }

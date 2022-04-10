@@ -95,7 +95,7 @@ void NowyTest_2::dozownikDone(bool succes)
 
 void NowyTest_2::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
 {
-    qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
+    //qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
     okDozownik = ok;
     homeDozownik[0] = d1;
     homeDozownik[1] = d2;

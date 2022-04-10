@@ -32,7 +32,7 @@ NICards::~NICards()
 
 void NICards::digitalWrite(uint16_t out, bool val)
 {
-    qDebug("%s:%d", __FILE__,__LINE__);
+    //qDebug("%s:%d", __FILE__,__LINE__);
     unsigned short i = 0;
     unsigned long mask = 0x1;
     m_mutex.lock();
@@ -111,7 +111,7 @@ bool NICards::find() {
 
     emit usb6210(false, false);
     emit usb6501(false, false);
-    qDebug("%s:%d find", __FILE__, __LINE__);
+    //qDebug("%s:%d find", __FILE__, __LINE__);
     int32		errCode;
     char buf[128];
     if(DAQmxFailed(errCode=DAQmxGetSysDevNames(buf, 128))) {
@@ -141,7 +141,7 @@ bool NICards::find() {
 
         if (!anConf && !analog.isConnected() && QString(bufProduct) == QString("USB-6210") &&
                                                 deviceid == 14643 && serialid == 33770223) {
-            qDebug("Znalazlem!!!!");
+            //qDebug("Znalazlem!!!!");
             emit debug(QString("Znalazłem kartę analogową : %1").arg(name));
             analogDevice = name;
             analogConfString = QString(readAnalString).replace("USB6210", name);
@@ -164,7 +164,7 @@ bool NICards::find() {
 
 void NICards::analogConfigure()
 {
-    qDebug("Konfiguracja ANAL");
+    //qDebug("Konfiguracja ANAL");
     anConf = analog.configure(analogConfString);
     emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
     emit usb6210(analog.isConnected(), anConf);
@@ -172,11 +172,11 @@ void NICards::analogConfigure()
 
 void NICards::digitalConfigure()
 {
-    qDebug("Konfiguracja DIG");
+    //qDebug("Konfiguracja DIG");
     digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
     emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
     emit usb6501(digital.isConnected(), digConf);
-    qDebug("%s:%d conn/conf %d %d | output = %04x", __FILE__, __LINE__, digital.isConnected(), digConf, ~hv_bezpieczenstwa) ;
+    //qDebug("%s:%d conn/conf %d %d | output = %04x", __FILE__, __LINE__, digital.isConnected(), digConf, ~hv_bezpieczenstwa) ;
     maskOutput = hv_bezpieczenstwa; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
 }
 
@@ -237,7 +237,7 @@ void NICards::readDigital()
         return;
     }
     if (prevInputs != val) {
-        qDebug("%s:%d %04x", __FILE__,__LINE__, val);
+        //qDebug("%s:%d %04x", __FILE__,__LINE__, val);
         prevInputs = val;
         emit digitalRead(val);
     }
