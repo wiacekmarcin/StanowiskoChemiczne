@@ -133,13 +133,6 @@
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Testowy przycisk Dalej</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -150,6 +143,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>pbOK_1</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

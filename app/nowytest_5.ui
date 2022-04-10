@@ -90,7 +90,7 @@
       <item>
        <widget class="QLabel" name="txt_2">
         <property name="text">
-         <string>Otwórz zawory X i Y oraz rozpocznij pomiar stężenia gazów w wewnątrzn komory</string>
+         <string>Otwórz zawory do pomiaru stężeń oraz rozpocznij pomiar stężenia gazów w wewnątrzn komory</string>
         </property>
        </widget>
       </item>

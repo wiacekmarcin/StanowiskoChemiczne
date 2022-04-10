@@ -43,8 +43,8 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     showCrit = false;
     showWarn = false;
 
-    connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot);
-    connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot);
+    connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot, Qt::QueuedConnection);
+    connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot, Qt::QueuedConnection);
 }
 
 
@@ -154,8 +154,8 @@ TestPage *CreateTestWizard::currentPage() const
 
 void CreateTestWizard::setFinished(bool success)
 {
-    //finished = success;
-    //emit finishedTest(success);
+    finished = success;
+    emit finishedTest(success);
 
 }
 
@@ -166,20 +166,18 @@ void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
     if (selectedId == TestPage::PAGE_6 && id == pilot) {
             currentPage()->updateWejscia();
     }
+    if (showWarn || showCrit)
+        return;
+
     qDebug("%s:%d %d %d", __FILE__,__LINE__, id, value);
     if (criticalMap[id] && !value && !showCrit) {
         showCrit = true;
         emit criticalZaworOpenSignal(id);
     }
-    if (criticalMap[id] && value && showCrit) {
-        showCrit = false;
-    }
+
     if (warningMap[id] && value && !showWarn) {
         showWarn = true;
         emit warningZaworOpenSignal(id);
-    }
-    if (criticalMap[id] && !value && showWarn) {
-        showWarn = false;
     }
 }
 
@@ -234,8 +232,8 @@ void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
     QMessageBox::critical(this, s, "Wykryto owarty zawór ( lub drzwi w komorze ), jego otwarcie spowodowało zakończenie testu");
     showCrit = false;
     setFinished(false);
-    delay(2);
-    emit readsInputs();
+    //delay(2);
+    //emit readsInputs();
 }
 
 void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
@@ -256,8 +254,8 @@ void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
 
     QMessageBox::warning(this, s, "Wykryto zamknięty zawór ( lub drzwi w komorze ).");
     showWarn = false;
-    delay(2);
-    emit readsInputs();
+    //delay(2);
+    //emit readsInputs();
 }
 
 void CreateTestWizard::nextPage(TestPage::PageId id)
@@ -271,8 +269,8 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
         setCurrentWidget(pages[selectedId]);
     }
     initializePage();
-    if (id == TestPage::PAGE_8)
-        finished = true;
+    //if (id == TestPage::PAGE_8)
+    //    finished = true;
 }
 
 

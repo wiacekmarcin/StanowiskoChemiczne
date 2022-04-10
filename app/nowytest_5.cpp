@@ -44,7 +44,8 @@ void NowyTest_5::runDone()
 void NowyTest_5::on_pbOK_1_clicked()
 {
     sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2);
-    setZ_criticalMask(drzwi_lewe | drzwi_prawe | wentylacja_prawa | wentylacja_lewa | proznia | wlot_powietrza );
+    setZ_criticalMask(drzwi_lewe | drzwi_prawe | wentylacja_prawa | wentylacja_lewa | proznia | wlot_powietrza);
+    setZ_warningMask(0);
 
 }
 
@@ -53,7 +54,7 @@ void NowyTest_5::on_pbOK_2_clicked()
 {
     if (!sprawdzOtwarteZaworStezenia())
         return;
-
+    setZ_warningMask(pom_stez_1 | pom_stez_2);
     ui->pbOK_2->setEnabled(false);
     ui->arrow_2->setVisible(false);
     ui->frame_3->setVisible(true);
@@ -72,6 +73,7 @@ void NowyTest_5::on_pbOK_3_clicked()
     if (!sprawdzOtwarteZaworStezenia())
         return;
     updateOutput(pompa_powietrza, false);
+    //setZ_warningMask(pom_stez_1 | pom_stez_2);
     nextPage(nextPageId());
 }
 
