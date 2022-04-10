@@ -40,22 +40,21 @@ public:
     explicit NICards(QObject *parent = nullptr);
     ~NICards();
 
-    
-
     void digitalWrite(uint16_t out, bool val);
-
     void digitalWriteDebug(uint16_t out) { maskOutput = out; }
     uint16_t getDigitalWrite() const { return maskOutput; }
-
+    void getDigitalInput();
 
 signals:
-    void digitalRead(uint16_t vals);
+    void digitalReadChanged(uint16_t vals);
+    void analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
+
     void error(const QString &s);
     void debug(const QString &d);
 
     void usb6210(bool open, bool conf);
     void usb6501(bool ok, bool conf);
-    void analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
+
 
 protected:
     void run() override;
@@ -96,6 +95,7 @@ private:
     QString digitalConfWriteString;
 
     uint16_t prevInputs;
+    QMutex mutex;
 
 };
 #endif

@@ -11,18 +11,18 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
 
 {
 #if !SYMULATOR
-    connect(&nicards, &NICards::digitalRead,    this,       &Urzadzenia::ni_digitalRead);
-    connect(&nicards, &NICards::error,          this,       &Urzadzenia::ni_error);
-    connect(&nicards, &NICards::debug,          this,       &Urzadzenia::ni_debug);
-    connect(&nicards, &NICards::usb6210,        this,       &Urzadzenia::usb6210);
-    connect(&nicards, &NICards::usb6501,        this,       &Urzadzenia::ni_usb6501);
-    connect(&nicards, &NICards::usb6501,        this,       &Urzadzenia::usb6501);
-    connect(&nicards, &NICards::analogValueChanged, this,   &Urzadzenia::ni_analogValueChanged);
+    connect(&nicards, &NICards::digitalReadChanged, this,   &Urzadzenia::digitalValueChanged, Qt::DirectConnection);
+    connect(&nicards, &NICards::error,              this,   &Urzadzenia::ni_error);
+    connect(&nicards, &NICards::debug,              this,   &Urzadzenia::ni_debug);
+    connect(&nicards, &NICards::usb6210,            this,   &Urzadzenia::usb6210, Qt::DirectConnection);
+    connect(&nicards, &NICards::usb6501,            this,   &Urzadzenia::ni_usb6501, Qt::DirectConnection);
+    connect(&nicards, &NICards::usb6501,            this,   &Urzadzenia::usb6501, Qt::DirectConnection);
+    connect(&nicards, &NICards::analogValueChanged, this,   &Urzadzenia::ni_analogValueChanged, Qt::DirectConnection);
 #endif
-    connect(&serial, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
-    connect(&serial, &SerialDevice::setCykleDone, this,     &Urzadzenia::setCykleDone);
-    connect(&serial, &SerialDevice::setStepsDone, this,     &Urzadzenia::setStepsDone);
-    connect(&serial, &SerialDevice::checkPositionHomeDone, this,     &Urzadzenia::checkPositionHomeDone);
+    connect(&serial, &SerialDevice::dozownikConfigured,     this, &Urzadzenia::ds_dozownikConfigured);
+    connect(&serial, &SerialDevice::setCykleDone,           this, &Urzadzenia::setCykleDone);
+    connect(&serial, &SerialDevice::setStepsDone,           this, &Urzadzenia::setStepsDone);
+    connect(&serial, &SerialDevice::checkPositionHomeDone,  this, &Urzadzenia::checkPositionHomeDone);
 
 }
 
@@ -35,7 +35,7 @@ void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 void Urzadzenia::setMl(uint8_t nrDoz, uint32_t mlx10)
 {
     uint32_t steps = round(mlx10 * ustawienia.getStepsOnMl() / 10.0);
-    qDebug("%s:%d %f ml => %d steps", __FILE__, __LINE__, mlx10/10.0, steps);
+    //qDebug("%s:%d %f ml => %d steps", __FILE__, __LINE__, mlx10/10.0, steps);
     setSteps(nrDoz, steps);
 }
 
@@ -110,31 +110,8 @@ void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, do
 
 void Urzadzenia::ni_usb6501(bool open, bool conf)
 {
-    qDebug("%s:%d n_usb6501 %d:%d",__FILE__,__LINE__,open,conf);
+    //qDebug("%s:%d n_usb6501 %d:%d",__FILE__,__LINE__,open,conf);
     digitalConn = open && conf;
-}
-
-void Urzadzenia::ni_digitalRead(uint16_t vals)
-{
-
-    if (m_inputs == vals)
-        return;
-
-    if (m_inputs != vals) {
-        emit digitalAllRead(vals);
-    }
-
-    uint16_t changeMask = vals ^ m_inputs;
-    uint16_t mask = 0x1;
-
-    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
-        if (mask & changeMask) {
-            //qDebug"%s:%d %04x %d", __FILE__,__LINE__,mask, vals & mask ? 1 : 0);
-            emit digitalRead(mask, vals & mask);
-        }
-        mask <<= 1;
-    }
-    m_inputs = vals;
 }
 
 void Urzadzenia::digitalWriteDebug(uint16_t vals)
@@ -149,13 +126,7 @@ void Urzadzenia::digitalWriteDebug(uint16_t vals)
 
 void Urzadzenia::readInputs()
 {
-     emit digitalAllRead(m_inputs);
-
-    uint16_t mask = 0x1;
-    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
-        emit digitalRead(mask, m_inputs & mask);
-        mask <<= 1;
-    }
+     nicards.getDigitalInput();
 }
 
 void Urzadzenia::ds_error(const QString &s)

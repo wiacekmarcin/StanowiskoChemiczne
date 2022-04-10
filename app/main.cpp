@@ -18,13 +18,13 @@ int main(int argc, char *argv[])
     //a.setStyle("Windows");
     //QApplication::setStyle(QWindowsStyle());
     Ustawienia u;
+    qDebug("%s:%d",__FILE__,__LINE__);
     Urzadzenia urzadz(u);
-
+    qDebug("%s:%d",__FILE__,__LINE__);
     GlowneOkno w(u, &urzadz);
-    w.showMaximized();
+    //w.showMaximized();
     //w.showMinimized();
 
-    return a.exec();
-
+        return a.exec();
 }
 

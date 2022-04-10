@@ -75,37 +75,46 @@ void OknoStatusowe::setLabels(const Ustawienia &set)
     adjustSize();
 }
 
-void OknoStatusowe::setDigitalValue(int id, bool val)
+void OknoStatusowe::setDigitalValue(uint16_t values)
 {
-    bMapZawor[id] = val;
+    for (uint16_t i = 0x1; i <= 0xffff; i=i<<1)
+        bMapZawor[i] = ((values & i) == i);
 }
 
 void OknoStatusowe::setDozownik(bool open, bool conf)
 {
+    qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
     bOpenDozownik = open;
     bConfDozownik = conf;
 }
 
 void OknoStatusowe::setUSB6210(bool open, bool conf)
 {
-    qDebug("%s:%d %d:%d",__FILE__,__LINE__,open, conf);
+    qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
+    mutex.lock();
     bOpenUsb6210 = open;
     bConfUsb6210 = conf;
+    mutex.unlock();
 }
 
 void OknoStatusowe::setUSB6501(bool open, bool conf)
 {
-    qDebug("%s:%d %d:%d",__FILE__,__LINE__,open, conf);
+    qDebug("%s:%d %d:%d %p",__FILE__,__LINE__,open, conf, QThread::currentThreadId());
+    mutex.lock();
     bOpenUsb6501 = open;
     bConfUsb6501 = conf;
+    mutex.unlock();
 }
 
 void OknoStatusowe::timeout()
 {
+    qDebug("%s:%d %p",__FILE__,__LINE__,QThread::currentThreadId());
+    mutex.lock();
     for(short id = 1; id < 10; ++id) {
         sMapZawor[mapDigitalOrder[id]]->setOk(bMapZawor[mapDigitalOrder[id]]);
         sMapZawor[mapDigitalOrder[id]]->update();
     }
+    mutex.unlock();
     ui->usb6210->setState(bOpenUsb6210, bConfUsb6210);
     ui->usb6501->setState(bOpenUsb6501, bConfUsb6501);
     ui->dozownik->setState(bOpenDozownik, bConfDozownik);

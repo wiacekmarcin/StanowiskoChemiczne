@@ -5,6 +5,8 @@
 #include <QStackedWidget>
 #include <QMap>
 #include <QList>
+#include <QMutex>
+
 #include "testpageform.h"
 #include "testpage.h"
 
@@ -53,7 +55,7 @@ public:
 public slots:
     void nextPage(TestPage::PageId id);
 
-    void changeDigitalIn(uint16_t id, bool value);
+    void changeDigitalIn(uint16_t id);
     void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
 
     void dozownikDone(bool succes);
@@ -62,21 +64,23 @@ public slots:
 signals:
     void changeTestName(QString);
     void finishedTest(bool success);
-    void writeOutValues(uint16_t, bool on);
+
     void cykleDozownik(uint8_t nr, uint32_t steps);
     void dozownikMl(uint8_t nr, uint32_t mlx10);
     void zaplon(short Id);
     void checkPositionHome();
-    void criticalZaworOpenSignal(uint16_t idz);
-    void warningZaworOpenSignal(uint16_t idz);
+
+    void updateDigitalSignal(uint16_t prev, uint16_t act);
+    void writeOutValues(uint16_t mask, bool on);
 
 
     void setDigitalOut(int id, bool value);
     void readsInputs();
 
 private slots:
-    void criticalZaworOpenSlot(uint16_t idz);
-    void warningZaworOpenSlot(uint16_t idz);
+    void criticalZaworOpen(uint16_t idz);
+    void warningZaworOpen(uint16_t idz);
+    void updateDigitalSlot(uint16_t prev, uint16_t act);
 
 protected:
 
@@ -112,6 +116,9 @@ private:
 
     QMap<uint16_t, bool> warningMap;
     bool showWarn;
+
+    QMutex mutex;
+    uint16_t actVals;
 };
 
 #endif // CREATETESTWIZARD_H

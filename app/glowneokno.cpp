@@ -32,27 +32,41 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     selectedProject(nullptr),
     selectedTest(nullptr)
 {
+    //qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
+    qDebug("%s:%d: Glowne okno" __FILE__,__LINE__);
     ui->setupUi(this);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     ui->frCzujniki->setLabels(settings);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     ui->analog->setParams(settings);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     ui->wyjscia->setLabels(settings);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
 
 
     connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue);
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue);
 
-    connect(urzadzenia, &Urzadzenia::digitalRead,   ui->frCzujniki, &OknoStatusowe::setDigitalValue);
+    connect(urzadzenia, &Urzadzenia::digitalValueChanged,   ui->frCzujniki, &OknoStatusowe::setDigitalValue);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
 
     connect(urzadzenia, &Urzadzenia::digitalWriteDevice,   ui->wyjscia, &OknoStanoweWyjscia::setOnOff);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     connect(ui->wyjscia, &OknoStanoweWyjscia::writeValue, urzadzenia, &Urzadzenia::digitalWrite);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
 
     connect(urzadzenia, &Urzadzenia::usb6210,  ui->frCzujniki, &OknoStatusowe::setUSB6210);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     connect(urzadzenia, &Urzadzenia::usb6501,  ui->frCzujniki, &OknoStatusowe::setUSB6501);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     
 
     urzadzenia->readInputs();
+     qDebug("%s:%d:%p Glowne okno" __FILE__,__LINE__,QThread::currentThreadId());
     signalMapper = new QSignalMapper(this);
 
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
@@ -189,7 +203,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     connect(testy[selectedTest]->createTestWizard(),
             &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest, Qt::QueuedConnection);
 
-    connect(urzadzenia, &Urzadzenia::digitalRead,
+    connect(urzadzenia, &Urzadzenia::digitalValueChanged,
             testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn,
             Qt::DirectConnection);
     connect(urzadzenia, &Urzadzenia::analogValueChanged,

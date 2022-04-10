@@ -26,11 +26,13 @@ public slots:
 
 signals:
     void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
+    void digitalValueChanged(uint16_t value);
+
     void usb6210(bool open, bool conf);
     void usb6501(bool open, bool conf);
     void dozownik(bool open, bool conf);
-    void digitalRead(uint16_t vals, bool open);
-    void digitalAllRead(uint16_t vals);
+    //void digitalRead(uint16_t vals, bool open);
+    //void digitalAllRead(uint16_t vals);
 
     void digitalWriteDevice(uint16_t vals);
 
@@ -45,7 +47,6 @@ signals:
 
 public slots:
     void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
-    void ni_digitalRead(uint16_t vals);
     void digitalWriteDebug(uint16_t vals);
     void readInputs();
 

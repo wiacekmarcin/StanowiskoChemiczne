@@ -43,8 +43,7 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     showCrit = false;
     showWarn = false;
 
-    connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot);
-    connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot);
+    connect(this, &CreateTestWizard::updateDigitalSignal, this, &CreateTestWizard::updateDigitalSlot, Qt::QueuedConnection);
 }
 
 
@@ -159,27 +158,54 @@ void CreateTestWizard::setFinished(bool success)
 
 }
 
-void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
+void CreateTestWizard::changeDigitalIn(uint16_t vals)
 {
-    qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
-    zaworyMap[id] = value;
-    if (selectedId == TestPage::PAGE_6 && id == pilot) {
-            currentPage()->updateWejscia();
-    }
-    qDebug("%s:%d %d %d", __FILE__,__LINE__, id, value);
-    if (criticalMap[id] && !value && !showCrit) {
-        showCrit = true;
-        emit criticalZaworOpenSignal(id);
-    }
-    if (criticalMap[id] && value && showCrit) {
-        showCrit = false;
-    }
-    if (warningMap[id] && value && !showWarn) {
-        showWarn = true;
-        emit warningZaworOpenSignal(id);
-    }
-    if (criticalMap[id] && !value && showWarn) {
-        showWarn = false;
+    qDebug("%s:%d %p, CreateTestWizard::changeDigitalIn val = %x", __FILE__, __LINE__, QThread::currentThreadId(), vals);
+
+    uint16_t prev;
+    mutex.lock();
+    prev = actVals;
+    actVals = vals;
+
+
+    for (uint16_t i = 0x1; i <= 0xffff; i=i<<1)
+        zaworyMap[i] = ((vals & i) == i);
+    mutex.unlock();
+    emit updateDigitalSignal(prev, vals);
+}
+
+void CreateTestWizard::updateDigitalSlot(uint16_t prev, uint16_t act)
+{
+    if (showCrit || showWarn)
+        return;
+
+    uint16_t change = prev^act;
+    bool value;
+    for (uint16_t id = 0x1; id <= 0xffff; id = id << 1) {
+        if ((id & change) == id) {
+            mutex.lock();
+            value = zaworyMap[id];
+            mutex.unlock();
+
+            if (criticalMap[id] && !value && !showCrit) {
+                showCrit = true;
+                criticalZaworOpen(id);
+            }
+
+            if (warningMap[id] && value && !showWarn) {
+                showWarn = true;
+                warningZaworOpen(id);
+            }
+
+            switch(id) {
+            case pilot:
+                if (selectedId == TestPage::PAGE_6)
+                    currentPage()->updateWejscia();
+                break;
+            default:
+                break;
+            }
+        }
     }
 }
 
@@ -209,13 +235,13 @@ void CreateTestWizard::dozownikDone(bool success)
 
 void CreateTestWizard::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
 {
-    qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
+    //qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
     if (selectedId == TestPage::PAGE_2) {
         currentPage()->checkPositionHomeDone(ok, d1, d2, d3, d4, d5);
     }
 }
 
-void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
+void CreateTestWizard::criticalZaworOpen(uint16_t idz)
 {
     QString s("Wykryto otwarty zawor :  ");
     switch(idz) {
@@ -234,11 +260,9 @@ void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
     QMessageBox::critical(this, s, "Wykryto owarty zawór ( lub drzwi w komorze ), jego otwarcie spowodowało zakończenie testu");
     showCrit = false;
     setFinished(false);
-    delay(2);
-    emit readsInputs();
 }
 
-void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
+void CreateTestWizard::warningZaworOpen(uint16_t idz)
 {
     QString s("Wykryto zamkniety zawor :  ");
     switch(idz) {
@@ -256,8 +280,6 @@ void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
 
     QMessageBox::warning(this, s, "Wykryto zamknięty zawór ( lub drzwi w komorze ).");
     showWarn = false;
-    delay(2);
-    emit readsInputs();
 }
 
 void CreateTestWizard::nextPage(TestPage::PageId id)
