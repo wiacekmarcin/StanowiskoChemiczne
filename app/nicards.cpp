@@ -17,7 +17,7 @@ NICards::NICards(QObject *parent)
       readDigString("USB6501/port2,USB6501/port1/Line4")
 {
     m_quit = false;
-    //start();
+    start();
     maskOutput = hv_bezpieczenstwa;
     prevInputs = 0;
 }
@@ -64,12 +64,8 @@ void NICards::run()
     unsigned short loopNr = 0;
     bool fDev = find();
     //resetDevice(true, true);
-    qDebug("%s:%d run = %p", __FILE__, __LINE__, QThread::currentThreadId());
+    //qDebug("%s:%d run = %p", __FILE__, __LINE__, QThread::currentThreadId());
     while (!m_quit) {
-
-        readDigital();
-        currentThread()->msleep(1000);
-        continue;
 
         if (loopNr == 10) {
             loopNr = 0;
@@ -245,7 +241,7 @@ void NICards::writeDigital()
 
 void NICards::readDigital()
 {
-    qDebug("%s:%d:p readDigital",__FILE__, __LINE__, QThread::currentThreadId());
+    //qDebug("%s:%d:%p readDigital",__FILE__, __LINE__, QThread::currentThreadId());
 
     uint16_t val;
     if (!digital.readValue(val)) {
