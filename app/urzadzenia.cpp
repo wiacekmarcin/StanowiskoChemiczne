@@ -182,48 +182,48 @@ void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)
 void Urzadzenia::runIskraElektryczna()
 {
 
-    digitalWrite(hv_onoff, true);
-    digitalWrite(hv_bezpieczenstwa, false);
-    digitalWrite(hw_iskra, false);
+    digitalWrite(o_hv_onoff, true);
+    digitalWrite(o_hv_bezpiecznik, false);
+    digitalWrite(o_hv_iskra, false);
 
     QTimer::singleShot(2000, this, &Urzadzenia::runIskraElektryczna1);
 }
 
 void Urzadzenia::runIskraElektryczna1()
 {
-    digitalWrite(trigger, true);
-    digitalWrite(hv_onoff, false);
-    digitalWrite(hv_bezpieczenstwa, false);
-    digitalWrite(hw_iskra, true);
+    digitalWrite(o_trigger, true);
+    digitalWrite(o_hv_onoff, false);
+    digitalWrite(o_hv_bezpiecznik, false);
+    digitalWrite(o_hv_iskra, true);
 
     QTimer::singleShot(1000, this, &Urzadzenia::runIskraElektryczna2);
 }
 
 void Urzadzenia::runIskraElektryczna2()
 {
-    digitalWrite(trigger, false);
-    digitalWrite(hv_onoff, false);
-    digitalWrite(hv_bezpieczenstwa, true);
-    digitalWrite(hw_iskra, false);
+    digitalWrite(o_trigger, false);
+    digitalWrite(o_hv_onoff, false);
+    digitalWrite(o_hv_bezpiecznik, true);
+    digitalWrite(o_hv_iskra, false);
 }
 
 void Urzadzenia::runIskraMechaniczna()
 {
-    digitalWrite(trigger, true);
-    digitalWrite(mech_iskra, true);
+    digitalWrite(o_trigger, true);
+    digitalWrite(o_mech_iskra, true);
     QTimer::singleShot(2000, this, &Urzadzenia::runIskraMechaniczna1);
 }
 
 void Urzadzenia::runIskraMechaniczna1()
 {
-    digitalWrite(trigger, false);
-    digitalWrite(mech_iskra, false);
+    digitalWrite(o_trigger, false);
+    digitalWrite(o_mech_iskra, false);
 }
 
 void Urzadzenia::runPlomien()
 {
-    digitalWrite(trigger, true);
-    digitalWrite(plomien, true);
+    digitalWrite(o_trigger, true);
+    digitalWrite(o_grzalka, true);
     QTimer::singleShot(6000, this, &Urzadzenia::runPlomien1);
 
 }
@@ -235,8 +235,8 @@ void Urzadzenia::setSteps(uint8_t nrDoz, uint32_t impuls)
 
 void Urzadzenia::runPlomien1()
 {
-    digitalWrite(trigger, false);
-    digitalWrite(plomien, false);
+    digitalWrite(o_trigger, false);
+    digitalWrite(o_grzalka, false);
 }
 
 

@@ -31,15 +31,15 @@ public:
     void setFinished(bool success);
 
 
-    bool z_drzwi_prawe();
-    bool z_wentylacja_lewa();
-    bool z_proznia();
-    bool z_pom_stez_1();
-    bool z_drzwi_lewe();
-    bool z_wentylacja_prawa();
-    bool z_wlot_powietrza();
-    bool z_pom_stez_2();
-    bool z_pilot();
+    bool zi_drzwi_prawe();
+    bool zi_wentylacja_lewa();
+    bool zi_proznia();
+    bool zi_pom_stez_1();
+    bool zi_drzwi_lewe();
+    bool zi_wentylacja_prawa();
+    bool zi_wlot_powietrza();
+    bool zi_pom_stez_2();
+    bool zi_pilot();
 
     void updateOutput(uint16_t mask, bool on);
     void runZaplon(short id);

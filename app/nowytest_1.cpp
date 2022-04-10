@@ -7,20 +7,17 @@ NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_1)
 {
-    //qDebug"%s:%d",__FILE__,__LINE__);
     ui->setupUi(this);
-    //qDebug"%s:%d",__FILE__,__LINE__);
     ui->nameTest->setText(testName);
-    //qDebug"%s:%d",__FILE__,__LINE__);
     valid = false;
     checkValid();
-    //qDebug"%s:%d",__FILE__,__LINE__);
+
     connect(ui->nameTest, &QLineEdit::textChanged, this, &NowyTest_1::nameTestChanged);
     connect(ui->cbDozownik, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::dozownikChanged);
     connect(ui->cbCiecz, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::cieczChanged);
     connect(ui->iloscCieczy, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &NowyTest_1::iloscCieczyChanged);
     connect(ui->cbZaplon, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::zaplonChanged);
-    //qDebug"%s:%d",__FILE__,__LINE__);
+
     currCiecz = "";
     valCieczy = 0.0;
 
@@ -39,10 +36,10 @@ NowyTest_1::~NowyTest_1()
 void NowyTest_1::initializePage()
 {
     ui->pbNext->setEnabled(false);
-    updateOutput(pompa_prozniowa, false);
-    updateOutput(pompa_powietrza, false);
-    updateOutput(wentylator, false);
-    updateOutput(mieszadlo, false);
+    updateOutput(o_pompa_prozniowa, false);
+    updateOutput(o_pompa_powietrza, false);
+    updateOutput(o_wentylator, false);
+    updateOutput(o_mieszadlo, false);
     setZ_criticalMask(0);
     setZ_warningMask(0);
 }

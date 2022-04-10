@@ -16,29 +16,29 @@ typedef enum _aInput {
 } analogIn;
 
 typedef enum _iDig {
-    drzwi_prawe     = 0x001, //P2.0
-    wentylacja_lewa = 0x002, //P2.1
-    proznia         = 0x004, //P2.2
-    pom_stez_1      = 0x008, //P2.3
-    drzwi_lewe      = 0x010, //p2.4
-    wentylacja_prawa= 0x020, //P2.5
-    wlot_powietrza  = 0x040, //P2.6
-    pom_stez_2      = 0x080, //P2.7
-    pilot           = 0x100, //P1.4
+    i_drzwi_prawe     = 0x001, //P2.0
+    i_wentylacja_lewa = 0x002, //P2.1
+    i_proznia         = 0x004, //P2.2
+    i_pom_stez_1      = 0x008, //P2.3
+    i_drzwi_lewe      = 0x010, //p2.4
+    i_wentylacja_prawa= 0x020, //P2.5
+    i_wlot_powietrza  = 0x040, //P2.6
+    i_pom_stez_2      = 0x080, //P2.7
+    i_pilot           = 0x100, //P1.4
 } digitalIn;
 
 typedef enum _oDig {
-    hv_onoff        = 0x001, //P0.0 X1
-    hv_bezpieczenstwa = 0x002, //P0.1 X2
-    hw_iskra        = 0x004, //P0.2 X3
-    mech_iskra      = 0x008, //P0.3 X4
-    plomien         = 0x010, //P0.4 X5
-    pompa_prozniowa = 0x020, //P0.5 X6
-    pompa_powietrza = 0x040, //P0.6 X7
-    wentylator      = 0x080, //P0.7 X8
-    mieszadlo       = 0x100, //P1.0 X9
-    unknown         = 0x200, //P1.1 X10 - nie podlaczone
-    trigger         = 0x400, //P1.2
+    o_hv_onoff        = 0x001, //P0.0 X1
+    o_hv_bezpiecznik = 0x002, //P0.1 X2
+    o_hv_iskra        = 0x004, //P0.2 X3
+    o_mech_iskra      = 0x008, //P0.3 X4
+    o_grzalka         = 0x010, //P0.4 X5
+    o_pompa_prozniowa = 0x020, //P0.5 X6
+    o_pompa_powietrza = 0x040, //P0.6 X7
+    o_wentylator      = 0x080, //P0.7 X8
+    o_mieszadlo       = 0x100, //P1.0 X9
+    o_unknown         = 0x200, //P1.1 X10 - nie podlaczone
+    o_trigger         = 0x400, //P1.2
 
 } digitalOut;
 

@@ -141,36 +141,36 @@ void TestPage::runZaplon(short idZaplon)
 
 
 
-#define FUN_ZAWOR(Z) bool TestPage::z_##Z() { return wiz->z_##Z(); }
-FUN_ZAWOR(drzwi_prawe)
-FUN_ZAWOR(drzwi_lewe)
-FUN_ZAWOR(wentylacja_prawa)
-FUN_ZAWOR(wentylacja_lewa)
-FUN_ZAWOR(pom_stez_1)
-FUN_ZAWOR(pom_stez_2)
-FUN_ZAWOR(wlot_powietrza)
-FUN_ZAWOR(proznia)
-FUN_ZAWOR(pilot)
+#define FUN_ZAWOR(Z) bool TestPage::z##Z() { return wiz->z##Z(); }
+FUN_ZAWOR(i_drzwi_prawe)
+FUN_ZAWOR(i_drzwi_lewe)
+FUN_ZAWOR(i_wentylacja_prawa)
+FUN_ZAWOR(i_wentylacja_lewa)
+FUN_ZAWOR(i_pom_stez_1)
+FUN_ZAWOR(i_pom_stez_2)
+FUN_ZAWOR(i_wlot_powietrza)
+FUN_ZAWOR(i_proznia)
+FUN_ZAWOR(i_pilot)
 
 void TestPage::setFinished(bool success)
 {
-    updateOutput(pompa_prozniowa, false);
-    updateOutput(pompa_powietrza, false);
-    updateOutput(wentylator, false);
-    updateOutput(mieszadlo, false);
-    updateOutput(trigger, false);
+    updateOutput(o_pompa_prozniowa, false);
+    updateOutput(o_pompa_powietrza, false);
+    updateOutput(o_wentylator, false);
+    updateOutput(o_mieszadlo, false);
+    updateOutput(o_trigger, false);
     wiz->setFinished(success);
 }
 
-#define B_ZAWOR(Z) bool b_##Z = z_##Z()
-#define BOOLS_ZAWORY B_ZAWOR(wentylacja_lewa);\
-                     B_ZAWOR(wentylacja_prawa);\
-                     B_ZAWOR(pom_stez_1);\
-                     B_ZAWOR(pom_stez_2);\
-                     B_ZAWOR(wlot_powietrza);\
-                     B_ZAWOR(proznia);\
-                     B_ZAWOR(drzwi_prawe);\
-                     B_ZAWOR(drzwi_lewe);
+#define B_ZAWOR(Z) bool b##Z = z##Z()
+#define BOOLS_ZAWORY B_ZAWOR(i_wentylacja_lewa);\
+                     B_ZAWOR(i_wentylacja_prawa);\
+                     B_ZAWOR(i_pom_stez_1);\
+                     B_ZAWOR(i_pom_stez_2);\
+                     B_ZAWOR(i_wlot_powietrza);\
+                     B_ZAWOR(i_proznia);\
+                     B_ZAWOR(i_drzwi_prawe);\
+                     B_ZAWOR(i_drzwi_lewe);
 
 bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame_2)
 {
@@ -178,21 +178,21 @@ bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame
     QString message;
     bool show = false;
     QMessageBox msgBox;
-    //qDebug("%s:%d %d %d", __FILE__,__LINE__, b_drzwi_prawe, b_drzwi_lewe);
-    if (!b_wentylacja_lewa || !b_wentylacja_prawa || !b_pom_stez_1 || !b_pom_stez_2 || !b_wlot_powietrza || !b_proznia ) {
+    //qDebug("%s:%d %d %d", __FILE__,__LINE__, bi_drzwi_prawe, bi_drzwi_lewe);
+    if (!bi_wentylacja_lewa || !bi_wentylacja_prawa || !bi_pom_stez_1 || !bi_pom_stez_2 || !bi_wlot_powietrza || !bi_proznia ) {
 
         QString s("Otwarte zawory : [");
-        if (!b_wentylacja_lewa)
+        if (!bi_wentylacja_lewa)
             s+="wentylacja lewa,";
-        if (!b_wentylacja_prawa)
+        if (!bi_wentylacja_prawa)
             s+="wentylacja prawa,";
-        if (!b_proznia)
+        if (!bi_proznia)
             s+="proznia,";
-        if (!b_wlot_powietrza)
+        if (!bi_wlot_powietrza)
             s+="wlot powietza,";
-        if (!b_pom_stez_1)
+        if (!bi_pom_stez_1)
             s+="pomiar stezenia 1,";
-        if (!b_pom_stez_2)
+        if (!bi_pom_stez_2)
             s+="pomiar stezenia 2,";
         s.remove(s.size()-1,1);
         s += " ]. \n";
@@ -200,12 +200,12 @@ bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame
         show = true;
     }
 
-    if (!b_drzwi_lewe || !b_drzwi_prawe ) {
+    if (!bi_drzwi_lewe || !bi_drzwi_prawe ) {
 
         QString s("Otwarte drzwi komory : [");
-        if (!b_drzwi_prawe)
+        if (!bi_drzwi_prawe)
             s+="prawe,";
-        if (!b_drzwi_lewe)
+        if (!bi_drzwi_lewe)
             s+="lewe,";
         s.remove(s.size()-1,1);
         s += " ]. \n";
@@ -236,34 +236,34 @@ bool TestPage::sprawdzOtwarteZaworProzni()
     bool show = false;
     QMessageBox msgBox;
     QString msg;
-    if(!b_wentylacja_lewa || !b_pom_stez_1 || !b_wentylacja_prawa || !b_wlot_powietrza || !b_pom_stez_2) {
+    if(!bi_wentylacja_lewa || !bi_pom_stez_1 || !bi_wentylacja_prawa || !bi_wlot_powietrza || !bi_pom_stez_2) {
         show = true;
         QString s("Otwarte zawory : [ ");
-        if (!b_wentylacja_lewa)
+        if (!bi_wentylacja_lewa)
             s+="wentylacja lewa,";
-        if (!b_wentylacja_prawa)
+        if (!bi_wentylacja_prawa)
             s+="wentylacja prawa,";
-        if (!b_wlot_powietrza)
+        if (!bi_wlot_powietrza)
             s+="wlot powietza,";
-        if (!b_pom_stez_1)
+        if (!bi_pom_stez_1)
             s+="pomiar stezenia 1,";
-        if (!b_pom_stez_2)
+        if (!bi_pom_stez_2)
             s+="pomiar stezenia 2,";
         s.remove(s.size()-1,1);
         msg = s + QString(" ].\n");
     }
-    if (!b_drzwi_prawe || !b_drzwi_lewe) {
+    if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
         QString s("Otwarte drzwi komory : [ ");
-            if (!b_drzwi_prawe)
+            if (!bi_drzwi_prawe)
                 s+="prawe,";
-            if (!b_drzwi_lewe)
+            if (!bi_drzwi_lewe)
                 s+="lewe,";
             s.remove(s.size()-1,1);
             msg += s + QString(" ].\n");
     }
 
-    if (b_proznia) {
+    if (bi_proznia) {
         show = true;
         msg += QString("Zawor proznia jest zamknięty.\n");
     }
@@ -290,34 +290,34 @@ bool TestPage::sprawdzOtwarteZaworPowietrza()
     QMessageBox msgBox;
     QString msg;
 
-    if(!b_wentylacja_lewa || !b_pom_stez_1 || !b_wentylacja_prawa || !b_proznia || !b_pom_stez_2) {
+    if(!bi_wentylacja_lewa || !bi_pom_stez_1 || !bi_wentylacja_prawa || !bi_proznia || !bi_pom_stez_2) {
         show = true;
         QString s("Otwarte zawory : [ ");
-        if (!b_wentylacja_lewa)
+        if (!bi_wentylacja_lewa)
             s+="wentylacja lewa,";
-        if (!b_wentylacja_prawa)
+        if (!bi_wentylacja_prawa)
             s+="wentylacja prawa,";
-        if (!b_proznia)
+        if (!bi_proznia)
             s+="proznia,";
-        if (!b_pom_stez_1)
+        if (!bi_pom_stez_1)
             s+="pomiar stezenia 1,";
-        if (!b_pom_stez_2)
+        if (!bi_pom_stez_2)
             s+="pomiar stezenia 2,";
         s.remove(s.size()-1,1);
         msg = s + QString(" ].\n");
     }
-    if (!b_drzwi_prawe || !b_drzwi_lewe) {
+    if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
         QString s("Otwarte drzwi komory : [ ");
-        if (!b_drzwi_prawe)
+        if (!bi_drzwi_prawe)
             s+="prawe,";
-        if (!b_drzwi_lewe)
+        if (!bi_drzwi_lewe)
             s+="lewe,";
         s.remove(s.size()-1,1);
         msg += s + QString(" ].\n");
     }
 
-    if (b_wlot_powietrza) {
+    if (bi_wlot_powietrza) {
         show = true;
         msg += QString("Zawor wlot powietrza jest zamknięty.\n");
     }
@@ -343,38 +343,38 @@ bool TestPage::sprawdzOtwarteZaworStezenia()
     QMessageBox msgBox;
     QString msg;
 
-    if(!b_wentylacja_lewa || !b_wentylacja_prawa || !b_proznia || !b_wlot_powietrza) {
+    if(!bi_wentylacja_lewa || !bi_wentylacja_prawa || !bi_proznia || !bi_wlot_powietrza) {
         show = true;
         QString s("Otwarte zawory : [ ");
-        if (!b_wentylacja_lewa)
+        if (!bi_wentylacja_lewa)
             s+="wentylacja lewa,";
-        if (!b_wentylacja_prawa)
+        if (!bi_wentylacja_prawa)
             s+="wentylacja prawa,";
-        if (!b_proznia)
+        if (!bi_proznia)
             s+="proznia,";
-        if (!b_wlot_powietrza)
+        if (!bi_wlot_powietrza)
             s+="wlot_powietrze,";
         s.remove(s.size()-1,1);
         msg = s + QString(" ].\n");
     }
-    if (!b_drzwi_prawe || !b_drzwi_lewe) {
+    if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
         QString s("Otwarte drzwi komory : [ ");
-        if (!b_drzwi_prawe)
+        if (!bi_drzwi_prawe)
             s+="prawe,";
-        if (!b_drzwi_lewe)
+        if (!bi_drzwi_lewe)
             s+="lewe,";
         s.remove(s.size()-1,1);
         msg += s + QString(" ].\n");
     }
 
-    if (b_pom_stez_1 || b_pom_stez_2) {
+    if (bi_pom_stez_1 || bi_pom_stez_2) {
         show = true;
-        if (b_pom_stez_1 && b_pom_stez_2)
+        if (bi_pom_stez_1 && bi_pom_stez_2)
             msg += QString("Oba zawory do pomiaru stężen są zamknięte.\n");
-        else if (b_pom_stez_1)
+        else if (bi_pom_stez_1)
             msg += QString("Lewy zawor do pomiaru stężen jest zamknięty.\n");
-        else if (b_pom_stez_2)
+        else if (bi_pom_stez_2)
             msg += QString("Prawy zawor do pomiaru stężen jest zamknięty.\n");
     }
     if (!show)
@@ -399,38 +399,38 @@ bool TestPage::sprawdzOtwarteZawor2Calowe()
     QMessageBox msgBox;
     QString msg;
 
-    if(!b_pom_stez_1 || !b_pom_stez_2 || !b_proznia || !b_wlot_powietrza) {
+    if(!bi_pom_stez_1 || !bi_pom_stez_2 || !bi_proznia || !bi_wlot_powietrza) {
         show = true;
         QString s("Otwarte zawory : [ ");
-        if (!b_pom_stez_1)
+        if (!bi_pom_stez_1)
             s+="pomiar stężenia 1,";
-        if (!b_pom_stez_2)
+        if (!bi_pom_stez_2)
             s+="pomiar stezenia 2,";
-        if (!b_proznia)
+        if (!bi_proznia)
             s+="proznia,";
-        if (!b_wlot_powietrza)
+        if (!bi_wlot_powietrza)
             s+="wlot_powietrze,";
         s.remove(s.size()-1,1);
         msg = s + QString(" ].\n");
     }
-    if (!b_drzwi_prawe || !b_drzwi_lewe) {
+    if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
         QString s("Otwarte drzwi komory : [ ");
-        if (!b_drzwi_prawe)
+        if (!bi_drzwi_prawe)
             s+="prawe,";
-        if (!b_drzwi_lewe)
+        if (!bi_drzwi_lewe)
             s+="lewe,";
         s.remove(s.size()-1,1);
         msg += s + QString(" ].\n");
     }
 
-    if (b_wentylacja_lewa || b_wentylacja_prawa) {
+    if (bi_wentylacja_lewa || bi_wentylacja_prawa) {
         show = true;
-        if (b_wentylacja_lewa && b_wentylacja_prawa)
+        if (bi_wentylacja_lewa && bi_wentylacja_prawa)
             msg += QString("Oba zawory do przedmuchu są zamknięte.\n");
-        else if (b_wentylacja_lewa)
+        else if (bi_wentylacja_lewa)
             msg += QString("Lewy zawor do przedmuchu jest zamknięty.\n");
-        else if (b_wentylacja_prawa)
+        else if (bi_wentylacja_prawa)
             msg += QString("Prawy zawor do przedmuchu jest zamknięty.\n");
     }
     if (!show)
@@ -449,7 +449,7 @@ bool TestPage::sprawdzOtwarteZawor2Calowe()
 }
 
 
-#define CHECK_ZAWOR(Z, T)     do { if (((mask & Z) == Z) && !b_##Z) {\
+#define CHECK_ZAWOR(Z, T)     do { if (((mask & Z) == Z) && !b##Z) {\
                 s+=T; openZ = true; } }while(false)
 
 bool TestPage::sprawdzOtwarteZawory(uint16_t mask)
@@ -461,14 +461,14 @@ bool TestPage::sprawdzOtwarteZawory(uint16_t mask)
         bool openZ = false;
         QString s = QString("Wykryto otwarte zawory : [ ");
 
-        CHECK_ZAWOR(wentylacja_lewa, "wentylacja lewa,");
-        CHECK_ZAWOR(wentylacja_prawa, "wentylacja prawa,");
+        CHECK_ZAWOR(i_wentylacja_lewa, "wentylacja lewa,");
+        CHECK_ZAWOR(i_wentylacja_prawa, "wentylacja prawa,");
 
-        CHECK_ZAWOR(pom_stez_1, "pomiar stezenia 1,");
-        CHECK_ZAWOR(pom_stez_2, "pomiar stezenia 2,");
+        CHECK_ZAWOR(i_pom_stez_1, "pomiar stezenia 1,");
+        CHECK_ZAWOR(i_pom_stez_2, "pomiar stezenia 2,");
 
-        CHECK_ZAWOR(proznia, "próznia,");
-        CHECK_ZAWOR(wlot_powietrza, "wlot powietrza,");
+        CHECK_ZAWOR(i_proznia, "próznia,");
+        CHECK_ZAWOR(i_wlot_powietrza, "wlot powietrza,");
 
         if (openZ) {
             op = true;
@@ -480,8 +480,8 @@ bool TestPage::sprawdzOtwarteZawory(uint16_t mask)
         bool openZ = false;
         QString s = QString("Wykryto otwarte drzwi : [ ");
 
-        CHECK_ZAWOR(drzwi_prawe, "prawe,");
-        CHECK_ZAWOR(drzwi_lewe, "lewe,");
+        CHECK_ZAWOR(i_drzwi_prawe, "prawe,");
+        CHECK_ZAWOR(i_drzwi_lewe, "lewe,");
 
         if (openZ) {
             op = true;

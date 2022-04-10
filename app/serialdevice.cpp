@@ -345,11 +345,11 @@ void SerialDevice::setEchoJob()
     //qDebug("%s:%d hmask=%0x", __FILE__, __LINE__, homePositionMask);
 
     //qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, true,
-           (homePositionMask & 0x1) == 0x1,
-           (homePositionMask & 0x2) == 0x2,
-           (homePositionMask & 0x4) == 0x4,
-           (homePositionMask & 0x8) == 0x8,
-           (homePositionMask & 0x10) == 0x10);
+    //       (homePositionMask & 0x1) == 0x1,
+    //       (homePositionMask & 0x2) == 0x2,
+    //       (homePositionMask & 0x4) == 0x4,
+    //       (homePositionMask & 0x8) == 0x8,
+    //       (homePositionMask & 0x10) == 0x10);
     emit checkPositionHomeDone(true, (homePositionMask & 0x1) == 0x1,
                                    (homePositionMask & 0x2) == 0x2,
                                    (homePositionMask & 0x4) == 0x4,
@@ -424,8 +424,8 @@ bool SerialDevice::openDevice()
     }
     QThread::msleep(200);
     unsigned char recvBuf[100];
-    int recv = RS232_PollComport(portNr, recvBuf, 100);;
-    
+    int recv = RS232_PollComport(portNr, recvBuf, 100);
+    (void)recv;
     //qDebug("%s:%d recv=%d", __FILE__, __LINE__, recv);
     return true;
 }

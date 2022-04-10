@@ -52,7 +52,7 @@ void NowyTest_2::updateWejscia()
 {
     ////qDebug"%s:%d",__FILE__,__LINE__);
     if (showWarning) {
-        if (z_drzwi_lewe() && z_drzwi_prawe()) {
+        if (zi_drzwi_lewe() && zi_drzwi_prawe()) {
             showWarning = false;
             QMessageBox::warning(this, tr("Komora"),
                                            tr("Zamknięto komorę.\n"
@@ -146,7 +146,7 @@ void NowyTest_2::on_pbOK_2_clicked()
 {
     ui->pbOK_2->setEnabled(false);
     showWarning = false;
-    while (z_drzwi_lewe() && z_drzwi_prawe()) {
+    while (zi_drzwi_lewe() && zi_drzwi_prawe()) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Nie wykryto otwartych drzwiczek.\n"
                                           "Czy chcesz kontynuować test?"),
@@ -203,7 +203,7 @@ void NowyTest_2::on_pbOk_5_clicked()
 {
     ui->pbOk_5->setEnabled(false);
     showWarning = false;
-    while (!z_drzwi_lewe() || !z_drzwi_prawe()) {
+    while (!zi_drzwi_lewe() || !zi_drzwi_prawe()) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Wykryto otwarte drzwi komory.\n"
                                           "Zamknij je w celu kontynuacji. Zamknięto drzwi OK, przewanie testu Anuluj"),

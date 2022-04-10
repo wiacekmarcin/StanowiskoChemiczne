@@ -1,4 +1,12 @@
 {
     "C_Cpp.dimInactiveRegions": false,
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "files.associations": {
+        "algorithm": "cpp",
+        "exception": "cpp",
+        "iosfwd": "cpp",
+        "memory": "cpp",
+        "system_error": "cpp",
+        "xutility": "cpp"
+    }
 }

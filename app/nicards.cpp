@@ -18,7 +18,7 @@ NICards::NICards(QObject *parent)
 {
     m_quit = false;
     start();
-    maskOutput = hv_bezpieczenstwa;
+    maskOutput = o_hv_bezpiecznik;
     prevInputs = 0;
 }
 
@@ -176,8 +176,8 @@ void NICards::digitalConfigure()
     digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
     emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
     emit usb6501(digital.isConnected(), digConf);
-    //qDebug("%s:%d conn/conf %d %d | output = %04x", __FILE__, __LINE__, digital.isConnected(), digConf, ~hv_bezpieczenstwa) ;
-    maskOutput = hv_bezpieczenstwa; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
+    //qDebug("%s:%d conn/conf %d %d | output = %04x", __FILE__, __LINE__, digital.isConnected(), digConf, ~o_hv_bezpiecznik) ;
+    maskOutput = o_hv_bezpiecznik; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
 }
 
 void NICards::resetDevice(bool analog, bool digital)

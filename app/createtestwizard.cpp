@@ -31,15 +31,15 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
 {
     selectedId = TestPage::PAGE_U;
     setObjectName(QString::fromUtf8("TestWizard"));
-    zaworyMap[drzwi_prawe] = false;
-    zaworyMap[wentylacja_lewa] = false;
-    zaworyMap[proznia] = false;
-    zaworyMap[pom_stez_1] = false;
-    zaworyMap[drzwi_lewe] = false;
-    zaworyMap[wentylacja_prawa] = false;
-    zaworyMap[wlot_powietrza] = false;
-    zaworyMap[pom_stez_2] = false;
-    zaworyMap[pilot] = false;
+    zaworyMap[i_drzwi_prawe] = false;
+    zaworyMap[i_wentylacja_lewa] = false;
+    zaworyMap[i_proznia] = false;
+    zaworyMap[i_pom_stez_1] = false;
+    zaworyMap[i_drzwi_lewe] = false;
+    zaworyMap[i_wentylacja_prawa] = false;
+    zaworyMap[i_wlot_powietrza] = false;
+    zaworyMap[i_pom_stez_2] = false;
+    zaworyMap[i_pilot] = false;
     showCrit = false;
     showWarn = false;
 
@@ -163,7 +163,7 @@ void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 {
     //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
     zaworyMap[id] = value;
-    if (selectedId == TestPage::PAGE_6 && id == pilot) {
+    if (selectedId == TestPage::PAGE_6 && id == i_pilot) {
             currentPage()->updateWejscia();
     }
     if (showWarn || showCrit)
@@ -217,14 +217,14 @@ void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
 {
     QString s("Wykryto otwarty zawor :  ");
     switch(idz) {
-    case drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
-    case wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
-    case proznia:           s+= QString("zawór próżni"); break;
-    case pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
-    case drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
-    case wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
-    case wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
-    case pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
+    case i_wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
+    case i_proznia:           s+= QString("zawór próżni"); break;
+    case i_pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
+    case i_wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
+    case i_wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
+    case i_pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
     default:                s+= QString(""); break;
 
     }
@@ -240,14 +240,14 @@ void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
 {
     QString s("Wykryto zamkniety zawor :  ");
     switch(idz) {
-    case drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
-    case wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
-    case proznia:           s+= QString("zawór próżni"); break;
-    case pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
-    case drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
-    case wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
-    case wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
-    case pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
+    case i_wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
+    case i_proznia:           s+= QString("zawór próżni"); break;
+    case i_pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
+    case i_wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
+    case i_wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
+    case i_pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
     default:                s+= QString(""); break;
 
     }
@@ -303,16 +303,16 @@ void CreateTestWizard::setZ_warningMask(uint16_t newZ_warningMask)
     SETWARNINGZAWOR(0x100);
 }
 
-#define ZAWOR_DEFINE(Z) bool CreateTestWizard::z_##Z() { return zaworyMap[Z]; }
-ZAWOR_DEFINE(drzwi_prawe)
-ZAWOR_DEFINE(drzwi_lewe)
-ZAWOR_DEFINE(wentylacja_lewa)
-ZAWOR_DEFINE(wentylacja_prawa)
-ZAWOR_DEFINE(proznia)
-ZAWOR_DEFINE(wlot_powietrza)
-ZAWOR_DEFINE(pom_stez_1)
-ZAWOR_DEFINE(pom_stez_2)
-ZAWOR_DEFINE(pilot)
+#define ZAWOR_DEFINE(Z) bool CreateTestWizard::z##Z() { return zaworyMap[Z]; }
+ZAWOR_DEFINE(i_drzwi_prawe)
+ZAWOR_DEFINE(i_drzwi_lewe)
+ZAWOR_DEFINE(i_wentylacja_lewa)
+ZAWOR_DEFINE(i_wentylacja_prawa)
+ZAWOR_DEFINE(i_proznia)
+ZAWOR_DEFINE(i_wlot_powietrza)
+ZAWOR_DEFINE(i_pom_stez_1)
+ZAWOR_DEFINE(i_pom_stez_2)
+ZAWOR_DEFINE(i_pilot)
 
 void CreateTestWizard::updateOutput(uint16_t mask, bool on)
 {

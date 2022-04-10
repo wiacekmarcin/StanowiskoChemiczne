@@ -57,7 +57,7 @@ void NowyTest_7::on_pbOK_1_clicked()
     setField(bylWybuch, (wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes));
     if ((wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes)) {
         next = TestPage::PAGE_8;
-        setZ_criticalMask(drzwi_lewe | drzwi_prawe | proznia | wlot_powietrza | pom_stez_1 | pom_stez_2 | wentylacja_prawa | wentylacja_lewa);
+        setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_proznia | i_wlot_powietrza | i_pom_stez_1 | i_pom_stez_2 | i_wentylacja_prawa | i_wentylacja_lewa);
         nextPage(next);
     } else if (field(TestPage::rodzajZaplonu).toInt() == ISKRA_PLOMIEN) {
         ui->arrow_1->setVisible(false);
@@ -65,7 +65,7 @@ void NowyTest_7::on_pbOK_1_clicked()
         ui->frame_2->setVisible(true);
         next = TestPage::PAGE_9;
         setZ_criticalMask(0);
-        setZ_warningMask(wentylacja_prawa | wentylacja_lewa);
+        setZ_warningMask(i_wentylacja_prawa | i_wentylacja_lewa);
     } else {
         ui->pbOK_1->setEnabled(false);
         ui->arrow_1->setVisible(false);
@@ -89,7 +89,7 @@ void NowyTest_7::on_pbOK_2_clicked()
     if (sprawdzOtwarteZawor2Calowe()) {
 
 
-        updateOutput(wentylator, true);
+        updateOutput(o_wentylator, true);
         nextPage(nextPageId());
     }
 }

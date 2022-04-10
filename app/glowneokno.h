@@ -31,7 +31,6 @@ private slots:
     void on_actionNowy_Test_triggered();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void wybierzCzujke(int id);
-    void showIO();
     void dozownikTest();
 
     void resizeEvent(QResizeEvent * event);

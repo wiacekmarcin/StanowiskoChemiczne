@@ -39,7 +39,7 @@ void NowyTest_9::initializePage()
 
     ui->label->setText(resultat);
     setFinished(true);
-    updateOutput(wentylator, true);
+    updateOutput(o_wentylator, true);
 }
 
 

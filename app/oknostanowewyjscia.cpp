@@ -22,16 +22,16 @@ OknoStanoweWyjscia::OknoStanoweWyjscia(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    SETSTANWYJSCIA(1, wentylator, true, 0, 0);
-    SETSTANWYJSCIA(2, mieszadlo, true, 0, 1);
-    SETSTANWYJSCIA(3, pompa_powietrza, true, 0, 2);
-    SETSTANWYJSCIA(4, pompa_prozniowa, true, 0, 3);
-    SETSTANWYJSCIA(5, trigger, true, 0, 4);
-    SETSTANWYJSCIA(6, plomien, false, 0, 5);
-    SETSTANWYJSCIA(7, hv_onoff, false, 0, 6);
-    SETSTANWYJSCIA(8, hv_bezpieczenstwa, false, 0, 7);
-    SETSTANWYJSCIA(9, hw_iskra, false, 0, 8);
-    SETSTANWYJSCIA(10, mech_iskra, false, 0, 9);
+    SETSTANWYJSCIA(1, o_wentylator, true, 0, 0);
+    SETSTANWYJSCIA(2, o_mieszadlo, true, 0, 1);
+    SETSTANWYJSCIA(3, o_pompa_powietrza, true, 0, 2);
+    SETSTANWYJSCIA(4, o_pompa_prozniowa, true, 0, 3);
+    SETSTANWYJSCIA(5, o_trigger, true, 0, 4);
+    SETSTANWYJSCIA(6, o_grzalka, false, 0, 5);
+    SETSTANWYJSCIA(7, o_hv_onoff, false, 0, 6);
+    SETSTANWYJSCIA(8, o_hv_bezpiecznik, false, 0, 7);
+    SETSTANWYJSCIA(9, o_hv_iskra, false, 0, 8);
+    SETSTANWYJSCIA(10, o_mech_iskra, false, 0, 9);
 }
 
 OknoStanoweWyjscia::~OknoStanoweWyjscia()
@@ -41,16 +41,16 @@ OknoStanoweWyjscia::~OknoStanoweWyjscia()
 
 void OknoStanoweWyjscia::setLabels(const Ustawienia & ust)
 {
-    wyjscia[hv_onoff]->setLabel(ust.wyjscie(hv_onoff));
-    wyjscia[hv_bezpieczenstwa]->setLabel(ust.wyjscie(hv_bezpieczenstwa));
-    wyjscia[hw_iskra]->setLabel(ust.wyjscie(hw_iskra));
-    wyjscia[mech_iskra]->setLabel(ust.wyjscie(mech_iskra));
-    wyjscia[plomien]->setLabel(ust.wyjscie(plomien));
-    wyjscia[pompa_prozniowa]->setLabel(ust.wyjscie(pompa_prozniowa));
-    wyjscia[pompa_powietrza]->setLabel(ust.wyjscie(pompa_powietrza));
-    wyjscia[wentylator]->setLabel(ust.wyjscie(wentylator));
-    wyjscia[mieszadlo]->setLabel(ust.wyjscie(mieszadlo));
-    wyjscia[trigger]->setLabel(ust.wyjscie(trigger));
+    wyjscia[o_hv_onoff]->setLabel(ust.wyjscie(o_hv_onoff));
+    wyjscia[o_hv_bezpiecznik]->setLabel(ust.wyjscie(o_hv_bezpiecznik));
+    wyjscia[o_hv_iskra]->setLabel(ust.wyjscie(o_hv_iskra));
+    wyjscia[o_mech_iskra]->setLabel(ust.wyjscie(o_mech_iskra));
+    wyjscia[o_grzalka]->setLabel(ust.wyjscie(o_grzalka));
+    wyjscia[o_pompa_prozniowa]->setLabel(ust.wyjscie(o_pompa_prozniowa));
+    wyjscia[o_pompa_powietrza]->setLabel(ust.wyjscie(o_pompa_powietrza));
+    wyjscia[o_wentylator]->setLabel(ust.wyjscie(o_wentylator));
+    wyjscia[o_mieszadlo]->setLabel(ust.wyjscie(o_mieszadlo));
+    wyjscia[o_trigger]->setLabel(ust.wyjscie(o_trigger));
 
 }
 

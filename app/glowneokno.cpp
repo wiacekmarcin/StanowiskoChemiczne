@@ -59,7 +59,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
         act_wykresy[i] = new QAction(this);
         act_wykresy[i]->setObjectName(QString("actionCzujnikChart_%1").arg(i));
         act_wykresy[i]->setCheckable(true);
-        act_wykresy[i]->setText(settings.getName(i+1));
+        act_wykresy[i]->setText(settings.getName(i));
         connect(act_wykresy[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
         signalMapper->setMapping(act_wykresy[i],     i);
         //connect(act_wykresy[i], &QAction::triggered, [this, i] { wybierzCzujke(i); });
@@ -67,7 +67,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
         act_wyzwal[i] = new QAction(this);
         act_wyzwal[i]->setObjectName(QString("actionCzujnikTrigger_%1").arg(i));
         act_wyzwal[i]->setCheckable(true);
-        act_wyzwal[i]->setText(settings.getName(i+1));
+        act_wyzwal[i]->setText(settings.getName(i));
         connect(act_wyzwal[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
         signalMapper->setMapping(act_wyzwal[i],     settings.maxCzujekAnal + i);
         //connect(act_wyzwal[i], &QAction::triggered, [this, i] { wybierzCzujke(settings.maxCzujek+i); });
@@ -77,12 +77,6 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     }
 
     connect (signalMapper, SIGNAL( mapped(int) ), this, SLOT(wybierzCzujke(int))) ;
-
-    QAction * debugAct = new QAction(this);
-    debugAct->setObjectName("debugaction");
-    debugAct->setText(QString::fromUtf8("Symulator wej\305\233\304\207/wyj\305\233\304\207"));
-    ui->menuBar->addAction(debugAct);
-    connect(debugAct, &QAction::triggered, this, &GlowneOkno::showIO);
 
     QAction * debugDozo = new QAction(this);
     debugDozo->setObjectName("debugactiondozo");
@@ -99,34 +93,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
                                             "/home/test", "Komentarz", "Dzisiejsza data");
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
-    /*
 
-    qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Nowy test")));
-
-
-    selectedProject->addChild(qtreewidgetitem);
-
-    selectedTest = qtreewidgetitem;
-
-    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
-                                            settings,
-                                             ui->testyStackedWidget);
-    ui->testyStackedWidget->addWidget(testy[selectedTest]);
-    ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
-    testy[selectedTest]->createTestWizard()->init(urzadzenia, settings, qtreewidgetitem->data(0, Qt::DisplayRole).toString());
-
-    testy[selectedTest]->setActive();
-
-
-    ui->treeWidget->setCurrentItem(selectedTest);
-    mapTesty[selectedTest] = selectedProject;
-
-    connect(urzadzenia, &Urzadzenia::digitalRead,        testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn);
-    connect(urzadzenia, &Urzadzenia::analogValueChanged, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeAnalog);
-    connect(urzadzenia, &Urzadzenia::digitalWriteDevice, testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalOut);
-    changeSelectedTest();
-    //resize(1024,768);
-    */
     urzadz->digitalWriteDebug(0x2);
 }
 
@@ -221,17 +188,10 @@ void GlowneOkno::on_actionNowy_Test_triggered()
             urzadzenia, &Urzadzenia::readInputs, Qt::QueuedConnection);
 
     urzadzenia->readInputs();
-    //qDebug"%s%d",__FILE__,__LINE__);
-
     ui->treeWidget->setCurrentItem(selectedTest);
-    //qDebug"%s%d",__FILE__,__LINE__);
     mapTesty[selectedTest] = selectedProject;
-    //qDebug"%s%d",__FILE__,__LINE__);
     changeSelectedTest();
-    //qDebug"%s%d",__FILE__,__LINE__);
     disableNowyTest(true);
-    //qDebug"%s%d",__FILE__,__LINE__);
-
 }
 
 void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column */)
@@ -265,16 +225,6 @@ void GlowneOkno::wybierzCzujke(int /*id*/)
     ////qDebug"%d", id);
 }
 
-void GlowneOkno::showIO()
-{
-    //showDebugDlg = !showDebugDlg;
-    //if (showDebugDlg)
-    //    dlgUrz->show();
-    //else
-    //    dlgUrz->hide();
-    //dlgUrz->show();
-}
-
 void GlowneOkno::dozownikTest()
 {
     DozownikSettings * dlg = new DozownikSettings(this);
@@ -286,8 +236,6 @@ void GlowneOkno::dozownikTest()
 void GlowneOkno::resizeEvent(QResizeEvent *event)
 {
     ui->analog->setHorizontalSize(event->size().width());
-    //ui->wyjscia->
-
 }
 
 void GlowneOkno::changeSelectedTest()
@@ -327,9 +275,6 @@ void GlowneOkno::disableNowyTest(bool dis)
     ui->actionNowy_projekt->setEnabled(!dis);
 }
 
-
-
-
 void GlowneOkno::on_actionUstawienia_triggered()
 {
     UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, this);
@@ -345,7 +290,6 @@ void GlowneOkno::changeTestName(const QString &name)
 
 void GlowneOkno::finishedTest(bool success)
 {
-    //qDebug"%s:%d %d",__FILE__,__LINE__,success);
     disableNowyTest(false);
     if (!success) {
         selectedProject->removeChild(selectedTest);

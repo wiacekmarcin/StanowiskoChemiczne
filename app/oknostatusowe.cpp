@@ -23,7 +23,7 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     bOpenUsb6210(false),
     bOpenUsb6501(false),
     bOpenDozownik(false),
-    mapDigitalOrder{ 0, drzwi_lewe, wentylacja_lewa, proznia, pom_stez_1, drzwi_prawe, wentylacja_prawa, wlot_powietrza, pom_stez_2, pilot},
+    mapDigitalOrder{ 0, i_drzwi_lewe, i_wentylacja_lewa, i_proznia, i_pom_stez_1, i_drzwi_prawe, i_wentylacja_prawa, i_wlot_powietrza, i_pom_stez_2, i_pilot},
     maxZawors(10)
 {
     

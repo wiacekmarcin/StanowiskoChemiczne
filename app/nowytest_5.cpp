@@ -27,14 +27,14 @@ void NowyTest_5::initializePage()
     ui->pbOK_2->setEnabled(true);
     ui->pbOK_3->setEnabled(true);
     //emit pomiary(true);
-    setZ_criticalMask(drzwi_lewe | drzwi_prawe | pom_stez_1 | pom_stez_2 | proznia | wlot_powietrza | wentylacja_lewa | wentylacja_prawa);
+    setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa);
 
 }
 
 void NowyTest_5::runDone()
 {
     ui->pbOK_3->setEnabled(true);
-    //updateOutput(pompa_powietrza, false);
+    //updateOutput(o_pompa_powietrza, false);
     //ui->pbStep2->setEnabled(true);
     //ui->pbStep2->setDone(true);
     //ui->lStep3->setEnabled(true);
@@ -44,7 +44,7 @@ void NowyTest_5::runDone()
 void NowyTest_5::on_pbOK_1_clicked()
 {
     sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2);
-    setZ_criticalMask(drzwi_lewe | drzwi_prawe | wentylacja_prawa | wentylacja_lewa | proznia | wlot_powietrza);
+    setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_wentylacja_prawa | i_wentylacja_lewa | i_proznia | i_wlot_powietrza);
     setZ_warningMask(0);
 
 }
@@ -54,16 +54,16 @@ void NowyTest_5::on_pbOK_2_clicked()
 {
     if (!sprawdzOtwarteZaworStezenia())
         return;
-    setZ_warningMask(pom_stez_1 | pom_stez_2);
+    setZ_warningMask(i_pom_stez_1 | i_pom_stez_2);
     ui->pbOK_2->setEnabled(false);
     ui->arrow_2->setVisible(false);
     ui->frame_3->setVisible(true);
     ui->pbOK_3->setEnabled(false);
 
-    updateOutput(pompa_powietrza, true);
+    updateOutput(o_pompa_powietrza, true);
     //emit pomiary(true);
     //emit pompaMembramowa(true);
-    //emit mieszadlo(true);
+    //emit o_mieszadlo(true);
     QTimer::singleShot(5000, this, &NowyTest_5::runDone);
 }
 
@@ -72,8 +72,8 @@ void NowyTest_5::on_pbOK_3_clicked()
 {
     if (!sprawdzOtwarteZaworStezenia())
         return;
-    updateOutput(pompa_powietrza, false);
-    //setZ_warningMask(pom_stez_1 | pom_stez_2);
+    updateOutput(o_pompa_powietrza, false);
+    //setZ_warningMask(i_pom_stez_1 | i_pom_stez_2);
     nextPage(nextPageId());
 }
 

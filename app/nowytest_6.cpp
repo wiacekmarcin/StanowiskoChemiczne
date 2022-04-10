@@ -36,7 +36,7 @@ void NowyTest_6::initializePage()
 void NowyTest_6::updateWejscia()
 {
     //qDebug"%s%d %d",__FILE__,__LINE__, z_pilot());
-    if (step2 && z_pilot() && !runDialog) {
+    if (step2 && zi_pilot() && !runDialog) {
         runZaplon(field(TestPage::rodzajZaplonu).toInt());
         //qDebug"%s%d",__FILE__,__LINE__);
         runDialog = true;
@@ -63,8 +63,8 @@ void NowyTest_6::on_pbOK_1_clicked()
 {
     if (sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2)) {
         step2 = true;
-        updateOutput(mieszadlo, false);
-        setZ_criticalMask(drzwi_lewe | drzwi_prawe | wentylacja_prawa | wentylacja_lewa | proznia | wlot_powietrza | pom_stez_1 | pom_stez_2);
+        updateOutput(o_mieszadlo, false);
+        setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_wentylacja_prawa | i_wentylacja_lewa | i_proznia | i_wlot_powietrza | i_pom_stez_1 | i_pom_stez_2);
     }
 }
 
