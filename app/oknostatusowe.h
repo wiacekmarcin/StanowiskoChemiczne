@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <QFrame>
 #include <QMap>
-
+#include <QMutex>
 #include "ustawienia.h"
 
 class StanCzujnika;
@@ -22,7 +22,7 @@ public:
     ~OknoStatusowe();
     void setLabels(const Ustawienia & set);
 public slots:
-    void setDigitalValue(int id, bool val);
+    void setDigitalValue(uint16_t values);
     void setDozownik(bool open, bool conf);
     void setUSB6210(bool open, bool conf);
     void setUSB6501(bool open, bool conf);
@@ -45,6 +45,7 @@ private:
     QMap<unsigned int, StanCzujnika*> sMapZawor;
     const unsigned int mapDigitalOrder[10];
     const short maxZawors;
+    QMutex mutex;
 };
 
 #endif // OKNOSTATUSOWE_H

@@ -128,23 +128,23 @@ void NowyTest_1::dozownikChanged(int index)
 void NowyTest_1::checkValid()
 {
     bool v = valid;
-    qDebug("\n\n%s:%d v=%d",__FILE__,__LINE__, v);
+    //qDebug("\n\n%s:%d v=%d",__FILE__,__LINE__, v);
     while(v) {
         if (ui->nameTest->text().isEmpty()) {
             v = false;
             break;
         }
-        qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
+        //qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
         if (ui->cbDozownik->currentIndex() == 0) {
             v = false;
             break;
         }
-        qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
+        //qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
         if (ui->cbCiecz->currentIndex() == 0) {
             v = false;
             break;
         }
-        qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
+        //qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
         if (ui->cbZaplon->currentIndex() == 0) {
             v = false;
             break;
@@ -155,7 +155,7 @@ void NowyTest_1::checkValid()
             break;
         }
     }
-    qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
+    //qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
     ui->pbNext->setEnabled(v);
 }
 
@@ -163,7 +163,7 @@ void NowyTest_1::cieczChanged(int index)
 {
     currCiecz = ui->cbCiecz->currentText();
 
-    qDebug("%s:%d %d %s",__FILE__,__LINE__, index, currCiecz.toStdString().c_str());
+    //qDebug("%s:%d %d %s",__FILE__,__LINE__, index, currCiecz.toStdString().c_str());
     if (index == 0) {
         ui->iloscCieczy->setEnabled(false);
         ui->cbZaplon->setEnabled(false);
@@ -190,7 +190,7 @@ void NowyTest_1::iloscCieczyChanged(double arg1)
         valid = false;
     if (arg1 > maxVal[currCiecz])
         valid = false;
-    qDebug("%s:%d %s %f < %f",__FILE__, __LINE__, currCiecz.toStdString().c_str(), arg1, maxVal[currCiecz]);
+    //qDebug("%s:%d %s %f < %f",__FILE__, __LINE__, currCiecz.toStdString().c_str(), arg1, maxVal[currCiecz]);
     checkValid();
 }
 
