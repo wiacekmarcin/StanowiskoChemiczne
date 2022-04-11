@@ -14,13 +14,17 @@ void setup() {
   //pinMode(13, OUTPUT);
 }
 
+unsigned long timeMsg;
 void loop() {
   // put your main code here, to run repeatedly:
-      if (Serial.available() > 0)  
+      if (Serial.available() > 0) {
+        timeMsg = millis();
         msg.check1(Serial.read());
-      
-      //if (Serial1.available() > 0) {
-      //  msg.check2(Serial1.read());
-      //}
-            
+      }
+      if (Serial1.available() > 0) {
+        msg.check2(Serial1.read());
+      }
+      if ((unsigned long)(millis() - timeMsg) > 60000) {
+        msg.reset();  
+      }            
 }

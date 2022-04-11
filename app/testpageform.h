@@ -4,29 +4,19 @@
 #include <QWidget>
 //#include "urzadzenia.h"
 #include "ustawienia.h"
+#include "testpage.h"
 
 class QFrame;
 class CreateTestWizard;
 namespace Ui {
 class TestPageForm;
 }
-class TestPage;
+
 
 class TestPageForm : public QWidget
 {
     Q_OBJECT
 public:
-
-    enum {
-        PAGE_1 = 1,
-        PAGE_2,
-        PAGE_3,
-        PAGE_4,
-        PAGE_5,
-        PAGE_6,
-        PAGE_7,
-        PAGE_8
-    };
 
     explicit TestPageForm(QWidget *parent = nullptr);
 
@@ -34,30 +24,22 @@ public:
     TestPage*  widget() const { return page; }
     void setTitle(const QString & title);
     void setSubTitle(const QString & title);
-    void setButtonName(const QString & name);
-    void isComplete();
     void initializePage();
     QFrame * widgetFrame();
-
     void setCreateTestWizard(CreateTestWizard * wiz);
-    void showZaworWarning(bool show);
 
-protected slots:
-    void click();
-signals:
-    void clickButton(int id);
 public:
     ~TestPageForm();
-    int getId() const;
-    void setId(int value);
-    void disableButton(bool disable);
+    void setStep(short newStep);
+
+private slots:
+    void on_pbAbort_clicked();
 
 private:
     Ui::TestPageForm *ui;
-    int id;
     TestPage * page;
     CreateTestWizard * wizard;
-
+    short step;
 };
 
 

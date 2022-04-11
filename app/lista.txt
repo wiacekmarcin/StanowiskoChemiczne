@@ -36,7 +36,73 @@ Procedura napelniania strzykawki
 
 
 Dodać sprawdzenie pozycji strzykawki (czy na pewno jest na dole przy krancowce)
+Na ekranie 2 sprawdzic czy jest na pozycji na dole
 
 50sekund trwa dojazd i odjazd (1 cykl)
 
 //Zawory
+
+2. Mozliwosc przerwania testu w trakcie z usunieciem testu z listy
+
+
+
+Krok 4.
+Na kroku 4 otwarcie zaworu - powoduje wyswietlenie informacja.
+Okno Pop przy informacji o otwarciu zaworów - dac przycisk "nie wazny test"
+
+Doda© wkasnik kroku na ekranie
+Nie pokazywac podkroku, ktorego sie nie wykonuje.
+
+
+Krok 5
+Przejscie do kolejnej procedury tylko wtedy gdy zawory X i Y beda
+otwarte
+Jezeli otworzymy zawor inny niz pomiar stezenia to wywalic blad test
+dotyczy sie rowniez drzwi
+
+Przycik OK pojawia sie dopiero po otwarciu zawor (we wszystkich )
+
+Do krok 3,4,5 dodac proceudy czy sa wszystkie zawory sa zamkniete i dac przycisk OK i wtedy dac okno z ostrzezeniem
+
+
+Krok 5, jezeli wartosc 4 stezen sie unormuje np w pewnym czasie (o ile % bedzie sie zmieniac od sredniej)
+Wartosc pomiarow zmieni sie na zielono w tym okienku
+
+Krok 6
+2 procedura to "rozpocznicznij procedure zaplonu", przycisk OK, wyskakuje okno z komunikatem oczekuje na
+wyzwolenie z pilota zdalnego sterowania , znika gdy sie to stanie, przechodze na ekran 7
+
+Krok 7 wyzwolic zapolon i kamere do rejestracji
+
+Na kroku 4 "Poczekaj az cala ciecz odparuje automatycznie wlaczyc mieszadlo i wylaczy© przed przejsciem na ekran z zaplonem zaplonem)
+
+
+z boku dodac uruchomienie manualne pompki_membranowa, wentylator , mieszadlo.
+
+Krok 5 po klkinieciu, ze zawory sa otwarte automatycznie uruchamiam pompke_membanowa
+
+Krok 6 Po zaplonie czekam 2-5 sekund (konfigurowalny czas oczekiwania na przejscie do kolejnego ekranu)
+Dodac okno z progressbarem dla oczekujacego czasu
+
+Krok 7
+procedura otworz zawory kulowe (wentylacja lewa wentylacja prawa) z wykryciem czy zostaly otwarte
+, po kliknieciu ok zalacza sie wynetylator, bez automatycznego wylaczenia
+
+
+Po wybraniu Brak zaplonu
+Czy powtorzyc zaplon tak/nie OK
+czy dodac cieczy
+
+
+Krok 7 automatyczny okreslenie czy nastapil
+
+
+
+
+
+
+
+
+
+
+

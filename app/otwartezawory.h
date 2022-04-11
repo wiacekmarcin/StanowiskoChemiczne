@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include "ustawienia.h"
+#include <QMap>
+#include <QString>
+
 namespace Ui {
 class OtwarteZawory;
 }
@@ -12,11 +15,10 @@ class OtwarteZawory : public QDialog
     Q_OBJECT
 
 public:
-    explicit OtwarteZawory(QWidget *parent = nullptr);
+    explicit OtwarteZawory(const QMap<unsigned int, QString> & names, QWidget *parent = nullptr);
     ~OtwarteZawory();
 
     void set(int id, bool open);
-    void setSettings(const Ustawienia &set);
 
 private slots:
     void on_pbOk_clicked();

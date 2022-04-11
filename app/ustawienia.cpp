@@ -27,7 +27,7 @@ Ustawienia::Ustawienia()
         czujki[i].name = settings.value(QString("czujnikianalogowe/%1/name").arg(i), QString("Czujnik analogowy %1").arg(i+1)).toString();
         czujki[i].unit = settings.value(QString("czujnikianalogowe/%1/unit").arg(i), QString("jedn.")).toString();
         czujki[i].ratio = settings.value(QString("czujnikianalogowe/%1/ratio").arg(i), 1.0).toDouble();
-        qDebug("%s:%d %s %s %f", __FILE__,__LINE__,czujki[i].name.toStdString().c_str(),czujki[i].unit.toStdString().c_str(),czujki[i].ratio);
+        //qDebug"%s:%d %s %s %f", __FILE__,__LINE__,czujki[i].name.toStdString().c_str(),czujki[i].unit.toStdString().c_str(),czujki[i].ratio);
     }
 
     for (int i = 0; i < maxCzujekCyfrIn; ++i) {
@@ -43,10 +43,12 @@ Ustawienia::Ustawienia()
     REVERSE_INIT(3,false);
     REVERSE_INIT(4,false);
     REVERSE_INIT(5,true);
-    maxImp = settings.value(QString("dozownik/maxImpMotor"), 50000).toInt();
-    impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toInt();
-
+    maxImp = settings.value(QString("dozownik/maxImpMotor"), 50000).toUInt();
+    impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toUInt();
     stepsOnMl = settings.value(QString("dozownik/stepsOnMl"), 1.0).toDouble();
+    nrInitializeCycles = settings.value(QString("dozownik/numberOfInitializeCycles"), 10).toUInt();
+    cisnienieProzni = settings.value(QString("testy/cisnienieWprozni"), 0.01).toDouble();
+
 }
 
 void Ustawienia::setCzujka(short id, const QString &name, const QString &unit, const double &ratio)
@@ -153,26 +155,48 @@ void Ustawienia::initialSetting()
     setCzujka(a_vol2,          QString::fromUtf8("St\304\231\305\274enie VOC 2"), QString::fromUtf8("%"), 1.0);
     setCzujka(a_8,             QString::fromUtf8("Syg. analogowy 8"), QString::fromUtf8("mV"), 1.0);
 
-    setWejscie(drzwi_lewe,         QString::fromUtf8("Komora drzwi lewe"));
-    setWejscie(drzwi_prawe,        QString::fromUtf8("Komora drzwi prawe"));
-    setWejscie(wentylacja_lewa,    QString::fromUtf8("Wentylacja lewa"));
-    setWejscie(wentylacja_prawa,   QString::fromUtf8("Wentylacja prawa"));
-    setWejscie(pom_stez_1,         QString::fromUtf8("Pomiar st\304\231\305\274enia 1"));
-    setWejscie(pom_stez_2,         QString::fromUtf8("Pomiar st\304\231\305\274enia 2"));
-    setWejscie(wlot_powietrza,     QString::fromUtf8("Powietrze"));
-    setWejscie(proznia,            QString::fromUtf8("Pr\303\263\305\272nia"));
-    setWejscie(pilot,              QString::fromUtf8("Pilot zdalnego sterowania"));
+    setWejscie(i_drzwi_lewe,         QString::fromUtf8("Komora drzwi lewe"));
+    setWejscie(i_drzwi_prawe,        QString::fromUtf8("Komora drzwi prawe"));
+    setWejscie(i_wentylacja_lewa,    QString::fromUtf8("Wentylacja lewa"));
+    setWejscie(i_wentylacja_prawa,   QString::fromUtf8("Wentylacja prawa"));
+    setWejscie(i_pom_stez_1,         QString::fromUtf8("Pomiar st\304\231\305\274enia 1"));
+    setWejscie(i_pom_stez_2,         QString::fromUtf8("Pomiar st\304\231\305\274enia 2"));
+    setWejscie(i_wlot_powietrza,     QString::fromUtf8("Powietrze"));
+    setWejscie(i_proznia,            QString::fromUtf8("Pr\303\263\305\272nia"));
+    setWejscie(i_pilot,              QString::fromUtf8("Pilot zdalnego sterowania"));
 
-    setWyjscie(hv_onoff,           QString::fromUtf8("Iskra elektryczna ON/OFF"));
-    setWyjscie(hv_bezpieczenstwa,          QString::fromUtf8("Iskra elektryczna Bezpiecznik"));
-    setWyjscie(hw_iskra,           QString::fromUtf8("Iskra elektryczna Zap\305\202on"));
-    setWyjscie(mech_iskra,         QString::fromUtf8("Iskra mechaniczna (ON/OFF silnik DC)"));
-    setWyjscie(plomien,            QString::fromUtf8("P\305\202omie\305\204 (ON/OFF grza\305\202ki)"));
-    setWyjscie(pompa_prozniowa,    QString::fromUtf8("Pompa pr\303\263\305\274niowa"));
-    setWyjscie(pompa_powietrza,    QString::fromUtf8("Pompka mebramowa"));
-    setWyjscie(wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
-    setWyjscie(mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
-    setWyjscie(trigger,            QString::fromUtf8("Trigger kamery"));
+    setWyjscie(o_hv_onoff,           QString::fromUtf8("Iskra elektryczna ON/OFF"));
+    setWyjscie(o_hv_bezpiecznik,          QString::fromUtf8("Iskra elektryczna Bezpiecznik"));
+    setWyjscie(o_hv_iskra,           QString::fromUtf8("Iskra elektryczna Zap\305\202on"));
+    setWyjscie(o_mech_iskra,         QString::fromUtf8("Iskra mechaniczna (ON/OFF silnik DC)"));
+    setWyjscie(o_grzalka,            QString::fromUtf8("P\305\202omie\305\204 (ON/OFF grza\305\202ki)"));
+    setWyjscie(o_pompa_prozniowa,    QString::fromUtf8("Pompa pr\303\263\305\274niowa"));
+    setWyjscie(o_pompa_powietrza,    QString::fromUtf8("Pompka mebramowa"));
+    setWyjscie(o_wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
+    setWyjscie(o_mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
+    setWyjscie(o_trigger,            QString::fromUtf8("Trigger kamery"));
+}
+
+double Ustawienia::getCisnienieProzni() const
+{
+    return cisnienieProzni;
+}
+
+void Ustawienia::setCisnienieProzni(double newCisnienieProzni)
+{
+    cisnienieProzni = newCisnienieProzni;
+    settings.setValue(QString("testy/cisnienieWprozni"), QVariant::fromValue(newCisnienieProzni));
+}
+
+unsigned short Ustawienia::getNrInitializeCycles() const
+{
+    return nrInitializeCycles;
+}
+
+void Ustawienia::setNrInitializeCycles(unsigned short newNrInitializeCycles)
+{
+    nrInitializeCycles = newNrInitializeCycles;
+    settings.setValue(QString("dozownik/numberOfInitializeCycles"), QVariant::fromValue(newNrInitializeCycles));
 }
 
 double Ustawienia::getStepsOnMl() const

@@ -8,6 +8,11 @@
 
 class CreateTestWizard;
 class TestPageForm;
+class QFrame;
+class QPushButton;
+class QLabel;
+
+
 
 class TestPage : public QWidget
 {
@@ -15,14 +20,14 @@ class TestPage : public QWidget
 
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QString subTitle READ subTitle WRITE setSubTitle)
-    Q_PROPERTY(QString buttonName READ buttonName WRITE setButtonName)
 
 
 public:
     explicit TestPage(QWidget *parent = 0);
     ~TestPage();
 
-    enum {
+    typedef enum _pageId {
+        PAGE_U = 0,
         PAGE_1 = 1,
         PAGE_2,
         PAGE_3,
@@ -30,11 +35,26 @@ public:
         PAGE_5,
         PAGE_6,
         PAGE_7,
-        PAGE_8
-    };
+        PAGE_8,
+        PAGE_9
+    } PageId;
 
-    void setField(const QString & key, const QVariant & val);
-    QVariant field(const QString & key) const;
+    typedef enum _value {
+        nazwaTest = 0,
+        ciecz,
+        objetosc,
+        calaObjetosc,
+        zaplon,
+        zaplonExtra,
+        dozownikNr,
+        czyPompaMebr,
+        brakZaplonu,
+        rodzajZaplonu,
+        bylWybuch
+    } Value;
+
+    void setField(Value key, const QVariant & val);
+    QVariant field(Value key) const;
     void setWizard(CreateTestWizard * wiz);
     CreateTestWizard *wizard() const;
 
@@ -44,46 +64,69 @@ public:
     QString subTitle() const;
     void setSubTitle(const QString & t);
 
-    QString buttonName() const;
-    void setButtonName(const QString & t);
-
-    int getId() const;
-    void setId(int value);
+    PageId getId() const;
+    void setId(PageId value);
 
     TestPageForm *getForm() const;
     void setForm(TestPageForm *value);
     virtual void initializePage();
-    virtual bool isComplete() const { return true; }
-    virtual int nextPage() const;
 
-public slots:
-    virtual void komora(bool){ /*qDebug("%d komora", id); */ } ;
+    virtual PageId nextPageId() const;
+    virtual void nextPage(PageId idPage);
+    virtual void updateWejscia() {};
+    virtual void dozownikDone(bool) {};
+    virtual void setCisnKomory(const double & ) {};
+    virtual void checkPositionHomeDone(bool /*ok*/, bool /*d1*/, bool /*d2*/, bool /*d3*/, bool /*d4*/, bool /*d5*/) {};
+
+    void updateOutput(uint16_t mask, bool on);
+    void cykleDozownik(uint8_t nr, uint32_t steps);
+    void dozownikMl(uint8_t nr, uint32_t mlx10);
+    void runZaplon(short idZaplon);
+    void checkPositionHome();
+    void setZ_warningMask(uint16_t newZ_warningMask);
+    void setZ_criticalMask(uint16_t newZ_criticalMask);
+    void setFinished(bool success);
 
 signals:
-    void completeChanged();
-    void changePage(int id);
+    void changePage(TestPage::PageId id);
 
-    void dozownik(int dozownik, int cykle);
-    void zaworProzni(bool open);
-    void pompaProzniowa(bool start);
-    void mieszadlo(bool start);
-    void zaworPowietrza(bool open);
-    void pomiary(bool start);
-    void pompaMembramowa(bool start);
-    void pomiarSingle(int idCzujka);
-    void pomiarStezen();
-    void wentylator(bool start);
 
 
 protected:
-    bool valid;
+
+    bool zi_drzwi_prawe();
+    bool zi_wentylacja_lewa();
+    bool zi_proznia();
+    bool zi_pom_stez_1();
+    bool zi_drzwi_lewe();
+    bool zi_wentylacja_prawa();
+    bool zi_wlot_powietrza();
+    bool zi_pom_stez_2();
+    bool zi_pilot();
+
+
+
+    bool sprawdzZawory(QPushButton *pbOk_1, QLabel * arrow_1, QFrame * frame_2);
+
+    bool sprawdzOtwarteZaworProzni();
+    bool sprawdzOtwarteZaworPowietrza();
+    bool sprawdzOtwarteZaworStezenia();
+    bool sprawdzOtwarteZawor2Calowe();
+
+    bool sprawdzOtwarteZawory(uint16_t mask);
 private:
     CreateTestWizard * wiz;
     TestPageForm * form;
-    int id;
+    PageId id;
     QString m_title;
     QString m_subTitle;
-    QString m_buttonName;
+    bool restricted;
+    QMap<uint16_t, bool> restrictedMap;
+    uint16_t prevVals;
+
+
+
+
 };
 
 #endif // TESTPAGE_H

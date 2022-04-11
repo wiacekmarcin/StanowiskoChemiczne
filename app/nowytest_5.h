@@ -16,13 +16,13 @@ class NowyTest_5 : public TestPage
 public:
     explicit NowyTest_5(QWidget *parent = nullptr);
     ~NowyTest_5();
-    virtual bool isComplete() const override;
     virtual void initializePage() override;
 
 private slots:
-    void on_pbStep2_clicked();
-    void on_pbStep3_clicked();
-    void runDone2();
+    void runDone();
+    void on_pbOK_1_clicked();
+    void on_pbOK_2_clicked();
+    void on_pbOK_3_clicked();
 
 private:
     Ui::NowyTest_5 *ui;

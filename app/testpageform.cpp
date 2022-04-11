@@ -11,8 +11,6 @@ TestPageForm::TestPageForm(QWidget *parent) :
     ui->setupUi(this);
     ui->subtitle->setVisible(false);
     ui->title->setVisible(false);
-    ui->frWarning->setVisible(false);
-    connect(ui->pbNext, &QPushButton::clicked, this, &TestPageForm::click);
 }
 
 void TestPageForm::addWidget(TestPage *page_)
@@ -23,7 +21,7 @@ void TestPageForm::addWidget(TestPage *page_)
 
 void TestPageForm::setTitle(const QString &title)
 {
-    ui->title->setText(QString("%1 - Krok %2").arg(title).arg(id));
+    ui->title->setText(QString("%1 - Krok %2").arg(title).arg(step));
     ui->title->setVisible(!title.isEmpty());
 }
 
@@ -33,20 +31,8 @@ void TestPageForm::setSubTitle(const QString &title)
     ui->subtitle->setVisible(!title.isEmpty());
 }
 
-void TestPageForm::setButtonName(const QString &name)
-{
-    ui->pbNext->setText(name);
-    ui->pbNext->setVisible(!name.isEmpty());
-}
-
-void TestPageForm::isComplete()
-{
-    disableButton(!widget()->isComplete());
-}
-
 void TestPageForm::initializePage()
 {
-    ui->frWarning->setVisible(wizard->checkZawory());
     widget()->initializePage();
 }
 
@@ -58,17 +44,6 @@ QFrame *TestPageForm::widgetFrame()
 void TestPageForm::setCreateTestWizard(CreateTestWizard *wiz)
 {
     wizard = wiz;
-    connect(ui->pbZobaczOtwarteZawory, &QPushButton::clicked, wiz, &CreateTestWizard::clickedZawory);
-}
-
-void TestPageForm::showZaworWarning(bool show)
-{
-    ui->frWarning->setVisible(show);
-}
-
-void TestPageForm::click()
-{
-    emit clickButton(widget()->nextPage());
 }
 
 TestPageForm::~TestPageForm()
@@ -76,18 +51,14 @@ TestPageForm::~TestPageForm()
     delete ui;
 }
 
-int TestPageForm::getId() const
+void TestPageForm::setStep(short newStep)
 {
-    return id;
+    step = newStep;
 }
 
-void TestPageForm::setId(int value)
-{
-    id = value;
-}
 
-void TestPageForm::disableButton(bool disable)
+void TestPageForm::on_pbAbort_clicked()
 {
-    ui->pbNext->setEnabled(!disable);
+    widget()->setFinished(false);
 }
 

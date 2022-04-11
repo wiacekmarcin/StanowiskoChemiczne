@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "projectitem.h"
-#include "testdata.h"
+
 #include "testtabswidget.h"
 #include "ustawienia.h"
 namespace Ui {
@@ -22,7 +22,7 @@ class GlowneOkno : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GlowneOkno(QWidget *parent = 0);
+    explicit GlowneOkno(Ustawienia & ust, Urzadzenia *urzadzenia, QWidget *parent = 0);
     ~GlowneOkno();
 
 private slots:
@@ -31,31 +31,35 @@ private slots:
     void on_actionNowy_Test_triggered();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void wybierzCzujke(int id);
-    void showIO();
     void dozownikTest();
-    void valueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
+
     void resizeEvent(QResizeEvent * event);
     void on_actionUstawienia_triggered();
 
-signals:
-    void analogValueChanged(int id, double val);
+    void changeTestName(const QString &name);
+    void finishedTest(bool success);
+
 protected:
     void changeSelectedTest();
     void setActionText();
+    void disableNowyTest(bool dis);
 
 private:
     Ui::GlowneOkno *ui;
+    Urzadzenia * urzadzenia;
+    Ustawienia & settings;
+
     QMap<QTreeWidgetItem*, ProjectItem> projekty;
     QMap<QTreeWidgetItem*, TestTabsWidget*> testy;
     QMap<QTreeWidgetItem*, QTreeWidgetItem*> mapTesty;
     QTreeWidgetItem* selectedProject;
     QTreeWidgetItem* selectedTest;
-    Ustawienia settings;
+
     QAction * act_wykresy[Ustawienia::maxCzujekAnal];
     QAction * act_wyzwal[Ustawienia::maxCzujekAnal];
     QSignalMapper *signalMapper;
     bool showDebugDlg;
-    Urzadzenia * dlgUrz;
+
 };
 
 

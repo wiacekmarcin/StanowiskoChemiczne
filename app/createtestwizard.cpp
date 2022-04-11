@@ -11,88 +11,126 @@
 #include "nowytest_6.h"
 #include "nowytest_7.h"
 #include "nowytest_8.h"
+#include "nowytest_9.h"
 
 #include "otwartezawory.h"
 
 #include <QAbstractButton>
 #include <QVariant>
+#include <QTreeWidgetItem>
 #include <QDebug>
+
+#include "urzadzenia.h"
+#include "glowneokno.h"
+
+#include <QMessageBox>
 
 CreateTestWizard::CreateTestWizard(QWidget *parent) :
     QStackedWidget(parent),
     dlgOtwarte(nullptr)
 {
-    selectedId = -1;
-    init();
-    zamknietaKomoraA = false;
-    zamknietaKomoraB = false;
+    selectedId = TestPage::PAGE_U;
+    setObjectName(QString::fromUtf8("TestWizard"));
+    zaworyMap[i_drzwi_prawe] = false;
+    zaworyMap[i_wentylacja_lewa] = false;
+    zaworyMap[i_proznia] = false;
+    zaworyMap[i_pom_stez_1] = false;
+    zaworyMap[i_drzwi_lewe] = false;
+    zaworyMap[i_wentylacja_prawa] = false;
+    zaworyMap[i_wlot_powietrza] = false;
+    zaworyMap[i_pom_stez_2] = false;
+    zaworyMap[i_pilot] = false;
+    showCrit = false;
+    showWarn = false;
+
+    connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot, Qt::QueuedConnection);
+    connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot, Qt::QueuedConnection);
 }
 
-void CreateTestWizard::setTestData(const TestData &dt)
-{
-    setField(QString("nazwa"), QVariant::fromValue(dt.getNazwa()));
-    setField(QString("dozownik"), QVariant::fromValue(dt.getDozownik()));
-    setField(QString("ciecz"), QVariant::fromValue(dt.getCiecz()));
-    setField(QString("objetosc"), QVariant::fromValue(dt.getObjetosc()));
-    setField(QString("zaplon"), QVariant::fromValue(dt.getZaplon()));
-    setField(QString("zaplonExt"), QVariant::fromValue(dt.getZaplonExt()));
-    selectedId = 1;
-    initializePage();
-}
 
 CreateTestWizard::~CreateTestWizard()
 {
 
 }
 
-void CreateTestWizard::init()
+void CreateTestWizard::init(const Ustawienia & ust,
+                            const QString & testName)
 {
-    setObjectName(QString::fromUtf8("TestWizard"));
+    numberInitDozCycles = ust.getNrInitializeCycles();
+    //for (short id = 0; id < Ustawienia::maxCzujekCyfrIn; ++id)
+    //    m_namesZawory[id] = ust.wejscie(0x1 << id);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    NowyTest_1 * page_1 = new NowyTest_1(testName, this);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+     addPage(page_1, TestPage::PAGE_1, 1);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
-    for (int i=0; i<9; ++i) {
-        zawory[i+1] = false;
-        stezenia[i+1] = 0.0;
-    }
-    stezenia[10] = 0.0;
+    NowyTest_2 * page_2 = new NowyTest_2(ust.getNrInitializeCycles(), this);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_2, TestPage::PAGE_2, 2);
+    //qDebug("%s:%d",__FILE__,__LINE__);
 
-    addPage(new NowyTest_1(this), 1);
-    addPage(new NowyTest_2(this), 2);
-    addPage(new NowyTest_3(this), 3);
-    addPage(new NowyTest_4(this), 4);
-    addPage(new NowyTest_5(this), 5);
-    addPage(new NowyTest_6(this), 6);
-    addPage(new NowyTest_7(this), 7);
-    addPage(new NowyTest_8(this), 8);
-    selectedId = 1;
+    NowyTest_3 * page_3 = new NowyTest_3(this);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_3, TestPage::PAGE_3, 3);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+
+    NowyTest_4 * page_4 = new NowyTest_4(this);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_4, TestPage::PAGE_4, 4);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+
+    NowyTest_5 * page_5 = new NowyTest_5(this);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_5 , TestPage::PAGE_5, 5);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+
+    NowyTest_6 * page_6 = new NowyTest_6(this);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_6, TestPage::PAGE_6, 6);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+
+    NowyTest_7 * page_7 = new NowyTest_7(this);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    addPage(page_7, TestPage::PAGE_7, 7);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+
+    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
+
+    addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
+    //qDebug("%s:%d",__FILE__,__LINE__);
+    selectedId = TestPage::PAGE_1;
     finished = false;
 
-
     initializePage();
+    nextPage(TestPage::PAGE_1);
 }
 
 void CreateTestWizard::initializePage()
 {
-    //qDebug("CreateTestWizard::initializePage()");
+    ////qDebug("CreateTestWizard::initializePage()");
     if (pages.contains(selectedId))
         pages[selectedId]->initializePage();
 }
 
-void CreateTestWizard::setField(const QString &key, const QVariant &val)
+void CreateTestWizard::setField(TestPage::Value key, const QVariant &val)
 {
+    if (key == TestPage::nazwaTest)
+        emit changeTestName(val.toString());
     values[key] = val;
 }
 
-QVariant CreateTestWizard::field(const QString &key) const
+QVariant CreateTestWizard::field(TestPage::Value key) const
 {
     if (values.contains(key))
         return values[key];
     return QVariant();
 }
 
-void CreateTestWizard::addPage(TestPage *page, int id)
+void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step)
 {
     TestPageForm *t = new TestPageForm(this);
-    t->setId(id);
+    t->setStep(step);
     page->setId(id);
 
     t->addWidget(page);
@@ -106,10 +144,6 @@ void CreateTestWizard::addPage(TestPage *page, int id)
     addWidget(t);
 
 
-    connect(t, &TestPageForm::clickButton, this, &CreateTestWizard::nextPage);
-    connect(page, &TestPage::completeChanged, this, &CreateTestWizard::checkValidPage);
-    connect(this, &CreateTestWizard::komora, page, &TestPage::komora);
-    page->komora(getZamknietaKomora());
 }
 
 
@@ -118,111 +152,115 @@ TestPage *CreateTestWizard::currentPage() const
     return static_cast<TestPageForm*>(currentWidget())->widget();
 }
 
-bool CreateTestWizard::checkZawory() const
+void CreateTestWizard::setFinished(bool success)
 {
-    if (selectedId == 1 || selectedId == 2 || selectedId == 7 || selectedId == 8)
-        return false;
+    finished = success;
+    emit finishedTest(success);
 
-    return !zawory[wentylacja_lewa] || !zawory[wentylacja_prawa] || !zawory[proznia] || !zawory[pom_stez_1] ||
-            !zawory[pom_stez_2] || !zawory[wlot_powietrza];
 }
 
-void CreateTestWizard::changeDigitalIn(int id, bool value)
+void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 {
     //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
-    if (id == wentylacja_lewa || id == wentylacja_prawa || id == proznia || id == pom_stez_1
-            || id == pom_stez_2 || id == wlot_powietrza || id == drzwi_lewe || id == drzwi_prawe
-            ) {
-        zawory[id] = value;
-        showWarning(checkZawory());
-        if (dlgOtwarte != nullptr)
-            dlgOtwarte->set(id, value);
+    zaworyMap[id] = value;
+    if (selectedId == TestPage::PAGE_6 && id == i_pilot) {
+            currentPage()->updateWejscia();
+    }
+    if (showWarn || showCrit)
+        return;
+
+    //qDebug("%s:%d %d %d", __FILE__,__LINE__, id, value);
+    if (criticalMap[id] && !value && !showCrit) {
+        showCrit = true;
+        emit criticalZaworOpenSignal(id);
     }
 
-    if (id == drzwi_lewe) {
-        zamknietaKomoraA = value;
-        emit komora(getZamknietaKomora());
-    }
-
-    if (id == drzwi_prawe) {
-        zamknietaKomoraB = value;
-        emit komora(getZamknietaKomora());
+    if (warningMap[id] && value && !showWarn) {
+        showWarn = true;
+        emit warningZaworOpenSignal(id);
     }
 }
 
-void CreateTestWizard::changeAnalog(int id, double value)
+void CreateTestWizard::changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7)
 {
-    if (id == wentylacja_lewa || id == wentylacja_prawa || id == proznia || id == pom_stez_1
-            || id == pom_stez_2 || id == wlot_powietrza)
-        zawory[id] = value;
+    double vals[8] = { val0, val1, val2, val3, val4, val5, val6, val7};
+    /*
+    a_vol1              = 0,
+    a_vol2              = 1,
+    a_o2                = 2,
+    a_co2               = 3,
+    a_cisn_komora       = 4,
+    a_temp_komory       = 5,
+    a_temp_parownik     = 6,
+    a_8                 = 7
+ */
+    if (selectedId == TestPage::PAGE_3)
+        currentPage()->setCisnKomory(vals[4]);
 }
 
-void CreateTestWizard::clickedZawory()
+void CreateTestWizard::dozownikDone(bool success)
 {
-    dlgOtwarte = new OtwarteZawory(this);
-    dlgOtwarte->set(wentylacja_lewa, zawory[wentylacja_lewa]);
-    dlgOtwarte->set(wentylacja_prawa, zawory[wentylacja_prawa]);
-    dlgOtwarte->set(proznia,  zawory[proznia]);
-    dlgOtwarte->set(pom_stez_1,  zawory[pom_stez_1]);
-    dlgOtwarte->set(pom_stez_2,  zawory[pom_stez_2]);
-    dlgOtwarte->set(wlot_powietrza,  zawory[wlot_powietrza]);
-    dlgOtwarte->set(drzwi_lewe,  zawory[drzwi_lewe]);
-    dlgOtwarte->set(drzwi_prawe,  zawory[drzwi_prawe]);
-    dlgOtwarte->exec();
-    if (dlgOtwarte != nullptr)
-        delete dlgOtwarte;
-    dlgOtwarte = nullptr;
+    if (selectedId == TestPage::PAGE_2 || selectedId == TestPage::PAGE_4) {
+        currentPage()->dozownikDone(success);
+    }
 }
 
-void CreateTestWizard::zaworProzni(bool open)
+void CreateTestWizard::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
 {
-    //emit setDigitalOut(int id, open);
-
+    //qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
+    if (selectedId == TestPage::PAGE_2) {
+        currentPage()->checkPositionHomeDone(ok, d1, d2, d3, d4, d5);
+    }
 }
 
-void CreateTestWizard::pompaProzniowa(bool start)
+void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
 {
+    QString s("Wykryto otwarty zawor :  ");
+    switch(idz) {
+    case i_drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
+    case i_wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
+    case i_proznia:           s+= QString("zawór próżni"); break;
+    case i_pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
+    case i_wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
+    case i_wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
+    case i_pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    default:                s+= QString(""); break;
 
+    }
+
+    QMessageBox::critical(this, s, "Wykryto owarty zawór ( lub drzwi w komorze ), jego otwarcie spowodowało zakończenie testu");
+    showCrit = false;
+    setFinished(false);
+    //delay(2);
+    //emit readsInputs();
 }
 
-void CreateTestWizard::mieszadlo(bool start)
+void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
 {
+    QString s("Wykryto zamkniety zawor :  ");
+    switch(idz) {
+    case i_drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
+    case i_wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
+    case i_proznia:           s+= QString("zawór próżni"); break;
+    case i_pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
+    case i_wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
+    case i_wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
+    case i_pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    default:                s+= QString(""); break;
 
+    }
+
+    QMessageBox::warning(this, s, "Wykryto zamknięty zawór ( lub drzwi w komorze ).");
+    showWarn = false;
+    //delay(2);
+    //emit readsInputs();
 }
 
-void CreateTestWizard::zaworPowietrza(bool open)
+void CreateTestWizard::nextPage(TestPage::PageId id)
 {
-
-}
-
-void CreateTestWizard::pomiary(bool start)
-{
-
-}
-
-void CreateTestWizard::pompaMembramowa(bool start)
-{
-
-}
-
-void CreateTestWizard::pomiarSingle(int idCzujka)
-{
-
-}
-
-void CreateTestWizard::pomiarStezen()
-{
-
-}
-
-void CreateTestWizard::wentylator(bool start)
-{
-
-}
-
-void CreateTestWizard::nextPage(int id)
-{
-    //qDebug("nextPage %d", id);
+    ////qDebug("nextPage %d", id);
     if (finished)
         return;
 
@@ -231,40 +269,73 @@ void CreateTestWizard::nextPage(int id)
         setCurrentWidget(pages[selectedId]);
     }
     initializePage();
-    if (id == 7) {
-        emit zaplon(field("zaplon").toString(), field("zaplonExt").toString());
-        emit triggerCamera(true);
-        emit pomiarCisnienia(1 /*cisnienie*/, 5*60&1000);
-    }
-    if (id == 8)
-        finished = true;
+    //if (id == TestPage::PAGE_8)
+    //    finished = true;
 }
 
-void CreateTestWizard::checkValidPage()
+
+#define SETCRITICALZAWOR(M) criticalMap[M] = (newZ_criticalMask & M) == M
+void CreateTestWizard::setZ_criticalMask(uint16_t newZ_criticalMask)
 {
-    if (pages.contains(selectedId))
-        pages[selectedId]->isComplete();
+
+    SETCRITICALZAWOR(0x1);
+    SETCRITICALZAWOR(0x2);
+    SETCRITICALZAWOR(0x4);
+    SETCRITICALZAWOR(0x8);
+    SETCRITICALZAWOR(0x10);
+    SETCRITICALZAWOR(0x20);
+    SETCRITICALZAWOR(0x40);
+    SETCRITICALZAWOR(0x80);
+    SETCRITICALZAWOR(0x100);
 }
 
-void CreateTestWizard::showWarning(bool value)
+#define SETWARNINGZAWOR(M) warningMap[M] = (newZ_warningMask & M) == M
+void CreateTestWizard::setZ_warningMask(uint16_t newZ_warningMask)
 {
-    if (pages.contains(selectedId))
-        pages[selectedId]->showZaworWarning(value);
+    SETWARNINGZAWOR(0x1);
+    SETWARNINGZAWOR(0x2);
+    SETWARNINGZAWOR(0x4);
+    SETWARNINGZAWOR(0x8);
+    SETWARNINGZAWOR(0x10);
+    SETWARNINGZAWOR(0x20);
+    SETWARNINGZAWOR(0x40);
+    SETWARNINGZAWOR(0x80);
+    SETWARNINGZAWOR(0x100);
 }
 
-void CreateTestWizard::setUst(Ustawienia *newUst)
+#define ZAWOR_DEFINE(Z) bool CreateTestWizard::z##Z() { return zaworyMap[Z]; }
+ZAWOR_DEFINE(i_drzwi_prawe)
+ZAWOR_DEFINE(i_drzwi_lewe)
+ZAWOR_DEFINE(i_wentylacja_lewa)
+ZAWOR_DEFINE(i_wentylacja_prawa)
+ZAWOR_DEFINE(i_proznia)
+ZAWOR_DEFINE(i_wlot_powietrza)
+ZAWOR_DEFINE(i_pom_stez_1)
+ZAWOR_DEFINE(i_pom_stez_2)
+ZAWOR_DEFINE(i_pilot)
+
+void CreateTestWizard::updateOutput(uint16_t mask, bool on)
 {
-    ust = newUst;
+    emit writeOutValues(mask, on);
 }
 
-Ustawienia *CreateTestWizard::getUst() const
+void CreateTestWizard::runZaplon(short id)
 {
-    return ust;
+    //qDebug("%s:%d", __FILE__, __LINE__);
+    emit zaplon(id);
 }
 
-bool CreateTestWizard::getZamknietaKomora() const
+void CreateTestWizard::runCykleDozownik(uint8_t nr, uint32_t steps)
 {
-    return zamknietaKomoraA && zamknietaKomoraB;
+    emit cykleDozownik(nr, steps);
 }
 
+void CreateTestWizard::runDozownikMl(uint8_t nr, uint32_t mlx10)
+{
+    emit dozownikMl(nr, mlx10);
+}
 
+void CreateTestWizard::runCheckPositionHome()
+{
+    emit checkPositionHome();
+}

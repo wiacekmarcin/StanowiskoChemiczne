@@ -1,7 +1,12 @@
 #include "nicards.h"
+
+
+#if  !SYMULATOR
 #include "NIDAQmx.h"
+#endif
 
 #include "ustawienia.h"
+
 
 NICards::NICards(QObject *parent)
     : QThread{parent},
@@ -11,26 +16,54 @@ NICards::NICards(QObject *parent)
       writeDigString("USB6501/port0,USB6501/port1/Line0:2"),
       readDigString("USB6501/port2,USB6501/port1/Line4")
 {
+    m_quit = false;
     start();
+    maskOutput = o_hv_bezpiecznik;
+    prevInputs = 0;
 }
 
 NICards::~NICards()
 {
     m_mutex.lock();
     m_quit = true;
-    m_cond.wakeOne();
     m_mutex.unlock();
     wait();
+}
+
+void NICards::digitalWrite(uint16_t out, bool val)
+{
+    //qDebug("%s:%d", __FILE__,__LINE__);
+    unsigned short i = 0;
+    unsigned long mask = 0x1;
+    m_mutex.lock();
+    while ( i++ < Ustawienia::maxCzujekCyfrOut) {
+        if ((out & mask) != 0) {
+
+            if (val) {
+                maskOutput |= mask;
+            } else {
+                maskOutput &= ~mask;
+            }
+        }
+        mask <<= 1;
+    }
+    m_mutex.unlock();
 }
 
 void NICards::run()
 {
     unsigned short loopNr = 0;
-    find();
+    bool fDev = find();
     //resetDevice(true, true);
     while (!m_quit) {
-        if (loopNr == 10)
+        //qDebug("%s:%d", __FILE__, __LINE__);
+        if (loopNr == 10) {
             loopNr = 0;
+            if (!fDev)
+                fDev = find();
+        }
+        if (!fDev)
+            continue;
 
         if (loopNr == 0) {
             if (!anConf)
@@ -59,7 +92,9 @@ void NICards::run()
         }
 
         if (digConf && digital.isConnected())  {
+            m_mutex.lock();
             writeDigital();
+            m_mutex.unlock();
         }
         currentThread()->msleep(100);
         ++loopNr;
@@ -67,19 +102,29 @@ void NICards::run()
 }
 
 //find cards
-void NICards::find() {
-    qDebug("%s:%d find", __FILE__, __LINE__);
+bool NICards::find() {
+#if SYMULATOR
+    emit usb6210(false, false);
+    emit usb6501(false, false);
+    return false;
+
+#else
+
+    emit usb6210(false, false);
+    emit usb6501(false, false);
+    //qDebug("%s:%d find", __FILE__, __LINE__);
     int32		errCode;
     char buf[128];
     if(DAQmxFailed(errCode=DAQmxGetSysDevNames(buf, 128))) {
         DAQmxGetExtendedErrorInfo(buf, 128);
         emit error(QString::fromUtf8("Błąd podczas pobierania listy kart NI [%1]").arg(buf));
-        return;
+        return false;
     }
 
     QString allNames(buf);
     QStringList names = allNames.split(",");
     char bufProduct[128];
+    bool ret = false;
     for (auto & name : names) {
         if (DAQmxFailed(DAQmxGetDevProductType(name.toStdString().c_str(), bufProduct, 128))) {
             continue;
@@ -97,11 +142,12 @@ void NICards::find() {
 
         if (!anConf && !analog.isConnected() && QString(bufProduct) == QString("USB-6210") &&
                                                 deviceid == 14643 && serialid == 33770223) {
-            qDebug("Znalazlem!!!!");
+            //qDebug("Znalazlem!!!!");
             emit debug(QString("Znalazłem kartę analogową : %1").arg(name));
             analogDevice = name;
             analogConfString = QString(readAnalString).replace("USB6210", name);
             analogConfigure();
+            ret = true;
         }
 
         if (!digConf && !digital.isConnected() && QString(bufProduct) == QString("USB-6501") &&
@@ -111,29 +157,34 @@ void NICards::find() {
             digitalConfReadString = QString(readDigString).replace("USB6501", name);
             digitalConfWriteString = QString(writeDigString).replace("USB6501", name);
             digitalConfigure();
+            ret = true;
         }
     }
+    return ret;
+#endif
 }
 
 void NICards::analogConfigure()
 {
-    qDebug("Konfiguracja ANAL");
+    //qDebug("Konfiguracja ANAL");
     anConf = analog.configure(analogConfString);
     emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
-    emit usb6210(anConf && analog.isConnected());
+    emit usb6210(analog.isConnected(), anConf);
 }
 
 void NICards::digitalConfigure()
 {
-    qDebug("Konfiguracja DIG");
+    //qDebug("Konfiguracja DIG");
     digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
     emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(anConf ? "sukcesem" : "porażką"));
-    emit usb6501(digConf && digital.isConnected());
-    maskOutput = ~hv_bezpieczenstwa; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
+    emit usb6501(digital.isConnected(), digConf);
+    //qDebug("%s:%d conn/conf %d %d | output = %04x", __FILE__, __LINE__, digital.isConnected(), digConf, ~o_hv_bezpiecznik) ;
+    maskOutput = o_hv_bezpiecznik; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
 }
 
 void NICards::resetDevice(bool analog, bool digital)
 {
+#if !SYMULATOR
     int32 errCode;
     if (analog) {
         emit debug(QString("Reset i testy karty analogowej"));
@@ -155,15 +206,19 @@ void NICards::resetDevice(bool analog, bool digital)
             digConf = false;
         }
     }
+#else
+    (void)analog;
+    (void)digital;
+#endif
 }
 
 void NICards::readAnalog()
 {
-    qDebug("READ ANAL");
+    //qDebug("READ ANAL");
     float val0, val1, val2, val3, val4, val5, val6;
     if (!analog.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         emit debug("Nie mogę odczytać analoga");
-        emit usb6210(false);
+        emit usb6210(true, false);
         return;
     }
     emit analogValueChanged(val0, val1, val2, val3, val4, val5, val6);
@@ -171,20 +226,22 @@ void NICards::readAnalog()
 
 void NICards::writeDigital()
 {
-    qDebug("WRITE DIGIT");
     if (!digital.writeValue(maskOutput)) {
-        emit usb6501(false);
+        emit usb6501(true, false);
     }
 }
 
 void NICards::readDigital()
 {
-    qDebug("READ DIG");
     uint16_t val;
     if (!digital.readValue(val)) {
-        emit usb6501(false);
+        emit usb6501(true, false);
         return;
     }
-
-    emit digitalRead(~val & 0x1ff);
+    if (prevInputs != val) {
+        //qDebug("%s:%d %04x", __FILE__,__LINE__, val);
+        prevInputs = val;
+        emit digitalRead(val);
+    }
 }
+

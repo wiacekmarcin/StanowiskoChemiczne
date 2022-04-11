@@ -8,18 +8,16 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const TestData &t, QWidget *parent) :
+TestTabsWidget::TestTabsWidget(const ProjectItem &pr, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestTabsWidget),
-    projekt(pr), test(t)
+    projekt(pr)
 {
     ui->setupUi(this);
+    ui->tabWidget->setTabEnabled(1, false);
+    ui->tabWidget->setTabEnabled(2, false);
+    ui->tabWidget->setTabEnabled(3, false);
 
-    ui->stackedWidget->setTestData(t);
-
-    ui->tabFoto->setEnabled(false);
-    ui->tabRaport->setEnabled(false);
-    ui->tabWideo->setEnabled(false);
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -36,4 +34,13 @@ void TestTabsWidget::setActive()
 CreateTestWizard * TestTabsWidget::createTestWizard() const
 {
     return ui->stackedWidget;
+}
+
+void TestTabsWidget::finishedTest(bool success)
+{
+    if (success) {
+        ui->tabWidget->setTabEnabled(1, true);
+        ui->tabWidget->setTabEnabled(2, true);
+        ui->tabWidget->setTabEnabled(3, true);
+    }
 }

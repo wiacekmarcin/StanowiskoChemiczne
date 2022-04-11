@@ -2,22 +2,20 @@
 #define SERIALMESSAGE_H
 
 #include <QObject>
-#include <QSerialPortInfo>
-#include <QSerialPort>
+
 #include <QTimer>
 
-class SerialMessage : public QObject
+class SerialMessage
 {
 
-    Q_OBJECT
 public:
 
-    explicit SerialMessage(QObject *parent = nullptr);
+    explicit SerialMessage();
 
     ~SerialMessage();
-    void closeDevice();
 
     typedef enum _cmd {
+        NOP_REQ = 0,
         WELCOME_REQ = 1,
         WELCOME_REP = 2,
         SET_PARAM_REQ = 3,
@@ -28,98 +26,66 @@ public:
         ECHO_REP = 8,
         MOVEHOME_REQ = 9,
         MOVEHOME_REP = 10,
+        RESET_REQ = 11,
+        RESET_REP = 12,
+        ERROR_REP = 14,
+        NOP_REP = 15
 
     } CMD;
 
-    bool getReverse() const;
-    void setReverse(bool newReverse);
+    typedef enum _action {
+        INVALID_REPLY = -4,
+        TIMEOUT_WRITE_REPLY,
+        TIMEOUT_READ_REPLY,
+        INPROGRESS_REPLY = 0,
+        WELCOME_REPLY = 1,
+        ECHO_REPLY,
+        ECHO_REPLY2,
+        MOVEHOME_REPLY,
+        POSITION_REPLY,
+        RESET_REPLY,
+        SETPARAMS_REPLY,
+    } ParseReply;
 
-    bool getReverse1() const;
-    void setReverse1(bool newReverse);
+    static QByteArray setSettingsMsg(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp, uint16_t imptime);
+    static QByteArray setSettingsMsg(uint8_t revByte, uint32_t maxImp, uint16_t imptime);
+    static QByteArray setDefaultSettingsMsg();
+    static QByteArray echoMsg();
+    static QByteArray echoMsg2();
+    static QByteArray welcomeMsg();
+    static QByteArray setPositionHome(short DozownikNr);
+    static QByteArray setPosition(short DozwnikNr, uint32_t x);
+    static QByteArray setReset();
 
-    bool getReverse2() const;
-    void setReverse2(bool newReverse);
-
-    bool getReverse3() const;
-    void setReverse3(bool newReverse);
-
-    bool getReverse4() const;
-    void setReverse4(bool newReverse);
-
-    bool getReverse5() const;
-    void setReverse5(bool newReverse);
-
-    uint32_t getMaxImp() const;
-    void setMaxImp(uint32_t newMaxImp);
-
-    void setSettings(bool reverse, uint32_t maxImp);
-    void setSettings5(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp, uint16_t imptime);
-    void connectToSerial();
-    void echo();
-    void setPositionHome(short DozownikNr);
-    void setPosition(short DozwnikNr, uint32_t x);
-    void setReset();
-    void setParameters();
-
-    uint16_t getImpTime() const;
-    void setImpTime(uint16_t newImpTime);
-
-    void setRSteps(uint32_t newRSteps);
-
-    uint32_t getRSteps() const;
-
-signals:
-    void dozownik(bool conn);
-    void errorSerial(QString);
-    void debug(QString);
-    void donePositionHome(bool ok);
-    void donePosition();
-    void successOpenDevice(bool success);
-    void setParamsDone();
-    void echoOK(bool ok);
-    void resetDone();
-
-
-
-public slots:
-    void handleReadyRead();
-    void serialError(const QSerialPort::SerialPortError & error);
-    void response(const QByteArray &s);
+    uint32_t getSteps() const;
+    short getParseReply() const;
+    bool parseCommand(const QByteArray &arr);
+    void setInvalidReply();
+    void setInProgressReply();
+    void setTimeoutReply(bool write);
+    bool isInvalidReply();
+    bool isInProgressReply();
+    bool isTimeoutWriteReply();
+    bool isTimeoutReadReply();
+    uint8_t getHomePosition() const;
 
 protected:
-    bool openDevice(const QSerialPortInfo & port);
-
-    QByteArray welcomeMsg();
-    QByteArray homePositionMsg(short DozownikNr);
-    QByteArray positionMsg(short DozownikNr, uint32_t x);
-    QByteArray echoMsg();
 
     bool checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & len, QByteArray & data);
-    bool parseCommand(const QByteArray &arr);
-    QByteArray prepareMessage(uint8_t cmd, uint8_t tab[], uint8_t len);
-    void writeMessage(const QByteArray &writeData);
-    QByteArray settingsMsg(bool reverse, uint32_t maxImp);
-    QByteArray settingsMsg5(uint8_t byteRev, uint32_t maxImp, uint16_t impTime);
-    QByteArray resetMsg();
 
+    static QByteArray prepareMessage(uint8_t cmd, uint8_t tab[], uint8_t len);
 
 private:
-    //MasterThread mt;
-    QSerialPort m_serialPort;
-    QString portName;
-    bool connSerial;
 
-    QList<QByteArray> commands;
     QByteArray cmd;
     unsigned short lenCmd;
 
-    short lenEcho;
-    bool reverse;
-    uint8_t revByte;
-    uint32_t maxImp;
-    uint16_t impTime;
+    QString errT;
+    bool errB;
 
-    uint32_t rSteps;
+    uint32_t steps;
+    uint8_t homePosition;
+    short parseReply;
 
 };
 

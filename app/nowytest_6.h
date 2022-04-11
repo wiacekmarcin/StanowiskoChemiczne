@@ -15,9 +15,14 @@ public:
     ~NowyTest_6();
 
     virtual void initializePage() override;
-    virtual bool isComplete() const override;
+    virtual void updateWejscia() override;
+
+private slots:
+    void on_pbOK_1_clicked();
 
 private:
     Ui::NowyTest_6 *ui;
+    bool runDialog;
+    bool step2;
 };
 #endif // NOWYTEST_7_H

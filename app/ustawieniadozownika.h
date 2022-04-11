@@ -9,7 +9,7 @@ namespace Ui {
 class UstawieniaDozownika;
 }
 
-#define ON_RB_CLICKED(N) void on_rb_l_##N##_clicked(); void on_rb_p_##N##_clicked();
+#define ON_RB_CLICKED2(N) void on_rb_l_##N##_clicked(); void on_rb_p_##N##_clicked();
 
 class UstawieniaDozownika : public QDialog
 {
@@ -23,11 +23,11 @@ private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
     void on_buttonBox_accepted();
 
-    ON_RB_CLICKED(1)
-    ON_RB_CLICKED(2)
-    ON_RB_CLICKED(3)
-    ON_RB_CLICKED(4)
-    ON_RB_CLICKED(5)
+    ON_RB_CLICKED2(1)
+    ON_RB_CLICKED2(2)
+    ON_RB_CLICKED2(3)
+    ON_RB_CLICKED2(4)
+    ON_RB_CLICKED2(5)
 protected:
     void save();
 private:

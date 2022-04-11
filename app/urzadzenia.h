@@ -1,171 +1,93 @@
 #ifndef URZADZENIA_H
 #define URZADZENIA_H
 
-#include <QWidget>
-#include <QDialog>
-#include <QTimer>
-#include <QMap>
-
-#include "ustawienia.h"
-#include "serialmessage.h"
-
-#include "niusb6501.h"
-#include "niusb6210.h"
+#include <QObject>
+#include <QString>
 
 #include "nicards.h"
+#include "ustawienia.h"
+#include "serialdevice.h"
 
-namespace Ui {
-class Urzadzenia;
-}
-
-class QToolButton;
-class DigitalOutWidget;
-class HighLowDigitalWidget;
-class QSlider;
-
-class Urzadzenia : public QDialog
+class Urzadzenia : public QObject
 {
     Q_OBJECT
 public:
+    explicit Urzadzenia(Ustawienia & ustawiania, QObject *parent = nullptr);
 
-#define NEWCARDS 1
 
+public slots:
+    void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
 
-public:
-    explicit Urzadzenia(QWidget *parent = 0);
-    ~Urzadzenia();
+    void setMl(uint8_t nrDoz, uint32_t ml);
+    void digitalWriteAll(uint16_t vals);
+    void digitalWrite(uint16_t mask, bool on);
+    void zaplon(short idiskra);
+    void checkPositionHome();
 
-    void setLabels(const Ustawienia & ust);
-
-    void setUstawienia(const Ustawienia & ust);
-    void setUstawienia(Ustawienia *ust_);
-
-    SerialMessage* getSerial() { return &smg; }
-
-    void setIskra();
-    void setDigital(uint16_t mask, bool value);
 signals:
     void analogValueChanged(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
+    void usb6210(bool open, bool conf);
+    void usb6501(bool open, bool conf);
+    void dozownik(bool open, bool conf);
+    void digitalRead(uint16_t vals, bool open);
+    void digitalAllRead(uint16_t vals);
 
-    void digitalValueChanged(int id, bool high);
+    void digitalWriteDevice(uint16_t vals);
 
-    void dozownik(bool ok);
-    void usb6210(bool ok);
-    void usb6501(bool ok);
+    void connDozownik(bool);
+    void resetDone(bool);
+    void setParamsDone(bool);
+    void setPositionHomeDone(bool);
+    void setPositionDone(bool);
+    void setCykleDone(bool);
+    void setStepsDone(bool);
+    void checkPositionHomeDone(bool,bool,bool,bool,bool,bool);
 
-    void drzwi_komory(bool prawe, bool otwarte);
-    void zawor(int idz, bool otwarty);
-    void pilot_btn(bool otwarty);
-
-    /* serial */
-    void connectToSerial();
-    void echo();
-    void setPositionHome(short dozownikNr);
-    void setSettings(bool reverse, uint32_t maxImp);
-    void setSettingsAll(bool reverse1, bool reverse2, bool reverse3, bool reverse4, bool reverse5, uint32_t maxImp);
-    void setPosition(short dozownikNr, uint32_t x);
+public slots:
+    void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
+    void ni_digitalRead(uint16_t vals);
+    void digitalWriteDebug(uint16_t vals);
+    void readInputs();
 
 private slots:
 
-
-    void on_analog_1_valueChanged(int value);
-    void on_analog_2_valueChanged(int value);
-    void on_analog_3_valueChanged(int value);
-    void on_analog_4_valueChanged(int value);
-    void on_analog_5_valueChanged(int value);
-    void on_analog_6_valueChanged(int value);
-    void on_analog_7_valueChanged(int value);
-    void on_analog_8_valueChanged(int value);
-
-    void changeDigital_1(bool val);
-    void changeDigital_2(bool val);
-    void changeDigital_3(bool val);
-    void changeDigital_4(bool val);
-    void changeDigital_5(bool val);
-    void changeDigital_6(bool val);
-    void changeDigital_7(bool val);
-    void changeDigital_8(bool val);
-    void changeDigital_9(bool val);
-
-    void dozownikTimeout();
-    void timerUsbDevice();
-    void timeoutDI100ms();
-    void timeoutAI100ms();
-
-    /* serial */
-    void successOpenDevice(bool);
-    void echoOK(bool ok);
-
-    void errorSerial(QString);
-    void debug(QString);
-
-
-    void on_tb_out_1_clicked();
-    void on_tb_out_2_clicked();
-    void on_tb_out_3_clicked();
-    void on_tb_out_4_clicked();
-    void on_tb_out_5_clicked();
-    void on_tb_out_6_clicked();
-    void on_tb_out_7_clicked();
-    void on_tb_out_8_clicked();
-    void on_tb_out_9_clicked();
-    void on_tb_out_a_clicked();
-
-    void on_pb_iskramechaniczna_clicked();
-
-#ifdef NEWCARDS
-    void ni_digitalRead(uint16_t vals);
     void ni_error(const QString &s);
-    void ni_timeout(const QString &s);
     void ni_debug(const QString &d);
+    void ni_usb6501(bool open, bool conf);
 
-    void ni_usb6210(bool ok);
-    void ni_usb6501(bool ok);
-    void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
-#endif
+    void ds_error(const QString &s);
+    void ds_debug(const QString &d);
+    void ds_errorSerial(const QString &s);
+    void ds_dozownikConfigured(bool open, bool conf);
 
 protected:
-    short getDozownikNr() { return dozownikNr; };
-    void checkUsbCard();
-    void checkSerial();
+    void runIskraElektryczna();
+    void runIskraMechaniczna();
+    void runPlomien();
+    void setSteps(uint8_t nrDoz, uint32_t impuls);
 
-    void on_tb_out_clicked(QToolButton * tb,  DigitalOutWidget * dow, uint16_t mask);
-    void changeDigital(int maks, bool val);
-    void changeAnalog(unsigned short aId, double val, bool device);
-    void digitalChange(int id, bool val);
+private slots:
+    void runIskraElektryczna1();
+    void runIskraElektryczna2();
+    void runIskraMechaniczna1();
+    void runPlomien1();
+
 private:
-    Ui::Urzadzenia *ui;
-
-    SerialMessage smg;
-    bool connect2Serial;
-    short cntEcho;
-    QTimer dozownikLoop;
-    bool onlyOne;
-#ifndef NEWCARDS
-    NIDAQMxUSB6501 dio;
-    NIDAQMxUSB6210 ai;
+#if !SYMULATOR
+     NICards nicards;
 #endif
-    uint16_t vals; //wyjscia
-    QTimer timerDI100;
-    QTimer timerAI100;
-    QTimer timerCheckDevice;
+     SerialDevice serial;
+     Ustawienia & ustawienia;
 
-    short dozownikNr;
-    bool usbDio;
-    bool usbAnal;
-    QString readDigString;
-    QString writeDigString;
-    QString readAnalString;
+     bool digitalConn;
+     bool dozownikConn;
 
-    Ustawienia * ust;
-    const unsigned int inMap[10];
-    const unsigned int outMap[11];
-    const unsigned int anMap[8];
-    QMap<unsigned int, HighLowDigitalWidget*> inRevMap;
-    QMap<unsigned short, QSlider*> anRevMap;
+     uint16_t m_inputs;
 
-
-    NICards nicards;
+     QTimer plTimer;
+     QTimer imTimer;
+     QTimer elTimer;
 };
 
 #endif // URZADZENIA_H
+

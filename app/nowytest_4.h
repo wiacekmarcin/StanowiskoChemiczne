@@ -14,19 +14,19 @@ class NowyTest_4 : public TestPage
 public:
     explicit NowyTest_4(QWidget *parent = nullptr);
     ~NowyTest_4();
-    virtual bool isComplete() const override;
     virtual void initializePage() override;
 
 private slots:
-    void on_pbStep2OK_clicked();
-    void on_pbStep3OK_clicked();
-    void on_pbStep4OK_clicked();
+    void dozownikDone(bool success);
+    void on_pbOk_1_clicked();
+    void on_pbOk_2_clicked();
+    void on_pbOk_3_clicked();
+    void on_pbOk_4_clicked();
+    void runDone();
 
-    void runDone2();
-    void runDone3();
-    void runDone4();
 
 private:
     Ui::NowyTest_4 *ui;
+    const QString infoString;
 };
 #endif // NOWYTEST_4_H

@@ -120,7 +120,7 @@
      </property>
     </widget>
    </item>
-    <item>
+   <item>
     <widget class="Line" name="line2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -215,7 +215,7 @@
      </property>
     </widget>
    </item>
-    <item>
+   <item>
     <widget class="Line" name="line3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

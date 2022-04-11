@@ -57,11 +57,6 @@ void ProjectItem::setCreateData(const QString &value)
     createData = value;
 }
 
-void ProjectItem::addTest(const TestData &val)
-{
-    tests.append(val);
-}
-
 void ProjectItem::setWidget(ProjektWidget *w)
 {
     w->setDane(name, members, workDir, comment, createData);

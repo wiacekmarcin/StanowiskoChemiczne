@@ -23,13 +23,9 @@ public:
     void setLabels(const Ustawienia & set);
 public slots:
     void setDigitalValue(int id, bool val);
-    void setDozownik(bool ok);
-    void setUSB6210(bool ok);
-    void setUSB6501(bool ok);
-
-    void setDrzwiKomory(bool prawe, bool otwarte);
-    void setZawor(int idZ, bool otwarte);
-    void setPilot(bool przycisk);
+    void setDozownik(bool open, bool conf);
+    void setUSB6210(bool open, bool conf);
+    void setUSB6501(bool open, bool conf);
 
 private slots:
     void timeout();
@@ -37,9 +33,13 @@ private:
     Ui::OknoStatusowe *ui;
     QTimer timer;
 
-    bool busb6210;
-    bool busb6501;
-    bool bdozownik;
+    bool bOpenUsb6210;
+    bool bOpenUsb6501;
+    bool bOpenDozownik;
+
+    bool bConfUsb6210;
+    bool bConfUsb6501;
+    bool bConfDozownik;
 
     QMap<unsigned int, bool> bMapZawor;
     QMap<unsigned int, StanCzujnika*> sMapZawor;

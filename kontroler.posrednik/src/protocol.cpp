@@ -33,12 +33,10 @@ bool Message::check(uint8_t s, unsigned char c)
             posCmd[s] = 0;
             bool r = parse(s);
             if (!r)
-                sendError("ZLY ROZKAZ", 10);
-                ;
+                sendError("P:ZLY ROZKAZ", 12);
             return r;
         }
         posCmd[s] = 0;
-        sendError("ZLE CRC ", 7);
         return false;
 
     }
@@ -48,7 +46,7 @@ bool Message::check(uint8_t s, unsigned char c)
     
     if (posCmd[s] == MAXLENPROTO) {
         posCmd[s] = 0;
-        sendError("ZBYT DUZA WIAD.", 15);
+        sendError("P:ZBYT DUZA WI.", 15);
         return false;    
     }
     return false;
@@ -72,8 +70,13 @@ Message::Work Message::getStatusWork() const
 bool Message::parse1() {
 
     switch(rozkaz[0]) {
-        case NOP_REQ:
+        case NOP_REQ: 
+        {
+            uint8_t sendData2[2] = {0xff,0x00};
+            messageWrite1(sendData2,2);
+            sendMessage1(NOP_REP, nullptr, 0);
             return true;
+        }
         // get info |HEAD| CRC
         case WELCOME_REQ:   //get info 
         {                          //1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
@@ -97,9 +100,16 @@ bool Message::parse1() {
             return true;
         }
         case ECHO_REQ: 
-        {
-            sendMessage1(ECHO_REP, nullptr, 0);
-            return true;
+        {   
+            if (data[0][1] == 0) {
+                uint8_t sdata[1] = {0};
+                sendMessage1(ECHO_REP, sdata, 1);
+                return true;
+            }
+            if (data[0][1] == 1) {
+                sendRawMessage2(data[0], dlugosc[0]+2);
+                return true;
+            }
         }
         case MOVEHOME_REQ:
         {
@@ -161,6 +171,12 @@ bool Message::parse2() {
         }
         case SET_PARAM_REP:
         {
+            sendRawMessage1(data[1], dlugosc[1]+2);
+            return true;
+        }
+        case ECHO_REP:
+        {
+            Serial.println("echo...rep");
             sendRawMessage1(data[1], dlugosc[1]+2);
             return true;
         }
@@ -240,4 +256,9 @@ uint32_t Message::parseNumber(uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4)
     uint32_t d3 = b3 & 0xff;
     uint32_t d4 = b4 & 0xff;
     return (d1 << 24) + (d2 << 16) + (d3 << 8) + d4;
+}
+
+void Message::reset()
+{
+    init();
 }

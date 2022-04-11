@@ -18,7 +18,8 @@ TEMPLATE = app
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-#DEFINES += L_COMP
+#DEFINES += SYMULATOR
+#DEFINES += DEBUG_DEVICE
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -42,24 +43,24 @@ SOURCES += \
     glowneokno.cpp \
     nicards.cpp \
     nowyprojectdlg.cpp \
+    oczekiwanienazaplon.cpp \
+    oknostanowewyjscia.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
+    serialdevice.cpp \
     serialmessage.cpp \
     stanczujnika.cpp \
+    stanwyjscia.cpp \
     ustawieniadozownika.cpp \
+    ustawieniatestu.cpp \
     videowidget.cpp \
-    ustawieniadozownikaokno.cpp \
-    sygnalanalparam.cpp \
-    wejsciaanalogowe.cpp \
-    nowytest_1.cpp \
     createtestwizard.cpp \
-    nowytestdlg.cpp \
     projectitem.cpp \
-    testdata.cpp \
     testpage.cpp \
     testpageform.cpp \
     projektwidget.cpp \
     testtabswidget.cpp \
+    nowytest_1.cpp \
     nowytest_2.cpp \
     nowytest_3.cpp \
     nowytest_4.cpp \
@@ -67,15 +68,15 @@ SOURCES += \
     nowytest_6.cpp \
     nowytest_7.cpp \
     nowytest_8.cpp \
-    disablebutton.cpp \
-    dispushbutton.cpp \
-    highlowdigitalwidget.cpp \
+    nowytest_9.cpp \
     urzadzenia.cpp \
-    ustawienia.cpp \
     niusb6210.cpp \
-    niusb6501.cpp
+    niusb6501.cpp \
+    ustawienia.cpp \
+    rs232.cpp
 
 HEADERS += \
+    common.h \
     crc8.h \
     czujnikanalogowyustawieniawidget.h \
     czujnikanalogowywidget.h \
@@ -86,24 +87,24 @@ HEADERS += \
     glowneokno.h \
     nicards.h \
     nowyprojectdlg.h \
+    oczekiwanienazaplon.h \
+    oknostanowewyjscia.h \
     oknostatusowe.h \
     otwartezawory.h \
+    serialdevice.h \
     serialmessage.h \
     stanczujnika.h \
+    stanwyjscia.h \
     ustawieniadozownika.h \
+    ustawieniatestu.h \
     videowidget.h \
-    ustawieniadozownikaokno.h \
-    sygnalanalparam.h \
-    wejsciaanalogowe.h \
-    nowytest_1.h \
     createtestwizard.h \
-    nowytestdlg.h \
     projectitem.h \
-    testdata.h \
     testpage.h \
     testpageform.h \
     projektwidget.h \
     testtabswidget.h \
+    nowytest_1.h \
     nowytest_2.h \
     nowytest_3.h \
     nowytest_4.h \
@@ -111,13 +112,12 @@ HEADERS += \
     nowytest_6.h \
     nowytest_7.h \
     nowytest_8.h \
-    disablebutton.h \
-    dispushbutton.h \
-    highlowdigitalwidget.h \
+    nowytest_9.h \
     urzadzenia.h \
     ustawienia.h \
     niusb6210.h \
-    niusb6501.h
+    niusb6501.h \
+    rs232.h
 
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \
@@ -126,17 +126,19 @@ FORMS += \
     dozowniksettings.ui \
     glowneokno.ui \
     nowyprojectdlg.ui \
+    oczekiwanienazaplon.ui \
+    oknostanowewyjscia.ui \
     oknostatusowe.ui \
     otwartezawory.ui \
     stanczujnika.ui \
+    stanwyjscia.ui \
     ustawieniadozownika.ui \
+    ustawieniatestu.ui \
     videowidget.ui \
-    ustawieniadozownikaokno.ui \
-    nowytest_1.ui \
-    nowytestdlg.ui \
     testpageform.ui \
     projektwidget.ui \
     testtabswidget.ui \
+    nowytest_1.ui \
     nowytest_2.ui \
     nowytest_3.ui \
     nowytest_4.ui \
@@ -144,9 +146,7 @@ FORMS += \
     nowytest_6.ui \
     nowytest_7.ui \
     nowytest_8.ui \
-    disablebutton.ui \
-    highlowdigitalwidget.ui \
-    urzadzenia.ui
+    nowytest_9.ui
 
 RESOURCES += \
     ikony.qrc
@@ -156,7 +156,18 @@ DISTFILES += \
     lista.txt \
     path
 
-LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx
+win32 {
+     !contains(QMAKE_TARGET.arch, x86_64) {
+        LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib32/msvc/ -lNIDAQmx
+        LIBS += -L$$PWD/../setupapilib/32/setupapi/ -lsetupAPI
+        LIBS += -L$$PWD/../setupapilib/32/setupapi/ -ladvAPI32
+    } else {
+        LIBS += -L$$PWD/../NI/DAQmx_ANSI_C_Dev/lib64/msvc/ -lNIDAQmx
+        LIBS += -L$$PWD/../setupapilib/64/setupapi/ -lsetupAPI
+        LIBS += -L$$PWD/../setupapilib/64/setupapi/ -ladvAPI32
+    }
+}
+
 
 INCLUDEPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include
 DEPENDPATH += $$PWD/../NI/DAQmx_ANSI_C_Dev/include

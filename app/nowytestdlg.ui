@@ -121,8 +121,7 @@
    <item row="5" column="0">
     <widget class="QLabel" name="lbojetoscicieczy">
      <property name="text">
-      <string>Podaj objętość cieczy
-do zadozowania</string>
+      <string>Podaj objętość cieczy\ndo zadozowania</string>
      </property>
     </widget>
    </item>
@@ -218,8 +217,7 @@ do zadozowania</string>
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Iskra elektryczna
-energia, napięci</string>
+      <string>Iskra elektryczna\nenergia, napięcie</string>
      </property>
     </widget>
    </item>

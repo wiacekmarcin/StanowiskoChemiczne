@@ -5,8 +5,8 @@
     {
       "type": "default",
       "project": "CMakeLists.txt",
-      "projectTarget": "StanowiskoChemiczne5.exe",
-      "name": "StanowiskoChemiczne5.exe"
+      "projectTarget": "StanowiskoChemiczne.exe",
+      "name": "StanowiskoChemiczne.exe"
     }
   ]
 }

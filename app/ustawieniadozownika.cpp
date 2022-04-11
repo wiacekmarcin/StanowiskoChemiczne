@@ -19,9 +19,6 @@ UstawieniaDozownika::UstawieniaDozownika(Ustawienia & ust, QWidget *parent) :
     connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &UstawieniaDozownika::on_buttonBox_clicked);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &UstawieniaDozownika::on_buttonBox_accepted);
 
-    connect(ui->rb_l_1, &QRadioButton::clicked, this, &UstawieniaDozownika::on_rb_l_1_clicked);
-    connect(ui->rb_p_1, &QRadioButton::clicked, this, &UstawieniaDozownika::on_rb_p_1_clicked);
-
     CONNECT_RB(1);
     CONNECT_RB(2);
     CONNECT_RB(3);
@@ -47,7 +44,7 @@ UstawieniaDozownika::~UstawieniaDozownika()
 #define INIT_DIRECTION(N, D) do { ui->rb_l_##N->setChecked(D);ui->rb_p_##N->setChecked(!D); } while(false)
 void UstawieniaDozownika::on_buttonBox_clicked(QAbstractButton *button)
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug"%s:%d", __FILE__, __LINE__);
     if ((QPushButton*)button == ui->buttonBox->button(QDialogButtonBox::RestoreDefaults))
     {
         INIT_DIRECTION(1, false);
@@ -68,7 +65,7 @@ void UstawieniaDozownika::on_buttonBox_clicked(QAbstractButton *button)
 
 void UstawieniaDozownika::on_buttonBox_accepted()
 {
-    qDebug("%s:%d", __FILE__, __LINE__);
+    //qDebug"%s:%d", __FILE__, __LINE__);
     save();
 }
 

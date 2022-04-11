@@ -1,4 +1,7 @@
-#pragma once
+#ifndef _NIUSB6501_H_
+#define _NIUSB6501_H_
+#include "common.h"
+#if !SYMULATOR
 #include <QString>
 #include <NIDAQmx.h>
 
@@ -29,3 +32,5 @@ private:
     char		errBuff[2048];
     int32		read;
 };
+#endif
+#endif

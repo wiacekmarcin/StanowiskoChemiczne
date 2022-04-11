@@ -6,75 +6,112 @@
 #include <QMap>
 #include <QList>
 #include "testpageform.h"
-#include "testdata.h"
+#include "testpage.h"
 
 class TestPage;
 class OtwarteZawory;
+class Urzadzenia;
+class GlowneOkno;
+class QTreeWidgetItem;
 class CreateTestWizard : public QStackedWidget
 {
     Q_OBJECT
 
 public:
     explicit CreateTestWizard(QWidget *parent = 0);
-    void setTestData(const TestData & dt);
     ~CreateTestWizard();
+    void setUstawienia(const Ustawienia &ust);
+    void init(const Ustawienia &ust, const QString &testName);
 
-    void setField(const QString & key, const QVariant & val);
-    QVariant field(const QString & key) const;
-    void addPage(TestPage * page, int id);
+    void setField(TestPage::Value key, const QVariant & val);
+    QVariant field(TestPage::Value key) const;
+    void addPage(TestPage * page, TestPage::PageId id, short step);
     TestPage * currentPage() const;
-    bool checkZawory() const;
-    bool getZamknietaKomora() const;
+    void changePage(TestPage::PageId id);
+    void setFinished(bool success);
 
-    Ustawienia *getUst() const;
 
-    void setUst(Ustawienia *newUst);
+    bool zi_drzwi_prawe();
+    bool zi_wentylacja_lewa();
+    bool zi_proznia();
+    bool zi_pom_stez_1();
+    bool zi_drzwi_lewe();
+    bool zi_wentylacja_prawa();
+    bool zi_wlot_powietrza();
+    bool zi_pom_stez_2();
+    bool zi_pilot();
+
+    void updateOutput(uint16_t mask, bool on);
+    void runZaplon(short id);
+    void runCykleDozownik(uint8_t nr, uint32_t steps);
+    void runDozownikMl(uint8_t nr, uint32_t mlx10);
+    void runCheckPositionHome();
+
+    void setZ_criticalMask(uint16_t newZ_criticalMask);
+    void setZ_warningMask(uint16_t newZ_criticalMask);
 
 public slots:
-    void changeDigitalIn(int id, bool value);
-    void changeAnalog(int id, double value);
-    void clickedZawory();
+    void nextPage(TestPage::PageId id);
 
-    void zaworProzni(bool open);
-    void pompaProzniowa(bool start);
-    void mieszadlo(bool start);
-    void zaworPowietrza(bool open);
-    void pomiary(bool start);
-    void pompaMembramowa(bool start);
-    void pomiarSingle(int idCzujka);
-    void pomiarStezen();
-    void wentylator(bool start);
+    void changeDigitalIn(uint16_t id, bool value);
+    void changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7);
 
+    void dozownikDone(bool succes);
+    void checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5);
 
 signals:
-    void zaplon(const QString & zaplon, const QString & zaplonExt);
-    void triggerCamera(bool on);
-    void pomiarCisnienia(int idCzujnik, unsigned long time_ms);
+    void changeTestName(QString);
+    void finishedTest(bool success);
+    void writeOutValues(uint16_t, bool on);
+    void cykleDozownik(uint8_t nr, uint32_t steps);
+    void dozownikMl(uint8_t nr, uint32_t mlx10);
+    void zaplon(short Id);
+    void checkPositionHome();
+    void criticalZaworOpenSignal(uint16_t idz);
+    void warningZaworOpenSignal(uint16_t idz);
 
-    void komora(bool);
 
     void setDigitalOut(int id, bool value);
+    void readsInputs();
 
+private slots:
+    void criticalZaworOpenSlot(uint16_t idz);
+    void warningZaworOpenSlot(uint16_t idz);
 
-protected slots:
-    void nextPage(int id);
-    void checkValidPage();
 protected:
-    void init();
-    void initializePage();
-    void showWarning(bool value);
-private:
-    QMap<QString,  QVariant> values;
-    QMap<int, TestPageForm*> pages;
-    short selectedId;
-    bool finished;
-    QMap<int, bool> zawory;
-    QMap<int, double> stezenia;
-    OtwarteZawory * dlgOtwarte;
-    bool zamknietaKomoraA;
-    bool zamknietaKomoraB;
 
-    Ustawienia * ust;
+    void initializePage();
+
+private:
+    QMap<TestPage::Value,  QVariant> values;
+    QMap<TestPage::PageId, TestPageForm*> pages;
+    //QMap<TestPage::PageId, TestPageForm*> pages;
+    TestPage::PageId selectedId;
+
+    bool finished;
+    OtwarteZawory * dlgOtwarte;
+
+
+    unsigned short numberInitDozCycles;
+    QMap<unsigned int, QString> m_namesZawory;
+
+    //Ustawienia & ustawienia;
+
+    QString m_nazwaTestu;
+    short m_nrDozownika;
+    QString m_nazwacieczy;
+    double m_objetosc;
+    QString m_zaplon;
+    QString m_zaplonExt; //tylko w przypadku zaplonu elektrycznego
+    bool zaplonExt; //
+
+    QMap<uint16_t, bool> zaworyMap;
+
+    QMap<uint16_t, bool> criticalMap;
+    bool showCrit;
+
+    QMap<uint16_t, bool> warningMap;
+    bool showWarn;
 };
 
 #endif // CREATETESTWIZARD_H
