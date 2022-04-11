@@ -85,7 +85,15 @@ bool Message::parse1() {
         {
             //Serial.print("recv pos req ");
             //Serial.print(dlugosc[0] + 2);
-            sendRawMessage2(data[0], dlugosc[0] + 2);            
+            //sendRawMessage2(data[0], dlugosc[0] + 2);          
+            uint32_t n = parseNumber(data[0][1], data[0][2], data[0][3], data[0][4]);            
+            uint8_t tab[4];
+            tab[0] = (n >> 24) & 0xff;
+            tab[1] = (n >> 16) & 0xff;
+            tab[2] = (n >> 8) & 0xff;
+            tab[3] = n & 0xff;
+            delay(n);
+            sendMessage1(POSITION_REP, tab, 4);
             return true;
         }
         case ECHO_REQ: 
@@ -97,14 +105,23 @@ bool Message::parse1() {
         {
             //Serial.print("move home req ");
             //Serial.print(dlugosc[0] + 2);
-            sendRawMessage2(data[0], dlugosc[0]+2);
+            //sendRawMessage2(data[0], dlugosc[0]+2);
+            uint32_t n = 55000;            
+            uint8_t tab[4];
+            tab[0] = (n >> 24) & 0xff;
+            tab[1] = (n >> 16) & 0xff;
+            tab[2] = (n >> 8) & 0xff;
+            tab[3] = n & 0xff;
+            delay(50000);
+            sendMessage1(MOVEHOME_REP, tab, 4);
             return true;
         }
         case SET_PARAM_REQ:
         {
             //Serial.print("params set req ");
             //Serial.print(dlugosc[0] + 2);
-            sendRawMessage2(data[0], dlugosc[0]+2);
+            //sendRawMessage2(data[0], dlugosc[0]+2);
+            sendMessage1(SET_PARAM_REP, nullptr, 0);
             return true;
         }
         case RESET_REQ: 
@@ -114,7 +131,7 @@ bool Message::parse1() {
             delay(1000);
             digitalWrite(2, HIGH);
             //digitalWrite(13, LOW);
-            //sendMessage1(RESET_REP, nullptr, 0);
+            sendMessage1(RESET_REP, nullptr, 0);
             return true;
         }
         
@@ -214,4 +231,13 @@ void Message::sendError(const char *buf, uint8_t len)
         b[id] = buf[id];
     }
     sendError(b, len);
+}
+
+uint32_t Message::parseNumber(uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4)
+{
+    uint32_t d1 = b1 & 0xff;
+    uint32_t d2 = b2 & 0xff;
+    uint32_t d3 = b3 & 0xff;
+    uint32_t d4 = b4 & 0xff;
+    return (d1 << 24) + (d2 << 16) + (d3 << 8) + d4;
 }

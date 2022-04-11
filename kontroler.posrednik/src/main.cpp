@@ -19,8 +19,8 @@ void loop() {
       if (Serial.available() > 0)  
         msg.check1(Serial.read());
       
-      if (Serial1.available() > 0) {
-        msg.check2(Serial1.read());
-      }
+      //if (Serial1.available() > 0) {
+      //  msg.check2(Serial1.read());
+      //}
             
 }
