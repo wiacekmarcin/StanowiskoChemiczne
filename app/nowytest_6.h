@@ -18,8 +18,6 @@ public:
     virtual void updateWejscia() override;
 
 private slots:
-    void on_pushButton_clicked();
-
     void on_pbOK_1_clicked();
 
 private:

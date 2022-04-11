@@ -77,10 +77,10 @@ bool NIDAQMxUSB6501::readValue(uInt16 & val)
         return false;
     //qDebug("%d task = %d", __LINE__, taskHandleRead);
     DAQmxErrChk(DAQmxReadDigitalU32(taskHandleRead, 1, 10.0, DAQmx_Val_GroupByChannel, &dataRead, 1, &read, NULL));
-
-    uint16_t corrval = (dataRead & 0x00ff) | (((dataRead & 0xff00) >> 4));
-    val = (~corrval) & 0x01ff;
-
+    {
+        uint16_t corrval = (dataRead & 0x00ff) | (((dataRead & 0xff00) >> 4));
+        val = (~corrval) & 0x01ff;
+    }
     //qDebug("%s:%d inR=%04x corrV=%04x val=%04x ", __FILE__, __LINE__, dataRead, corrval, val);
     return true;
 

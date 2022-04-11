@@ -104,10 +104,11 @@ void NICards::run()
 //find cards
 bool NICards::find() {
 #if SYMULATOR
-    return false;
     emit usb6210(false, false);
     emit usb6501(false, false);
-#endif
+    return false;
+
+#else
 
     emit usb6210(false, false);
     emit usb6501(false, false);
@@ -160,6 +161,7 @@ bool NICards::find() {
         }
     }
     return ret;
+#endif
 }
 
 void NICards::analogConfigure()

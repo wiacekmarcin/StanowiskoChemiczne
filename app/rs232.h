@@ -8,7 +8,12 @@ extern "C" {
 #include <stdio.h>
 #include <string.h>
 
+#include "common.h"
+
+#if SYMULATOR
+#else
 #include <windows.h>
+#endif
 
 int RS232_OpenComport(int, int, const char *, int);
 int RS232_PollComport(int, unsigned char *, int);
@@ -28,7 +33,7 @@ void RS232_flushRX(int);
 void RS232_flushTX(int);
 void RS232_flushRXTX(int);
 int RS232_GetPortnr(const char *);
-void GetComPortUsb(char *pszComePort, const char const * vid, const char const * pid);
+void GetComPortUsb(char *pszComePort, const char * vid, const char * pid);
 
 #ifdef __cplusplus
 } /* extern "C" */

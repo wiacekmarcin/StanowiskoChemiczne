@@ -1,6 +1,6 @@
 #include "urzadzenia.h"
 #include "common.h"
-
+#include <math.h>
 Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     : QObject{parent},
 #if !SYMULATOR

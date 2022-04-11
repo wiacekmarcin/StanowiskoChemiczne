@@ -10,7 +10,7 @@
 #include "niusb6501.h"
 
 
-#if !SYMULATOR
+#if SYMULATOR
 
 class TestAnalog {
 public:
@@ -73,12 +73,12 @@ private:
     uint16_t maskOutput;
 
     QMutex m_mutex;
-#if !SYMULATOR
-    NIDAQMxUSB6210 analog;
-    NIDAQMxUSB6501 digital;
-#else
+#if SYMULATOR
     TestAnalog analog;
     TestDigital digital;
+#else
+    NIDAQMxUSB6210 analog;
+    NIDAQMxUSB6501 digital;
 #endif
     bool anConf;
 
