@@ -56,3 +56,9 @@ void TestPageForm::setStep(short newStep)
     step = newStep;
 }
 
+
+void TestPageForm::on_pbAbort_clicked()
+{
+    widget()->setFinished(false);
+}
+

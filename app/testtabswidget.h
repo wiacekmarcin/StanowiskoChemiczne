@@ -21,6 +21,9 @@ public:
     ~TestTabsWidget();
     void setActive();
     CreateTestWizard * createTestWizard() const;
+
+public slots:
+    void finishedTest(bool success);
 private:
     Ui::TestTabsWidget *ui;
     ProjectItem projekt;

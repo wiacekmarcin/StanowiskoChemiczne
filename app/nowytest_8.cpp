@@ -42,7 +42,7 @@ void NowyTest_8::initializePage()
 void NowyTest_8::runDone()
 {
     ui->pbOK_2->setEnabled(true);
-    updateOutput(o_pompa_powietrza, false);
+
     //ui->pbStep2->setEnabled(true);
     //ui->pbStep2->setDone(true);
     //ui->lStep3->setEnabled(true);
@@ -60,14 +60,14 @@ void NowyTest_8::on_pbOK_1_clicked()
     updateOutput(o_pompa_powietrza, true);
 
     ui->pbOK_2->setEnabled(false);
-    QTimer::singleShot(5000, this, &NowyTest_8::runDone);
+    QTimer::singleShot(2000, this, &NowyTest_8::runDone);
 }
 
 
 void NowyTest_8::on_pbOK_2_clicked()
 {
     //pomiar
-
+    updateOutput(o_pompa_powietrza, false);
     setZ_warningMask(0);
     ui->pbOK_2->setEnabled(false);
     ui->arrow_2->setVisible(false);

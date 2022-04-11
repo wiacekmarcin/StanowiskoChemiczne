@@ -83,10 +83,9 @@ public:
     void dozownikMl(uint8_t nr, uint32_t mlx10);
     void runZaplon(short idZaplon);
     void checkPositionHome();
-
     void setZ_warningMask(uint16_t newZ_warningMask);
-
     void setZ_criticalMask(uint16_t newZ_criticalMask);
+    void setFinished(bool success);
 
 signals:
     void changePage(TestPage::PageId id);
@@ -105,7 +104,7 @@ protected:
     bool zi_pom_stez_2();
     bool zi_pilot();
 
-    void setFinished(bool success);
+
 
     bool sprawdzZawory(QPushButton *pbOk_1, QLabel * arrow_1, QFrame * frame_2);
 

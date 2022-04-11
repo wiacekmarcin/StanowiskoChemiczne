@@ -155,6 +155,8 @@ void GlowneOkno::on_actionNowy_Test_triggered()
             this, &GlowneOkno::changeTestName, Qt::QueuedConnection);
     connect(testy[selectedTest]->createTestWizard(),
             &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest, Qt::QueuedConnection);
+    connect(testy[selectedTest]->createTestWizard(),
+            &CreateTestWizard::finishedTest, testy[selectedTest], &TestTabsWidget::finishedTest, Qt::QueuedConnection);
 
     connect(urzadzenia, &Urzadzenia::digitalRead,
             testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn,
@@ -186,6 +188,9 @@ void GlowneOkno::on_actionNowy_Test_triggered()
             urzadzenia, &Urzadzenia::checkPositionHome, Qt::DirectConnection);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::readsInputs,
             urzadzenia, &Urzadzenia::readInputs, Qt::QueuedConnection);
+
+
+
 
     urzadzenia->readInputs();
     ui->treeWidget->setCurrentItem(selectedTest);

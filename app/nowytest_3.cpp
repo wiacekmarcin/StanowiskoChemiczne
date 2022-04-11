@@ -134,7 +134,7 @@ void NowyTest_3::on_pbOk_1_clicked()
 {
     sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
     setZ_criticalMask(0);
-    setZ_warningMask(i_wentylacja_lewa | i_wentylacja_prawa | i_drzwi_prawe | i_drzwi_lewe | i_pom_stez_1 | i_pom_stez_2 | i_wlot_powietrza | i_proznia);
+    setZ_warningMask(0);
 }
 
 

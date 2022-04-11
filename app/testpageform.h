@@ -32,6 +32,9 @@ public:
     ~TestPageForm();
     void setStep(short newStep);
 
+private slots:
+    void on_pbAbort_clicked();
+
 private:
     Ui::TestPageForm *ui;
     TestPage * page;
