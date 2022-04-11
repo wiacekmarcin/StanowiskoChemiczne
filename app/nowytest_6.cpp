@@ -50,15 +50,6 @@ void NowyTest_6::updateWejscia()
     }
 }
 
-void NowyTest_6::on_pushButton_clicked()
-{
-    OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this);
-    dlg->exec();
-    delete dlg;
-    nextPage(nextPageId());
-}
-
-
 void NowyTest_6::on_pbOK_1_clicked()
 {
     if (sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2)) {

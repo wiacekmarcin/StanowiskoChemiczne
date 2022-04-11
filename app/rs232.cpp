@@ -1,10 +1,12 @@
 #include "rs232.h"
-
+#if SYMULATOR
+#else
 #include <initguid.h>
 #include <windows.h>
 #include <Setupapi.h>
 #include <winreg.h>
 #include <wchar.h>
+#endif
 #include <string.h>
 
 
@@ -12,8 +14,10 @@
 
 #define RS232_PORTNR  32
 
+#if SYMULATOR
+#else
 HANDLE Cport[RS232_PORTNR];
-
+#endif
 
 const char *comports[RS232_PORTNR]={"\\\\.\\COM1",  "\\\\.\\COM2",  "\\\\.\\COM3",  "\\\\.\\COM4",
                                     "\\\\.\\COM5",  "\\\\.\\COM6",  "\\\\.\\COM7",  "\\\\.\\COM8",
@@ -29,6 +33,10 @@ char mode_str[128];
 #include <QDebug>
 int RS232_OpenComport(int comport_number, int baudrate, const char *mode, int flowctrl)
 {
+#if SYMULATOR
+return 0;
+#else
+
   if((comport_number>=RS232_PORTNR)||(comport_number<0))
   {
     //qDebug("illegal comport number\n");
@@ -201,11 +209,15 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
   }
 
   return(0);
+#endif
 }
 
 
 int RS232_PollComport(int comport_number, unsigned char *buf, int size)
 {
+#if SYMULATOR
+return 0;
+#else
   int n;
 
 /* added the void pointer cast, otherwise gcc will complain about */
@@ -217,11 +229,15 @@ int RS232_PollComport(int comport_number, unsigned char *buf, int size)
   }
 
   return(n);
+#endif
 }
 
 
 int RS232_SendByte(int comport_number, unsigned char byte)
 {
+#if SYMULATOR
+return 0;
+#else
   int n;
 
   if(!WriteFile(Cport[comport_number], &byte, 1, (LPDWORD)((void *)&n), NULL))
@@ -232,11 +248,15 @@ int RS232_SendByte(int comport_number, unsigned char byte)
   if(n<0)  return(1);
 
   return(0);
+#endif
 }
 
 
 int RS232_SendBuf(int comport_number, unsigned char *buf, int size)
 {
+#if SYMULATOR
+return 0;
+#else
   int n;
 
   if(WriteFile(Cport[comport_number], buf, size, (LPDWORD)((void *)&n), NULL))
@@ -245,12 +265,16 @@ int RS232_SendBuf(int comport_number, unsigned char *buf, int size)
   }
   //qDebug("%s:%d err=%d", __FILE__,__LINE__, GetLastError());
   return(-1);
+#endif
 }
 
 
 void RS232_CloseComport(int comport_number)
 {
+#if SYMULATOR
+#else
   CloseHandle(Cport[comport_number]);
+#endif
 }
 
 /*
@@ -259,69 +283,97 @@ http://msdn.microsoft.com/en-us/library/windows/desktop/aa363258%28v=vs.85%29.as
 
 int RS232_IsDCDEnabled(int comport_number)
 {
+#if SYMULATOR
+return 0;
+#else
   int status;
 
   GetCommModemStatus(Cport[comport_number], (LPDWORD)((void *)&status));
 
   if(status&MS_RLSD_ON) return(1);
   else return(0);
+#endif
 }
 
 
 int RS232_IsRINGEnabled(int comport_number)
 {
+#if SYMULATOR
+return 0;
+#else
   int status;
 
   GetCommModemStatus(Cport[comport_number], (LPDWORD)((void *)&status));
 
   if(status&MS_RING_ON) return(1);
   else return(0);
+#endif
 }
 
 
 int RS232_IsCTSEnabled(int comport_number)
 {
+#if SYMULATOR
+return 0;
+#else
   int status;
 
   GetCommModemStatus(Cport[comport_number], (LPDWORD)((void *)&status));
 
   if(status&MS_CTS_ON) return(1);
   else return(0);
+#endif
 }
 
 
 int RS232_IsDSREnabled(int comport_number)
 {
+#if SYMULATOR
+return 0;
+#else
   int status;
 
   GetCommModemStatus(Cport[comport_number], (LPDWORD)((void *)&status));
 
   if(status&MS_DSR_ON) return(1);
   else return(0);
+#endif
 }
 
 
 void RS232_enableDTR(int comport_number)
 {
+#if SYMULATOR
+#else
   EscapeCommFunction(Cport[comport_number], SETDTR);
+#endif
 }
 
 
 void RS232_disableDTR(int comport_number)
 {
+#if SYMULATOR
+#else
   EscapeCommFunction(Cport[comport_number], CLRDTR);
+#endif
 }
 
 
 void RS232_enableRTS(int comport_number)
 {
+#if SYMULATOR
+#else
   EscapeCommFunction(Cport[comport_number], SETRTS);
+#endif
 }
 
 
 void RS232_disableRTS(int comport_number)
 {
+#if SYMULATOR
+#else
   EscapeCommFunction(Cport[comport_number], CLRRTS);
+#endif
 }
 
 /*
@@ -330,31 +382,46 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/aa363428%28v=vs.85%29.a
 
 void RS232_flushRX(int comport_number)
 {
+#if SYMULATOR
+#else
   PurgeComm(Cport[comport_number], PURGE_RXCLEAR | PURGE_RXABORT);
+#endif
 }
 
 
 void RS232_flushTX(int comport_number)
 {
+#if SYMULATOR
+#else
   PurgeComm(Cport[comport_number], PURGE_TXCLEAR | PURGE_TXABORT);
+#endif
 }
 
 
 void RS232_flushRXTX(int comport_number)
 {
+#if SYMULATOR
+#else
   PurgeComm(Cport[comport_number], PURGE_RXCLEAR | PURGE_RXABORT);
   PurgeComm(Cport[comport_number], PURGE_TXCLEAR | PURGE_TXABORT);
+#endif
 }
 
 void RS232_cputs(int comport_number, const char *text)  /* sends a string to serial port */
 {
+#if SYMULATOR
+#else
   while(*text != 0)   RS232_SendByte(comport_number, *(text++));
+#endif
 }
 
 
 /* return index in comports matching to device name or -1 if not found */
 int RS232_GetPortnr(const char *devname)
 {
+#if SYMULATOR
+    return 0;
+#else
   int i;
 
   char str[32];
@@ -376,10 +443,13 @@ int RS232_GetPortnr(const char *devname)
   }
 
   return -1;  /* device not found */
+#endif
 }
 
-void GetComPortUsb(char *pszComePort, const char const * vid, const char const * pid)
+void GetComPortUsb(char *pszComePort, const char * vid, const char * pid)
 {
+#if SYMULATOR
+#else
     //qDebug("%s:%d",__FILE__, __LINE__);
     HDEVINFO DeviceInfoSet;
     DWORD DeviceIndex =0;
@@ -469,4 +539,5 @@ void GetComPortUsb(char *pszComePort, const char const * vid, const char const *
     {
         SetupDiDestroyDeviceInfoList(DeviceInfoSet);
     }
+#endif
 }
