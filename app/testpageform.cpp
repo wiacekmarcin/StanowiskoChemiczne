@@ -56,6 +56,11 @@ void TestPageForm::setStep(short newStep)
     step = newStep;
 }
 
+void TestPageForm::visibleAbortBtn(bool vs)
+{
+    ui->pbAbort->setVisible(vs);
+}
+
 
 void TestPageForm::on_pbAbort_clicked()
 {

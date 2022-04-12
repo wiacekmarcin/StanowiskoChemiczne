@@ -31,6 +31,7 @@ public:
 public:
     ~TestPageForm();
     void setStep(short newStep);
+    void visibleAbortBtn(bool vs);
 
 private slots:
     void on_pbAbort_clicked();
