@@ -101,6 +101,8 @@ protected:
 
     void sendError(uint8_t *buf, uint8_t len) { sendMessage1(ERROR_REP, buf, len); }; 
     void sendError(const char *buf, uint8_t len);
+
+    uint32_t parseNumber(uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4);
     
     // rozkaz/dlugosc | 1 byte | 2 byte | 3 byte | 4 byte | crc
     uint8_t data[2][MAXLENPROTO + 4];
