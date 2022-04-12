@@ -196,6 +196,15 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
  */
     if (selectedId == TestPage::PAGE_3)
         currentPage()->setCisnKomory(vals[4]);
+
+    if (selectedId == TestPage::PAGE_5 || selectedId == TestPage::PAGE_8) {
+        //currentPage()->setStezenie(val0, val1, val2, val3);
+    }
+    /*
+    if (rejestracja) {
+        QList.append(struct vals);
+    }
+    */
 }
 
 void CreateTestWizard::dozownikDone(bool success)
