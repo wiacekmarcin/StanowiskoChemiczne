@@ -143,7 +143,8 @@ void CreateTestWizard::addPage(TestPage *page, TestPage::PageId id, short step)
     pages[id] = t;
     addWidget(t);
 
-
+    if (id == TestPage::PAGE_9)
+        t->visibleAbortBtn(false);
 }
 
 
@@ -155,8 +156,18 @@ TestPage *CreateTestWizard::currentPage() const
 void CreateTestWizard::setFinished(bool success)
 {
     finished = success;
+    updateOutput(o_hv_onoff, false);
+    updateOutput(o_hv_bezpiecznik, true);
+    updateOutput(o_hv_iskra, false);
+    updateOutput(o_mech_iskra, false);
+    updateOutput(o_grzalka, false);
+    updateOutput(o_pompa_prozniowa, false);
+    updateOutput(o_wentylator, false);
+    updateOutput(o_mieszadlo, false);
+    updateOutput(o_trigger, false);
     emit finishedTest(success);
 
+    disconnect(this, nullptr, nullptr, nullptr);
 }
 
 void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
