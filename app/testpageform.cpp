@@ -4,6 +4,8 @@
 #include "createtestwizard.h"
 #include "otwartezawory.h"
 
+#include <QMessageBox>
+
 TestPageForm::TestPageForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestPageForm)
@@ -64,6 +66,8 @@ void TestPageForm::visibleAbortBtn(bool vs)
 
 void TestPageForm::on_pbAbort_clicked()
 {
-    widget()->setFinished(false);
+    if (QMessageBox::warning(this, QString("Przerwanie test"), QString("Czy chcesz napewno przerwać test ?"),
+                         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
+        widget()->setFinished(false);
 }
 

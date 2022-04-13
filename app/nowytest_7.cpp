@@ -4,6 +4,7 @@
 #include "urzadzenia.h"
 #include <QMessageBox>
 #include "ustawienia.h"
+#include <QMessageBox>
 
 NowyTest_7::NowyTest_7(QWidget *parent) :
     TestPage(parent),
@@ -58,6 +59,7 @@ void NowyTest_7::on_pbOK_1_clicked()
     if ((wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes)) {
         next = TestPage::PAGE_8;
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_proznia | i_wlot_powietrza | i_pom_stez_1 | i_pom_stez_2 | i_wentylacja_prawa | i_wentylacja_lewa);
+        QMessageBox::information(this, QString("Kamera"), QString("Pamiętaj o zapisaniu filmu na kartę"));
         nextPage(next);
     } else if (field(TestPage::rodzajZaplonu).toInt() == ISKRA_PLOMIEN) {
         ui->arrow_1->setVisible(false);

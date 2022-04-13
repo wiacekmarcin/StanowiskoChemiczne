@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
-    <height>263</height>
+    <width>502</width>
+    <height>303</height>
    </rect>
   </property>
   <property name="font">
@@ -200,7 +200,21 @@ do zadozowania</string>
      <item>
       <widget class="QLabel" name="lunit">
        <property name="text">
-        <string>ml</string>
+        <string>[ml] &lt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lMaxvalue">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="maxcieczy">
+       <property name="text">
+        <string>0</string>
        </property>
       </widget>
      </item>
@@ -217,64 +231,19 @@ do zadozowania</string>
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QLabel" name="lMaxvalue">
-       <property name="text">
-        <string>Maksymalna objętość</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="maxcieczy">
-       <property name="text">
-        <string>0</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="lunit2">
-       <property name="text">
-        <string>ml</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item row="11" column="0">
     <widget class="QLabel" name="lzaplon">
      <property name="text">
-      <string>Wybór źródła zapłonu</string>
+      <string>Podaj wilgotność</string>
      </property>
     </widget>
    </item>
    <item row="11" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QComboBox" name="cbZaplon">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <item>
-        <property name="text">
-         <string>--</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Iskra elektryczna</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Iskra mechaniczna</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Płomień</string>
-        </property>
-       </item>
-      </widget>
+      <widget class="QLineEdit" name="lineEdit"/>
      </item>
      <item>
       <spacer name="horizontalSpacer_5">

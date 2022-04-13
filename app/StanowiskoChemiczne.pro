@@ -51,6 +51,7 @@ SOURCES += \
     serialmessage.cpp \
     stanczujnika.cpp \
     stanwyjscia.cpp \
+    testparam.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
     videowidget.cpp \
@@ -95,6 +96,7 @@ HEADERS += \
     serialmessage.h \
     stanczujnika.h \
     stanwyjscia.h \
+    testparam.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \
     videowidget.h \

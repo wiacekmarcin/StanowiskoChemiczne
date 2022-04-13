@@ -26,7 +26,6 @@ protected slots:
 
 protected:
     void checkValid();
-    QString getIngition() const;
     double getVolume() const;
     QString getLuquid() const;
     int getDozownik() const;

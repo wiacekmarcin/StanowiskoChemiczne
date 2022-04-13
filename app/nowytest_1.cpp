@@ -16,7 +16,6 @@ NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
     connect(ui->cbDozownik, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::dozownikChanged);
     connect(ui->cbCiecz, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::cieczChanged);
     connect(ui->iloscCieczy, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &NowyTest_1::iloscCieczyChanged);
-    connect(ui->cbZaplon, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::zaplonChanged);
 
     currCiecz = "";
     valCieczy = 0.0;
@@ -70,11 +69,6 @@ double NowyTest_1::getVolume() const
     return ui->iloscCieczy->value();
 }
 
-QString NowyTest_1::getIngition() const
-{
-    return ui->cbZaplon->currentText();
-}
-
 void NowyTest_1::nameTestChanged(const QString &arg1)
 {
     if (arg1.isEmpty()) {
@@ -92,7 +86,6 @@ void NowyTest_1::dozownikChanged(int index)
 {
     if (index == 0) {
         ui->iloscCieczy->setValue(0);
-        ui->cbZaplon->setCurrentIndex(0);
         ui->iloscCieczy->setEnabled(false);
         //ui->cbZaplon->setEnabled(false);
         valid = false;
@@ -141,12 +134,7 @@ void NowyTest_1::checkValid()
             v = false;
             break;
         }
-        //qDebug("%s:%d v=%d",__FILE__,__LINE__, v);
-        if (ui->cbZaplon->currentIndex() == 0) {
-            v = false;
-            break;
-        }
-        break;
+
         if (valCieczy < 0.1) {
             v = false;
             break;
@@ -163,14 +151,12 @@ void NowyTest_1::cieczChanged(int index)
     //qDebug("%s:%d %d %s",__FILE__,__LINE__, index, currCiecz.toStdString().c_str());
     if (index == 0) {
         ui->iloscCieczy->setEnabled(false);
-        ui->cbZaplon->setEnabled(false);
         valid = false;
         checkValid();
         return;
     }
     valid = true;
     ui->iloscCieczy->setEnabled(true);
-    ui->cbZaplon->setEnabled(true);
 
     QString key = ui->cbCiecz->currentText();
     ui->maxcieczy->setText(QString::number(maxVal[key]));
@@ -209,8 +195,6 @@ void NowyTest_1::on_pbNext_clicked()
     setField(TestPage::objetosc, QVariant::fromValue(getVolume()));
     setField(TestPage::calaObjetosc, QVariant::fromValue(0.0));
     setField(TestPage::dozownikNr, QVariant::fromValue(getDozownik()));
-    setField(TestPage::zaplon, QVariant::fromValue(getIngition()));
-    setField(TestPage::rodzajZaplonu, QVariant::fromValue(ui->cbZaplon->currentIndex()));
     nextPage(nextPageId());
 }
 
