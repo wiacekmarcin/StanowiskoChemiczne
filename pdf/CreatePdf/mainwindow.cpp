@@ -10,6 +10,9 @@
 #include <QTextCursor>
 #include <QDebug>
 
+#include <QImageReader>
+#include <QPrintDialog>
+
 static const int textMargins = 12; // in millimeters
 static const int borderMargins = 10; // in millimeters
 
@@ -61,7 +64,7 @@ static void printDocument(QPrinter& printer, QTextDocument* doc, QWidget* parent
     const double tm = mmToPixels(printer, textMargins);
     const qreal footerHeight = painter.fontMetrics().height();
     const QRectF textRect(tm, tm, pageSize.width() - 2 * tm, pageSize.height() - 2 * tm - footerHeight);
-    //qDebug() << "textRect=" << textRect;
+    qDebug() << "textRect=" << textRect;
     doc->setPageSize(textRect.size());
 
     const int pageCount = doc->pageCount();
@@ -119,9 +122,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QTextDocument textDocument;
-    QTextCursor cursor(&textDocument);
+       QPrinter printer(QPrinter::HighResolution);
+    QTextDocument * textDocument = ui->textEdit->document();
+    QTextCursor cursor(textDocument);
     cursor.insertText("This is the first page");
+
+    qDebug("%d", printer.isValid());
 
     addTable(cursor);
 
@@ -130,16 +136,51 @@ MainWindow::MainWindow(QWidget *parent)
        cursor.insertBlock(blockFormat);
        cursor.insertText("This is the second page");
 
+
        QTextBlockFormat blockFormat2;
        blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
        cursor.insertBlock(blockFormat2);
        cursor.insertText("This is the third page");
 
-   QPrinter printer;
-   printer.setOutputFileName("test.pdf");
+       QUrl Uri ( QString ( "file:///home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ) );
+       QImage image = QImageReader ( "/home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ).read();
+
+
+
+       textDocument->addResource( QTextDocument::ImageResource, Uri, QVariant ( image ) );
+
+       QTextBlockFormat blockFormat3;
+       blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
+       cursor.insertBlock(blockFormat3);
+
+       QTextImageFormat imageFormat;
+       imageFormat.setWidth( image.width() );
+       imageFormat.setHeight( image.height() );
+       imageFormat.setName( Uri.toString() );
+       cursor.insertImage(imageFormat);
+
+
+
+
+
+
+
+    qDebug("print");
+    printer.setOutputFormat(QPrinter::PdfFormat);
+   printer.setOutputFileName("/home/marcin/old.ubuntu/development/Qt/StanowiskoChemiczne/pdf/test.pdf");
+   printer.setPaperSize(QPrinter::A4);
    printer.setFullPage(true);
 
-   printDocument(printer, &textDocument, 0);
+   QPrintDialog*dlg = new QPrintDialog(&printer,this);
+   dlg->setWindowTitle(QObject::tr("Print Document"));
+
+   printDocument(printer, textDocument, 0);
+   //if(dlg->exec() == QDialog::Accepted) {
+   //    printDocument(printer, textDocument, this);
+   //}
+   //delete dlg;
+
+   qDebug("Done");
 }
 
 MainWindow::~MainWindow()
