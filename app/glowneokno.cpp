@@ -188,6 +188,8 @@ void GlowneOkno::on_actionNowy_Test_triggered()
             urzadzenia, &Urzadzenia::checkPositionHome, Qt::DirectConnection);
     connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::readsInputs,
             urzadzenia, &Urzadzenia::readInputs, Qt::QueuedConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::resetDozownik,
+            urzadzenia, &Urzadzenia::resetDozownik, Qt::QueuedConnection);
 
 
 

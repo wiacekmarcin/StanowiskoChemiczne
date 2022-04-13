@@ -69,6 +69,7 @@ signals:
     void checkPositionHome();
     void criticalZaworOpenSignal(uint16_t idz);
     void warningZaworOpenSignal(uint16_t idz);
+    void resetDozownik();
 
 
     void setDigitalOut(int id, bool value);
@@ -81,6 +82,7 @@ private slots:
 protected:
 
     void initializePage();
+    void runResetDozownik();
 
 private:
     QMap<TestPage::Value,  QVariant> values;

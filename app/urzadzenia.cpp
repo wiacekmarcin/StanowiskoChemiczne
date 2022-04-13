@@ -84,6 +84,11 @@ void Urzadzenia::checkPositionHome()
     serial.checkPositionHome();
 }
 
+void Urzadzenia::resetDozownik()
+{
+    serial.setReset();
+}
+
 void Urzadzenia::ni_error(const QString &s)
 {
     //qDebug"ni_error %s", s.toStdString().c_str());
@@ -93,6 +98,8 @@ void Urzadzenia::ni_debug(const QString &d)
 {
     //qDebug"NI %s", d.toStdString().c_str());
 }
+
+
 
 void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6)
 {
