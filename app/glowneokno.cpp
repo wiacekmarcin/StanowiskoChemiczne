@@ -24,6 +24,8 @@
 #include "ustawieniadozownika.h"
 #include "ustawienia.h"
 
+#include "wersjadlg.h"
+
 GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GlowneOkno),
@@ -77,12 +79,6 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     }
 
     connect (signalMapper, SIGNAL( mapped(int) ), this, SLOT(wybierzCzujke(int))) ;
-
-    QAction * debugDozo = new QAction(this);
-    debugDozo->setObjectName("debugactiondozo");
-    debugDozo->setText(QString::fromUtf8("Dozownik - test"));
-    ui->menuBar->addAction(debugDozo);
-    connect(debugDozo, &QAction::triggered, this, &GlowneOkno::dozownikTest);
 
 
     changeSelectedTest();
@@ -305,5 +301,13 @@ void GlowneOkno::finishedTest(bool success)
         selectedTest = nullptr;
         changeSelectedTest();
     }
+}
+
+
+void GlowneOkno::on_actionWersja_triggered()
+{
+    WersjaDlg * dlg = new WersjaDlg(this);
+    dlg->exec();
+    delete dlg;
 }
 

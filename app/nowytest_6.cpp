@@ -22,11 +22,13 @@ void NowyTest_6::initializePage()
     QString info("Wciśnięcie przycisku zdalnego sterowania spowoduje uruchomienie : ");
     info += zaplon;
     info += ".";
-    ui->lStep2->setText(info);
+
 
     ui->frame_2->setVisible(false);
     ui->arrow_1->setVisible(true);
     ui->pbOK_1->setEnabled(true);
+    ui->frame_3->setVisible(false);
+    ui->arriw_2->setVisible(true);
     runDialog = false;
     step2 = false;
 

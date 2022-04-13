@@ -39,6 +39,8 @@ private slots:
     void changeTestName(const QString &name);
     void finishedTest(bool success);
 
+    void on_actionWersja_triggered();
+
 protected:
     void changeSelectedTest();
     void setActionText();

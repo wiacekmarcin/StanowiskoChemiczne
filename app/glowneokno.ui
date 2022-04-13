@@ -330,7 +330,7 @@
      <x>0</x>
      <y>0</y>
      <width>1364</width>
-     <height>17</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPlik">
@@ -386,6 +386,8 @@
      <string>Pomo&amp;c</string>
     </property>
     <addaction name="actionInstrukcja"/>
+    <addaction name="separator"/>
+    <addaction name="actionWersja"/>
    </widget>
    <addaction name="menuPlik"/>
    <addaction name="menuSerwer"/>
@@ -444,6 +446,11 @@
   <action name="actionUstawienia">
    <property name="text">
     <string>Ustawienia</string>
+   </property>
+  </action>
+  <action name="actionWersja">
+   <property name="text">
+    <string>Wersja</string>
    </property>
   </action>
  </widget>

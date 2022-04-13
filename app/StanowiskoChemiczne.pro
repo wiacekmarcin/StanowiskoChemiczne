@@ -74,9 +74,11 @@ SOURCES += \
     niusb6210.cpp \
     niusb6501.cpp \
     ustawienia.cpp \
-    rs232.cpp
+    rs232.cpp \
+    wersjadlg.cpp
 
 HEADERS += \
+    build_defs.h \
     common.h \
     crc8.h \
     czujnikanalogowyustawieniawidget.h \
@@ -99,6 +101,7 @@ HEADERS += \
     testparam.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \
+    version.h \
     videowidget.h \
     createtestwizard.h \
     projectitem.h \
@@ -119,7 +122,8 @@ HEADERS += \
     ustawienia.h \
     niusb6210.h \
     niusb6501.h \
-    rs232.h
+    rs232.h \
+    wersjadlg.h
 
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \
@@ -148,7 +152,8 @@ FORMS += \
     nowytest_6.ui \
     nowytest_7.ui \
     nowytest_8.ui \
-    nowytest_9.ui
+    nowytest_9.ui \
+    wersjadlg.ui
 
 RESOURCES += \
     ikony.qrc

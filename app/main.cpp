@@ -7,6 +7,7 @@
 #include "urzadzenia.h"
 
 
+
 int main(int argc, char *argv[])
 {
     qRegisterMetaType<uint16_t>("uint16_t");
