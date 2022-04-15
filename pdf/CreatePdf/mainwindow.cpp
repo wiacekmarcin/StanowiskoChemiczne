@@ -7,11 +7,14 @@
 #include <QApplication>
 #include <QTextDocument>
 #include <QTextTableCell>
+#include <QTextBlockFormat>
 #include <QTextCursor>
 #include <QDebug>
 
 #include <QImageReader>
 #include <QPrintDialog>
+#include <QPdfWriter>
+
 
 static const int textMargins = 12; // in millimeters
 static const int borderMargins = 10; // in millimeters
@@ -27,7 +30,7 @@ static void paintPage(QPrinter& printer, int pageNumber, int pageCount,
 {
     //qDebug() << "Printing page" << pageNumber;
     const QSizeF pageSize = printer.paperRect().size();
-    //qDebug() << "pageSize=" << pageSize;
+    qDebug() << "pageSize=" << pageSize;
 
     const double bm = mmToPixels(printer, borderMargins);
     const QRectF borderRect(bm, bm, pageSize.width() - 2 * bm, pageSize.height() - 2 * bm);
@@ -60,6 +63,9 @@ static void printDocument(QPrinter& printer, QTextDocument* doc, QWidget* parent
 {
     QPainter painter( &printer );
     QSizeF pageSize = printer.pageRect().size(); // page size in pixels
+    qDebug() << "pageSize=" << pageSize;
+    qDebug() << "pageSizeMM=" << printer.pageSizeMM();
+    qDebug() << "pageSize=" << printer.pageSize();
     // Calculate the rectangle where to lay out the text
     const double tm = mmToPixels(printer, textMargins);
     const qreal footerHeight = painter.fontMetrics().height();
@@ -122,65 +128,166 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-       QPrinter printer(QPrinter::HighResolution);
-    QTextDocument * textDocument = ui->textEdit->document();
+    QPdfWriter pdfwriter("/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/pdf/CreatePdf/test.pdf");
+    pdfwriter.setPageSize(QPageSize(QPageSize::A4));
+    QPainter painter(&pdfwriter);
+    painter.drawText(0,0, "testData");
+#if 0
+
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    QTextDocument * textDocument = new QTextDocument;
+
     QTextCursor cursor(textDocument);
-    cursor.insertText("This is the first page");
+
+    QTextCharFormat plainFormat(cursor.charFormat());
+
+    QTextBlockFormat blockTitleFormat(cursor.blockFormat());
+    blockTitleFormat.setAlignment(Qt::AlignCenter);
+    blockTitleFormat.setHeadingLevel(1);
+    blockTitleFormat.setLineHeight(2.0, QTextBlockFormat::ProportionalHeight);
+    cursor.insertBlock();
+    cursor.mergeBlockFormat(blockTitleFormat);
+    cursor.insertText(tr("Szkoła Główna Służby Pożarniczej w Warszawie") /*,
+                  headingFormat*/);
+    cursor.insertBlock();
+    cursor.insertText(tr("Szkoła Główna Służby Pożarniczej w Warszawie") /*,
+                  headingFormat*/);
+    cursor.insertBlock();
+    cursor.insertText(tr("Zakład Badania Przyczyn Pożarów") /*,
+                headingFormat*/);
+
+
+    //textDocument->setHtml("<html><body><h1>Szkoła Główna Służby Pożarniczej w Warszawie</h1>"\
+    "<h1>Zakład Badania Przyczyn Pożarów</h1><p>Jakiś tekst</p></body></html>");
+    /*
+
+
+    QTextCursor cursor(textDocument);
+
+    QTextCharFormat plainFormat(cursor.charFormat());
+
+    QTextBlockFormat blockTitleFormat(cursor.blockFormat());
+    blockTitleFormat.setAlignment(Qt::AlignCenter);
+    blockTitleFormat.setHeadingLevel(1);
+    blockTitleFormat.setLineHeight(2.0, QTextBlockFormat::ProportionalHeight);
+    
+    QTextCharFormat headingFormat = plainFormat;
+    headingFormat.setFontWeight(QFont::Bold);
+    headingFormat.setFontPointSize(16);
+
+    //QTextCharFormat emphasisFormat = plainFormat;
+    //emphasisFormat.setFontItalic(true);   
+
+    cursor.movePosition(QTextCursor::Start); 
+
+    cursor.mergeBlockFormat(blockTitleFormat);
+    cursor.insertBlock(blockTitleFormat);
+
+    cursor.insertText(tr("Szkoła Główna Służby Pożarniczej w Warszawie"),
+                  headingFormat);
+
+    cursor.insertBlock(); // Single character
+
+    cursor.insertText(tr("Zakład Badania Przyczyn Pożarów"),
+                headingFormat);
+
+    cursor.insertBlock(); // Single character
+
+    //cursor.insertText(tr("a"), emphasisFormat);
+    //cursor.insertText(tr("b"), headingFormat);
+    //cursor.insertBlock();
+
+    
+    cursor.insertText(tr("Text can be displayed in a variety of "
+                                "different character formats. "), plainFormat);
+    cursor.insertText(tr("We can emphasize text by "));
+    //cursor.insertText(tr("making it italic"), emphasisFormat);
+*/
+    /*
+    QTextBlockFormat blockTitleFormat(cursor.blockFormat());
+    blockTitleFormat.setAlignment(Qt::AlignCenter);
+    blockTitleFormat.setHeadingLevel(1);
+    blockTitleFormat.setLineHeight(2.0, QTextBlockFormat::ProportionalHeight);
+    
+    QTextCharFormat charTitleFormat(cursor.charFormat());
+    charTitleFormat.setFontWeight(QFont::Bold);
+    charTitleFormat.setFontPointSize(14);
+
+    cursor.setBlockFormat(blockTitleFormat);
+    cursor.insertText(QString("Szkoła Główna Służby Pożarniczej w Warszawie\n"), charTitleFormat);
+    cursor.movePosition( QTextCursor::End );
+
+    cursor.setBlockFormat(blockTitleFormat);
+    cursor.insertText(QString("Zakład Badania Przyczyn Pożarów\n"), charTitleFormat);
+    cursor.movePosition( QTextCursor::End );
+*/
+    //QTextBlockFormat blockSubTitleFormat;
+    //blockSubTitleFormat.setAlignment(Qt::AlignCenter);
+    //blockTitleFormat.setHeadingLevel(2);
+
+    //cursor.setBlockFormat(blockTitleFormat);
+    //cursor.insertText(QString("Szkoła Główna Służby Pożarniczej w Warszawie"));
+
+    //QTextCursor cursorSubTitle(textDocument);
+    //cursor.insertText("Zakład Badania Przyczyn Pożarów");
+
 
     qDebug("%d", printer.isValid());
 
-    addTable(cursor);
+    //addTable(cursor);
 
-       QTextBlockFormat blockFormat;
-       blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
-       cursor.insertBlock(blockFormat);
-       cursor.insertText("This is the second page");
-
-
-       QTextBlockFormat blockFormat2;
-       blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
-       cursor.insertBlock(blockFormat2);
-       cursor.insertText("This is the third page");
-
-       QUrl Uri ( QString ( "file:///home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ) );
-       QImage image = QImageReader ( "/home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ).read();
+       //QTextBlockFormat blockFormat;
+       //blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
+       //cursor.insertBlock(blockFormat);
+       //cursor.insertText("This is the second page");
 
 
+       //QTextBlockFormat blockFormat2;
+       //blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
+       //cursor.insertBlock(blockFormat2);
+       //cursor.insertText("This is the third page");
 
-       textDocument->addResource( QTextDocument::ImageResource, Uri, QVariant ( image ) );
-
-       QTextBlockFormat blockFormat3;
-       blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
-       cursor.insertBlock(blockFormat3);
-
-       QTextImageFormat imageFormat;
-       imageFormat.setWidth( image.width() );
-       imageFormat.setHeight( image.height() );
-       imageFormat.setName( Uri.toString() );
-       cursor.insertImage(imageFormat);
+       //QUrl Uri ( QString ( "file:///home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ) );
+       //QImage image = QImageReader ( "/home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ).read();
 
 
+
+       //textDocument->addResource( QTextDocument::ImageResource, Uri, QVariant ( image ) );
+
+       //QTextBlockFormat blockFormat3;
+       //blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
+       //cursor.insertBlock(blockFormat3);
+
+       //QTextImageFormat imageFormat;
+       //imageFormat.setWidth( image.width() );
+       //imageFormat.setHeight( image.height() );
+       //imageFormat.setName( Uri.toString() );
+       //cursor.insertImage(imageFormat);
 
 
 
 
 
-    qDebug("print");
+
+
+
     printer.setOutputFormat(QPrinter::PdfFormat);
-   printer.setOutputFileName("/home/marcin/old.ubuntu/development/Qt/StanowiskoChemiczne/pdf/test.pdf");
+   printer.setOutputFileName("/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/pdf/CreatePdf/test.pdf");
    printer.setPaperSize(QPrinter::A4);
    printer.setFullPage(true);
 
-   QPrintDialog*dlg = new QPrintDialog(&printer,this);
-   dlg->setWindowTitle(QObject::tr("Print Document"));
+   //QPrintDialog*dlg = new QPrintDialog(&printer,this);
+   //dlg->setWindowTitle(QObject::tr("Print Document"));
 
-   printDocument(printer, textDocument, 0);
+   printDocument(printer, textDocument, this);
    //if(dlg->exec() == QDialog::Accepted) {
    //    printDocument(printer, textDocument, this);
    //}
    //delete dlg;
 
    qDebug("Done");
+#endif
 }
 
 MainWindow::~MainWindow()

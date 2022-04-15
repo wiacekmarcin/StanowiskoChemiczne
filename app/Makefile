@@ -16,7 +16,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_MULTIMEDIAWIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES) -std=c++14
+CXXFLAGS      = -pipe -O2 -std=gnu++1y -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -I./include -I../NI/DAQmx_ANSI_C_Dev/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSerialPort -I/usr/include/x86_64-linux-gnu/qt5/QtCore -Imoc -Iui -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
@@ -71,6 +71,7 @@ SOURCES       = crc8.cpp \
 		serialmessage.cpp \
 		stanczujnika.cpp \
 		stanwyjscia.cpp \
+		testparam.cpp \
 		ustawieniadozownika.cpp \
 		ustawieniatestu.cpp \
 		videowidget.cpp \
@@ -93,7 +94,8 @@ SOURCES       = crc8.cpp \
 		niusb6210.cpp \
 		niusb6501.cpp \
 		ustawienia.cpp \
-		rs232.cpp src/qrc_ikony.cpp \
+		rs232.cpp \
+		wersjadlg.cpp src/qrc_ikony.cpp \
 		moc/moc_czujnikanalogowyustawieniawidget.cpp \
 		moc/moc_czujnikanalogowywidget.cpp \
 		moc/moc_czujnikianalogoweokno.cpp \
@@ -127,7 +129,8 @@ SOURCES       = crc8.cpp \
 		moc/moc_nowytest_7.cpp \
 		moc/moc_nowytest_8.cpp \
 		moc/moc_nowytest_9.cpp \
-		moc/moc_urzadzenia.cpp
+		moc/moc_urzadzenia.cpp \
+		moc/moc_wersjadlg.cpp
 OBJECTS       = objects/crc8.o \
 		objects/czujnikanalogowyustawieniawidget.o \
 		objects/czujnikanalogowywidget.o \
@@ -147,6 +150,7 @@ OBJECTS       = objects/crc8.o \
 		objects/serialmessage.o \
 		objects/stanczujnika.o \
 		objects/stanwyjscia.o \
+		objects/testparam.o \
 		objects/ustawieniadozownika.o \
 		objects/ustawieniatestu.o \
 		objects/videowidget.o \
@@ -170,6 +174,7 @@ OBJECTS       = objects/crc8.o \
 		objects/niusb6501.o \
 		objects/ustawienia.o \
 		objects/rs232.o \
+		objects/wersjadlg.o \
 		objects/qrc_ikony.o \
 		objects/moc_czujnikanalogowyustawieniawidget.o \
 		objects/moc_czujnikanalogowywidget.o \
@@ -204,7 +209,8 @@ OBJECTS       = objects/crc8.o \
 		objects/moc_nowytest_7.o \
 		objects/moc_nowytest_8.o \
 		objects/moc_nowytest_9.o \
-		objects/moc_urzadzenia.o
+		objects/moc_urzadzenia.o \
+		objects/moc_wersjadlg.o
 DIST          = StanowiskoChemiczne_pl_PL.ts \
 		lista.txt \
 		path \
@@ -292,7 +298,8 @@ DIST          = StanowiskoChemiczne_pl_PL.ts \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		StanowiskoChemiczne.pro common.h \
+		StanowiskoChemiczne.pro build_defs.h \
+		common.h \
 		crc8.h \
 		czujnikanalogowyustawieniawidget.h \
 		czujnikanalogowywidget.h \
@@ -311,8 +318,10 @@ DIST          = StanowiskoChemiczne_pl_PL.ts \
 		serialmessage.h \
 		stanczujnika.h \
 		stanwyjscia.h \
+		testparam.h \
 		ustawieniadozownika.h \
 		ustawieniatestu.h \
+		version.h \
 		videowidget.h \
 		createtestwizard.h \
 		projectitem.h \
@@ -333,7 +342,8 @@ DIST          = StanowiskoChemiczne_pl_PL.ts \
 		ustawienia.h \
 		niusb6210.h \
 		niusb6501.h \
-		rs232.h crc8.cpp \
+		rs232.h \
+		wersjadlg.h crc8.cpp \
 		czujnikanalogowyustawieniawidget.cpp \
 		czujnikanalogowywidget.cpp \
 		czujnikianalogoweokno.cpp \
@@ -352,6 +362,7 @@ DIST          = StanowiskoChemiczne_pl_PL.ts \
 		serialmessage.cpp \
 		stanczujnika.cpp \
 		stanwyjscia.cpp \
+		testparam.cpp \
 		ustawieniadozownika.cpp \
 		ustawieniatestu.cpp \
 		videowidget.cpp \
@@ -374,7 +385,8 @@ DIST          = StanowiskoChemiczne_pl_PL.ts \
 		niusb6210.cpp \
 		niusb6501.cpp \
 		ustawienia.cpp \
-		rs232.cpp
+		rs232.cpp \
+		wersjadlg.cpp
 QMAKE_TARGET  = StanowiskoChemiczne
 DESTDIR       = build/
 TARGET        = build/StanowiskoChemiczne
@@ -383,7 +395,7 @@ TARGET        = build/StanowiskoChemiczne
 first: all
 ####### Build rules
 
-build/StanowiskoChemiczne: ui/ui_czujnikanalogowyustawieniawidget.h ui/ui_czujnikanalogowywidget.h ui/ui_digitaloutwidget.h ui/ui_dozowniksettings.h ui/ui_glowneokno.h ui/ui_nowyprojectdlg.h ui/ui_oczekiwanienazaplon.h ui/ui_oknostanowewyjscia.h ui/ui_oknostatusowe.h ui/ui_otwartezawory.h ui/ui_stanczujnika.h ui/ui_stanwyjscia.h ui/ui_ustawieniadozownika.h ui/ui_ustawieniatestu.h ui/ui_videowidget.h ui/ui_testpageform.h ui/ui_projektwidget.h ui/ui_testtabswidget.h ui/ui_nowytest_1.h ui/ui_nowytest_2.h ui/ui_nowytest_3.h ui/ui_nowytest_4.h ui/ui_nowytest_5.h ui/ui_nowytest_6.h ui/ui_nowytest_7.h ui/ui_nowytest_8.h ui/ui_nowytest_9.h $(OBJECTS)  
+build/StanowiskoChemiczne: ui/ui_czujnikanalogowyustawieniawidget.h ui/ui_czujnikanalogowywidget.h ui/ui_digitaloutwidget.h ui/ui_dozowniksettings.h ui/ui_glowneokno.h ui/ui_nowyprojectdlg.h ui/ui_oczekiwanienazaplon.h ui/ui_oknostanowewyjscia.h ui/ui_oknostatusowe.h ui/ui_otwartezawory.h ui/ui_stanczujnika.h ui/ui_stanwyjscia.h ui/ui_ustawieniadozownika.h ui/ui_ustawieniatestu.h ui/ui_videowidget.h ui/ui_testpageform.h ui/ui_projektwidget.h ui/ui_testtabswidget.h ui/ui_nowytest_1.h ui/ui_nowytest_2.h ui/ui_nowytest_3.h ui/ui_nowytest_4.h ui/ui_nowytest_5.h ui/ui_nowytest_6.h ui/ui_nowytest_7.h ui/ui_nowytest_8.h ui/ui_nowytest_9.h ui/ui_wersjadlg.h $(OBJECTS)  
 	@test -d build/ || mkdir -p build/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -576,9 +588,9 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ikony.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents common.h crc8.h czujnikanalogowyustawieniawidget.h czujnikanalogowywidget.h czujnikianalogoweokno.h czujnikanalogowyustawieniaokno.h digitaloutwidget.h dozowniksettings.h glowneokno.h nicards.h nowyprojectdlg.h oczekiwanienazaplon.h oknostanowewyjscia.h oknostatusowe.h otwartezawory.h serialdevice.h serialmessage.h stanczujnika.h stanwyjscia.h ustawieniadozownika.h ustawieniatestu.h videowidget.h createtestwizard.h projectitem.h testpage.h testpageform.h projektwidget.h testtabswidget.h nowytest_1.h nowytest_2.h nowytest_3.h nowytest_4.h nowytest_5.h nowytest_6.h nowytest_7.h nowytest_8.h nowytest_9.h urzadzenia.h ustawienia.h niusb6210.h niusb6501.h rs232.h $(DISTDIR)/
-	$(COPY_FILE) --parents crc8.cpp czujnikanalogowyustawieniawidget.cpp czujnikanalogowywidget.cpp czujnikianalogoweokno.cpp czujnikanalogowyustawieniaokno.cpp digitaloutwidget.cpp dozowniksettings.cpp main.cpp glowneokno.cpp nicards.cpp nowyprojectdlg.cpp oczekiwanienazaplon.cpp oknostanowewyjscia.cpp oknostatusowe.cpp otwartezawory.cpp serialdevice.cpp serialmessage.cpp stanczujnika.cpp stanwyjscia.cpp ustawieniadozownika.cpp ustawieniatestu.cpp videowidget.cpp createtestwizard.cpp projectitem.cpp testpage.cpp testpageform.cpp projektwidget.cpp testtabswidget.cpp nowytest_1.cpp nowytest_2.cpp nowytest_3.cpp nowytest_4.cpp nowytest_5.cpp nowytest_6.cpp nowytest_7.cpp nowytest_8.cpp nowytest_9.cpp urzadzenia.cpp niusb6210.cpp niusb6501.cpp ustawienia.cpp rs232.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents czujnikanalogowyustawieniawidget.ui czujnikanalogowywidget.ui digitaloutwidget.ui dozowniksettings.ui glowneokno.ui nowyprojectdlg.ui oczekiwanienazaplon.ui oknostanowewyjscia.ui oknostatusowe.ui otwartezawory.ui stanczujnika.ui stanwyjscia.ui ustawieniadozownika.ui ustawieniatestu.ui videowidget.ui testpageform.ui projektwidget.ui testtabswidget.ui nowytest_1.ui nowytest_2.ui nowytest_3.ui nowytest_4.ui nowytest_5.ui nowytest_6.ui nowytest_7.ui nowytest_8.ui nowytest_9.ui $(DISTDIR)/
+	$(COPY_FILE) --parents build_defs.h common.h crc8.h czujnikanalogowyustawieniawidget.h czujnikanalogowywidget.h czujnikianalogoweokno.h czujnikanalogowyustawieniaokno.h digitaloutwidget.h dozowniksettings.h glowneokno.h nicards.h nowyprojectdlg.h oczekiwanienazaplon.h oknostanowewyjscia.h oknostatusowe.h otwartezawory.h serialdevice.h serialmessage.h stanczujnika.h stanwyjscia.h testparam.h ustawieniadozownika.h ustawieniatestu.h version.h videowidget.h createtestwizard.h projectitem.h testpage.h testpageform.h projektwidget.h testtabswidget.h nowytest_1.h nowytest_2.h nowytest_3.h nowytest_4.h nowytest_5.h nowytest_6.h nowytest_7.h nowytest_8.h nowytest_9.h urzadzenia.h ustawienia.h niusb6210.h niusb6501.h rs232.h wersjadlg.h $(DISTDIR)/
+	$(COPY_FILE) --parents crc8.cpp czujnikanalogowyustawieniawidget.cpp czujnikanalogowywidget.cpp czujnikianalogoweokno.cpp czujnikanalogowyustawieniaokno.cpp digitaloutwidget.cpp dozowniksettings.cpp main.cpp glowneokno.cpp nicards.cpp nowyprojectdlg.cpp oczekiwanienazaplon.cpp oknostanowewyjscia.cpp oknostatusowe.cpp otwartezawory.cpp serialdevice.cpp serialmessage.cpp stanczujnika.cpp stanwyjscia.cpp testparam.cpp ustawieniadozownika.cpp ustawieniatestu.cpp videowidget.cpp createtestwizard.cpp projectitem.cpp testpage.cpp testpageform.cpp projektwidget.cpp testtabswidget.cpp nowytest_1.cpp nowytest_2.cpp nowytest_3.cpp nowytest_4.cpp nowytest_5.cpp nowytest_6.cpp nowytest_7.cpp nowytest_8.cpp nowytest_9.cpp urzadzenia.cpp niusb6210.cpp niusb6501.cpp ustawienia.cpp rs232.cpp wersjadlg.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents czujnikanalogowyustawieniawidget.ui czujnikanalogowywidget.ui digitaloutwidget.ui dozowniksettings.ui glowneokno.ui nowyprojectdlg.ui oczekiwanienazaplon.ui oknostanowewyjscia.ui oknostatusowe.ui otwartezawory.ui stanczujnika.ui stanwyjscia.ui ustawieniadozownika.ui ustawieniatestu.ui videowidget.ui testpageform.ui projektwidget.ui testtabswidget.ui nowytest_1.ui nowytest_2.ui nowytest_3.ui nowytest_4.ui nowytest_5.ui nowytest_6.ui nowytest_7.ui nowytest_8.ui nowytest_9.ui wersjadlg.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -619,11 +631,11 @@ compiler_moc_predefs_make_all: moc/moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc/moc_predefs.h
 moc/moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
-	g++ -pipe -O2 -std=gnu++11 -Wall -W -dM -E -o moc/moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
+	g++ -pipe -O2 -std=gnu++1y -Wall -W -dM -E -o moc/moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc/moc_czujnikanalogowyustawieniawidget.cpp moc/moc_czujnikanalogowywidget.cpp moc/moc_czujnikianalogoweokno.cpp moc/moc_czujnikanalogowyustawieniaokno.cpp moc/moc_digitaloutwidget.cpp moc/moc_dozowniksettings.cpp moc/moc_glowneokno.cpp moc/moc_nicards.cpp moc/moc_nowyprojectdlg.cpp moc/moc_oczekiwanienazaplon.cpp moc/moc_oknostanowewyjscia.cpp moc/moc_oknostatusowe.cpp moc/moc_otwartezawory.cpp moc/moc_serialdevice.cpp moc/moc_stanczujnika.cpp moc/moc_stanwyjscia.cpp moc/moc_ustawieniadozownika.cpp moc/moc_ustawieniatestu.cpp moc/moc_videowidget.cpp moc/moc_createtestwizard.cpp moc/moc_testpage.cpp moc/moc_testpageform.cpp moc/moc_projektwidget.cpp moc/moc_testtabswidget.cpp moc/moc_nowytest_1.cpp moc/moc_nowytest_2.cpp moc/moc_nowytest_3.cpp moc/moc_nowytest_4.cpp moc/moc_nowytest_5.cpp moc/moc_nowytest_6.cpp moc/moc_nowytest_7.cpp moc/moc_nowytest_8.cpp moc/moc_nowytest_9.cpp moc/moc_urzadzenia.cpp
+compiler_moc_header_make_all: moc/moc_czujnikanalogowyustawieniawidget.cpp moc/moc_czujnikanalogowywidget.cpp moc/moc_czujnikianalogoweokno.cpp moc/moc_czujnikanalogowyustawieniaokno.cpp moc/moc_digitaloutwidget.cpp moc/moc_dozowniksettings.cpp moc/moc_glowneokno.cpp moc/moc_nicards.cpp moc/moc_nowyprojectdlg.cpp moc/moc_oczekiwanienazaplon.cpp moc/moc_oknostanowewyjscia.cpp moc/moc_oknostatusowe.cpp moc/moc_otwartezawory.cpp moc/moc_serialdevice.cpp moc/moc_stanczujnika.cpp moc/moc_stanwyjscia.cpp moc/moc_ustawieniadozownika.cpp moc/moc_ustawieniatestu.cpp moc/moc_videowidget.cpp moc/moc_createtestwizard.cpp moc/moc_testpage.cpp moc/moc_testpageform.cpp moc/moc_projektwidget.cpp moc/moc_testtabswidget.cpp moc/moc_nowytest_1.cpp moc/moc_nowytest_2.cpp moc/moc_nowytest_3.cpp moc/moc_nowytest_4.cpp moc/moc_nowytest_5.cpp moc/moc_nowytest_6.cpp moc/moc_nowytest_7.cpp moc/moc_nowytest_8.cpp moc/moc_nowytest_9.cpp moc/moc_urzadzenia.cpp moc/moc_wersjadlg.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_czujnikanalogowyustawieniawidget.cpp moc/moc_czujnikanalogowywidget.cpp moc/moc_czujnikianalogoweokno.cpp moc/moc_czujnikanalogowyustawieniaokno.cpp moc/moc_digitaloutwidget.cpp moc/moc_dozowniksettings.cpp moc/moc_glowneokno.cpp moc/moc_nicards.cpp moc/moc_nowyprojectdlg.cpp moc/moc_oczekiwanienazaplon.cpp moc/moc_oknostanowewyjscia.cpp moc/moc_oknostatusowe.cpp moc/moc_otwartezawory.cpp moc/moc_serialdevice.cpp moc/moc_stanczujnika.cpp moc/moc_stanwyjscia.cpp moc/moc_ustawieniadozownika.cpp moc/moc_ustawieniatestu.cpp moc/moc_videowidget.cpp moc/moc_createtestwizard.cpp moc/moc_testpage.cpp moc/moc_testpageform.cpp moc/moc_projektwidget.cpp moc/moc_testtabswidget.cpp moc/moc_nowytest_1.cpp moc/moc_nowytest_2.cpp moc/moc_nowytest_3.cpp moc/moc_nowytest_4.cpp moc/moc_nowytest_5.cpp moc/moc_nowytest_6.cpp moc/moc_nowytest_7.cpp moc/moc_nowytest_8.cpp moc/moc_nowytest_9.cpp moc/moc_urzadzenia.cpp
+	-$(DEL_FILE) moc/moc_czujnikanalogowyustawieniawidget.cpp moc/moc_czujnikanalogowywidget.cpp moc/moc_czujnikianalogoweokno.cpp moc/moc_czujnikanalogowyustawieniaokno.cpp moc/moc_digitaloutwidget.cpp moc/moc_dozowniksettings.cpp moc/moc_glowneokno.cpp moc/moc_nicards.cpp moc/moc_nowyprojectdlg.cpp moc/moc_oczekiwanienazaplon.cpp moc/moc_oknostanowewyjscia.cpp moc/moc_oknostatusowe.cpp moc/moc_otwartezawory.cpp moc/moc_serialdevice.cpp moc/moc_stanczujnika.cpp moc/moc_stanwyjscia.cpp moc/moc_ustawieniadozownika.cpp moc/moc_ustawieniatestu.cpp moc/moc_videowidget.cpp moc/moc_createtestwizard.cpp moc/moc_testpage.cpp moc/moc_testpageform.cpp moc/moc_projektwidget.cpp moc/moc_testtabswidget.cpp moc/moc_nowytest_1.cpp moc/moc_nowytest_2.cpp moc/moc_nowytest_3.cpp moc/moc_nowytest_4.cpp moc/moc_nowytest_5.cpp moc/moc_nowytest_6.cpp moc/moc_nowytest_7.cpp moc/moc_nowytest_8.cpp moc/moc_nowytest_9.cpp moc/moc_urzadzenia.cpp moc/moc_wersjadlg.cpp
 moc/moc_czujnikanalogowyustawieniawidget.cpp: czujnikanalogowyustawieniawidget.h \
 		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QWidget \
 		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h \
@@ -4375,13 +4387,122 @@ moc/moc_urzadzenia.cpp: urzadzenia.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app/moc/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app -I/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app/include -I/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/NI/DAQmx_ANSI_C_Dev/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSerialPort -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\ATLMFC\include' -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\include' -I'C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um' -I'C:\Program Files (x86)\Windows Kits\10\include\10.0.20348.0\ucrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\shared' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\um' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\winrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\cppwinrt' -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\ATLMFC\include' -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\include' -I'C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um' -I'C:\Program Files (x86)\Windows Kits\10\include\10.0.20348.0\ucrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\shared' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\um' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\winrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\cppwinrt' urzadzenia.h -o moc/moc_urzadzenia.cpp
 
+moc/moc_wersjadlg.cpp: wersjadlg.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QDialog \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtguiglobal.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig-bootstrapped.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qprocessordetection.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qbasicatomic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmutex.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtgui-config.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringliteral.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringalgorithms.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringview.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringbuilder.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qiterator.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qhashfunctions.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qpair.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearraylist.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qregexp.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringmatcher.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qscopedpointer.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmargins.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpaintdevice.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qrect.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsize.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpalette.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qcolor.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qrgb.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qrgba64.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qbrush.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qmatrix.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpolygon.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qregion.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qline.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtransform.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpainterpath.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qimage.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpixelformat.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpixmap.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qfont.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontmetrics.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontinfo.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsizepolicy.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qcursor.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qkeysequence.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qurlquery.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qfiledevice.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h \
+		moc/moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app/moc/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app -I/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app/include -I/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/NI/DAQmx_ANSI_C_Dev/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSerialPort -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\ATLMFC\include' -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\include' -I'C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um' -I'C:\Program Files (x86)\Windows Kits\10\include\10.0.20348.0\ucrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\shared' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\um' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\winrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\cppwinrt' -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\ATLMFC\include' -I'C:\MicrosoftVisualStudio\2022\Community\VC\Tools\MSVC\14.30.30705\include' -I'C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um' -I'C:\Program Files (x86)\Windows Kits\10\include\10.0.20348.0\ucrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\shared' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\um' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\winrt' -I'C:\Program Files (x86)\Windows Kits\10\\include\10.0.20348.0\\cppwinrt' wersjadlg.h -o moc/moc_wersjadlg.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui/ui_czujnikanalogowyustawieniawidget.h ui/ui_czujnikanalogowywidget.h ui/ui_digitaloutwidget.h ui/ui_dozowniksettings.h ui/ui_glowneokno.h ui/ui_nowyprojectdlg.h ui/ui_oczekiwanienazaplon.h ui/ui_oknostanowewyjscia.h ui/ui_oknostatusowe.h ui/ui_otwartezawory.h ui/ui_stanczujnika.h ui/ui_stanwyjscia.h ui/ui_ustawieniadozownika.h ui/ui_ustawieniatestu.h ui/ui_videowidget.h ui/ui_testpageform.h ui/ui_projektwidget.h ui/ui_testtabswidget.h ui/ui_nowytest_1.h ui/ui_nowytest_2.h ui/ui_nowytest_3.h ui/ui_nowytest_4.h ui/ui_nowytest_5.h ui/ui_nowytest_6.h ui/ui_nowytest_7.h ui/ui_nowytest_8.h ui/ui_nowytest_9.h
+compiler_uic_make_all: ui/ui_czujnikanalogowyustawieniawidget.h ui/ui_czujnikanalogowywidget.h ui/ui_digitaloutwidget.h ui/ui_dozowniksettings.h ui/ui_glowneokno.h ui/ui_nowyprojectdlg.h ui/ui_oczekiwanienazaplon.h ui/ui_oknostanowewyjscia.h ui/ui_oknostatusowe.h ui/ui_otwartezawory.h ui/ui_stanczujnika.h ui/ui_stanwyjscia.h ui/ui_ustawieniadozownika.h ui/ui_ustawieniatestu.h ui/ui_videowidget.h ui/ui_testpageform.h ui/ui_projektwidget.h ui/ui_testtabswidget.h ui/ui_nowytest_1.h ui/ui_nowytest_2.h ui/ui_nowytest_3.h ui/ui_nowytest_4.h ui/ui_nowytest_5.h ui/ui_nowytest_6.h ui/ui_nowytest_7.h ui/ui_nowytest_8.h ui/ui_nowytest_9.h ui/ui_wersjadlg.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui/ui_czujnikanalogowyustawieniawidget.h ui/ui_czujnikanalogowywidget.h ui/ui_digitaloutwidget.h ui/ui_dozowniksettings.h ui/ui_glowneokno.h ui/ui_nowyprojectdlg.h ui/ui_oczekiwanienazaplon.h ui/ui_oknostanowewyjscia.h ui/ui_oknostatusowe.h ui/ui_otwartezawory.h ui/ui_stanczujnika.h ui/ui_stanwyjscia.h ui/ui_ustawieniadozownika.h ui/ui_ustawieniatestu.h ui/ui_videowidget.h ui/ui_testpageform.h ui/ui_projektwidget.h ui/ui_testtabswidget.h ui/ui_nowytest_1.h ui/ui_nowytest_2.h ui/ui_nowytest_3.h ui/ui_nowytest_4.h ui/ui_nowytest_5.h ui/ui_nowytest_6.h ui/ui_nowytest_7.h ui/ui_nowytest_8.h ui/ui_nowytest_9.h
+	-$(DEL_FILE) ui/ui_czujnikanalogowyustawieniawidget.h ui/ui_czujnikanalogowywidget.h ui/ui_digitaloutwidget.h ui/ui_dozowniksettings.h ui/ui_glowneokno.h ui/ui_nowyprojectdlg.h ui/ui_oczekiwanienazaplon.h ui/ui_oknostanowewyjscia.h ui/ui_oknostatusowe.h ui/ui_otwartezawory.h ui/ui_stanczujnika.h ui/ui_stanwyjscia.h ui/ui_ustawieniadozownika.h ui/ui_ustawieniatestu.h ui/ui_videowidget.h ui/ui_testpageform.h ui/ui_projektwidget.h ui/ui_testtabswidget.h ui/ui_nowytest_1.h ui/ui_nowytest_2.h ui/ui_nowytest_3.h ui/ui_nowytest_4.h ui/ui_nowytest_5.h ui/ui_nowytest_6.h ui/ui_nowytest_7.h ui/ui_nowytest_8.h ui/ui_nowytest_9.h ui/ui_wersjadlg.h
 ui/ui_czujnikanalogowyustawieniawidget.h: czujnikanalogowyustawieniawidget.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic czujnikanalogowyustawieniawidget.ui -o ui/ui_czujnikanalogowyustawieniawidget.h
@@ -6114,6 +6235,10 @@ ui/ui_nowytest_9.h: nowytest_9.ui \
 		/usr/include/x86_64-linux-gnu/qt5/QtCore/QDebug
 	/usr/lib/qt5/bin/uic nowytest_9.ui -o ui/ui_nowytest_9.h
 
+ui/ui_wersjadlg.h: wersjadlg.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic wersjadlg.ui -o ui/ui_wersjadlg.h
+
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
 compiler_yacc_impl_make_all:
@@ -7283,7 +7408,8 @@ objects/glowneokno.o: glowneokno.cpp glowneokno.h \
 		dozowniksettings.h \
 		ustawieniadozownika.h \
 		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QAbstractButton \
-		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qabstractbutton.h \
+		wersjadlg.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/glowneokno.o glowneokno.cpp
 
 objects/nicards.o: nicards.cpp nicards.h \
@@ -8468,6 +8594,9 @@ objects/stanwyjscia.o: stanwyjscia.cpp stanwyjscia.h \
 		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/stanwyjscia.o stanwyjscia.cpp
 
+objects/testparam.o: testparam.cpp testparam.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/testparam.o testparam.cpp
+
 objects/ustawieniadozownika.o: ustawieniadozownika.cpp ustawieniadozownika.h \
 		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QDialog \
 		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h \
@@ -9469,7 +9598,9 @@ objects/testpageform.o: testpageform.cpp testpageform.h \
 		/usr/include/x86_64-linux-gnu/qt5/QtGui/QList \
 		otwartezawory.h \
 		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QDialog \
-		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMessageBox \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/testpageform.o testpageform.cpp
 
 objects/projektwidget.o: projektwidget.cpp projektwidget.h \
@@ -11517,6 +11648,117 @@ objects/rs232.o: rs232.cpp rs232.h \
 		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/rs232.o rs232.cpp
 
+objects/wersjadlg.o: wersjadlg.cpp wersjadlg.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/QDialog \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qdialog.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtguiglobal.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig-bootstrapped.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qprocessordetection.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qbasicatomic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmutex.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtgui-config.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringliteral.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringalgorithms.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringview.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringbuilder.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qiterator.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qhashfunctions.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qpair.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearraylist.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qregexp.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringmatcher.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qscopedpointer.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmargins.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpaintdevice.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qrect.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsize.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpalette.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qcolor.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qrgb.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qrgba64.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qbrush.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qmatrix.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpolygon.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qregion.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qline.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtransform.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpainterpath.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qimage.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpixelformat.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qpixmap.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qfont.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontmetrics.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qfontinfo.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtWidgets/qsizepolicy.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qcursor.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qkeysequence.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qevent.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qurlquery.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qfile.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/qfiledevice.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtGui/qtouchdevice.h \
+		ui/ui_wersjadlg.h \
+		version.h \
+		/usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
+		build_defs.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/wersjadlg.o wersjadlg.cpp
+
 objects/qrc_ikony.o: src/qrc_ikony.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/qrc_ikony.o src/qrc_ikony.cpp
 
@@ -11621,6 +11863,9 @@ objects/moc_nowytest_9.o: moc/moc_nowytest_9.cpp
 
 objects/moc_urzadzenia.o: moc/moc_urzadzenia.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/moc_urzadzenia.o moc/moc_urzadzenia.cpp
+
+objects/moc_wersjadlg.o: moc/moc_wersjadlg.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o objects/moc_wersjadlg.o moc/moc_wersjadlg.cpp
 
 ####### Install
 
