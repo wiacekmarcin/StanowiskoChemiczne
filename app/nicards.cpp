@@ -30,6 +30,16 @@ NICards::~NICards()
     wait();
 }
 
+void NICards::setThreads(QThread *thr1, QThread *thr2)
+{
+
+}
+
+void NICards::setStop()
+{
+
+}
+
 void NICards::digitalWrite(uint16_t out, bool val)
 {
     //qDebug("%s:%d", __FILE__,__LINE__);

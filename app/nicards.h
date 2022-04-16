@@ -33,6 +33,12 @@ public:
 
 #endif
 
+/**
+ * @brief The NICards class
+ * Klasa która zarządza odczytem i zapisem do klas National Instrumental
+ *
+ */
+
 class NICards : public QThread
 {
     Q_OBJECT
@@ -40,6 +46,8 @@ public:
     explicit NICards(QObject *parent = nullptr);
     ~NICards();
 
+    void setThreads(QThread * thr1, QThread * thr2);
+    void setStop();
     
 
     void digitalWrite(uint16_t out, bool val);

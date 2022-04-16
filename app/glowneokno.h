@@ -2,8 +2,9 @@
 #define GLOWNEOKNO_H
 
 #include <QMainWindow>
-#include "projectitem.h"
+#include <QThread>
 
+#include "projectitem.h"
 #include "testtabswidget.h"
 #include "ustawienia.h"
 namespace Ui {
@@ -61,6 +62,13 @@ private:
     QAction * act_wyzwal[Ustawienia::maxCzujekAnal];
     QSignalMapper *signalMapper;
     bool showDebugDlg;
+
+    QThread thReadDig;
+    QThread thReadAnal;
+    QThread thDozownik;
+
+    QThread thWykresy;
+    QThread thTest;
 
 };
 

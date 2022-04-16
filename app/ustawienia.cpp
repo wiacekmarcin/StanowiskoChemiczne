@@ -4,20 +4,6 @@
 #include <QTime>
 #include <QCoreApplication>
 
-void delay(unsigned int time)
-{
-    QTime dieTime= QTime::currentTime().addSecs(time);
-    while (QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-}
-
-void delayMs(unsigned int ms)
-{
-    QTime dieTime= QTime::currentTime().addMSecs(ms);
-    while (QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 10);
-}
-
 #define REVERSE_INIT(N,D) do { reverse_##N = settings.value(QString("dozownik/rerverse_%1").arg(N), D).toBool(); } while(false)
 Ustawienia::Ustawienia()
 {
@@ -175,6 +161,18 @@ void Ustawienia::initialSetting()
     setWyjscie(o_wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
     setWyjscie(o_mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
     setWyjscie(o_trigger,            QString::fromUtf8("Trigger kamery"));
+
+    setReverse_1(false);
+    setReverse_2(false);
+    setReverse_3(false);
+    setReverse_4(false);
+    setReverse_5(true);
+
+    setMaxImp(50000);
+    setImpTime(130);
+    setNrInitializeCycles(4);
+
+    setStepsOnMl(14000);
 }
 
 double Ustawienia::getCisnienieProzni() const

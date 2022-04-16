@@ -26,6 +26,18 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
 
 }
 
+void Urzadzenia::setThreads(QThread *niAnalReads, QThread *niDigReads, QThread *dozownik)
+{
+    nicards.setThreads(niAnalReads, niDigReads);
+    serial.setThread(dozownik);
+}
+
+void Urzadzenia::setStop()
+{
+    nicards.setStop();
+    serial.setStop();
+}
+
 void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 {
     //qDebug"%s:%d setCykle [%d %d]", __FILE__, __LINE__, nrDoz, nrCyckli);

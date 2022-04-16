@@ -32,8 +32,19 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     urzadzenia(urzadz),
     settings(ust),
     selectedProject(nullptr),
-    selectedTest(nullptr)
+    selectedTest(nullptr),
+    thReadDig(this),
+    thReadAnal(this),
+    thDozownik(this),
+    thWykresy(this),
+    thTest(this)
 {
+    thReadDig.setObjectName("DigitalReadThr");
+    thReadAnal.setObjectName("AnalogReadThr");
+    thDozownik.setObjectName("DozownikThr");
+    thWykresy.setObjectName("Wykresy");
+    thTest.setObjectName("Test");
+
     ui->setupUi(this);
     ui->frCzujniki->setLabels(settings);
     ui->analog->setParams(settings);
@@ -90,11 +101,24 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
+    thReadDig.start();
+    thReadAnal.start();
+    thDozownik.start();
+    thWykresy.start();
+    thTest.start();
+
     urzadz->digitalWriteDebug(0x2);
 }
 
 GlowneOkno::~GlowneOkno()
 {
+    finishedTest(false);
+    thReadDig.quit();
+    thReadAnal.quit();
+    thDozownik.quit();
+    thWykresy.quit();
+    thTest.quit();
+
     delete ui;
 }
 

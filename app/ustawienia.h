@@ -29,7 +29,7 @@ typedef enum _iDig {
 
 typedef enum _oDig {
     o_hv_onoff        = 0x001, //P0.0 X1
-    o_hv_bezpiecznik = 0x002, //P0.1 X2
+    o_hv_bezpiecznik  = 0x002, //P0.1 X2
     o_hv_iskra        = 0x004, //P0.2 X3
     o_mech_iskra      = 0x008, //P0.3 X4
     o_grzalka         = 0x010, //P0.4 X5
@@ -46,14 +46,8 @@ typedef enum _oDig {
 #define ISKRA_MECHANICZNA 2
 #define ISKRA_PLOMIEN     3
 
-
-
-void delay(unsigned int time);
-void delayMs(unsigned int ms);
-
 #define SETGET_REVERSE(N) bool getReverse_##N() const; void setReverse_##N(bool newReverse);
 #define REVERSE(N) bool reverse_##N;
-
 
 class Ustawienia
 {

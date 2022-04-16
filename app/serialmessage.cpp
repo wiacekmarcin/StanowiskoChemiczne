@@ -6,9 +6,7 @@
 
 SerialMessage::SerialMessage()
 {
-    //revByte = 0x0f;
-    //maxImp = 55000;
-    //impTime = 200;
+
 }
 
 SerialMessage::~SerialMessage()
@@ -82,25 +80,22 @@ QByteArray SerialMessage::setPositionHome(short dozownikNr)
 
 bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & len,  QByteArray & data)
 {
-    errT = "";
-    errB = false;
+    m_errorText = "";
+    m_errorBool = false;
     if (arr.length() == 0) {
-        errT = "Pusta komenda";
-        errB = true;
+        m_errorText = "Pusta komenda";
+        m_errorBool = true;
         return false;
     }
 
-    //qDebug"cmd ascii = %s", arr.toStdString().c_str());
-    //qDebug"cmd hex = %s", arr.toHex().toStdString().c_str());
     cmd = (arr[0] >> 4) & 0x0f;
     len = arr[0] & 0x0f;
 
-    //emit debug(QString("cmd = %1 len = %2").arg(cmd).arg(len));
     if (cmd == NOP_REP && len == 0xf)
         return true;
     CRC8 crc;
     data = QByteArray(len, Qt::Uninitialized);
-    //crc.add(arr.at(0));
+
     int i = 0;
     for (i = 0; i < arr.length() - 1 && i <= len; i++) {
         crc.add(arr.at(i));
@@ -110,143 +105,124 @@ bool SerialMessage::checkHead(const QByteArray &arr, uint8_t & cmd, uint8_t & le
     }
 
     if (i-1 != len) {
-        errT = QString("Nie poprawna dlugosc rozkazu %1 != %2").arg(i-1).arg(len);
-        errB = true;
+        m_errorText = QString("Nie poprawna dlugosc rozkazu %1 != %2").arg(i-1).arg(len);
+        m_errorBool = true;
         return false;
     }
     if (i >= arr.size()) {
-        errT = QString("Za dlugi rozkaz %1 > 15").arg(i);
-        errB = true;
+        m_errorText = QString("Za dlugi rozkaz %1 > 15").arg(i);
+        m_errorBool = true;
         return false;
     }
     unsigned short msgcrc = arr.at(i) & 0xff;
 
     if (crc.getCRC() != msgcrc) {
-        errT = QString("Nie zgodne crc");
-        errB = true;
-        //emit debug(QString("crc = x%1 val=x%2").arg(crc.getCRC(), 16).arg(msgcrc,16));
-        ////qDebug"arr = %s", arr.toHex().toStdString().c_str());
-        ////qDebug"cmd = %d", cmd);
-        ////qDebug"len = %d", len);
+        m_errorText = QString("Nie zgodne crc");
+        m_errorBool = true;
         return false;
     }
-    //emit debug("Naglowek OK");
+
     return true;
 }
 
 bool SerialMessage::parseCommand(const QByteArray &arr)
 {
-    //qDebug"%s:%d", __FILE__, __LINE__);
     uint8_t cmd;
     uint8_t len;
     QByteArray data;
-    errB = false;
-    parseReply = INVALID_REPLY;
+    m_errorBool = false;
+    m_parseReply = INVALID_REPLY;
     if (!checkHead(arr, cmd, len, data)) {
-        //qDebug"%s:%d INVALID HEADER", __FILE__, __LINE__);
-        //qDebug"%s", errT.toStdString().c_str());
         return false;
     }
-    //qDebug"%s:%d", __FILE__, __LINE__);
 
     switch (cmd) {
         case NOP_REP:
             return true;
         case WELCOME_REP:
         {
-            //qDebug"%s %d Recv Welcome Msg", __FILE__,__LINE__);
             if (len != 15) {
-                errT = QString("Nie poprawna dlugosc wiadomosci powitalnej %d").arg(len);
-                errB = true;
+                m_errorText = QString("Nie poprawna dlugosc wiadomosci powitalnej %d").arg(len);
+                m_errorBool = true;
                 return false;
             }
 
             uint8_t wzorzec[15] = {'K','O','N','T','R','O','L','E','R','P','O','S','R','E', 'D'};
             for (int i = 0; i < 15; ++i) {
                 if (wzorzec[i] != data[i]) {
-                    errT = QString("Nie zgodny wzorzec");
-                    errB = true;
+                    m_errorText = QString("Nie zgodny wzorzec");
+                    m_errorBool = true;
                     return false;
                 }
             }
-            //qDebug"%s:%d", __FILE__, __LINE__);
-            parseReply = WELCOME_REPLY;
+            m_parseReply = WELCOME_REPLY;
             return true;
         }
         case ECHO_REP:
         {
             if ((unsigned int)data[0] == 0 && len != 1) {
-                errT = QString("Nie poprawna dlugosc wiadomosci echo %1").arg(len);
-                errB = true;
+                m_errorText = QString("Nie poprawna dlugosc wiadomosci echo %1").arg(len);
+                m_errorBool = true;
                 return false;
             }
             if ((unsigned int)data[0] == 1 && len != 2) {
-                errT = QString("Nie poprawna dlugosc wiadomosci echo %1").arg(len);
-                errB = true;
+                m_errorText = QString("Nie poprawna dlugosc wiadomosci echo %1").arg(len);
+                m_errorBool = true;
                 return false;
             }
             if ((unsigned int)data[0] == 0) {
-                parseReply = ECHO_REPLY;
+                m_parseReply = ECHO_REPLY;
                 return true;
             }
             if ((unsigned int)data[0] == 1) {
-                parseReply = ECHO_REPLY2;
-                homePosition = (unsigned int)data[1];
+                m_parseReply = ECHO_REPLY2;
+                m_homePosition = (unsigned int)data[1];
                 return true;
             }
-            errT = QString("Nie poprawna wiadomosc echo %d != [0,1]").arg(data[0]);
-            errB = true;
+            m_errorText = QString("Nie poprawna wiadomosc echo %d != [0,1]").arg(data[0]);
+            m_errorBool = true;
             return false;
         }
         case MOVEHOME_REP:
         {
-            //qDebug"%s %d MoveHome Msg", __FILE__,__LINE__);
-            //set home position
-            //0xB0 CRC8 - req
-            //0xC1 s/K/E CRC8 - s=start,K=stop
             if (len == 4) {
                 uint32_t word = (((unsigned int)data[0])<<24) + (((unsigned int)data[1])<<16) + (((unsigned int)data[2])<<8) + (unsigned int)data[3];
-                //qDebug"%s:%d %d", __FILE__, __LINE__, word); 
-                steps = word;
-                parseReply = MOVEHOME_REPLY;
+                m_steps = word;
+                m_parseReply = MOVEHOME_REPLY;
                 return true;
             }
-            errT = QString("Nie poprawna dlugosc odpowiedzi movehome_rep %1").arg(len);
-            errB = true;
+            m_errorText = QString("Nie poprawna dlugosc odpowiedzi movehome_rep %1").arg(len);
+            m_errorBool = true;
             return false;
         }
 
         case POSITION_REP:
         {
-            //qDebug"%s %d Recv position Msg", __FILE__,__LINE__);
-              if (len == 4) {
+            if (len == 4) {
                 uint32_t word = (((unsigned int)data[0])<<24) + (((unsigned int)data[1])<<16) + (((unsigned int)data[2])<<8) + (unsigned int)data[3];
-                //qDebug"%s:%d %u", __FILE__, __LINE__, word);
-                steps = word;
-                parseReply = POSITION_REPLY;
+                m_steps = word;
+                m_parseReply = POSITION_REPLY;
                 return true;
             }
-            errT = QString("Nie poprawna dlugosc odpowiedzi position_rep %1").arg(len);
-            errB = true;
+            m_errorText = QString("Nie poprawna dlugosc odpowiedzi position_rep %1").arg(len);
+            m_errorBool = true;
             return false;
         }
 
         case SET_PARAM_REP:
         {
-            //qDebug"%s %d Set params Msg", __FILE__,__LINE__);
-            parseReply = SETPARAMS_REPLY;
+            m_parseReply = SETPARAMS_REPLY;
             return true;
         }
 
         case RESET_REP:
         {
-            //qDebug"%s %d Set params Msg", __FILE__,__LINE__);
-            parseReply = RESET_REPLY;
+            m_parseReply = RESET_REPLY;
             return true;
         }
         default:
-            errT = QString("Nieznana komenda");
-            errB = true;
+            m_errorText = QString("Nieznana komenda");
+            m_errorBool = true;
             return false;
     }
 
@@ -255,37 +231,37 @@ bool SerialMessage::parseCommand(const QByteArray &arr)
 
 void SerialMessage::setInvalidReply()
 {
-    parseReply = INVALID_REPLY;
+    m_parseReply = INVALID_REPLY;
 }
 
 void SerialMessage::setInProgressReply()
 {
-    parseReply = INPROGRESS_REPLY;
+    m_parseReply = INPROGRESS_REPLY;
 }
 
 void SerialMessage::setTimeoutReply(bool write)
 {
-    parseReply = write ? TIMEOUT_WRITE_REPLY : TIMEOUT_READ_REPLY;
+    m_parseReply = write ? TIMEOUT_WRITE_REPLY : TIMEOUT_READ_REPLY;
 }
 
 bool SerialMessage::isInvalidReply()
 {
-    return parseReply == INVALID_REPLY;
+    return m_parseReply == INVALID_REPLY;
 }
 
 bool SerialMessage::isInProgressReply()
 {
-    return parseReply == INPROGRESS_REPLY;
+    return m_parseReply == INPROGRESS_REPLY;
 }
 
 bool SerialMessage::isTimeoutWriteReply()
 {
-    return parseReply == TIMEOUT_WRITE_REPLY;
+    return m_parseReply == TIMEOUT_WRITE_REPLY;
 }
 
 bool SerialMessage::isTimeoutReadReply()
 {
-    return parseReply == TIMEOUT_READ_REPLY;
+    return m_parseReply == TIMEOUT_READ_REPLY;
 }
 
 QByteArray SerialMessage::prepareMessage(uint8_t cmd, uint8_t tab[], uint8_t len)
@@ -302,22 +278,21 @@ QByteArray SerialMessage::prepareMessage(uint8_t cmd, uint8_t tab[], uint8_t len
 
     QByteArray ret;
     ret.append(arr);
-    //emit debug(QString("Wysylam:")+QString(ret.toHex(' ').data()));
     return ret;
 }
 
 uint8_t SerialMessage::getHomePosition() const
 {
-    return homePosition;
+    return m_homePosition;
 }
 
-short SerialMessage::getParseReply() const
+SerialMessage::ParseReply SerialMessage::getParseReply() const
 {
-    return parseReply;
+    return m_parseReply;
 }
 
 uint32_t SerialMessage::getSteps() const
 {
-    return steps;
+    return m_steps;
 }
 

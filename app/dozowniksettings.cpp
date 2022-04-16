@@ -137,7 +137,7 @@ void DozownikSettings::setSmg(SerialDevice * msg_)
     connect(srlmsg, &SerialDevice::resetDone, this, &DozownikSettings::resetDone);
     connect(srlmsg, &SerialDevice::setParamsDone, this, &DozownikSettings::setParamsDone);
     connect(srlmsg, &SerialDevice::dozownikConfigured, this, &DozownikSettings::dozownik);
-    connect(srlmsg, &SerialDevice::errorSerial, this, &DozownikSettings::errorSerial);
+
     connect(srlmsg, &SerialDevice::debug, this, &DozownikSettings::debug);
     connect(srlmsg, &SerialDevice::setPositionHomeDone, this, &DozownikSettings::donePositionHome);
     connect(srlmsg, &SerialDevice::setPositionDone, this, &DozownikSettings::donePosition);

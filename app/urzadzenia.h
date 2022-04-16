@@ -8,12 +8,15 @@
 #include "ustawienia.h"
 #include "serialdevice.h"
 
+class QThread;
+
 class Urzadzenia : public QObject
 {
     Q_OBJECT
 public:
     explicit Urzadzenia(Ustawienia & ustawiania, QObject *parent = nullptr);
-
+    void setThreads(QThread * niAnalReads, QThread * niDigReads, QThread * dozownik);
+    void setStop();
 
 public slots:
     void setCykle(uint8_t nrDoz, uint32_t nrCyckli);
@@ -75,9 +78,8 @@ private slots:
     void runPlomien1();
 
 private:
-#if !SYMULATOR
+
      NICards nicards;
-#endif
      SerialDevice serial;
      Ustawienia & ustawienia;
 
