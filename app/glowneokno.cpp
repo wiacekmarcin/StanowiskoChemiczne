@@ -55,9 +55,9 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue);
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue);
 
-    connect(urzadzenia, &Urzadzenia::digitalRead,   ui->frCzujniki, &OknoStatusowe::setDigitalValue);
+    connect(urzadzenia, &Urzadzenia::digitalReadValueChanged,   ui->frCzujniki, &OknoStatusowe::setDigitalValue);
 
-    connect(urzadzenia, &Urzadzenia::digitalWriteDevice,   ui->wyjscia, &OknoStanoweWyjscia::setOnOff);
+    connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged,   ui->wyjscia, &OknoStanoweWyjscia::setOnOff);
     connect(ui->wyjscia, &OknoStanoweWyjscia::writeValue, urzadzenia, &Urzadzenia::digitalWrite);
 
     connect(urzadzenia, &Urzadzenia::usb6210,  ui->frCzujniki, &OknoStatusowe::setUSB6210);
@@ -178,7 +178,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     connect(testy[selectedTest]->createTestWizard(),
             &CreateTestWizard::finishedTest, testy[selectedTest], &TestTabsWidget::finishedTest, Qt::QueuedConnection);
 
-    connect(urzadzenia, &Urzadzenia::digitalRead,
+    connect(urzadzenia, &Urzadzenia::digitalReadValueChanged,
             testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn,
             Qt::DirectConnection);
     connect(urzadzenia, &Urzadzenia::analogValueChanged,

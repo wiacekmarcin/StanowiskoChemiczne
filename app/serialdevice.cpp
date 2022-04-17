@@ -374,6 +374,13 @@ void SerialDevice::setCykleJob()
         return;
     }
 
+    s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
+              100, 100).getParseReply();
+    if (s != SerialMessage::SETPARAMS_REPLY) {
+        emit setCykleDone(false);
+        return;
+    }
+
     s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
     if (s != SerialMessage::MOVEHOME_REPLY) {
         emit setCykleDone(false);
@@ -407,11 +414,22 @@ void SerialDevice::setStepsJob()
         return;
     }
 
+    s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
+              100, 100).getParseReply();
+    if (s != SerialMessage::SETPARAMS_REPLY) {
+        emit setCykleDone(false);
+        return;
+    }
+
     int64_t stepsAll = val2;
     uint32_t steps;
     while (stepsAll > 0) {
-
-        steps = stepsAll > m_maxImp ? m_maxImp : stepsAll;
+        if (stepsAll > m_maxImp && stepsAll <= 2* m_maxImp )
+            steps = stepsAll / 2;
+        else if (stepsAll <= m_maxImp)
+            steps = stepsAll;
+        else
+            steps = m_maxImp;
         stepsAll -= steps;
         s = write(SerialMessage::setPosition(dozownikNr, steps), 100, 60000).getParseReply();
         if (s != SerialMessage::POSITION_REPLY) {

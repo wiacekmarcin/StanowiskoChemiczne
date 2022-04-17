@@ -6,12 +6,12 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
 #if !SYMULATOR
       nicards(this),
 #endif
-      serial(ustawiania_, this),
-      ustawienia(ustawiania_)
+      m_serialDev(ustawiania_, this),
+      m_ustawienia(ustawiania_)
 
 {
 #if !SYMULATOR
-    connect(&nicards, &NICards::digitalRead,    this,       &Urzadzenia::ni_digitalRead);
+    connect(&nicards, &NICards::digitalReadValueChanged,    this,       &Urzadzenia::ni_digitalRead);
     connect(&nicards, &NICards::error,          this,       &Urzadzenia::ni_error);
     connect(&nicards, &NICards::debug,          this,       &Urzadzenia::ni_debug);
     connect(&nicards, &NICards::usb6210,        this,       &Urzadzenia::usb6210);
@@ -19,34 +19,34 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     connect(&nicards, &NICards::usb6501,        this,       &Urzadzenia::usb6501);
     connect(&nicards, &NICards::analogValueChanged, this,   &Urzadzenia::ni_analogValueChanged);
 #endif
-    connect(&serial, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
-    connect(&serial, &SerialDevice::setCykleDone, this,     &Urzadzenia::setCykleDone);
-    connect(&serial, &SerialDevice::setStepsDone, this,     &Urzadzenia::setStepsDone);
-    connect(&serial, &SerialDevice::checkPositionHomeDone, this,     &Urzadzenia::checkPositionHomeDone);
+    connect(&m_serialDev, &SerialDevice::dozownikConfigured, this, &Urzadzenia::ds_dozownikConfigured);
+    connect(&m_serialDev, &SerialDevice::setCykleDone, this,     &Urzadzenia::setCykleDone);
+    connect(&m_serialDev, &SerialDevice::setStepsDone, this,     &Urzadzenia::setStepsDone);
+    connect(&m_serialDev, &SerialDevice::checkPositionHomeDone, this,     &Urzadzenia::checkPositionHomeDone);
 
 }
 
-void Urzadzenia::setThreads(QThread *niAnalReads, QThread *niDigReads, QThread *dozownik)
+void Urzadzenia::setThreads(QThread *niReads, QThread *dozownik)
 {
-    nicards.setThreads(niAnalReads, niDigReads);
-    serial.setThread(dozownik);
+    m_NI_Cards.setThreads(niReads);
+    m_serialDev.setThread(dozownik);
 }
 
 void Urzadzenia::setStop()
 {
-    nicards.setStop();
-    serial.setStop();
+    m_NI_Cards.setStop();
+    m_serialDev.setStop();
 }
 
 void Urzadzenia::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 {
     //qDebug"%s:%d setCykle [%d %d]", __FILE__, __LINE__, nrDoz, nrCyckli);
-    serial.setCykle(nrDoz,nrCyckli);
+    m_serialDev.setCykle(nrDoz,nrCyckli);
 }
 
 void Urzadzenia::setMl(uint8_t nrDoz, uint32_t mlx10)
 {
-    uint32_t steps = round(mlx10 * ustawienia.getStepsOnMl() / 10.0);
+    uint32_t steps = round(mlx10 * m_ustawienia.getStepsOnMl() / 10.0);
     //qDebug("%s:%d %f ml => %d steps", __FILE__, __LINE__, mlx10/10.0, steps);
     setSteps(nrDoz, steps);
 }
@@ -54,14 +54,14 @@ void Urzadzenia::setMl(uint8_t nrDoz, uint32_t mlx10)
 void Urzadzenia::digitalWriteAll(uint16_t vals)
 {
 #if !SYMULATOR
-    nicards.digitalWriteDebug(vals);
+    nicards.digitalWriteAll(vals);
     emit digitalWriteDevice(nicards.getDigitalWrite());
 #else
     (void)vals;
 #endif
 }
 
-void Urzadzenia::digitalWrite(uint16_t mask, bool on)
+void Urzadzenia::digitalWrite(digitalOut mask, bool on)
 {
 #if !SYMULATOR
     nicards.digitalWrite(mask, on);
@@ -72,16 +72,16 @@ void Urzadzenia::digitalWrite(uint16_t mask, bool on)
 #endif
 }
 
-void Urzadzenia::zaplon(short idiskra)
+void Urzadzenia::zaplon(rodzajZaplonu idiskra)
 {
     switch(idiskra) {
-    case ISKRA_ELEKTRYCZNA:
+    case z_iskra_elektryczna:
         runIskraElektryczna();
         break;
-    case ISKRA_MECHANICZNA:
+    case z_iskra_mechaniczna:
         runIskraMechaniczna();
         break;
-    case ISKRA_PLOMIEN:
+    case z_iskra_plomien:
         runPlomien();
         break;
     default:
@@ -93,12 +93,12 @@ void Urzadzenia::zaplon(short idiskra)
 
 void Urzadzenia::checkPositionHome()
 {
-    serial.checkPositionHome();
+    m_serialDev.checkPositionHome();
 }
 
 void Urzadzenia::resetDozownik()
 {
-    serial.setReset();
+    m_serialDev.setReset();
 }
 
 void Urzadzenia::ni_error(const QString &s)
@@ -115,14 +115,14 @@ void Urzadzenia::ni_debug(const QString &d)
 
 void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6)
 {
-    double v0 = val0 * ustawienia.getRatio(0);
-    double v1 = val1 * ustawienia.getRatio(1);
-    double v2 = val2 * ustawienia.getRatio(2);
-    double v3 = val3 * ustawienia.getRatio(3);
-    double v4 = val4 * ustawienia.getRatio(4);
-    double v5 = val5 * ustawienia.getRatio(5);
-    double v6 = val6 * ustawienia.getRatio(6);
-    double v7 = val0 * ustawienia.getRatio(7);
+    double v0 = val0 * m_ustawienia.getRatio(0);
+    double v1 = val1 * m_ustawienia.getRatio(1);
+    double v2 = val2 * m_ustawienia.getRatio(2);
+    double v3 = val3 * m_ustawienia.getRatio(3);
+    double v4 = val4 * m_ustawienia.getRatio(4);
+    double v5 = val5 * m_ustawienia.getRatio(5);
+    double v6 = val6 * m_ustawienia.getRatio(6);
+    double v7 = val0 * m_ustawienia.getRatio(7);
     emit analogValueChanged(v0, v1, v2, v3, v4, v5, v6, v7);
     //TODO zapis do plikow
 }
@@ -130,7 +130,7 @@ void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, do
 void Urzadzenia::ni_usb6501(bool open, bool conf)
 {
     //qDebug("%s:%d n_usb6501 %d:%d",__FILE__,__LINE__,open,conf);
-    digitalConn = open && conf;
+    m_digCardsOk = open && conf;
 }
 
 void Urzadzenia::ni_digitalRead(uint16_t vals)
@@ -140,7 +140,7 @@ void Urzadzenia::ni_digitalRead(uint16_t vals)
         return;
 
     if (m_inputs != vals) {
-        emit digitalAllRead(vals);
+        emit digitalReadAllValueChanged(vals);
     }
 
     uint16_t changeMask = vals ^ m_inputs;
@@ -149,7 +149,7 @@ void Urzadzenia::ni_digitalRead(uint16_t vals)
     for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
         if (mask & changeMask) {
             //qDebug"%s:%d %04x %d", __FILE__,__LINE__,mask, vals & mask ? 1 : 0);
-            emit digitalRead(mask, vals & mask);
+            emit digitalReadValueChanged(mask, vals & mask);
         }
         mask <<= 1;
     }
@@ -159,8 +159,10 @@ void Urzadzenia::ni_digitalRead(uint16_t vals)
 void Urzadzenia::digitalWriteDebug(uint16_t vals)
 {
 #if !SYMULATOR
-    nicards.digitalWriteDebug(vals);
-    emit digitalWriteDevice(nicards.getDigitalWrite());
+    if (m_digCardsOk) {
+        nicards.digitalWriteAll(vals);
+        emit digitalWriteDevice(nicards.getDigitalWrite());
+    }
 #else
     (void)vals;
 #endif
@@ -168,11 +170,11 @@ void Urzadzenia::digitalWriteDebug(uint16_t vals)
 
 void Urzadzenia::readInputs()
 {
-     emit digitalAllRead(m_inputs);
+     emit digitalReadAllValueChanged(m_inputs);
 
     uint16_t mask = 0x1;
     for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
-        emit digitalRead(mask, m_inputs & mask);
+        emit digitalReadValueChanged(mask, m_inputs & mask);
         mask <<= 1;
     }
 }
@@ -194,7 +196,7 @@ void Urzadzenia::ds_errorSerial(const QString & s)
 
 void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)
 {
-    digitalConn = open && conf;
+    m_dozownikOk = open && conf;
     emit dozownik(open, conf);
 }
 
@@ -249,7 +251,7 @@ void Urzadzenia::runPlomien()
 
 void Urzadzenia::setSteps(uint8_t nrDoz, uint32_t impuls)
 {
-    serial.setSteps(nrDoz,impuls);
+    m_serialDev.setSteps(nrDoz,impuls);
 }
 
 void Urzadzenia::runPlomien1()

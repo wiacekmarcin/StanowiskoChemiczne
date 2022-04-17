@@ -1,7 +1,7 @@
 #ifndef NICARDS_H
 #define NICARDS_H
 
-#include <QThread>
+#include <QRunnable>
 #include <QMutex>
 #include <QWaitCondition>
 
@@ -36,44 +36,139 @@ public:
 /**
  * @brief The NICards class
  * Klasa która zarządza odczytem i zapisem do klas National Instrumental
- *
+ * @param anConf - czy skonfigurowana jest karta analogowa
+ * @param digConf - czy skonfigurowana jest karta cyfrowa
+ * @param m_quit - czy zakończyć wątek
+ * @param readAnalString - stały string do konfiguracji karty analogowej
+ * @param writeDigString - stały string do konfiguracji karty cyfrowej - zapis
+ * @param readDigString - stały string do konfiguracji karty cyfrowej - odczyt
+ * @param analogDevice - nazwa karty analogwej;
+ * @param digitalDevice - nazwa karty cyfrowej
+ * @param digitalConfReadString - string do konfiguracji karty cyfrowej odczyt
+ * @param digitalConfWriteString - string do konfiguraji karty cyfrowej zapis
+ * @param prevInputs - poprzedni stan wejść cyfrowych - impuls tylko jak zmieniły się wejścia;
  */
 
-class NICards : public QThread
+class NICards : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
     explicit NICards(QObject *parent = nullptr);
     ~NICards();
 
-    void setThreads(QThread * thr1, QThread * thr2);
+    /**
+     * @brief setThreads - ustawiam wątek
+     * @param thr1 - wątek w którym będzie pracował zapis i odczyt z kart cyfrowych i analogowych
+     */
+    void setThreads(QThread * thr1);
+
+    /**
+     * @brief setStop - koniec pracy workera
+     */
     void setStop();
     
+    /**
+     * @brief digitalWrite zapisz pojedyńcze wejście
+     * @param out - maska bitowa pojedyńczego wejścia
+     * @param val - wartość wyjścia - true zapal przekaźnik
+     */
+    void digitalWrite(digitalOut out, bool val);
 
-    void digitalWrite(uint16_t out, bool val);
+    /**
+     * @brief digitalWriteAll
+     * @param out - maska bitowa wszystkich wejść jeżeli na danym bicie jest 1
+     * oznacza załączenie danego wejścia
+     */
+    void digitalWriteAll(uint16_t out) { maskOutput = out; }
 
-    void digitalWriteDebug(uint16_t out) { maskOutput = out; }
+    /**
+     * @brief getDigitalWrite - pobiera maskę włączonych wyjść
+     * @return maska włączonych wyjść
+     */
     uint16_t getDigitalWrite() const { return maskOutput; }
 
-
 signals:
-    void digitalRead(uint16_t vals);
-    void error(const QString &s);
-    void debug(const QString &d);
+    /**
+     * @brief digitalReadValueChanged - odczytano wejścia
+     * @param vals - maska bitowa wejść
+     */
+    void digitalReadValueChanged(uint16_t vals);
 
-    void usb6210(bool open, bool conf);
-    void usb6501(bool ok, bool conf);
+    /**
+     * @brief analogValueChanged - zmiana wartości analogowych
+     * @param val0 - vol1 [V]
+     * @param val1 - vol2 [V]
+     * @param val2 - o2 [V]
+     * @param val3 - co2 [V]
+     * @param val4 - cisnienie komory [V]
+     * @param val5 - temperatura komory [V]
+     * @param val6 - temperatura parownika [V]
+     */
     void analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
 
-protected:
+    /**
+     * @brief error - wystąpił błąd
+     * @param s - komunikat błędu
+     */
+    void error(const QString &s);
+
+    /**
+     * @brief debug - informacje debugowe
+     * @param d - komunikat
+     */
+    void debug(const QString &d);
+
+    /**
+     * @brief usb6210 - sygnał o konfiguracji urządzenia
+     * @brief usb6501 - sygnał o konfiguracji urządzenia
+     * @param open - znaleziono
+     * @param conf - skonfigurowano
+     */
+    void usb6210(bool open, bool conf);
+    void usb6501(bool ok, bool conf);
+
+    /**
+     * @brief run - główna pętla wątku
+     */
     void run() override;
+protected:
+
+    /**
+     * @brief find - funkcja znajduje urzadzenia
+     * @return - czy udało się znaleźć karty
+     */
     bool find();
+
+    /**
+     * @brief analogConfigure - konfiguracja karty analogowej
+     */
     void analogConfigure();
+
+    /**
+     * @brief digitalConfigure - konfiguracja karty cyfrowej
+     */
     void digitalConfigure();
+
+    /**
+     * @brief resetDevice - reset kart
+     * @param analog - karta analogowa
+     * @param digital - karta cyfrowa
+     */
     void resetDevice(bool analog, bool digital);
 
+    /**
+     * @brief readAnalog - odczytaj dane analogowe
+     */
     void readAnalog();
+
+    /**
+     * @brief readDigital - odczytaj dane cyfrowe
+     */
     void readDigital();
+
+    /**
+     * @brief writeDigital - zapisz dane cyfrowe
+     */
     void writeDigital();
 
 private:
@@ -88,11 +183,10 @@ private:
     NIDAQMxUSB6210 analog;
     NIDAQMxUSB6501 digital;
 #endif
-    bool anConf;
-
-    bool digConf;
-
+    bool m_anConf;
+    bool m_digConf;
     bool m_quit;
+
     const QString readAnalString;
     const QString writeDigString;
     const QString readDigString;

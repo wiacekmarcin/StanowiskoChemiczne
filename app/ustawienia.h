@@ -42,9 +42,11 @@ typedef enum _oDig {
 
 } digitalOut;
 
-#define ISKRA_ELEKTRYCZNA 1
-#define ISKRA_MECHANICZNA 2
-#define ISKRA_PLOMIEN     3
+typedef enum _zaplon {
+    z_iskra_elektryczna = 1,
+    z_iskra_mechaniczna = 2,
+    z_iskra_plomien     = 3
+} rodzajZaplonu;
 
 #define SETGET_REVERSE(N) bool getReverse_##N() const; void setReverse_##N(bool newReverse);
 #define REVERSE(N) bool reverse_##N;
