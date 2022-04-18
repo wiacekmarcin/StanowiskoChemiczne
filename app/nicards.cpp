@@ -9,8 +9,8 @@
 #include "ustawienia.h"
 
 
-NICards::NICards(QObject *parent)
-    : QObject(parent), QRunnable(),
+NICards::NICards()
+    : QThread(nullptr),
       m_anConf(false), m_digConf(false),
       readAnalString("USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6"),
       writeDigString("USB6501/port0,USB6501/port1/Line0:2"),
@@ -116,6 +116,7 @@ void NICards::readDigital()
 //find cards
 bool NICards::find() {
 #if SYMULATOR
+    emit debug(QString("Nie znaleziono urządzeń : kart NationalInstruments"));
     emit usb6210(false, false);
     emit usb6501(false, false);
     return false;
@@ -231,7 +232,6 @@ void NICards::run()
         runWorker = !m_quit;
         m_mutex.unlock();
 
-        qInfo() << "Nicards:thread: " << QThread::currentThread()->objectName();
         if (!fDev) {
             fDev = find();
             QThread::currentThread()->sleep(10);
@@ -253,7 +253,7 @@ void NICards::run()
         }
 
         if (!m_digConf) {
-            m_digConf = m_digConf = digital.configure(readDigString, writeDigString);
+            m_digConf = digital.configure(readDigString, writeDigString);
             if (!m_digConf && !digital.isConnected()) {
                 if (--loopNr2 == 0) {
                     resetDevice(false, true);

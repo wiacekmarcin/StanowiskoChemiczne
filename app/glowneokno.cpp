@@ -33,14 +33,12 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     settings(ust),
     selectedProject(nullptr),
     selectedTest(nullptr),
-    thReadDig(this),
-    thReadAnal(this),
+    thReadDigAnal(this),
     thDozownik(this),
     thWykresy(this),
     thTest(this)
 {
-    thReadDig.setObjectName("DigitalReadThr");
-    thReadAnal.setObjectName("AnalogReadThr");
+    thReadDigAnal.setObjectName("DigitalReadThr");
     thDozownik.setObjectName("DozownikThr");
     thWykresy.setObjectName("Wykresy");
     thTest.setObjectName("Test");
@@ -49,7 +47,14 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     ui->frCzujniki->setLabels(settings);
     ui->analog->setParams(settings);
     ui->wyjscia->setLabels(settings);
-
+    
+    urzadz->setThreads(&thReadDigAnal, &thDozownik);
+    
+    thReadDigAnal.start();
+    thDozownik.start();
+    
+    //thWykresy.start();
+    //thTest.start();
 
     connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue);
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue);
@@ -65,7 +70,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
     
 
-    urzadzenia->readInputs();
+    //urzadzenia->readInputs();
     signalMapper = new QSignalMapper(this);
 
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
@@ -101,11 +106,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
-    thReadDig.start();
-    thReadAnal.start();
-    thDozownik.start();
-    thWykresy.start();
-    thTest.start();
+
 
     urzadz->digitalWriteAll(0x2);
 }
@@ -113,11 +114,12 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
 GlowneOkno::~GlowneOkno()
 {
     finishedTest(false);
-    thReadDig.quit();
-    thReadAnal.quit();
+    urzadzenia->setStop();
+    thReadDigAnal.quit();
     thDozownik.quit();
-    thWykresy.quit();
-    thTest.quit();
+
+    thReadDigAnal.wait();
+    thDozownik.wait();
 
     delete ui;
 }

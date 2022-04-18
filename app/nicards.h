@@ -1,7 +1,7 @@
 #ifndef NICARDS_H
 #define NICARDS_H
 
-#include <QRunnable>
+#include <QThread>
 #include <QMutex>
 #include <QWaitCondition>
 
@@ -49,11 +49,11 @@ public:
  * @param prevInputs - poprzedni stan wejść cyfrowych - impuls tylko jak zmieniły się wejścia;
  */
 
-class NICards : public QObject, public QRunnable
+class NICards : public QThread
 {
     Q_OBJECT
 public:
-    explicit NICards(QObject *parent = nullptr);
+    explicit NICards();
     ~NICards();
 
     /**
@@ -127,11 +127,11 @@ signals:
     void usb6210(bool open, bool conf);
     void usb6501(bool ok, bool conf);
 
+protected:
     /**
      * @brief run - główna pętla wątku
      */
     void run() override;
-protected:
 
     /**
      * @brief find - funkcja znajduje urzadzenia

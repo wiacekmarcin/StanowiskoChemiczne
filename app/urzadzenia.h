@@ -10,6 +10,8 @@
 #include "serialdevice.h"
 
 class QThread;
+
+
 /**
  * @brief The Urzadzenia class
  * Klasa zarządzająca urządzeniami - zarówno sterownikiem dozownika ja i kartami National Instruments
@@ -30,6 +32,7 @@ class Urzadzenia : public QObject
     Q_OBJECT
 public:
     explicit Urzadzenia(Ustawienia & ustawiania, QObject *parent = nullptr);
+    ~Urzadzenia();
 
     /**
      * @brief setThreads - ustawia wątki dla odpowiednich klas
@@ -213,8 +216,9 @@ public slots:
      * @brief ni_digitalRead
      * @param vals - maska bitowa wejść
      */
-    void ni_digitalRead(uint16_t vals);
-    void digitalWriteDebug(uint16_t vals);
+    //void ni_digitalRead(uint16_t vals);
+    
+    //void digitalWriteDebug(uint16_t vals);
     void readInputs();
 
 private slots:

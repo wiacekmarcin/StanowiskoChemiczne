@@ -5,7 +5,7 @@
 #include <QMutex>
 #include <QThread>
 #include <QWaitCondition>
-#include <QRunnable>
+
 #include <QByteArray>
 
 #include "serialmessage.h"
@@ -23,9 +23,9 @@ class QThread;
  * @param newTask - zmienna informujaca, że jest nowe zadanie
  * @param sd - pointer to device
  */
-class SerialWorker : public QObject, public QRunnable
+class SerialWorker : public QThread
 {
-
+    Q_OBJECT
 public:
     /**
      * Zadania,
@@ -50,7 +50,7 @@ public:
         SET_ECHO2,
     } Task;
 
-    explicit SerialWorker(QObject *parent, SerialDevice * device);
+    explicit SerialWorker(SerialDevice * device);
     ~SerialWorker();
 
     /**
@@ -67,11 +67,12 @@ public:
      */
     void setStop();
 
+protected:
     /**
      * @brief run
      * Fukcja workera
      */
-    void run() override;
+    void run();
 
 
 private:

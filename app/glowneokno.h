@@ -63,8 +63,7 @@ private:
     QSignalMapper *signalMapper;
     bool showDebugDlg;
 
-    QThread thReadDig;
-    QThread thReadAnal;
+    QThread thReadDigAnal;
     QThread thDozownik;
 
     QThread thWykresy;

@@ -3,35 +3,32 @@
 #include <math.h>
 #include "version.h"
 
+#include <QString>
 #include <QDateTime>
 #include <QTextStream>
 
 Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     : QObject{parent},
-#if !SYMULATOR
-      nicards(this),
-#endif
+      m_NI_Cards(),
       m_serialDev(ustawiania_, this),
       m_ustawienia(ustawiania_)
 
 {
-    m_logFile =new QFile;
-    m_logFile->setFileName(QString("%s.txt").arg(QDateTime::currentDateTime().toString()));
+    m_logFile = new QFile;
+    m_logFile->setFileName(QString("%1.txt").arg(QDateTime::currentDateTime().toString().replace(' ', '_').replace(':', '_').replace('.', '_')));
     m_logFile->open(QIODevice::Append | QIODevice::Text);
 
-    log(QString("%1.%2 - %3 %4").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(__DATE__).arg(__TIME__));
+    log(QString("%1.%2 - %3 %4").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(QString(__DATE__), QString(__TIME__)));
 
-#if !SYMULATOR
-    connect(&nicards, &NICards::digitalReadValueChanged,    this,   &Urzadzenia::ni_digitalRead,        Qt::DirectConnection);
-    connect(&nicards, &NICards::analogValueChanged,         this,   &Urzadzenia::ni_analogValueChanged, Qt::DirectConnection);
+    connect(&m_NI_Cards, &NICards::digitalReadValueChanged,    this,   &Urzadzenia::digitalReadAllValueChanged, Qt::DirectConnection);
+    connect(&m_NI_Cards, &NICards::analogValueChanged,         this,   &Urzadzenia::ni_analogValueChanged,      Qt::DirectConnection);
 
-    connect(&nicards, &NICards::error,                      this,   &Urzadzenia::ni_error,              Qt::QueuedConnection);
-    connect(&nicards, &NICards::debug,                      this,   &Urzadzenia::ni_debug,              Qt::QueuedConnection);
-    connect(&nicards, &NICards::usb6210,                    this,   &Urzadzenia::usb6210,               Qt::QueuedConnection);
-    connect(&nicards, &NICards::usb6501,                    this,   &Urzadzenia::ni_usb6501,            Qt::QueuedConnection);
-    connect(&nicards, &NICards::usb6501,                    this,   &Urzadzenia::usb6501,               Qt::QueuedConnection);
+    connect(&m_NI_Cards, &NICards::error,                      this,   &Urzadzenia::ni_error,              Qt::QueuedConnection);
+    connect(&m_NI_Cards, &NICards::debug,                      this,   &Urzadzenia::ni_debug,              Qt::QueuedConnection);
+    connect(&m_NI_Cards, &NICards::usb6210,                    this,   &Urzadzenia::usb6210,               Qt::QueuedConnection);
+    connect(&m_NI_Cards, &NICards::usb6501,                    this,   &Urzadzenia::ni_usb6501,            Qt::QueuedConnection);
+    connect(&m_NI_Cards, &NICards::usb6501,                    this,   &Urzadzenia::usb6501,               Qt::QueuedConnection);
 
-#endif
     connect(&m_serialDev, &SerialDevice::dozownikConfigured,    this, &Urzadzenia::ds_dozownikConfigured, Qt::QueuedConnection);
     connect(&m_serialDev, &SerialDevice::setCykleDone,          this, &Urzadzenia::setCykleDone,          Qt::QueuedConnection);
     connect(&m_serialDev, &SerialDevice::setStepsDone,          this, &Urzadzenia::setStepsDone,          Qt::QueuedConnection);
@@ -40,6 +37,11 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     connect(&m_serialDev, &SerialDevice::debug,                 this, &Urzadzenia::ds_debug,              Qt::QueuedConnection);
     connect(&m_serialDev, &SerialDevice::error,                 this, &Urzadzenia::ds_error,              Qt::QueuedConnection);
 
+}
+
+Urzadzenia::~Urzadzenia()
+{
+    m_logFile->close();
 }
 
 void Urzadzenia::setThreads(QThread *niReads, QThread *dozownik)
@@ -143,22 +145,22 @@ void Urzadzenia::zaplon(ZaplonRodzaj idiskra)
 
 void Urzadzenia::ni_error(const QString &s)
 {
-    log(QString("%1.ERROR.NICARDS - %2").arg(QDateTime::currentDateTime().toString()).arg(s));
+    log(QString("%1.ERROR.NICARDS - %2").arg(QTime::currentTime().toString(), s));
 }
 
 void Urzadzenia::ni_debug(const QString &d)
 {
-    log(QString("%1.DEBUG.NICARDS - %2").arg(QDateTime::currentDateTime().toString()).arg(d));
+    log(QString("%1.DEBUG.NICARDS - %2").arg(QTime::currentTime().toString(), d));
 }
 
 void Urzadzenia::ds_error(const QString &s)
 {
-    log(QString("%1.ERROR.DOZOWNIK - %2").arg(QDateTime::currentDateTime().toString()).arg(s));
+    log(QString("%1.ERROR.DOZOWNIK - %2").arg(QTime::currentTime().toString(), s));
 }
 
 void Urzadzenia::ds_debug(const QString &d)
 {
-    log(QString("%1.DEBUG.DOZOWNIK - %2").arg(QDateTime::currentDateTime().toString()).arg(d));
+    log(QString("%1.DEBUG.DOZOWNIK - %2").arg(QTime::currentTime().toString(), d));
 }
 
 void Urzadzenia::log(const QString &msg)

@@ -5,10 +5,10 @@
 #include "rs232.h"
 #include <QDebug>
 
-SerialWorker::SerialWorker(QObject *parent, SerialDevice * device):
-    QObject(parent), QRunnable(), sd(device)
+SerialWorker::SerialWorker(SerialDevice * device):
+    QThread(nullptr),
+    sd(device)
 {
-
     actTask = IDLE;
     runWorker = true;
 }
@@ -39,19 +39,17 @@ void SerialWorker::setStop()
 
 void SerialWorker::run()
 {
-    qInfo() << QThread::currentThread()->objectName();
     mutex.lock();
     short zadanie = actTask;
     mutex.unlock();
     short nrTrying = 0;
     bool quit = false;
     do {
-        qInfo() << "Actualne zadanie = " << zadanie;
         switch(zadanie) {
         case IDLE:
             if (!sd->m_connected) {
                 zadanie = CONNECT;
-                QThread::currentThread()->sleep(30);
+                QThread::currentThread()->sleep(10);
             } else if (!sd->m_configured) {
                 zadanie = CONFIGURE;
                 QThread::currentThread()->sleep(5);
@@ -66,11 +64,11 @@ void SerialWorker::run()
         case CONNECT:
             sd->connectToSerialJob();
             if (!sd->m_connected) {
-                zadanie = CONNECT;
+                zadanie = IDLE;
             } else if (!sd->m_configured) {
                 if (nrTrying++ > 5) {
                     nrTrying = 0;
-                    zadanie = CONNECT;
+                    zadanie = IDLE;
                     sd->closeDevice();
                     sd->m_connected = false;
                 } else {
@@ -132,7 +130,7 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
     : QObject(parent),
       m_portName(""), m_portNr(-1),
       m_connected(false), m_configured(false),
-      m_ustawienia(u), m_worker(parent, this)
+      m_ustawienia(u), m_worker(this)
 {
     setReverse(1);
     setReverse(2);
@@ -155,6 +153,7 @@ SerialDevice::~SerialDevice()
 void SerialDevice::setThread(QThread *trh)
 {
     m_worker.moveToThread(trh);
+    m_worker.start();
 }
 
 void SerialDevice::setStop()
