@@ -21,7 +21,7 @@ NowyTest_4::NowyTest_4(QWidget *parent) :
 void NowyTest_4::initializePage()
 {
     setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa);
-    //qDebug("%s:%d %f %f",__FILE__,__LINE__, field(TestPage::objetosc).toDouble(), field(TestPage::calaObjetosc).toDouble());
+    
     QString info = infoString;
     info.replace("[CIECZ]", field(ciecz).toString());
     info.replace("[DOZOWNIK]", QString::number(field(dozownikNr).toUInt()));
@@ -57,7 +57,7 @@ NowyTest_4::~NowyTest_4()
 
 void NowyTest_4::dozownikDone(bool success)
 {
-    //qDebug("%s:%d",__FILE__, __LINE__);
+    
     if (!success) {
         QMessageBox msgBox;
         msgBox.setText("Nie udało się zadozować cieczy.");
@@ -93,7 +93,7 @@ void NowyTest_4::on_pbOk_2_clicked()
 
 void NowyTest_4::on_pbOk_3_clicked()
 {
-    //qDebug "%s:%d %d", __FILE__, __LINE__, field(czyPompaMebr).toBool());
+    
 
     if (field(czyPompaMebr).toBool()) {
         ui->pbOk_3->setEnabled(false);

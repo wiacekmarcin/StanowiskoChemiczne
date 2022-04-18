@@ -44,7 +44,7 @@ UstawieniaDozownika::~UstawieniaDozownika()
 #define INIT_DIRECTION(N, D) do { ui->rb_l_##N->setChecked(D);ui->rb_p_##N->setChecked(!D); } while(false)
 void UstawieniaDozownika::on_buttonBox_clicked(QAbstractButton *button)
 {
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    
     if ((QPushButton*)button == ui->buttonBox->button(QDialogButtonBox::RestoreDefaults))
     {
         INIT_DIRECTION(1, false);
@@ -65,7 +65,7 @@ void UstawieniaDozownika::on_buttonBox_clicked(QAbstractButton *button)
 
 void UstawieniaDozownika::on_buttonBox_accepted()
 {
-    //qDebug"%s:%d", __FILE__, __LINE__);
+    
     save();
 }
 

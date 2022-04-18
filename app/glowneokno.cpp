@@ -107,7 +107,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     thWykresy.start();
     thTest.start();
 
-    urzadz->digitalWriteDebug(0x2);
+    urzadz->digitalWriteAll(0x2);
 }
 
 GlowneOkno::~GlowneOkno()
@@ -158,7 +158,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Test %1").arg(nrTest++)));
     selectedProject->addChild(qtreewidgetitem);
      selectedTest = qtreewidgetitem;
-    //qDebug"%s%d",__FILE__,__LINE__);
+    
     testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
                                             ui->testyStackedWidget);
 
@@ -249,7 +249,7 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column *
 
 void GlowneOkno::wybierzCzujke(int /*id*/)
 {
-    ////qDebug"%d", id);
+    //
 }
 
 void GlowneOkno::dozownikTest()

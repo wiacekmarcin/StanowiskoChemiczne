@@ -41,8 +41,8 @@ public:
     bool zi_pom_stez_2();
     bool zi_pilot();
 
-    void updateOutput(uint16_t mask, bool on);
-    void runZaplon(short id);
+    void updateOutput(digitalOut mask, bool on);
+    void runZaplon(ZaplonRodzaj id);
     void runCykleDozownik(uint8_t nr, uint32_t steps);
     void runDozownikMl(uint8_t nr, uint32_t mlx10);
     void runCheckPositionHome();
@@ -62,17 +62,17 @@ public slots:
 signals:
     void changeTestName(QString);
     void finishedTest(bool success);
-    void writeOutValues(uint16_t, bool on);
+    void writeOutValues(digitalOut, bool on);
     void cykleDozownik(uint8_t nr, uint32_t steps);
     void dozownikMl(uint8_t nr, uint32_t mlx10);
-    void zaplon(short Id);
+    void zaplon(ZaplonRodzaj Id);
     void checkPositionHome();
     void criticalZaworOpenSignal(uint16_t idz);
     void warningZaworOpenSignal(uint16_t idz);
     void resetDozownik();
 
 
-    void setDigitalOut(int id, bool value);
+    void setDigitalOut(digitalOut id, bool value);
     void readsInputs();
 
 private slots:

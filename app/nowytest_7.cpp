@@ -45,7 +45,7 @@ void NowyTest_7::initializePage()
     ui->pbOK_3->setEnabled(true);
     ui->pbOk_4->setEnabled(true);
     TestPage::initializePage();
-    ui->rb3_zaplon->setEnabled(field(TestPage::rodzajZaplonu).toInt() != ISKRA_PLOMIEN);
+    ui->rb3_zaplon->setEnabled(field(TestPage::rodzajZaplonu).toInt() != z_iskra_plomien);
 }
 
 TestPage::PageId NowyTest_7::nextPageId() const
@@ -61,7 +61,7 @@ void NowyTest_7::on_pbOK_1_clicked()
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_proznia | i_wlot_powietrza | i_pom_stez_1 | i_pom_stez_2 | i_wentylacja_prawa | i_wentylacja_lewa);
         QMessageBox::information(this, QString("Kamera"), QString("Pamiętaj o zapisaniu filmu na kartę"));
         nextPage(next);
-    } else if (field(TestPage::rodzajZaplonu).toInt() == ISKRA_PLOMIEN) {
+    } else if (field(TestPage::rodzajZaplonu).toInt() == z_iskra_plomien) {
         ui->arrow_1->setVisible(false);
         ui->pbOK_1->setEnabled(false);
         ui->frame_2->setVisible(true);
@@ -137,9 +137,9 @@ void NowyTest_7::on_pbOk_4_clicked()
         QMessageBox::information(this, QString("Dozowanie cieczy"), QString("Wybierz więcej niż 0ml"));
         return;
      }
-    //qDebug("%s:%d %f %f",__FILE__,__LINE__, field(TestPage::objetosc).toDouble(), field(TestPage::calaObjetosc).toDouble());
+    
     setField(TestPage::objetosc, QVariant::fromValue(ui->cbCiecz->value()));
-    //qDebug("%s:%d %f %f",__FILE__,__LINE__, field(TestPage::objetosc).toDouble(), field(TestPage::calaObjetosc).toDouble());
+    
     nextPage(nextPageId());
 }
 

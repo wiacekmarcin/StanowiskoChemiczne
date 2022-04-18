@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QFile>
 
 #include "nicards.h"
 #include "ustawienia.h"
@@ -22,6 +23,7 @@ class QThread;
  * @param plTimer - timery dla płomienia
  * @param imTimer - timery dla iskry mechanicznej
  * @param elTimer  - timer dla iskry elektrycznej
+ * @param m_fileLog - plik do którego będą zapisywane dane logujące
  */
 class Urzadzenia : public QObject
 {
@@ -73,7 +75,7 @@ public slots:
      * @brief zaplon - procedura zapłonu iskry elektrycznej/mechanicznej/płomienia
      * @param idiskra - rodzaj iskry
      */
-    void zaplon(rodzajZaplonu idiskra);
+    void zaplon(ZaplonRodzaj idiskra);
 
     /**
      * @brief checkPositionHome - sprawdza czy dozowniki są na pozycji bazowej
@@ -194,33 +196,99 @@ signals:
 
 
 public slots:
+    /**
+     * @brief ni_analogValueChanged - przeychwocony sygnał analogValueChanged i wartośći
+     * przemnożone przez odpowiednie współczynniki i
+     * @param val0 - vol1 [V]
+     * @param val1 - vol2 [V]
+     * @param val2 - o2 [V]
+     * @param val3 - co2 [V]
+     * @param val4 - cisnienie komory [V]
+     * @param val5 - temperatura komory [V]
+     * @param val6 - temperatura parownika [V]
+     */
     void ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6);
+
+    /**
+     * @brief ni_digitalRead
+     * @param vals - maska bitowa wejść
+     */
     void ni_digitalRead(uint16_t vals);
     void digitalWriteDebug(uint16_t vals);
     void readInputs();
 
 private slots:
 
+    /**
+     * @brief ni_error - funkcja odbierający error z nicards
+     * @param s - komunikat błedu
+     */
     void ni_error(const QString &s);
+
+    /**
+     * @brief ni_debug - funkcja odbierająca debug z nicards
+     * @param d - komunikat
+     */
     void ni_debug(const QString &d);
+
+    /**
+     * @brief ds_error - funkcja odbierający error z nicards
+     * @param s - komunikat błedu
+     */
+    void ds_error(const QString &s);
+
+    /**
+     * @brief ds_debug - funkcja odbierająca debug z nicards
+     * @param d - komunikat
+     */
+    void ds_debug(const QString &d);
+
+    /**
+     * @brief ni_usb6501 - czy karta cyfrowa jest w prawidłowo skonfigurowana
+     * @param open
+     * @param conf
+     */
     void ni_usb6501(bool open, bool conf);
 
-    void ds_error(const QString &s);
-    void ds_debug(const QString &d);
-    void ds_errorSerial(const QString &s);
+    /**
+     * @brief ds_dozownikConfigured - czy dozownik został skonfigurowany
+     * @param open
+     * @param conf
+     */
     void ds_dozownikConfigured(bool open, bool conf);
 
 protected:
+    /**
+     * @brief runIskraElektryczna - uruchomienie procedury iskry elektrycznej
+     */
     void runIskraElektryczna();
+
+    /**
+     * @brief runIskraMechaniczna - uruchomienie procedury iskry mechanicznej
+     */
     void runIskraMechaniczna();
+
+    /**
+     * @brief runPlomien - uruchomienie procedury płomienia
+     */
     void runPlomien();
-    void setSteps(uint8_t nrDoz, uint32_t impuls);
 
 private slots:
+    /**
+     * @brief runIskraElektryczna1
+     * @brief runIskraElektryczna2()
+     * @brief runIskraElektryczna2()
+     * @brief runIskraMechaniczna1
+     * @brief runPlomien1
+     * Kolejne procedury wyzwalaniu zapłonu
+     */
     void runIskraElektryczna1();
     void runIskraElektryczna2();
     void runIskraMechaniczna1();
     void runPlomien1();
+
+protected:
+    void log(const QString & msg);
 
 private:
 
@@ -236,6 +304,8 @@ private:
      QTimer plTimer;
      QTimer imTimer;
      QTimer elTimer;
+
+     QFile * m_logFile;
 };
 
 #endif // URZADZENIA_H

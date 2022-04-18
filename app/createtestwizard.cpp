@@ -159,7 +159,7 @@ void CreateTestWizard::setFinished(bool success)
 
 void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 {
-    //qDebug("CreateTestWizard::changeDigitalIn id = %d, val = %d", id, value);
+    
     zaworyMap[id] = value;
     if (selectedId == TestPage::PAGE_6 && id == i_pilot) {
             currentPage()->updateWejscia();
@@ -167,7 +167,7 @@ void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
     if (showWarn || showCrit)
         return;
 
-    //qDebug("%s:%d %d %d", __FILE__,__LINE__, id, value);
+    
     if (criticalMap[id] && !value && !showCrit) {
         showCrit = true;
         emit criticalZaworOpenSignal(id);
@@ -214,7 +214,6 @@ void CreateTestWizard::dozownikDone(bool success)
 
 void CreateTestWizard::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
 {
-    //qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
     if (selectedId == TestPage::PAGE_2) {
         currentPage()->checkPositionHomeDone(ok, d1, d2, d3, d4, d5);
     }
@@ -267,7 +266,7 @@ void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
 
 void CreateTestWizard::nextPage(TestPage::PageId id)
 {
-    ////qDebug("nextPage %d", id);
+    //
     if (finished)
         return;
 
@@ -321,15 +320,14 @@ ZAWOR_DEFINE(i_pom_stez_1)
 ZAWOR_DEFINE(i_pom_stez_2)
 ZAWOR_DEFINE(i_pilot)
 
-void CreateTestWizard::updateOutput(uint16_t mask, bool on)
+void CreateTestWizard::updateOutput(digitalOut mask, bool on)
 {
     emit writeOutValues(mask, on);
 }
 
-void CreateTestWizard::runZaplon(short id)
+void CreateTestWizard::runZaplon(ZaplonRodzaj id)
 {
-    //qDebug("%s:%d", __FILE__, __LINE__);
-    emit zaplon(id);
+emit zaplon(id);
 }
 
 void CreateTestWizard::runCykleDozownik(uint8_t nr, uint32_t steps)

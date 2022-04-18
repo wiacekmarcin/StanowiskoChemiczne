@@ -46,7 +46,7 @@ typedef enum _zaplon {
     z_iskra_elektryczna = 1,
     z_iskra_mechaniczna = 2,
     z_iskra_plomien     = 3
-} rodzajZaplonu;
+} ZaplonRodzaj;
 
 #define SETGET_REVERSE(N) bool getReverse_##N() const; void setReverse_##N(bool newReverse);
 #define REVERSE(N) bool reverse_##N;

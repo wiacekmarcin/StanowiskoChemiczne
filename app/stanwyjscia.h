@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QFrame>
-
+#include "ustawienia.h"
 namespace Ui {
 class StanWyjscia;
 }
@@ -15,13 +15,13 @@ class StanWyjscia : public QFrame
 public:
     explicit StanWyjscia(QWidget *parent = nullptr);
     ~StanWyjscia();
-    void setMaskId(uint16_t mask, bool tBVis);
+    void setMaskId(digitalOut mask, bool tBVis);
     void setLabel(const QString &name);
 
     void digitalWrite(uint16_t value);
 
 signals:
-    void writeValue(uint16_t mask, uint8_t value);
+    void writeValue(digitalOut mask, uint8_t value);
 
 
 private slots:
@@ -33,7 +33,7 @@ protected:
 private:
     Ui::StanWyjscia *ui;
     bool m_on;
-    uint16_t maskId;
+    digitalOut maskId;
 };
 
 #endif // STANWYJSCIA_H

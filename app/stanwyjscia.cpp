@@ -17,7 +17,7 @@ StanWyjscia::~StanWyjscia()
     delete ui;
 }
 
-void StanWyjscia::setMaskId(uint16_t mask, bool tBVis)
+void StanWyjscia::setMaskId(digitalOut mask, bool tBVis)
 {
 
     maskId = mask;

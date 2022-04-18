@@ -31,7 +31,7 @@ OtwarteZawory::~OtwarteZawory()
 
 void OtwarteZawory::set(int id, bool open)
 {
-    ////qDebug"OtwarteZawory::set(int id, bool open) %d %d", id, open);
+    //
     switch(id) {
     case i_wentylacja_lewa:
         ui->zawor_1_open->setVisible(!open);

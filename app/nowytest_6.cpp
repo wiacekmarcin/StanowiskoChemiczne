@@ -37,16 +37,16 @@ void NowyTest_6::initializePage()
 
 void NowyTest_6::updateWejscia()
 {
-    //qDebug"%s%d %d",__FILE__,__LINE__, z_pilot());
+    
     if (step2 && zi_pilot() && !runDialog) {
-        runZaplon(field(TestPage::rodzajZaplonu).toInt());
-        //qDebug"%s%d",__FILE__,__LINE__);
+        runZaplon((ZaplonRodzaj)(field(TestPage::rodzajZaplonu).toInt()));
+        
         runDialog = true;
-        //qDebug"%s%d",__FILE__,__LINE__);
+        
         OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this);
-        //qDebug"%s%d",__FILE__,__LINE__);
+        
         dlg->exec();
-        //qDebug"%s%d",__FILE__,__LINE__);
+        
         delete dlg;
         nextPage(nextPageId());
     }

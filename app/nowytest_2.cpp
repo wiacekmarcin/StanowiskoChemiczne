@@ -50,7 +50,7 @@ void NowyTest_2::initializePage()
 
 void NowyTest_2::updateWejscia()
 {
-    ////qDebug"%s:%d",__FILE__,__LINE__);
+    //
     if (showWarning) {
         if (zi_drzwi_lewe() && zi_drzwi_prawe()) {
             showWarning = false;
@@ -95,7 +95,7 @@ void NowyTest_2::dozownikDone(bool succes)
 
 void NowyTest_2::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
 {
-    //qDebug("%s:%d %d %d%d%d%d%d", __FILE__,__LINE__, ok, d1, d2, d3, d4, d5);
+    
     okDozownik = ok;
     homeDozownik[0] = d1;
     homeDozownik[1] = d2;
@@ -165,7 +165,7 @@ void NowyTest_2::on_pbOK_2_clicked()
 
 void NowyTest_2::on_pbOk_3_clicked()
 {
-    //qDebug"%s:%d runCycle", __FILE__,__LINE__);
+    
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
     cykleDozownik(dozownik, 4);
@@ -173,7 +173,7 @@ void NowyTest_2::on_pbOk_3_clicked()
 
 void NowyTest_2::on_rb4_yes_toggled(bool checked)
 {
-    //qDebug"m_DozownikPelny");
+    
     m_DozownikPelny = checked;
 }
 
@@ -185,7 +185,7 @@ void NowyTest_2::on_rb4_no_toggled(bool checked)
 void NowyTest_2::on_pbOk_4_clicked()
 {
     if (!m_DozownikPelny) {
-        //qDebug"%s:%d runCycle", __FILE__,__LINE__);
+        
         ui->pbOk_4->setEnabled(false);
         cykleDozownik(dozownik, 1);
     } else {

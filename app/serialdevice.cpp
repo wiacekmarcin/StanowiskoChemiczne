@@ -507,7 +507,7 @@ void SerialDevice::setPosJob()
     }
 
     s = write(SerialMessage::setPosition(dozownikNr, val1), 100, 60000).getParseReply();
-    if (s != SerialMessage::POSITION_REP) {
+    if (s != SerialMessage::POSITION_REPLY) {
         emit setPositionDone(false);
         return;
     }

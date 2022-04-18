@@ -1,6 +1,8 @@
 #ifndef TESTPAGE_H
 #define TESTPAGE_H
 
+#include "ustawienia.h"
+
 #include <QString>
 #include <QObject>
 #include <QWidget>
@@ -78,10 +80,10 @@ public:
     virtual void setCisnKomory(const double & ) {};
     virtual void checkPositionHomeDone(bool /*ok*/, bool /*d1*/, bool /*d2*/, bool /*d3*/, bool /*d4*/, bool /*d5*/) {};
 
-    void updateOutput(uint16_t mask, bool on);
+    void updateOutput(digitalOut mask, bool on);
     void cykleDozownik(uint8_t nr, uint32_t steps);
     void dozownikMl(uint8_t nr, uint32_t mlx10);
-    void runZaplon(short idZaplon);
+    void runZaplon(ZaplonRodzaj idZaplon);
     void checkPositionHome();
     void setZ_warningMask(uint16_t newZ_warningMask);
     void setZ_criticalMask(uint16_t newZ_criticalMask);

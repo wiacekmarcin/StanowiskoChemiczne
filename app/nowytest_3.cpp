@@ -56,7 +56,7 @@ void NowyTest_3::updateCisnieie()
     double avg = getAvgCisnienie();
     double val = getCisnKomory();
 
-    //qDebug"Update cisnienie %d", timePompaProzniowa);
+    
     if (--timePompaProzniowa == 0) {
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
@@ -68,7 +68,7 @@ void NowyTest_3::updateCisnieie()
         ustalanieCisnienia = false;
     }
 
-    //qDebug"%s:%d avg = %f cisn = %f  [%f] <%f %f>",__FILE__, __LINE__, avg, val, cisnieWProzni, 0.95*val, 1.05*val);
+    
     if (0.95*val > avg && 1.05*val < avg /*&& avg < cisnieWProzni*/) {
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
@@ -94,7 +94,7 @@ double NowyTest_3::getAvgCisnienie()
     QMutexLocker lock(&mutexCisnienie);
     double avg = 0.0;
     /*
-    //qDebug"%s:%d %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
+    
            __FILE__, __LINE__, prevCisnienie[0], prevCisnienie[1],
            prevCisnienie[3], prevCisnienie[4], prevCisnienie[5],
            prevCisnienie[6], prevCisnienie[7], prevCisnienie[8],
@@ -104,7 +104,7 @@ double NowyTest_3::getAvgCisnienie()
     for (unsigned short id = 0; id < 16 ; ++id) {
         avg += prevCisnienie[id];
     }
-    //qDebug"%s:%d avg=%f", __FILE__, __LINE__, avg);
+    
     return avg/16.0;
 }
 void NowyTest_3::setCisnKomory(const double & newCisnKomory)
@@ -114,14 +114,14 @@ void NowyTest_3::setCisnKomory(const double & newCisnKomory)
     QMutexLocker lock(&mutexCisnienie);
     cisnKomory = newCisnKomory;
     idPrev = (idPrev + 1) & 0xf;
-    ////qDebug"%s:%d idprev = %d", __FILE__, __LINE__, idPrev);
+    //
     prevCisnienie[idPrev] = newCisnKomory;
 
     ui->act_cisnienie->setText(QString::number(newCisnKomory));
     if (cisnienie_zad != 0)
         ui->delta_percent->setText(QString::number(100.0*(cisnienie_zad - newCisnKomory)/cisnienie_zad,'g',2));
     /*
-    //qDebug"%s:%d %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f",
+    
            __FILE__, __LINE__, prevCisnienie[0], prevCisnienie[1],
            prevCisnienie[3], prevCisnienie[4], prevCisnienie[5],
            prevCisnienie[6], prevCisnienie[7], prevCisnienie[8],
@@ -167,7 +167,7 @@ void NowyTest_3::on_pbOk_3_clicked()
     setZ_warningMask(i_proznia);
 
     ui->pbOk_3->setEnabled(false);
-    //qDebug"%s:%d Pompa prozniowa on", __FILE__, __LINE__);
+    
     updateOutput(o_pompa_prozniowa, true);
     ustalanieCisnienia = true;
     timePompaProzniowa = 100;

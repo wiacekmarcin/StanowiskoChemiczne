@@ -33,30 +33,30 @@ bool NIDAQMxUSB6210::configure(const QString & deviceString)
 {
     if (isConnected())
         return true;
-    //qDebug("%s:%d", __FILE__, __LINE__);
+    
     /*********************************************/
     // DAQmx Configure Code
     /*********************************************/
     DAQmxErrChk(DAQmxCreateTask("readAnalogValues", &taskHandleRead));
-    //qDebug("%s:%d", __FILE__, __LINE__);
+    
     DAQmxErrChk(DAQmxCreateAIVoltageChan(taskHandleRead, deviceString.toStdString().c_str(),
             "", DAQmx_Val_RSE, -10.0, 10.0, DAQmx_Val_Volts, NULL));
-    //qDebug("%s:%d", __FILE__, __LINE__);
+    
     DAQmxErrChk(DAQmxStartTask(taskHandleRead));
-    //qDebug("%s:%d", __FILE__, __LINE__);
+    
 
     return true;
 
 Error:
     errorFun();
-    //qDebug("%d %p %s", __LINE__, taskHandleRead, errStr().c_str());
+    
     return false;
 }
 
 bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val4, float& val5, float& val6, float& val7)
 {
     static short tryRead = 0;
-    //qDebug("%s:%d isconnected=%d", __FILE__, __LINE__, isConnected());
+    
     if (!isConnected())
         return false;
     int32       read;
@@ -73,7 +73,7 @@ bool NIDAQMxUSB6210::readValue(float& val1, float& val2, float& val3, float& val
     val6 = val[5];
     val7 = val[6];
 
-    //qDebug("%s:%d %f %f %f %f %f %f %f", __FILE__, __LINE__, val1, val2, val3, val4, val5, val6, val7);
+    
     return true;
 
 Error:
@@ -81,7 +81,7 @@ Error:
         return readValue(val1, val2, val3, val4, val5, val6, val7);
     }
     errorFun();
-    //qDebug("%s:%d %d %s", __FILE__,__LINE__, taskHandleRead, errStr().c_str());
+    
     return false;
 }
 
