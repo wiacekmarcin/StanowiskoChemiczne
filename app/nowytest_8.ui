@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>885</width>
-    <height>232</height>
+    <width>887</width>
+    <height>236</height>
    </rect>
   </property>
   <property name="font">
@@ -19,10 +19,10 @@
    <string>WizardPage</string>
   </property>
   <property name="title" stdset="0">
-   <string>Rozpoczęcie pomiarów</string>
+   <string>Pomiar stężeń produktów spalania i wentylacja komory</string>
   </property>
   <property name="subTitle" stdset="0">
-   <string>Stanowisko jest gotowe do rozpoczęcia pomiarów.</string>
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
-    <height>216</height>
+    <width>655</width>
+    <height>286</height>
    </rect>
   </property>
   <property name="font">
@@ -19,10 +19,10 @@
    <string>Dialog</string>
   </property>
   <property name="title" stdset="0">
-   <string>Napełnianie układu dozownika</string>
+   <string>Napełnianie dozownika</string>
   </property>
   <property name="subTitle" stdset="0">
-   <string>Należy się upewnić, że układ dozownika jest napełniony. Jeżeli układ jest pusty lub niepełny, to należy wykonać poniższe czynności.</string>
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0">
    <property name="spacing">

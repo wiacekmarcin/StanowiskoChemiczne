@@ -2,11 +2,22 @@
 #define CZUJNIKANALOGOWYWIDGET_H
 
 #include <QWidget>
-
+#include <QMutex>
+#include <QTimer>
 namespace Ui {
 class CzujnikAnalogowyWidget;
 }
 
+/**
+ * @brief The CzujnikAnalogowyWidget class
+ * Wyświetla pojedyńczą wartość czujnika analogowego
+ * @param name - nazwa wyświetlana
+ * @param ratio - współczynnik (na razie nie potrzebny,
+ * bo przychodząca wartość jest już przeliczona)
+ * @param unit - jednostka wyświetlana
+ * @param valuses - tablica wartości z których liczona jest średnia
+ * @param actIndex - aktualny index
+ */
 class CzujnikAnalogowyWidget : public QWidget
 {
     Q_OBJECT
@@ -18,13 +29,22 @@ public:
     void setParam(const QString & name, const double & ratio, const QString & unit);
     void setValue(const double & val);
 
-    double getConvValue() const { return valConv; }
+    void setPrec(unsigned short newPrec);
+
+private slots:
+    void timeout();
+
 private:
     Ui::CzujnikAnalogowyWidget *ui;
     QString name;
     double ratio;
     QString unit;
-    double valConv;
+    static constexpr unsigned short maxPoz = 5;
+    double values[maxPoz];
+    unsigned  short idx;
+    unsigned short prec;
+    QMutex mutex;
+    QTimer timer;
 };
 
 #endif // CZUJNIKANALOGOWYWIDGET_H

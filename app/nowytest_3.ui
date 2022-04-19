@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>704</width>
-    <height>207</height>
+    <height>285</height>
    </rect>
   </property>
   <property name="font">
@@ -16,10 +16,10 @@
    </font>
   </property>
   <property name="title" stdset="0">
-   <string>Ciśnienie w komorze</string>
+   <string>Ustalanie podciśnienia w komorze</string>
   </property>
   <property name="subTitle" stdset="0">
-   <string>Ustaw odpowiednie ciśnienie w komorze,</string>
+   <string/>
   </property>
   <layout class="QFormLayout" name="formLayout_2">
    <item row="0" column="1">

@@ -26,6 +26,7 @@ NICards::~NICards()
     m_mutex.lock();
     m_quit = true;
     m_mutex.unlock();
+    QThread::currentThread()->wait();
 }
 
 void NICards::setThreads(QThread *thr1)

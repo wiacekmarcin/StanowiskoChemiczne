@@ -46,9 +46,9 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     ui->pilot->setOk(false);
 
 
-    ui->usb6210->setText("USB6210");
-    ui->usb6501->setText("USB6501");
-    ui->dozownik->setText("Dozownik");
+    ui->usb6210->setText("Karta NI USB6210");
+    ui->usb6501->setText("Karta NI USB6501");
+    ui->dozownik->setText(QString::fromUtf8("Sterownik dozowników"));
 
     ui->usb6210->setState(true, false);
     ui->usb6501->setState(true, false);
