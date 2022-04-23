@@ -67,6 +67,9 @@ void NowyTest_8::on_pbOK_1_clicked()
 void NowyTest_8::on_pbOK_2_clicked()
 {
     //pomiar
+    TestData & dt = testData();
+    dt.setTemperaturaKomory(TestData::FT_koniec, getCzujnik(a_temp_komory));
+    dt.setCisnienieKomory(TestData::FT_koniec, getCzujnik(a_cisn_komora));
     updateOutput(o_pompa_powietrza, false);
     setZ_warningMask(0);
     ui->pbOK_2->setEnabled(false);
@@ -79,6 +82,9 @@ void NowyTest_8::on_pbOK_3_clicked()
 {
     if (!sprawdzOtwarteZawory(i_pom_stez_1 | i_pom_stez_2 | i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza))
        return;
+    TestData & dt = testData();
+    dt.setStezenia(TestData::FT_koniec, getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
+                   getCzujnik(a_co2), getCzujnik(a_8));
     ui->pbOK_3->setEnabled(false);
     ui->arrow_3->setVisible(false);
     ui->frame_4->setVisible(true);

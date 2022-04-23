@@ -48,6 +48,11 @@ typedef enum _zaplon {
     z_iskra_plomien     = 3
 } ZaplonRodzaj;
 
+#define PLOMIEN QString("Płomień")
+#define ISKRA_MECH QString("Iskra mechaniczna")
+#define ISKRA_ELE QString("Iskra elektryczna")
+
+
 #define SETGET_REVERSE(N) bool getReverse_##N() const; void setReverse_##N(bool newReverse);
 #define REVERSE(N) bool reverse_##N;
 

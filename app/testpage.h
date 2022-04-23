@@ -2,6 +2,7 @@
 #define TESTPAGE_H
 
 #include "ustawienia.h"
+#include "testdata.h"
 
 #include <QString>
 #include <QObject>
@@ -47,18 +48,21 @@ public:
         objetosc,
         calaObjetosc,
         zaplon,
-        zaplonExtra,
         dozownikNr,
         czyPompaMebr,
         brakZaplonu,
         rodzajZaplonu,
-        bylWybuch
+        wybranyPlomien,
+        bylWybuch,
+        powtarzanyTest
     } Value;
 
     void setField(Value key, const QVariant & val);
     QVariant field(Value key) const;
     void setWizard(CreateTestWizard * wiz);
     CreateTestWizard *wizard() const;
+    TestData & testData();
+    float getCzujnik(analogIn czujnik);
 
     QString title() const;
     void setTitle(const QString & t);

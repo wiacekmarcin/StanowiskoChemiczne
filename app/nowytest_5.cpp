@@ -73,7 +73,15 @@ void NowyTest_5::on_pbOK_3_clicked()
     if (!sprawdzOtwarteZaworStezenia())
         return;
     updateOutput(o_pompa_powietrza, false);
+    TestData & dt = testData();
+    dt.setTemperaturaKomory(TestData::FT_przedZaplon, getCzujnik(a_temp_komory));
+    if (field(czyPompaMebr).toBool()) {
+        dt.setCisnienieKomory(TestData::FT_przedZaplon, getCzujnik(a_cisn_komora));
+    }
     //setZ_warningMask(i_pom_stez_1 | i_pom_stez_2);
+
+    dt.setStezenia(TestData::FT_przedZaplon, getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
+                   getCzujnik(a_co2), getCzujnik(a_8));
     nextPage(nextPageId());
 }
 

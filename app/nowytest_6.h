@@ -20,6 +20,10 @@ public:
 private slots:
     void on_pbOK_1_clicked();
 
+    void on_cbZaplon_2_currentTextChanged(const QString &arg1);
+
+    void on_pbOK_2_clicked();
+
 private:
     Ui::NowyTest_6 *ui;
     bool runDialog;

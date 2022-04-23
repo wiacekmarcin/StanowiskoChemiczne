@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT += multimedia multimediawidgets
+QT += multimedia multimediawidgets printsupport
 #QT += charts
 QT += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -51,6 +51,7 @@ SOURCES += \
     serialmessage.cpp \
     stanczujnika.cpp \
     stanwyjscia.cpp \
+    testdata.cpp \
     testparam.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
@@ -98,6 +99,7 @@ HEADERS += \
     serialmessage.h \
     stanczujnika.h \
     stanwyjscia.h \
+    testdata.h \
     testparam.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \

@@ -30,8 +30,11 @@ protected:
     QString getLuquid() const;
     int getDozownik() const;
     QString getName() const;
+    float getHumanity() const;
 private slots:
     void on_pbNext_clicked();
+
+    void on_humanity_textEdited(const QString &arg1);
 
 private:
     bool valid;
@@ -39,6 +42,7 @@ private:
     Ui::NowyTest_1 *ui;
     double valCieczy;
     QString currCiecz;
+    float humanity;
 
 };
 

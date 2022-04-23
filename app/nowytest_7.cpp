@@ -15,13 +15,13 @@ NowyTest_7::NowyTest_7(QWidget *parent) :
     next = PAGE_8;
     wykrytyZaplon = true;
 
-    if (wykrytyZaplon)
+    if (wykrytyZaplon) {
         ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
    "<html><head/><body><p>Program <span style=\" font-weight:700;\">wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
-    else
+    } else {
         ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
     "<html><head/><body><p>Program <span style=\" font-weight:700;\">nie wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
-
+    }
 
     //ui->pbOK_1->setEnabled(false);
 }
@@ -60,6 +60,8 @@ void NowyTest_7::on_pbOK_1_clicked()
         next = TestPage::PAGE_8;
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_proznia | i_wlot_powietrza | i_pom_stez_1 | i_pom_stez_2 | i_wentylacja_prawa | i_wentylacja_lewa);
         QMessageBox::information(this, QString("Kamera"), QString("Pamiętaj o zapisaniu filmu na kartę"));
+        testData().setUdanaProba(true);
+        setField(TestPage::powtarzanyTest, QVariant::fromValue((bool)false));
         nextPage(next);
     } else if (field(TestPage::rodzajZaplonu).toInt() == z_iskra_plomien) {
         ui->arrow_1->setVisible(false);
@@ -68,10 +70,14 @@ void NowyTest_7::on_pbOK_1_clicked()
         next = TestPage::PAGE_9;
         setZ_criticalMask(0);
         setZ_warningMask(i_wentylacja_prawa | i_wentylacja_lewa);
+        testData().setUdanaProba(false);
+        setField(TestPage::powtarzanyTest, QVariant::fromValue((bool)true));
     } else {
         ui->pbOK_1->setEnabled(false);
         ui->arrow_1->setVisible(false);
         ui->frame_3->setVisible(true);
+        testData().setUdanaProba(false);
+        setField(TestPage::powtarzanyTest, QVariant::fromValue((bool)true));
     }
 
 }

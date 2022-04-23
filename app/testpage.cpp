@@ -44,6 +44,16 @@ CreateTestWizard *TestPage::wizard() const
     return wiz;
 }
 
+TestData &TestPage::testData()
+{
+    return wiz->testData();
+}
+
+float TestPage::getCzujnik(analogIn czujnik)
+{
+    return wiz->getCzujnik(czujnik);
+}
+
 TestPage::PageId TestPage::getId() const
 {
     return id;

@@ -56,18 +56,18 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     //thWykresy.start();
     //thTest.start();
 
-    connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue);
-    //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue);
-    //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue);
+    connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue, Qt::DirectConnection);
+    //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue, Qt::DirectConnection);
+    //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue, Qt::DirectConnection);
 
-    connect(urzadzenia, &Urzadzenia::digitalReadValueChanged,   ui->frCzujniki, &OknoStatusowe::setDigitalValue);
+    connect(urzadzenia, &Urzadzenia::digitalReadValueChanged,  ui->frCzujniki, &OknoStatusowe::setDigitalValue, Qt::DirectConnection);
+    connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, ui->wyjscia,    &OknoStanoweWyjscia::setOnOff,   Qt::QueuedConnection);
 
-    connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged,   ui->wyjscia, &OknoStanoweWyjscia::setOnOff);
-    connect(ui->wyjscia, &OknoStanoweWyjscia::writeValue, urzadzenia, &Urzadzenia::digitalWrite);
+    connect(ui->wyjscia, &OknoStanoweWyjscia::writeValue, urzadzenia, &Urzadzenia::digitalWrite, Qt::DirectConnection);
 
-    connect(urzadzenia, &Urzadzenia::usb6210,  ui->frCzujniki, &OknoStatusowe::setUSB6210);
-    connect(urzadzenia, &Urzadzenia::usb6501,  ui->frCzujniki, &OknoStatusowe::setUSB6501);
-    connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik);
+    connect(urzadzenia, &Urzadzenia::usb6210,  ui->frCzujniki, &OknoStatusowe::setUSB6210, Qt::QueuedConnection);
+    connect(urzadzenia, &Urzadzenia::usb6501,  ui->frCzujniki, &OknoStatusowe::setUSB6501, Qt::QueuedConnection);
+    connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik,Qt::QueuedConnection);
     
 
     //urzadzenia->readInputs();
@@ -101,8 +101,8 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
 // testowy test
 
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
-    projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Lista czlonkow",
-                                            "/home/test", "Komentarz", "Dzisiejsza data");
+    projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
+                                            "/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
@@ -144,7 +144,7 @@ void GlowneOkno::on_actionNowy_projekt_triggered()
 
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(dlg->getName()));
     projekty[qtreewidgetitem] = ProjectItem(dlg->getName(), dlg->getMembers(), dlg->getWorkDir(), dlg->getComment(),
-                                            dlg->getDate());
+                                            dlg->getDate(), dlg->getDateTime());
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
     changeSelectedTest();

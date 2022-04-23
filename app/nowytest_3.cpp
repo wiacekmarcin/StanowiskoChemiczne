@@ -172,7 +172,7 @@ void NowyTest_3::on_pbOk_3_clicked()
     ustalanieCisnienia = true;
     timePompaProzniowa = 100;
     cisnienieTimer.start();
-     setField(czyPompaMebr, QVariant::fromValue((bool)true));
+    setField(czyPompaMebr, QVariant::fromValue((bool)true));
 
     ui->arrow_3->setVisible(false);
     ui->frame_4->setVisible(true);
@@ -183,6 +183,7 @@ void NowyTest_3::on_pbOk_3_clicked()
 void NowyTest_3::on_pbOk_5_clicked()
 {
     updateOutput(o_pompa_prozniowa, false);
+    testData().setCisnienieKomory(TestData::FT_dozowanie, getCzujnik(a_cisn_komora));
     setZ_warningMask(0);
     nextPage(nextPageId());
 }

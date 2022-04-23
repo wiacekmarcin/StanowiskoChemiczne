@@ -19,6 +19,9 @@
 #include <QVariant>
 #include <QTreeWidgetItem>
 #include <QDebug>
+#include <QPrinter>
+#include <QTextDocument>
+#include <QTextCursor>
 
 #include "urzadzenia.h"
 #include "glowneokno.h"
@@ -42,7 +45,7 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     zaworyMap[i_pilot] = false;
     showCrit = false;
     showWarn = false;
-
+    registerPomiary = false;
     connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot, Qt::QueuedConnection);
     connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot, Qt::QueuedConnection);
 }
@@ -51,6 +54,16 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
 CreateTestWizard::~CreateTestWizard()
 {
 
+}
+
+void CreateTestWizard::setTestData(TestData &dt)
+{
+    this->dt = dt;
+}
+
+TestData &CreateTestWizard::testData()
+{
+    return this->dt;
 }
 
 void CreateTestWizard::init(const Ustawienia & ust,
@@ -153,8 +166,21 @@ void CreateTestWizard::setFinished(bool success)
     updateOutput(o_trigger, false);
 
     emit finishedTest(success);
-
     disconnect(this, nullptr, nullptr, nullptr);
+
+    if (success) {
+        QPrinter printer(QPrinter::PrinterResolution);
+        QTextDocument * textDocument = new QTextDocument;
+
+        QTextCursor cursor(textDocument);
+
+        textDocument->setHtml(testData().getBody());
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName("test.pdf");
+        printer.setPageSize(QPageSize(QPageSize::A4));
+        printer.setFullPage(true);
+        textDocument->print(&printer);
+    }
 }
 
 void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
@@ -181,7 +207,18 @@ void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 
 void CreateTestWizard::changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7)
 {
+    mutex.lock();
     double vals[8] = { val0, val1, val2, val3, val4, val5, val6, val7};
+    if (registerPomiary){
+        pomiary.append(QVector<float>({ static_cast<float>(val0),
+                                        static_cast<float>(val1),
+                                        static_cast<float>(val2),
+                                        static_cast<float>(val3),
+                                        static_cast<float>(val4),
+                                        static_cast<float>(val5),
+                                        static_cast<float>(val6),
+                                        static_cast<float>(val7)}));
+    }
     /*
     a_vol1              = 0,
     a_vol2              = 1,
@@ -192,6 +229,17 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
     a_temp_parownik     = 6,
     a_8                 = 7
  */
+
+    m_czujniki[a_vol1] = val0;
+    m_czujniki[a_vol2] = val1;
+    m_czujniki[a_o2] = val2;
+    m_czujniki[a_co2] = val3;
+    m_czujniki[a_cisn_komora] = val4;
+    m_czujniki[a_temp_komory] = val5;
+    m_czujniki[a_temp_parownik] = val6;
+    m_czujniki[a_8] = val7;
+
+    mutex.unlock();
     if (selectedId == TestPage::PAGE_3)
         currentPage()->setCisnKomory(vals[4]);
 
@@ -275,7 +323,13 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
         setCurrentWidget(pages[selectedId]);
     }
     initializePage();
-    //if (id == TestPage::PAGE_8)
+    if (id == TestPage::PAGE_3) {
+        registerPomiary = true;
+    }
+    if (id == TestPage::PAGE_9) {
+        registerPomiary = false;
+        testData().setListValues(pomiary);
+    }
     //    finished = true;
 }
 
@@ -347,4 +401,11 @@ void CreateTestWizard::runCheckPositionHome()
 
 void CreateTestWizard::runResetDozownik() {
     emit resetDozownik();
+}
+
+float CreateTestWizard::getCzujnik(analogIn czujnik)
+{
+    mutex.lock();
+    return m_czujniki[czujnik];
+    mutex.unlock();
 }

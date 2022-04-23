@@ -87,6 +87,15 @@ void NowyTest_4::on_pbOk_2_clicked()
     if (!sprawdzOtwarteZawory(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa))
         return;
     ui->pbOk_2->setEnabled(false);
+    TestData &td = testData();
+
+    //if powtarzane dozowanie lub nie odciagane powietrze
+    if (field(TestPage::czyPompaMebr).toBool() || field(TestPage::powtarzanyTest).toBool())
+        td.setCisnienieKomory(TestData::FT_dozowanie, getCzujnik(a_cisn_komora));
+
+    td.setTemperaturaParownika(getCzujnik(a_temp_parownik));
+    td.setTemperaturaKomory(TestData::FT_dozowanie, getCzujnik(a_temp_komory));
+
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
     updateOutput(o_mieszadlo, true);
 }
@@ -100,9 +109,8 @@ void NowyTest_4::on_pbOk_3_clicked()
         ui->arrow_3->setVisible(false);
         ui->frame_4->setVisible(true);
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wentylacja_lewa | i_wentylacja_prawa);
-
-
     } else {
+        testData().setCisnienieKomory(TestData::FT_przedZaplon, getCzujnik(a_cisn_komora));
         nextPage(nextPageId());
     }
 }

@@ -16,7 +16,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_QML_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -std=gnu++1y -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I../CreatePdf -I. -I/home/marcin/Qt/5.15.2/gcc_64/include -I/home/marcin/Qt/5.15.2/gcc_64/include/QtPrintSupport -I/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets -I/home/marcin/Qt/5.15.2/gcc_64/include/QtGui -I/home/marcin/Qt/5.15.2/gcc_64/include/QtCore -I. -I/usr/include/libdrm -I. -I/home/marcin/Qt/5.15.2/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/marcin/Qt/5.15.2/gcc_64/bin/qmake
 DEL_FILE      = rm -f
@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../CreatePdf/main.cpp \
-		../CreatePdf/mainwindow.cpp moc_mainwindow.cpp
+		../CreatePdf/mainwindow.cpp \
+		../CreatePdf/testdata.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		testdata.o \
 		moc_mainwindow.o
 DIST          = /home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/marcin/Qt/5.15.2/gcc_64/mkspecs/common/unix.conf \
@@ -236,8 +238,10 @@ DIST          = /home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/exceptions.prf \
 		/home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/yacc.prf \
 		/home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/lex.prf \
-		../CreatePdf/CreatePdf.pro ../CreatePdf/mainwindow.h ../CreatePdf/main.cpp \
-		../CreatePdf/mainwindow.cpp
+		../CreatePdf/CreatePdf.pro ../CreatePdf/mainwindow.h \
+		../CreatePdf/testdata.h ../CreatePdf/main.cpp \
+		../CreatePdf/mainwindow.cpp \
+		../CreatePdf/testdata.cpp
 QMAKE_TARGET  = CreatePdf
 DESTDIR       = 
 TARGET        = CreatePdf
@@ -625,8 +629,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../CreatePdf/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../CreatePdf/main.cpp ../CreatePdf/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../CreatePdf/mainwindow.h ../CreatePdf/testdata.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../CreatePdf/main.cpp ../CreatePdf/mainwindow.cpp ../CreatePdf/testdata.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../CreatePdf/mainwindow.ui $(DISTDIR)/
 
 
@@ -657,7 +661,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp
-	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp
+	g++ -pipe -g -std=gnu++1y -Wall -Wextra -dM -E -o moc_predefs.h /home/marcin/Qt/5.15.2/gcc_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp
 compiler_moc_header_clean:
@@ -907,7 +911,12 @@ main.o: ../CreatePdf/main.cpp ../CreatePdf/mainwindow.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qeventloop.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qguiapplication.h \
-		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qinputmethod.h
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qinputmethod.h \
+		../CreatePdf/testdata.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QString \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QDateTime \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QStringList
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../CreatePdf/main.cpp
 
 mainwindow.o: ../CreatePdf/mainwindow.cpp ../CreatePdf/mainwindow.h \
@@ -1017,7 +1026,7 @@ mainwindow.o: ../CreatePdf/mainwindow.cpp ../CreatePdf/mainwindow.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h \
+		../CreatePdf/ui_mainwindow.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QVariant \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/QApplication \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qapplication.h \
@@ -1033,6 +1042,20 @@ mainwindow.o: ../CreatePdf/mainwindow.cpp ../CreatePdf/mainwindow.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qactiongroup.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/QStatusBar \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/QTextEdit \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qtextedit.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextcursor.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextformat.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/QVBoxLayout \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qlayout.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/QWidget \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtPrintSupport/QPrinter \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtPrintSupport/qprinter.h \
@@ -1043,25 +1066,91 @@ mainwindow.o: ../CreatePdf/mainwindow.cpp ../CreatePdf/mainwindow.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qpagesize.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/QPainter \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qpainter.h \
-		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextoption.h \
-		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qpen.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/QProgressDialog \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qprogressdialog.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtWidgets/qdialog.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/QTextDocument \
-		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextdocument.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/QTextTableCell \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtexttable.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextobject.h \
-		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextformat.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextlayout.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qglyphrun.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qrawfont.h \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qfontdatabase.h \
-		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qtextcursor.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/QTextBlockFormat \
 		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/QTextCursor \
-		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QDebug
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QDebug \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/QImageReader \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qimagereader.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qimageiohandler.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qplugin.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qpointer.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qjsonobject.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qcborvalue.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qcborcommon.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/quuid.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtPrintSupport/QPrintDialog \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtPrintSupport/qprintdialog.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtPrintSupport/qabstractprintdialog.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/QPdfWriter \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtGui/qpdfwriter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../CreatePdf/mainwindow.cpp
+
+testdata.o: ../CreatePdf/testdata.cpp ../CreatePdf/testdata.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QString \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qstring.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qchar.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qglobal.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qconfig.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qlogging.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qflags.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qatomic.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qmutex.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qstringview.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QDateTime \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qdatetime.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qhash.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qiterator.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qlist.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qpair.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qvector.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qpoint.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qregexp.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/marcin/Qt/5.15.2/gcc_64/include/QtCore/QStringList
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o testdata.o ../CreatePdf/testdata.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

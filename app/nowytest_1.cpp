@@ -16,6 +16,7 @@ NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
     connect(ui->cbDozownik, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::dozownikChanged);
     connect(ui->cbCiecz, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::cieczChanged);
     connect(ui->iloscCieczy, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &NowyTest_1::iloscCieczyChanged);
+    //connect(ui->humanity, &TextEdit::)
 
     currCiecz = "";
     valCieczy = 0.0;
@@ -46,6 +47,11 @@ void NowyTest_1::initializePage()
 QString NowyTest_1::getName() const
 {
     return ui->nameTest->text();
+}
+
+float NowyTest_1::getHumanity() const
+{
+    return humanity;
 }
 
 int NowyTest_1::getDozownik() const
@@ -190,11 +196,37 @@ void NowyTest_1::zaplonChanged(int index)
 
 void NowyTest_1::on_pbNext_clicked()
 {
+    TestData & d = testData();
+    d.setNazwaTestu(getName());
     setField(TestPage::nazwaTest, QVariant::fromValue(getName()));
+
+    d.setLiquidName(getLuquid());
     setField(TestPage::ciecz, QVariant::fromValue(getLuquid()));
+
+    d.setLiquidVolue(getVolume());
     setField(TestPage::objetosc, QVariant::fromValue(getVolume()));
+
+    d.setHumanity(getHumanity());
+    d.setTemperaturaKomory(TestData::FT_poczatek, getCzujnik(a_temp_komory));
+
+
     setField(TestPage::calaObjetosc, QVariant::fromValue(0.0));
     setField(TestPage::dozownikNr, QVariant::fromValue(getDozownik()));
+    setField(TestPage::wybranyPlomien, QVariant::fromValue(false));
     nextPage(nextPageId());
+}
+
+
+void NowyTest_1::on_humanity_textEdited(const QString &arg1)
+{
+    QString value = arg1;
+    value.replace(',','.');
+    bool ok;
+    humanity = value.toFloat(&ok);
+    if (!ok) {
+        humanity = 0;
+    }
+    valid = ok;
+    checkValid();
 }
 

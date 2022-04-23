@@ -2,6 +2,8 @@
 #define NOWYPROJECTDLG_H
 
 #include <QDialog>
+#include <QString>
+#include <QDateTime>
 
 namespace Ui {
 class NowyProjectDlg;
@@ -19,6 +21,7 @@ public:
     QString getComment() const;
     QString getWorkDir() const;
     QString getDate() const;
+    QDateTime getDateTime() const;
 private slots:
     void on_pbChoiceDir_clicked();
     void on_name_textChanged(const QString &arg1);
@@ -26,6 +29,7 @@ private slots:
 
 private:
     Ui::NowyProjectDlg *ui;
+    QDateTime currDateTime;
 };
 
 #endif // NOWYPROJECTDLG_H

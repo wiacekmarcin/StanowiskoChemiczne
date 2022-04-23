@@ -1,8 +1,9 @@
 #include "projectitem.h"
 #include "projektwidget.h"
 ProjectItem::ProjectItem(const QString &name_, const QString &members_, const QString &workdir_,
-                         const QString &comment_, const QString &date_)
-    : name(name_), members(members_), workDir(workdir_), comment(comment_), createData(date_)
+                         const QString &comment_, const QString &date_, const QDateTime & dt_)
+    : name(name_), members(members_), workDir(workdir_), comment(comment_), createData(date_),
+      createDt(dt_)
 {
 
 }
@@ -60,5 +61,15 @@ void ProjectItem::setCreateData(const QString &value)
 void ProjectItem::setWidget(ProjektWidget *w)
 {
     w->setDane(name, members, workDir, comment, createData);
+}
+
+const QDateTime &ProjectItem::getCreateDt() const
+{
+    return createDt;
+}
+
+void ProjectItem::setCreateDt(const QDateTime &newCreateDt)
+{
+    createDt = newCreateDt;
 }
 

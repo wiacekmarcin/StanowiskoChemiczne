@@ -14,6 +14,7 @@
 #include <QImageReader>
 #include <QPrintDialog>
 #include <QPdfWriter>
+#include "testdata.h"
 
 
 static const int textMargins = 12; // in millimeters
@@ -128,166 +129,109 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QPdfWriter pdfwriter("/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/pdf/CreatePdf/test.pdf");
-    pdfwriter.setPageSize(QPageSize(QPageSize::A4));
-    QPainter painter(&pdfwriter);
-    painter.drawText(0,0, "testData");
-#if 0
 
-
-    QPrinter printer(QPrinter::PrinterResolution);
+    QPrinter printer(QPrinter::HighResolution);
     QTextDocument * textDocument = new QTextDocument;
 
     QTextCursor cursor(textDocument);
 
-    QTextCharFormat plainFormat(cursor.charFormat());
+    textDocument->setHtml(td.getBody());
 
-    QTextBlockFormat blockTitleFormat(cursor.blockFormat());
-    blockTitleFormat.setAlignment(Qt::AlignCenter);
-    blockTitleFormat.setHeadingLevel(1);
-    blockTitleFormat.setLineHeight(2.0, QTextBlockFormat::ProportionalHeight);
-    cursor.insertBlock();
-    cursor.mergeBlockFormat(blockTitleFormat);
-    cursor.insertText(tr("Szkoła Główna Służby Pożarniczej w Warszawie") /*,
-                  headingFormat*/);
-    cursor.insertBlock();
-    cursor.insertText(tr("Szkoła Główna Służby Pożarniczej w Warszawie") /*,
-                  headingFormat*/);
-    cursor.insertBlock();
-    cursor.insertText(tr("Zakład Badania Przyczyn Pożarów") /*,
-                headingFormat*/);
+    QString body =                "<html><body>"
+                          "<div>"
+                            "<h1>Szkoła Główna Służby Pożarniczej w Warszawie</h1>"
+                            "<h1>Zakład Badania Przyczyn Pożarów</h1>"
+                          "</div>"
+                          "<div>"
+                            "<p><b>Temat ćwiczenia</b><br/>"
+                            "Badanie dolnej granicy wybuchowości par cieczy palnych</p>"
+                          "</div>"
+                          "<div><p>Data wykonania testu: YYYY-MM-DD HH:mm:DD<br/>"
+                          "<ol>Skład zespołu przeprowadzającego test:"
+                               "<li>XXXX</li>"
+                                "<li>XXXX</li>"
+                                "<li>XXXX</li>"
+                          "</ol></p><div>"
+                          "<div><p>Nazwa badanej cieczy: XXXX</p>"
+                          "<p>Temperatura wewnątrz komory w momencie rozpoczęcia testu: XXXX &#x2103;</p>"
+                          "<p>Wilgotność w pomieszczeniu: XXXX %RH</p>"
+                          "</div>"
+                          "<hr>"
+                          "<div><h2>Próba 1</h2>"
+                          "<h3>Wynik: negatywny</h3>"
+                          "<p>Źródło zapłonu: XXXX </p>"
+                          "<p>Ilość dozowanej cieczy: XXXX ml </p></div>"
+                          "<div><h4>Warunki początkowe:</h4>"
+                          "<p>Temperatura parownika cieczy: XXXX &#x2103;</p>"
+                          "<p>Temperatura wewnątrz komory: XXXX  &#x2103;</p>"
+                          "<p>Ciśnienie wewnątrz komory: XXXX mbar </p></div>"
+                          "<div><h4>Warunki przed zapłonem:</h4>"
+                          "<p>Temperatura wewnątrz komory: XXXX &#x2103;</p>"
+                          "<p>Ciśnienie wewnątrz komory: XXXX mbar </p>"
+                          "<p>Koncentracja par cieczy wyliczona metodą ciśnień cząstkowych: XXXX %</p>"
+                          "<p>Odczyty z przetworników stężenia: <br/>"
+                          "VOC1 = XXXX %,</br>"
+                          "VOC2 = XXXX %,</br>"
+                          "O2 = XXXX %,</br>"
+                          "CO2 = XXXX %,</br>"
+                          "Czujnik 8 = XXXX %.</br></p></div>"
+                          "<div>#################################################################</div>"
+                          "<div><h2>Próba 2</h2>"
+                          "<h3>Wynik: negatywny</h3>"
+                          "<p>Źródło zapłonu: XXXX </p></div>"
+                          "<div>#################################################################</div>"
+                          "<div><h2>Próba 3</h2>"
+                          "<h3>Wynik: Pozytywny</h3>"
+                          "<p>Źródło zapłonu: XXXX </p>"
+                          "<p>Ilość dozowanej cieczy: XXXX + YYYY = ZZZZ ml</p>"
+                          "</div><div><h4>Warunki początkowe:</h4>"
+                          "<p>Temperatura parownika cieczy: XXXX &#x2103;</p>"
+                          "<p>Temperatura wewnątrz komory: XXXX  &#x2103;</p>"
+                          "<p>Ciśnienie wewnątrz komory: XXXX mbar</p></div>"
+                          "<div><h4>Warunki przed próbą zapłonu:</h4>"
+                          "<p>Temperatura wewnątrz komory: XXXX &#x2103;</p>"
+                          "<p>Ciśnienie wewnątrz komory: XXXX mbar </p>"
+                          "<p>Koncentracja par cieczy wyliczona metodą ciśnień cząstkowych: XXXX %</p>"
+                          "<p>!!! UWAGA: w tym momencie wyliczona wartość koncentracji par cieczy, może być "
+                          "obarczona błędem, wynikającym ze zmiany temp. wew. komory.</p>"
+                          "<p><ol>Odczyty z przetworników stężenia: "
+                          "<li>VOC1 = XXXX %,</li>"
+                          "<li>VOC2 = XXXX %,</li>"
+                          "<li>O2 = XXXX %,</li>"
+                          "<li>CO2 = XXXX %,</li>"
+                          "<li>Czujnik 8 = XXXX %.</li></p></div>"
+                          "<div><h4>Warunki po udanej próbie zapłonu mieszaniny par cieczy z powietrzem</h4>"
+                          "<p>Temperatura wewnątrz komory: XXXX  &#x2103;</p>"
+                          "<p>Ciśnienie wewnątrz komory: XXXX mbar </p>"
+                          "<p><ol>Odczyty z przetworników stężenia: "
+                          "<li>VOC1 = XXXX %,</li>"
+                          "<li>VOC2 = XXXX %,</li>"
+                          "<li>O2 = XXXX %,</li>"
+                          "<li>CO2 = XXXX %,</li>"
+                          "<li>Czujnik 8 = XXXX %.</li></p></div>"
+                          "</body></html>";
 
-
-    //textDocument->setHtml("<html><body><h1>Szkoła Główna Służby Pożarniczej w Warszawie</h1>"\
-    "<h1>Zakład Badania Przyczyn Pożarów</h1><p>Jakiś tekst</p></body></html>");
-    /*
-
-
-    QTextCursor cursor(textDocument);
-
-    QTextCharFormat plainFormat(cursor.charFormat());
-
-    QTextBlockFormat blockTitleFormat(cursor.blockFormat());
-    blockTitleFormat.setAlignment(Qt::AlignCenter);
-    blockTitleFormat.setHeadingLevel(1);
-    blockTitleFormat.setLineHeight(2.0, QTextBlockFormat::ProportionalHeight);
-    
-    QTextCharFormat headingFormat = plainFormat;
-    headingFormat.setFontWeight(QFont::Bold);
-    headingFormat.setFontPointSize(16);
-
-    //QTextCharFormat emphasisFormat = plainFormat;
-    //emphasisFormat.setFontItalic(true);   
-
-    cursor.movePosition(QTextCursor::Start); 
-
-    cursor.mergeBlockFormat(blockTitleFormat);
-    cursor.insertBlock(blockTitleFormat);
-
-    cursor.insertText(tr("Szkoła Główna Służby Pożarniczej w Warszawie"),
-                  headingFormat);
-
-    cursor.insertBlock(); // Single character
-
-    cursor.insertText(tr("Zakład Badania Przyczyn Pożarów"),
-                headingFormat);
-
-    cursor.insertBlock(); // Single character
-
-    //cursor.insertText(tr("a"), emphasisFormat);
-    //cursor.insertText(tr("b"), headingFormat);
-    //cursor.insertBlock();
-
-    
-    cursor.insertText(tr("Text can be displayed in a variety of "
-                                "different character formats. "), plainFormat);
-    cursor.insertText(tr("We can emphasize text by "));
-    //cursor.insertText(tr("making it italic"), emphasisFormat);
-*/
-    /*
-    QTextBlockFormat blockTitleFormat(cursor.blockFormat());
-    blockTitleFormat.setAlignment(Qt::AlignCenter);
-    blockTitleFormat.setHeadingLevel(1);
-    blockTitleFormat.setLineHeight(2.0, QTextBlockFormat::ProportionalHeight);
-    
-    QTextCharFormat charTitleFormat(cursor.charFormat());
-    charTitleFormat.setFontWeight(QFont::Bold);
-    charTitleFormat.setFontPointSize(14);
-
-    cursor.setBlockFormat(blockTitleFormat);
-    cursor.insertText(QString("Szkoła Główna Służby Pożarniczej w Warszawie\n"), charTitleFormat);
-    cursor.movePosition( QTextCursor::End );
-
-    cursor.setBlockFormat(blockTitleFormat);
-    cursor.insertText(QString("Zakład Badania Przyczyn Pożarów\n"), charTitleFormat);
-    cursor.movePosition( QTextCursor::End );
-*/
-    //QTextBlockFormat blockSubTitleFormat;
-    //blockSubTitleFormat.setAlignment(Qt::AlignCenter);
-    //blockTitleFormat.setHeadingLevel(2);
-
-    //cursor.setBlockFormat(blockTitleFormat);
-    //cursor.insertText(QString("Szkoła Główna Służby Pożarniczej w Warszawie"));
-
-    //QTextCursor cursorSubTitle(textDocument);
-    //cursor.insertText("Zakład Badania Przyczyn Pożarów");
-
-
-    qDebug("%d", printer.isValid());
-
-    //addTable(cursor);
-
-       //QTextBlockFormat blockFormat;
-       //blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
-       //cursor.insertBlock(blockFormat);
-       //cursor.insertText("This is the second page");
-
-
-       //QTextBlockFormat blockFormat2;
-       //blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
-       //cursor.insertBlock(blockFormat2);
-       //cursor.insertText("This is the third page");
-
-       //QUrl Uri ( QString ( "file:///home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ) );
-       //QImage image = QImageReader ( "/home/marcin/Obrazy/mini/Mini/Dzień 15 (17.06)/Dzień 15.01 Plivickie Jeziora/IMG_5885.JPG" ).read();
-
-
-
-       //textDocument->addResource( QTextDocument::ImageResource, Uri, QVariant ( image ) );
-
-       //QTextBlockFormat blockFormat3;
-       //blockFormat.setPageBreakPolicy(QTextFormat::PageBreak_AlwaysBefore);
-       //cursor.insertBlock(blockFormat3);
-
-       //QTextImageFormat imageFormat;
-       //imageFormat.setWidth( image.width() );
-       //imageFormat.setHeight( image.height() );
-       //imageFormat.setName( Uri.toString() );
-       //cursor.insertImage(imageFormat);
-
-
-
-
-
-
-
-
+    ui->textEdit->setHtml(td.getBody());
     printer.setOutputFormat(QPrinter::PdfFormat);
-   printer.setOutputFileName("/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/pdf/CreatePdf/test.pdf");
-   printer.setPaperSize(QPrinter::A4);
-   printer.setFullPage(true);
+    printer.setOutputFileName("/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/pdf/CreatePdf/test.pdf");
+    printer.setPageSize(QPrinter::A4);
+    qDebug() << printer.paperSize(QPrinter::Point);
+    qDebug() << printer.paperSize(QPrinter::Millimeter);
+    qDebug() << printer.paperSize(QPrinter::DevicePixel);
+    printer.setFullPage(true);
 
+    textDocument->print(&printer);
    //QPrintDialog*dlg = new QPrintDialog(&printer,this);
    //dlg->setWindowTitle(QObject::tr("Print Document"));
 
-   printDocument(printer, textDocument, this);
+   //printDocument(printer, textDocument, this);
    //if(dlg->exec() == QDialog::Accepted) {
-   //    printDocument(printer, textDocument, this);
+       //printDocument(printer, textDocument, this);
    //}
    //delete dlg;
 
    qDebug("Done");
-#endif
+
 }
 
 MainWindow::~MainWindow()

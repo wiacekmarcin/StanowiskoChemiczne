@@ -5,8 +5,12 @@
 #include <QStackedWidget>
 #include <QMap>
 #include <QList>
+#include <QMutex>
+#include <QVector>
+
 #include "testpageform.h"
 #include "testpage.h"
+#include "testdata.h"
 
 class TestPage;
 class OtwarteZawory;
@@ -21,6 +25,8 @@ public:
     explicit CreateTestWizard(QWidget *parent = 0);
     ~CreateTestWizard();
     void setUstawienia(const Ustawienia &ust);
+    void setTestData(TestData & dt);
+    TestData & testData();
     void init(const Ustawienia &ust, const QString &testName);
 
     void setField(TestPage::Value key, const QVariant & val);
@@ -50,6 +56,7 @@ public:
     void setZ_criticalMask(uint16_t newZ_criticalMask);
     void setZ_warningMask(uint16_t newZ_criticalMask);
 
+    float getCzujnik(analogIn czujnik);
 public slots:
     void nextPage(TestPage::PageId id);
 
@@ -114,6 +121,12 @@ private:
 
     QMap<uint16_t, bool> warningMap;
     bool showWarn;
+
+    QMap<analogIn, float> m_czujniki;
+    TestData dt;
+    QList<QVector<float>> pomiary;
+    bool registerPomiary;
+    QMutex mutex;
 };
 
 #endif // CREATETESTWIZARD_H

@@ -7,12 +7,15 @@
 class QTreeWidgetItem;
 class ProjektWidget;
 
+#include <QDateTime>
+#include <QString>
+
 class ProjectItem
 {
 public:
     ProjectItem()  {}
     ProjectItem(const QString & name, const QString & members, const QString & workdir,
-                const QString & comment, const QString & date );
+                const QString & comment, const QString & date, const QDateTime & dt );
 
 
     QString getName() const;
@@ -32,13 +35,16 @@ public:
 
     void setWidget(ProjektWidget *w);
 
+    const QDateTime &getCreateDt() const;
+    void setCreateDt(const QDateTime &newCreateDt);
+
 private:
     QString name;
     QString members;
     QString workDir;
     QString comment;
     QString createData;
-
+    QDateTime createDt;
 };
 
 #endif // PROJECTITEM_H

@@ -8,7 +8,8 @@ NowyProjectDlg::NowyProjectDlg(QWidget *parent) :
     ui(new Ui::NowyProjectDlg)
 {
     ui->setupUi(this);
-    ui->date->setText(QDate::currentDate().toString("yyyy-MM-dd") + " " + QTime::currentTime().toString("hh:mm"));
+    currDateTime = QDateTime::currentDateTime();
+    ui->date->setText(currDateTime.toString("yyyy-MM-dd hh:mm"));
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
 }
@@ -56,3 +57,8 @@ QString NowyProjectDlg::getMembers() const { return ui->participants->toPlainTex
 QString NowyProjectDlg::getComment() const { return ui->comment->toPlainText(); }
 QString NowyProjectDlg::getWorkDir() const { return ui->dirname->text(); }
 QString NowyProjectDlg::getDate() const { return ui->date->text(); }
+
+QDateTime NowyProjectDlg::getDateTime() const
+{
+    return currDateTime;
+}

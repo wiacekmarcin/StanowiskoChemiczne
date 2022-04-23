@@ -243,7 +243,7 @@ do zadozowania</string>
    <item row="11" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="humanity"/>
      </item>
      <item>
       <spacer name="horizontalSpacer_5">

@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "testdata.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -17,5 +17,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    TestData td;
 };
 #endif // MAINWINDOW_H

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "projectitem.h"
-
+#include "testdata.h"
 #include "ustawienia.h"
 namespace Ui {
 class TestTabsWidget;
@@ -27,6 +27,7 @@ public slots:
 private:
     Ui::TestTabsWidget *ui;
     ProjectItem projekt;
+    TestData testDane;
 };
 
 #endif // TESTTABSWIDGET_H
