@@ -6,6 +6,7 @@
 #include "NIDAQmx.h"
 #endif
 
+#include <QDebug>
 #include "ustawienia.h"
 
 
@@ -19,6 +20,7 @@ NICards::NICards()
     m_quit = false;
     maskOutput = o_hv_bezpiecznik;
     prevInputs = 0;
+    prevOutputs = 0;
 }
 
 NICards::~NICards()
@@ -32,6 +34,7 @@ NICards::~NICards()
 void NICards::setThreads(QThread *thr1)
 {
     this->moveToThread(thr1);
+    start();
 }
 
 void NICards::setStop()
@@ -80,19 +83,27 @@ void NICards::digitalConfigure()
 
 void NICards::readAnalog()
 {
+    static short index = 0;
     float val0, val1, val2, val3, val4, val5, val6;
     if (!analog.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         emit error(QString("Odczyt danych z karty analogowej nie powiódł się"));
         emit usb6210(true, false);
         return;
     }
-    emit debug(QString("Odczytano %1,%2,%3,%4,%5,%6,%7").arg(val0).arg(val1).arg(val2).arg(val3).arg(val4).arg(val5).arg(val6));
+    if (++index == 10) {
+        index = 0;
+        emit debug(QString("1. Odczytano %1,%2,%3,%4,%5,%6,%7").arg(val0).arg(val1).arg(val2).arg(val3).arg(val4).arg(val5).arg(val6));
+    }
     emit analogValueChanged(val0, val1, val2, val3, val4, val5, val6);
 }
 
 void NICards::writeDigital()
 {
-    emit debug(QString("Zapis do karty %1").arg(maskOutput, 0, 16));
+    if (prevOutputs != maskOutput) {
+        emit debug(QString("Zapis do karty %1").arg(maskOutput, 0, 16));
+        prevOutputs = maskOutput;
+    }
+
     if (!digital.writeValue(maskOutput)) {
         emit error(QString("Zapis danych do karty cyfrowej nie powiódł się"));
         emit usb6501(true, false);
@@ -107,7 +118,11 @@ void NICards::readDigital()
         emit usb6501(true, false);
         return;
     }
+    prevInputs = maskInput;
+    maskInput = val;
+    //qInfo() << "prev=" << prevInputs << " vals=" << val;
     if (prevInputs != val) {
+        //qInfo() << "emit digitalReadValueChanged";
         emit debug(QString("Odczytano %1").arg(val, 0, 2));
         prevInputs = val;
         emit digitalReadValueChanged(val);

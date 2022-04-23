@@ -6,6 +6,8 @@
 #include <QDateTime>
 #include <QStringList>
 #include <QList>
+#include <QObject>
+
 typedef struct proba {
     bool success; //czy udana proba ekran 6/7
     QString zrodloZaplonu; //ekran 6
@@ -51,8 +53,13 @@ typedef struct data {
 
 
 
-class TestData
+class TestData : public QObject
 {
+    Q_OBJECT
+signals:
+    void debug(const QString & d);
+    void error(const QString & e);
+
 public:
     TestData();
     QString getBody() const ;
@@ -68,15 +75,32 @@ public:
     void setDateTime(const QDateTime &dt) { d.dataTestu = dt; d.proby.append(ProbaType()); }
     void setMembers(const QStringList & memb) { d.uczestnicy = memb; }
     void setLiquidName(const QString & name) { d.nazwaCieczy = name; }
-    void setTemperaturaKomory(FazaTestu ft, const float & temp);
-    void setCisnienieKomory(FazaTestu ft, const float & cisn);
     void setHumanity(const float & hum) { d.wilgotnosc = hum; }
+    void setTemperaturaKomoryWarunkiPoczatkowe(const float & temp) { setTemperaturaKomory(FT_poczatek, temp); }
+    void setTemperaturaKomoryWarunkiKoncowe(const float & temp) { setTemperaturaKomory(FT_koniec, temp); }
+    void setTemperaturaKomoryDozowanie(const float & temp) { setTemperaturaKomory(FT_dozowanie, temp); }
+    void setTemperaturaKomoryPrzedZaplonem(const float & temp) { setTemperaturaKomory(FT_przedZaplon, temp); }
+    void setTemperaturaKomoryZaplon(const float & temp) { setTemperaturaKomory(FT_zaplon, temp); }
+
+
+    void setCisnienieKomoryWarunkiPoczatkowe(const float & cisn) { setCisnienieKomory(FT_poczatek, cisn); }
+    void setCisnienieKomoryWarunkiKoncowe(const float & cisn) { setCisnienieKomory(FT_koniec, cisn); }
+    void setCisnienieKomoryDozowanie(const float & cisn) { setCisnienieKomory(FT_dozowanie, cisn); }
+    void setCisnienieKomoryPrzedZaplonem(const float & cisn) { setCisnienieKomory(FT_przedZaplon, cisn); }
+    void setCisnienieKomoryZaplon(const float & cisn) { setCisnienieKomory(FT_zaplon, cisn); }
+    void setStezeniaPrzedZaplonem(const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8)
+    {
+        setStezenia(FT_przedZaplon, voc1, voc2, o2, co2, cz8);
+    } 
+    void setStezeniaPoZaplonie(const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8)
+    {
+        setStezenia(FT_koniec, voc1, voc2, o2, co2, cz8);
+    }   
+
     void setLiquidVolue(const float & vol) { d.iloscCieczy << vol; }
-    void setStezenia(FazaTestu ft, const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8);
-    void setUdanaProba(bool success);
+    
+    void setUdanaProba(bool success, bool powtarzaneDozowanie, bool powtarzanyZaplon);
     void setZrodloZaplonu(const QString & zrZaplon) { d.proby.last().zrodloZaplonu = zrZaplon; }
-    void setPowtarzanieZaplonu(bool repeat) { d.proby.last().powtarzanyZaplon = repeat; }
-    void setPowtarzanieDozowanie(bool repeat) { d.proby.last().powtarzaneDozowanie = repeat; }
     void setTemperaturaParownika(const float & temp) { d.proby.last().tempParownikaDozowanie = temp; }
 
     const QString &getNazwaTestu() const;
@@ -85,6 +109,10 @@ public:
     void setListValues(const QList<QVector<float>> & values);
 
 protected:
+    void setTemperaturaKomory(FazaTestu ft, const float & temp);
+    void setCisnienieKomory(FazaTestu ft, const float & cisn);
+    void setStezenia(FazaTestu ft, const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8);
+
 /** Funkcje od formularza **/
     static QString getTitle();
     static QString getTemat() { return QString("<div><p><b>%1</b><br>%2</p></div>").arg(temat, tematValue); }
@@ -107,7 +135,7 @@ private:
     static QString getTitle1() { return QString("<h1>%1</h1>").arg(TestData::title1); }
     static QString getTitle2() { return QString("<h1>%1</h1>").arg(TestData::title2); }
 
-    QString getImageUrl(int id);
+    QString getImageUrl(int id) const;
 
 
     static constexpr char title1[]          = "Szkoła Główna Służby Pożarniczej w Warszawie";
@@ -138,6 +166,6 @@ private:
     SDataType d;
     QString nazwaTestu;
 
-    QList<QVector<float>> & values;
+    QList<QVector<float>> values;
 };
 #endif // TESTDATA_H

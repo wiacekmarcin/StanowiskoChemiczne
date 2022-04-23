@@ -87,6 +87,12 @@ public:
      */
     uint16_t getDigitalWrite() const { return maskOutput; }
 
+    /**
+     * @brief getDigitalRead pobiera aktualny stan wejść
+     * @return aktualny stan wejść
+     */
+    uint16_t getDigitalRead() const { return maskInput; }
+
 signals:
     /**
      * @brief digitalReadValueChanged - odczytano wejścia
@@ -198,6 +204,7 @@ private:
     QString digitalConfWriteString;
 
     uint16_t prevInputs;
+    uint16_t prevOutputs;
 
 };
 #endif

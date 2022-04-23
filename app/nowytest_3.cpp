@@ -132,6 +132,7 @@ void NowyTest_3::setCisnKomory(const double & newCisnKomory)
 
 void NowyTest_3::on_pbOk_1_clicked()
 {
+    wizard()->setDebug(QString("PAGE3:OK1"));
     sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
     setZ_criticalMask(0);
     setZ_warningMask(0);
@@ -140,11 +141,13 @@ void NowyTest_3::on_pbOk_1_clicked()
 
 void NowyTest_3::on_pb_Skip2_clicked()
 {
+    wizard()->setDebug(QString("PAGE3:SKIP2"));
     nextPage(nextPageId());
 }
 
 void NowyTest_3::on_pbUstaw_2_clicked()
 {
+    wizard()->setDebug(QString("PAGE3:USTAW2"));
     if (!sprawdzOtwarteZawory(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa))
         return;
     ui->arrow_2->setVisible(false);
@@ -157,6 +160,7 @@ void NowyTest_3::on_pbUstaw_2_clicked()
 
 void NowyTest_3::on_pbOk_3_clicked()
 {
+    wizard()->setDebug(QString("PAGE3:OK3"));
    if (!sprawdzOtwarteZaworProzni())
        return;
 
@@ -182,14 +186,17 @@ void NowyTest_3::on_pbOk_3_clicked()
 
 void NowyTest_3::on_pbOk_5_clicked()
 {
+    wizard()->setDebug(QString("PAGE3:O5"));
     updateOutput(o_pompa_prozniowa, false);
-    testData().setCisnienieKomory(TestData::FT_dozowanie, getCzujnik(a_cisn_komora));
+    TestData * dt = getTestData();
+    dt->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
     setZ_warningMask(0);
     nextPage(nextPageId());
 }
 
 void NowyTest_3::on_pbRun_5_clicked()
 {
+    wizard()->setDebug(QString("PAGE3:RUN5"));
     if (!sprawdzOtwarteZaworProzni())
         return;
 

@@ -51,6 +51,7 @@ void NowyTest_8::runDone()
 
 void NowyTest_8::on_pbOK_1_clicked()
 {
+    wizard()->setDebug(QString("PAGE8::OK1"));
     if (!sprawdzOtwarteZaworStezenia())
         return;
     setZ_warningMask(i_pom_stez_1 | i_pom_stez_2 );
@@ -66,40 +67,39 @@ void NowyTest_8::on_pbOK_1_clicked()
 
 void NowyTest_8::on_pbOK_2_clicked()
 {
+    wizard()->setDebug(QString("PAGE8::OK2"));
     //pomiar
-    TestData & dt = testData();
-    dt.setTemperaturaKomory(TestData::FT_koniec, getCzujnik(a_temp_komory));
-    dt.setCisnienieKomory(TestData::FT_koniec, getCzujnik(a_cisn_komora));
+    TestData * dt = getTestData();
+    dt->setTemperaturaKomoryWarunkiKoncowe(getCzujnik(a_temp_komory));
+    dt->setCisnienieKomoryWarunkiKoncowe(getCzujnik(a_cisn_komora));
     updateOutput(o_pompa_powietrza, false);
     setZ_warningMask(0);
+    dt->setStezeniaPoZaplonie(getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
+                   getCzujnik(a_co2), getCzujnik(a_8));
     ui->pbOK_2->setEnabled(false);
     ui->arrow_2->setVisible(false);
-    ui->frame_3->setVisible(true);
+    ui->frame_4->setVisible(true);
+    setZ_criticalMask(0);
+    setZ_warningMask(0);
 }
 
 
 void NowyTest_8::on_pbOK_3_clicked()
 {
-    if (!sprawdzOtwarteZawory(i_pom_stez_1 | i_pom_stez_2 | i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza))
-       return;
-    TestData & dt = testData();
-    dt.setStezenia(TestData::FT_koniec, getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
-                   getCzujnik(a_co2), getCzujnik(a_8));
+    wizard()->setDebug(QString("PAGE8::OK3"));
     ui->pbOK_3->setEnabled(false);
     ui->arrow_3->setVisible(false);
     ui->frame_4->setVisible(true);
-    setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza);
+    setZ_criticalMask(0);
     setZ_warningMask(0);
 }
 
 
 void NowyTest_8::on_pbOK_4_clicked()
 {
+    wizard()->setDebug(QString("PAGE8::OK4"));
     if (!sprawdzOtwarteZawor2Calowe())
        return;
-
-    setZ_criticalMask(0);
-    setZ_warningMask(0);
 
    nextPage(nextPageId());
 

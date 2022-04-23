@@ -71,6 +71,8 @@ void CzujnikiAnalogoweOkno::createOne(int id)
     gridLayout->addWidget(frame, id/4, id%4, 1, 1);
 
     czujniki[id] = widget;
+
+    czujniki[id]->setPrec(1);
 }
 
 

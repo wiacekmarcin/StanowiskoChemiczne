@@ -70,7 +70,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     connect(urzadzenia, &Urzadzenia::dozownik, ui->frCzujniki, &OknoStatusowe::setDozownik,Qt::QueuedConnection);
     
 
-    //urzadzenia->readInputs();
+    urzadzenia->readInputs();
     signalMapper = new QSignalMapper(this);
 
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
@@ -214,6 +214,15 @@ void GlowneOkno::on_actionNowy_Test_triggered()
             urzadzenia, &Urzadzenia::resetDozownik, Qt::QueuedConnection);
 
 
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::debug,
+            urzadzenia, &Urzadzenia::gui_debug, Qt::QueuedConnection);
+    connect(testy[selectedTest]->createTestWizard(), &CreateTestWizard::error,
+            urzadzenia, &Urzadzenia::gui_error, Qt::QueuedConnection);
+
+    connect(testy[selectedTest]->createTestWizard()->getTestData(), &TestData::debug,
+            urzadzenia, &Urzadzenia::test_debug, Qt::QueuedConnection);
+    connect(testy[selectedTest]->createTestWizard()->getTestData(), &TestData::error,
+            urzadzenia, &Urzadzenia::test_error, Qt::QueuedConnection);
 
 
     urzadzenia->readInputs();

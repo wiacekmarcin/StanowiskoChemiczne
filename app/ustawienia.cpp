@@ -3,6 +3,7 @@
 #include <QVariant>
 #include <QTime>
 #include <QCoreApplication>
+#include <QDebug>
 
 #define REVERSE_INIT(N,D) do { reverse_##N = settings.value(QString("dozownik/rerverse_%1").arg(N), D).toBool(); } while(false)
 Ustawienia::Ustawienia()
@@ -30,8 +31,8 @@ Ustawienia::Ustawienia()
     REVERSE_INIT(4,false);
     REVERSE_INIT(5,true);
     maxImp = settings.value(QString("dozownik/maxImpMotor"), 50000).toUInt();
-    impTime = settings.value(QString("dozownik/maxImpMotor"), 200).toUInt();
-    stepsOnMl = settings.value(QString("dozownik/stepsOnMl"), 1.0).toDouble();
+    impTime = settings.value(QString("dozownik/impMotorTime"), 200).toUInt();
+    stepsOnMl = settings.value(QString("dozownik/stepsOnMl"), 14000.0).toDouble();
     nrInitializeCycles = settings.value(QString("dozownik/numberOfInitializeCycles"), 10).toUInt();
     cisnienieProzni = settings.value(QString("testy/cisnienieWprozni"), 0.01).toDouble();
 
@@ -139,7 +140,7 @@ void Ustawienia::initialSetting()
     setCzujka(a_temp_komory,   QString::fromUtf8("Temperatura w komorze"), QString::fromUtf8("st C"), 20.0);
     setCzujka(a_temp_parownik, QString::fromUtf8("Temperatura parownika"), QString::fromUtf8("st C"), 20.0);
     setCzujka(a_vol2,          QString::fromUtf8("St\304\231\305\274enie VOC 2"), QString::fromUtf8("%"), 0.33);
-    setCzujka(a_8,             QString::fromUtf8("Ci\305\233nienie w komorze"), QString::fromUtf8("Bar"), 0.01);
+    setCzujka(a_8,             QString::fromUtf8("Stężenie"), QString::fromUtf8("ppm"), 10000);
 
     setWejscie(i_drzwi_lewe,         QString::fromUtf8("Drzwi komory LEWE"));
     setWejscie(i_drzwi_prawe,        QString::fromUtf8("Drzwi komory PRAWE"));
@@ -216,4 +217,5 @@ int Ustawienia::getImpTime() const
 void Ustawienia::setImpTime(int newImpTime)
 {
     impTime = newImpTime;
+    settings.setValue(QString("dozownik/impMotorTime"), QVariant::fromValue(newImpTime));
 }

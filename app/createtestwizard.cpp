@@ -48,6 +48,8 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     registerPomiary = false;
     connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot, Qt::QueuedConnection);
     connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot, Qt::QueuedConnection);
+    //emit readsInputs();
+
 }
 
 
@@ -56,12 +58,13 @@ CreateTestWizard::~CreateTestWizard()
 
 }
 
-void CreateTestWizard::setTestData(TestData &dt)
+void CreateTestWizard::setTestData(TestData * dt)
 {
+
     this->dt = dt;
 }
 
-TestData &CreateTestWizard::testData()
+TestData * CreateTestWizard::getTestData()
 {
     return this->dt;
 }
@@ -174,10 +177,11 @@ void CreateTestWizard::setFinished(bool success)
 
         QTextCursor cursor(textDocument);
 
-        textDocument->setHtml(testData().getBody());
+        textDocument->setHtml(getTestData()->getBody());
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName("test.pdf");
         printer.setPageSize(QPageSize(QPageSize::A4));
+        qInfo() << printer.paperSize(QPrinter::Point);
         printer.setFullPage(true);
         textDocument->print(&printer);
     }
@@ -328,7 +332,7 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
     }
     if (id == TestPage::PAGE_9) {
         registerPomiary = false;
-        testData().setListValues(pomiary);
+        getTestData()->setListValues(pomiary);
     }
     //    finished = true;
 }
@@ -405,7 +409,9 @@ void CreateTestWizard::runResetDozownik() {
 
 float CreateTestWizard::getCzujnik(analogIn czujnik)
 {
+    float val;
     mutex.lock();
-    return m_czujniki[czujnik];
+    val = m_czujniki[czujnik];
     mutex.unlock();
+    return val;
 }

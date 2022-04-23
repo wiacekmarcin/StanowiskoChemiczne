@@ -16,11 +16,11 @@ typedef enum _aInput {
 } analogIn;
 
 typedef enum _iDig {
-    i_drzwi_prawe     = 0x001, //P2.0
+    i_drzwi_lewe      = 0x001, //P2.0
     i_wentylacja_lewa = 0x002, //P2.1
     i_proznia         = 0x004, //P2.2
     i_pom_stez_1      = 0x008, //P2.3
-    i_drzwi_lewe      = 0x010, //p2.4
+    i_drzwi_prawe     = 0x010, //p2.4
     i_wentylacja_prawa= 0x020, //P2.5
     i_wlot_powietrza  = 0x040, //P2.6
     i_pom_stez_2      = 0x080, //P2.7

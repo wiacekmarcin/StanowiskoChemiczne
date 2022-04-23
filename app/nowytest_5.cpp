@@ -43,6 +43,7 @@ void NowyTest_5::runDone()
 
 void NowyTest_5::on_pbOK_1_clicked()
 {
+    wizard()->setDebug(QString("PAGE5:OK1"));
     sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2);
     setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_wentylacja_prawa | i_wentylacja_lewa | i_proznia | i_wlot_powietrza);
     setZ_warningMask(0);
@@ -52,6 +53,7 @@ void NowyTest_5::on_pbOK_1_clicked()
 
 void NowyTest_5::on_pbOK_2_clicked()
 {
+    wizard()->setDebug(QString("PAGE5:OK2"));
     if (!sprawdzOtwarteZaworStezenia())
         return;
     setZ_warningMask(i_pom_stez_1 | i_pom_stez_2);
@@ -70,17 +72,18 @@ void NowyTest_5::on_pbOK_2_clicked()
 
 void NowyTest_5::on_pbOK_3_clicked()
 {
+    wizard()->setDebug(QString("PAGE5:OK3"));
     if (!sprawdzOtwarteZaworStezenia())
         return;
     updateOutput(o_pompa_powietrza, false);
-    TestData & dt = testData();
-    dt.setTemperaturaKomory(TestData::FT_przedZaplon, getCzujnik(a_temp_komory));
-    if (field(czyPompaMebr).toBool()) {
-        dt.setCisnienieKomory(TestData::FT_przedZaplon, getCzujnik(a_cisn_komora));
-    }
+    TestData * dt = getTestData();
+    dt->setTemperaturaKomoryPrzedZaplonem(getCzujnik(a_temp_komory));
+    //if (field(czyPompaMebr).toBool()) {
+    dt->setCisnienieKomoryPrzedZaplonem(getCzujnik(a_cisn_komora));
+    //}
     //setZ_warningMask(i_pom_stez_1 | i_pom_stez_2);
 
-    dt.setStezenia(TestData::FT_przedZaplon, getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
+    dt->setStezeniaPrzedZaplonem(getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
                    getCzujnik(a_co2), getCzujnik(a_8));
     nextPage(nextPageId());
 }

@@ -61,7 +61,7 @@ public:
     QVariant field(Value key) const;
     void setWizard(CreateTestWizard * wiz);
     CreateTestWizard *wizard() const;
-    TestData & testData();
+    TestData * getTestData();
     float getCzujnik(analogIn czujnik);
 
     QString title() const;

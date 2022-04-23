@@ -25,8 +25,8 @@ public:
     explicit CreateTestWizard(QWidget *parent = 0);
     ~CreateTestWizard();
     void setUstawienia(const Ustawienia &ust);
-    void setTestData(TestData & dt);
-    TestData & testData();
+    void setTestData(TestData * dt);
+    TestData * getTestData();
     void init(const Ustawienia &ust, const QString &testName);
 
     void setField(TestPage::Value key, const QVariant & val);
@@ -57,6 +57,9 @@ public:
     void setZ_warningMask(uint16_t newZ_criticalMask);
 
     float getCzujnik(analogIn czujnik);
+
+    void setDebug(const QString & d) { emit debug(d); }
+    void setError(const QString & e) { emit error(e); }
 public slots:
     void nextPage(TestPage::PageId id);
 
@@ -81,6 +84,9 @@ signals:
 
     void setDigitalOut(digitalOut id, bool value);
     void readsInputs();
+
+    void error(const QString & e);
+    void debug(const QString & d);
 
 private slots:
     void criticalZaworOpenSlot(uint16_t idz);
@@ -123,7 +129,7 @@ private:
     bool showWarn;
 
     QMap<analogIn, float> m_czujniki;
-    TestData dt;
+    TestData * dt;
     QList<QVector<float>> pomiary;
     bool registerPomiary;
     QMutex mutex;

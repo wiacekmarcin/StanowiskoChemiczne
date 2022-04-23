@@ -54,7 +54,6 @@ void SerialWorker::run()
                 zadanie = CONFIGURE;
                 QThread::currentThread()->sleep(5);
             } else {
-                qInfo() << "Going to sleep";
                 mutex.lock();
                 newTask.wait(&mutex);
                 zadanie = actTask;
@@ -178,6 +177,7 @@ void SerialDevice::setSettings(bool r1, bool r2, bool r3, bool r4, bool r5, uint
 
     m_maxImp = mImp;
     m_timeImp = impT;
+    qDebug() << "r1=" << r1 << " r2=" << r2 << " r3=" << r3 << " r4=" << r4 << " r5=" << r5 << " mImp=" << mImp << "mtime" << impT << "\n";
     m_ustawienia.setMaxImp(m_maxImp);
     m_ustawienia.setImpTime(m_timeImp);
     m_ustawienia.setReverse_1(r1);

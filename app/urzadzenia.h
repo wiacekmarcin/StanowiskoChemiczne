@@ -197,7 +197,7 @@ signals:
      */
     void checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5);
 
-
+    void log(const QString & d);
 public slots:
     /**
      * @brief ni_analogValueChanged - przeychwocony sygnał analogValueChanged i wartośći
@@ -216,10 +216,20 @@ public slots:
      * @brief ni_digitalRead
      * @param vals - maska bitowa wejść
      */
-    //void ni_digitalRead(uint16_t vals);
+     void ni_digitalReadAllValueChanged(uint16_t vals);
     
-    //void digitalWriteDebug(uint16_t vals);
+    /** @brief żądanie odczytu wszystkich zmiennych
+     */
     void readInputs();
+
+
+    void gui_error(const QString &s);
+
+    void gui_debug(const QString &d);
+
+    void test_error(const QString &s);
+
+    void test_debug(const QString &d);
 
 private slots:
 
@@ -246,6 +256,19 @@ private slots:
      * @param d - komunikat
      */
     void ds_debug(const QString &d);
+
+    /**
+     * @brief urz_error - funkcja odbierający error z nicards
+     * @param s - komunikat błedu
+     */
+    void urz_error(const QString &s);
+
+    /**
+     * @brief urz_debug - funkcja odbierająca debug z nicards
+     * @param d - komunikat
+     */
+    void urz_debug(const QString &d);
+
 
     /**
      * @brief ni_usb6501 - czy karta cyfrowa jest w prawidłowo skonfigurowana
@@ -292,7 +315,7 @@ private slots:
     void runPlomien1();
 
 protected:
-    void log(const QString & msg);
+    void logSlot(const QString & msg);
 
 private:
 
@@ -310,6 +333,9 @@ private:
      QTimer elTimer;
 
      QFile * m_logFile;
+     uint16_t prevInputs;
+
+     QMutex mutex;
 };
 
 #endif // URZADZENIA_H

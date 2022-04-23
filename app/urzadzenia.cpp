@@ -6,6 +6,7 @@
 #include <QString>
 #include <QDateTime>
 #include <QTextStream>
+#include <QDebug>
 
 Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     : QObject{parent},
@@ -18,9 +19,11 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     m_logFile->setFileName(QString("%1.txt").arg(QDateTime::currentDateTime().toString().replace(' ', '_').replace(':', '_').replace('.', '_')));
     m_logFile->open(QIODevice::Append | QIODevice::Text);
 
+    prevInputs = 0x00;
+
     log(QString("%1.%2 - %3 %4").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(QString(__DATE__), QString(__TIME__)));
 
-    connect(&m_NI_Cards, &NICards::digitalReadValueChanged,    this,   &Urzadzenia::digitalReadAllValueChanged, Qt::DirectConnection);
+    connect(&m_NI_Cards, &NICards::digitalReadValueChanged,    this,   &Urzadzenia::ni_digitalReadAllValueChanged, Qt::DirectConnection);
     connect(&m_NI_Cards, &NICards::analogValueChanged,         this,   &Urzadzenia::ni_analogValueChanged,      Qt::DirectConnection);
 
     connect(&m_NI_Cards, &NICards::error,                      this,   &Urzadzenia::ni_error,              Qt::QueuedConnection);
@@ -37,6 +40,7 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     connect(&m_serialDev, &SerialDevice::debug,                 this, &Urzadzenia::ds_debug,              Qt::QueuedConnection);
     connect(&m_serialDev, &SerialDevice::error,                 this, &Urzadzenia::ds_error,              Qt::QueuedConnection);
 
+    connect(this, &Urzadzenia::log, this, &Urzadzenia::logSlot, Qt::QueuedConnection);
 }
 
 Urzadzenia::~Urzadzenia()
@@ -58,6 +62,7 @@ void Urzadzenia::setStop()
 
 void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6)
 {
+    static short index = 0;
     double v0 = val0 * m_ustawienia.getRatio(0);
     double v1 = val1 * m_ustawienia.getRatio(1);
     double v2 = val2 * m_ustawienia.getRatio(2);
@@ -67,14 +72,33 @@ void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, do
     double v6 = val6 * m_ustawienia.getRatio(6);
     double v7 = val0 * m_ustawienia.getRatio(7);
     emit analogValueChanged(v0, v1, v2, v3, v4, v5, v6, v7);
+    if (++index == 10) {
+        urz_debug(QString("2. Odczytano %1,%2,%3,%4,%5,%6,%7,%8").arg(v0).arg(v1).arg(v2).arg(v3).arg(v4).arg(v5).arg(v6).arg(v7));
+        index = 0;
+    }
+}
+
+void Urzadzenia::ni_digitalReadAllValueChanged(uint16_t vals)
+{
+    //qInfo() << __FILE__ << ":" << __LINE__ << "vals=" << vals;
+    emit digitalReadAllValueChanged(vals);
+    unsigned int maska = 0x1;
+    prevInputs = m_inputs;
+    m_inputs = vals;
+
+    uint16_t mask = 0x1;
+    for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
+        //qInfo() << "mask=" << mask << " val=" << ((m_inputs & mask) == mask);
+        emit digitalReadValueChanged((digitalIn)mask, (m_inputs & mask) == mask);
+        mask <<= 1;
+    }
 }
 
 void Urzadzenia::ni_usb6501(bool open, bool conf)
 {
     m_digCardsOk = open && conf;
     if (m_digCardsOk) {
-        //TODO save cache output value
-        //TODO pobierz info o wejsciach
+        readInputs();
     } else {
         //TODO clear inputs
         //TODO clear outputs
@@ -106,8 +130,8 @@ void Urzadzenia::resetDozownik()
 void Urzadzenia::digitalWriteAll(uint16_t vals)
 {
 #if !SYMULATOR
-    nicards.digitalWriteAll(vals);
-    emit digitalWriteDevice(nicards.getDigitalWrite());
+    m_NI_Cards.digitalWriteAll(vals);
+    emit digitalWriteValueChanged(m_NI_Cards.getDigitalWrite());
 #else
     (void)vals;
 #endif
@@ -116,8 +140,8 @@ void Urzadzenia::digitalWriteAll(uint16_t vals)
 void Urzadzenia::digitalWrite(digitalOut mask, bool on)
 {
 #if !SYMULATOR
-    nicards.digitalWrite(mask, on);
-    emit digitalWriteDevice(nicards.getDigitalWrite());
+    m_NI_Cards.digitalWrite(mask, on);
+    emit digitalWriteValueChanged(m_NI_Cards.getDigitalWrite());
 #else
     (void)mask;
     (void)on;
@@ -145,40 +169,79 @@ void Urzadzenia::zaplon(ZaplonRodzaj idiskra)
 
 void Urzadzenia::ni_error(const QString &s)
 {
-    log(QString("%1.ERROR.NICARDS - %2").arg(QTime::currentTime().toString(), s));
+    emit log(QString("%1.ERROR.NICARDS - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), s));
 }
 
 void Urzadzenia::ni_debug(const QString &d)
 {
-    log(QString("%1.DEBUG.NICARDS - %2").arg(QTime::currentTime().toString(), d));
+    emit log(QString("%1.DEBUG.NICARDS - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), d));
 }
 
 void Urzadzenia::ds_error(const QString &s)
 {
-    log(QString("%1.ERROR.DOZOWNIK - %2").arg(QTime::currentTime().toString(), s));
+    emit log(QString("%1.ERROR.DOZOWNIK - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), s));
 }
 
 void Urzadzenia::ds_debug(const QString &d)
 {
-    log(QString("%1.DEBUG.DOZOWNIK - %2").arg(QTime::currentTime().toString(), d));
+    emit log(QString("%1.DEBUG.DOZOWNIK - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), d));
 }
 
-void Urzadzenia::log(const QString &msg)
+void Urzadzenia::urz_error(const QString &s)
 {
+    emit log(QString("%1.ERROR.URZADZENIE - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), s));
+}
+
+void Urzadzenia::urz_debug(const QString &d)
+{
+    emit log(QString("%1.DEBUG.URZADZENIE - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), d));
+}
+
+void Urzadzenia::gui_error(const QString &s)
+{
+    qInfo() << "gui_error" << s;
+    emit log(QString("%1.ERROR.GUI - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), s));
+}
+
+void Urzadzenia::gui_debug(const QString &d)
+{
+    qInfo() << "gui_debug" << d;
+    emit log(QString("%1.DEBUG.GUI - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), d));
+}
+
+void Urzadzenia::test_error(const QString &s)
+{
+    emit log(QString("%1.ERROR.TEST - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), s));
+}
+
+void Urzadzenia::test_debug(const QString &d)
+{
+    qInfo() << "test_debug" << d;
+    emit log(QString("%1.DEBUG.TEST - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), d));
+}
+
+
+void Urzadzenia::logSlot(const QString &msg)
+{
+    mutex.lock();
     QTextStream out(m_logFile);
     out.setCodec("UTF-8");
     if (m_logFile != 0) {
         out << msg << "\n";
     }
+    mutex.unlock();
 }
 
 void Urzadzenia::readInputs()
 {
-     emit digitalReadAllValueChanged(m_inputs);
-
+    //qInfo() << __FILE__ << ":" << __LINE__ ;
+    m_inputs = m_NI_Cards.getDigitalRead();
+    emit digitalReadAllValueChanged(m_inputs);
+    //qInfo() << "m_inputs=" << m_inputs;
     uint16_t mask = 0x1;
     for (short i = 0; i < Ustawienia::maxCzujekCyfrIn; ++i) {
-        emit digitalReadValueChanged((digitalIn)mask, m_inputs & mask);
+        //qInfo() << "mask=" << mask << " val=" << ((m_inputs & mask) == mask);
+        emit digitalReadValueChanged((digitalIn)mask, (m_inputs & mask) == mask);
         mask <<= 1;
     }
 }

@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QByteArray>
 #include <QBuffer>
+#include <QDebug>
+
 
 constexpr char TestData::title1[];
 constexpr char TestData::title2[];
@@ -32,77 +34,9 @@ constexpr char TestData::koncetracjaPar[];
 constexpr char TestData::zlaKoncetracjaPar[];
 constexpr char TestData::odczytyStezen[];
 
-TestData::TestData()
+TestData::TestData() : QObject(nullptr)
 {
-    d.dataTestu = QDateTime::currentDateTime();
-    d.uczestnicy << "Jan Kowalski" << "Leon Zimowiec" << "Klaudia Ładna";
-    d.nazwaCieczy = "Woda";
-    d.wilgotnosc = 75.5;
-    d.tempKomoraPoczatek = 25.3;
 
-    d.iloscCieczy << 21.4 << 0 << 15.0;
-
-    ProbaType p1;
-    p1.success = false;
-    p1.zrodloZaplonu = "Iskra mechaniczna";
-    p1.powtarzanyZaplon = false;
-    p1.powtarzaneDozowanie = false;
-    p1.cisnKomoryDozowanie = 1.0;
-    p1.tempKomoryDozowanie = 31.0;
-    p1.tempParownikaDozowanie = 34.0;
-    p1.tempKomoryZaplon = 40.9;
-    p1.cisnKomoryZaplon = 1.4;
-    p1.koncentracjaPar = 32.7;
-    p1.cisnKomoryDozowanie = 1.2;
-    p1.tempKomoryDozowanie = 30.0;
-    p1.zlaKoncetracja = false;
-    p1.voc1 = 15.6;
-    p1.voc2 = 16.7;
-    p1.o2 = 26.7;
-    p1.co2 = 32.0;
-    p1.cz8 = 21;
-
-    ProbaType p2;
-    p2.success = false;
-    p2.zrodloZaplonu = "Iskra elektryczna";
-    p2.powtarzanyZaplon = true;
-    p2.powtarzaneDozowanie = false;
-    p2.cisnKomoryDozowanie = 1.0;
-    p2.tempKomoryDozowanie = 31.0;
-    p2.tempParownikaDozowanie = 34.0;
-    p2.cisnKomoryDozowanie = 0.9;
-    p2.tempKomoryDozowanie = 31.1;
-    p2.tempKomoryZaplon = 10.9;
-    p2.cisnKomoryZaplon = 2.4;
-    p2.koncentracjaPar = 42.7;
-    p2.zlaKoncetracja = false;
-    p2.voc1 = 11.6;
-    p2.voc2 = 12.7;
-    p2.o2 = 22.7;
-    p2.co2 = 22.0;
-    p2.cz8 = 22;
-
-    ProbaType p3;
-    p3.success = true;
-    p3.zrodloZaplonu = "Płomień";
-    p3.powtarzanyZaplon = false;
-    p3.powtarzaneDozowanie = false;
-    p3.cisnKomoryDozowanie = 1.1;
-    p3.tempKomoryDozowanie = 33.0;
-    p3.tempParownikaDozowanie = 35.0;
-    p3.cisnKomoryDozowanie = 1.3;
-    p3.tempKomoryDozowanie = 31.1;
-    p3.zlaKoncetracja = true;
-    p3.tempKomoryZaplon = 34.9;
-    p3.cisnKomoryZaplon = 1.0;
-    p3.koncentracjaPar = 22.7;
-    p3.voc1 = 31.6;
-    p3.voc2 = 32.7;
-    p3.o2 = 32.7;
-    p3.co2 = 32.0;
-    p3.cz8 = 32;
-
-    d.proby << p1 << p2 << p3;
 }
 
 QString TestData::getBody() const
@@ -121,33 +55,47 @@ QString TestData::getBody() const
         }
         result += getProba(d.proby.at(id), d.iloscCieczy, id + 1);
     }
+    result += getWarunkiPoUdanejProbie();
+    result += getImageUrl(1);
+    result += getImageUrl(2);
+    result += getImageUrl(3);
+    result += getImageUrl(4);
+    result += getImageUrl(5);
+    result += getImageUrl(6);
+    result += getImageUrl(7);
+    result += getImageUrl(8);
     result += QString("</body></html>");
     return result;
 }
 
 void TestData::setTemperaturaKomory(FazaTestu ft, const float &temp)
 {
+    emit debug(QString("Ustaw Temp ft = %1 temp = %2").arg(ft).arg(temp));
     switch(ft) {
-    case FT_poczatek : d.tempKomoraPoczatek = temp; break;
-    case FT_koniec: d.tempKomoraKoniec = temp; break;
-    case FT_dozowanie: d.proby.last().tempParownikaDozowanie = temp; break;
+    case FT_poczatek :  d.tempKomoraPoczatek = temp; break;
+    case FT_koniec:     d.tempKomoraKoniec = temp; break;
+    case FT_dozowanie:  d.proby.last().tempKomoryDozowanie = temp; break;
+    case FT_przedZaplon:  d.proby.last().tempKomoryZaplon = temp; break;
     case FT_zaplon: d.proby.last().tempKomoryZaplon = temp; break;
-    default : break ;
+    default :  qInfo () << "Invalid ft=" << ft ; break ;
     }
 }
 
 void TestData::setCisnienieKomory(FazaTestu ft, const float &cisn)
 {
+    emit debug(QString("Ustaw ciśnienie ft = %1 cisn = %2").arg(ft).arg(cisn));
     switch(ft) {
     case FT_koniec: d.cisnienieKoniec = cisn; break;
     case FT_dozowanie: d.proby.last().cisnKomoryDozowanie = cisn; break;
+    case FT_przedZaplon: d.proby.last().cisnKomoryZaplon = cisn; break;
     case FT_zaplon: d.proby.last().cisnKomoryZaplon = cisn; break;
-    default : break ;
+    default :  qInfo () << "Invalid ft=" << ft ; break ;
     }
 }
 
 void TestData::setStezenia(FazaTestu ft, const float &voc1, const float &voc2, const float &o2, const float &co2, const float &cz8)
 {
+    emit debug(QString("Ustaw stezenia ft = %1 %2,%3,%4,%5,%6").arg(ft).arg(voc1).arg(voc2).arg(o2).arg(co2).arg(cz8));
     switch(ft) {
     case FT_koniec: {
         d.voc1 = voc1;
@@ -165,20 +113,20 @@ void TestData::setStezenia(FazaTestu ft, const float &voc1, const float &voc2, c
         d.proby.last().co2 = co2;
         d.proby.last().cz8 = cz8;
     }
-    default : break ;
+    default : qInfo () << "Invalid ft=" << ft ;  break ;
+    
     }
 }
 
-void TestData::setUdanaProba(bool success)
+void TestData::setUdanaProba(bool success, bool powtarzaneDozowanie, bool powtarzanyZaplon)
 {
+    emit debug(QString("Udana proba = %1").arg(success));
     d.proby.last().success = success;
-    if (success) {
-        setPowtarzanieDozowanie(false);
-        setPowtarzanieZaplonu(false);
-    }
-    else
+    if (!success) {
         d.proby.append(ProbaType());
-
+        d.proby.last().powtarzaneDozowanie = powtarzaneDozowanie;
+        d.proby.last().powtarzanyZaplon =  powtarzanyZaplon;
+    }
 }
 
 QString TestData::getTitle()
@@ -211,17 +159,22 @@ QString TestData::getTempKomoraStart() const
 
 QString TestData::getWilgotnosc() const
 {
-    return QString("<p>%1 %2 %RH</p>").arg(QString(TestData::wilgotnosc), QString::number(d.wilgotnosc, 'f', 1));
+    return QString("<p style=\"page-break-after:always\">%1 %2 %RH</p>").arg(QString(TestData::wilgotnosc), QString::number(d.wilgotnosc, 'f', 1));
 }
 
 QString TestData::getProba(const ProbaType &proba, const QList<float> & dozowanie, unsigned int nrProba) const
 {
-    QString ret("<div style=\"page-break-before:always\">");
+    qDebug() << proba.cisnKomoryDozowanie << " " << proba.cisnKomoryZaplon << " " << proba.powtarzaneDozowanie << " "
+             << proba.powtarzanyZaplon << " " << proba.success << " " << proba.co2 << " " << proba.cz8 << " "
+             << proba.o2 << " " << proba.tempKomoryDozowanie << " " << proba.tempKomoryZaplon << " "
+             << proba.tempParownikaDozowanie << " " << proba.voc1 << " " << proba.voc2 << " " << proba.zrodloZaplonu;
+    QString ret("<div>");
     ret += QString("<h2>%1 %2</h2>").arg(QString(TestData::proba), QString::number(nrProba));
     ret += getProbaWynik(proba.success);
     ret += getZrodloZaplonu(proba.zrodloZaplonu);
-    if (proba.powtarzanyZaplon && !proba.success)
+    if (proba.powtarzanyZaplon)
         return ret + QString("</div>");
+
     ret += getIloscCieczy(dozowanie, nrProba);
     ret += getWarunkiPoczatkowe(proba);
     ret += getWarunkiPrzedZaplonem(proba);
@@ -242,14 +195,14 @@ QString TestData::getZrodloZaplonu(const QString &zaplon) const
 
 QString TestData::getIloscCieczy(const QList<float> &dozowanie, unsigned int nrProba) const
 {
-    if (nrProba == 1) {
+    if (nrProba == 1 || dozowanie.size() == 1) {
         return QString("<p>%1 %2 ml</p>").arg(QString(TestData::iloscCieczy), QString::number(dozowanie.at(0),'f', 1));
     }
 
     float suma = 0.0;
     QString sumaStr;
     unsigned int sumCnt = 0;
-    for (unsigned int i = 0; i < nrProba; ++i) {
+    for (unsigned int i = 0; i < dozowanie.size(); ++i) {
         float d = dozowanie.at(i);
         suma += d;
         if (d == 0.0)
@@ -313,30 +266,65 @@ QString TestData::getWarunkiPoUdanejProbie() const
     return ret + QString("</ul></p>");
 }
 
-QString TestData::getImageUrl(int id)
-{
-    QPoint * points = new QPoint[values.size()];
-    unsigned int px = 0;
-    foreach(auto value, values) {
-        points[px]= (QPoint(px, (unsigned int)10*(value[id])));
-        ++px;
-    }
 
-    QPixmap *pix = new QPixmap(px, 1000);
+QString TestData::getImageUrl(int id) const
+{
+    QPoint * points = new QPoint[6000];
+    unsigned int px = 0;
+    //for(px = 0; px < 6000; ++px) {
+    //    points[px]= QPoint(px, 10* (px % 100));
+    //}
+    QSize A4Size = QSize(600, 850);
+    //QPixmap *pix = new QPixmap(px, 1000);
+    QPixmap *pix = new QPixmap(A4Size.width(), A4Size.height());
     QPainter *paint = new QPainter(pix);
-    paint->setPen(*(new QColor(255,34,255,255)));
+
     paint->setBrush(Qt::white);
-    QRect rect = QRect(0, 0, px, 1000);
+    QRect rect = QRect(0, 0, A4Size.width() - 1, A4Size.height() - 1);
     paint->fillRect(rect, QBrush(Qt::white));
     paint->drawRect(rect);//5 radius apiece
+
+    QPen grayPen = QPen(Qt::gray);
+    grayPen.setWidth(1);
+    paint->setPen(grayPen);
+    for (int i = 0; i <= 850; i+=20) {
+        if (i % 100 == 0)
+            continue;
+        paint->drawLine(0, i, 600, i);
+        if (i < 600)
+            paint->drawLine(i, 0, i, 850);
+    }
+
+
+    QPen darkgrayPen = QPen(Qt::darkGray);
+    darkgrayPen.setWidth(3);
+    paint->setPen(darkgrayPen);
+    for (int i = 0; i <= 850; i+=100) {
+        paint->drawLine(0, i, 600, i);
+        if (i <= 600)
+            paint->drawLine(i, 0, i, 850);
+    }
+
+
+
     paint->setBrush(Qt::black);
-    paint->drawPoints(points, px);
+    QPen pen = QPen(Qt::black);
+    //pen.setWidth(10);
+    //paint->setPen(pen);
+    //paint->drawPoints(points, px);
+    //QTransform transform;
+    //QTransform trans = transform.rotate(90);
+    //QPixmap p1(pix->transformed(trans));
 
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
+
+    //QPixmap p2(p1.scaledToHeight(840));
+    //p2.save(&buffer, "PNG");
+    //p1.save(&buffer, "PNG");
     pix->save(&buffer, "PNG");
 
-    return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
+    return QString("<p><img  style=\"page-break-before:always\" src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
 }
 
 const QString &TestData::getNazwaTestu() const
@@ -353,3 +341,5 @@ void TestData::setListValues(const QList<QVector<float> > &values)
 {
     this->values = values;
 }
+
+

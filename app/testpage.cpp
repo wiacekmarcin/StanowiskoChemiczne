@@ -22,7 +22,7 @@ TestPage::~TestPage()
 
 void TestPage::setField(Value key, const QVariant &val)
 {
-    
+    wiz->setDebug(QString("Saving key=%1 = %2").arg(key).arg(val.toString()));
     wiz->setField(key, val);
 }
 
@@ -40,17 +40,17 @@ void TestPage::setWizard(CreateTestWizard *wizard)
 
 CreateTestWizard *TestPage::wizard() const
 {
-    
     return wiz;
 }
 
-TestData &TestPage::testData()
+TestData * TestPage::getTestData()
 {
-    return wiz->testData();
+    return wiz->getTestData();
 }
 
 float TestPage::getCzujnik(analogIn czujnik)
 {
+    qInfo() << "getCzujnik";
     return wiz->getCzujnik(czujnik);
 }
 
@@ -102,7 +102,7 @@ void TestPage::setForm(TestPageForm *value)
 
 void TestPage::initializePage()
 {
-    //
+
 }
 
 TestPage::PageId TestPage::nextPageId() const
@@ -112,11 +112,13 @@ TestPage::PageId TestPage::nextPageId() const
 
 void TestPage::nextPage(TestPage::PageId idPage)
 {
+    wiz->setDebug(QString("Initialize page = %1").arg(idPage));
     wiz->nextPage(idPage);
 }
 
 void TestPage::updateOutput(digitalOut mask, bool on)
 {
+    wiz->setDebug(QString("Set Output = %1 => %2").arg(mask).arg(on));
     wiz->updateOutput(mask, on);
 }
 
@@ -157,7 +159,7 @@ void TestPage::setFinished(bool success)
 {
     updateOutput(o_pompa_prozniowa, false);
     updateOutput(o_pompa_powietrza, false);
-    updateOutput(o_wentylator, false);
+    updateOutput(o_wentylator, success);
     updateOutput(o_mieszadlo, false);
     updateOutput(o_trigger, false);
     wiz->setFinished(success);
@@ -437,15 +439,15 @@ bool TestPage::sprawdzOtwarteZawor2Calowe()
     if (!show)
         return true;
     msgBox.setText(QString("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n").arg(msg));
-    msgBox.setInformativeText("Zawoy do przedmuchu powietrza powinny być otwarte, reszta zaworów powinna być zamknieta. Drzwi od komory powinny być zamknięte. \n Czy chcesz kontynuować");
+    msgBox.setInformativeText("Zawory do przedmuchu powietrza powinny być otwarte, reszta zaworów powinna być zamknieta. Drzwi od komory powinny być zamknięte. \n Czy chcesz kontynuować");
 
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     int ret = msgBox.exec();
     if (ret == QMessageBox::No) {
-        setFinished(false);
         return false;
-    }
+    } else
+        return true;
     return false;
 }
 

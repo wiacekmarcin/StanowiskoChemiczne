@@ -98,7 +98,7 @@ void NowyTest_1::dozownikChanged(int index)
         checkValid();
         return;
     }
-    valid = true;
+    valid = false;
     ui->cbCiecz->setEnabled(true);
     ui->cbCiecz->clear();
     valCieczy = 0.0;
@@ -145,6 +145,8 @@ void NowyTest_1::checkValid()
             v = false;
             break;
         }
+
+        break;
     }
     
     ui->pbNext->setEnabled(v);
@@ -196,18 +198,18 @@ void NowyTest_1::zaplonChanged(int index)
 
 void NowyTest_1::on_pbNext_clicked()
 {
-    TestData & d = testData();
-    d.setNazwaTestu(getName());
+    TestData * d = getTestData();
+    d->setNazwaTestu(getName());
     setField(TestPage::nazwaTest, QVariant::fromValue(getName()));
 
-    d.setLiquidName(getLuquid());
+    d->setLiquidName(getLuquid());
     setField(TestPage::ciecz, QVariant::fromValue(getLuquid()));
 
-    d.setLiquidVolue(getVolume());
+    d->setLiquidVolue(getVolume());
     setField(TestPage::objetosc, QVariant::fromValue(getVolume()));
 
-    d.setHumanity(getHumanity());
-    d.setTemperaturaKomory(TestData::FT_poczatek, getCzujnik(a_temp_komory));
+    d->setHumanity(getHumanity());
+    d->setTemperaturaKomoryWarunkiPoczatkowe(getCzujnik(a_temp_komory));
 
 
     setField(TestPage::calaObjetosc, QVariant::fromValue(0.0));

@@ -79,22 +79,26 @@ void NowyTest_4::dozownikDone(bool success)
 
 void NowyTest_4::on_pbOk_1_clicked()
 {
+    wizard()->setDebug(QString("PAGE4:OK1"));
     sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
 }
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
+    wizard()->setDebug(QString("PAGE4:OK2"));
     if (!sprawdzOtwarteZawory(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa))
         return;
     ui->pbOk_2->setEnabled(false);
-    TestData &td = testData();
+    TestData * td = getTestData();
 
     //if powtarzane dozowanie lub nie odciagane powietrze
-    if (field(TestPage::czyPompaMebr).toBool() || field(TestPage::powtarzanyTest).toBool())
-        td.setCisnienieKomory(TestData::FT_dozowanie, getCzujnik(a_cisn_komora));
+    if (field(TestPage::czyPompaMebr).toBool() || field(TestPage::powtarzanyTest).toBool()) {
+        td->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
+    }
 
-    td.setTemperaturaParownika(getCzujnik(a_temp_parownik));
-    td.setTemperaturaKomory(TestData::FT_dozowanie, getCzujnik(a_temp_komory));
+
+    td->setTemperaturaParownika(getCzujnik(a_temp_parownik));
+    td->setTemperaturaKomoryDozowanie(getCzujnik(a_temp_komory));
 
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
     updateOutput(o_mieszadlo, true);
@@ -102,15 +106,14 @@ void NowyTest_4::on_pbOk_2_clicked()
 
 void NowyTest_4::on_pbOk_3_clicked()
 {
-    
-
+    wizard()->setDebug(QString("PAGE4:OK3"));
     if (field(czyPompaMebr).toBool()) {
         ui->pbOk_3->setEnabled(false);
         ui->arrow_3->setVisible(false);
         ui->frame_4->setVisible(true);
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wentylacja_lewa | i_wentylacja_prawa);
     } else {
-        testData().setCisnienieKomory(TestData::FT_przedZaplon, getCzujnik(a_cisn_komora));
+        getTestData()->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
         nextPage(nextPageId());
     }
 }
@@ -123,6 +126,7 @@ void NowyTest_4::runDone()
 
 void NowyTest_4::on_pbOk_4_clicked()
 {
+    wizard()->setDebug(QString("PAGE4:OK4"));
     if (!sprawdzOtwarteZaworPowietrza())
         return;
 

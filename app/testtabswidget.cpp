@@ -21,7 +21,8 @@ TestTabsWidget::TestTabsWidget(const ProjectItem &pr, QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     testDane.setDateTime(pr.getCreateDt());
     testDane.setMembers(pr.getMembers().split("\n"));
-    ui->stackedWidget->setTestData(testDane);
+    ui->stackedWidget->setTestData(&testDane);
+
 }
 
 TestTabsWidget::~TestTabsWidget()
