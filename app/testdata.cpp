@@ -56,14 +56,15 @@ QString TestData::getBody() const
         result += getProba(d.proby.at(id), d.iloscCieczy, id + 1);
     }
     result += getWarunkiPoUdanejProbie();
-    result += getImageUrl(1);
-    result += getImageUrl(2);
-    result += getImageUrl(3);
-    result += getImageUrl(4);
-    result += getImageUrl(5);
-    result += getImageUrl(6);
-    result += getImageUrl(7);
-    result += getImageUrl(8);
+    analogIn idTab[8] = { a_vol1, a_vol2, a_o2, a_co2, a_8, a_cisn_komora, a_temp_komory, a_temp_parownik};
+    for (short i = 0; i < 8; ++i) {
+        visibleWykresType var =  visibleWykres[idTab[i]];
+        if (!var.show)
+            continue;
+        result += getImageWykres(idTab[i], var.min, var.max, var.opis, var.jedn);
+    }
+    result += getImages();
+    result += getComment();
     result += QString("</body></html>");
     return result;
 }
@@ -267,14 +268,28 @@ QString TestData::getWarunkiPoUdanejProbie() const
 }
 
 
-QString TestData::getImageUrl(int id) const
+QString TestData::getImageWykres(analogIn id, float min, float max, const QString &title, const QString &jedn) const
 {
-    QPoint * points = new QPoint[6000];
+    QList<float> singleVals;
+    foreach(auto allvalue, values) {
+        float value = allvalue[(short)id];
+        if (value < min)
+            value = min;
+        if (value > max)
+            value = max;
+        singleVals.append(value-min);
+    }
+
+    const int width = 1000;
+    const int height = 850;
+    const float ratioX = 850/(max-min);
+
+    QPoint * points = new QPoint[singleVals.size()];
     unsigned int px = 0;
-    //for(px = 0; px < 6000; ++px) {
-    //    points[px]= QPoint(px, 10* (px % 100));
-    //}
-    QSize A4Size = QSize(600, 850);
+    for(px = 0; px < singleVals.size(); ++px) {
+        points[px]= QPoint(px, (int)((max-singleVals.at(px))*ratioX));
+    }
+    QSize A4Size = QSize(width, height);
     //QPixmap *pix = new QPixmap(px, 1000);
     QPixmap *pix = new QPixmap(A4Size.width(), A4Size.height());
     QPainter *paint = new QPainter(pix);
@@ -287,44 +302,72 @@ QString TestData::getImageUrl(int id) const
     QPen grayPen = QPen(Qt::gray);
     grayPen.setWidth(1);
     paint->setPen(grayPen);
-    for (int i = 0; i <= 850; i+=20) {
+    for (int i = 0; i <= width; i+=20) {
         if (i % 100 == 0)
             continue;
-        paint->drawLine(0, i, 600, i);
-        if (i < 600)
-            paint->drawLine(i, 0, i, 850);
+        //paint->drawLine(0, i, 600, i);
+        //if (i < 600)
+        //    paint->drawLine(i, 0, i, 850);
     }
 
 
     QPen darkgrayPen = QPen(Qt::darkGray);
     darkgrayPen.setWidth(3);
     paint->setPen(darkgrayPen);
-    for (int i = 0; i <= 850; i+=100) {
+    for (int i = 0; i <= width; i+=100) {
         paint->drawLine(0, i, 600, i);
-        if (i <= 600)
-            paint->drawLine(i, 0, i, 850);
+        //if (i <= 600)
+        //    paint->drawLine(i, 0, i, 850);
     }
 
 
 
     paint->setBrush(Qt::black);
     QPen pen = QPen(Qt::black);
-    //pen.setWidth(10);
-    //paint->setPen(pen);
-    //paint->drawPoints(points, px);
-    //QTransform transform;
-    //QTransform trans = transform.rotate(90);
-    //QPixmap p1(pix->transformed(trans));
+    pen.setWidth(10);
+    paint->setPen(pen);
+    paint->drawPoints(points, px);
+    QTransform transform;
+    QTransform trans = transform.rotate(90);
+    QPixmap p1(pix->transformed(trans));
 
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
 
     //QPixmap p2(p1.scaledToHeight(840));
     //p2.save(&buffer, "PNG");
-    //p1.save(&buffer, "PNG");
-    pix->save(&buffer, "PNG");
+    p1.save(&buffer, "PNG");
+    //pix->save(&buffer, "PNG");
 
     return QString("<p><img  style=\"page-break-before:always\" src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+}
+
+QString TestData::getPicture(const QString &filename) const
+{
+    QPixmap p(filename);
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    p.save(&buffer, "PNG");
+    return QString("<p><img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+}
+
+QString TestData::getComment() const
+{
+    return QString("<p>")+comment+QString("</p>");
+}
+
+QString TestData::getImages() const
+{
+    QString ret;
+    for (int i =0; i < fileList.size(); i+= 2) {
+        ret += "<div style=\"page-break-before:always\">";
+        ret += getPicture(fileList.at(i));
+        if (i + 1 < fileList.size()) {
+            ret += getPicture(fileList.at(i+1));
+        }
+        ret += "</div>";
+    }
+    return ret;
 }
 
 const QString &TestData::getNazwaTestu() const
@@ -340,6 +383,33 @@ void TestData::setNazwaTestu(const QString &newNazwaTestu)
 void TestData::setListValues(const QList<QVector<float> > &values)
 {
     this->values = values;
+}
+
+void TestData::setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
+                                const QString & opis, const QString & unit)
+{
+    visibleWykresType value;
+    value.show = show;
+    value.min = minV;
+    value.max = maxV;
+    value.opis = opis;
+    value.jedn = unit;
+    visibleWykres[wykresId] = value;
+}
+
+void TestData::addImage(const QString &file)
+{
+    fileList << file;
+}
+
+void TestData::clearImage()
+{
+    fileList.clear();
+}
+
+void TestData::setComment(const QString & comm)
+{
+    comment = comm;
 }
 
 

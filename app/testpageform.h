@@ -5,6 +5,7 @@
 //#include "urzadzenia.h"
 #include "ustawienia.h"
 #include "testpage.h"
+//#include "createtestwizard.h"
 
 class QFrame;
 class CreateTestWizard;
@@ -27,6 +28,7 @@ public:
     void initializePage();
     QFrame * widgetFrame();
     void setCreateTestWizard(CreateTestWizard * wiz);
+    CreateTestWizard * wiz() { return wizard; }
 
 public:
     ~TestPageForm();
@@ -35,6 +37,7 @@ public:
 
 private slots:
     void on_pbAbort_clicked();
+    void on_pbFinishTest_clicked();
 
 private:
     Ui::TestPageForm *ui;

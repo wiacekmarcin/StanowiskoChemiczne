@@ -47,6 +47,7 @@ SOURCES += \
     oknostanowewyjscia.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
+    pictureframe.cpp \
     serialdevice.cpp \
     serialmessage.cpp \
     stanczujnika.cpp \
@@ -95,6 +96,7 @@ HEADERS += \
     oknostanowewyjscia.h \
     oknostatusowe.h \
     otwartezawory.h \
+    pictureframe.h \
     serialdevice.h \
     serialmessage.h \
     stanczujnika.h \
@@ -138,6 +140,7 @@ FORMS += \
     oknostanowewyjscia.ui \
     oknostatusowe.ui \
     otwartezawory.ui \
+    pictureframe.ui \
     stanczujnika.ui \
     stanwyjscia.ui \
     ustawieniadozownika.ui \

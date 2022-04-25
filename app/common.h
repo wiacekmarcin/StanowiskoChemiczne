@@ -4,4 +4,5 @@
 #define SYMULATOR 0
 #define GUI_DEBUG 0
 
+#define FINISHTEST 1
 #endif // COMMON_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>595</width>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,9 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="tabTest">
       <attribute name="title">
        <string>Test</string>
@@ -48,6 +51,772 @@
       <attribute name="title">
        <string>Raport</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Wybierz wykresy, które będą dołączone do raportu:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_2">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_3">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <spacer name="hs1_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_2">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="7">
+           <widget class="QLabel" name="lmax_8">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_5">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLabel" name="lmin_2">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="7">
+           <widget class="QLabel" name="lmax_2">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <spacer name="hs2_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_2">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_4">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <spacer name="hs2_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_6">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_7">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>1000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="4">
+           <widget class="QLabel" name="lmin_3">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_3">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_1">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <spacer name="hs2_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="7" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_8">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>1000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <spacer name="hs2_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_3">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="7">
+           <widget class="QLabel" name="lmax_5">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="title_7">
+            <property name="text">
+             <string>Ciśnienie komory</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QLabel" name="lmin_4">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="6">
+           <spacer name="hs3_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="title_6">
+            <property name="text">
+             <string>Temperatura komory</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="4">
+           <widget class="QLabel" name="lmin_6">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="6">
+           <spacer name="hs3_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="4">
+           <widget class="QLabel" name="lmin_7">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <spacer name="hs1_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_4">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="title_1">
+            <property name="text">
+             <string>voc1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="4">
+           <widget class="QLabel" name="lmin_8">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <spacer name="hs1_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="7" column="3">
+           <spacer name="hs2_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_5">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_5">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="4">
+           <widget class="QLabel" name="lmin_5">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <spacer name="hs1_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="7" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_8">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="7">
+           <widget class="QLabel" name="lmax_4">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <spacer name="hs1_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_4">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <spacer name="hs2_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="title_5">
+            <property name="text">
+             <string>Czujnik 8</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="6">
+           <spacer name="hs3_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="6">
+           <spacer name="hs3_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_6">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>1000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="lmin_1">
+            <property name="text">
+             <string>Minimalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="title_2">
+            <property name="text">
+             <string>voc2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_8">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="6">
+           <spacer name="hs3_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="title_3">
+            <property name="text">
+             <string>co2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <spacer name="hs1_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_2">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="7">
+           <widget class="QLabel" name="lmax_6">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="3">
+           <spacer name="hs2_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="7">
+           <widget class="QLabel" name="lmax_1">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="title_8">
+            <property name="text">
+             <string>Temperatura parownika</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="7">
+           <widget class="QLabel" name="lmax_7">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <spacer name="hs3_1">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="7">
+           <widget class="QLabel" name="lmax_3">
+            <property name="text">
+             <string>Maksymalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <spacer name="hs3_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_7">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="title_1">
+            <property name="text">
+             <string>o2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="8">
+           <widget class="QDoubleSpinBox" name="dbmax_1">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <double>100.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="6">
+           <spacer name="hs3_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="3">
+           <spacer name="hs2_1">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="5">
+           <widget class="QDoubleSpinBox" name="dbmin_7">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_1">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QCheckBox" name="check_AddPdf_6">
+            <property name="text">
+             <string>Dodać do wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <spacer name="hs1_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1">
+           <spacer name="hs1_1">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>57</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Wybierza zdjęcia, które będą dołączone do raportu</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="scrollArea_2">
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>577</width>
+            <height>49</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutCheckbox"/>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Komentarz do testu</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="pdfComment"/>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="pbCreateRaport">
+            <property name="text">
+             <string>Generuj raport</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>480</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tabFoto">
       <property name="enabled">
@@ -56,6 +825,74 @@
       <attribute name="title">
        <string>Zdjęcia</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbAddImage">
+            <property name="text">
+             <string>Dodaj zdjęcie</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>235</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>577</width>
+            <height>462</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutImages"/>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tabWideo">
       <property name="enabled">

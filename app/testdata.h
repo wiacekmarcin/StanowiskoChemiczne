@@ -1,6 +1,7 @@
 #ifndef TESTDATA_H
 #define TESTDATA_H
 
+#include "ustawienia.h"
 
 #include <QString>
 #include <QDateTime>
@@ -51,7 +52,13 @@ typedef struct data {
 
 } SDataType;
 
-
+typedef struct visWykres {
+    bool show;
+    float min;
+    float max;
+    QString opis;
+    QString jedn;
+} visibleWykresType;
 
 class TestData : public QObject
 {
@@ -108,6 +115,12 @@ public:
 
     void setListValues(const QList<QVector<float>> & values);
 
+    void setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
+                          const QString &opis, const QString &unit);
+    void addImage(const QString & file);
+    void clearImage();
+    void setComment(const QString &comm);
+
 protected:
     void setTemperaturaKomory(FazaTestu ft, const float & temp);
     void setCisnienieKomory(FazaTestu ft, const float & cisn);
@@ -131,11 +144,16 @@ protected:
     QString getOdczytyStezen(const ProbaType &proba) const;
     QString getWarunkiPoUdanejProbie() const;
 
+    QString getImages() const;
 private:
     static QString getTitle1() { return QString("<h1>%1</h1>").arg(TestData::title1); }
     static QString getTitle2() { return QString("<h1>%1</h1>").arg(TestData::title2); }
 
-    QString getImageUrl(int id) const;
+    QString getImageWykres(analogIn id, float min, float max,
+                           const QString & title, const QString & jedn) const;
+
+    QString getPicture(const QString & filename) const;
+    QString getComment() const;
 
 
     static constexpr char title1[]          = "Szkoła Główna Służby Pożarniczej w Warszawie";
@@ -167,5 +185,8 @@ private:
     QString nazwaTestu;
 
     QList<QVector<float>> values;
+    QMap<analogIn, visibleWykresType> visibleWykres;
+    QStringList fileList;
+    QString comment;
 };
 #endif // TESTDATA_H
