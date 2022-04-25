@@ -8,7 +8,7 @@
 #include <QPrinter>
 #include <QPainter>
 #include <QTextDocument>
-
+#include <QLineEdit>
 
 #include "ustawienia.h"
 
@@ -60,9 +60,9 @@ void TestTabsWidget::finishedTest(bool success)
         ui->tabWidget->setTabEnabled(3, true);
         //ui->tabFoto->setC
         QString workDir = projekt.getWorkDir();
-        workDir = "E:\\devel\\workdir";
+        //workDir = "E:\\devel\\workdir";
         QString testname = testDane.getNazwaTestu();
-        testname= "Test";
+        //testname= "Test";
         testWorkDir = QDir(workDir);
         if (!testWorkDir.exists())
             return;
@@ -119,7 +119,12 @@ void TestTabsWidget::on_pbAddImage_clicked()
         }
 
         //QSize is = im.size();
-        QImage c = im.scaledToWidth(800);
+        QImage c = im.scaledToWidth(900);
+        if (c.size().height() > 600) {
+            QImage d = c.scaledToHeight(600);
+            c = d;
+        }
+        qDebug() << "Image size=" << c.size();
         //QImage png = c.con
 
         QString fileNamePng = testWorkDir.absoluteFilePath(basename) + QString(".png");
@@ -132,33 +137,45 @@ void TestTabsWidget::on_pbAddImage_clicked()
                                         images.size() / 3, images.size() % 3);
 
         QCheckBox * checkBox = new QCheckBox(ui->scrollAreaWidgetContents_2);
-        checkBox->setObjectName(QString::fromUtf8("checkBox")+QString::number(images.size()));
+        checkBox->setObjectName(QString::fromUtf8("checkBoxImage")+QString::number(images.size()));
         checkBox->setText(basename);
-        ui->gridLayoutCheckbox->addWidget(checkBox, images.size() / 3, images.size() % 3);
-        m_imageCheckBox << checkBox;
+        ui->gridLayoutCheckbox->addWidget(checkBox, images.size() , 0);
+
+        QSpacerItem * im_sp = new QSpacerItem(10,10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        ui->gridLayoutCheckbox->addItem(im_sp, images.size(), 1);
+
+        QLineEdit * le = new QLineEdit(this);
+        le->setObjectName(QString::fromUtf8("lineEditImage")+QString::number(images.size()));
+        ui->gridLayoutCheckbox->addWidget(le, images.size(), 2);
+
+        ImagesOpisType imtype;
+        imtype.box = checkBox;
+        imtype.lineedit = le;
+        m_imageCheckBox << imtype;
         images << fileNamePng;
 
     }
 
 }
 
-#define SHOW_WYKRES(A, N, O, U)     testDane.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), ui->dbmin_##N->value(), ui->dbmax_##N->value(), O, U)
+#define SHOW_WYKRES(A, N, O1, O2, U)     testDane.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), \
+    ui->dbmin_##N->value(), ui->dbmax_##N->value(), O1, O2, U)
 
 void TestTabsWidget::on_pbCreateRaport_clicked()
 {
     testDane.clearImage();
-    SHOW_WYKRES(a_vol1, 1, "voc1", "%");
-    SHOW_WYKRES(a_vol2, 2, "voc2", "%");
-    SHOW_WYKRES(a_o2, 3, "o2", "%");
-    SHOW_WYKRES(a_co2, 4, "co2", "%");
-    SHOW_WYKRES(a_8, 5, "czujnik 8", "%");
-    SHOW_WYKRES(a_temp_komory, 6, "Temp. komory", "st C");
-    SHOW_WYKRES(a_cisn_komora, 7, "Ciśn. komory", "mbar");
-    SHOW_WYKRES(a_temp_parownik, 8, "Temp. parownika", "st C");
+    SHOW_WYKRES(a_vol1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL", "%");
+    SHOW_WYKRES(a_vol2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL", "%");
+    SHOW_WYKRES(a_o2, 3, "Wykres wartości stężenia czujnika O2:", "Evikon E2638, tlen 0-25%", "%");
+    SHOW_WYKRES(a_co2, 4, "Wykres wartości stężenia czujnika CO2:", "Vaisala GMP251, 0-20%", "%");
+    SHOW_WYKRES(a_8, 5, "Wykres wartości stężenia czujnika wirtualnego:", "Przeliczenia wskazań z VOC1, wg stałej wprowadzonej przez użytkownika", "%");
+    SHOW_WYKRES(a_cisn_komora, 7, "Wykres wartości ciśnienia wewnątrz komory:", "WIKA A-10, 0-2,5 bar abs", "kPa");
+    SHOW_WYKRES(a_temp_parownik, 8, "Wykres wartości temperatury parownika:", "Shimaden SR91, czujnik Pt100", "st C");
+    SHOW_WYKRES(a_temp_komory, 6, "Wykres wartości temperatury wewnątrz komory:", "Shimaden SD17, termopara typ K, fi3mm", "st C");
 
     foreach (auto im, m_imageCheckBox) {
-        if (im->isChecked()) {
-            testDane.addImage(testWorkDir.absoluteFilePath(im->text()) + QString(".png"));
+        if (im.box->isChecked()) {
+            testDane.addImage(testWorkDir.absoluteFilePath(im.box->text()) + QString(".png"), im.lineedit->text());
         }
     }
 

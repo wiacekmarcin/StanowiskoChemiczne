@@ -7,7 +7,7 @@
 #include <QByteArray>
 #include <QBuffer>
 #include <QDebug>
-
+#include <QVector>
 
 constexpr char TestData::title1[];
 constexpr char TestData::title2[];
@@ -44,10 +44,12 @@ QString TestData::getBody() const
     QString result = QString("<html><body>") + getTitle();
 
     result += getTemat();
-    result += QString("<div>%1 %2</div>").arg(getData(), getUczestnicy());
+    result += QString("<div style=\"margin-top:200px\">%1 %2</div>").arg(getData(), getUczestnicy());
     result += getNazwaCieczy();
+    result += "<div style=\"margin-top:100px\">";
     result += getTempKomoraStart();
     result += getWilgotnosc();
+    result += "</div";
 
     for (int id = 0; id < d.proby.size(); ++id) {
         if (id) {
@@ -61,7 +63,7 @@ QString TestData::getBody() const
         visibleWykresType var =  visibleWykres[idTab[i]];
         if (!var.show)
             continue;
-        result += getImageWykres(idTab[i], var.min, var.max, var.opis, var.jedn);
+        result += getImageWykresPage(idTab[i], var.min, var.max, var.opis, var.opis2, var.jedn);
     }
     result += getImages();
     result += getComment();
@@ -135,10 +137,26 @@ QString TestData::getTitle()
     return QString("<div align=\"center\">%1%2</div>").arg(getTitle1(), getTitle2());
 }
 
+QString TestData::getTemat() const
+{
+    return QString("<div style=\"margin-top:150px\"><table><tr><td><p style=\"font-size:18px;\">") +
+           QString("<b>%1</b></p><p style=\" font-size:18px;\">%2</p></td><td>%3</td></tr></table></div>").arg(temat, tematValue, getLogo());
+}
+
+QString TestData::getLogo() const
+{
+    QPixmap p("LogoSGSP.png");
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    p.save(&buffer, "PNG");
+
+    return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+}
+
 QString TestData::getUczestnicy() const
 {
     QString result = "";
-    result += QString("<p>%1<ol>").arg(TestData::skladzespolu);
+    result += QString("<p style=\"font-size:14px;\">%1<ol>").arg(TestData::skladzespolu);
 
     foreach(auto u , d.uczestnicy) {
         result += QString("<li>%1</li>").arg(u);
@@ -150,17 +168,17 @@ QString TestData::getUczestnicy() const
 
 QString TestData::getNazwaCieczy() const
 {
-    return QString("<p>%1 %2</p>").arg(TestData::nazwacieczy, d.nazwaCieczy);
+    return QString("<div style=\"margin-top:150px;\"><p style=\"font-size:14px;\">%1 %2</p></div>").arg(TestData::nazwacieczy, d.nazwaCieczy);
 }
 
 QString TestData::getTempKomoraStart() const
 {
-    return QString("<p>%1 %2 &#x2103;</p>").arg(QString(TestData::tempKomoraStartTest), QString::number(d.tempKomoraPoczatek, 'f', 1));
+    return QString("<p style=\"font-size:14px;\">%1 %2 &#x2103;</p>").arg(QString(TestData::tempKomoraStartTest), QString::number(d.tempKomoraPoczatek, 'f', 1));
 }
 
 QString TestData::getWilgotnosc() const
 {
-    return QString("<p style=\"page-break-after:always\">%1 %2 %RH</p>").arg(QString(TestData::wilgotnosc), QString::number(d.wilgotnosc, 'f', 1));
+    return QString("<p style=\"page-break-after:always;font-size:14px;\">%1 %2 %RH</p>").arg(QString(TestData::wilgotnosc), QString::number(d.wilgotnosc, 'f', 1));
 }
 
 QString TestData::getProba(const ProbaType &proba, const QList<float> & dozowanie, unsigned int nrProba) const
@@ -170,7 +188,7 @@ QString TestData::getProba(const ProbaType &proba, const QList<float> & dozowani
              << proba.o2 << " " << proba.tempKomoryDozowanie << " " << proba.tempKomoryZaplon << " "
              << proba.tempParownikaDozowanie << " " << proba.voc1 << " " << proba.voc2 << " " << proba.zrodloZaplonu;
     QString ret("<div>");
-    ret += QString("<h2>%1 %2</h2>").arg(QString(TestData::proba), QString::number(nrProba));
+    ret += QString("<h2 style=\"font-size:16px\">%1 %2</h2>").arg(QString(TestData::proba), QString::number(nrProba));
     ret += getProbaWynik(proba.success);
     ret += getZrodloZaplonu(proba.zrodloZaplonu);
     if (proba.powtarzanyZaplon)
@@ -185,19 +203,19 @@ QString TestData::getProba(const ProbaType &proba, const QList<float> & dozowani
 
 QString TestData::getProbaWynik(bool wynik) const
 {
-    return QString("<p>%1 %2</p>").arg(QString(TestData::probaWynik),
+    return QString("<p style=\"font-size:12px\">%1 %2</p>").arg(QString(TestData::probaWynik),
                                        (wynik ? QString(TestData::probaPozytywna) : QString(TestData::probaNegatywna)));
 }
 
 QString TestData::getZrodloZaplonu(const QString &zaplon) const
 {
-    return QString("<p>%1 %2</p>").arg(QString(TestData::zrodloZaplonu), zaplon);
+    return QString("<p style=\"font-size:12px\">%1 %2</p>").arg(QString(TestData::zrodloZaplonu), zaplon);
 }
 
 QString TestData::getIloscCieczy(const QList<float> &dozowanie, unsigned int nrProba) const
 {
     if (nrProba == 1 || dozowanie.size() == 1) {
-        return QString("<p>%1 %2 ml</p>").arg(QString(TestData::iloscCieczy), QString::number(dozowanie.at(0),'f', 1));
+        return QString("<p style=\"font-size:12px\">%1 %2 ml</p>").arg(QString(TestData::iloscCieczy), QString::number(dozowanie.at(0),'f', 1));
     }
 
     float suma = 0.0;
@@ -214,35 +232,35 @@ QString TestData::getIloscCieczy(const QList<float> &dozowanie, unsigned int nrP
     sumaStr.remove(0,1);
     sumaStr += QString("= %1").arg(QString::number(suma, 'f', 1));
     if (sumCnt == 1) {
-        return QString("<p>%1 %2 ml</p>").arg(QString(TestData::iloscCieczy), QString::number(dozowanie.at(0),'f', 1));
+        return QString("<p style=\"font-size:12px\">%1 %2 ml</p>").arg(QString(TestData::iloscCieczy), QString::number(dozowanie.at(0),'f', 1));
     }
-    return QString("<p>%1 %2 ml</p>").arg(QString(TestData::iloscCieczy), sumaStr);
+    return QString("<p style=\"font-size:12px\">%1 %2 ml</p>").arg(QString(TestData::iloscCieczy), sumaStr);
 }
 
 QString TestData::getWarunkiPoczatkowe(const ProbaType &proba) const
 {
-    QString ret = QString("<h3>%1</h3>").arg(QString(TestData::warunkiPoczatkowe));
-    ret += QString("<p>%1 %2 &#x2103;").arg(QString(TestData::tempParownika), QString::number(proba.tempParownikaDozowanie, 'f', 1));
-    ret += QString("<p>%1 %2 &#x2103;").arg(QString(TestData::tempKomory), QString::number(proba.tempKomoryDozowanie, 'f', 1));
-    ret += QString("<p>%1 %2 mBar").arg(QString(TestData::cisnKomory), QString::number(10*proba.cisnKomoryDozowanie, 'f', 1));
+    QString ret = QString("<h3 style=\"font-size:16px\">%1</h3>").arg(QString(TestData::warunkiPoczatkowe));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(TestData::tempParownika), QString::number(proba.tempParownikaDozowanie, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(TestData::tempKomory), QString::number(proba.tempKomoryDozowanie, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 mBar").arg(QString(TestData::cisnKomory), QString::number(10*proba.cisnKomoryDozowanie, 'f', 1));
     return ret;
 }
 
 QString TestData::getWarunkiPrzedZaplonem(const ProbaType &proba) const
 {
-    QString ret = QString("<h3>%1</h3>").arg(QString(TestData::warunkiPrzedZaplonem));
-    ret += QString("<p>%1 %2 &#x2103;").arg(QString(TestData::tempKomory), QString::number(proba.tempKomoryZaplon, 'f', 1));
-    ret += QString("<p>%1 %2 mBar").arg(QString(TestData::cisnKomory), QString::number(10*proba.cisnKomoryZaplon, 'f', 1));
-    ret += QString("<p>%1 %2 %").arg(QString(TestData::koncetracjaPar), QString::number(proba.koncentracjaPar, 'f', 1));
+    QString ret = QString("<h3 style=\"font-size:16px\">%1</h3>").arg(QString(TestData::warunkiPrzedZaplonem));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(TestData::tempKomory), QString::number(proba.tempKomoryZaplon, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 mBar").arg(QString(TestData::cisnKomory), QString::number(10*proba.cisnKomoryZaplon, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 %").arg(QString(TestData::koncetracjaPar), QString::number(proba.koncentracjaPar, 'f', 1));
     if (proba.zlaKoncetracja) {
-        ret += QString("<p><u>%1</u></p>").arg(TestData::zlaKoncetracjaPar);
+        ret += QString("<pstyle=\"font-size:12px\"><u>%1</u></p>").arg(TestData::zlaKoncetracjaPar);
     }
     return ret;
 }
 
 QString TestData::getOdczytyStezen(const ProbaType &proba) const
 {
-    QString ret = QString("<p>%1").arg(TestData::odczytyStezen);
+    QString ret = QString("<pstyle=\"font-size:12px\">%1").arg(TestData::odczytyStezen);
     ret += QString("<ul>");
     ret += QString("<li>VOC1 = %1 %</li>").arg(QString::number(proba.voc1, 'f', 1));
     ret += QString("<li>VOC2 = %1 %</li>").arg(QString::number(proba.voc2, 'f', 1));
@@ -254,10 +272,10 @@ QString TestData::getOdczytyStezen(const ProbaType &proba) const
 
 QString TestData::getWarunkiPoUdanejProbie() const
 {
-    QString ret = QString("<h3>%1</h3>").arg(QString(TestData::warunkiPoUdanejProba));
-    ret += QString("<p>%1 %2 &#x2103;").arg(QString(TestData::tempKomory), QString::number(d.tempKomoraKoniec, 'f', 1));
-    ret += QString("<p>%1 %2 mBar").arg(QString(TestData::cisnKomory), QString::number(10*d.cisnienieKoniec, 'f', 1));
-    ret += QString("<p>%1").arg(TestData::odczytyStezen);
+    QString ret = QString("<h3 style=\"font-size:14px\">%1</h3>").arg(QString(TestData::warunkiPoUdanejProba));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(TestData::tempKomory), QString::number(d.tempKomoraKoniec, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 mBar").arg(QString(TestData::cisnKomory), QString::number(10*d.cisnienieKoniec, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1").arg(TestData::odczytyStezen);
     ret += QString("<ul>");
     ret += QString("<li>VOC1 = %1 %</li>").arg(QString::number(d.voc1, 'f', 1));
     ret += QString("<li>VOC2 = %1 %</li>").arg(QString::number(d.voc2, 'f', 1));
@@ -267,22 +285,209 @@ QString TestData::getWarunkiPoUdanejProbie() const
     return ret + QString("</ul></p>");
 }
 
-
-QString TestData::getImageWykres(analogIn id, float min, float max, const QString &title, const QString &jedn) const
+QString TestData::getImageWykresPage(analogIn id, float min, float max, const QString &title,
+                                     const QString &subtite, const QString &jedn) const
 {
-    QList<float> singleVals;
-    foreach(auto allvalue, values) {
-        float value = allvalue[(short)id];
-        if (value < min)
-            value = min;
-        if (value > max)
-            value = max;
-        singleVals.append(value-min);
+    QString ret = QString("<div style=\"page-break-before:always\" ><p><b>%1</b></p><p>%2</p><p style=\"text-align:center\">").arg(title, subtite);
+    ret += getImageWykres(id, min, max, jedn);
+    ret += "</p></div>";
+    return ret;
+
+}
+
+
+QString TestData::getImageWykres(analogIn id, float min, float max, const QString &jedn) const
+{
+    /*
+    QVector<float> allvalue;
+
+    QVector<float> singleVals;
+
+    for (int i = 0 ; i < 500; i++) {
+        allvalue << (20 + (i/15)*0.3);
     }
 
-    const int width = 1000;
-    const int height = 850;
-    const float ratioX = 850/(max-min);
+    float prevvalue = allvalue.last();
+    for (int i = 0; i < 50; i++) {
+        allvalue << prevvalue;
+    }
+
+    for (int i = 0 ; i < 400; i++) {
+        allvalue << (prevvalue - (i/15)*0.3);
+    }
+    float prevvalue2 = allvalue.last();
+
+    for (int i = 0 ; i < 150; i++) {
+        allvalue << prevvalue2;
+    }
+
+    prevvalue = allvalue.last();
+    for (int i = 0 ; i < 800; i++) {
+        allvalue << (prevvalue + (i/5)*0.3);
+    }
+    prevvalue2 = allvalue.last();
+    for (int i = 0 ; i < 50; i++) {
+        allvalue << prevvalue2;
+    }
+
+    for (int i = 0 ; i < 500; i++) {
+        allvalue << prevvalue2 - (i/10)*0.2;
+    }
+
+    //allvalue[id] = singleVals;
+
+    short decVal = 0;
+    float sumaDec = 0.0;
+    float value;
+    //foreach(auto allvalue, values) {
+    //    sumaDec += allvalue[(short)id];
+    foreach (auto val, allvalue) {
+        sumaDec += val;
+        ++decVal;
+        if (decVal == 10) {
+            decVal = 0;
+            value = sumaDec / 10;
+            sumaDec = 0.0;
+            if (value < min)
+                value = min;
+            if (value > max)
+                value = max;
+            singleVals.append(value-min);
+        }
+    }
+    */
+    QVector<float> singleVals;
+    short decVal = 0;
+    float sumaDec = 0.0;
+    float value;
+    foreach (auto val8, values) {
+        float val = val8[id];
+        sumaDec += val;
+        ++decVal;
+        if (decVal == 10) {
+            decVal = 0;
+            value = sumaDec / 10.0;
+            sumaDec = 0.0;
+            if (value < min)
+                value = min;
+            if (value > max)
+                value = max;
+            singleVals.append(value-min);
+        }
+    }
+
+    const int width = 1250;
+    const int height = 950;
+
+    float valperYpx = (height - 50) / (max - min);
+    QPixmap *pix = new QPixmap(width, height);
+    QPainter *paint = new QPainter(pix);
+
+    paint->setPen(Qt::black);
+    paint->setBrush(Qt::white);
+    QFont f = paint->font();
+    f.setPixelSize(20);
+    f.setBold(true);
+    paint->setFont(f);
+    QRect rect = QRect(0, 0, width - 1, height - 1);
+    paint->fillRect(rect, QBrush(Qt::white));
+    paint->drawRect(rect);//5 radius apiece
+
+    paint->drawText(QPoint(0.45*width, height-5), "Czas, s");
+
+    short pixelsper1s = 5;
+    int beforeOSY = 50;
+
+    int nrSec = 0;
+    int actWidth = beforeOSY;
+    QPen darkgrayPen = QPen(Qt::darkGray);
+    darkgrayPen.setWidth(3);
+    QPen grayPen = QPen(Qt::gray);
+    grayPen.setWidth(1);
+    QPen blackPen = QPen(Qt::black);
+    while (actWidth < width) {
+
+        if (nrSec % 10 == 0) {
+            paint->setPen(darkgrayPen);
+            paint->drawLine(actWidth, 0, actWidth, height-50);
+            paint->setPen(blackPen);
+            if (nrSec != 240)
+                paint->drawText(actWidth-15, height-25, QString::number(nrSec));
+        } else {
+            paint->setPen(grayPen);
+            paint->drawLine(actWidth, 0, actWidth, height-50);
+        }
+        nrSec += 2;
+        actWidth += 2*pixelsper1s;
+    }
+
+    int maxHeight = height - 50;
+    for (short id = 0; id < 100; id+=2) {
+        int y = maxHeight - (maxHeight*id/100.0);
+        if (id % 10 == 0) {
+            paint->setPen(darkgrayPen);
+            paint->drawLine(beforeOSY, y, width, y);
+            paint->setPen(blackPen);
+            paint->drawText(25, y, QString::number(id));
+        } else {
+            paint->setPen(grayPen);
+            paint->drawLine(beforeOSY, y, width, y);
+        }
+    }
+    paint->setPen(darkgrayPen);
+    paint->drawLine(beforeOSY, 2, width, 2);
+    paint->drawLine(width - 1, 0, width - 1, height-50);
+    paint->setPen(blackPen);
+    paint->drawText(10, 20, "100");
+
+
+    //paint->setPen(darkgrayPen);
+    //paint->drawLine(beforeOSY, height-50, actWidth, height-50);
+    //paint->setPen(blackPen);
+    //paint->drawText(actWidth-15, height-25, QString::number(nrSec));
+
+    QPoint * points = new QPoint[singleVals.size()];
+    nrSec = 0;
+    actWidth = beforeOSY;
+    qDebug() << "Tworzenie punktow " << singleVals.size();
+    while (actWidth < width && nrSec < singleVals.size()) {
+        qDebug() << "Punkt " << nrSec << " " << actWidth << ", " << (max - singleVals.at(nrSec))*valperYpx;
+        points[nrSec] = QPoint(actWidth, (max - singleVals.at(nrSec))*valperYpx);
+        actWidth += pixelsper1s;
+        ++nrSec;
+    }
+
+    QPen pen = QPen(Qt::green);
+    pen.setWidth(5);
+    paint->setPen(pen);
+    int ind = 1;
+    while (ind < nrSec) {
+        paint->drawLine(points[ind-1], points[ind]);
+        ++ind;
+    }
+    //
+
+    QTransform transform;
+    QTransform trans = transform.rotate(270);
+    QPixmap p1(pix->transformed(trans));
+
+    QPainter *paint270 = new QPainter(&p1);
+    paint270->setFont(f);
+    paint270->drawText((height-20)/2, width-5, QString("%1").arg(jedn));
+
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+
+    //QPixmap p2(p1.scaledToHeight(840));
+    //p2.save(&buffer, "PNG");
+    p1.save(&buffer, "PNG");
+    //pix->save(&buffer, "PNG");
+
+    return QString("<img  src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
+
+
+#if 0
+    const float ratioX = (height - 50)/(max-min);
 
     QPoint * points = new QPoint[singleVals.size()];
     unsigned int px = 0;
@@ -291,8 +496,7 @@ QString TestData::getImageWykres(analogIn id, float min, float max, const QStrin
     }
     QSize A4Size = QSize(width, height);
     //QPixmap *pix = new QPixmap(px, 1000);
-    QPixmap *pix = new QPixmap(A4Size.width(), A4Size.height());
-    QPainter *paint = new QPainter(pix);
+
 
     paint->setBrush(Qt::white);
     QRect rect = QRect(0, 0, A4Size.width() - 1, A4Size.height() - 1);
@@ -339,16 +543,21 @@ QString TestData::getImageWykres(analogIn id, float min, float max, const QStrin
     p1.save(&buffer, "PNG");
     //pix->save(&buffer, "PNG");
 
-    return QString("<p><img  style=\"page-break-before:always\" src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+    return QString("<p><img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+#endif
 }
 
-QString TestData::getPicture(const QString &filename) const
+QString TestData::getPicture(int num, const QPair<QString,QString> &filename) const
 {
-    QPixmap p(filename);
+    QPixmap p(filename.first);
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     p.save(&buffer, "PNG");
-    return QString("<p><img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+    QString ret = QString("<div style=\"\">");
+    ret += QString("<p style=\"text-align: center;\"><img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+    ret += QString("<p style=\"text-align: center; font-size: 14px; margin-bottom: 75px;\">Fot %1. %2</p>").arg(num).arg(filename.second);
+    ret += QString("</div>");
+    return ret;
 }
 
 QString TestData::getComment() const
@@ -359,11 +568,16 @@ QString TestData::getComment() const
 QString TestData::getImages() const
 {
     QString ret;
+    if (fileList.size() == 0)
+        return "";
+
     for (int i =0; i < fileList.size(); i+= 2) {
         ret += "<div style=\"page-break-before:always\">";
-        ret += getPicture(fileList.at(i));
+        if (i == 0)
+            ret += QString("<p style=\"text-align: center; font-size: 20px; margin-bottom: 25px;\"><b>%1</b></p>").arg(zdjeciaPrzeprBadania);
+        ret += getPicture(i+1, fileList.at(i));
         if (i + 1 < fileList.size()) {
-            ret += getPicture(fileList.at(i+1));
+            ret += getPicture(i+2, fileList.at(i+1));
         }
         ret += "</div>";
     }
@@ -386,20 +600,21 @@ void TestData::setListValues(const QList<QVector<float> > &values)
 }
 
 void TestData::setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
-                                const QString & opis, const QString & unit)
+                                const QString & opis, const QString &opis2, const QString & unit)
 {
     visibleWykresType value;
     value.show = show;
     value.min = minV;
     value.max = maxV;
     value.opis = opis;
+    value.opis2 = opis2;
     value.jedn = unit;
     visibleWykres[wykresId] = value;
 }
 
-void TestData::addImage(const QString &file)
+void TestData::addImage(const QString &file, const QString &descr)
 {
-    fileList << file;
+    fileList << QPair<QString,QString>(file, descr);
 }
 
 void TestData::clearImage()

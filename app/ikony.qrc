@@ -10,4 +10,7 @@
         <file>zawor.png</file>
     </qresource>
     <qresource prefix="/zawory"/>
+    <qresource prefix="/logo">
+        <file>LogoSGSP.png</file>
+    </qresource>
 </RCC>

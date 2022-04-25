@@ -61,7 +61,7 @@ void NowyTest_3::updateCisnieie()
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
         ustaloneCisnienie = avg;
-        ui->text5->setText(QString("Uzyskano podciśnienie %1 mBar.").arg(avg));
+        ui->text5->setText(QString("Uzyskano podciśnienie %1 kPa.").arg(avg));
         cisnienieTimer.stop();
 
         updateOutput(o_pompa_prozniowa, false);
@@ -74,7 +74,7 @@ void NowyTest_3::updateCisnieie()
         ui->arrow_4->setVisible(false);
         cisnienieTimer.stop();
         ustaloneCisnienie = avg;
-        ui->text5->setText(QString("Uzyskano podciśnienie %1 mBar.").arg(ustaloneCisnienie));
+        ui->text5->setText(QString("Uzyskano podciśnienie %1 kPa.").arg(ustaloneCisnienie));
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
         ustalanieCisnienia = false;

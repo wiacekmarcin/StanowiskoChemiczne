@@ -146,11 +146,11 @@ void Ustawienia::initialSetting()
     setWejscie(i_drzwi_prawe,        QString::fromUtf8("Drzwi komory PRAWE"));
     setWejscie(i_wentylacja_lewa,    QString::fromUtf8("Zaw\303\263r went. WYLOT"));
     setWejscie(i_wentylacja_prawa,   QString::fromUtf8("Zaw\303\263r went. WLOT"));
-    setWejscie(i_pom_stez_1,         QString::fromUtf8("Zaw\303\263r pom. st\304\231\305\274e\305\204 - IN"));
-    setWejscie(i_pom_stez_2,         QString::fromUtf8("Zaw\303\263r pom. st\304\231\305\274e\305\204. - OUT"));
-    setWejscie(i_wlot_powietrza,     QString::fromUtf8("Zaw\303\263r podawania powietrza"));
+    setWejscie(i_pom_stez_1,         QString::fromUtf8("Zaw\303\263r st\304\231\305\274e\305\204 - IN"));
+    setWejscie(i_pom_stez_2,         QString::fromUtf8("Zaw\303\263r st\304\231\305\274e\305\204 - OUT"));
+    setWejscie(i_wlot_powietrza,     QString::fromUtf8("Zaw\303\263r powietrza"));
     setWejscie(i_proznia,            QString::fromUtf8("Zaw\303\263r pr\303\263\305\274ni"));
-    setWejscie(i_pilot,              QString::fromUtf8("Pilot zdalnego sterowania"));
+    setWejscie(i_pilot,              QString::fromUtf8("Pilot"));
 
     setWyjscie(o_hv_onoff,           QString::fromUtf8("Iskra elektryczna ON/OFF"));
     setWyjscie(o_hv_bezpiecznik,     QString::fromUtf8("Iskra elektryczna Bezpiecznik"));

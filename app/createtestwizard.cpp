@@ -172,18 +172,7 @@ void CreateTestWizard::setFinished(bool success)
     disconnect(this, nullptr, nullptr, nullptr);
 
     if (success) {
-        QPrinter printer(QPrinter::PrinterResolution);
-        QTextDocument * textDocument = new QTextDocument;
 
-        QTextCursor cursor(textDocument);
-
-        textDocument->setHtml(getTestData()->getBody());
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOutputFileName("test.pdf");
-        printer.setPageSize(QPageSize(QPageSize::A4));
-        qInfo() << printer.paperSize(QPrinter::Point);
-        printer.setFullPage(true);
-        textDocument->print(&printer);
     }
 }
 

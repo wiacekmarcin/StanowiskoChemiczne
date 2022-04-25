@@ -200,7 +200,7 @@
       <item>
        <widget class="QLabel" name="text5">
         <property name="text">
-         <string>Uzyskano podciśnienie [CISNIENIE] mBar .</string>
+         <string>Uzyskano podciśnienie [CISNIENIE] kPa .</string>
         </property>
        </widget>
       </item>

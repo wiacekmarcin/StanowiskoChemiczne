@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <QStringList>
 #include <QList>
+#include <QPair>
 #include <QObject>
 
 typedef struct proba {
@@ -57,6 +58,7 @@ typedef struct visWykres {
     float min;
     float max;
     QString opis;
+    QString opis2;
     QString jedn;
 } visibleWykresType;
 
@@ -116,8 +118,8 @@ public:
     void setListValues(const QList<QVector<float>> & values);
 
     void setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
-                          const QString &opis, const QString &unit);
-    void addImage(const QString & file);
+                          const QString &opis, const QString & opis2, const QString &unit);
+    void addImage(const QString & file, const QString &descr);
     void clearImage();
     void setComment(const QString &comm);
 
@@ -128,8 +130,9 @@ protected:
 
 /** Funkcje od formularza **/
     static QString getTitle();
-    static QString getTemat() { return QString("<div><p><b>%1</b><br>%2</p></div>").arg(temat, tematValue); }
-    QString getData() const { return QString("<p>%1%2</p>").arg(TestData::dataWykonania, d.dataTestu.toString("dd.MM.yyyy hh:mm")); }
+    QString getTemat() const;
+    QString getLogo() const;
+    QString getData() const { return QString("<p style=\"font-size:14px;\">%1%2</p>").arg(TestData::dataWykonania, d.dataTestu.toString("dd.MM.yyyy hh:mm")); }
     QString getUczestnicy() const ;
     QString getNazwaCieczy() const ;
     QString getTempKomoraStart() const ;
@@ -145,14 +148,15 @@ protected:
     QString getWarunkiPoUdanejProbie() const;
 
     QString getImages() const;
+    QString getImageWykresPage(analogIn id, float min, float max, const QString &title, const QString &subtite, const QString &jedn) const;
 private:
     static QString getTitle1() { return QString("<h1>%1</h1>").arg(TestData::title1); }
     static QString getTitle2() { return QString("<h1>%1</h1>").arg(TestData::title2); }
 
-    QString getImageWykres(analogIn id, float min, float max,
-                           const QString & title, const QString & jedn) const;
+    QString getImageWykres(analogIn id, float min, float max, const QString & jedn) const;
 
-    QString getPicture(const QString & filename) const;
+
+    QString getPicture(int num, const QPair<QString, QString> &filename) const;
     QString getComment() const;
 
 
@@ -180,13 +184,14 @@ private:
     static constexpr char zlaKoncetracjaPar[]="!!! UWAGA: w tym momencie wyliczona wartość koncentracji par cieczy, może być obarczona błędem, wynikającym ze zmiany temp. wew. komory.";
     static constexpr char odczytyStezen[]   = "Odczyty z przetworników stężenia:";
     static constexpr char warunkiPoUdanejProba[]="Warunki po udanej próbie zapłonu mieszaniny par cieczy z powietrzem:";
+    static constexpr char zdjeciaPrzeprBadania[] = "Zdjęcia z przeprowadzonego badania";
 
     SDataType d;
     QString nazwaTestu;
 
     QList<QVector<float>> values;
     QMap<analogIn, visibleWykresType> visibleWykres;
-    QStringList fileList;
+    QList<QPair<QString, QString>> fileList;
     QString comment;
 };
 #endif // TESTDATA_H

@@ -12,8 +12,16 @@ namespace Ui {
 class TestTabsWidget;
 }
 
-class CreateTestWizard;
 class QCheckBox;
+class QLineEdit;
+
+typedef struct _imagesOpis {
+    QCheckBox * box;
+    QLineEdit * lineedit;
+} ImagesOpisType;
+
+class CreateTestWizard;
+
 
 class TestTabsWidget : public QWidget
 {
@@ -41,7 +49,7 @@ private:
     QDir testWorkDir;
     QString testWorkDirName;
     QStringList images;
-    QList<QCheckBox*> m_imageCheckBox;
+    QList<ImagesOpisType> m_imageCheckBox;
 };
 
 #endif // TESTTABSWIDGET_H
