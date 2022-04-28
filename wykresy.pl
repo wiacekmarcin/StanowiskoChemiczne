@@ -2,12 +2,46 @@ import os
 import math
 from PIL import Image, ImageDraw, ImageFont
 
+def getOsX(i, ratio, minv, maxv):
+    valx = maxv - minv
+    realVal = i / ratio
+    if valx < 120:
+        return "%2.1f\"" % realVal
+    else:
+        realVal = int(realVal);
 
-width = 1250
-height = 950
+    if valx < 250:
+        return "%d\"" % realVal
 
-minf = 0
-maxf = 100
+    realVal = realVal / 60.0
+
+    if (valx < 12000):
+        return "%2.1f'" % realVal
+    
+    return "%d'" % int(realVal);
+
+def getOsY(i, imax, minv, maxv):
+    valy = maxv - minv
+    realVal = (i / imax)* valy + minv
+    if valy < 1:
+        return "%1.3f" % realVal
+    if valy < 10:
+        return "%2.2f" % realVal
+
+    return "%2.0f" % realVal
+
+
+
+width = 1300
+height = 900
+marginleft = 50
+marginright = 50
+margintop = 50
+marginbottom = 50
+
+minv = 15
+maxv = 115
+secsX = 12
 
 img = Image.new("RGB", (width, height), "white")
 draw = ImageDraw.Draw(img)
@@ -19,8 +53,9 @@ points = []
 for i in range(100000) :
     points.append(math.sin(i/math.pi))
     
-valperYpx = (height - 50) / (maxf - minf);
-valperXpx = 10
+valperYpx = (height - margintop - marginbottom) / (maxv - minv);
+valperXpx = (width - marginleft - marginright) / secsX;
+
 draw.rectangle((0, 0, width - 1, height - 1), outline="black")
 draw.text((0.45*width, height-5), "Czas, [s]", font=fnt, fill="black")
 
@@ -28,36 +63,35 @@ pixelsper1s = 5
 beforeOSY = 50
 
 nrSec = 0
-actWidth = beforeOSY
+actWidth = 0
     
-while actWidth < width:
+while actWidth <= (width - marginright - marginleft):
     if nrSec % 10 == 0:
-        draw.line((actWidth, 0, actWidth, height-50), width=3, fill="darkgray")
-        if nrSec != 240:
-            draw.text((actWidth-15, height-25), "%d" %nrSec, font=fnt, fill="black")
+        draw.line((marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom), width=3, fill="darkgray")
+        draw.text((marginleft + actWidth - 15, height - 25), getOsX(actWidth, valperXpx, 0, secsX), font=fnt, fill="black")
     else:
-        draw.line((actWidth, 0, actWidth, height-50), width=1, fill="gray")
+        draw.line((marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom), width=1, fill="gray")
     nrSec += 2
     actWidth += 2*pixelsper1s
 
 
 
-maxHeight = height - 50
+maxHeight = height - margintop - marginbottom;
 i = 0;
-while i < 100:
+while i <= 100:
     y = maxHeight - (maxHeight*i/100.0)
     if i % 10 == 0 : 
-        draw.text((25, y), "%d" % i, font=fnt, fill="black" )
-        draw.line((beforeOSY, y, width, y), width = 3, fill = "darkgray" )
+        draw.text((5, y+margintop), getOsY(i, 100, minv, maxv), font=fnt, fill="black" )
+        draw.line((marginleft, margintop+y, width-marginright, margintop+y), width = 3, fill = "darkgray" )
     else:
-        draw.line((beforeOSY, y, width, y), width = 1, fill = "gray")
+        draw.line((marginleft, margintop+y, width-marginright, margintop+y), width = 1, fill = "gray")
     i+=2
 
 
-    draw.line((beforeOSY, 2, width, 2), width = 3, fill = "darkgray")
-    draw.line((width - 1, 0, width - 1, height-50), width = 3, fill = "darkgray")
+    #draw.line((beforeOSY, 2, width, 2), width = 3, fill = "darkgray")
+    #draw.line((width - 1, 0, width - 1, height-50), width = 3, fill = "darkgray")
     
-    draw.text((10, 20), "100", font=fnt, fill="black");
+    #draw.text((10, 20), "100", font=fnt, fill="black");
 
 """
 
