@@ -74,7 +74,7 @@ void NowyTest_8::on_pbOK_2_clicked()
     dt->setCisnienieKomoryWarunkiKoncowe(getCzujnik(a_cisn_komora));
     updateOutput(o_pompa_powietrza, false);
     setZ_warningMask(0);
-    dt->setStezeniaPoZaplonie(getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
+    dt->setStezeniaPoZaplonie(getCzujnik(a_voc1), getCzujnik(a_voc2), getCzujnik(a_o2),
                    getCzujnik(a_co2), getCzujnik(a_8));
     ui->pbOK_2->setEnabled(false);
     ui->arrow_2->setVisible(false);

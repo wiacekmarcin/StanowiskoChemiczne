@@ -10,6 +10,11 @@ class ProjektWidget;
 #include <QDateTime>
 #include <QString>
 
+#include <QDataStream>
+
+
+
+
 class ProjectItem
 {
 public:
@@ -38,6 +43,9 @@ public:
     const QDateTime &getCreateDt() const;
     void setCreateDt(const QDateTime &newCreateDt);
 
+    friend QDataStream & operator<<(QDataStream & ds, const ProjectItem & item);
+    friend QDataStream & operator>>(QDataStream & ds, ProjectItem & item);
+
 private:
     QString name;
     QString members;
@@ -46,5 +54,8 @@ private:
     QString createData;
     QDateTime createDt;
 };
+
+QDataStream & operator<<(QDataStream & ds, const ProjectItem & item);
+QDataStream & operator>>(QDataStream & ds, ProjectItem & item);
 
 #endif // PROJECTITEM_H

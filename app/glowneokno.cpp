@@ -2,7 +2,7 @@
 #include "ui_glowneokno.h"
 
 #include "nowyprojectdlg.h"
-#include "czujnikanalogowyustawieniaokno.h"
+#include "czujnikianalogoweustawieniaframe.h"
 
 //#include <QMediaPlayer>
 //#include <QMediaPlaylist>
@@ -23,6 +23,7 @@
 #include "dozowniksettings.h"
 #include "ustawieniadozownika.h"
 #include "ustawienia.h"
+#include "ustawieniadialog.h"
 
 #include "wersjadlg.h"
 
@@ -77,7 +78,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
         act_wykresy[i] = new QAction(this);
         act_wykresy[i]->setObjectName(QString("actionCzujnikChart_%1").arg(i));
         act_wykresy[i]->setCheckable(true);
-        act_wykresy[i]->setText(settings.getName(i));
+        act_wykresy[i]->setText(settings.getCzAnalName((analogIn)i));
         connect(act_wykresy[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
         signalMapper->setMapping(act_wykresy[i],     i);
         //connect(act_wykresy[i], &QAction::triggered, [this, i] { wybierzCzujke(i); });
@@ -85,7 +86,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
         act_wyzwal[i] = new QAction(this);
         act_wyzwal[i]->setObjectName(QString("actionCzujnikTrigger_%1").arg(i));
         act_wyzwal[i]->setCheckable(true);
-        act_wyzwal[i]->setText(settings.getName(i));
+        act_wyzwal[i]->setText(settings.getCzAnalName((analogIn)i));
         connect(act_wyzwal[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
         signalMapper->setMapping(act_wyzwal[i],     settings.maxCzujekAnal + i);
         //connect(act_wyzwal[i], &QAction::triggered, [this, i] { wybierzCzujke(settings.maxCzujek+i); });
@@ -117,22 +118,12 @@ GlowneOkno::~GlowneOkno()
     urzadzenia->setStop();
     thReadDigAnal.quit();
     thDozownik.quit();
-
     thReadDigAnal.wait();
     thDozownik.wait();
+    //thReadDigAnal.terminate();
+    //thDozownik.terminate();
 
     delete ui;
-}
-
-void GlowneOkno::on_actionUstawienia_sygna_w_triggered()
-{
-    CzujnikAnalogowyUstawieniaOkno *dlg = new CzujnikAnalogowyUstawieniaOkno(settings, this);
-    if (dlg->exec() == QDialog::Accepted)
-    {
-        dlg->saveData(settings);
-        ui->analog->setParams(settings);
-        setActionText();
-    }
 }
 
 void GlowneOkno::on_actionNowy_projekt_triggered()
@@ -145,6 +136,9 @@ void GlowneOkno::on_actionNowy_projekt_triggered()
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(dlg->getName()));
     projekty[qtreewidgetitem] = ProjectItem(dlg->getName(), dlg->getMembers(), dlg->getWorkDir(), dlg->getComment(),
                                             dlg->getDate(), dlg->getDateTime());
+
+    mapProjektTesty[qtreewidgetitem] = QList<QTreeWidgetItem*>();
+
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
     changeSelectedTest();
@@ -157,11 +151,14 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     if (selectedProject == nullptr)
         return;
 
-    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(QString("Test %1").arg(nrTest++)));
+    QString testName = QString("Test %1").arg(nrTest++);
+    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(selectedProject, QStringList(testName));
     selectedProject->addChild(qtreewidgetitem);
-     selectedTest = qtreewidgetitem;
+    selectedTest = qtreewidgetitem;
+
+    mapProjektTesty[selectedProject].append(qtreewidgetitem);
     
-    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject],
+    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject], testName,
                                             ui->testyStackedWidget);
 
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
@@ -169,7 +166,8 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     testy[selectedTest]->createTestWizard()->init(settings,
                                                   qtreewidgetitem->data(0, Qt::DisplayRole).toString());
 
-
+    ui->treeWidget->setCurrentItem(selectedTest);
+    mapTesty[selectedTest] = selectedProject;
     testy[selectedTest]->setActive();
 
 
@@ -224,12 +222,9 @@ void GlowneOkno::on_actionNowy_Test_triggered()
     connect(testy[selectedTest]->createTestWizard()->getTestData(), &TestData::error,
             urzadzenia, &Urzadzenia::test_error, Qt::QueuedConnection);
 
-
-    urzadzenia->readInputs();
-    ui->treeWidget->setCurrentItem(selectedTest);
-    mapTesty[selectedTest] = selectedProject;
     changeSelectedTest();
     disableNowyTest(true);
+    urzadzenia->readInputs();
 }
 
 void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column */)
@@ -299,8 +294,8 @@ void GlowneOkno::changeSelectedTest()
 void GlowneOkno::setActionText()
 {
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
-        act_wykresy[i]->setText(settings.getName(i+1));
-        act_wyzwal[i]->setText(settings.getName(i+1));
+        act_wykresy[i]->setText(settings.getCzAnalName((analogIn)i));
+        act_wyzwal[i]->setText(settings.getCzAnalName((analogIn)i));
     }
 }
 
@@ -344,5 +339,107 @@ void GlowneOkno::on_actionWersja_triggered()
     WersjaDlg * dlg = new WersjaDlg(this);
     dlg->exec();
     delete dlg;
+}
+
+
+void GlowneOkno::on_actionUstawieniaOgolne_triggered()
+{
+    UserPrivilige user = U_STUDENT;
+    UstawieniaDialog *dlg = new UstawieniaDialog(user, settings, this);
+    if (dlg->exec() == QDialog::Accepted)
+    {
+        //dlg->saveData(settings);
+        ui->analog->setParams(settings);
+        setActionText();
+    }
+}
+
+
+void GlowneOkno::on_actionZapisz_triggered()
+{
+    QFile file("stanowisko.dat");
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+
+    // Write a header with a "magic number" and a version
+    out << (quint32)0xA0B0C0D0;
+    out << (qint32)104;
+
+    out.setVersion(QDataStream::Qt_5_15);
+
+    out << (quint32)mapProjektTesty.size();
+    qInfo() << (quint32)mapProjektTesty.size();
+
+    for (QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*>>::iterator it = mapProjektTesty.begin();
+         it != mapProjektTesty.end(); ++it) {
+        qInfo() << "Projekt";
+        out << projekty[it.key()];
+        out << (quint32)it.value().size();
+        for (QList<QTreeWidgetItem*>::iterator itt = it.value().begin();
+             itt != it.value().end(); ++itt) {
+            qInfo() << "nazwa" << testy[*itt]->getTestName();
+            out << testy[*itt]->getTestName();
+            out << *testy[*itt];
+        }
+        out << (quint32)0xA0B0C0D0;
+    }
+}
+
+
+void GlowneOkno::on_actionOtw_rz_triggered()
+{
+    QFile file("stanowisko.dat");
+    file.open(QIODevice::ReadOnly);
+
+    QDataStream in(&file);
+
+    // Read and check the header
+    quint32 magic;
+    in >> magic;
+    if (magic != 0xA0B0C0D0)
+        return ; //ERROR
+
+    // Read the version
+    qint32 version;
+    in >> version;
+
+    if (version != 104)
+        return ; //inna wersja
+
+    in.setVersion(QDataStream::Qt_5_15);
+
+    quint32 projektysize;
+    quint32 testysize;
+    in >> projektysize;
+    for(uint i = 0 ; i < projektysize; ++i) {
+        ProjectItem pr;
+        in >> pr;
+        QTreeWidgetItem *projectItem = new QTreeWidgetItem(ui->treeWidget, QStringList() << pr.getName());
+        projekty[projectItem] = pr;
+
+        mapProjektTesty[projectItem] = QList<QTreeWidgetItem*>();
+        in >> testysize;
+        for(uint j = 0 ; j < testysize; ++j) {
+            QString testname;
+            in >> testname;
+            QTreeWidgetItem *testIitem = new QTreeWidgetItem(projectItem, QStringList(testname));
+            projectItem->addChild(testIitem);
+            mapProjektTesty[projectItem].append(testIitem);
+
+            TestTabsWidget *tb = new TestTabsWidget(pr, testname, ui->testyStackedWidget);
+            in >> (*tb);
+
+            testy[testIitem] = tb;
+            mapTesty[testIitem] = projectItem;
+            ui->testyStackedWidget->addWidget(tb);
+            tb->createTestWizard()->init(settings, testname);
+            tb->createTestWizard()->finishedTest(true);
+            tb->finishedTest(true);
+
+        }
+        in >> magic;
+        if (magic != 0xA0B0C0D0)
+            continue;
+    }
 }
 

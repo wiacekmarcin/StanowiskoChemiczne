@@ -5,8 +5,8 @@
 #include <QSettings>
 #include <QMap>
 typedef enum _aInput {
-    a_vol1              = 0,
-    a_vol2              = 1,
+    a_voc1              = 0,
+    a_voc2              = 1,
     a_o2                = 2,
     a_co2               = 3,
     a_cisn_komora       = 4,
@@ -48,6 +48,13 @@ typedef enum _zaplon {
     z_iskra_plomien     = 3
 } ZaplonRodzaj;
 
+typedef enum _kindUser {
+    U_NONE  = 0,
+    U_STUDENT = 0x1,
+    U_ADMIN = 0x3,
+    U_SERVISANT = 0x83,
+} UserPrivilige;
+
 #define PLOMIEN QString("Płomień")
 #define ISKRA_MECH QString("Iskra mechaniczna")
 #define ISKRA_ELE QString("Iskra elektryczna")
@@ -65,13 +72,14 @@ public:
         QString name;
         QString unit;
         double ratio;
+        QString baseUnit;
+        double convert;
     } CzujnikAnalogowy;
 
-    void setCzujka(short id, const QString &name, const QString &unit, const double &ratio);
-    CzujnikAnalogowy getCzujka(short id) const;
-    QString getName(short id) const;
-    QString getUnit(short id) const;
-    double getRatio(short id) const;
+    void setCzujka(analogIn id, const CzujnikAnalogowy &czAnal);
+    CzujnikAnalogowy getCzujnikAnalogowyUstawienia(analogIn id) const;
+    const QString & getCzAnalName(analogIn id) const;
+    double getRatio(analogIn id) const;
 
     static constexpr int maxCzujekAnal = 8;
     static constexpr int maxCzujekCyfrIn = 9;
@@ -106,6 +114,7 @@ public:
 
 protected:
     void initialSetting();
+    void setCzujka(analogIn id, const QString & name, const QString & baseUnit, const QString & unit, const double & ratio, const double & convert);
 
 private:
 

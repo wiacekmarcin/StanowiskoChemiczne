@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QDir>
 #include <QStringList>
+#include <QDataStream>
 
 #include "projectitem.h"
 #include "testdata.h"
@@ -29,16 +30,20 @@ class TestTabsWidget : public QWidget
 
 public:
     explicit TestTabsWidget(QWidget *parent = 0);
-    TestTabsWidget(const ProjectItem & pr, QWidget * parent);
+    TestTabsWidget(const ProjectItem & pr, const QString & testName, QWidget * parent);
     ~TestTabsWidget();
     void setActive();
     CreateTestWizard * createTestWizard() const;
+    QString getTestName() const;
 
 public slots:
     void finishedTest(bool success);
+
+    friend QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item);
+    friend QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item);
+
 private slots:
     void on_pbAddImage_clicked();
-
     void on_pbCreateRaport_clicked();
 
 private:
@@ -51,5 +56,8 @@ private:
     QStringList images;
     QList<ImagesOpisType> m_imageCheckBox;
 };
+
+QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item);
+QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item);
 
 #endif // TESTTABSWIDGET_H

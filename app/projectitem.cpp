@@ -73,3 +73,14 @@ void ProjectItem::setCreateDt(const QDateTime &newCreateDt)
     createDt = newCreateDt;
 }
 
+QDataStream & operator<<(QDataStream & ds, const ProjectItem & item)
+{
+    ds << item.name << item.members << item.workDir << item.comment << item.createData << item.createDt;
+    return ds;
+}
+
+QDataStream & operator>>(QDataStream & ds, ProjectItem &item)
+{
+    ds >> item.name >> item.members >> item.workDir >> item.comment >> item.createData >> item.createDt;
+    return ds;
+}

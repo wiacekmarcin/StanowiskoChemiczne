@@ -341,6 +341,7 @@
     <addaction name="actionNowy_Test"/>
     <addaction name="separator"/>
     <addaction name="actionZapisz"/>
+    <addaction name="actionOtw_rz"/>
     <addaction name="separator"/>
     <addaction name="actionDodaj_zdj_cie"/>
     <addaction name="actionDodaj_film"/>
@@ -367,7 +368,6 @@
        <string>&amp;Wyzwalanie wyjść</string>
       </property>
      </widget>
-     <addaction name="actionUstawienia_sygna_w"/>
      <addaction name="menuPodgl_d_wej"/>
      <addaction name="menuWyzwalanie_wyj"/>
      <addaction name="actionParametry_rejestracji_ci_nienia"/>
@@ -380,6 +380,7 @@
     </widget>
     <addaction name="menuDataq_Card"/>
     <addaction name="menuD_ozownik"/>
+    <addaction name="actionUstawieniaOgolne"/>
    </widget>
    <widget class="QMenu" name="menuPomoc">
     <property name="title">
@@ -433,9 +434,9 @@
     <string>&amp;Instrukcja</string>
    </property>
   </action>
-  <action name="actionUstawienia_sygna_w">
+  <action name="actionUstawieniaOgolne">
    <property name="text">
-    <string>&amp;Ustawienia sygnałów</string>
+    <string>&amp;Ustawienia</string>
    </property>
   </action>
   <action name="actionParametry_rejestracji_ci_nienia">
@@ -451,6 +452,11 @@
   <action name="actionWersja">
    <property name="text">
     <string>Wersja</string>
+   </property>
+  </action>
+  <action name="actionOtw_rz">
+   <property name="text">
+    <string>Otwórz</string>
    </property>
   </action>
  </widget>

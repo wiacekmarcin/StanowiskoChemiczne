@@ -7,10 +7,10 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>105</height>
+    <height>173</height>
    </rect>
   </property>
-    <property name="windowTitle">
+  <property name="windowTitle">
    <string>Ustawienia czujników analogowych</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
@@ -25,23 +25,43 @@
     <widget class="QLineEdit" name="name"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="lunit">
+    <widget class="QLabel" name="lBaseUnit">
      <property name="text">
-      <string>Jednostka</string>
+      <string>Podstawowa jednostka</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="unit"/>
+    <widget class="QLineEdit" name="baseUnit"/>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="lratio">
+    <widget class="QLabel" name="lunit">
      <property name="text">
-      <string>Przelicznik</string>
+      <string>Jednostka wyświetlana</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
+    <widget class="QLineEdit" name="unit"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lmniznik">
+     <property name="text">
+      <string>Mnożnik</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="mnoznik"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="lratio">
+     <property name="text">
+      <string>Przelicznik jednostka / V</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
     <widget class="QLineEdit" name="ratio"/>
    </item>
   </layout>

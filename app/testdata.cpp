@@ -33,7 +33,7 @@ constexpr char TestData::cisnKomory[];
 constexpr char TestData::koncetracjaPar[];
 constexpr char TestData::zlaKoncetracjaPar[];
 constexpr char TestData::odczytyStezen[];
-
+constexpr char TestData::zdjeciaPrzeprBadania[];
 TestData::TestData() : QObject(nullptr)
 {
 
@@ -58,7 +58,7 @@ QString TestData::getBody() const
         result += getProba(d.proby.at(id), d.iloscCieczy, id + 1);
     }
     result += getWarunkiPoUdanejProbie();
-    analogIn idTab[8] = { a_vol1, a_vol2, a_o2, a_co2, a_8, a_cisn_komora, a_temp_komory, a_temp_parownik};
+    analogIn idTab[8] = { a_voc1, a_voc2, a_o2, a_co2, a_8, a_cisn_komora, a_temp_komory, a_temp_parownik};
     for (short i = 0; i < 8; ++i) {
         visibleWykresType var =  visibleWykres[idTab[i]];
         if (!var.show)
@@ -115,6 +115,7 @@ void TestData::setStezenia(FazaTestu ft, const float &voc1, const float &voc2, c
         d.proby.last().o2 = o2;
         d.proby.last().co2 = co2;
         d.proby.last().cz8 = cz8;
+        break;
     }
     default : qInfo () << "Invalid ft=" << ft ;  break ;
     
@@ -221,7 +222,7 @@ QString TestData::getIloscCieczy(const QList<float> &dozowanie, unsigned int nrP
     float suma = 0.0;
     QString sumaStr;
     unsigned int sumCnt = 0;
-    for (unsigned int i = 0; i < dozowanie.size(); ++i) {
+    for (int i = 0; i < dozowanie.size(); ++i) {
         float d = dozowanie.at(i);
         suma += d;
         if (d == 0.0)
@@ -627,4 +628,48 @@ void TestData::setComment(const QString & comm)
     comment = comm;
 }
 
+QDataStream & operator<<(QDataStream & ds, const TestData & item)
+{
+    ds << item.d << item.nazwaTestu << item.values << item.fileList << item.comment;
+    return ds;
+}
 
+QDataStream & operator>>(QDataStream & ds, TestData & item)
+{
+    ds >> item.d >> item.nazwaTestu >> item.values >> item.fileList >> item.comment;
+    return ds;
+}
+
+QDataStream & operator<<(QDataStream & ds, const ProbaType & item)
+{
+    ds << item.cisnKomoryDozowanie << item.cisnKomoryZaplon << item.co2 << item.cz8 << item.koncentracjaPar;
+    ds << item.o2 << item.powtarzaneDozowanie << item.powtarzanyZaplon << item.success << item.tempKomoryDozowanie;
+    ds << item.tempKomoryZaplon << item.tempParownikaDozowanie << item.voc1 << item.voc2 << item.zlaKoncetracja;
+    ds << item.zrodloZaplonu;
+    return ds;
+}
+
+QDataStream & operator>>(QDataStream & ds, ProbaType & item)
+{
+    ds >> item.cisnKomoryDozowanie >> item.cisnKomoryZaplon >> item.co2 >> item.cz8 >> item.koncentracjaPar;
+    ds >> item.o2 >> item.powtarzaneDozowanie >> item.powtarzanyZaplon >> item.success >> item.tempKomoryDozowanie;
+    ds >> item.tempKomoryZaplon >> item.tempParownikaDozowanie >> item.voc1 >> item.voc2 >> item.zlaKoncetracja;
+    ds >> item.zrodloZaplonu;
+    return ds;
+}
+
+QDataStream & operator<<(QDataStream & ds, const SDataType & item)
+{
+    ds << item.cisnienieKoniec << item.co2 << item.cz8 << item.dataTestu << item.iloscCieczy << item.nazwaCieczy;
+    ds << item.o2 << item.proby << item.tempKomoraKoniec << item.tempKomoraPoczatek << item.uczestnicy ;
+    ds << item.voc1 << item.voc2 << item.wilgotnosc;
+    return ds;
+}
+
+QDataStream & operator>>(QDataStream & ds, SDataType & item)
+{
+    ds >> item.cisnienieKoniec >> item.co2 >> item.cz8 >> item.dataTestu >> item.iloscCieczy >> item.nazwaCieczy;
+    ds >> item.o2 >> item.proby >> item.tempKomoraKoniec >> item.tempKomoraPoczatek >> item.uczestnicy ;
+    ds >> item.voc1 >> item.voc2 >> item.wilgotnosc;
+    return ds;
+}

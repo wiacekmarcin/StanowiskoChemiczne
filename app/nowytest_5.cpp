@@ -83,7 +83,7 @@ void NowyTest_5::on_pbOK_3_clicked()
     //}
     //setZ_warningMask(i_pom_stez_1 | i_pom_stez_2);
 
-    dt->setStezeniaPrzedZaplonem(getCzujnik(a_vol1), getCzujnik(a_vol2), getCzujnik(a_o2),
+    dt->setStezeniaPrzedZaplonem(getCzujnik(a_voc1), getCzujnik(a_voc2), getCzujnik(a_o2),
                    getCzujnik(a_co2), getCzujnik(a_8));
     nextPage(nextPageId());
 }

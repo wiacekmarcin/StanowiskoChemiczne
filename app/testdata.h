@@ -32,6 +32,7 @@ typedef struct proba {
     float o2;
     float co2;
     float cz8;
+
 } ProbaType;
 
 typedef struct data {
@@ -80,6 +81,7 @@ public:
         FT_zaplon,    //ekran 6
         FT_koniec,   //ekran 8
     } FazaTestu;
+
     /** Funkcje ustawiające parametry **/
     void setDateTime(const QDateTime &dt) { d.dataTestu = dt; d.proby.append(ProbaType()); }
     void setMembers(const QStringList & memb) { d.uczestnicy = memb; }
@@ -123,6 +125,9 @@ public:
     void clearImage();
     void setComment(const QString &comm);
 
+    friend QDataStream & operator<<(QDataStream & ds, const TestData & item);
+    friend QDataStream & operator>>(QDataStream & ds, TestData & item);
+
 protected:
     void setTemperaturaKomory(FazaTestu ft, const float & temp);
     void setCisnienieKomory(FazaTestu ft, const float & cisn);
@@ -149,6 +154,7 @@ protected:
 
     QString getImages() const;
     QString getImageWykresPage(analogIn id, float min, float max, const QString &title, const QString &subtite, const QString &jedn) const;
+
 private:
     static QString getTitle1() { return QString("<h1>%1</h1>").arg(TestData::title1); }
     static QString getTitle2() { return QString("<h1>%1</h1>").arg(TestData::title2); }
@@ -194,4 +200,15 @@ private:
     QList<QPair<QString, QString>> fileList;
     QString comment;
 };
+
+QDataStream & operator<<(QDataStream & ds, const TestData & item);
+QDataStream & operator>>(QDataStream & ds, TestData & item);
+
+QDataStream & operator<<(QDataStream & ds, const ProbaType & item);
+QDataStream & operator>>(QDataStream & ds, ProbaType & item);
+
+QDataStream & operator<<(QDataStream & ds, const SDataType & item);
+QDataStream & operator>>(QDataStream & ds, SDataType & item);
+
+
 #endif // TESTDATA_H

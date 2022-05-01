@@ -31,7 +31,7 @@ CzujnikiAnalogoweOkno::~CzujnikiAnalogoweOkno()
 void CzujnikiAnalogoweOkno::setParams(const Ustawienia &ust)
 {
     for (int i=0; i<ust.maxCzujekAnal; ++i) {
-        czujniki[i]->setParam(ust.getName(i), ust.getRatio(i), ust.getUnit(i));
+        czujniki[i]->setParam(ust.getCzujnikAnalogowyUstawienia((analogIn)i));
     }
 }
 

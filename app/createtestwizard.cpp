@@ -69,6 +69,17 @@ TestData * CreateTestWizard::getTestData()
     return this->dt;
 }
 
+void CreateTestWizard::initFromFile()
+{
+    addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
+
+    selectedId = TestPage::PAGE_9;
+    finished = true;
+
+    initializePage();
+    nextPage(TestPage::PAGE_9);
+}
+
 void CreateTestWizard::init(const Ustawienia & ust,
                             const QString & testName)
 {
@@ -223,8 +234,8 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
     a_8                 = 7
  */
 
-    m_czujniki[a_vol1] = val0;
-    m_czujniki[a_vol2] = val1;
+    m_czujniki[a_voc1] = val0;
+    m_czujniki[a_voc2] = val1;
     m_czujniki[a_o2] = val2;
     m_czujniki[a_co2] = val3;
     m_czujniki[a_cisn_komora] = val4;

@@ -36,7 +36,7 @@ SOURCES += \
     czujnikanalogowyustawieniawidget.cpp \
     czujnikanalogowywidget.cpp \
     czujnikianalogoweokno.cpp \
-    czujnikanalogowyustawieniaokno.cpp \
+    czujnikianalogoweustawieniaframe.cpp \
     digitaloutwidget.cpp \
     dozowniksettings.cpp \
     main.cpp \
@@ -54,6 +54,7 @@ SOURCES += \
     stanwyjscia.cpp \
     testdata.cpp \
     testparam.cpp \
+    ustawieniadialog.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
     videowidget.cpp \
@@ -86,7 +87,7 @@ HEADERS += \
     czujnikanalogowyustawieniawidget.h \
     czujnikanalogowywidget.h \
     czujnikianalogoweokno.h \
-    czujnikanalogowyustawieniaokno.h \
+    czujnikianalogoweustawieniaframe.h \
     digitaloutwidget.h \
     dozowniksettings.h \
     glowneokno.h \
@@ -103,6 +104,7 @@ HEADERS += \
     stanwyjscia.h \
     testdata.h \
     testparam.h \
+    ustawieniadialog.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \
     version.h \
@@ -143,6 +145,7 @@ FORMS += \
     pictureframe.ui \
     stanczujnika.ui \
     stanwyjscia.ui \
+    ustawieniadialog.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \
     videowidget.ui \

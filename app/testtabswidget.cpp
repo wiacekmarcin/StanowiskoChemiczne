@@ -19,7 +19,7 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-TestTabsWidget::TestTabsWidget(const ProjectItem &pr, QWidget *parent) :
+TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const QString &testName, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestTabsWidget),
     projekt(pr)
@@ -32,7 +32,9 @@ TestTabsWidget::TestTabsWidget(const ProjectItem &pr, QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     testDane.setDateTime(pr.getCreateDt());
     testDane.setMembers(pr.getMembers().split("\n"));
+    testDane.setNazwaTestu(testName);
     ui->stackedWidget->setTestData(&testDane);
+    qInfo() << __FILE__ << ":" << __LINE__ << "test=" << testDane.getNazwaTestu();
 
 }
 
@@ -51,9 +53,14 @@ CreateTestWizard * TestTabsWidget::createTestWizard() const
     return ui->stackedWidget;
 }
 
+QString TestTabsWidget::getTestName() const
+{
+    return testDane.getNazwaTestu();
+}
+
 void TestTabsWidget::finishedTest(bool success)
 {
-    qInfo() << __FILE__ << ":" << __LINE__;
+    qInfo() << __FILE__ << ":" << __LINE__ << "test=" << testDane.getNazwaTestu();
     if (success) {
         ui->tabWidget->setTabEnabled(1, true);
         ui->tabWidget->setTabEnabled(2, true);
@@ -164,8 +171,8 @@ void TestTabsWidget::on_pbAddImage_clicked()
 void TestTabsWidget::on_pbCreateRaport_clicked()
 {
     testDane.clearImage();
-    SHOW_WYKRES(a_vol1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL", "%");
-    SHOW_WYKRES(a_vol2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL", "%");
+    SHOW_WYKRES(a_voc1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL", "%");
+    SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL", "%");
     SHOW_WYKRES(a_o2, 3, "Wykres wartości stężenia czujnika O2:", "Evikon E2638, tlen 0-25%", "%");
     SHOW_WYKRES(a_co2, 4, "Wykres wartości stężenia czujnika CO2:", "Vaisala GMP251, 0-20%", "%");
     SHOW_WYKRES(a_8, 5, "Wykres wartości stężenia czujnika wirtualnego:", "Przeliczenia wskazań z VOC1, wg stałej wprowadzonej przez użytkownika", "%");
@@ -182,14 +189,45 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
     QPrinter printer(QPrinter::PrinterResolution);
     QTextDocument * textDocument = new QTextDocument;
 
-    QTextCursor cursor(textDocument);
-
     textDocument->setHtml(testDane.getBody());
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName("test.pdf");
     printer.setPageSize(QPageSize(QPageSize::A4));
-    qInfo() << printer.paperSize(QPrinter::Point);
     printer.setFullPage(true);
     textDocument->print(&printer);
 
 }
+
+QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item)
+{
+    ds << item.testDane << item.testWorkDir.absolutePath() << item.testWorkDirName << item.images;
+
+    //foreach(const QString imS, item.images) {
+    //    QImage i(item.testWorkDir.absoluteFilePath(imS));
+    //    ds << i;
+    //}
+    return ds;
+}
+
+QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item)
+{
+    QString sTestWorkDir;
+    QStringList files;
+    ds >> item.testDane >> sTestWorkDir >> item.testWorkDirName >> files;
+
+    item.testWorkDir = QDir(sTestWorkDir);
+    foreach(const QString imS, files) {
+        QFile f(item.testWorkDir.absoluteFilePath(imS));
+        if (f.exists())
+            item.images << imS;
+    }
+
+    //    QImage i;
+    //    i << ds;
+    //
+    //}
+
+
+    return ds;
+}
+

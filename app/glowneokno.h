@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QThread>
+#include <QHash>
 
 #include "projectitem.h"
 #include "testtabswidget.h"
@@ -27,7 +28,6 @@ public:
     ~GlowneOkno();
 
 private slots:
-    void on_actionUstawienia_sygna_w_triggered();
     void on_actionNowy_projekt_triggered();
     void on_actionNowy_Test_triggered();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
@@ -42,6 +42,12 @@ private slots:
 
     void on_actionWersja_triggered();
 
+    void on_actionUstawieniaOgolne_triggered();
+
+    void on_actionZapisz_triggered();
+
+    void on_actionOtw_rz_triggered();
+
 protected:
     void changeSelectedTest();
     void setActionText();
@@ -52,9 +58,10 @@ private:
     Urzadzenia * urzadzenia;
     Ustawienia & settings;
 
-    QMap<QTreeWidgetItem*, ProjectItem> projekty;
-    QMap<QTreeWidgetItem*, TestTabsWidget*> testy;
-    QMap<QTreeWidgetItem*, QTreeWidgetItem*> mapTesty;
+    QHash<QTreeWidgetItem*, ProjectItem> projekty;
+    QHash<QTreeWidgetItem*, TestTabsWidget*> testy;
+    QHash<QTreeWidgetItem*, QTreeWidgetItem*> mapTesty;
+    QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*> > mapProjektTesty;
     QTreeWidgetItem* selectedProject;
     QTreeWidgetItem* selectedTest;
 

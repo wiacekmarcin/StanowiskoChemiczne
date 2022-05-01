@@ -63,14 +63,14 @@ void Urzadzenia::setStop()
 void Urzadzenia::ni_analogValueChanged(double val0, double val1, double val2, double val3, double val4, double val5, double val6)
 {
     static short index = 0;
-    double v0 = val0 * m_ustawienia.getRatio(0);
-    double v1 = val1 * m_ustawienia.getRatio(1);
-    double v2 = val2 * m_ustawienia.getRatio(2);
-    double v3 = val3 * m_ustawienia.getRatio(3);
-    double v4 = val4 * m_ustawienia.getRatio(4);
-    double v5 = val5 * m_ustawienia.getRatio(5);
-    double v6 = val6 * m_ustawienia.getRatio(6);
-    double v7 = val0 * m_ustawienia.getRatio(7);
+    double v0 = val0 * m_ustawienia.getRatio((analogIn)0);
+    double v1 = val1 * m_ustawienia.getRatio((analogIn)1);
+    double v2 = val2 * m_ustawienia.getRatio((analogIn)2);
+    double v3 = val3 * m_ustawienia.getRatio((analogIn)3);
+    double v4 = val4 * m_ustawienia.getRatio((analogIn)4);
+    double v5 = val5 * m_ustawienia.getRatio((analogIn)5);
+    double v6 = val6 * m_ustawienia.getRatio((analogIn)6);
+    double v7 = val0 * m_ustawienia.getRatio((analogIn)7);
     emit analogValueChanged(v0, v1, v2, v3, v4, v5, v6, v7);
     if (++index == 10) {
         urz_debug(QString("2. Odczytano %1,%2,%3,%4,%5,%6,%7,%8").arg(v0).arg(v1).arg(v2).arg(v3).arg(v4).arg(v5).arg(v6).arg(v7));

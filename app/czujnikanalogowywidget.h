@@ -4,6 +4,10 @@
 #include <QWidget>
 #include <QMutex>
 #include <QTimer>
+
+#include "ustawienia.h"
+
+
 namespace Ui {
 class CzujnikAnalogowyWidget;
 }
@@ -26,7 +30,7 @@ public:
     explicit CzujnikAnalogowyWidget(QWidget *parent = 0);
     ~CzujnikAnalogowyWidget();
 
-    void setParam(const QString & name, const double & ratio, const QString & unit);
+    void setParam(const Ustawienia::CzujnikAnalogowy & czA);
     void setValue(const double & val);
 
     void setPrec(unsigned short newPrec);
@@ -37,7 +41,7 @@ private slots:
 private:
     Ui::CzujnikAnalogowyWidget *ui;
     QString name;
-    double ratio;
+    double convert;
     QString unit;
     static constexpr unsigned short maxPoz = 5;
     double values[maxPoz];
@@ -45,6 +49,8 @@ private:
     unsigned short prec;
     QMutex mutex;
     QTimer timer;
+
+    double prev2, prev3;
 };
 
 #endif // CZUJNIKANALOGOWYWIDGET_H

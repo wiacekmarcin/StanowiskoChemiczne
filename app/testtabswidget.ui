@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>595</width>
-    <height>538</height>
+    <width>696</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -552,7 +552,7 @@
            </spacer>
           </item>
           <item row="3" column="0">
-           <widget class="QLabel" name="title_3">
+           <widget class="QLabel" name="title_4">
             <property name="text">
              <string>CO2</string>
             </property>
@@ -660,7 +660,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="title_1">
+           <widget class="QLabel" name="title_3">
             <property name="text">
              <string>O2</string>
             </property>
@@ -772,8 +772,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>577</width>
-            <height>49</height>
+            <width>672</width>
+            <height>68</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayoutCheckbox"/>
@@ -884,8 +884,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>577</width>
-            <height>462</height>
+            <width>672</width>
+            <height>489</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayoutImages"/>

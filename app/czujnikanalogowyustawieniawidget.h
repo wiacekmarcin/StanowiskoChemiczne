@@ -2,6 +2,7 @@
 #define CZUJNIKANALOGOWYUSTAWIENIAWIDGET_H
 
 #include <QWidget>
+#include "ustawienia.h"
 
 namespace Ui {
 class CzujnikAnalogowyUstawieniaWidget;
@@ -14,11 +15,11 @@ class CzujnikAnalogowyUstawieniaWidget : public QWidget
 public:
     explicit CzujnikAnalogowyUstawieniaWidget(QWidget *parent = 0);
     ~CzujnikAnalogowyUstawieniaWidget();
-    QString name() const;
-    QString unit() const;
-    double ratio() const;
     bool valid();
-    void setData(const QString & name, const QString & unit, const double & ratio);
+
+    void setData(const UserPrivilige &user, const Ustawienia::CzujnikAnalogowy &czA);
+
+    Ustawienia::CzujnikAnalogowy getUstawienia() const;
 private slots:
     void textChange();
 signals:

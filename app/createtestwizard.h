@@ -60,6 +60,7 @@ public:
 
     void setDebug(const QString & d) { emit debug(d); }
     void setError(const QString & e) { emit error(e); }
+    void initFromFile();
 public slots:
     void nextPage(TestPage::PageId id);
 

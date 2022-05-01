@@ -20,21 +20,6 @@ CzujnikAnalogowyUstawieniaWidget::~CzujnikAnalogowyUstawieniaWidget()
     delete ui;
 }
 
-QString CzujnikAnalogowyUstawieniaWidget::name() const
-{
-    return ui->name->text();
-}
-
-QString CzujnikAnalogowyUstawieniaWidget::unit() const
-{
-    return ui->unit->text();
-}
-
-double CzujnikAnalogowyUstawieniaWidget::ratio() const
-{
-    return rr;
-}
-
 bool CzujnikAnalogowyUstawieniaWidget::valid()
 {
 
@@ -60,9 +45,31 @@ void CzujnikAnalogowyUstawieniaWidget::textChange()
     emit updateCzujnik();
 }
 
-void CzujnikAnalogowyUstawieniaWidget::setData(const QString &name, const QString &unit, const double &ratio)
+void CzujnikAnalogowyUstawieniaWidget::setData(const UserPrivilige & user, const Ustawienia::CzujnikAnalogowy & czA)
 {
-    ui->name->setText(name);
-    ui->unit->setText(unit);
-    ui->ratio->setText(QString::number(ratio));
+    ui->name->setText(czA.name);
+    ui->unit->setText(czA.unit);
+    ui->ratio->setText(QString::number(czA.ratio));
+    ui->baseUnit->setText(czA.baseUnit);
+    ui->mnoznik->setText(QString::number(czA.convert));
+
+    ui->name->setEnabled((user & U_STUDENT) == U_STUDENT);
+    ui->unit->setEnabled((user & U_STUDENT) == U_STUDENT);
+    ui->mnoznik->setEnabled((user & U_STUDENT) == U_STUDENT);
+
+    ui->ratio->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->lratio->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->baseUnit->setReadOnly((user & U_SERVISANT) != U_SERVISANT);
+}
+
+Ustawienia::CzujnikAnalogowy CzujnikAnalogowyUstawieniaWidget::getUstawienia() const
+{
+    Ustawienia::CzujnikAnalogowy c;
+    c.name = ui->name->text();
+    c.unit = ui->unit->text();
+    bool ok;
+    c.ratio = ui->ratio->text().toDouble(&ok);
+    c.baseUnit = ui->baseUnit->text();
+    c.convert = ui->mnoznik->text().toDouble(&ok);
+    return c;
 }
