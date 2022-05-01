@@ -10,6 +10,18 @@
 #include <QPair>
 #include <QObject>
 
+typedef struct _analValue {
+    float voc1;
+    float voc2;
+    float o2;
+    float co2;
+    float a8;
+    float tempPar;
+    float tempKom;
+    float cisnKom;
+} AnalValType;
+
+
 typedef struct proba {
     bool success; //czy udana proba ekran 6/7
     QString zrodloZaplonu; //ekran 6
@@ -117,7 +129,7 @@ public:
     const QString &getNazwaTestu() const;
     void setNazwaTestu(const QString &newNazwaTestu);
 
-    void setListValues(const QList<QVector<float>> & values);
+    void addValues(float voc1, float voc2, float o2, float co2, float a8, float tempPar, float tempKom, float cisnKom);
 
     void setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
                           const QString &opis, const QString & opis2, const QString &unit);
@@ -127,6 +139,10 @@ public:
 
     friend QDataStream & operator<<(QDataStream & ds, const TestData & item);
     friend QDataStream & operator>>(QDataStream & ds, TestData & item);
+
+    void setStartTest(const QTime &newStartTest);
+
+    void setStopTest(const QTime &newStopTest);
 
 protected:
     void setTemperaturaKomory(FazaTestu ft, const float & temp);
@@ -195,10 +211,14 @@ private:
     SDataType d;
     QString nazwaTestu;
 
-    QList<QVector<float>> values;
+    //QList<QVector<float>> values;
+    QList<AnalValType> values;
+
     QMap<analogIn, visibleWykresType> visibleWykres;
     QList<QPair<QString, QString>> fileList;
     QString comment;
+    QTime startTest;
+    QTime stopTest;
 };
 
 QDataStream & operator<<(QDataStream & ds, const TestData & item);
@@ -209,6 +229,10 @@ QDataStream & operator>>(QDataStream & ds, ProbaType & item);
 
 QDataStream & operator<<(QDataStream & ds, const SDataType & item);
 QDataStream & operator>>(QDataStream & ds, SDataType & item);
+
+QDataStream & operator<<(QDataStream & ds, const AnalValType & item);
+QDataStream & operator>>(QDataStream & ds, AnalValType & item);
+
 
 
 #endif // TESTDATA_H

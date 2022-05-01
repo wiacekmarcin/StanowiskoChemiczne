@@ -362,7 +362,8 @@ QString TestData::getImageWykres(analogIn id, float min, float max, const QStrin
     float sumaDec = 0.0;
     float value;
     foreach (auto val8, values) {
-        float val = val8[id];
+        float vals[8] = {val8.voc1, val8.voc2, val8.o2, val8.co2, val8.cisnKom, val8.tempKom, val8.tempPar, val8.a8 };
+        float val = vals[(short)id];
         sumaDec += val;
         ++decVal;
         if (decVal == 10) {
@@ -566,6 +567,16 @@ QString TestData::getComment() const
     return QString("<p>")+comment+QString("</p>");
 }
 
+void TestData::setStopTest(const QTime &newStopTest)
+{
+    stopTest = newStopTest;
+}
+
+void TestData::setStartTest(const QTime &newStartTest)
+{
+    startTest = newStartTest;
+}
+
 QString TestData::getImages() const
 {
     QString ret;
@@ -595,9 +606,18 @@ void TestData::setNazwaTestu(const QString &newNazwaTestu)
     nazwaTestu = newNazwaTestu;
 }
 
-void TestData::setListValues(const QList<QVector<float> > &values)
+void TestData::addValues(float voc1, float voc2, float o2, float co2, float a8, float tempPar, float tempKom, float cisnKom)
 {
-    this->values = values;
+    AnalValType v;
+    v.voc1 = voc1;
+    v.voc2 = voc2;
+    v.o2 = o2;
+    v.co2 = co2;
+    v.a8 = a8;
+    v.tempKom = tempKom;
+    v.tempPar = tempPar;
+    v.cisnKom = cisnKom;
+    values.append(v);
 }
 
 void TestData::setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
@@ -673,3 +693,16 @@ QDataStream & operator>>(QDataStream & ds, SDataType & item)
     ds >> item.voc1 >> item.voc2 >> item.wilgotnosc;
     return ds;
 }
+
+QDataStream & operator<<(QDataStream & ds, const AnalValType & item)
+{
+    ds << item.voc1 << item.voc2 << item.o2 << item.co2 << item.a8 << item.tempKom << item.tempPar << item.cisnKom;
+    return ds;
+}
+
+QDataStream & operator>>(QDataStream & ds, AnalValType & item)
+{
+    ds >> item.voc1 >> item.voc2 >> item.o2 >> item.co2 << item.a8 >> item.tempKom >> item.tempPar >> item.cisnKom;
+    return ds;
+}
+

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>130</width>
-    <height>104</height>
+    <width>250</width>
+    <height>120</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>130</width>
-    <height>100</height>
+    <width>250</width>
+    <height>120</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>500</width>
-    <height>150</height>
+    <width>480</width>
+    <height>120</height>
    </size>
   </property>
   <property name="contextMenuPolicy">
@@ -63,7 +63,6 @@
      </property>
      <property name="font">
       <font>
-       <family>Noto Sans</family>
        <pointsize>24</pointsize>
        <bold>true</bold>
       </font>
@@ -114,7 +113,6 @@
      </property>
      <property name="font">
       <font>
-       <family>Noto Sans</family>
        <pointsize>36</pointsize>
        <bold>true</bold>
       </font>
@@ -126,7 +124,7 @@
       <string>0.0</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="margin">
       <number>6</number>
@@ -165,7 +163,6 @@
      </property>
      <property name="font">
       <font>
-       <family>Noto Sans</family>
        <pointsize>16</pointsize>
       </font>
      </property>

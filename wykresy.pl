@@ -4,8 +4,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 def getOsX(i, ratio, minv, maxv):
     valx = maxv - minv
-    realVal = i / ratio
-    if valx < 120:
+    realVal = minv + 1.0 * i / ratio
+    print valx
+    if valx < 24:
         return "%2.1f\"" % realVal
     else:
         realVal = int(realVal);
@@ -15,14 +16,14 @@ def getOsX(i, ratio, minv, maxv):
 
     realVal = realVal / 60.0
 
-    if (valx < 12000):
+    if (valx < 24000):
         return "%2.1f'" % realVal
     
     return "%d'" % int(realVal);
 
 def getOsY(i, imax, minv, maxv):
     valy = maxv - minv
-    realVal = (i / imax)* valy + minv
+    realVal = (1.0 * i / imax)* valy + minv
     if valy < 1:
         return "%1.3f" % realVal
     if valy < 10:
@@ -39,9 +40,10 @@ marginright = 50
 margintop = 50
 marginbottom = 50
 
-minv = 15
-maxv = 115
-secsX = 12
+minv = 10
+maxv = 35
+secsX = 360
+minSecX = 240
 
 img = Image.new("RGB", (width, height), "white")
 draw = ImageDraw.Draw(img)
@@ -50,17 +52,21 @@ fnt = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 12)
 
 
 points = []
-for i in range(100000) :
-    points.append(math.sin(i/math.pi))
+for i in range(10000) :
+    points.append(math.sqrt(1*i)*math.sin(0.1*i/math.pi)*math.sin(0.1*i/math.pi))
+    print "point=",points[-1]
+    #print math.sqrt(i)*math.sin(0.1*i/math.pi)*math.sin(0.1*i/math.pi)
+    #points.append(0.1*i)
     
 valperYpx = (height - margintop - marginbottom) / (maxv - minv);
-valperXpx = (width - marginleft - marginright) / secsX;
+valperXpx = (width - marginleft - marginright) / (secsX - minSecX);
 
+
+print 0.1*valperXpx
 draw.rectangle((0, 0, width - 1, height - 1), outline="black")
 draw.text((0.45*width, height-5), "Czas, [s]", font=fnt, fill="black")
 
-pixelsper1s = 5
-beforeOSY = 50
+pixelxperGray = 5
 
 nrSec = 0
 actWidth = 0
@@ -68,15 +74,17 @@ actWidth = 0
 while actWidth <= (width - marginright - marginleft):
     if nrSec % 10 == 0:
         draw.line((marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom), width=3, fill="darkgray")
-        draw.text((marginleft + actWidth - 15, height - 25), getOsX(actWidth, valperXpx, 0, secsX), font=fnt, fill="black")
+        draw.text((marginleft + actWidth - 15, height - 25), getOsX(actWidth, valperXpx, minSecX, secsX), font=fnt, fill="black")
     else:
         draw.line((marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom), width=1, fill="gray")
     nrSec += 2
-    actWidth += 2*pixelsper1s
+    actWidth += 2*pixelxperGray
 
 
 
-maxHeight = height - margintop - marginbottom;
+maxHeight = height - margintop - marginbottom
+maxWidth = width - marginleft - marginright
+
 i = 0;
 while i <= 100:
     y = maxHeight - (maxHeight*i/100.0)
@@ -87,12 +95,54 @@ while i <= 100:
         draw.line((marginleft, margintop+y, width-marginright, margintop+y), width = 1, fill = "gray")
     i+=2
 
+#przy zalozeniu ze mamy punktow 10*s  a musimy zmiescie do secX
+nrdecSec = 0;
+idP = 0;
+##while nrdecSec < 10*secX and idP < points.size():
+#
 
-    #draw.line((beforeOSY, 2, width, 2), width = 3, fill = "darkgray")
-    #draw.line((width - 1, 0, width - 1, height-50), width = 3, fill = "darkgray")
+valXP = 0;
+valX = 0;
+nsum = 0;
+fsum = 0
+idp = 0
+realValx = 0
+valY = 0
+valYP = 0
+while valX <= maxWidth and idp < len(points):
+    #print nsum, points[idp]
+    fsum += points[idp]
+    idp += 1
+    nsum += 1
+    realValx += 0.1*valperXpx
+    valX = round(realValx)
+    if valX != valXP :
+        valY = fsum / nsum
+        fsum = 0.0
+        nsum = 0
+        if valYP < maxv and valY > maxv:
+            valY = maxv
+        
+        if valYP > minv and valY < minv:
+            valY = minv
+
+        if valYP > maxv and valY < maxv:
+            valYP = maxv
+        
+        if valYP < minv and valY > minv:
+            valYP = minv
+
+        if valYP <= maxv and valYP >= minv and valY <= maxv and valY >= minv:
+            v1 = maxHeight - 1.0 * (valYP - minv)*valperYpx
+            v2 = maxHeight - 1.0 * (valY - minv)*valperYpx
+            draw.line((marginleft + valXP, margintop + v1, marginleft + valX, margintop + v2), width=4, fill="blue")
+            #print valY, v2
+        valXP = valX
+        valYP = valY
+        
+      
+
     
-    #draw.text((10, 20), "100", font=fnt, fill="black");
-
 """
 
     QPoint * points = new QPoint[singleVals.size()];

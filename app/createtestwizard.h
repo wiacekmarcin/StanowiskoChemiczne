@@ -24,10 +24,11 @@ class CreateTestWizard : public QStackedWidget
 public:
     explicit CreateTestWizard(QWidget *parent = 0);
     ~CreateTestWizard();
-    void setUstawienia(const Ustawienia &ust);
+
     void setTestData(TestData * dt);
     TestData * getTestData();
-    void init(const Ustawienia &ust, const QString &testName);
+    void init(Ustawienia * ust, const QString &testName);
+    void initFromFile();
 
     void setField(TestPage::Value key, const QVariant & val);
     QVariant field(TestPage::Value key) const;
@@ -60,7 +61,7 @@ public:
 
     void setDebug(const QString & d) { emit debug(d); }
     void setError(const QString & e) { emit error(e); }
-    void initFromFile();
+
 public slots:
     void nextPage(TestPage::PageId id);
 
@@ -101,7 +102,6 @@ protected:
 private:
     QMap<TestPage::Value,  QVariant> values;
     QMap<TestPage::PageId, TestPageForm*> pages;
-    //QMap<TestPage::PageId, TestPageForm*> pages;
     TestPage::PageId selectedId;
 
     bool finished;
@@ -111,7 +111,7 @@ private:
     unsigned short numberInitDozCycles;
     QMap<unsigned int, QString> m_namesZawory;
 
-    //Ustawienia & ustawienia;
+    Ustawienia * ustawienia;
 
     QString m_nazwaTestu;
     short m_nrDozownika;
@@ -122,7 +122,6 @@ private:
     bool zaplonExt; //
 
     QMap<uint16_t, bool> zaworyMap;
-
     QMap<uint16_t, bool> criticalMap;
     bool showCrit;
 
@@ -131,7 +130,6 @@ private:
 
     QMap<analogIn, float> m_czujniki;
     TestData * dt;
-    QList<QVector<float>> pomiary;
     bool registerPomiary;
     QMutex mutex;
 };

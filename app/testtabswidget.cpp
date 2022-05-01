@@ -201,6 +201,7 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
 QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item)
 {
     ds << item.testDane << item.testWorkDir.absolutePath() << item.testWorkDirName << item.images;
+    //ds << (*(item.ui->stackedWidget));
 
     //foreach(const QString imS, item.images) {
     //    QImage i(item.testWorkDir.absoluteFilePath(imS));
@@ -214,6 +215,7 @@ QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item)
     QString sTestWorkDir;
     QStringList files;
     ds >> item.testDane >> sTestWorkDir >> item.testWorkDirName >> files;
+    //item.ui->stackedWidget->initFromFile(item.testDane)
 
     item.testWorkDir = QDir(sTestWorkDir);
     foreach(const QString imS, files) {

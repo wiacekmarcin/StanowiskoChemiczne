@@ -163,7 +163,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
     ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
-    testy[selectedTest]->createTestWizard()->init(settings,
+    testy[selectedTest]->createTestWizard()->init(&settings,
                                                   qtreewidgetitem->data(0, Qt::DisplayRole).toString());
 
     ui->treeWidget->setCurrentItem(selectedTest);
@@ -432,7 +432,7 @@ void GlowneOkno::on_actionOtw_rz_triggered()
             testy[testIitem] = tb;
             mapTesty[testIitem] = projectItem;
             ui->testyStackedWidget->addWidget(tb);
-            tb->createTestWizard()->init(settings, testname);
+            tb->createTestWizard()->initFromFile();
             tb->createTestWizard()->finishedTest(true);
             tb->finishedTest(true);
 

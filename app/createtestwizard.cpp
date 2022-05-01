@@ -22,6 +22,7 @@
 #include <QPrinter>
 #include <QTextDocument>
 #include <QTextCursor>
+#include <QTime>
 
 #include "urzadzenia.h"
 #include "glowneokno.h"
@@ -69,6 +70,29 @@ TestData * CreateTestWizard::getTestData()
     return this->dt;
 }
 
+void CreateTestWizard::init(Ustawienia * ust,
+                            const QString & testName)
+{
+    ustawienia = ust;
+    numberInitDozCycles = ust->getNrInitializeCycles();
+
+    addPage(new NowyTest_1(testName, this), TestPage::PAGE_1, 1);
+    addPage(new NowyTest_2(ust->getNrInitializeCycles(), this), TestPage::PAGE_2, 2);
+    addPage(new NowyTest_3(this), TestPage::PAGE_3, 3);
+    addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
+    addPage(new NowyTest_5(this), TestPage::PAGE_5, 5);
+    addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
+    addPage(new NowyTest_7(this), TestPage::PAGE_7, 7);
+    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
+    addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
+
+    selectedId = TestPage::PAGE_1;
+    finished = false;
+
+    initializePage();
+    nextPage(TestPage::PAGE_1);
+}
+
 void CreateTestWizard::initFromFile()
 {
     addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
@@ -78,44 +102,6 @@ void CreateTestWizard::initFromFile()
 
     initializePage();
     nextPage(TestPage::PAGE_9);
-}
-
-void CreateTestWizard::init(const Ustawienia & ust,
-                            const QString & testName)
-{
-    numberInitDozCycles = ust.getNrInitializeCycles();
-
-    NowyTest_1 * page_1 = new NowyTest_1(testName, this);
-     addPage(page_1, TestPage::PAGE_1, 1);
-
-
-    NowyTest_2 * page_2 = new NowyTest_2(ust.getNrInitializeCycles(), this);
-    addPage(page_2, TestPage::PAGE_2, 2);
-
-    NowyTest_3 * page_3 = new NowyTest_3(this);
-    addPage(page_3, TestPage::PAGE_3, 3);
-
-    NowyTest_4 * page_4 = new NowyTest_4(this);
-    addPage(page_4, TestPage::PAGE_4, 4);
-
-    NowyTest_5 * page_5 = new NowyTest_5(this);
-    addPage(page_5 , TestPage::PAGE_5, 5);
-
-    NowyTest_6 * page_6 = new NowyTest_6(this);
-    addPage(page_6, TestPage::PAGE_6, 6);
-
-    NowyTest_7 * page_7 = new NowyTest_7(this);
-    addPage(page_7, TestPage::PAGE_7, 7);
-
-    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
-
-    addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
-
-    selectedId = TestPage::PAGE_1;
-    finished = false;
-
-    initializePage();
-    nextPage(TestPage::PAGE_1);
 }
 
 void CreateTestWizard::initializePage()
@@ -182,9 +168,6 @@ void CreateTestWizard::setFinished(bool success)
     emit finishedTest(success);
     disconnect(this, nullptr, nullptr, nullptr);
 
-    if (success) {
-
-    }
 }
 
 void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
@@ -212,27 +195,9 @@ void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
 void CreateTestWizard::changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7)
 {
     mutex.lock();
-    double vals[8] = { val0, val1, val2, val3, val4, val5, val6, val7};
-    if (registerPomiary){
-        pomiary.append(QVector<float>({ static_cast<float>(val0),
-                                        static_cast<float>(val1),
-                                        static_cast<float>(val2),
-                                        static_cast<float>(val3),
-                                        static_cast<float>(val4),
-                                        static_cast<float>(val5),
-                                        static_cast<float>(val6),
-                                        static_cast<float>(val7)}));
-    }
-    /*
-    a_vol1              = 0,
-    a_vol2              = 1,
-    a_o2                = 2,
-    a_co2               = 3,
-    a_cisn_komora       = 4,
-    a_temp_komory       = 5,
-    a_temp_parownik     = 6,
-    a_8                 = 7
- */
+
+    if (registerPomiary)
+        TestData().addValues(val0, val1, val2, val3, val7, val6, val5, val4);
 
     m_czujniki[a_voc1] = val0;
     m_czujniki[a_voc2] = val1;
@@ -245,16 +210,11 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
 
     mutex.unlock();
     if (selectedId == TestPage::PAGE_3)
-        currentPage()->setCisnKomory(vals[4]);
+        currentPage()->setCisnKomory(val4);
 
     if (selectedId == TestPage::PAGE_5 || selectedId == TestPage::PAGE_8) {
         //currentPage()->setStezenie(val0, val1, val2, val3);
     }
-    /*
-    if (rejestracja) {
-        QList.append(struct vals);
-    }
-    */
 }
 
 void CreateTestWizard::dozownikDone(bool success)
@@ -329,10 +289,11 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
     initializePage();
     if (id == TestPage::PAGE_3) {
         registerPomiary = true;
+        getTestData()->setStartTest(QTime::currentTime());
     }
     if (id == TestPage::PAGE_9) {
         registerPomiary = false;
-        getTestData()->setListValues(pomiary);
+        getTestData()->setStopTest(QTime::currentTime());
     }
     //    finished = true;
 }
