@@ -9,6 +9,7 @@
 #include <QList>
 #include <QPair>
 #include <QObject>
+#include <QDataStream>
 
 typedef struct _analValue {
     float voc1;
@@ -48,32 +49,10 @@ typedef struct proba {
 } ProbaType;
 
 typedef struct data {
-    QDateTime dataTestu; //project
-    QStringList uczestnicy; //project
-    QString nazwaCieczy; //ekran 1
-    float tempKomoraPoczatek; //(temperatura odczytana w momencie przejścia z kroku 1 do 2, Czujnik 6)
-    float wilgotnosc; //wilgotność podana na ekranie 1
-    QList<ProbaType> proby;
-    QList<float> iloscCieczy; //ekran 1 + 7
-    float tempKomoraKoniec; //(odczytana w momencie zatwierdzenia ustabilizowania się odczytów z czujników stężenia,
-                            //tych po zapłonie w kroku 8)
-    float cisnienieKoniec; //(odczytana w momencie kiedy użytkownik potwierdzi, że odczyty z czujników stężenia się ustabilizowały)
-    float voc1; //ekran 8
-    float voc2; //ekran 8
-    float o2;   //ekran 8
-    float co2;  //ekran 8
-    float cz8;  //ekran 8
+
 
 } SDataType;
 
-typedef struct visWykres {
-    bool show;
-    float min;
-    float max;
-    QString opis;
-    QString opis2;
-    QString jedn;
-} visibleWykresType;
 
 class TestData : public QObject
 {
@@ -84,7 +63,6 @@ signals:
 
 public:
     TestData();
-    QString getBody() const ;
 
     typedef enum _faza {
         FT_poczatek, //ekran 2
@@ -95,10 +73,10 @@ public:
     } FazaTestu;
 
     /** Funkcje ustawiające parametry **/
-    void setDateTime(const QDateTime &dt) { d.dataTestu = dt; d.proby.append(ProbaType()); }
-    void setMembers(const QStringList & memb) { d.uczestnicy = memb; }
-    void setLiquidName(const QString & name) { d.nazwaCieczy = name; }
-    void setHumanity(const float & hum) { d.wilgotnosc = hum; }
+    void setDateTime(const QDateTime &dt) { dataTestu = dt; proby.append(ProbaType()); }
+    void setMembers(const QStringList & memb) { uczestnicy = memb; }
+    void setLiquidName(const QString & name) { nazwaCieczy = name; }
+    void setHumanity(const float & hum) { wilgotnosc = hum; }
     void setTemperaturaKomoryWarunkiPoczatkowe(const float & temp) { setTemperaturaKomory(FT_poczatek, temp); }
     void setTemperaturaKomoryWarunkiKoncowe(const float & temp) { setTemperaturaKomory(FT_koniec, temp); }
     void setTemperaturaKomoryDozowanie(const float & temp) { setTemperaturaKomory(FT_dozowanie, temp); }
@@ -120,11 +98,11 @@ public:
         setStezenia(FT_koniec, voc1, voc2, o2, co2, cz8);
     }   
 
-    void setLiquidVolue(const float & vol) { d.iloscCieczy << vol; }
+    void setLiquidVolue(const float & vol) { iloscCieczy << vol; }
     
     void setUdanaProba(bool success, bool powtarzaneDozowanie, bool powtarzanyZaplon);
-    void setZrodloZaplonu(const QString & zrZaplon) { d.proby.last().zrodloZaplonu = zrZaplon; }
-    void setTemperaturaParownika(const float & temp) { d.proby.last().tempParownikaDozowanie = temp; }
+    void setZrodloZaplonu(const QString & zrZaplon) { proby.last().zrodloZaplonu = zrZaplon; }
+    void setTemperaturaParownika(const float & temp) { proby.last().tempParownikaDozowanie = temp; }
 
     const QString &getNazwaTestu() const;
     void setNazwaTestu(const QString &newNazwaTestu);
@@ -133,90 +111,67 @@ public:
 
     void setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
                           const QString &opis, const QString & opis2, const QString &unit);
-    void addImage(const QString & file, const QString &descr);
-    void clearImage();
-    void setComment(const QString &comm);
+
+    void setStartTest(const QTime &newStartTest);
+    void setStopTest(const QTime &newStopTest);
 
     friend QDataStream & operator<<(QDataStream & ds, const TestData & item);
     friend QDataStream & operator>>(QDataStream & ds, TestData & item);
 
-    void setStartTest(const QTime &newStartTest);
+    const QDateTime &getDataTestu() const;
 
-    void setStopTest(const QTime &newStopTest);
+    const QStringList &getUczestnicy() const;
+
+    const QString &getNazwaCieczy() const;
+
+    float getTempKomoraPoczatek() const;
+
+    float getWilgotnosc() const;
+
+    const QList<ProbaType> &getProby() const;
+
+    const QList<float> &getIloscCieczy() const;
+
+    float getTempKomoraKoniec() const;
+
+    float getCisnienieKoniec() const;
+
+    float getVoc1() const;
+
+    float getVoc2() const;
+
+    float getO2() const;
+
+    float getCo2() const;
+
+    float getCz8() const;
 
 protected:
     void setTemperaturaKomory(FazaTestu ft, const float & temp);
     void setCisnienieKomory(FazaTestu ft, const float & cisn);
     void setStezenia(FazaTestu ft, const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8);
 
-/** Funkcje od formularza **/
-    static QString getTitle();
-    QString getTemat() const;
-    QString getLogo() const;
-    QString getData() const { return QString("<p style=\"font-size:14px;\">%1%2</p>").arg(TestData::dataWykonania, d.dataTestu.toString("dd.MM.yyyy hh:mm")); }
-    QString getUczestnicy() const ;
-    QString getNazwaCieczy() const ;
-    QString getTempKomoraStart() const ;
-    QString getWilgotnosc() const;
-
-    QString getProba(const ProbaType & proba, const QList<float> &dozowanie, unsigned int nrProba) const;
-    QString getProbaWynik(bool wynik) const;
-    QString getZrodloZaplonu(const QString & zaplon) const;
-    QString getIloscCieczy(const QList<float> &dozowanie, unsigned int nrProba) const;
-    QString getWarunkiPoczatkowe(const ProbaType & proba) const;
-    QString getWarunkiPrzedZaplonem(const ProbaType &proba) const;
-    QString getOdczytyStezen(const ProbaType &proba) const;
-    QString getWarunkiPoUdanejProbie() const;
-
-    QString getImages() const;
-    QString getImageWykresPage(analogIn id, float min, float max, const QString &title, const QString &subtite, const QString &jedn) const;
 
 private:
-    static QString getTitle1() { return QString("<h1>%1</h1>").arg(TestData::title1); }
-    static QString getTitle2() { return QString("<h1>%1</h1>").arg(TestData::title2); }
 
-    QString getImageWykres(analogIn id, float min, float max, const QString & jedn) const;
+    QDateTime dataTestu; //project
+    QStringList uczestnicy; //project
+    QString nazwaCieczy; //ekran 1
+    float tempKomoraPoczatek; //(temperatura odczytana w momencie przejścia z kroku 1 do 2, Czujnik 6)
+    float wilgotnosc; //wilgotność podana na ekranie 1
+    QList<ProbaType> proby;
+    QList<float> iloscCieczy; //ekran 1 + 7
+    float tempKomoraKoniec; //(odczytana w momencie zatwierdzenia ustabilizowania się odczytów z czujników stężenia,
+                            //tych po zapłonie w kroku 8)
+    float cisnienieKoniec; //(odczytana w momencie kiedy użytkownik potwierdzi, że odczyty z czujników stężenia się ustabilizowały)
+    float voc1; //ekran 8
+    float voc2; //ekran 8
+    float o2;   //ekran 8
+    float co2;  //ekran 8
+    float cz8;  //ekran 8
 
-
-    QString getPicture(int num, const QPair<QString, QString> &filename) const;
-    QString getComment() const;
-
-
-    static constexpr char title1[]          = "Szkoła Główna Służby Pożarniczej w Warszawie";
-    static constexpr char title2[]          = "Zakład Badania Przyczyn Pożarów";
-    static constexpr char temat[]           = "Temat ćwiczenia:";
-    static constexpr char tematValue[]      = "Badanie dolnej granicy wybuchowości par cieczy palnych";
-    static constexpr char dataWykonania[]   = "Data wykonania testu:";
-    static constexpr char skladzespolu[]    = "Skład zespołu przeprowadzającego test:";
-    static constexpr char nazwacieczy[]     = "Nazwa badanej cieczy:";
-    static constexpr char tempKomoraStartTest[]="Temperatura wewnątrz komory w momencie rozpoczęcia testu:";
-    static constexpr char wilgotnosc[]      = "Wilgotność w pomieszczeniu:";
-    static constexpr char proba[]           = "Próba:";
-    static constexpr char probaWynik[]      = "Wynik:";
-    static constexpr char probaPozytywna[]  = "pozytywny";
-    static constexpr char probaNegatywna[]  = "negatywny";
-    static constexpr char zrodloZaplonu[]   = "Źródło zapłonu:";
-    static constexpr char iloscCieczy[]     = "Ilość dozowanej cieczy:";
-    static constexpr char warunkiPoczatkowe[]= "Warunki początkowe:";
-    static constexpr char warunkiPrzedZaplonem[]="Warunki przed zapłonem";
-    static constexpr char tempParownika[]   = "Temperatura parownika cieczy:";
-    static constexpr char tempKomory[]      = "Temperatura wewnątrz komory:";
-    static constexpr char cisnKomory[]      = "Ciśnienie wewnątrz komory:";
-    static constexpr char koncetracjaPar[]  = "Koncentracja par cieczy wyliczona metodą ciśnień cząstkowych:";
-    static constexpr char zlaKoncetracjaPar[]="!!! UWAGA: w tym momencie wyliczona wartość koncentracji par cieczy, może być obarczona błędem, wynikającym ze zmiany temp. wew. komory.";
-    static constexpr char odczytyStezen[]   = "Odczyty z przetworników stężenia:";
-    static constexpr char warunkiPoUdanejProba[]="Warunki po udanej próbie zapłonu mieszaniny par cieczy z powietrzem:";
-    static constexpr char zdjeciaPrzeprBadania[] = "Zdjęcia z przeprowadzonego badania";
-
-    SDataType d;
     QString nazwaTestu;
-
-    //QList<QVector<float>> values;
     QList<AnalValType> values;
-
-    QMap<analogIn, visibleWykresType> visibleWykres;
-    QList<QPair<QString, QString>> fileList;
-    QString comment;
     QTime startTest;
     QTime stopTest;
 };
@@ -226,9 +181,6 @@ QDataStream & operator>>(QDataStream & ds, TestData & item);
 
 QDataStream & operator<<(QDataStream & ds, const ProbaType & item);
 QDataStream & operator>>(QDataStream & ds, ProbaType & item);
-
-QDataStream & operator<<(QDataStream & ds, const SDataType & item);
-QDataStream & operator>>(QDataStream & ds, SDataType & item);
 
 QDataStream & operator<<(QDataStream & ds, const AnalValType & item);
 QDataStream & operator>>(QDataStream & ds, AnalValType & item);

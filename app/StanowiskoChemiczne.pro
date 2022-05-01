@@ -47,6 +47,7 @@ SOURCES += \
     oknostanowewyjscia.cpp \
     oknostatusowe.cpp \
     otwartezawory.cpp \
+    pdfcreator.cpp \
     pictureframe.cpp \
     serialdevice.cpp \
     serialmessage.cpp \
@@ -97,6 +98,7 @@ HEADERS += \
     oknostanowewyjscia.h \
     oknostatusowe.h \
     otwartezawory.h \
+    pdfcreator.h \
     pictureframe.h \
     serialdevice.h \
     serialmessage.h \

@@ -11,6 +11,7 @@
 #include <QLineEdit>
 
 #include "ustawienia.h"
+#include "pdfcreator.h"
 
 TestTabsWidget::TestTabsWidget(QWidget *parent) :
     QWidget(parent),
@@ -165,12 +166,14 @@ void TestTabsWidget::on_pbAddImage_clicked()
 
 }
 
-#define SHOW_WYKRES(A, N, O1, O2, U)     testDane.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), \
+#define SHOW_WYKRES(A, N, O1, O2, U)     pdf.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), \
     ui->dbmin_##N->value(), ui->dbmax_##N->value(), O1, O2, U)
 
 void TestTabsWidget::on_pbCreateRaport_clicked()
 {
-    testDane.clearImage();
+    PdfCreator pdf(testDane);
+    pdf.clearImage();
+
     SHOW_WYKRES(a_voc1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL", "%");
     SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL", "%");
     SHOW_WYKRES(a_o2, 3, "Wykres wartości stężenia czujnika O2:", "Evikon E2638, tlen 0-25%", "%");
@@ -182,14 +185,14 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
 
     foreach (auto im, m_imageCheckBox) {
         if (im.box->isChecked()) {
-            testDane.addImage(testWorkDir.absoluteFilePath(im.box->text()) + QString(".png"), im.lineedit->text());
+            pdf.addImage(testWorkDir.absoluteFilePath(im.box->text()) + QString(".png"), im.lineedit->text());
         }
     }
 
     QPrinter printer(QPrinter::PrinterResolution);
     QTextDocument * textDocument = new QTextDocument;
 
-    textDocument->setHtml(testDane.getBody());
+    textDocument->setHtml(pdf.getBody());
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName("test.pdf");
     printer.setPageSize(QPageSize(QPageSize::A4));
