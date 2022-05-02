@@ -8,6 +8,7 @@
 #include <QBuffer>
 #include <QDebug>
 #include <QVector>
+#include <math.h>
 
 #include "testdata.h"
 
@@ -259,259 +260,6 @@ QString PdfCreator::getTitle2() const
     return QString("<h1>%1</h1>").arg(title2);
 }
 
-
-QString PdfCreator::getImageWykres(analogIn id, float min, float max, const QString &jedn) const
-{
-    /*
-    QVector<float> allvalue;
-
-    QVector<float> singleVals;
-
-    for (int i = 0 ; i < 500; i++) {
-        allvalue << (20 + (i/15)*0.3);
-    }
-
-    float prevvalue = allvalue.last();
-    for (int i = 0; i < 50; i++) {
-        allvalue << prevvalue;
-    }
-
-    for (int i = 0 ; i < 400; i++) {
-        allvalue << (prevvalue - (i/15)*0.3);
-    }
-    float prevvalue2 = allvalue.last();
-
-    for (int i = 0 ; i < 150; i++) {
-        allvalue << prevvalue2;
-    }
-
-    prevvalue = allvalue.last();
-    for (int i = 0 ; i < 800; i++) {
-        allvalue << (prevvalue + (i/5)*0.3);
-    }
-    prevvalue2 = allvalue.last();
-    for (int i = 0 ; i < 50; i++) {
-        allvalue << prevvalue2;
-    }
-
-    for (int i = 0 ; i < 500; i++) {
-        allvalue << prevvalue2 - (i/10)*0.2;
-    }
-
-    //allvalue[id] = singleVals;
-
-    short decVal = 0;
-    float sumaDec = 0.0;
-    float value;
-    //foreach(auto allvalue, values) {
-    //    sumaDec += allvalue[(short)id];
-    foreach (auto val, allvalue) {
-        sumaDec += val;
-        ++decVal;
-        if (decVal == 10) {
-            decVal = 0;
-            value = sumaDec / 10;
-            sumaDec = 0.0;
-            if (value < min)
-                value = min;
-            if (value > max)
-                value = max;
-            singleVals.append(value-min);
-        }
-    }
-    */
-    QVector<float> singleVals;
-    short decVal = 0;
-    float sumaDec = 0.0;
-    float value;
-    foreach (auto val8, values) {
-        float vals[8] = {val8.voc1, val8.voc2, val8.o2, val8.co2, val8.cisnKom, val8.tempKom, val8.tempPar, val8.a8 };
-        float val = vals[(short)id];
-        sumaDec += val;
-        ++decVal;
-        if (decVal == 10) {
-            decVal = 0;
-            value = sumaDec / 10.0;
-            sumaDec = 0.0;
-            if (value < min)
-                value = min;
-            if (value > max)
-                value = max;
-            singleVals.append(value-min);
-        }
-    }
-
-    const int width = 1250;
-    const int height = 950;
-
-    float valperYpx = (height - 50) / (max - min);
-    QPixmap *pix = new QPixmap(width, height);
-    QPainter *paint = new QPainter(pix);
-
-    paint->setPen(Qt::black);
-    paint->setBrush(Qt::white);
-    QFont f = paint->font();
-    f.setPixelSize(20);
-    f.setBold(true);
-    paint->setFont(f);
-    QRect rect = QRect(0, 0, width - 1, height - 1);
-    paint->fillRect(rect, QBrush(Qt::white));
-    paint->drawRect(rect);//5 radius apiece
-
-    paint->drawText(QPoint(0.45*width, height-5), "Czas, s");
-
-    short pixelsper1s = 5;
-    int beforeOSY = 50;
-
-    int nrSec = 0;
-    int actWidth = beforeOSY;
-    QPen darkgrayPen = QPen(Qt::darkGray);
-    darkgrayPen.setWidth(3);
-    QPen grayPen = QPen(Qt::gray);
-    grayPen.setWidth(1);
-    QPen blackPen = QPen(Qt::black);
-    while (actWidth < width) {
-
-        if (nrSec % 10 == 0) {
-            paint->setPen(darkgrayPen);
-            paint->drawLine(actWidth, 0, actWidth, height-50);
-            paint->setPen(blackPen);
-            if (nrSec != 240)
-                paint->drawText(actWidth-15, height-25, QString::number(nrSec));
-        } else {
-            paint->setPen(grayPen);
-            paint->drawLine(actWidth, 0, actWidth, height-50);
-        }
-        nrSec += 2;
-        actWidth += 2*pixelsper1s;
-    }
-
-    int maxHeight = height - 50;
-    for (short id = 0; id < 100; id+=2) {
-        int y = maxHeight - (maxHeight*id/100.0);
-        if (id % 10 == 0) {
-            paint->setPen(darkgrayPen);
-            paint->drawLine(beforeOSY, y, width, y);
-            paint->setPen(blackPen);
-            paint->drawText(25, y, QString::number(id));
-        } else {
-            paint->setPen(grayPen);
-            paint->drawLine(beforeOSY, y, width, y);
-        }
-    }
-    paint->setPen(darkgrayPen);
-    paint->drawLine(beforeOSY, 2, width, 2);
-    paint->drawLine(width - 1, 0, width - 1, height-50);
-    paint->setPen(blackPen);
-    paint->drawText(10, 20, "100");
-
-
-    //paint->setPen(darkgrayPen);
-    //paint->drawLine(beforeOSY, height-50, actWidth, height-50);
-    //paint->setPen(blackPen);
-    //paint->drawText(actWidth-15, height-25, QString::number(nrSec));
-
-    QPoint * points = new QPoint[singleVals.size()];
-    nrSec = 0;
-    actWidth = beforeOSY;
-    qDebug() << "Tworzenie punktow " << singleVals.size();
-    while (actWidth < width && nrSec < singleVals.size()) {
-        qDebug() << "Punkt " << nrSec << " " << actWidth << ", " << (max - singleVals.at(nrSec))*valperYpx;
-        points[nrSec] = QPoint(actWidth, (max - singleVals.at(nrSec))*valperYpx);
-        actWidth += pixelsper1s;
-        ++nrSec;
-    }
-
-    QPen pen = QPen(Qt::green);
-    pen.setWidth(5);
-    paint->setPen(pen);
-    int ind = 1;
-    while (ind < nrSec) {
-        paint->drawLine(points[ind-1], points[ind]);
-        ++ind;
-    }
-    //
-
-    QTransform transform;
-    QTransform trans = transform.rotate(270);
-    QPixmap p1(pix->transformed(trans));
-
-    QPainter *paint270 = new QPainter(&p1);
-    paint270->setFont(f);
-    paint270->drawText((height-20)/2, width-5, QString("%1").arg(jedn));
-
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-
-    //QPixmap p2(p1.scaledToHeight(840));
-    //p2.save(&buffer, "PNG");
-    p1.save(&buffer, "PNG");
-    //pix->save(&buffer, "PNG");
-
-    return QString("<img  src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
-
-
-#if 0
-    const float ratioX = (height - 50)/(max-min);
-
-    QPoint * points = new QPoint[singleVals.size()];
-    unsigned int px = 0;
-    for(px = 0; px < singleVals.size(); ++px) {
-        points[px]= QPoint(px, (int)((max-singleVals.at(px))*ratioX));
-    }
-    QSize A4Size = QSize(width, height);
-    //QPixmap *pix = new QPixmap(px, 1000);
-
-
-    paint->setBrush(Qt::white);
-    QRect rect = QRect(0, 0, A4Size.width() - 1, A4Size.height() - 1);
-    paint->fillRect(rect, QBrush(Qt::white));
-    paint->drawRect(rect);//5 radius apiece
-
-    QPen grayPen = QPen(Qt::gray);
-    grayPen.setWidth(1);
-    paint->setPen(grayPen);
-    for (int i = 0; i <= width; i+=20) {
-        if (i % 100 == 0)
-            continue;
-        //paint->drawLine(0, i, 600, i);
-        //if (i < 600)
-        //    paint->drawLine(i, 0, i, 850);
-    }
-
-
-    QPen darkgrayPen = QPen(Qt::darkGray);
-    darkgrayPen.setWidth(3);
-    paint->setPen(darkgrayPen);
-    for (int i = 0; i <= width; i+=100) {
-        paint->drawLine(0, i, 600, i);
-        //if (i <= 600)
-        //    paint->drawLine(i, 0, i, 850);
-    }
-
-
-
-    paint->setBrush(Qt::black);
-    QPen pen = QPen(Qt::black);
-    pen.setWidth(10);
-    paint->setPen(pen);
-    paint->drawPoints(points, px);
-    QTransform transform;
-    QTransform trans = transform.rotate(90);
-    QPixmap p1(pix->transformed(trans));
-
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-
-    //QPixmap p2(p1.scaledToHeight(840));
-    //p2.save(&buffer, "PNG");
-    p1.save(&buffer, "PNG");
-    //pix->save(&buffer, "PNG");
-
-    return QString("<p><img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
-#endif
-}
-
 QString PdfCreator::getPicture(int num, const QPair<QString,QString> &filename) const
 {
     QPixmap p(filename.first);
@@ -576,5 +324,203 @@ void PdfCreator::setComment(const QString & comm)
 {
     comment = comm;
 }
+
+QString PdfCreator::getOsX(unsigned int i, const float & ratio, const float & minx, const float & maxx) const
+{
+    float valx = maxx - minx;
+    float realVal = minx + 1.0 * i / ratio;
+
+    if (valx < 24)
+        return QString::number(realVal, 'f', 1)+QString("\"");
+
+    if (valx < 250)
+        return QString::number(realVal, 'f', 0)+QString("\"");
+
+    realVal /= 60.0;
+
+    if (valx < 24000)
+        return QString::number(realVal, 'f', 1)+QString("'");
+
+    return QString::number(realVal, 'f', 0)+QString("'");
+}
+
+QString PdfCreator::getOsY(unsigned int i, const float & imax, const float & minv, const float & maxv) const
+{
+    float valy = maxv - minv;
+    float realVal = minv + (1.0 * i / imax)* valy;
+    if (valy < 1)
+        return QString::number(realVal, 'f', 3);
+    if (valy < 10)
+        return QString::number(realVal, 'f', 2);
+    if (valy < 100)
+        return QString::number(realVal, 'f', 1);
+    return QString::number(realVal, 'f', 0);
+}
+
+QString PdfCreator::getWykres(analogIn id, const QString &title, const QString &subtite, const QString &jedn,
+                              unsigned int & minT, unsigned int & maxT,
+                              const float & minV, const float & maxV)
+{
+    constexpr unsigned int width = 1300;
+    constexpr unsigned int height = 900;
+    constexpr unsigned int marginleft = 50;
+    constexpr unsigned int marginright = 50;
+    constexpr unsigned int margintop = 50;
+    constexpr unsigned int marginbottom = 50;
+
+    constexpr unsigned int maxHeight = height - margintop - marginbottom;
+    constexpr unsigned int maxWidth = width - marginleft - marginright;
+
+    constexpr unsigned int pixelxperGray = 5;
+
+    QVector<float> points;
+    unsigned minTm = 10*minT;
+    unsigned maxTm = 10*maxT;
+    for (unsigned long pos = 0; pos < values.size(); ++pos) {
+        if (pos < minTm)
+            continue;
+        if (pos > maxTm)
+            break;
+
+        AnalValType a = values.at(pos);
+        /*
+        a_voc1              = 0,
+        a_voc2              = 1,
+        a_o2                = 2,
+        a_co2               = 3,
+        a_cisn_komora       = 4,
+        a_temp_komory       = 5,
+        a_temp_parownik     = 6,
+        a_8                 = 7
+        */
+        float vals[8] = { a.voc1 , a.voc2, a.o2, a.co2, a.cisnKom, a.tempKom, a.tempPar, a.a8 };
+        points.push_back(vals[(short)id]);
+    }
+
+    float valperYpx = (height - margintop - marginbottom) / (maxV - minV);
+    float valperXpx = (width - marginleft - marginright) / (maxT - minT);
+
+    QPixmap *pix = new QPixmap(width, height);
+    QPainter *paint = new QPainter(pix);
+
+    paint->setPen(Qt::black);
+    paint->setBrush(Qt::white);
+    QFont f = paint->font();
+    f.setPixelSize(20);
+    f.setBold(true);
+    paint->setFont(f);
+    QRect rect = QRect(0, 0, width - 1, height - 1);
+    paint->fillRect(rect, QBrush(Qt::white));
+    paint->drawRect(rect);//5 radius apiece
+
+    QFontMetrics fm(paint->font());
+    QString czasX("Czas, [ s ' / min \"]");
+    QRect rczas = fm.boundingRect(czasX);
+    paint->drawText(QPoint((width+rczas.width())/2-rczas.width(), height-5), czasX);
+
+    QRect rtitle = fm.boundingRect(title);
+    paint->drawText(QPoint((width+rtitle.width())/2-rtitle.width(), 5), title);
+
+    float actWidth;
+    unsigned int nrSec = 0;
+    QPen darkgrayPen = QPen(Qt::darkGray);
+    darkgrayPen.setWidth(3);
+    QPen grayPen = QPen(Qt::gray);
+    grayPen.setWidth(1);
+    QPen blackPen = QPen(Qt::black);
+    while (actWidth <= maxWidth)
+    {
+        if (nrSec % 10 == 0) {
+            paint->setPen(darkgrayPen);
+            paint->drawLine(marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom);
+            paint->setPen(blackPen);
+            paint->drawText(marginleft + actWidth - 15, height - 25, getOsX(actWidth, valperXpx, minT, maxT));
+        } else {
+            paint->setPen(grayPen);
+            paint->drawLine(marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom);
+        }
+        nrSec += 2;
+        actWidth += 2*pixelxperGray;
+    }
+
+    unsigned int actProm = 0;
+
+    while (actProm <= 100)
+    {
+        unsigned int y = maxHeight - int(maxHeight*actProm/100.0);
+        if (actProm % 10 == 0) {
+            paint->setPen(darkgrayPen);
+            paint->drawLine(marginleft, margintop+y, width-marginright, margintop+y);
+            paint->setPen(blackPen);
+            paint->drawText(5, y+margintop, getOsY(actProm, 100, minV, maxV));
+        } else {
+            paint->setPen(grayPen);
+            paint->drawLine(marginleft, margintop+y, width-marginright, margintop+y);
+        }
+        actProm += 2;
+    }
+
+    unsigned int valXP = 0;
+    unsigned int valX = 0;
+    unsigned int nsum = 0;
+    float fsum = 0;
+    unsigned int idp = 0;
+    float realValx = 0;
+    float valY = 0;
+    float valYP = 0;
+    QPen pen = QPen(Qt::green);
+    pen.setWidth(5);
+    paint->setPen(pen);
+    while (valX <= maxWidth && idp < points.size())
+    {
+        fsum += points[idp];
+        idp += 1;
+        nsum += 1;
+        realValx += 0.1*valperXpx;
+        valX = round(realValx);
+        if (valX != valXP) {
+            valY = 1.0* fsum / nsum;
+            fsum = 0.0;
+            nsum = 0;
+            if (valYP < maxV && valY > maxV)
+                valY = maxV;
+
+            if (valYP > minV && valY < minV)
+                valY = minV;
+
+            if (valYP > maxV && valY < maxV)
+                valYP = maxV;
+
+            if (valYP < minV && valY > minV)
+                valYP = minV;
+
+            if (valYP <= maxV && valYP >= minV && valY <= maxV && valY >= minV) {
+                unsigned int v1 = maxHeight - int(1.0 * (valYP - minV)*valperYpx);
+                unsigned int v2 = maxHeight - int(1.0 * (valY - minV)*valperYpx);
+                paint->drawLine(marginleft + valXP, margintop + v1, marginleft + valX, margintop + v2);
+            }
+            valXP = valX;
+            valYP = valY;
+        }
+    }
+
+    QTransform transform;
+    QTransform trans = transform.rotate(270);
+    QPixmap p1(pix->transformed(trans));
+
+    QPainter *paint270 = new QPainter(&p1);
+    paint270->setFont(f);
+    paint270->drawText((height-20)/2, width-5, QString("%1").arg(jedn));
+
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+
+    p1.save(&buffer, "PNG");
+    //pix->save(&buffer, "PNG");
+
+    return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
+}
+
+
 
 

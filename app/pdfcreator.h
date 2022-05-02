@@ -61,6 +61,12 @@ protected:
     QString getImages() const;
     QString getImageWykresPage(analogIn id, float min, float max, const QString &title, const QString &subtite, const QString &jedn) const;
 
+    QString getOsX(unsigned int i, const float &ratio, const float &minv, const float &maxv) const;
+    QString getOsY(unsigned int i, const float &imax, const float &minv, const float &maxv) const;
+    QString getWykres(analogIn id, const QString &title, const QString &subtite, const QString &jedn,
+                      unsigned int &minT, unsigned int &maxT,
+                      const float &minV, const float &maxV);
+
 private:
     QString getTitle1() const;
     QString getTitle2() const;
