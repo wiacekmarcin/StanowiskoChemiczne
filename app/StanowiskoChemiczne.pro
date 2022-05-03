@@ -79,7 +79,8 @@ SOURCES += \
     niusb6501.cpp \
     ustawienia.cpp \
     rs232.cpp \
-    wersjadlg.cpp
+    wersjadlg.cpp \
+    zdjeciaraport.cpp
 
 HEADERS += \
     build_defs.h \
@@ -131,7 +132,8 @@ HEADERS += \
     niusb6210.h \
     niusb6501.h \
     rs232.h \
-    wersjadlg.h
+    wersjadlg.h \
+    zdjeciaraport.h
 
 FORMS += \
     czujnikanalogowyustawieniawidget.ui \
@@ -163,7 +165,8 @@ FORMS += \
     nowytest_7.ui \
     nowytest_8.ui \
     nowytest_9.ui \
-    wersjadlg.ui
+    wersjadlg.ui \
+    zdjeciaraport.ui
 
 RESOURCES += \
     ikony.qrc

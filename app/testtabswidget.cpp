@@ -53,6 +53,8 @@ TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const QString &testName, c
     SETCZUJANAL(a_temp_komory, 6);
     SETCZUJANAL(a_cisn_komora, 7);
     SETCZUJANAL(a_temp_parownik, 8);
+
+    connect(this, &TestTabsWidget::processImageSignal, this, &TestTabsWidget::processImageSlot, Qt::QueuedConnection);
 }
 
 TestTabsWidget::~TestTabsWidget()
@@ -117,69 +119,24 @@ void TestTabsWidget::on_pbAddImage_clicked()
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setNameFilter(tr("Images (*.png *.xpm *.jpg *.bmp)"));
     dialog.setViewMode(QFileDialog::Detail);
-    dialog.setDirectory("E:\\devel\\StanowiskoChemiczne-source\\StanowiskoChemiczne\\img");
+    //dialog.setDirectory("E:\\devel\\StanowiskoChemiczne-source\\StanowiskoChemiczne\\img");
     QStringList fileNames;
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    this->setCursor(Qt::WaitCursor);
     if (dialog.exec())
         fileNames = dialog.selectedFiles();
     if (fileNames.size() == 0)
         return;
-    qDebug() << testWorkDirName;
-    foreach(auto fName, fileNames) {
-        QFileInfo f(fName);
-        QString fn = f.fileName();
-        QString basename = f.baseName();
-        QString fdst = testWorkDir.absoluteFilePath(fn);
-        QFile fp(fName);
-        if (!fp.copy(fdst)) {
-            qDebug() << "nie udalo sie skopiowac: " << fName << " -> " << fdst;
-            continue;
-        }
 
-        qDebug() << "fName" << fName << fdst;
-        QImage im(fdst);
-        if (im.isNull()) {
-            qDebug() << "nie udalo sie otworzyć: " << fdst;
-            continue;
-        }
+    qDebug() << fileNames;
+    emit processImageSignal(fileNames);
+}
 
-        //QSize is = im.size();
-        QImage c = im.scaledToWidth(900);
-        if (c.size().height() > 600) {
-            QImage d = c.scaledToHeight(600);
-            c = d;
-        }
-        qDebug() << "Image size=" << c.size();
-        //QImage png = c.con
-
-        QString fileNamePng = testWorkDir.absoluteFilePath(basename) + QString(".png");
-        qDebug() <<  "save: " << fileNamePng;
-        if(!c.save(fileNamePng, "PNG")) {
-            qDebug() << "canot save" ;
-            continue;
-        }
-        ui->gridLayoutImages->addWidget(new PictureFrame(this, fileNamePng),
-                                        images.size() / 3, images.size() % 3);
-
-        QCheckBox * checkBox = new QCheckBox(ui->scrollAreaWidgetContents_2);
-        checkBox->setObjectName(QString::fromUtf8("checkBoxImage")+QString::number(images.size()));
-        checkBox->setText(basename);
-        ui->gridLayoutCheckbox->addWidget(checkBox, images.size() , 0);
-
-        QSpacerItem * im_sp = new QSpacerItem(10,10, QSizePolicy::Expanding, QSizePolicy::Minimum);
-        ui->gridLayoutCheckbox->addItem(im_sp, images.size(), 1);
-
-        QLineEdit * le = new QLineEdit(this);
-        le->setObjectName(QString::fromUtf8("lineEditImage")+QString::number(images.size()));
-        ui->gridLayoutCheckbox->addWidget(le, images.size(), 2);
-
-        ImagesOpisType imtype;
-        imtype.box = checkBox;
-        imtype.lineedit = le;
-        m_imageCheckBox << imtype;
-        images << fileNamePng;
-
-    }
-
+void TestTabsWidget::processImageSlot(QStringList fileNames)
+{
+    //this->setCursor(Qt::WaitCursor);
+    ui->frame_images->addImages(fileNames, testWorkDirName);
+    //this->setCursor(Qt::ArrowCursor);
 }
 
 #define SHOW_WYKRES(A, N, O1, O2)     pdf.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), \
@@ -199,10 +156,9 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
     SHOW_WYKRES(a_temp_parownik, 8, "Wykres wartości temperatury parownika:", "Shimaden SR91, czujnik Pt100");
     SHOW_WYKRES(a_temp_komory, 6, "Wykres wartości temperatury wewnątrz komory:", "Shimaden SD17, termopara typ K, fi3mm");
 
-    foreach (auto im, m_imageCheckBox) {
-        if (im.box->isChecked()) {
-            pdf.addImage(testWorkDir.absoluteFilePath(im.box->text()) + QString(".png"), im.lineedit->text());
-        }
+    foreach (auto im, ui->frame_images->getImagesDecription()) {
+        pdf.addImage(im.first, im.second);
+        qDebug() << im.first;
     }
 
     QPrinter printer(QPrinter::PrinterResolution);

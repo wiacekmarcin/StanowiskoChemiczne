@@ -698,34 +698,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Wybierza zdjęcia, które będą dołączone do raportu</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QScrollArea" name="scrollArea_2">
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="widgetResizable">
-          <bool>true</bool>
-         </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents_2">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>672</width>
-            <height>68</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayoutCheckbox"/>
-         </widget>
-        </widget>
-       </item>
-       <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Komentarz do testu</string>
@@ -772,69 +744,55 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QFrame" name="frame">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="pbAddImage">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Dodaj zdjęcia</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="ZdjeciaRaport" name="frame_images">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>600</width>
+           <height>50</height>
+          </size>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pbAddImage">
-            <property name="text">
-             <string>Dodaj zdjęcie</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>235</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QScrollArea" name="scrollArea">
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="widgetResizable">
-          <bool>true</bool>
-         </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>672</width>
-            <height>512</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayoutImages"/>
-         </widget>
         </widget>
        </item>
       </layout>
@@ -856,6 +814,12 @@
    <class>CreateTestWizard</class>
    <extends>QStackedWidget</extends>
    <header>createtestwizard.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ZdjeciaRaport</class>
+   <extends>QFrame</extends>
+   <header>zdjeciaraport.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -892,12 +856,9 @@
   <tabstop>dbmin_8</tabstop>
   <tabstop>dbmax_8</tabstop>
   <tabstop>page_8</tabstop>
-  <tabstop>scrollArea_2</tabstop>
   <tabstop>pbCreateRaport</tabstop>
   <tabstop>pdfComment</tabstop>
-  <tabstop>scrollArea</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>pbAddImage</tabstop>
  </tabstops>
  <resources/>
  <connections/>

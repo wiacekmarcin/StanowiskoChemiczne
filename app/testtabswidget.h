@@ -36,6 +36,9 @@ public:
     CreateTestWizard * createTestWizard() const;
     QString getTestName() const;
 
+signals:
+    void processImageSignal(QStringList filenames);
+
 public slots:
     void finishedTest(bool success);
 
@@ -45,6 +48,8 @@ public slots:
 private slots:
     void on_pbAddImage_clicked();
     void on_pbCreateRaport_clicked();
+
+    void processImageSlot(QStringList filenames);
 
 private:
     Ui::TestTabsWidget *ui;
