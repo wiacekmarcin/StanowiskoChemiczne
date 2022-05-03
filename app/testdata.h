@@ -109,9 +109,6 @@ public:
 
     void addValues(float voc1, float voc2, float o2, float co2, float a8, float tempPar, float tempKom, float cisnKom);
 
-    void setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
-                          const QString &opis, const QString & opis2, const QString &unit);
-
     void setStartTest(const QTime &newStartTest);
     void setStopTest(const QTime &newStopTest);
 

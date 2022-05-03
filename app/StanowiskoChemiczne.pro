@@ -39,6 +39,7 @@ SOURCES += \
     czujnikianalogoweustawieniaframe.cpp \
     digitaloutwidget.cpp \
     dozowniksettings.cpp \
+    logowaniedlg.cpp \
     main.cpp \
     glowneokno.cpp \
     nicards.cpp \
@@ -92,6 +93,7 @@ HEADERS += \
     digitaloutwidget.h \
     dozowniksettings.h \
     glowneokno.h \
+    logowaniedlg.h \
     nicards.h \
     nowyprojectdlg.h \
     oczekiwanienazaplon.h \
@@ -139,6 +141,7 @@ FORMS += \
     digitaloutwidget.ui \
     dozowniksettings.ui \
     glowneokno.ui \
+    logowaniedlg.ui \
     nowyprojectdlg.ui \
     oczekiwanienazaplon.ui \
     oknostanowewyjscia.ui \

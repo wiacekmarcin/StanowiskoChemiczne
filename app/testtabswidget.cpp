@@ -20,7 +20,15 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const QString &testName, QWidget *parent) :
+#define SETCZUJANAL(A, N) do { Ustawienia::CzujnikAnalogowy temp = ust.getCzujnikAnalogowyUstawienia(A); \
+    ui->check_AddPdf_##N->setText(temp.name); \
+    ui->unit_1_##N->setText(temp.unit); \
+    ui->unit_2_##N->setText(temp.unit); \
+    czAnalRatio[A] = temp.convert; \
+    czAnalUnit[A] = temp.unit; \
+    } while(false);
+
+TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const QString &testName, const Ustawienia & ust, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestTabsWidget),
     projekt(pr)
@@ -37,6 +45,14 @@ TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const QString &testName, Q
     ui->stackedWidget->setTestData(&testDane);
     qInfo() << __FILE__ << ":" << __LINE__ << "test=" << testDane.getNazwaTestu();
 
+    SETCZUJANAL(a_voc1, 1);
+    SETCZUJANAL(a_voc2, 2);
+    SETCZUJANAL(a_o2, 3);
+    SETCZUJANAL(a_co2, 4);
+    SETCZUJANAL(a_8, 5);
+    SETCZUJANAL(a_temp_komory, 6);
+    SETCZUJANAL(a_cisn_komora, 7);
+    SETCZUJANAL(a_temp_parownik, 8);
 }
 
 TestTabsWidget::~TestTabsWidget()
@@ -166,22 +182,22 @@ void TestTabsWidget::on_pbAddImage_clicked()
 
 }
 
-#define SHOW_WYKRES(A, N, O1, O2, U)     pdf.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), \
-    ui->dbmin_##N->value(), ui->dbmax_##N->value(), O1, O2, U)
+#define SHOW_WYKRES(A, N, O1, O2)     pdf.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), \
+    ui->dbmin_##N->value(), ui->dbmax_##N->value(), czAnalRatio[A], ui->page_##N->value(), O1, O2, czAnalUnit[A])
 
 void TestTabsWidget::on_pbCreateRaport_clicked()
 {
     PdfCreator pdf(testDane);
     pdf.clearImage();
 
-    SHOW_WYKRES(a_voc1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL", "%");
-    SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL", "%");
-    SHOW_WYKRES(a_o2, 3, "Wykres wartości stężenia czujnika O2:", "Evikon E2638, tlen 0-25%", "%");
-    SHOW_WYKRES(a_co2, 4, "Wykres wartości stężenia czujnika CO2:", "Vaisala GMP251, 0-20%", "%");
-    SHOW_WYKRES(a_8, 5, "Wykres wartości stężenia czujnika wirtualnego:", "Przeliczenia wskazań z VOC1, wg stałej wprowadzonej przez użytkownika", "%");
-    SHOW_WYKRES(a_cisn_komora, 7, "Wykres wartości ciśnienia wewnątrz komory:", "WIKA A-10, 0-2,5 bar abs", "kPa");
-    SHOW_WYKRES(a_temp_parownik, 8, "Wykres wartości temperatury parownika:", "Shimaden SR91, czujnik Pt100", "st C");
-    SHOW_WYKRES(a_temp_komory, 6, "Wykres wartości temperatury wewnątrz komory:", "Shimaden SD17, termopara typ K, fi3mm", "st C");
+    SHOW_WYKRES(a_voc1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL");
+    SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL");
+    SHOW_WYKRES(a_o2, 3, "Wykres wartości stężenia czujnika O2:", "Evikon E2638, tlen 0-25%");
+    SHOW_WYKRES(a_co2, 4, "Wykres wartości stężenia czujnika CO2:", "Vaisala GMP251, 0-20%");
+    SHOW_WYKRES(a_8, 5, "Wykres wartości stężenia czujnika wirtualnego:", "Przeliczenia wskazań z VOC1, wg stałej wprowadzonej przez użytkownika");
+    SHOW_WYKRES(a_cisn_komora, 7, "Wykres wartości ciśnienia wewnątrz komory:", "WIKA A-10, 0-2,5 bar abs");
+    SHOW_WYKRES(a_temp_parownik, 8, "Wykres wartości temperatury parownika:", "Shimaden SR91, czujnik Pt100");
+    SHOW_WYKRES(a_temp_komory, 6, "Wykres wartości temperatury wewnątrz komory:", "Shimaden SD17, termopara typ K, fi3mm");
 
     foreach (auto im, m_imageCheckBox) {
         if (im.box->isChecked()) {

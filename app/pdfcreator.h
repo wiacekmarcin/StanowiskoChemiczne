@@ -13,6 +13,8 @@
 
 
 typedef struct visWykres {
+    analogIn id;
+    double ratio;
     bool show;
     float minVal;
     float maxVal;
@@ -30,13 +32,13 @@ public:
     PdfCreator(const TestData & td);
     QString getBody() const ;
 
-    void setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
-                          const QString &opis, const QString & opis2, const QString &unit);
-
     void addImage(const QString & file, const QString &descr);
     void clearImage();
     void setComment(const QString &comm);
 
+    void setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
+                          double ratio, unsigned int pages, const QString &opis,
+                          const QString & opis2, const QString &unit);
 protected:
 
 /** Funkcje od formularza **/
@@ -59,20 +61,16 @@ protected:
     QString getWarunkiPoUdanejProbie() const;
 
     QString getImages() const;
-    QString getImageWykresPage(analogIn id, float min, float max, const QString &title, const QString &subtite, const QString &jedn) const;
+    QString getImageWykresPage(const visibleWykresType & var) const;
 
     QString getOsX(unsigned int i, const float &ratio, const float &minv, const float &maxv) const;
     QString getOsY(unsigned int i, const float &imax, const float &minv, const float &maxv) const;
-    QString getWykres(analogIn id, const QString &title, const QString &subtite, const QString &jedn,
-                      unsigned int &minT, unsigned int &maxT,
-                      const float &minV, const float &maxV);
+
+    QString getImageWykres(const visibleWykresType & var) const;
 
 private:
     QString getTitle1() const;
     QString getTitle2() const;
-
-    QString getImageWykres(analogIn id, float min, float max, const QString & jedn) const;
-
 
     QString getPicture(int num, const QPair<QString, QString> &filename) const;
     QString getComment() const;
@@ -112,7 +110,7 @@ private:
 
 
     QList<AnalValType> values;
-    QMap<analogIn, visibleWykresType> visibleWykres;
+    QVector<visibleWykresType> visibleWykres;
 };
 
 

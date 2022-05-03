@@ -68,12 +68,8 @@ QString PdfCreator::getBody() const
         result += getProba(td.getProby().at(id), td.getIloscCieczy(), id + 1);
     }
     result += getWarunkiPoUdanejProbie();
-    analogIn idTab[8] = { a_voc1, a_voc2, a_o2, a_co2, a_8, a_cisn_komora, a_temp_komory, a_temp_parownik};
-    for (short i = 0; i < 8; ++i) {
-        visibleWykresType var =  visibleWykres[idTab[i]];
-        if (!var.show)
-            continue;
-        result += getImageWykresPage(idTab[i], var.minVal, var.maxVal, var.opis, var.opis2, var.jedn);
+    foreach (visibleWykresType var, visibleWykres) {
+        result += getImageWykresPage(var);
     }
     result += getImages();
     result += getComment();
@@ -240,11 +236,11 @@ QString PdfCreator::getWarunkiPoUdanejProbie() const
     return ret + QString("</ul></p>");
 }
 
-QString PdfCreator::getImageWykresPage(analogIn id, float min, float max, const QString &title,
-                                     const QString &subtite, const QString &jedn) const
+QString PdfCreator::getImageWykresPage(const visibleWykresType & var) const
 {
-    QString ret = QString("<div style=\"page-break-before:always\" ><p><b>%1</b></p><p>%2</p><p style=\"text-align:center\">").arg(title, subtite);
-    ret += getImageWykres(id, min, max, jedn);
+    QString ret = QString("<div style=\"page-break-before:always\" ><p><b>%1</b></p><p>%2</p><p style=\"text-align:center\">")
+            .arg(var.opis, var.opis2);
+    ret += getImageWykres(var);
     ret += "</p></div>";
     return ret;
 
@@ -297,19 +293,6 @@ QString PdfCreator::getImages() const
     return ret;
 }
 
-void PdfCreator::setWykresVisible(analogIn wykresId, bool show, float minV, float maxV,
-                                const QString & opis, const QString &opis2, const QString & unit)
-{
-    visibleWykresType value;
-    value.show = show;
-    value.minVal = minV;
-    value.maxVal = maxV;
-    value.opis = opis;
-    value.opis2 = opis2;
-    value.jedn = unit;
-    visibleWykres[wykresId] = value;
-}
-
 void PdfCreator::addImage(const QString &file, const QString &descr)
 {
     fileList << QPair<QString,QString>(file, descr);
@@ -357,10 +340,46 @@ QString PdfCreator::getOsY(unsigned int i, const float & imax, const float & min
     return QString::number(realVal, 'f', 0);
 }
 
-QString PdfCreator::getWykres(analogIn id, const QString &title, const QString &subtite, const QString &jedn,
-                              unsigned int & minT, unsigned int & maxT,
-                              const float & minV, const float & maxV)
+void PdfCreator::setWykresVisible(analogIn wykresId, bool show, float minV, float maxV, double ratio, unsigned int pages,
+                                  const QString &opis, const QString &opis2, const QString &unit)
 {
+    if (!show || pages == 0)
+        return;
+    visibleWykresType v;
+    v.id = wykresId;
+    v.minVal = minV;
+    v.maxVal = maxV;
+    v.ratio = ratio;
+    v.opis = opis;
+    v.opis2 = opis2;
+    v.jedn = unit;
+    if (pages == 1) {
+        v.minTime = 0;
+        v.maxTime = values.size();
+        visibleWykres.append(v);
+        return;
+    }
+    unsigned int TSize = values.size();
+    for (uint ip = 0; ip < pages; ip++) {
+        visibleWykresType t = v;
+        t.minTime = TSize*ip/pages;
+        t.maxTime = TSize*(ip+1)/pages;
+        visibleWykres.append(t);
+    }
+}
+
+QString PdfCreator::getImageWykres(const visibleWykresType & var) const
+{
+    analogIn id = var.id;
+    float minV = var.maxVal;
+    float maxV = var.maxVal;
+    float minT = var.minTime;
+    float maxT = var.maxTime;
+    double ratio = var.ratio;
+    const QString & title = var.opis;
+    const QString & subtitle = var.opis2;
+    const QString & jedn = var.jedn;
+
     constexpr unsigned int width = 1300;
     constexpr unsigned int height = 900;
     constexpr unsigned int marginleft = 50;
@@ -376,7 +395,7 @@ QString PdfCreator::getWykres(analogIn id, const QString &title, const QString &
     QVector<float> points;
     unsigned minTm = 10*minT;
     unsigned maxTm = 10*maxT;
-    for (unsigned long pos = 0; pos < values.size(); ++pos) {
+    for (unsigned int pos = 0; pos < (unsigned int)values.size(); ++pos) {
         if (pos < minTm)
             continue;
         if (pos > maxTm)
@@ -394,7 +413,7 @@ QString PdfCreator::getWykres(analogIn id, const QString &title, const QString &
         a_8                 = 7
         */
         float vals[8] = { a.voc1 , a.voc2, a.o2, a.co2, a.cisnKom, a.tempKom, a.tempPar, a.a8 };
-        points.push_back(vals[(short)id]);
+        points.push_back(ratio * vals[(short)id]);
     }
 
     float valperYpx = (height - margintop - marginbottom) / (maxV - minV);
@@ -420,6 +439,9 @@ QString PdfCreator::getWykres(analogIn id, const QString &title, const QString &
 
     QRect rtitle = fm.boundingRect(title);
     paint->drawText(QPoint((width+rtitle.width())/2-rtitle.width(), 5), title);
+
+    QRect rbtitle = fm.boundingRect(subtitle);
+    paint->drawText(QPoint((width+rbtitle.width())/2-rbtitle.width(), 25), title);
 
     float actWidth;
     unsigned int nrSec = 0;
@@ -471,7 +493,7 @@ QString PdfCreator::getWykres(analogIn id, const QString &title, const QString &
     QPen pen = QPen(Qt::green);
     pen.setWidth(5);
     paint->setPen(pen);
-    while (valX <= maxWidth && idp < points.size())
+    while (valX <= maxWidth && idp < (unsigned int)points.size())
     {
         fsum += points[idp];
         idp += 1;

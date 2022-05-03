@@ -10,7 +10,7 @@
 #define CONNECT_RB(N) do { connect(ui->rb_l_##N, &QRadioButton::clicked, this, &UstawieniaDozownika::on_rb_l_##N##_clicked); \
                         connect(ui->rb_p_##N, &QRadioButton::clicked, this, &UstawieniaDozownika::on_rb_p_##N##_clicked); } while(false)
 
-UstawieniaDozownika::UstawieniaDozownika(Ustawienia & ust, QWidget *parent) :
+UstawieniaDozownika::UstawieniaDozownika(Ustawienia & ust, const UserPrivilige &user, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::UstawieniaDozownika),
     ustawienia(ust)

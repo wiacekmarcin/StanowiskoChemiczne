@@ -16,7 +16,7 @@ class QTreeWidgetItem;
 class TestTabWidget;
 class QSignalMapper;
 class Urzadzenia;
-
+class QLabel;
 
 
 class GlowneOkno : public QMainWindow
@@ -24,7 +24,7 @@ class GlowneOkno : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GlowneOkno(Ustawienia & ust, Urzadzenia *urzadzenia, QWidget *parent = 0);
+    explicit GlowneOkno(UserPrivilige user, Ustawienia & ust, Urzadzenia *urzadzenia, QWidget *parent = 0);
     ~GlowneOkno();
 
 private slots:
@@ -35,18 +35,16 @@ private slots:
     void dozownikTest();
 
     void resizeEvent(QResizeEvent * event);
-    void on_actionUstawienia_triggered();
 
     void changeTestName(const QString &name);
     void finishedTest(bool success);
 
+    void on_actionZapisz_triggered();
+    void on_actionOtw_rz_triggered();
     void on_actionWersja_triggered();
 
-    void on_actionUstawieniaOgolne_triggered();
-
-    void on_actionZapisz_triggered();
-
-    void on_actionOtw_rz_triggered();
+    void onLogowanieTriggered();
+    void onUstawieniaTriggered();
 
 protected:
     void changeSelectedTest();
@@ -55,6 +53,7 @@ protected:
 
 private:
     Ui::GlowneOkno *ui;
+    UserPrivilige user;
     Urzadzenia * urzadzenia;
     Ustawienia & settings;
 
@@ -76,6 +75,7 @@ private:
     QThread thWykresy;
     QThread thTest;
 
+    QLabel * userLogInfo;
 };
 
 

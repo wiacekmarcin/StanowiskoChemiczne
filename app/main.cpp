@@ -5,7 +5,7 @@
 
 #include "ustawienia.h"
 #include "urzadzenia.h"
-
+#include "logowaniedlg.h"
 
 
 int main(int argc, char *argv[])
@@ -19,9 +19,16 @@ int main(int argc, char *argv[])
     //a.setStyle("Windows");
     //QApplication::setStyle(QWindowsStyle());
     Ustawienia u;
-    Urzadzenia urzadz(u);
+    LogowanieDlg * dlg = new LogowanieDlg();
+    if (dlg->exec() == QDialog::Rejected) {
+        a.quit();
+        return 0;
+    }
+    UserPrivilige user = dlg->getUser();
+    delete dlg;
 
-    GlowneOkno w(u, &urzadz);
+    Urzadzenia urzadz(u);
+    GlowneOkno w(user, u, &urzadz);
     w.showMaximized();
     //w.showMinimized();
 

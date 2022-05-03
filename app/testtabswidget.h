@@ -30,7 +30,7 @@ class TestTabsWidget : public QWidget
 
 public:
     explicit TestTabsWidget(QWidget *parent = 0);
-    TestTabsWidget(const ProjectItem & pr, const QString & testName, QWidget * parent);
+    TestTabsWidget(const ProjectItem & pr, const QString & testName, const Ustawienia &ust, QWidget * parent);
     ~TestTabsWidget();
     void setActive();
     CreateTestWizard * createTestWizard() const;
@@ -55,6 +55,9 @@ private:
     QString testWorkDirName;
     QStringList images;
     QList<ImagesOpisType> m_imageCheckBox;
+
+    QMap<analogIn, double> czAnalRatio;
+    QMap<analogIn, QString> czAnalUnit;
 };
 
 QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item);

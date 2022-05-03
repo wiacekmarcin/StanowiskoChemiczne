@@ -16,7 +16,7 @@ class UstawieniaDozownika : public QDialog
     Q_OBJECT
 
 public:
-    explicit UstawieniaDozownika(Ustawienia & ust, QWidget *parent = nullptr);
+    explicit UstawieniaDozownika(Ustawienia & ust, const UserPrivilige & user, QWidget *parent = nullptr);
     ~UstawieniaDozownika();
 
 private slots:

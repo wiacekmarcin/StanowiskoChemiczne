@@ -3,6 +3,8 @@
 
 #include "nowyprojectdlg.h"
 #include "czujnikianalogoweustawieniaframe.h"
+#include "logowaniedlg.h"
+
 
 //#include <QMediaPlayer>
 //#include <QMediaPlaylist>
@@ -12,6 +14,9 @@
 #include <QStackedWidget>
 #include <QSignalMapper>
 #include <QResizeEvent>
+#include <QWidgetAction>
+#include <QLabel>
+#include <QHBoxLayout>
 
 #include "videowidget.h"
 #include "createtestwizard.h"
@@ -27,9 +32,10 @@
 
 #include "wersjadlg.h"
 
-GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
+GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GlowneOkno),
+    user(user_),
     urzadzenia(urzadz),
     settings(ust),
     selectedProject(nullptr),
@@ -74,6 +80,20 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
     urzadzenia->readInputs();
     signalMapper = new QSignalMapper(this);
 
+
+    userLogInfo = new QLabel(ui->menuBar);
+    userLogInfo->setText(QString("Zalogowany jako : %1").arg((user == U_STUDENT ? "Student" : (user == U_ADMIN ? "Administrator" : "Serwisant"))));
+    userLogInfo->setContentsMargins(15, 6, 15, 6);
+
+    QWidgetAction *widgetAction=new QWidgetAction(this);
+    widgetAction->setObjectName("Zalogowanyjako");
+    widgetAction->setDefaultWidget(userLogInfo);
+
+    //ui->menuBar->addAction(widgetAction);
+    ui->menuLogowanie->addAction(widgetAction);
+    ui->menuLogowanie->addSeparator();
+    ui->menuLogowanie->addAction(QString("Logowanie"), this, &GlowneOkno::onLogowanieTriggered);
+
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
         act_wykresy[i] = new QAction(this);
         act_wykresy[i]->setObjectName(QString("actionCzujnikChart_%1").arg(i));
@@ -82,17 +102,7 @@ GlowneOkno::GlowneOkno(Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
         connect(act_wykresy[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
         signalMapper->setMapping(act_wykresy[i],     i);
         //connect(act_wykresy[i], &QAction::triggered, [this, i] { wybierzCzujke(i); });
-
-        act_wyzwal[i] = new QAction(this);
-        act_wyzwal[i]->setObjectName(QString("actionCzujnikTrigger_%1").arg(i));
-        act_wyzwal[i]->setCheckable(true);
-        act_wyzwal[i]->setText(settings.getCzAnalName((analogIn)i));
-        connect(act_wyzwal[i], SIGNAL(triggered()), signalMapper, SLOT(map()));
-        signalMapper->setMapping(act_wyzwal[i],     settings.maxCzujekAnal + i);
-        //connect(act_wyzwal[i], &QAction::triggered, [this, i] { wybierzCzujke(settings.maxCzujek+i); });
-
-        ui->menuPodgl_d_wej->addAction(act_wykresy[i]);
-        ui->menuWyzwalanie_wyj->addAction(act_wyzwal[i]);
+        ui->menuPodgl_wyj->addAction(act_wykresy[i]);
     }
 
     connect (signalMapper, SIGNAL( mapped(int) ), this, SLOT(wybierzCzujke(int))) ;
@@ -158,7 +168,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     mapProjektTesty[selectedProject].append(qtreewidgetitem);
     
-    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject], testName,
+    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject], testName, settings,
                                             ui->testyStackedWidget);
 
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
@@ -274,9 +284,6 @@ void GlowneOkno::resizeEvent(QResizeEvent *event)
 void GlowneOkno::changeSelectedTest()
 {
     ui->actionNowy_Test->setDisabled(selectedProject == nullptr);
-    ui->actionDodaj_film->setDisabled(selectedTest == nullptr);
-    ui->actionDodaj_zdj_cie->setDisabled(selectedTest == nullptr);
-    ui->actionTw_rz_raport->setDisabled(selectedTest == nullptr);
     if (selectedTest) {
         ui->stackedWidget->setVisible(true);
         ui->stackedWidget->setCurrentIndex(1);
@@ -302,16 +309,8 @@ void GlowneOkno::setActionText()
 void GlowneOkno::disableNowyTest(bool dis)
 {
     ui->treeWidget->setEnabled(!dis);
-    ui->actionDodaj_film->setEnabled(!dis);
-    ui->actionDodaj_zdj_cie->setEnabled(!dis);
     ui->actionNowy_Test->setEnabled(!dis);
     ui->actionNowy_projekt->setEnabled(!dis);
-}
-
-void GlowneOkno::on_actionUstawienia_triggered()
-{
-    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, this);
-    dlg->exec();
 }
 
 void GlowneOkno::changeTestName(const QString &name)
@@ -340,20 +339,6 @@ void GlowneOkno::on_actionWersja_triggered()
     dlg->exec();
     delete dlg;
 }
-
-
-void GlowneOkno::on_actionUstawieniaOgolne_triggered()
-{
-    UserPrivilige user = U_STUDENT;
-    UstawieniaDialog *dlg = new UstawieniaDialog(user, settings, this);
-    if (dlg->exec() == QDialog::Accepted)
-    {
-        //dlg->saveData(settings);
-        ui->analog->setParams(settings);
-        setActionText();
-    }
-}
-
 
 void GlowneOkno::on_actionZapisz_triggered()
 {
@@ -426,7 +411,7 @@ void GlowneOkno::on_actionOtw_rz_triggered()
             projectItem->addChild(testIitem);
             mapProjektTesty[projectItem].append(testIitem);
 
-            TestTabsWidget *tb = new TestTabsWidget(pr, testname, ui->testyStackedWidget);
+            TestTabsWidget *tb = new TestTabsWidget(pr, testname, settings, ui->testyStackedWidget);
             in >> (*tb);
 
             testy[testIitem] = tb;
@@ -442,4 +427,29 @@ void GlowneOkno::on_actionOtw_rz_triggered()
             continue;
     }
 }
+
+void GlowneOkno::onLogowanieTriggered()
+{
+    LogowanieDlg * dlg = new LogowanieDlg();
+    if (dlg->exec() == QDialog::Rejected) {
+        return;
+    }
+    user = dlg->getUser();
+    delete dlg;
+}
+
+void GlowneOkno::onUstawieniaTriggered()
+{
+    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
+    dlg->exec();
+
+    UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
+    if (dlg2->exec() == QDialog::Accepted)
+    {
+        //dlg->saveData(settings);
+        ui->analog->setParams(settings);
+        setActionText();
+    }
+}
+
 

@@ -34,8 +34,17 @@
     <height>1</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
+  </property>
   <property name="windowTitle">
-   <string>GlowneOkno</string>
+   <string>Stanowisko do badań i analizy eksplozji</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -330,7 +339,7 @@
      <x>0</x>
      <y>0</y>
      <width>1364</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPlik">
@@ -343,44 +352,12 @@
     <addaction name="actionZapisz"/>
     <addaction name="actionOtw_rz"/>
     <addaction name="separator"/>
-    <addaction name="actionDodaj_zdj_cie"/>
-    <addaction name="actionDodaj_film"/>
-    <addaction name="separator"/>
-    <addaction name="actionTw_rz_raport"/>
-    <addaction name="separator"/>
     <addaction name="actionWyj_cie"/>
    </widget>
    <widget class="QMenu" name="menuSerwer">
     <property name="title">
-     <string>Se&amp;rwis</string>
+     <string>Ustawienia</string>
     </property>
-    <widget class="QMenu" name="menuDataq_Card">
-     <property name="title">
-      <string>&amp;Dataq Card</string>
-     </property>
-     <widget class="QMenu" name="menuPodgl_d_wej">
-      <property name="title">
-       <string>&amp;Podgląd wejść</string>
-      </property>
-     </widget>
-     <widget class="QMenu" name="menuWyzwalanie_wyj">
-      <property name="title">
-       <string>&amp;Wyzwalanie wyjść</string>
-      </property>
-     </widget>
-     <addaction name="menuPodgl_d_wej"/>
-     <addaction name="menuWyzwalanie_wyj"/>
-     <addaction name="actionParametry_rejestracji_ci_nienia"/>
-    </widget>
-    <widget class="QMenu" name="menuD_ozownik">
-     <property name="title">
-      <string>D&amp;ozownik</string>
-     </property>
-     <addaction name="actionUstawienia"/>
-    </widget>
-    <addaction name="menuDataq_Card"/>
-    <addaction name="menuD_ozownik"/>
-    <addaction name="actionUstawieniaOgolne"/>
    </widget>
    <widget class="QMenu" name="menuPomoc">
     <property name="title">
@@ -390,9 +367,21 @@
     <addaction name="separator"/>
     <addaction name="actionWersja"/>
    </widget>
+   <widget class="QMenu" name="menuPodgl_wyj">
+    <property name="title">
+     <string>Podgląd wyjść </string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuLogowanie">
+    <property name="title">
+     <string>Logowanie</string>
+    </property>
+   </widget>
    <addaction name="menuPlik"/>
    <addaction name="menuSerwer"/>
+   <addaction name="menuPodgl_wyj"/>
    <addaction name="menuPomoc"/>
+   <addaction name="menuLogowanie"/>
   </widget>
   <action name="actionNowy_projekt">
    <property name="text">
@@ -409,21 +398,6 @@
     <string>&amp;Zapisz</string>
    </property>
   </action>
-  <action name="actionDodaj_zdj_cie">
-   <property name="text">
-    <string>&amp;Dodaj zdjęcie</string>
-   </property>
-  </action>
-  <action name="actionDodaj_film">
-   <property name="text">
-    <string>Dodaj &amp;film</string>
-   </property>
-  </action>
-  <action name="actionTw_rz_raport">
-   <property name="text">
-    <string>&amp;Twórz raport</string>
-   </property>
-  </action>
   <action name="actionWyj_cie">
    <property name="text">
     <string>&amp;Wyjście</string>
@@ -432,21 +406,6 @@
   <action name="actionInstrukcja">
    <property name="text">
     <string>&amp;Instrukcja</string>
-   </property>
-  </action>
-  <action name="actionUstawieniaOgolne">
-   <property name="text">
-    <string>&amp;Ustawienia</string>
-   </property>
-  </action>
-  <action name="actionParametry_rejestracji_ci_nienia">
-   <property name="text">
-    <string>Parametry &amp;rejestracji ciśnienia</string>
-   </property>
-  </action>
-  <action name="actionUstawienia">
-   <property name="text">
-    <string>Ustawienia</string>
    </property>
   </action>
   <action name="actionWersja">
