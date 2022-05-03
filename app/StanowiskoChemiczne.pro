@@ -58,7 +58,9 @@ SOURCES += \
     ustawieniadialog.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
+    videoplayer.cpp \
     videowidget.cpp \
+    videowidgetsurface.cpp \
     createtestwizard.cpp \
     projectitem.cpp \
     testpage.cpp \
@@ -111,7 +113,9 @@ HEADERS += \
     ustawieniadozownika.h \
     ustawieniatestu.h \
     version.h \
+    videoplayer.h \
     videowidget.h \
+    videowidgetsurface.h \
     createtestwizard.h \
     projectitem.h \
     testpage.h \

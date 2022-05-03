@@ -1,6 +1,36 @@
 #ifndef VIDEOWIDGET_H
 #define VIDEOWIDGET_H
 
+
+#include "videowidgetsurface.h"
+
+#include <QWidget>
+
+class QAbstractVideoSurface;
+
+class VideoWidgetSurface;
+
+class VideoWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    VideoWidget(QWidget *parent = 0);
+    ~VideoWidget();
+
+    QAbstractVideoSurface *videoSurface() const { return surface; }
+
+    QSize sizeHint() const;
+
+protected:
+    void paintEvent(QPaintEvent *event);
+    void resizeEvent(QResizeEvent *event);
+
+private:
+    VideoWidgetSurface *surface;
+};
+
+#if 0
+
 #include <QWidget>
 namespace Ui {
 class VideoWidget;
@@ -35,5 +65,5 @@ private:
     QMediaPlayer *player;
     qint64 duration;
 };
-
+#endif //if 0
 #endif // VIDEOWIDGET_H
