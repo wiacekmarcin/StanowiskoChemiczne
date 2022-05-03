@@ -1,8 +1,9 @@
 #include "ustawieniatestu.h"
 #include "ui_ustawieniatestu.h"
 #include <QAbstractButton>
+#include "ustawienia.h"
 
-UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, QWidget *parent) :
+UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, const UserPrivilige &user, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::UstawieniaTestu),
     ustawienia(ust)
@@ -10,6 +11,9 @@ UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, QWidget *parent) :
     ui->setupUi(this);
     connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &UstawieniaTestu::on_buttonBox_clicked);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &UstawieniaTestu::on_buttonBox_accepted);
+    
+    ui->test_2->setEnabled((user & U_ADMIN) == U_ADMIN);
+    ui->test_3->setEnabled((user & U_ADMIN) == U_ADMIN);
 }
 
 UstawieniaTestu::~UstawieniaTestu()

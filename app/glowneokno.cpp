@@ -25,10 +25,11 @@
 
 #include "testtabswidget.h"
 #include "urzadzenia.h"
-#include "dozowniksettings.h"
+
 #include "ustawieniadozownika.h"
 #include "ustawienia.h"
 #include "ustawieniadialog.h"
+#include "ustawieniatestu.h"
 
 #include "wersjadlg.h"
 
@@ -93,6 +94,7 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     ui->menuLogowanie->addAction(widgetAction);
     ui->menuLogowanie->addSeparator();
     ui->menuLogowanie->addAction(QString("Logowanie"), this, &GlowneOkno::onLogowanieTriggered);
+    ui->menuLogowanie->addAction(QString("Wylogowanie"), this, &GlowneOkno::onWylogowanieTriggered);
 
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
         act_wykresy[i] = new QAction(this);
@@ -180,7 +182,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
     ui->testyStackedWidget->setCurrentWidget(testy[selectedTest]);
-    testy[selectedTest]->createTestWizard()->init(&settings,
+    testy[selectedTest]->createTestWizard()->init(&settings, user,
                                                   qtreewidgetitem->data(0, Qt::DisplayRole).toString());
 
     ui->treeWidget->setCurrentItem(selectedTest);
@@ -273,14 +275,6 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column *
 void GlowneOkno::wybierzCzujke(int /*id*/)
 {
     //
-}
-
-void GlowneOkno::dozownikTest()
-{
-    DozownikSettings * dlg = new DozownikSettings(this);
-    //dlg->setSmg(dlgUrz->getSerial());
-    dlg->exec();
-    delete dlg;
 }
 
 void GlowneOkno::resizeEvent(QResizeEvent *event)
@@ -444,13 +438,19 @@ void GlowneOkno::onLogowanieTriggered()
         return;
     }
     user = dlg->getUser();
+    userLogInfo->setText(QString("Zalogowany jako : %1").arg((user == U_STUDENT ? "Student" : (user == U_ADMIN ? "Administrator" : "Serwisant"))));
     delete dlg;
+}
+
+void GlowneOkno::onWylogowanieTriggered()
+{
+    user = U_STUDENT;
+    userLogInfo->setText(QString("Zalogowany jako : %1").arg((user == U_STUDENT ? "Student" : (user == U_ADMIN ? "Administrator" : "Serwisant"))));
 }
 
 void GlowneOkno::onUstawieniaTriggered()
 {
-    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
-    dlg->exec();
+
 
     UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
     if (dlg2->exec() == QDialog::Accepted)
@@ -461,4 +461,26 @@ void GlowneOkno::onUstawieniaTriggered()
     }
 }
 
+
+
+void GlowneOkno::on_actionSygna_y_analogowe_triggered()
+{
+
+}
+
+
+void GlowneOkno::on_actionDozowniki_triggered()
+{
+    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
+    dlg->exec();
+    delete dlg;
+}
+
+
+void GlowneOkno::on_actionUstawienia_testu_triggered()
+{
+    UstawieniaTestu * dlg = new UstawieniaTestu(settings, user, this);
+    dlg->exec();
+    delete dlg;
+}
 

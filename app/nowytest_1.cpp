@@ -3,7 +3,7 @@
 #include <QDebug>
 #include "ustawienia.h"
 
-NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
+NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_1)
 {
@@ -25,6 +25,10 @@ NowyTest_1::NowyTest_1(const QString & testName, QWidget *parent) :
     maxVal[QString("Benzyna")] = 10;
     maxVal[QString("Ropa")] = 20;
     maxVal[QString("Alkohol")] = 40;
+
+    if (visDozownik5) {
+        ui->cbDozownik->addItem(QString("5"));
+    }
 }
 
 

@@ -70,13 +70,14 @@ TestData * CreateTestWizard::getTestData()
     return this->dt;
 }
 
-void CreateTestWizard::init(Ustawienia * ust,
+void CreateTestWizard::init(Ustawienia * ust, const UserPrivilige & user_,
                             const QString & testName)
 {
     ustawienia = ust;
+    user = user_;
     numberInitDozCycles = ust->getNrInitializeCycles();
 
-    addPage(new NowyTest_1(testName, this), TestPage::PAGE_1, 1);
+    addPage(new NowyTest_1(testName, (user & U_ADMIN) == U_ADMIN, this), TestPage::PAGE_1, 1);
     addPage(new NowyTest_2(ust->getNrInitializeCycles(), this), TestPage::PAGE_2, 2);
     addPage(new NowyTest_3(this), TestPage::PAGE_3, 3);
     addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
@@ -84,7 +85,7 @@ void CreateTestWizard::init(Ustawienia * ust,
     addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
     addPage(new NowyTest_7(this), TestPage::PAGE_7, 7);
     addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
-    addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
+    addPage(new NowyTest_9(dt, this), TestPage::PAGE_9, 9);
 
     selectedId = TestPage::PAGE_1;
     finished = false;
@@ -95,7 +96,7 @@ void CreateTestWizard::init(Ustawienia * ust,
 
 void CreateTestWizard::initFromFile()
 {
-    addPage(new NowyTest_9(this), TestPage::PAGE_9, 9);
+    addPage(new NowyTest_9(dt, this), TestPage::PAGE_9, 9);
 
     selectedId = TestPage::PAGE_9;
     finished = true;

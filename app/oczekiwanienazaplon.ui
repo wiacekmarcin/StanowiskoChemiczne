@@ -22,7 +22,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Komora</string>
+   <string>Stanowisko do analizy wybuchów : Oczekina na zapłon w komorze</string>
   </property>
   <property name="toolTip">
    <string/>

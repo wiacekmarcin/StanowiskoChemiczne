@@ -46,12 +46,8 @@ typedef struct proba {
     float co2;
     float cz8;
 
+    float iloscCalkowitaCieczy; //suma do tej poruy dozowanej cieczy
 } ProbaType;
-
-typedef struct data {
-
-
-} SDataType;
 
 
 class TestData : public QObject

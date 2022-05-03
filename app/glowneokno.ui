@@ -36,7 +36,6 @@
   </property>
   <property name="font">
    <font>
-    <family>Times New Roman</family>
     <pointsize>12</pointsize>
    </font>
   </property>
@@ -279,7 +278,7 @@
          <property name="minimumSize">
           <size>
            <width>1000</width>
-           <height>300</height>
+           <height>250</height>
           </size>
          </property>
         </widget>
@@ -358,6 +357,10 @@
     <property name="title">
      <string>Ustawienia</string>
     </property>
+    <addaction name="actionSygna_y_analogowe"/>
+    <addaction name="actionDozowniki"/>
+    <addaction name="actionSygna_y_cyfrowe"/>
+    <addaction name="actionUstawienia_testu"/>
    </widget>
    <widget class="QMenu" name="menuPomoc">
     <property name="title">
@@ -416,6 +419,26 @@
   <action name="actionOtw_rz">
    <property name="text">
     <string>Otwórz</string>
+   </property>
+  </action>
+  <action name="actionSygna_y_analogowe">
+   <property name="text">
+    <string>Sygnały analogowe</string>
+   </property>
+  </action>
+  <action name="actionDozowniki">
+   <property name="text">
+    <string>Dozowniki</string>
+   </property>
+  </action>
+  <action name="actionSygna_y_cyfrowe">
+   <property name="text">
+    <string>Sygnały cyfrowe</string>
+   </property>
+  </action>
+  <action name="actionUstawienia_testu">
+   <property name="text">
+    <string>Ustawienia testu</string>
    </property>
   </action>
  </widget>

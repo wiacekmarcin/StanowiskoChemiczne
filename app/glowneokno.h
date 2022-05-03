@@ -32,7 +32,6 @@ private slots:
     void on_actionNowy_Test_triggered();
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
     void wybierzCzujke(int id);
-    void dozownikTest();
 
     void resizeEvent(QResizeEvent * event);
 
@@ -44,7 +43,12 @@ private slots:
     void on_actionWersja_triggered();
 
     void onLogowanieTriggered();
+    void onWylogowanieTriggered();
     void onUstawieniaTriggered();
+
+    void on_actionSygna_y_analogowe_triggered();
+    void on_actionDozowniki_triggered();
+    void on_actionUstawienia_testu_triggered();
 
 protected:
     void changeSelectedTest();

@@ -15,7 +15,7 @@ class UstawieniaTestu : public QDialog
     Q_OBJECT
 
 public:
-    explicit UstawieniaTestu(Ustawienia & ust, QWidget *parent = nullptr);
+    explicit UstawieniaTestu(Ustawienia & ust, const UserPrivilige & user, QWidget *parent = nullptr);
     ~UstawieniaTestu();
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);

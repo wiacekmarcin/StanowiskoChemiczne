@@ -133,6 +133,10 @@ void TestData::setUdanaProba(bool success, bool powtarzaneDozowanie, bool powtar
 {
     emit debug(QString("Udana proba = %1").arg(success));
     proby.last().success = success;
+    proby.last().iloscCalkowitaCieczy = 0;
+    foreach(auto doz, iloscCieczy) {
+        proby.last().iloscCalkowitaCieczy += doz;
+    }
     if (!success) {
         proby.append(ProbaType());
         proby.last().powtarzaneDozowanie = powtarzaneDozowanie;
@@ -226,7 +230,7 @@ QDataStream & operator<<(QDataStream & ds, const ProbaType & item)
     ds << item.cisnKomoryDozowanie << item.cisnKomoryZaplon << item.co2 << item.cz8 << item.koncentracjaPar;
     ds << item.o2 << item.powtarzaneDozowanie << item.powtarzanyZaplon << item.success << item.tempKomoryDozowanie;
     ds << item.tempKomoryZaplon << item.tempParownikaDozowanie << item.voc1 << item.voc2 << item.zlaKoncetracja;
-    ds << item.zrodloZaplonu;
+    ds << item.zrodloZaplonu << item.iloscCalkowitaCieczy;
     return ds;
 }
 
@@ -235,7 +239,7 @@ QDataStream & operator>>(QDataStream & ds, ProbaType & item)
     ds >> item.cisnKomoryDozowanie >> item.cisnKomoryZaplon >> item.co2 >> item.cz8 >> item.koncentracjaPar;
     ds >> item.o2 >> item.powtarzaneDozowanie >> item.powtarzanyZaplon >> item.success >> item.tempKomoryDozowanie;
     ds >> item.tempKomoryZaplon >> item.tempParownikaDozowanie >> item.voc1 >> item.voc2 >> item.zlaKoncetracja;
-    ds >> item.zrodloZaplonu;
+    ds >> item.zrodloZaplonu >> item.iloscCalkowitaCieczy;
     return ds;
 }
 

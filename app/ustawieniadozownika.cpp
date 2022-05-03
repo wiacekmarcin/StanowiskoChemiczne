@@ -34,6 +34,16 @@ UstawieniaDozownika::UstawieniaDozownika(Ustawienia & ust, const UserPrivilige &
     ui->ImpulsTime->setValue(ustawienia.getImpTime());
     ui->MaxSteps->setValue(ustawienia.getMaxImp());
     ui->steps_on_ml->setValue(ustawienia.getStepsOnMl());
+
+    ui->horizontalLayout_1->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->horizontalLayout_2->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->horizontalLayout_3->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->horizontalLayout_4->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->horizontalLayout_5->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+
+    ui->ImpulsTime->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->MaxSteps->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->steps_on_ml->setEnabled((user & U_SERVISANT) == U_SERVISANT);
 }
 
 UstawieniaDozownika::~UstawieniaDozownika()

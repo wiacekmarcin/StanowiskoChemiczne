@@ -13,7 +13,7 @@ class NowyTest_1 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_1(const QString& testName, QWidget *parent = 0);
+    explicit NowyTest_1(const QString& testName, bool visDozownik5, QWidget *parent = 0);
     ~NowyTest_1();
     virtual void initializePage() override;
 

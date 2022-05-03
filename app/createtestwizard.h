@@ -27,7 +27,7 @@ public:
 
     void setTestData(TestData * dt);
     TestData * getTestData();
-    void init(Ustawienia * ust, const QString &testName);
+    void init(Ustawienia * ust, const UserPrivilige &user, const QString &testName);
     void initFromFile();
 
     void setField(TestPage::Value key, const QVariant & val);
@@ -132,6 +132,8 @@ private:
     TestData * dt;
     bool registerPomiary;
     QMutex mutex;
+
+    UserPrivilige user;
 };
 
 #endif // CREATETESTWIZARD_H
