@@ -72,5 +72,5 @@ void OtwarteZawory::set(int id, bool open)
 
 void OtwarteZawory::on_pbOk_clicked()
 {
-    emit reject();
+    reject();
 }

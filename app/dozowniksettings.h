@@ -55,7 +55,6 @@ private slots:
 
 
     void on_pbSetParameters_clicked();
-
     void on_pushButton_clicked();
     void nastepnyCykl();
     //void nastepnyCykl2();

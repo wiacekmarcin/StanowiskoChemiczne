@@ -54,10 +54,8 @@ void CzujnikiAnalogoweUstawieniaFrame::saveData(Ustawienia &ust)
 
 void CzujnikiAnalogoweUstawieniaFrame::updateCzujnik()
 {
-    bool valid = true;
     for (int i = 0; i < Ustawienia::maxCzujekAnal; i++) {
         if (!czujniki[i]->valid()) {
-            valid = false;
             break;
         }
     }

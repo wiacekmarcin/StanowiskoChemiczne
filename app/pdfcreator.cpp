@@ -443,7 +443,7 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
     QRect rbtitle = fm.boundingRect(subtitle);
     paint->drawText(QPoint((width+rbtitle.width())/2-rbtitle.width(), 25), title);
 
-    float actWidth;
+    float actWidth = 0;
     unsigned int nrSec = 0;
     QPen darkgrayPen = QPen(Qt::darkGray);
     darkgrayPen.setWidth(3);

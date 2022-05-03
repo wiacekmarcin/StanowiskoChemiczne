@@ -1,0 +1,57 @@
+[Cppcheck]
+checkConfig=true
+checkInformation=true
+checkMissingInclude=true
+checkPerformance=true
+checkPortability=true
+checkStyle=true
+checkUnusedFunction=true
+forceCheck=true
+inconclusiveAnalysis=true
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=StanowiskoChemiczne
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Debugger Shell=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x02\x00\x00\x00&\x00S\x00t\x00a\x00n\x00o\x00w\x00i\x00s\x00k\x00o\x00C\x00h\x00e\x00m\x00i\x00c\x00z\x00n\x00e\x00\x00\x00&\x00S\x00t\x00a\x00n\x00o\x00w\x00i\x00s\x00k\x00o\x00C\x00h\x00e\x00m\x00i\x00c\x00z\x00n\x00e)
+Dependency Action=Build
+Display Demangle Names=true
+Display Static Members=true
+GDB Path=file:///usr/bin/gdb
+Project Target=StanowiskoChemiczne,StanowiskoChemiczne
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+Start With=GdbConsole
+
+[Project]
+VersionControlSupport=kdevgit
+
+[QMake_Builder]
+Build_Folder=/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app/build
+Build_Type=0
+Extra_Arguments=
+Install_Prefix=/home/marcin/git.devel.marcin/qt/build-StanowiskoChemiczne-Desktop_Qt_5_15_2_GCC_64bit-Debug
+QMake_Binary=/usr/bin/qmake
+
+[QMake_Builder][/home/marcin/git.devel.marcin/qt/StanowiskoChemiczne/app/build]
+Build_Type=0
+Extra_Arguments=
+Install_Prefix=/home/marcin/git.devel.marcin/qt/build-StanowiskoChemiczne-Desktop_Qt_5_15_2_GCC_64bit-Debug
+QMake_Binary=/usr/bin/qmake
+
+[SourceFormatter]
+text/x-c++hdr=kdevcustomscript||GNU_indent_GNU
+text/x-c++src=kdevcustomscript||GNU_indent_GNU
+text/x-chdr=kdevcustomscript||GNU_indent_GNU
+text/x-csharp=kdevcustomscript||GNU_indent_GNU
+text/x-csrc=kdevcustomscript||GNU_indent_GNU
+text/x-java=kdevcustomscript||GNU_indent_GNU
+text/x-objcsrc=kdevcustomscript||GNU_indent_GNU

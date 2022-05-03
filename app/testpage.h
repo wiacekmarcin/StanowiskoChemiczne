@@ -21,8 +21,8 @@ class TestPage : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString title READ title WRITE setTitle)
-    Q_PROPERTY(QString subTitle READ subTitle WRITE setSubTitle)
+    Q_PROPERTY(QString title READ title WRITE setTitle CONSTANT)
+    Q_PROPERTY(QString subTitle READ subTitle WRITE setSubTitle CONSTANT)
 
 
 public:

@@ -78,7 +78,7 @@ public:
 
     void setCzujka(analogIn id, const CzujnikAnalogowy &czAnal);
     CzujnikAnalogowy getCzujnikAnalogowyUstawienia(analogIn id) const;
-    const QString & getCzAnalName(analogIn id) const;
+    QString getCzAnalName(analogIn id) const;
     double getRatio(analogIn id) const;
 
     static constexpr int maxCzujekAnal = 8;

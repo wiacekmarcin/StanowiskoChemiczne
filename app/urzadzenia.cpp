@@ -21,8 +21,6 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
 
     prevInputs = 0x00;
 
-    log(QString("%1.%2 - %3 %4").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(QString(__DATE__), QString(__TIME__)));
-
     connect(&m_NI_Cards, &NICards::digitalReadValueChanged,    this,   &Urzadzenia::ni_digitalReadAllValueChanged, Qt::DirectConnection);
     connect(&m_NI_Cards, &NICards::analogValueChanged,         this,   &Urzadzenia::ni_analogValueChanged,      Qt::DirectConnection);
 
@@ -41,7 +39,8 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
     connect(&m_serialDev, &SerialDevice::error,                 this, &Urzadzenia::ds_error,              Qt::QueuedConnection);
 
     connect(this, &Urzadzenia::log, this, &Urzadzenia::logSlot, Qt::QueuedConnection);
-}
+
+    logSlot(QString("%1.%2 - %3 %4").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(QString(__DATE__), QString(__TIME__)));}
 
 Urzadzenia::~Urzadzenia()
 {
@@ -82,7 +81,6 @@ void Urzadzenia::ni_digitalReadAllValueChanged(uint16_t vals)
 {
     //qInfo() << __FILE__ << ":" << __LINE__ << "vals=" << vals;
     emit digitalReadAllValueChanged(vals);
-    unsigned int maska = 0x1;
     prevInputs = m_inputs;
     m_inputs = vals;
 
@@ -229,6 +227,7 @@ void Urzadzenia::logSlot(const QString &msg)
     if (m_logFile != 0) {
         out << msg << "\n";
     }
+    out.flush();
     mutex.unlock();
 }
 

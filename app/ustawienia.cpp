@@ -59,7 +59,7 @@ Ustawienia::CzujnikAnalogowy Ustawienia::getCzujnikAnalogowyUstawienia(analogIn 
     return czujki[id];
 }
 
-const QString & Ustawienia::getCzAnalName(analogIn id) const
+QString Ustawienia::getCzAnalName(analogIn id) const
 {
     if ((short)id >= maxCzujekAnal || (short)id < 0)
         return QString("-");

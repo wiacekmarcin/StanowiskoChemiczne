@@ -124,12 +124,19 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
 
 GlowneOkno::~GlowneOkno()
 {
-    finishedTest(false);
+    //thReadDigAnal.deleteLater();
+    //thDozownik.deleteLater();
+    qDebug() << "APP: thReadDigAnal.isRunning()=" << thReadDigAnal.isRunning();
+    qDebug() << "APP: thDozownik.isRunning()= " << thDozownik.isRunning();
     urzadzenia->setStop();
     thReadDigAnal.quit();
     thDozownik.quit();
+
     thReadDigAnal.wait();
     thDozownik.wait();
+    qDebug() << "APP: thReadDigAnal.isRunning()=" << thReadDigAnal.isRunning();
+    qDebug() << "APP: thDozownik.isRunning()= " << thDozownik.isRunning();
+
     //thReadDigAnal.terminate();
     //thDozownik.terminate();
 
@@ -350,7 +357,8 @@ void GlowneOkno::on_actionZapisz_triggered()
     out << (quint32)0xA0B0C0D0;
     out << (qint32)104;
 
-    out.setVersion(QDataStream::Qt_5_15);
+    //out.setVersion(QDataStream::Qt_5_15);
+    out.setVersion(QDataStream::Qt_5_12);
 
     out << (quint32)mapProjektTesty.size();
     qInfo() << (quint32)mapProjektTesty.size();
@@ -391,7 +399,8 @@ void GlowneOkno::on_actionOtw_rz_triggered()
     if (version != 104)
         return ; //inna wersja
 
-    in.setVersion(QDataStream::Qt_5_15);
+    //in.setVersion(QDataStream::Qt_5_15);
+    in.setVersion(QDataStream::Qt_5_12);
 
     quint32 projektysize;
     quint32 testysize;
@@ -418,7 +427,7 @@ void GlowneOkno::on_actionOtw_rz_triggered()
             mapTesty[testIitem] = projectItem;
             ui->testyStackedWidget->addWidget(tb);
             tb->createTestWizard()->initFromFile();
-            tb->createTestWizard()->finishedTest(true);
+            //tb->createTestWizard()->finishedTest(true);
             tb->finishedTest(true);
 
         }

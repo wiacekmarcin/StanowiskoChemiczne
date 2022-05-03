@@ -17,9 +17,9 @@ SerialWorker::~SerialWorker()
 {
     mutex.lock();
     runWorker = false;
+    actTask = IDLE;
     newTask.wakeOne();
     mutex.unlock();
-    QThread::currentThread()->wait();
 }
 
 void SerialWorker::command(Task curr)
@@ -34,7 +34,11 @@ void SerialWorker::setStop()
 {
     mutex.lock();
     runWorker = false;
+    actTask = IDLE;
+    
+    newTask.wakeOne();
     mutex.unlock();
+    wait();
 }
 
 void SerialWorker::run()
@@ -121,6 +125,9 @@ void SerialWorker::run()
         quit = !runWorker;
         mutex.unlock();
     } while (!quit);
+    
+   qDebug() << "return SerialWorker::run()";
+   this->quit();
 }
 /**************************************************************************/
 #define setReverse(N) m_reverse##N = m_ustawienia.getReverse_##N()
@@ -146,7 +153,7 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
 
 SerialDevice::~SerialDevice()
 {
-    m_worker.setStop();
+
 }
 
 void SerialDevice::setThread(QThread *trh)

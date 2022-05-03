@@ -28,7 +28,6 @@ NICards::~NICards()
     m_mutex.lock();
     m_quit = true;
     m_mutex.unlock();
-    QThread::currentThread()->wait();
 }
 
 void NICards::setThreads(QThread *thr1)
@@ -42,6 +41,7 @@ void NICards::setStop()
     m_mutex.lock();
     m_quit = true;
     m_mutex.unlock();
+    wait();
 }
 
 void NICards::digitalWrite(digitalOut _out, bool val)
@@ -304,6 +304,8 @@ void NICards::run()
         else
             QThread::currentThread()->msleep(100-elapsed);
     }
+    qDebug() << "Return void NICards::run()";
+    quit();
 }
 
 
