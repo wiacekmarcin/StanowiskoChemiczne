@@ -112,14 +112,14 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
 
     changeSelectedTest();
 // testowy test
-/*
+
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
     projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
                                             "/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
-*/
 
+    on_actionNowy_Test_triggered();
 
     urzadz->digitalWriteAll(0x2);
 }
