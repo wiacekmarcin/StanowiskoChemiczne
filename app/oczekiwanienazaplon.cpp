@@ -13,7 +13,7 @@ OczekiwanieNaZaplon::OczekiwanieNaZaplon(QWidget *parent, CreateTestWizard * wiz
     ui->setupUi(this);
     ui->pbTime->setMaximum(30);
     secs = 0;
-    maxSecs = 10;
+    maxSecs = 5;
     ui->pbTime->setMaximum(maxSecs);
     ui->pbTime->setValue(secs);
     connect(&timer, &QTimer::timeout, this, &OczekiwanieNaZaplon::updateTime);

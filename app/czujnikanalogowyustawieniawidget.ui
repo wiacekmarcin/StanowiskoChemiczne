@@ -52,20 +52,27 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="mnoznik"/>
+    <widget class="DoubleLineEdit" name="mnoznik"/>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="lratio">
      <property name="text">
-      <string>Przelicznik jednostka / V</string>
+      <string>Przelicznik V/jednostkę</string>
      </property>
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QLineEdit" name="ratio"/>
+    <widget class="DoubleLineEdit" name="ratio"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>doublelineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

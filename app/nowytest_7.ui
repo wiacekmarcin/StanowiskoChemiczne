@@ -331,19 +331,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="cbCiecz">
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="decimals">
-            <number>1</number>
-           </property>
-           <property name="singleStep">
-            <double>0.100000000000000</double>
-           </property>
-          </widget>
+          <widget class="DoubleLineEdit" name="cbCiecz"/>
          </item>
          <item>
           <widget class="QLabel" name="label">
@@ -404,6 +392,11 @@
    <extends>QWidget</extends>
    <header>testpage.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>doublelineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

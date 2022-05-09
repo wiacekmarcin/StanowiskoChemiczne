@@ -38,6 +38,7 @@ SOURCES += \
     czujnikianalogoweokno.cpp \
     czujnikianalogoweustawieniaframe.cpp \
     digitaloutwidget.cpp \
+    doublelineedit.cpp \
     logowaniedlg.cpp \
     main.cpp \
     glowneokno.cpp \
@@ -93,6 +94,7 @@ HEADERS += \
     czujnikianalogoweokno.h \
     czujnikianalogoweustawieniaframe.h \
     digitaloutwidget.h \
+    doublelineedit.h \
     glowneokno.h \
     logowaniedlg.h \
     nicards.h \

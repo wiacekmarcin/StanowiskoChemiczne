@@ -414,6 +414,7 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
         */
         float vals[8] = { a.voc1 , a.voc2, a.o2, a.co2, a.cisnKom, a.tempKom, a.tempPar, a.a8 };
         points.push_back(ratio * vals[(short)id]);
+        qInfo() << vals[(short)id] << " * " << ratio << " = " << (vals[(short)id] * ratio);
     }
 
     float valperYpx = (height - margintop - marginbottom) / (maxV - minV);
@@ -456,7 +457,7 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
             paint->setPen(darkgrayPen);
             paint->drawLine(marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom);
             paint->setPen(blackPen);
-            paint->drawText(marginleft + actWidth - 15, height - 25, getOsX(actWidth, valperXpx, minT, maxT));
+            paint->drawText(marginleft + actWidth - 15, height - 25, getOsX(nrSec, valperXpx, minT, maxT));
         } else {
             paint->setPen(grayPen);
             paint->drawLine(marginleft + actWidth, margintop + 0, marginleft + actWidth, height - marginbottom);

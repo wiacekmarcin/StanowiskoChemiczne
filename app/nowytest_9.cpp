@@ -45,9 +45,9 @@ void NowyTest_9::initializePage()
     foreach ( auto proba, dt->getProby()) {
         ONETD(0, QString::number(idProba))
         ONETD(1, proba.zrodloZaplonu)
-        ONETD(2, proba.success ? "Zapłon" : "Brak Zapłonu")
+        ONETD(2, proba.success ? "Tak" : "Nie")
         ONETD(3, dt->getNazwaCieczy())
-        ONETD(4, QString::number(proba.iloscCalkowitaCieczy))
+        ONETD(4, QString::number(proba.iloscCalkowitaCieczy) + QString("ml"));
         idProba+=1;
     }
 

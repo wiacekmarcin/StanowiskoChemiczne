@@ -43,14 +43,17 @@ private:
     QString name;
     double convert;
     QString unit;
-    static constexpr unsigned short maxPoz = 5;
-    double values[maxPoz];
+    static constexpr unsigned short cntAvgDisp = 5;
+    double values[cntAvgDisp];
     unsigned  short idx;
     unsigned short prec;
     QMutex mutex;
     QTimer timer;
 
-    double prev2, prev3;
+    double prev[10];
+    double prevAvg;
+    int actId;
+    bool stab;
 };
 
 #endif // CZUJNIKANALOGOWYWIDGET_H

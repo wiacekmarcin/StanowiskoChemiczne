@@ -92,11 +92,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="cisnienie">
-        <property name="maximum">
-         <double>1003.990000000000009</double>
-        </property>
-       </widget>
+       <widget class="DoubleLineEdit" name="cisnienie"/>
       </item>
       <item>
        <widget class="QLabel" name="text_2a">
@@ -316,6 +312,11 @@
    <extends>QWidget</extends>
    <header>testpage.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>doublelineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -15,11 +15,14 @@ NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, QWidget *par
     connect(ui->nameTest, &QLineEdit::textChanged, this, &NowyTest_1::nameTestChanged);
     connect(ui->cbDozownik, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::dozownikChanged);
     connect(ui->cbCiecz, qOverload<int>(&QComboBox::currentIndexChanged), this, &NowyTest_1::cieczChanged);
-    connect(ui->iloscCieczy, qOverload<double>(&QDoubleSpinBox::valueChanged), this, &NowyTest_1::iloscCieczyChanged);
+    connect(ui->iloscCieczy, qOverload<double>(&DoubleLineEdit::valueChanged), this, &NowyTest_1::iloscCieczyChanged);
     //connect(ui->humanity, &TextEdit::)
 
     currCiecz = "";
     valCieczy = 0.0;
+
+    ui->iloscCieczy->setPrec(1);
+    ui->iloscCieczy->setMin(0.1);
 
     maxVal[QString("Woda")] = 100;
     maxVal[QString("Benzyna")] = 10;

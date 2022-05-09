@@ -1,5 +1,15 @@
- #include "videoplayer.h"
- #include "videowidget.h"
+#include "videoplayer.h"
+#include "videowidget.h"
+#include <QPushButton>
+#include <QAbstractButton>
+#include <QStyle>
+#include <QBoxLayout>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QSlider>
+#include <QFileDialog>
+#include <QRegion>
+
 
 #include <QtMultimedia>
 

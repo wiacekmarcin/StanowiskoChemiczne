@@ -139,10 +139,10 @@ void Ustawienia::initialSetting()
     SET_CZUJKA(a_temp_komory,   "Temperatura w komorze", "st C", "st C", 0.05, 1);
     SET_CZUJKA(a_temp_parownik, "Temperatura parownika", "st C", "st C", 0.05, 1);
     SET_CZUJKA(a_voc1,          "St\304\231\305\274enie VOC 1", "%", "%", 3.03, 1);
-    SET_CZUJKA(a_voc2,          "St\304\231\305\274enie VOC 2", "%", "%", 3.03, 1);
+    SET_CZUJKA(a_voc2,          "St\304\231\305\274enie VOC 2", "%", "%", 3.846, 1);
     SET_CZUJKA(a_8,             "St\304\231\305\274enie virtualnego czujnika", "%", "%", 3.03, 1);
-    SET_CZUJKA(a_o2,            "St\304\231\305\274enie O2", "%", "%", 0.04, 1);
-    SET_CZUJKA(a_co2,           "St\304\231\305\274enie CO2", "%", "%", 0.05, 1);
+    SET_CZUJKA(a_o2,            "St\304\231\305\274enie O2", "%", "%", 0.4, 1);
+    SET_CZUJKA(a_co2,           "St\304\231\305\274enie CO2", "%", "%", 0.5, 1);
 
     setWejscie(i_drzwi_lewe,         QString::fromUtf8("Drzwi komory LEWE"));
     setWejscie(i_drzwi_prawe,        QString::fromUtf8("Drzwi komory PRAWE"));

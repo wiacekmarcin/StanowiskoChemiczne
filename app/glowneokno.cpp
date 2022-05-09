@@ -465,7 +465,13 @@ void GlowneOkno::onUstawieniaTriggered()
 
 void GlowneOkno::on_actionSygna_y_analogowe_triggered()
 {
-
+    UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
+    if (dlg2->exec() == QDialog::Accepted)
+    {
+        //dlg->saveData(settings);
+        ui->analog->setParams(settings);
+        setActionText();
+    }
 }
 
 

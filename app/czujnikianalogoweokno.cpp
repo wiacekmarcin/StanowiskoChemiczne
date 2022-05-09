@@ -5,6 +5,8 @@
 #include <QHBoxLayout>
 #include "czujnikanalogowywidget.h"
 #include <QResizeEvent>
+#include <QDebug>
+
 
 CzujnikiAnalogoweOkno::CzujnikiAnalogoweOkno(QWidget *parent) :
     QWidget(parent)
@@ -21,6 +23,11 @@ CzujnikiAnalogoweOkno::CzujnikiAnalogoweOkno(QWidget *parent) :
     for (int i=0; i< Ustawienia::maxCzujekAnal; ++i) {
         createOne(i);
     }
+    czujniki[a_voc1]->setPrec(2);
+    czujniki[a_voc2]->setPrec(2);
+    czujniki[a_o2]->setPrec(2);
+    czujniki[a_co2]->setPrec(2);
+    czujniki[a_8]->setPrec(2);
 }
 
 CzujnikiAnalogoweOkno::~CzujnikiAnalogoweOkno()
@@ -38,7 +45,6 @@ void CzujnikiAnalogoweOkno::setParams(const Ustawienia &ust)
 void CzujnikiAnalogoweOkno::updateValue(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8)
 
 {
-    //
     czujniki[0]->setValue(val1);
     czujniki[1]->setValue(val2);
     czujniki[2]->setValue(val3);

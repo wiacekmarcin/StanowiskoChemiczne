@@ -1,19 +1,22 @@
 #include "czujnikanalogowywidget.h"
 #include "ui_czujnikanalogowywidget.h"
-
+#include <QDebug>
+#include <cmath>
 CzujnikAnalogowyWidget::CzujnikAnalogowyWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CzujnikAnalogowyWidget)
 {
     ui->setupUi(this);
-    ui->green->setVisible(false);
-    for ( unsigned short i = 0 ; i < maxPoz; ++i)
+    for ( unsigned short i = 0 ; i < cntAvgDisp; ++i)
         values[i] = 0;
-    prev2 = prev3 = 0;
+    for (int i = 0; i < 10; ++i)
+        prev[i] = i;
+    prevAvg = 0;
+    actId = 0;
     idx = 0;
     prec = 0;
     connect(&timer, &QTimer::timeout, this, &CzujnikAnalogowyWidget::timeout);
-    timer.setInterval(100*maxPoz);
+    timer.setInterval(100*cntAvgDisp);
     timer.start();
 
 }
@@ -39,27 +42,45 @@ void CzujnikAnalogowyWidget::setValue(const double &val)
     mutex.lock();
     values[idx++] = convert * val;
     mutex.unlock();
-    if (idx >= maxPoz )
+    if (idx >= cntAvgDisp )
         idx = 0;
-
-}
+ }
 
 void CzujnikAnalogowyWidget::timeout()
 {
     double suma = 0;
     mutex.lock();
-    for (unsigned short i = 0; i < maxPoz; ++i) {
+    QList<double> l;
+    for (unsigned short i = 0; i < cntAvgDisp; ++i) {
         suma += values[i];
+        l << values[i];
     }
     mutex.unlock();
-    double avg = suma / maxPoz;
+
+    qInfo() << "LIST: " << name << " " << l;
+
+    double avg = suma / cntAvgDisp;
     ui->value->setText(QString::number(avg, 'f', prec ));
 
-    bool stab = ((avg-prev2)*(avg-prev2)/(avg*avg) < 0.01) && ((avg-prev3)*(avg-prev3)/(avg*avg) < 0.01);
-    prev3 = prev2;
-    prev2 = avg;
-    ui->red->setVisible(!stab);
-    ui->green->setVisible(stab);
+    prev[actId++] = avg - prevAvg;
+    if (actId > 10)
+        actId = 0;
+
+    prevAvg = avg;
+    double diffSuma = 0.0;
+
+    for (int i=0; i < 10; ++i)
+        diffSuma += prev[i];
+    
+    if (avg == 0) {
+
+    }
+    bool nostab = (100*abs(diffSuma)/avg) > 2;
+
+    if (stab == nostab)
+        return;
+    ui->value->setStyleSheet(nostab ? "background-color:red" : "background-color:green");
+    stab = nostab;
 }
 
 void CzujnikAnalogowyWidget::setPrec(unsigned short newPrec)

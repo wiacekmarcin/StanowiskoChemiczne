@@ -40,7 +40,7 @@
 
          if (!videoRect.contains(event->rect())) {
              QRegion region = event->region();
-             region.subtract(videoRect);
+             region.subtracted(videoRect);
 
              QBrush brush = palette().background();
 
