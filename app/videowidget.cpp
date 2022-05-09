@@ -1,13 +1,17 @@
 #include "videowidget.h"
-
 #include "videowidgetsurface.h"
 
 #include <QtMultimedia>
+#include <QRegion>
+#include <QPalette>
+#include <QWidget>
+#include <QPainter>
 
  VideoWidget::VideoWidget(QWidget *parent)
      : QWidget(parent)
      , surface(0)
  {
+     qDebug() << __FILE__ << __LINE__ << "videwidget";
      setAutoFillBackground(false);
      setAttribute(Qt::WA_NoSystemBackground, true);
      setAttribute(Qt::WA_PaintOnScreen, true);

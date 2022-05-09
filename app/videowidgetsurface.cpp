@@ -2,6 +2,8 @@
 
 #include <QtMultimedia>
 #include <QWidget>
+#include <QList>
+
 
  VideoWidgetSurface::VideoWidgetSurface(QWidget *widget, QObject *parent)
      : QAbstractVideoSurface(parent)

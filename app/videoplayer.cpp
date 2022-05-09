@@ -1,17 +1,16 @@
 #include "videoplayer.h"
 #include "videowidget.h"
+
+#include <QtMultimedia>
 #include <QPushButton>
 #include <QAbstractButton>
 #include <QStyle>
+#include <QSlider>
+#include <QHBoxLayout>
 #include <QBoxLayout>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QSlider>
 #include <QFileDialog>
-#include <QRegion>
-
-
-#include <QtMultimedia>
+#include <QDir>
 
  VideoPlayer::VideoPlayer(QWidget *parent)
      : QWidget(parent)
@@ -19,6 +18,7 @@
      , playButton(0)
      , positionSlider(0)
  {
+     qDebug() << __FILE__ << __LINE__ << "videoplayer";
      connect(&movie, SIGNAL(stateChanged(QMovie::MovieState)),
              this, SLOT(movieStateChanged(QMovie::MovieState)));
      connect(&movie, SIGNAL(frameChanged(int)),
@@ -57,6 +57,7 @@
      layout->addLayout(controlLayout);
 
      setLayout(layout);
+     show();
  }
 
  VideoPlayer::~VideoPlayer()
@@ -71,9 +72,11 @@
      foreach (QString fmt, QImageReader::supportedImageFormats())
          supportedFormats << fmt;
 
-     QString filter = "Images (";
+     supportedFormats << "mp4" << "MP4";
+     QString filter = "Videos (";
      foreach ( QString fmt, supportedFormats) {
          filter.append(QString("*.%1 ").arg(fmt));
+         qDebug() << fmt;
      }
      filter.append(")");
 
@@ -84,6 +87,7 @@
          surface->stop();
 
          movie.setFileName(fileName);
+         qDebug() << movie.isValid();
 
          playButton->setEnabled(true);
          positionSlider->setMaximum(movie.frameCount());
