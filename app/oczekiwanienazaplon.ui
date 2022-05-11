@@ -13,11 +13,6 @@
     <height>207</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <pointsize>14</pointsize>
-   </font>
-  </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
   </property>
@@ -33,12 +28,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="text">
       <string>Wykrywanie zapłonu</string>
      </property>
@@ -51,11 +40,6 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="lcisninienie">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
        <property name="text">
         <string>Ciśnienie przyrost sekundowy/przyrost od początku</string>
        </property>
@@ -63,12 +47,6 @@
      </item>
      <item>
       <widget class="QLabel" name="cisnienie">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>0/0</string>
        </property>
@@ -93,11 +71,6 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="ltemp">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
        <property name="text">
         <string>Temperatura przyrost sekundowy/przyrost od początku</string>
        </property>
@@ -105,12 +78,6 @@
      </item>
      <item>
       <widget class="QLabel" name="temperatura">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
         <string>0/0</string>
        </property>

@@ -17,8 +17,22 @@ CzujnikAnalogowyWidget::CzujnikAnalogowyWidget(QWidget *parent) :
     prec = 0;
     connect(&timer, &QTimer::timeout, this, &CzujnikAnalogowyWidget::timeout);
     timer.setInterval(100*cntAvgDisp);
+    runTimer = true;
     timer.start();
 
+    QFont fontOpis = ui->opis->font();
+    fontOpis.setPointSize(12);
+    ui->opis->setFont(fontOpis);
+
+    QFont fontJedn = ui->jednostka->font();
+    fontJedn.setPointSize(18);
+    fontJedn.setBold(true);
+    ui->jednostka->setFont(fontJedn);
+
+    QFont fontVal = ui->value->font();
+    fontVal.setPointSize(32);
+    fontVal.setBold(true);
+    ui->value->setFont(fontVal);
 }
 
 CzujnikAnalogowyWidget::~CzujnikAnalogowyWidget()
@@ -31,6 +45,8 @@ void CzujnikAnalogowyWidget::setParam(const Ustawienia::CzujnikAnalogowy & czA)
 {
     name = czA.name;
     convert = czA.convert;
+    minVal = czA.minVal;
+    percent = czA.percentStab;
     unit = czA.unit;
     ui->opis->setText(name);
     ui->jednostka->setText(unit);
@@ -48,6 +64,8 @@ void CzujnikAnalogowyWidget::setValue(const double &val)
 
 void CzujnikAnalogowyWidget::timeout()
 {
+    if (!runTimer)
+        return;
     double suma = 0;
     mutex.lock();
     QList<double> l;
@@ -71,11 +89,12 @@ void CzujnikAnalogowyWidget::timeout()
 
     for (int i=0; i < 10; ++i)
         diffSuma += prev[i];
-    
-    if (avg == 0) {
-
+    bool nostab;
+    if (avg < minVal) {
+        nostab = true;
+    } else {
+        nostab = (100*abs(diffSuma)/avg) > percent;
     }
-    bool nostab = (100*abs(diffSuma)/avg) > 2;
 
     if (stab == nostab)
         return;
@@ -86,4 +105,9 @@ void CzujnikAnalogowyWidget::timeout()
 void CzujnikAnalogowyWidget::setPrec(unsigned short newPrec)
 {
     prec = newPrec;
+}
+
+void CzujnikAnalogowyWidget::stopTimer()
+{
+    runTimer = false;
 }

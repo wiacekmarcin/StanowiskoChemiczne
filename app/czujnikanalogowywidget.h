@@ -34,6 +34,7 @@ public:
     void setValue(const double & val);
 
     void setPrec(unsigned short newPrec);
+    void stopTimer();
 
 private slots:
     void timeout();
@@ -43,6 +44,8 @@ private:
     QString name;
     double convert;
     QString unit;
+    double minVal;
+    double percent;
     static constexpr unsigned short cntAvgDisp = 5;
     double values[cntAvgDisp];
     unsigned  short idx;
@@ -54,6 +57,8 @@ private:
     double prevAvg;
     int actId;
     bool stab;
+
+    bool runTimer;
 };
 
 #endif // CZUJNIKANALOGOWYWIDGET_H

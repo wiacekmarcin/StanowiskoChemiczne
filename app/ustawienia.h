@@ -74,6 +74,8 @@ public:
         double ratio;
         QString baseUnit;
         double convert;
+        double minVal; //minimalna wartosc powyzej ktorej sprawdzana jest stabilnosc
+        double percentStab; //procent ponizej ktorego stabilna jest wartosc
     } CzujnikAnalogowy;
 
     void setCzujka(analogIn id, const CzujnikAnalogowy &czAnal);
@@ -114,7 +116,8 @@ public:
 
 protected:
     void initialSetting();
-    void setCzujka(analogIn id, const QString & name, const QString & baseUnit, const QString & unit, const double & ratio, const double & convert);
+    void setCzujka(analogIn id, const QString & name, const QString & baseUnit, const QString & unit,
+                   const double & ratio, const double & convert, const double & minVal, const double & percent);
 
 private:
 

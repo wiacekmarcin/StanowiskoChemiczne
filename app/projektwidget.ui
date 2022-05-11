@@ -16,12 +16,6 @@
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="lnazwa">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="text">
       <string>Nazwa</string>
      </property>
@@ -36,12 +30,6 @@
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="luczestnicy">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="text">
       <string>Uczestnicy</string>
      </property>
@@ -52,12 +40,6 @@
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="lkatalog">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="text">
       <string>Katalog</string>
      </property>
@@ -72,12 +54,6 @@
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="lkomentarz">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="text">
       <string>Komentarz</string>
      </property>
@@ -88,12 +64,6 @@
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="ldatautworzenia">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
      <property name="text">
       <string>Data utworzenia</string>
      </property>

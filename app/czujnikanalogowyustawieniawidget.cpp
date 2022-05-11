@@ -71,5 +71,8 @@ Ustawienia::CzujnikAnalogowy CzujnikAnalogowyUstawieniaWidget::getUstawienia() c
     c.ratio = ui->ratio->text().toDouble(&ok);
     c.baseUnit = ui->baseUnit->text();
     c.convert = ui->mnoznik->text().toDouble(&ok);
+    c.minVal = ui->minval->text().toDouble(&ok);
+    c.percentStab = ui->percent->text().toDouble(&ok);
+    
     return c;
 }

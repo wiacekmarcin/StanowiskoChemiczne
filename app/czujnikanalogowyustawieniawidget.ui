@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>173</height>
+    <height>262</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,6 +63,37 @@
    </item>
    <item row="4" column="1">
     <widget class="DoubleLineEdit" name="ratio"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Minimalna wartość od,
+której wyliczana jest
+stabiloność pomiaru</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="DoubleLineEdit" name="minval">
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Procent wartości,
+różnica wartości poniżej której
+uznaje się stabilność pomiaru</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="DoubleLineEdit" name="percent"/>
    </item>
   </layout>
  </widget>
