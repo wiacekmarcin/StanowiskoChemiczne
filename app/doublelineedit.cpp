@@ -17,6 +17,7 @@ double DoubleLineEdit::value() const
 void DoubleLineEdit::setValue(const double &newVal)
 {
     val = newVal;
+    setText(QString::number(val));
 }
 
 int DoubleLineEdit::getPrec() const

@@ -90,7 +90,7 @@
        <widget class="DoubleLineEdit" name="cisnienie"/>
       </item>
       <item>
-       <widget class="QLabel" name="text_2a">
+       <widget class="QLabel" name="unit_1">
         <property name="text">
          <string>mBar</string>
         </property>
@@ -191,7 +191,21 @@
       <item>
        <widget class="QLabel" name="text5">
         <property name="text">
-         <string>Uzyskano podciśnienie [CISNIENIE] kPa .</string>
+         <string>Uzyskano podciśnienie :.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="uzyskane_cisnienie">
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="unit_2">
+        <property name="text">
+         <string>mBar</string>
         </property>
        </widget>
       </item>
@@ -303,15 +317,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>doublelineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>TestPage</class>
    <extends>QWidget</extends>
    <header>testpage.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>DoubleLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>doublelineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

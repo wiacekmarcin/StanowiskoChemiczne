@@ -14,16 +14,23 @@
 #include <QMessageBox>
 
 
-NowyTest_3::NowyTest_3(QWidget *parent) :
+NowyTest_3::NowyTest_3(const double & mnoznik_, const QString & unit, uint64_t timePompaProzniowa_, short maxHisterez_,
+                       double wspolczynnikDolny_, QWidget *parent) :
     TestPage(parent),
-    ui(new Ui::NowyTest_3)
+    ui(new Ui::NowyTest_3),
+    mnoznik(mnoznik_),
+    timePompaProzniowa(timePompaProzniowa_),
+    maxHisterez(maxHisterez_),
+    wspolczynnikDolny(wspolczynnikDolny_)
 {
     ui->setupUi(this);
     task = 0;
 
     cisnienieTimer.setInterval(100);
     connect(&cisnienieTimer, &QTimer::timeout, this, &NowyTest_3::updateCisnieie);
-
+    ui->unit_1->setText(unit);
+    ui->unit_2->setText(unit);
+    this->mnoznik = mnoznik;
 }
 
 NowyTest_3::~NowyTest_3()
@@ -61,26 +68,33 @@ void NowyTest_3::updateCisnieie()
         ui->frame_5->setVisible(true);
         ui->arrow_4->setVisible(false);
         ustaloneCisnienie = avg;
-        ui->text5->setText(QString("Uzyskano podciśnienie %1 kPa.").arg(avg));
+        ui->uzyskane_cisnienie->setText(QString::number(avg));
         cisnienieTimer.stop();
 
         updateOutput(o_pompa_prozniowa, false);
         ustalanieCisnienia = false;
     }
 
-    
-    if (0.95*val > avg && 1.05*val < avg /*&& avg < cisnieWProzni*/) {
-        ui->frame_5->setVisible(true);
-        ui->arrow_4->setVisible(false);
-        cisnienieTimer.stop();
-        ustaloneCisnienie = avg;
-        ui->text5->setText(QString("Uzyskano podciśnienie %1 kPa.").arg(ustaloneCisnienie));
-        ui->frame_5->setVisible(true);
-        ui->arrow_4->setVisible(false);
-        ustalanieCisnienia = false;
-        updateOutput(o_pompa_prozniowa, false);
+    if (oczekiwanieNaWzrost && avg > cisnienie_zad*(1+wspolczynnikDolny) ) {
+        oczekiwanieNaWzrost = false;
+        updateOutput(o_pompa_prozniowa, true);
     }
 
+    if (!oczekiwanieNaWzrost && avg < cisnienie_zad*(1-wspolczynnikDolny)) {
+        --nrHisterezy;
+        oczekiwanieNaWzrost = true;
+        updateOutput(o_pompa_prozniowa, false);
+        if (nrHisterezy == 0) {
+            ui->frame_5->setVisible(true);
+            ui->arrow_4->setVisible(false);
+            ustaloneCisnienie = avg;
+            ui->uzyskane_cisnienie->setText(QString::number(avg));
+            cisnienieTimer.stop();
+
+            updateOutput(o_pompa_prozniowa, false);
+            ustalanieCisnienia = false;
+        }
+    }
 }
 
 double NowyTest_3::getCisnKomory()
@@ -111,15 +125,21 @@ void NowyTest_3::setCisnKomory(const double & newCisnKomory)
 {
     if (!ustalanieCisnienia)
         return;
-    QMutexLocker lock(&mutexCisnienie);
-    cisnKomory = newCisnKomory;
-    idPrev = (idPrev + 1) & 0xf;
-    //
-    prevCisnienie[idPrev] = newCisnKomory;
+    short id;
+    double actCisn;
+    {
+        QMutexLocker lock(&mutexCisnienie);
+        actCisn = cisnKomory = newCisnKomory * mnoznik;
+        idPrev = (idPrev + 1) & 0xf;
+        id = idPrev;
+        prevCisnienie[idPrev] = cisnKomory;
+    }
 
-    ui->act_cisnienie->setText(QString::number(newCisnKomory));
-    if (cisnienie_zad != 0)
-        ui->delta_percent->setText(QString::number(100.0*(cisnienie_zad - newCisnKomory)/cisnienie_zad,'g',2));
+    if (id == 0) {
+        ui->act_cisnienie->setText(QString::number(actCisn));
+        if (cisnienie_zad != 0)
+            ui->delta_percent->setText(QString::number(100.0*(cisnienie_zad - actCisn)/cisnienie_zad,'g',2));
+    }
     /*
     
            __FILE__, __LINE__, prevCisnienie[0], prevCisnienie[1],

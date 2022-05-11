@@ -71,7 +71,7 @@
       <bool>false</bool>
      </property>
      <property name="margin">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="indent">
       <number>0</number>

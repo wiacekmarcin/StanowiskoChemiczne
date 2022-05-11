@@ -10,6 +10,7 @@
 
 #include "czujnikanalogowyustawieniawidget.h"
 #include <QTimer>
+#include <QDebug>
 
 CzujnikiAnalogoweUstawieniaFrame::CzujnikiAnalogoweUstawieniaFrame(QWidget *parent) :
     QFrame( parent )
@@ -19,8 +20,6 @@ CzujnikiAnalogoweUstawieniaFrame::CzujnikiAnalogoweUstawieniaFrame(QWidget *pare
 
 
 }
-
-
 
 CzujnikiAnalogoweUstawieniaFrame::~CzujnikiAnalogoweUstawieniaFrame()
 {
@@ -39,10 +38,8 @@ void CzujnikiAnalogoweUstawieniaFrame::setUstawienia(const UserPrivilige & user,
                 this, &CzujnikiAnalogoweUstawieniaFrame::updateCzujnik);
     }
 
-
-
-    QMetaObject::connectSlotsByName(this);
-    setWindowTitle(QCoreApplication::translate("CzujnikAnalogowyUstawieniaOkno", "Ustawienia parametr\303\263w sygna\305\202\303\263w", nullptr));
+    //QMetaObject::connectSlotsByName(this);
+    //setWindowTitle(QCoreApplication::translate("CzujnikAnalogowyUstawieniaOkno", "Ustawienia parametr\303\263w sygna\305\202\303\263w", nullptr));
 }
 
 void CzujnikiAnalogoweUstawieniaFrame::saveData(Ustawienia &ust)

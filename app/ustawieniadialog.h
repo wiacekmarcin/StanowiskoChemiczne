@@ -16,6 +16,8 @@ public:
     explicit UstawieniaDialog(UserPrivilige &user, const Ustawienia &u, QWidget *parent = nullptr);
     ~UstawieniaDialog();
 
+    void saveData(Ustawienia & ust);
+
 private:
     Ui::UstawieniaDialog *ui;
 };

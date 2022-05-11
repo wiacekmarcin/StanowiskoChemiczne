@@ -79,13 +79,19 @@ void CreateTestWizard::init(Ustawienia * ust, const UserPrivilige & user_,
 
     addPage(new NowyTest_1(testName, (user & U_ADMIN) == U_ADMIN, this), TestPage::PAGE_1, 1);
     addPage(new NowyTest_2(ust->getNrInitializeCycles(), this), TestPage::PAGE_2, 2);
-    addPage(new NowyTest_3(this), TestPage::PAGE_3, 3);
+    addPage(new NowyTest_3(1.0, "mBar", 50000, 3, 0.05, this), TestPage::PAGE_3, 3);
     addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
     addPage(new NowyTest_5(this), TestPage::PAGE_5, 5);
     addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
     addPage(new NowyTest_7(this), TestPage::PAGE_7, 7);
     addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
     addPage(new NowyTest_9(dt, this), TestPage::PAGE_9, 9);
+
+    /*
+     * const double & mnoznik, const QString & unit,
+                        uint64_t timePompaProzniowa,
+                        short nrHisterezy,
+                        double wspolczynnikDolny,*/
 
     selectedId = TestPage::PAGE_1;
     finished = false;

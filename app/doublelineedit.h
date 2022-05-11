@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QDoubleValidator>
 #include <QValidator>
+#include <qDebug>
 
 class MyValidator : public QDoubleValidator
 {

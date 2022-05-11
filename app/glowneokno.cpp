@@ -303,7 +303,6 @@ void GlowneOkno::setActionText()
 {
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
         act_wykresy[i]->setText(settings.getCzAnalName((analogIn)i));
-        act_wyzwal[i]->setText(settings.getCzAnalName((analogIn)i));
     }
 }
 
@@ -450,12 +449,10 @@ void GlowneOkno::onWylogowanieTriggered()
 
 void GlowneOkno::onUstawieniaTriggered()
 {
-
-
     UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
     if (dlg2->exec() == QDialog::Accepted)
     {
-        //dlg->saveData(settings);
+        dlg2->saveData(settings);
         ui->analog->setParams(settings);
         setActionText();
     }
@@ -468,7 +465,7 @@ void GlowneOkno::on_actionSygna_y_analogowe_triggered()
     UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
     if (dlg2->exec() == QDialog::Accepted)
     {
-        //dlg->saveData(settings);
+        dlg2->saveData(settings);
         ui->analog->setParams(settings);
         setActionText();
     }

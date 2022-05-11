@@ -5,6 +5,8 @@
 
 #include "ustawienia.h"
 
+#include <qDebug>
+
 #define INIT_KIERUNEK(N) do { ui->rb_l_##N->setChecked(ustawienia.getReverse_##N());ui->rb_p_##N->setChecked(!ustawienia.getReverse_##N()); } while(false)
 
 #define CONNECT_RB(N) do { connect(ui->rb_l_##N, &QRadioButton::clicked, this, &UstawieniaDozownika::on_rb_l_##N##_clicked); \
@@ -33,17 +35,12 @@ UstawieniaDozownika::UstawieniaDozownika(Ustawienia & ust, const UserPrivilige &
 
     ui->ImpulsTime->setValue(ustawienia.getImpTime());
     ui->MaxSteps->setValue(ustawienia.getMaxImp());
+    ui->steps_on_ml->setMin(0);
+    ui->steps_on_ml->setMax(1000000);
+    ui->steps_on_ml->setPrec(3);
     ui->steps_on_ml->setValue(ustawienia.getStepsOnMl());
+    setEnabled((user & U_SERVISANT) == U_SERVISANT);
 
-    ui->horizontalLayout_1->setEnabled((user & U_SERVISANT) == U_SERVISANT);
-    ui->horizontalLayout_2->setEnabled((user & U_SERVISANT) == U_SERVISANT);
-    ui->horizontalLayout_3->setEnabled((user & U_SERVISANT) == U_SERVISANT);
-    ui->horizontalLayout_4->setEnabled((user & U_SERVISANT) == U_SERVISANT);
-    ui->horizontalLayout_5->setEnabled((user & U_SERVISANT) == U_SERVISANT);
-
-    ui->ImpulsTime->setEnabled((user & U_SERVISANT) == U_SERVISANT);
-    ui->MaxSteps->setEnabled((user & U_SERVISANT) == U_SERVISANT);
-    ui->steps_on_ml->setEnabled((user & U_SERVISANT) == U_SERVISANT);
 }
 
 UstawieniaDozownika::~UstawieniaDozownika()
@@ -65,7 +62,7 @@ void UstawieniaDozownika::on_buttonBox_clicked(QAbstractButton *button)
 
         ui->MaxSteps->setValue(50000);
         ui->ImpulsTime->setValue(200);
-        ui->steps_on_ml->setValue(10000.0);
+        ui->steps_on_ml->setValue(14000.0);
     }
     if ((QPushButton*)button == ui->buttonBox->button(QDialogButtonBox::Apply))
     {
@@ -75,7 +72,6 @@ void UstawieniaDozownika::on_buttonBox_clicked(QAbstractButton *button)
 
 void UstawieniaDozownika::on_buttonBox_accepted()
 {
-    
     save();
 }
 

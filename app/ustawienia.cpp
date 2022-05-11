@@ -16,7 +16,8 @@ Ustawienia::Ustawienia()
         czujki[i].ratio = settings.value(QString("czujnikianalogowe/%1/ratio").arg(i), 1.0).toDouble();
         czujki[i].baseUnit = settings.value(QString("czujnikianalogowe/%1/base_unit").arg(i), QString("jedn.")).toString();
         czujki[i].convert = settings.value(QString("czujnikianalogowe/%1/convert").arg(i), 1.0).toDouble();
-        
+        czujki[i].minVal = settings.value(QString("czujnikianalogowe/%1/minval").arg(i), 1.0).toDouble();
+        czujki[i].percentStab = settings.value(QString("czujnikianalogowe/%1/percent").arg(i), 1.0).toDouble();
     }
 
     for (int i = 0; i < maxCzujekCyfrIn; ++i) {
@@ -52,7 +53,7 @@ void Ustawienia::setCzujka(analogIn id, const Ustawienia::CzujnikAnalogowy & czA
     settings.setValue(QString("czujnikianalogowe/%1/convert").arg(id), QVariant::fromValue(czAnal.convert));
     settings.setValue(QString("czujnikianalogowe/%1/minval").arg(id), QVariant::fromValue(czAnal.minVal));
     settings.setValue(QString("czujnikianalogowe/%1/percent").arg(id), QVariant::fromValue(czAnal.percentStab));
-
+    settings.sync();
 
 }
 
@@ -81,6 +82,7 @@ void Ustawienia::setWejscie(int id, const QString &name)
 {
     wejscia[id] = name;
     settings.setValue(QString("wejsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
+    settings.sync();
 }
 
 QString Ustawienia::wejscie(int id) const
@@ -92,6 +94,7 @@ void Ustawienia::setWyjscie(int id, const QString &name)
 {
     wyjscia[id] = name;
     settings.setValue(QString("wyjsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
+    settings.sync();
 }
 
 QString Ustawienia::wyjscie(int id) const
@@ -125,16 +128,17 @@ void Ustawienia::setMaxImp(int newMaxImp)
 {
     maxImp = newMaxImp;
     settings.setValue(QString("dozownik/maxImpMotor"), QVariant::fromValue(newMaxImp));
+    settings.sync();
 }
 
 #define SET_CZUJKA(id, N, B, U, R, C, M, P) setCzujka(id, QString::fromUtf8(N), QString(B), QString(U), R, C, M, P)
 
 void Ustawienia::initialSetting()
 {
-    //if (settings.value("initial", false).toBool()) return;
+    if (settings.value("initial", false).toBool()) return;
 
     settings.setValue("initial",QVariant::fromValue(true));
-    SET_CZUJKA(a_cisn_komora,   "Ci\305\233nienie w komorze", "kPa", "kPa", 0.04, 1, 0.05, 2);
+    SET_CZUJKA(a_cisn_komora,   "Ci\305\233nienie w komorze", "kPa", "mBar", 0.04, 10, 0.05, 2);
     SET_CZUJKA(a_temp_komory,   "Temperatura w komorze", "st C", "st C", 0.05, 1, 0.05, 2);
     SET_CZUJKA(a_temp_parownik, "Temperatura parownika", "st C", "st C", 0.05, 1, 0.05, 2);
     SET_CZUJKA(a_voc1,          "St\304\231\305\274enie VOC 1", "%", "%", 3.03, 1, 0.05, 2);
@@ -175,6 +179,7 @@ void Ustawienia::initialSetting()
     setNrInitializeCycles(4);
 
     setStepsOnMl(14000);
+    settings.sync();
 }
 
 void Ustawienia::setCzujka(analogIn id, const QString &name, const QString &baseUnit, const QString &unit,
@@ -200,6 +205,7 @@ void Ustawienia::setCisnienieProzni(double newCisnienieProzni)
 {
     cisnienieProzni = newCisnienieProzni;
     settings.setValue(QString("testy/cisnienieWprozni"), QVariant::fromValue(newCisnienieProzni));
+    settings.sync();
 }
 
 unsigned short Ustawienia::getNrInitializeCycles() const
@@ -211,6 +217,7 @@ void Ustawienia::setNrInitializeCycles(unsigned short newNrInitializeCycles)
 {
     nrInitializeCycles = newNrInitializeCycles;
     settings.setValue(QString("dozownik/numberOfInitializeCycles"), QVariant::fromValue(newNrInitializeCycles));
+    settings.sync();
 }
 
 double Ustawienia::getStepsOnMl() const
@@ -222,6 +229,7 @@ void Ustawienia::setStepsOnMl(double newStepsOnMl)
 {
     stepsOnMl = newStepsOnMl;
     settings.setValue(QString("dozownik/stepsOnMl"), QVariant::fromValue(newStepsOnMl));
+    settings.sync();
 }
 
 int Ustawienia::getImpTime() const
@@ -233,4 +241,5 @@ void Ustawienia::setImpTime(int newImpTime)
 {
     impTime = newImpTime;
     settings.setValue(QString("dozownik/impMotorTime"), QVariant::fromValue(newImpTime));
+    settings.sync();
 }

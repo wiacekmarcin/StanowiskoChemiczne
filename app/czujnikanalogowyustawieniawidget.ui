@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>262</height>
+    <width>572</width>
+    <height>242</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,10 +65,11 @@
     <widget class="DoubleLineEdit" name="ratio"/>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="lminval">
      <property name="text">
-      <string>Minimalna wartość od,
-której wyliczana jest
+      <string>Minimalna wartość 
+(wielkość wyświetlana)
+od, której wyliczana jest
 stabiloność pomiaru</string>
      </property>
      <property name="textFormat">
@@ -84,11 +85,12 @@ stabiloność pomiaru</string>
     </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="lprocent">
      <property name="text">
-      <string>Procent wartości,
-różnica wartości poniżej której
-uznaje się stabilność pomiaru</string>
+      <string>Maksymalna procentowa
+różnica kolejnych wartości
+powyżej, której pomiar
+uznaje się za niestabilny </string>
      </property>
     </widget>
    </item>

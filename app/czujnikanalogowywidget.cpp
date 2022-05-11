@@ -75,7 +75,7 @@ void CzujnikAnalogowyWidget::timeout()
     }
     mutex.unlock();
 
-    qInfo() << "LIST: " << name << " " << l;
+    //qInfo() << "LIST: " << name << " " << l;
 
     double avg = suma / cntAvgDisp;
     ui->value->setText(QString::number(avg, 'f', prec ));
@@ -89,17 +89,18 @@ void CzujnikAnalogowyWidget::timeout()
 
     for (int i=0; i < 10; ++i)
         diffSuma += prev[i];
-    bool nostab;
+    bool actstab;
     if (avg < minVal) {
-        nostab = true;
+        actstab = true;
     } else {
-        nostab = (100*abs(diffSuma)/avg) > percent;
+        actstab = (100*abs(diffSuma)/avg) > percent;
+        //qDebug() << "NIESTAB = " << diffSuma << " " << avg << " " << (100*abs(diffSuma)/avg);
     }
 
-    if (stab == nostab)
+    if (stab == actstab)
         return;
-    ui->value->setStyleSheet(nostab ? "background-color:red" : "background-color:green");
-    stab = nostab;
+    ui->value->setStyleSheet(actstab ? "background-color:red" : "background-color:green");
+    stab = actstab;
 }
 
 void CzujnikAnalogowyWidget::setPrec(unsigned short newPrec)
