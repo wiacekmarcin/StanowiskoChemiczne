@@ -43,7 +43,7 @@ private:
 
     QMap<unsigned int, bool> bMapZawor;
     QMap<unsigned int, StanCzujnika*> sMapZawor;
-    const unsigned int mapDigitalOrder[10];
+    const digitalIn mapDigitalOrder[9];
     const short maxZawors;
 };
 

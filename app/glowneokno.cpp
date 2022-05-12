@@ -31,6 +31,7 @@
 #include "ustawieniadialog.h"
 #include "ustawieniatestu.h"
 
+#include "sygnalycyfroweustawieniadialog.h"
 #include "wersjadlg.h"
 
 GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
@@ -483,6 +484,14 @@ void GlowneOkno::on_actionDozowniki_triggered()
 void GlowneOkno::on_actionUstawienia_testu_triggered()
 {
     UstawieniaTestu * dlg = new UstawieniaTestu(settings, user, this);
+    dlg->exec();
+    delete dlg;
+}
+
+
+void GlowneOkno::on_actionSygna_y_cyfrowe_triggered()
+{
+    SygnalyCyfroweUstawieniaDialog *dlg = new SygnalyCyfroweUstawieniaDialog(settings, user, this);
     dlg->exec();
     delete dlg;
 }

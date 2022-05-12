@@ -21,11 +21,11 @@ Ustawienia::Ustawienia()
     }
 
     for (int i = 0; i < maxCzujekCyfrIn; ++i) {
-        wejscia[0x1 << i] = settings.value(QString("wejsciacyfrowe/%1/name").arg(0x1 << i), QString("Wejscie cyfrowe %1").arg(i)).toString();
+        wejscia[(digitalIn)(0x1 << i)] = settings.value(QString("wejsciacyfrowe/%1/name").arg(0x1 << i), QString("Wejscie cyfrowe %1").arg(i)).toString();
     }
 
     for (int i = 0; i < maxCzujekCyfrOut; ++i) {
-        wyjscia[0x1 << i] = settings.value(QString("wyjsciacyfrowe/%1/name").arg(0x1 << i), QString("Wyjscie cyfrowe %1").arg(i)).toString();
+        wyjscia[(digitalOut)(0x1 << i)] = settings.value(QString("wyjsciacyfrowe/%1/name").arg(0x1 << i), QString("Wyjscie cyfrowe %1").arg(i)).toString();
     }
 
     REVERSE_INIT(1,false);
@@ -78,26 +78,26 @@ double Ustawienia::getRatio(analogIn id) const
     return czujki[id].ratio;
 }
 
-void Ustawienia::setWejscie(int id, const QString &name)
+void Ustawienia::setWejscie(digitalIn id, const QString &name)
 {
     wejscia[id] = name;
-    settings.setValue(QString("wejsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
+    settings.setValue(QString("wejsciacyfrowe/%1/name").arg((int)id), QVariant::fromValue(name));
     settings.sync();
 }
 
-QString Ustawienia::wejscie(int id) const
+QString Ustawienia::wejscie(digitalIn id) const
 {
     return wejscia[id];
 }
 
-void Ustawienia::setWyjscie(int id, const QString &name)
+void Ustawienia::setWyjscie(digitalOut id, const QString &name)
 {
     wyjscia[id] = name;
-    settings.setValue(QString("wyjsciacyfrowe/%1/name").arg(id), QVariant::fromValue(name));
+    settings.setValue(QString("wyjsciacyfrowe/%1/name").arg((int)id), QVariant::fromValue(name));
     settings.sync();
 }
 
-QString Ustawienia::wyjscie(int id) const
+QString Ustawienia::wyjscie(digitalOut id) const
 {
     return wyjscia[id];
 }

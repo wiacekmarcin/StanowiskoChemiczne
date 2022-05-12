@@ -38,7 +38,7 @@ typedef enum _oDig {
     o_wentylator      = 0x080, //P0.7 X8
     o_mieszadlo       = 0x100, //P1.0 X9
     o_unknown         = 0x200, //P1.1 X10 - nie podlaczone
-    o_trigger         = 0x400, //P1.2
+    o_trigger         = 0x400, //P1.2 X11
 
 } digitalOut;
 
@@ -87,11 +87,11 @@ public:
     static constexpr int maxCzujekCyfrIn = 9;
     static constexpr int maxCzujekCyfrOut = 11;
 
-    void setWejscie(int id, const QString & name);
-    QString wejscie(int id) const;
+    void setWejscie(digitalIn id, const QString & name);
+    QString wejscie(digitalIn id) const;
 
-    void setWyjscie(int id, const QString & name);
-    QString wyjscie(int id) const;
+    void setWyjscie(digitalOut id, const QString & name);
+    QString wyjscie(digitalOut id) const;
 
     SETGET_REVERSE(1)
     SETGET_REVERSE(2)
@@ -122,8 +122,8 @@ protected:
 private:
 
     CzujnikAnalogowy czujki[maxCzujekAnal];
-    QMap<unsigned int, QString> wejscia;
-    QMap<unsigned int, QString> wyjscia;
+    QMap<digitalIn, QString> wejscia;
+    QMap<digitalOut, QString> wyjscia;
     QSettings settings;
     REVERSE(1)
     REVERSE(2)

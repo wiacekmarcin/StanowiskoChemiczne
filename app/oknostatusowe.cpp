@@ -8,8 +8,8 @@
 #define STR(X) _STR(X)
 #define CON(X, Y) X ## Y
 #define INIT_MAP(N) \
-    bMapZawor[mapDigitalOrder[N]] = false; \
-    sMapZawor[mapDigitalOrder[N]] = ui->zawor##N;\
+    bMapZawor[mapDigitalOrder[N-1]] = false; \
+    sMapZawor[mapDigitalOrder[N-1]] = ui->zawor##N;\
     ui->zawor##N->setText("Zawór "#N);\
     ui->zawor##N->setObjectName("Zawor"#N);\
     ui->zawor##N->setOk(false);
@@ -23,8 +23,8 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     bOpenUsb6210(false),
     bOpenUsb6501(false),
     bOpenDozownik(false),
-    mapDigitalOrder{ 0, i_drzwi_lewe, i_wentylacja_lewa, i_proznia, i_pom_stez_1, i_drzwi_prawe, i_wentylacja_prawa, i_wlot_powietrza, i_pom_stez_2, i_pilot},
-    maxZawors(10)
+    mapDigitalOrder{ i_drzwi_lewe, i_wentylacja_lewa, i_proznia, i_pom_stez_1, i_drzwi_prawe, i_wentylacja_prawa, i_wlot_powietrza, i_pom_stez_2, i_pilot},
+    maxZawors(9)
 {
     
 
@@ -38,8 +38,8 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     INIT_MAP(6);
     INIT_MAP(7);
     INIT_MAP(8);
-    bMapZawor[mapDigitalOrder[9]] = false;
-    sMapZawor[mapDigitalOrder[9]] = ui->pilot;
+    bMapZawor[mapDigitalOrder[9-1]] = false;
+    sMapZawor[mapDigitalOrder[9-1]] = ui->pilot;
 
     ui->pilot->setText("Pilot");
     ui->pilot->setObjectName("Pilot");
@@ -69,7 +69,7 @@ OknoStatusowe::~OknoStatusowe()
 
 void OknoStatusowe::setLabels(const Ustawienia &set)
 {
-    for(short id = 1; id < 10; ++id) {
+    for(short id = 0; id < 9; ++id) {
         sMapZawor[mapDigitalOrder[id]]->setText(set.wejscie(mapDigitalOrder[id]));
     }
     adjustSize();
@@ -102,7 +102,7 @@ void OknoStatusowe::setUSB6501(bool open, bool conf)
 
 void OknoStatusowe::timeout()
 {
-    for(short id = 1; id < 10; ++id) {
+    for(short id = 0; id < 9; ++id) {
         sMapZawor[mapDigitalOrder[id]]->setOk(bMapZawor[mapDigitalOrder[id]]);
         sMapZawor[mapDigitalOrder[id]]->update();
     }

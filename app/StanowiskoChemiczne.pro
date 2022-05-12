@@ -55,6 +55,7 @@ SOURCES += \
     stanczujnika.cpp \
     stanwyjscia.cpp \
     sygnalycyfroweustawienia.cpp \
+    sygnalycyfroweustawieniadialog.cpp \
     testdata.cpp \
     testparam.cpp \
     ustawieniadialog.cpp \
@@ -111,6 +112,7 @@ HEADERS += \
     stanczujnika.h \
     stanwyjscia.h \
     sygnalycyfroweustawienia.h \
+    sygnalycyfroweustawieniadialog.h \
     testdata.h \
     testparam.h \
     ustawieniadialog.h \
@@ -158,6 +160,7 @@ FORMS += \
     stanczujnika.ui \
     stanwyjscia.ui \
     sygnalycyfroweustawienia.ui \
+    sygnalycyfroweustawieniadialog.ui \
     ustawieniadialog.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \

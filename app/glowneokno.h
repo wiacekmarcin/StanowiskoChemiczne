@@ -50,6 +50,8 @@ private slots:
     void on_actionDozowniki_triggered();
     void on_actionUstawienia_testu_triggered();
 
+    void on_actionSygna_y_cyfrowe_triggered();
+
 protected:
     void changeSelectedTest();
     void setActionText();
