@@ -54,6 +54,7 @@ SOURCES += \
     serialmessage.cpp \
     stanczujnika.cpp \
     stanwyjscia.cpp \
+    sygnalycyfroweustawienia.cpp \
     testdata.cpp \
     testparam.cpp \
     ustawieniadialog.cpp \
@@ -109,6 +110,7 @@ HEADERS += \
     serialmessage.h \
     stanczujnika.h \
     stanwyjscia.h \
+    sygnalycyfroweustawienia.h \
     testdata.h \
     testparam.h \
     ustawieniadialog.h \
@@ -155,6 +157,7 @@ FORMS += \
     pictureframe.ui \
     stanczujnika.ui \
     stanwyjscia.ui \
+    sygnalycyfroweustawienia.ui \
     ustawieniadialog.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \

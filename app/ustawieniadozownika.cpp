@@ -5,7 +5,7 @@
 
 #include "ustawienia.h"
 
-#include <qDebug>
+#include <QDebug>
 
 #define INIT_KIERUNEK(N) do { ui->rb_l_##N->setChecked(ustawienia.getReverse_##N());ui->rb_p_##N->setChecked(!ustawienia.getReverse_##N()); } while(false)
 
