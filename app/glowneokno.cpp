@@ -2,7 +2,7 @@
 #include "ui_glowneokno.h"
 
 #include "nowyprojectdlg.h"
-#include "czujnikianalogoweustawieniaframe.h"
+//#include "czujnikianalogoweustawieniaframe.h"
 #include "logowaniedlg.h"
 
 
@@ -17,6 +17,7 @@
 #include <QWidgetAction>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QMessageBox>
 
 #include "videowidget.h"
 #include "createtestwizard.h"
@@ -28,10 +29,10 @@
 
 #include "ustawieniadozownika.h"
 #include "ustawienia.h"
-#include "ustawieniadialog.h"
+#include "sygnalycyfroweustawieniadialog.h"
+#include "sygnalyanalogoweustawieniadialog.h"
 #include "ustawieniatestu.h"
 
-#include "sygnalycyfroweustawieniadialog.h"
 #include "wersjadlg.h"
 
 GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzadz, QWidget *parent) :
@@ -113,7 +114,7 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
 
     changeSelectedTest();
 // testowy test
-
+/*
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
     projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
                                             "/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
@@ -121,7 +122,7 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
     on_actionNowy_Test_triggered();
-
+*/
     urzadz->digitalWriteAll(0x2);
 }
 
@@ -448,35 +449,41 @@ void GlowneOkno::onWylogowanieTriggered()
     userLogInfo->setText(QString("Zalogowany jako : %1").arg((user == U_STUDENT ? "Student" : (user == U_ADMIN ? "Administrator" : "Serwisant"))));
 }
 
+/*
 void GlowneOkno::onUstawieniaTriggered()
 {
-    UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
+    SygnalyAnalogowyUstawieniaDialog *dlg2 = new SygnalyAnalogowyUstawieniaDialog(user, settings, this);
     if (dlg2->exec() == QDialog::Accepted)
     {
-        dlg2->saveData(settings);
+        dlg2->save();
         ui->analog->setParams(settings);
         setActionText();
     }
 }
-
+*/
 
 
 void GlowneOkno::on_actionSygna_y_analogowe_triggered()
 {
-    UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
+    SygnalyAnalogowyUstawieniaDialog *dlg2 = new SygnalyAnalogowyUstawieniaDialog(user, settings, this);
     if (dlg2->exec() == QDialog::Accepted)
     {
-        dlg2->saveData(settings);
+        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        dlg2->save();
         ui->analog->setParams(settings);
         setActionText();
     }
+    delete dlg2;
 }
 
 
 void GlowneOkno::on_actionDozowniki_triggered()
 {
     UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
-    dlg->exec();
+    if (dlg->exec() == QDialog::Accepted)
+    {
+        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Zmiany wymagają ponownego uruchomienia testu.");
+    }
     delete dlg;
 }
 
@@ -492,7 +499,18 @@ void GlowneOkno::on_actionUstawienia_testu_triggered()
 void GlowneOkno::on_actionSygna_y_cyfrowe_triggered()
 {
     SygnalyCyfroweUstawieniaDialog *dlg = new SygnalyCyfroweUstawieniaDialog(settings, user, this);
-    dlg->exec();
+    connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, dlg,    &SygnalyCyfroweUstawieniaDialog::setOnOff,   Qt::QueuedConnection);
+    connect(dlg, &SygnalyCyfroweUstawieniaDialog::writeValue, urzadzenia, &Urzadzenia::digitalWrite, Qt::DirectConnection);
+
+    if (dlg->exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        dlg->save();
+        ui->frCzujniki->setLabels(settings);
+        ui->wyjscia->setLabels(settings);
+    }
+    disconnect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, dlg,    &SygnalyCyfroweUstawieniaDialog::setOnOff);
+    disconnect(dlg, nullptr, nullptr, nullptr);
     delete dlg;
+
 }
 

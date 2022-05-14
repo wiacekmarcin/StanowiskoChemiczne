@@ -2,6 +2,8 @@
 #include "ui_sygnalycyfroweustawienia.h"
 #include "stanwyjscia.h"
 
+#include <QAbstractButton>
+
 #define SETSTANWYJSCIA(N,M,V,R,C,S) do {\
     StanWyjscia * w##N = new StanWyjscia(this);\
     w##N->setObjectName(QString::fromUtf8("w"#N));\
@@ -14,7 +16,8 @@
     connect(w##N, &StanWyjscia::writeValue, this, &SygnalyCyfroweUstawienia::writeValue);\
 } while(false)
 
-
+#define POSIN_M(N, I) posIn[I] = ui->inPin##N##Name
+#define POSOUT_M(N, I) posOut[I] = ui->outPin##N##Name
 
 SygnalyCyfroweUstawienia::SygnalyCyfroweUstawienia(QWidget *parent) :
     QFrame(parent),
@@ -32,6 +35,27 @@ SygnalyCyfroweUstawienia::SygnalyCyfroweUstawienia(QWidget *parent) :
     SETSTANWYJSCIA(8, o_hv_bezpiecznik, true, 1, 2, true);
     SETSTANWYJSCIA(9, o_hv_iskra, true, 1, 3, true);
     SETSTANWYJSCIA(10, o_mech_iskra, true, 1, 4, true);
+
+    POSIN_M(1, i_drzwi_lewe);
+    POSIN_M(2, i_wentylacja_lewa);
+    POSIN_M(3, i_proznia);
+    POSIN_M(4, i_pom_stez_1);
+    POSIN_M(5, i_drzwi_prawe);
+    POSIN_M(6, i_wentylacja_prawa);
+    POSIN_M(7, i_wlot_powietrza);
+    POSIN_M(8, i_pom_stez_2);
+    POSIN_M(9, i_pilot);
+
+    POSOUT_M(1, o_hv_onoff);
+    POSOUT_M(2, o_hv_bezpiecznik);
+    POSOUT_M(3, o_hv_iskra);
+    POSOUT_M(4, o_mech_iskra);
+    POSOUT_M(5, o_grzalka);
+    POSOUT_M(6, o_pompa_prozniowa);
+    POSOUT_M(7, o_pompa_powietrza);
+    POSOUT_M(8, o_wentylator);
+    POSOUT_M(9, o_mieszadlo);
+    POSOUT_M(10, o_trigger);
 }
 
 SygnalyCyfroweUstawienia::~SygnalyCyfroweUstawienia()
@@ -78,3 +102,64 @@ void SygnalyCyfroweUstawienia::setOnOff(uint16_t mask)
 {
 
 }
+
+void SygnalyCyfroweUstawienia::restoreDefaults()
+{
+    setWejscie(i_drzwi_lewe,         QString::fromUtf8("Drzwi komory LEWE"));
+    setWejscie(i_drzwi_prawe,        QString::fromUtf8("Drzwi komory PRAWE"));
+    setWejscie(i_wentylacja_lewa,    QString::fromUtf8("Zaw\303\263r went. WYLOT"));
+    setWejscie(i_wentylacja_prawa,   QString::fromUtf8("Zaw\303\263r went. WLOT"));
+    setWejscie(i_pom_stez_1,         QString::fromUtf8("Zaw\303\263r st\304\231\305\274e\305\204 - IN"));
+    setWejscie(i_pom_stez_2,         QString::fromUtf8("Zaw\303\263r st\304\231\305\274e\305\204 - OUT"));
+    setWejscie(i_wlot_powietrza,     QString::fromUtf8("Zaw\303\263r powietrza"));
+    setWejscie(i_proznia,            QString::fromUtf8("Zaw\303\263r pr\303\263\305\274ni"));
+    setWejscie(i_pilot,              QString::fromUtf8("Pilot"));
+
+    setWyjscie(o_hv_onoff,           QString::fromUtf8("Iskra elektryczna ON/OFF"));
+    setWyjscie(o_hv_bezpiecznik,     QString::fromUtf8("Iskra elektryczna Bezpiecznik"));
+    setWyjscie(o_hv_iskra,           QString::fromUtf8("Iskra elektryczna Zap\305\202on"));
+    setWyjscie(o_mech_iskra,         QString::fromUtf8("Iskra mechaniczna"));
+    setWyjscie(o_grzalka,            QString::fromUtf8("P\305\202omie\305\204"));
+    setWyjscie(o_pompa_prozniowa,    QString::fromUtf8("Pompa pr\303\263\305\274niowa"));
+    setWyjscie(o_pompa_powietrza,    QString::fromUtf8("Pompka mebranowa"));
+    setWyjscie(o_wentylator,         QString::fromUtf8("Wentylator do przedmuchu"));
+    setWyjscie(o_mieszadlo,          QString::fromUtf8("Mieszad\305\202o"));
+    setWyjscie(o_trigger,            QString::fromUtf8("Trigger kamery"));
+}
+
+void SygnalyCyfroweUstawienia::save(Ustawienia &ust)
+{
+    for(QMap<digitalIn, QLineEdit *>::iterator it = posIn.begin();
+        it != posIn.end(); ++it)
+    {
+        ust.setWejscie(it.key(), it.value()->text());
+    }
+
+    for(QMap<digitalOut, QLineEdit *>::iterator it = posOut.begin();
+        it != posOut.end(); ++it)
+    {
+        ust.setWyjscie(it.key(), it.value()->text());
+    }
+}
+
+
+void SygnalyCyfroweUstawienia::setWejscie(digitalIn id, const QString &name)
+{
+    posIn[id]->setText(name);
+}
+
+QString SygnalyCyfroweUstawienia::wejscie(digitalIn id) const
+{
+    return posIn[id]->text();
+}
+
+void SygnalyCyfroweUstawienia::setWyjscie(digitalOut id, const QString &name)
+{
+    posOut[id]->setText(name);
+}
+
+QString SygnalyCyfroweUstawienia::wyjscie(digitalOut id) const
+{
+    return posOut[id]->text();
+}
+

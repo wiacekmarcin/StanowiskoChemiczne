@@ -1,26 +1,26 @@
-#include "czujnikanalogowyustawieniawidget.h"
-#include "ui_czujnikanalogowyustawieniawidget.h"
+#include "sygnalanalogowyustawienia.h"
+#include "ui_SygnalAnalogowyUstawienia.h"
 
 #include <QDebug>
 
 
-CzujnikAnalogowyUstawieniaWidget::CzujnikAnalogowyUstawieniaWidget(QWidget *parent) :
+SygnalAnalogowyUstawienia::SygnalAnalogowyUstawienia(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::CzujnikAnalogowyUstawieniaWidget)
+    ui(new Ui::SygnalAnalogowyUstawienia)
 {
     ui->setupUi(this);
     connect(ui->name, &QLineEdit::editingFinished,
-            this, &CzujnikAnalogowyUstawieniaWidget::textChange);
+            this, &SygnalAnalogowyUstawienia::textChange);
     connect(ui->unit, &QLineEdit::editingFinished,
-            this, &CzujnikAnalogowyUstawieniaWidget::textChange);
+            this, &SygnalAnalogowyUstawienia::textChange);
     connect(ui->ratio, &DoubleLineEdit::editingFinished,
-            this, &CzujnikAnalogowyUstawieniaWidget::textChange);
+            this, &SygnalAnalogowyUstawienia::textChange);
     connect(ui->mnoznik, &DoubleLineEdit::editingFinished,
-            this, &CzujnikAnalogowyUstawieniaWidget::textChange);
+            this, &SygnalAnalogowyUstawienia::textChange);
     connect(ui->minval, &DoubleLineEdit::editingFinished,
-            this, &CzujnikAnalogowyUstawieniaWidget::textChange);
+            this, &SygnalAnalogowyUstawienia::textChange);
     connect(ui->percent, &DoubleLineEdit::editingFinished,
-            this, &CzujnikAnalogowyUstawieniaWidget::textChange);
+            this, &SygnalAnalogowyUstawienia::textChange);
 
     ui->ratio->setMin(-1000000000);
     ui->ratio->setMax( 1000000000);
@@ -40,12 +40,12 @@ CzujnikAnalogowyUstawieniaWidget::CzujnikAnalogowyUstawieniaWidget(QWidget *pare
 
 }
 
-CzujnikAnalogowyUstawieniaWidget::~CzujnikAnalogowyUstawieniaWidget()
+SygnalAnalogowyUstawienia::~SygnalAnalogowyUstawienia()
 {
     delete ui;
 }
 
-bool CzujnikAnalogowyUstawieniaWidget::valid()
+bool SygnalAnalogowyUstawienia::valid()
 {
 
     if (ui->name->text().isEmpty())
@@ -65,12 +65,12 @@ bool CzujnikAnalogowyUstawieniaWidget::valid()
     return ok && rr > 0;
 }
 
-void CzujnikAnalogowyUstawieniaWidget::textChange()
+void SygnalAnalogowyUstawienia::textChange()
 {
     emit updateCzujnik();
 }
 
-void CzujnikAnalogowyUstawieniaWidget::setData(const UserPrivilige & user, const Ustawienia::CzujnikAnalogowy & czA)
+void SygnalAnalogowyUstawienia::setData(const UserPrivilige & user, const Ustawienia::CzujnikAnalogowy & czA)
 {
     ui->name->setText(czA.name);
     ui->unit->setText(czA.unit);
@@ -81,23 +81,32 @@ void CzujnikAnalogowyUstawieniaWidget::setData(const UserPrivilige & user, const
     ui->percent->setText(QString::number(czA.percentStab));
 
 
-    ui->name->setEnabled((user & U_STUDENT) == U_STUDENT);
-    ui->unit->setEnabled((user & U_STUDENT) == U_STUDENT);
-    ui->mnoznik->setEnabled((user & U_STUDENT) == U_STUDENT);
+    ui->name->setEnabled((user & U_ADMIN) == U_ADMIN);
+    ui->lname->setEnabled((user & U_ADMIN) == U_ADMIN);
+
+    ui->unit->setEnabled((user & U_ADMIN) == U_ADMIN);
+    ui->lunit->setEnabled((user & U_ADMIN) == U_ADMIN);
+
+    ui->mnoznik->setEnabled((user & U_ADMIN) == U_ADMIN);
+    ui->lmniznik->setEnabled((user & U_ADMIN) == U_ADMIN);
 
     ui->ratio->setEnabled((user & U_SERVISANT) == U_SERVISANT);
     ui->lratio->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+
+    ui->minval->setEnabled((user & U_SERVISANT) == U_SERVISANT);
     ui->lminval->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+
+    ui->percent->setEnabled((user & U_SERVISANT) == U_SERVISANT);
     ui->lprocent->setEnabled((user & U_SERVISANT) == U_SERVISANT);
 
-    ui->baseUnit->setReadOnly((user & U_SERVISANT) != U_SERVISANT);
-    ui->minval->setEnabled((user & U_SERVISANT) != U_SERVISANT);
-    ui->percent->setEnabled((user & U_SERVISANT) != U_SERVISANT);
+    ui->baseUnit->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->lBaseUnit->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+
 
 
 }
 
-Ustawienia::CzujnikAnalogowy CzujnikAnalogowyUstawieniaWidget::getUstawienia() const
+Ustawienia::CzujnikAnalogowy SygnalAnalogowyUstawienia::getUstawienia() const
 {
     Ustawienia::CzujnikAnalogowy c;
     c.name = ui->name->text();

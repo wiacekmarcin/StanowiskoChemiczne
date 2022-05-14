@@ -44,7 +44,6 @@ private slots:
 
     void onLogowanieTriggered();
     void onWylogowanieTriggered();
-    void onUstawieniaTriggered();
 
     void on_actionSygna_y_analogowe_triggered();
     void on_actionDozowniki_triggered();

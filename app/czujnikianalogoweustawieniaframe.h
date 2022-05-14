@@ -5,7 +5,7 @@
 
 #include <QFrame>
 
-class CzujnikAnalogowyUstawieniaWidget;
+class SygnalAnalogowyUstawienia;
 class QGridLayout;
 
 /**
@@ -38,14 +38,17 @@ public:
 
     void saveData(Ustawienia & ust);
 
+    void restoreDefaults();
+
 private slots:
     void updateCzujnik();
 
 protected:
     void createOneElement(int id, const QString &titleBox)    ;
 private:
-    CzujnikAnalogowyUstawieniaWidget * czujniki[Ustawienia::maxCzujekAnal];
+    SygnalAnalogowyUstawienia * czujniki[Ustawienia::maxCzujekAnal];
     QGridLayout * gridLayout;
+    UserPrivilige user;
 };
 
 #endif // CZUJNIKANALOGOWYUSTAWIENIAOKNO_H
