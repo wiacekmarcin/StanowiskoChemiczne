@@ -17,11 +17,11 @@ SygnalyCyfroweUstawieniaDialog::SygnalyCyfroweUstawieniaDialog(Ustawienia &ust, 
 
     QPushButton * btn;
     btn = ui->buttonBox->button(QDialogButtonBox::RestoreDefaults);
-    qDebug() << btn;
+    //qDebug() << btn;
     if (btn)
         btn->setEnabled((user & U_ADMIN) == U_ADMIN);
     btn = ui->buttonBox->button(QDialogButtonBox::Ok);
-        qDebug() << btn;
+        //qDebug() << btn;
     if (btn)
         btn->setEnabled((user & U_ADMIN) == U_ADMIN);
 

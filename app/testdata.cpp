@@ -17,7 +17,7 @@ void TestData::setTemperaturaKomory(FazaTestu ft, const float &temp)
     case FT_dozowanie:  proby.last().tempKomoryDozowanie = temp; break;
     case FT_przedZaplon:  proby.last().tempKomoryZaplon = temp; break;
     case FT_zaplon: proby.last().tempKomoryZaplon = temp; break;
-    default :  qInfo () << "Invalid ft=" << ft ; break ;
+    default :  qInfo () << "Temperatura Invalid ft=" << ft ; break ;
     }
 }
 
@@ -29,7 +29,7 @@ void TestData::setCisnienieKomory(FazaTestu ft, const float &cisn)
     case FT_dozowanie: proby.last().cisnKomoryDozowanie = cisn; break;
     case FT_przedZaplon: proby.last().cisnKomoryZaplon = cisn; break;
     case FT_zaplon: proby.last().cisnKomoryZaplon = cisn; break;
-    default :  qInfo () << "Invalid ft=" << ft ; break ;
+    default :  qInfo () << "Cisnienie komory Invalid ft=" << ft ; break ;
     }
 }
 
@@ -54,9 +54,14 @@ void TestData::setStezenia(FazaTestu ft, const float &voc1, const float &voc2, c
         proby.last().cz8 = cz8;
         break;
     }
-    default : qInfo () << "Invalid ft=" << ft ;  break ;
+    default : qInfo () << "Stezenia Invalid ft=" << ft ;  break ;
     
     }
+}
+
+const QList<AnalValType> &TestData::getValues() const
+{
+    return values;
 }
 
 float TestData::getCz8() const

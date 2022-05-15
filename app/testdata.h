@@ -139,6 +139,8 @@ public:
 
     float getCz8() const;
 
+    const QList<AnalValType> &getValues() const;
+
 protected:
     void setTemperaturaKomory(FazaTestu ft, const float & temp);
     void setCisnienieKomory(FazaTestu ft, const float & cisn);

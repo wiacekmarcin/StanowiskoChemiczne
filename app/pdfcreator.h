@@ -63,7 +63,7 @@ protected:
     QString getImages() const;
     QString getImageWykresPage(const visibleWykresType & var) const;
 
-    QString getOsX(unsigned int i, const float &ratio, const float &minv, const float &maxv) const;
+    QString getOsX(unsigned int i, unsigned int max, const float &minv, const float &maxv) const;
     QString getOsY(unsigned int i, const float &imax, const float &minv, const float &maxv) const;
 
     QString getImageWykres(const visibleWykresType & var) const;
@@ -107,9 +107,6 @@ private:
     QString comment;
     QList<QPair<QString, QString>> fileList;
 
-
-
-    QList<AnalValType> values;
     QVector<visibleWykresType> visibleWykres;
 };
 
