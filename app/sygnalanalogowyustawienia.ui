@@ -57,7 +57,8 @@
    <item row="4" column="0">
     <widget class="QLabel" name="lratio">
      <property name="text">
-      <string>Przelicznik V/jednostkę</string>
+      <string>Przelicznik V/ 
+ podstawowa jednostka</string>
      </property>
     </widget>
    </item>

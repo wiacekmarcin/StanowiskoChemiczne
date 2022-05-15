@@ -333,7 +333,7 @@
      <x>0</x>
      <y>0</y>
      <width>1364</width>
-     <height>23</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPlik">
@@ -367,7 +367,7 @@
    </widget>
    <widget class="QMenu" name="menuPodgl_wyj">
     <property name="title">
-     <string>Podgląd wyjść </string>
+     <string>Wykresy </string>
     </property>
    </widget>
    <widget class="QMenu" name="menuLogowanie">

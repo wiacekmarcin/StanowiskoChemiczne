@@ -79,7 +79,7 @@ void CreateTestWizard::init(Ustawienia * ust, const UserPrivilige & user_,
 
     addPage(new NowyTest_1(testName, (user & U_ADMIN) == U_ADMIN, this), TestPage::PAGE_1, 1);
     addPage(new NowyTest_2(ust->getNrInitializeCycles(), this), TestPage::PAGE_2, 2);
-    addPage(new NowyTest_3(1.0, "mBar", 50000, 3, 0.05, this), TestPage::PAGE_3, 3);
+    addPage(new NowyTest_3(10.0, "mBar", 1000, 3, 0.01, this), TestPage::PAGE_3, 3);
     addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
     addPage(new NowyTest_5(this), TestPage::PAGE_5, 5);
     addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
