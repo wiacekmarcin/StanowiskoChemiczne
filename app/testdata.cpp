@@ -191,6 +191,30 @@ void TestData::addValues(float voc1, float voc2, float o2, float co2, float a8, 
 
 QDataStream & operator<<(QDataStream & ds, const TestData & item)
 {
+    qInfo() << "TestData begin";
+    qInfo() << item.dataTestu.toString() << ",[";
+    foreach (auto u, item.uczestnicy)
+        qInfo() << "Ucz:" << u;
+    qInfo() << "]," << item.nazwaCieczy << "," << item.tempKomoraPoczatek << "," << item.wilgotnosc << "," << item.proby.size();
+    foreach(auto p, item.proby) {
+        qInfo() << "p:[" << p.cisnKomoryDozowanie << "," << p.cisnKomoryZaplon << "," << p.co2 << "," << p.cz8 << "," << p.koncentracjaPar << ",";
+        qInfo() << p.o2 << "," << p.powtarzaneDozowanie << "," << p.powtarzanyZaplon << "," << p.success << "," << p.tempKomoryDozowanie << ",";
+        qInfo() << p.tempKomoryZaplon << "," << p.tempParownikaDozowanie << "," << p.voc1 << "," << p.voc2 << "," << p.zlaKoncetracja << ",";
+        qInfo() << p.zrodloZaplonu << "," << p.iloscCalkowitaCieczy << "]";
+    }
+    qInfo() << "Ciezcz(" << item.iloscCieczy.size() << " :[";
+    foreach (auto c, item.iloscCieczy) {
+        qInfo() << c << ",";
+    }
+    qInfo() << "]," << item.tempKomoraKoniec << "," <<  item.cisnienieKoniec << ",";
+    qInfo() << item.voc1 << "," << item.voc2 << "," << item.o2 << "," << item.co2 << "," << item.cz8 << ",";
+    qInfo() << item.nazwaTestu << "values(" << item.values.size() << ")=[";
+    foreach(auto v, item.values) {
+        qInfo() << "(" << v.a8 << "," << v.o2 << "," << v.co2 << "," << v.voc1 << "," << v.voc2 << "," << v.cisnKom << "," << v.tempKom << "," << v.tempKom << "," << v.tempPar << "),";
+    }
+    qInfo() << "]," << item.startTest.toString() << "," << item.stopTest.toString();
+
+
     ds << item.dataTestu;
     ds << item.uczestnicy;
     ds << item.nazwaCieczy;
@@ -209,11 +233,35 @@ QDataStream & operator<<(QDataStream & ds, const TestData & item)
     ds << item.values;
     ds << item.startTest;
     ds << item.stopTest;
+    qInfo() << "TestData end";
     return ds;
 }
 
 QDataStream & operator>>(QDataStream & ds, TestData & item)
 {
+    qInfo() << "TestData begin";
+    qInfo() << item.dataTestu.toString() << ",[";
+    foreach (auto u, item.uczestnicy)
+        qInfo() << "Ucz:" << u;
+    qInfo() << "]," << item.nazwaCieczy << "," << item.tempKomoraPoczatek << "," << item.wilgotnosc << "," << item.proby.size();
+    foreach(auto p, item.proby) {
+        qInfo() << "p:[" << p.cisnKomoryDozowanie << "," << p.cisnKomoryZaplon << "," << p.co2 << "," << p.cz8 << "," << p.koncentracjaPar << ",";
+        qInfo() << p.o2 << "," << p.powtarzaneDozowanie << "," << p.powtarzanyZaplon << "," << p.success << "," << p.tempKomoryDozowanie << ",";
+        qInfo() << p.tempKomoryZaplon << "," << p.tempParownikaDozowanie << "," << p.voc1 << "," << p.voc2 << "," << p.zlaKoncetracja << ",";
+        qInfo() << p.zrodloZaplonu << "," << p.iloscCalkowitaCieczy << "]";
+    }
+    qInfo() << "Ciezcz(" << item.iloscCieczy.size() << " :[";
+    foreach (auto c, item.iloscCieczy) {
+        qInfo() << c << ",";
+    }
+    qInfo() << "]," << item.tempKomoraKoniec << "," <<  item.cisnienieKoniec << ",";
+    qInfo() << item.voc1 << "," << item.voc2 << "," << item.o2 << "," << item.co2 << "," << item.cz8 << ",";
+    qInfo() << item.nazwaTestu << "values(" << item.values.size() << ")=[";
+    foreach(auto v, item.values) {
+        qInfo() << "(" << v.a8 << "," << v.o2 << "," << v.co2 << "," << v.voc1 << "," << v.voc2 << "," << v.cisnKom << "," << v.tempKom << "," << v.tempPar << "),";
+    }
+    qInfo() << "]," << item.startTest.toString() << "," << item.stopTest.toString();
+
     ds >> item.dataTestu;
     ds >> item.uczestnicy;
     ds >> item.nazwaCieczy;
@@ -232,6 +280,7 @@ QDataStream & operator>>(QDataStream & ds, TestData & item)
     ds >> item.values;
     ds >> item.startTest;
     ds >> item.stopTest;
+    qInfo() << "TestData end";
     return ds;
 }
 

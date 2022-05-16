@@ -28,10 +28,9 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
     czAnalUnit[A] = temp.unit; \
     } while(false);
 
-TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const QString &testName, const Ustawienia & ust, QWidget *parent) :
+TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TestTabsWidget),
-    projekt(pr)
+    ui(new Ui::TestTabsWidget)
 {
     ui->setupUi(this);
     ui->tabWidget->setTabEnabled(1, false);
@@ -39,8 +38,6 @@ TestTabsWidget::TestTabsWidget(const ProjectItem &pr, const QString &testName, c
     ui->tabWidget->setTabEnabled(3, false);
 
     ui->stackedWidget->setCurrentIndex(0);
-    testDane.setDateTime(pr.getCreateDt());
-    testDane.setMembers(pr.getMembers().split("\n"));
     testDane.setNazwaTestu(testName);
     ui->stackedWidget->setTestData(&testDane);
     qInfo() << __FILE__ << ":" << __LINE__ << "test=" << testDane.getNazwaTestu();
@@ -77,40 +74,47 @@ QString TestTabsWidget::getTestName() const
     return testDane.getNazwaTestu();
 }
 
-void TestTabsWidget::finishedTest(bool success)
+void TestTabsWidget::finishedTest(const ProjectItem & projekt)
 {
     qInfo() << __FILE__ << ":" << __LINE__ << "test=" << testDane.getNazwaTestu();
-    if (success) {
-        ui->tabWidget->setTabEnabled(1, true);
-        ui->tabWidget->setTabEnabled(2, true);
-        ui->tabWidget->setTabEnabled(3, true);
-        //ui->tabFoto->setC
-        QString workDir = projekt.getWorkDir();
-        //workDir = "E:\\devel\\workdir";
-        QString testname = testDane.getNazwaTestu();
-        //testname= "Test";
-        testWorkDir = QDir(workDir);
-        if (!testWorkDir.exists())
-            return;
-        bool cdircreate = testWorkDir.mkdir(testname);
-        if (cdircreate) {
-            testWorkDir.cd(testname);
-            testWorkDirName = testWorkDir.absolutePath();
-        } else {
+    testDane.setDateTime(projekt.getCreateDt());
+    testDane.setMembers(projekt.getMembers().split("\n"));
+    ui->tabWidget->setTabEnabled(1, true);
+    ui->tabWidget->setTabEnabled(2, true);
+    ui->tabWidget->setTabEnabled(3, true);
+    //ui->tabFoto->setC
+    QString workDir = projekt.getWorkDir();
+    //workDir = "E:\\devel\\workdir";
+    QString testname = testDane.getNazwaTestu();
+    //testname= "Test";
+    testWorkDir = QDir(workDir);
+    if (!testWorkDir.exists())
+        return;
+    bool cdircreate = testWorkDir.mkdir(testname);
+    if (cdircreate) {
+        testWorkDir.cd(testname);
+        testWorkDirName = testWorkDir.absolutePath();
+    } else {
 
-            int num = 1;
-            qInfo() << __FILE__ << ":" << __LINE__ << workDir;
-            while (!cdircreate) {
-                QString ndir = QString("%1-%2").arg(testname).arg(num++);
-                qInfo() << ndir;
-                cdircreate = testWorkDir.mkdir(ndir);
-                if (cdircreate) {
-                    testWorkDir.cd(ndir);
-                    testWorkDirName = testWorkDir.absolutePath();
-                }
+        int num = 1;
+        qInfo() << __FILE__ << ":" << __LINE__ << workDir;
+        while (!cdircreate) {
+            QString ndir = QString("%1-%2").arg(testname).arg(num++);
+            qInfo() << ndir;
+            cdircreate = testWorkDir.mkdir(ndir);
+            if (cdircreate) {
+                testWorkDir.cd(ndir);
+                testWorkDirName = testWorkDir.absolutePath();
             }
-        } //cdircreate
-    } //success
+        }
+    } //cdircreate
+}
+
+void TestTabsWidget::initfinishedTest()
+{
+    ui->tabWidget->setTabEnabled(1, true);
+    ui->tabWidget->setTabEnabled(2, true);
+    ui->tabWidget->setTabEnabled(3, true);
 }
 
 void TestTabsWidget::on_pbAddImage_clicked()
@@ -122,7 +126,7 @@ void TestTabsWidget::on_pbAddImage_clicked()
     //dialog.setDirectory("E:\\devel\\StanowiskoChemiczne-source\\StanowiskoChemiczne\\img");
     QStringList fileNames;
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    this->setCursor(Qt::WaitCursor);
+    //this->setCursor(Qt::WaitCursor);
     if (dialog.exec())
         fileNames = dialog.selectedFiles();
     if (fileNames.size() == 0)
@@ -175,13 +179,15 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
 
 QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item)
 {
-    ds << item.testDane << item.testWorkDir.absolutePath() << item.testWorkDirName << item.images;
-    //ds << (*(item.ui->stackedWidget));
 
-    //foreach(const QString imS, item.images) {
-    //    QImage i(item.testWorkDir.absoluteFilePath(imS));
-    //    ds << i;
-    //}
+    TestData testDane;
+
+    qInfo() << "TestTabsWidget::Test";
+    ds << item.testDane;
+
+    qInfo() << "TestTabsWidget::testWorkDir / TestTabsWidget::testWorkDirName";
+    ds << item.testWorkDir.absolutePath() << item.testWorkDirName << item.images;
+    qInfo() << "TestTabsWidget::Done";
     return ds;
 }
 
@@ -189,22 +195,13 @@ QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item)
 {
     QString sTestWorkDir;
     QStringList files;
+    qInfo() << "TestTabsWidget:Start";
     ds >> item.testDane >> sTestWorkDir >> item.testWorkDirName >> files;
-    //item.ui->stackedWidget->initFromFile(item.testDane)
 
     item.testWorkDir = QDir(sTestWorkDir);
-    foreach(const QString imS, files) {
-        QFile f(item.testWorkDir.absoluteFilePath(imS));
-        if (f.exists())
-            item.images << imS;
-    }
-
-    //    QImage i;
-    //    i << ds;
-    //
-    //}
-
-
+    item.initfinishedTest();
+    qInfo() << "TestTabsWidget:End";
+    
     return ds;
 }
 

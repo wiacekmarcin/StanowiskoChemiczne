@@ -30,17 +30,19 @@ class TestTabsWidget : public QWidget
 
 public:
     explicit TestTabsWidget(QWidget *parent = 0);
-    TestTabsWidget(const ProjectItem & pr, const QString & testName, const Ustawienia &ust, QWidget * parent);
+    TestTabsWidget(const QString & testName, const Ustawienia &ust, QWidget * parent);
     ~TestTabsWidget();
     void setActive();
     CreateTestWizard * createTestWizard() const;
     QString getTestName() const;
 
+    void finishedTest(const ProjectItem & projekt);
+    void initfinishedTest();
+
 signals:
     void processImageSignal(QStringList filenames);
 
-public slots:
-    void finishedTest(bool success);
+    
 
     friend QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item);
     friend QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item);
@@ -53,7 +55,6 @@ private slots:
 
 private:
     Ui::TestTabsWidget *ui;
-    ProjectItem projekt;
     TestData testDane;
 
     QDir testWorkDir;
