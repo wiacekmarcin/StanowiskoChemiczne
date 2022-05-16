@@ -108,9 +108,10 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     }
 
     connect (signalMapper, SIGNAL( mapped(int) ), this, SLOT(wybierzCzujke(int))) ;
-
+    urzadz->digitalWriteAll(0x2);
 
     changeSelectedTest();
+#if TESTPROJEKT    
 // testowy test
 
     QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
@@ -120,8 +121,8 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
     on_actionNowy_Test_triggered();
-
-    urzadz->digitalWriteAll(0x2);
+#endif
+    
 }
 
 GlowneOkno::~GlowneOkno()
@@ -177,7 +178,7 @@ void GlowneOkno::on_actionNowy_Test_triggered()
 
     mapProjektTesty[selectedProject].append(qtreewidgetitem);
     
-    testy[selectedTest] = new TestTabsWidget(projekty[selectedProject], testName, settings,
+    testy[selectedTest] = new TestTabsWidget(testName, settings,
                                             ui->testyStackedWidget);
 
     ui->testyStackedWidget->addWidget(testy[selectedTest]);
@@ -194,9 +195,6 @@ void GlowneOkno::on_actionNowy_Test_triggered()
             this, &GlowneOkno::changeTestName, Qt::QueuedConnection);
     connect(testy[selectedTest]->createTestWizard(),
             &CreateTestWizard::finishedTest, this, &GlowneOkno::finishedTest, Qt::QueuedConnection);
-    connect(testy[selectedTest]->createTestWizard(),
-            &CreateTestWizard::finishedTest, testy[selectedTest], &TestTabsWidget::finishedTest, Qt::QueuedConnection);
-
     connect(urzadzenia, &Urzadzenia::digitalReadValueChanged,
             testy[selectedTest]->createTestWizard(), &CreateTestWizard::changeDigitalIn,
             Qt::DirectConnection);
@@ -329,6 +327,8 @@ void GlowneOkno::finishedTest(bool success)
         testy.remove(selectedTest);
         selectedTest = nullptr;
         changeSelectedTest();
+    } else {
+        testy[selectedTest]->finishedTest(projekty[selectedProject]);
     }
 }
 
@@ -354,17 +354,20 @@ void GlowneOkno::on_actionZapisz_triggered()
     out.setVersion(QDataStream::Qt_5_12);
 
     out << (quint32)mapProjektTesty.size();
-    qInfo() << (quint32)mapProjektTesty.size();
+    qInfo() << "ilosc projektow" << (quint32)mapProjektTesty.size();
 
     for (QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*>>::iterator it = mapProjektTesty.begin();
          it != mapProjektTesty.end(); ++it) {
-        qInfo() << "Projekt";
+        qInfo() << "Projekt [" << (void*)it.key() << "] " << it.key()->text(0);
+        qInfo() << "Projekt:" << projekty[it.key()].getComment() << "," << projekty[it.key()].getCreateData() << ", " << projekty[it.key()].getMembers() << ", " << projekty[it.key()].getName() << ", " << projekty[it.key()].getWorkDir();
         out << projekty[it.key()];
         out << (quint32)it.value().size();
+        qInfo() << "Ilosc testow w projekcie : " << it.value().size();
         for (QList<QTreeWidgetItem*>::iterator itt = it.value().begin();
              itt != it.value().end(); ++itt) {
-            qInfo() << "nazwa" << testy[*itt]->getTestName();
+            qInfo() << "Test [" << (void*) *itt << " ] nazwa = " << (*itt)->text(0) << ", " << testy[*itt]->getTestName();
             out << testy[*itt]->getTestName();
+            qInfo() << "Test [" << (void*)testy[*itt] << " ]";
             out << *testy[*itt];
         }
         out << (quint32)0xA0B0C0D0;
@@ -398,14 +401,17 @@ void GlowneOkno::on_actionOtw_rz_triggered()
     quint32 projektysize;
     quint32 testysize;
     in >> projektysize;
+    qInfo() << "ilosc projektow" << projektysize;
     for(uint i = 0 ; i < projektysize; ++i) {
         ProjectItem pr;
         in >> pr;
+        qInfo() << "Projekt:" << pr.getComment() << "," << pr.getCreateData() << ", " << pr.getMembers() << ", " << pr.getName() << ", " << pr.getWorkDir();
         QTreeWidgetItem *projectItem = new QTreeWidgetItem(ui->treeWidget, QStringList() << pr.getName());
         projekty[projectItem] = pr;
 
         mapProjektTesty[projectItem] = QList<QTreeWidgetItem*>();
         in >> testysize;
+        qInfo() << "Lista testow" << testysize;
         for(uint j = 0 ; j < testysize; ++j) {
             QString testname;
             in >> testname;
@@ -413,7 +419,7 @@ void GlowneOkno::on_actionOtw_rz_triggered()
             projectItem->addChild(testIitem);
             mapProjektTesty[projectItem].append(testIitem);
 
-            TestTabsWidget *tb = new TestTabsWidget(pr, testname, settings, ui->testyStackedWidget);
+            TestTabsWidget *tb = new TestTabsWidget(testname, settings, ui->testyStackedWidget);
             in >> (*tb);
 
             testy[testIitem] = tb;
@@ -421,7 +427,7 @@ void GlowneOkno::on_actionOtw_rz_triggered()
             ui->testyStackedWidget->addWidget(tb);
             tb->createTestWizard()->initFromFile();
             //tb->createTestWizard()->finishedTest(true);
-            tb->finishedTest(true);
+            //tb->finishedTest(true);
 
         }
         in >> magic;
@@ -458,8 +464,6 @@ void GlowneOkno::onUstawieniaTriggered()
     }
 }
 
-
-
 void GlowneOkno::on_actionSygna_y_analogowe_triggered()
 {
     UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
@@ -471,14 +475,12 @@ void GlowneOkno::on_actionSygna_y_analogowe_triggered()
     }
 }
 
-
 void GlowneOkno::on_actionDozowniki_triggered()
 {
     UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
     dlg->exec();
     delete dlg;
 }
-
 
 void GlowneOkno::on_actionUstawienia_testu_triggered()
 {
