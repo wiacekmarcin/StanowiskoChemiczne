@@ -34,6 +34,9 @@ NowyTest_3::NowyTest_3(const double & mnoznik_, const QString & unit_, uint64_t 
 
     czas_wylaczeniaPompy = 0;
     czas_przerwyPompy = 50;
+
+    ui->cisnienie->setMin(700);
+    ui->cisnienie->setMax(1000);
 }
 
 NowyTest_3::~NowyTest_3()
@@ -152,6 +155,8 @@ void NowyTest_3::updateCisnieie()
             if (czasWork[NEXT_WAIT] - timePompaProzniowa > 50) {
                 nrHisterezy--;
                 if (nrHisterezy == 0) {
+                    actWork = OP_IDLE;
+                    updateOutput(o_pompa_prozniowa, false);
                     cisnienieTimer.stop();
                     int ret = QMessageBox::information(this, "Ustawianie podciśnienia",
                                              "Nie udało się uzyskać żądanego podciśnienie. Układ prawdopodobnie nieszczelny. Czy chcesz kontynuować",
@@ -161,6 +166,7 @@ void NowyTest_3::updateCisnieie()
                     } else if (ret == QMessageBox::No) {
                         setFinished(false);
                     }
+                    return;
                 }
                 actWork = NEXT_WORK;
                 updateOutput(o_pompa_prozniowa, true);
@@ -257,7 +263,7 @@ double NowyTest_3::getAvgCisnienie()
 
 void NowyTest_3::debugStr(const QString &debug)
 {
-    ui->debug->appendHtml(QString("<p>%1</p>").arg(debug));
+    //ui->debug->appendHtml(QString("<p>%1</p>").arg(debug));
 }
 
 QString NowyTest_3::getCisnienie(double val)
@@ -296,12 +302,12 @@ void NowyTest_3::setCisnKomory(const double & newCisnKomory)
 void NowyTest_3::on_pbOk_1_clicked()
 {
     wizard()->setDebug(QString("PAGE3:OK1"));
-    //sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
-    //setZ_criticalMask(0);
-    //setZ_warningMask(0);
-    ui->pbOk_1->setEnabled(false);
-    ui->arrow_1->setVisible(false);
-    ui->frame_2->setVisible(true);
+    sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
+    setZ_criticalMask(0);
+    setZ_warningMask(0);
+    //ui->pbOk_1->setEnabled(false);
+    //ui->arrow_1->setVisible(false);
+    //ui->frame_2->setVisible(true);
 }
 
 

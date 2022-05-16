@@ -115,13 +115,13 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     changeSelectedTest();
 // testowy test
 
-    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
-    projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
-                                            "/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
-    selectedProject = qtreewidgetitem;
-    ui->treeWidget->setCurrentItem(qtreewidgetitem);
+    //QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
+    //projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
+                                            //"/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
+    //selectedProject = qtreewidgetitem;
+    //ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
-    on_actionNowy_Test_triggered();
+    //on_actionNowy_Test_triggered();
 
     urzadz->digitalWriteAll(0x2);
 
@@ -359,13 +359,14 @@ void GlowneOkno::on_actionZapisz_triggered()
     out.setVersion(QDataStream::Qt_5_12);
 
     out << (quint32)mapProjektTesty.size();
-    qInfo() << (quint32)mapProjektTesty.size();
+    qInfo() << "Ilosc projektow" << (quint32)mapProjektTesty.size();
 
     for (QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*>>::iterator it = mapProjektTesty.begin();
          it != mapProjektTesty.end(); ++it) {
-        qInfo() << "Projekt";
+        qInfo() << "Projekt:" << projekty[it.key()].getName();
         out << projekty[it.key()];
         out << (quint32)it.value().size();
+        qInfo() << "Ilość testów:" << it.value().size();
         for (QList<QTreeWidgetItem*>::iterator itt = it.value().begin();
              itt != it.value().end(); ++itt) {
             qInfo() << "nazwa" << testy[*itt]->getTestName();

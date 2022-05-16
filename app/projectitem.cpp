@@ -1,5 +1,8 @@
 #include "projectitem.h"
 #include "projektwidget.h"
+
+#include <QDebug>
+
 ProjectItem::ProjectItem(const QString &name_, const QString &members_, const QString &workdir_,
                          const QString &comment_, const QString &date_, const QDateTime & dt_)
     : name(name_), members(members_), workDir(workdir_), comment(comment_), createData(date_),
@@ -75,6 +78,7 @@ void ProjectItem::setCreateDt(const QDateTime &newCreateDt)
 
 QDataStream & operator<<(QDataStream & ds, const ProjectItem & item)
 {
+    qInfo() << "ProjectItem::save" << item.name << "," << item.members << "," << item.workDir << "," << item.comment << "," << item.createData << "," << item.createDt;
     ds << item.name << item.members << item.workDir << item.comment << item.createData << item.createDt;
     return ds;
 }
@@ -82,5 +86,6 @@ QDataStream & operator<<(QDataStream & ds, const ProjectItem & item)
 QDataStream & operator>>(QDataStream & ds, ProjectItem &item)
 {
     ds >> item.name >> item.members >> item.workDir >> item.comment >> item.createData >> item.createDt;
+    qInfo() << "ProjectItem::load" << item.name << "," << item.members << "," << item.workDir << "," << item.comment << "," << item.createData << "," << item.createDt;
     return ds;
 }

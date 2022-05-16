@@ -167,6 +167,7 @@ private:
 
     QString nazwaTestu;
     QList<AnalValType> values;
+    QList<AnalValType> values2;
     QTime startTest;
     QTime stopTest;
 };

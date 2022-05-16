@@ -24,10 +24,12 @@ NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, QWidget *par
     ui->iloscCieczy->setPrec(1);
     ui->iloscCieczy->setMin(0.1);
 
-    maxVal[QString("Woda")] = 100;
-    maxVal[QString("Benzyna")] = 10;
-    maxVal[QString("Ropa")] = 20;
-    maxVal[QString("Alkohol")] = 40;
+    maxVal[QString("Aceton")] = 100;
+    maxVal[QString("Etanol")] = 10;
+    //maxVal[QString("Olej napędowy")] = 20;
+    maxVal[QString("Izopropanol")] = 40;
+    maxVal[QString("Benzyna")] = 40;
+    maxVal[QString("Toluen")] = 40;
 
     if (visDozownik5) {
         ui->cbDozownik->addItem(QString("5"));
@@ -112,14 +114,19 @@ void NowyTest_1::dozownikChanged(int index)
 
     QList<QStringList> ciecze;
     ciecze.append(QStringList() << "--");
-    ciecze.append(QStringList() << "--" << "Woda" << "Benzyna" << "Ropa" << "Alkohol"); //1
-    ciecze.append(QStringList() << "--" << "Woda"); //2
-    ciecze.append(QStringList() << "--" << "Woda" << "Alkohol"); //3
-    ciecze.append(QStringList() << "--" << "Benzyna" << "Ropa"); //4
-    ciecze.append(QStringList() << "--" << "Alkohol"); //5
+    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //1
+    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //2
+    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //3
+    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //4
+    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //5
 
 
-
+    maxVal[QString("Aceton")] = 100;
+    maxVal[QString("Etanol")] = 10;
+    //maxVal[QString("Olej napędowy")] = 20;
+    maxVal[QString("Izopropanol")] = 40;
+    maxVal[QString("Benzyna")] = 40;
+    maxVal[QString("Toluen")] = 40;
 
     ui->cbCiecz->addItems(ciecze.at(index));
     checkValid();

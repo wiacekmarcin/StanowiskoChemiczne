@@ -203,8 +203,11 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
 {
     mutex.lock();
 
-    if (registerPomiary)
-        TestData().addValues(val0, val1, val2, val3, val7, val6, val5, val4);
+    if (registerPomiary) {
+        qDebug() << "addValues";
+        dt->addValues(val0, val1, val2, val3, val7, val6, val5, val4);
+    }
+        
 
     m_czujniki[a_voc1] = val0;
     m_czujniki[a_voc2] = val1;

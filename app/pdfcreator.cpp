@@ -406,9 +406,9 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
     const QString & subtitle = var.opis2;
     const QString & jedn = var.jedn;
 
-    constexpr unsigned int width = 1300;
-    constexpr unsigned int height = 900;
-    constexpr unsigned int marginleft = 50;
+    constexpr unsigned int width = 1375;
+    constexpr unsigned int height = 1000;
+    constexpr unsigned int marginleft = 75;
     constexpr unsigned int marginright = 50;
     constexpr unsigned int margintop = 50;
     constexpr unsigned int marginbottom = 50;

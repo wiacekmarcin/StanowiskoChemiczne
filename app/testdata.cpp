@@ -5,7 +5,9 @@
 #include <QDataStream>
 TestData::TestData()
 {
-
+    qInfo() << "TestData()";
+    values.clear();
+    values2.clear();
 }
 
 void TestData::setTemperaturaKomory(FazaTestu ft, const float &temp)
@@ -180,7 +182,10 @@ void TestData::addValues(float voc1, float voc2, float o2, float co2, float a8, 
     v.tempKom = tempKom;
     v.tempPar = tempPar;
     v.cisnKom = cisnKom;
-    values.append(v);
+    //values.push_back(v);
+    values << v;
+    values2 << v;
+    qDebug() << (void*)&v << values.size() << "," << values2.size();
 }
 
 
