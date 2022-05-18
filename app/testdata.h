@@ -148,6 +148,8 @@ public:
 
     float getCz8() const;
 
+    const QList<AnalValType> &getValues() const;
+
 protected:
     void setTemperaturaKomory(FazaTestu ft, const float & temp);
     void setCisnienieKomory(FazaTestu ft, const float & cisn);
@@ -174,6 +176,7 @@ private:
 
     QString nazwaTestu;
     QList<AnalValType> values;
+    QList<AnalValType> values2;
     QTime startTest;
     QTime stopTest;
 };

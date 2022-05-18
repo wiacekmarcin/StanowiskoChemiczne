@@ -18,6 +18,7 @@ public:
     explicit OknoStanoweWyjscia(QWidget *parent = nullptr);
     ~OknoStanoweWyjscia();
     void setLabels(const Ustawienia & ust);
+public slots:
     void setOnOff(uint16_t mask);
 
 signals:

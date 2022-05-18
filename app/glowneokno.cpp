@@ -2,7 +2,7 @@
 #include "ui_glowneokno.h"
 
 #include "nowyprojectdlg.h"
-#include "czujnikianalogoweustawieniaframe.h"
+//#include "czujnikianalogoweustawieniaframe.h"
 #include "logowaniedlg.h"
 
 
@@ -17,6 +17,7 @@
 #include <QWidgetAction>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QMessageBox>
 
 #include "videowidget.h"
 #include "createtestwizard.h"
@@ -28,7 +29,8 @@
 
 #include "ustawieniadozownika.h"
 #include "ustawienia.h"
-#include "ustawieniadialog.h"
+#include "sygnalycyfroweustawieniadialog.h"
+#include "sygnalyanalogoweustawieniadialog.h"
 #include "ustawieniatestu.h"
 
 #include "wersjadlg.h"
@@ -114,15 +116,18 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
 #if TESTPROJEKT    
 // testowy test
 
-    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
-    projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
-                                            "/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
-    selectedProject = qtreewidgetitem;
-    ui->treeWidget->setCurrentItem(qtreewidgetitem);
+    //QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
+    //projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
+                                            //"/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
+    //selectedProject = qtreewidgetitem;
+    //ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
-    on_actionNowy_Test_triggered();
+    //on_actionNowy_Test_triggered();
 #endif
-    
+    urzadz->digitalWriteAll(0x2);
+
+
+    //ui->menuBar->addAction(QString("Test"), this, &GlowneOkno::onTestPdfTriggered);
 }
 
 GlowneOkno::~GlowneOkno()
@@ -354,15 +359,14 @@ void GlowneOkno::on_actionZapisz_triggered()
     out.setVersion(QDataStream::Qt_5_12);
 
     out << (quint32)mapProjektTesty.size();
-    qInfo() << "ilosc projektow" << (quint32)mapProjektTesty.size();
+    qInfo() << "Ilosc projektow" << (quint32)mapProjektTesty.size();
 
     for (QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*>>::iterator it = mapProjektTesty.begin();
          it != mapProjektTesty.end(); ++it) {
-        qInfo() << "Projekt [" << (void*)it.key() << "] " << it.key()->text(0);
-        qInfo() << "Projekt:" << projekty[it.key()].getComment() << "," << projekty[it.key()].getCreateData() << ", " << projekty[it.key()].getMembers() << ", " << projekty[it.key()].getName() << ", " << projekty[it.key()].getWorkDir();
+        qInfo() << "Projekt:" << projekty[it.key()].getName();
         out << projekty[it.key()];
         out << (quint32)it.value().size();
-        qInfo() << "Ilosc testow w projekcie : " << it.value().size();
+        qInfo() << "Ilość testów:" << it.value().size();
         for (QList<QTreeWidgetItem*>::iterator itt = it.value().begin();
              itt != it.value().end(); ++itt) {
             qInfo() << "Test [" << (void*) *itt << " ] nazwa = " << (*itt)->text(0) << ", " << testy[*itt]->getTestName();
@@ -453,39 +457,129 @@ void GlowneOkno::onWylogowanieTriggered()
     userLogInfo->setText(QString("Zalogowany jako : %1").arg((user == U_STUDENT ? "Student" : (user == U_ADMIN ? "Administrator" : "Serwisant"))));
 }
 
-void GlowneOkno::onUstawieniaTriggered()
+void GlowneOkno::on_actionSygna_y_analogowe_triggered()
 {
-    UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
+    SygnalyAnalogowyUstawieniaDialog *dlg2 = new SygnalyAnalogowyUstawieniaDialog(user, settings, this);
     if (dlg2->exec() == QDialog::Accepted)
     {
-        dlg2->saveData(settings);
+        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        dlg2->save();
         ui->analog->setParams(settings);
         setActionText();
     }
+    delete dlg2;
 }
 
 void GlowneOkno::on_actionSygna_y_analogowe_triggered()
 {
-    UstawieniaDialog *dlg2 = new UstawieniaDialog(user, settings, this);
-    if (dlg2->exec() == QDialog::Accepted)
+    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
+    if (dlg->exec() == QDialog::Accepted)
     {
-        dlg2->saveData(settings);
-        ui->analog->setParams(settings);
-        setActionText();
+        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Zmiany wymagają ponownego uruchomienia testu.");
     }
+    delete dlg;
 }
 
 void GlowneOkno::on_actionDozowniki_triggered()
 {
-    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
+    UstawieniaTestu * dlg = new UstawieniaTestu(settings, user, this);
     dlg->exec();
     delete dlg;
 }
 
 void GlowneOkno::on_actionUstawienia_testu_triggered()
 {
-    UstawieniaTestu * dlg = new UstawieniaTestu(settings, user, this);
-    dlg->exec();
+    SygnalyCyfroweUstawieniaDialog *dlg = new SygnalyCyfroweUstawieniaDialog(settings, user, this);
+    connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, dlg,    &SygnalyCyfroweUstawieniaDialog::setOnOff,   Qt::QueuedConnection);
+    connect(dlg, &SygnalyCyfroweUstawieniaDialog::writeValue, urzadzenia, &Urzadzenia::digitalWrite, Qt::DirectConnection);
+
+    if (dlg->exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        dlg->save();
+        ui->frCzujniki->setLabels(settings);
+        ui->wyjscia->setLabels(settings);
+    }
+    disconnect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, dlg,    &SygnalyCyfroweUstawieniaDialog::setOnOff);
+    disconnect(dlg, nullptr, nullptr, nullptr);
     delete dlg;
+
 }
+
+
+#include <math.h>
+#include <QTextDocument>
+#include <QPrinter>
+#include <QPrintPreviewDialog>
+
+void GlowneOkno::getPdf()
+{
+    TestData t;
+    QStringList members;
+    members << "Czlonek 1" << "Czlonek 2";
+    t.setDateTime(QDateTime::currentDateTime());
+    t.setMembers(members);
+    t.setLiquidName("Woda");
+    t.setHumanity(67.8);
+    t.setTemperaturaKomoryWarunkiPoczatkowe(26.9);
+    t.setTemperaturaKomoryWarunkiKoncowe(45.9);
+    t.setTemperaturaKomoryDozowanie(28.1);
+    t.setTemperaturaKomoryPrzedZaplonem(27.0);
+    t.setTemperaturaKomoryZaplon(98.0);
+
+    t.setCisnienieKomoryWarunkiPoczatkowe(991.0);
+    t.setCisnienieKomoryWarunkiKoncowe(993);
+    t.setCisnienieKomoryDozowanie(995.0);
+    t.setCisnienieKomoryPrzedZaplonem(992.0);
+    t.setCisnienieKomoryZaplon(1010);
+
+    t.setStezeniaPrzedZaplonem(0.05, 0.05, 21.3, 0.05, 0.0005);
+    t.setStezeniaPoZaplonie(0.07, 0.07, 21.0, 0.15, 0.0075);
+
+    t.setLiquidVolue(12.0);
+    t.setZrodloZaplonu("Plomien");
+    t.setTemperaturaParownika(31.0);
+
+    t.setNazwaTestu("Runda 1");
+    t.setUdanaProba(true, false, false);
+
+    for (int i=0; i < 10*3600; ++i) {
+        t.addValues(sin(0.1*i), cos(0.1*i), tan(0.1*i), 1-pow(tan(0.1*i),-1), 1, 2, 3, 4);
+    }
+
+    //t.addValues();
+    //addValues(float voc1, float voc2, float o2, float co2, float a8, float tempPar, float tempKom, float cisnKom);
+
+    PdfCreator pdf(t);
+
+    pdf.setWykresVisible(a_voc1, true, -1.5, +1.5, 1, 1, "sinus", "a_voc1", "rad");
+    //pdf.setWykresVisible(a_voc2, true, -1.5, +1.5, 1, 1, "cosinus", "a_voc2", "rad");
+    //pdf.setWykresVisible(a_o2, true, -15, +15, 1, 1, "tangens", "a_o2", "rad");
+    //pdf.setWykresVisible(a_co2, true, -15, +15, 1, 1, "cotangens", "a_voc1", "rad");
+
+    //
+        QPrinter printer(QPrinter::PrinterResolution);
+        QTextDocument * textDocument = new QTextDocument;
+
+        textDocument->setHtml(pdf.getBody());
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName("test.pdf");
+        printer.setPageSize(QPageSize(QPageSize::A4));
+        printer.setFullPage(true);
+        textDocument->print(&printer);
+
+    //return pdf;
+}
+
+void GlowneOkno::onTestPdfTriggered()
+{
+    getPdf();
+
+
+    //QPrintPreviewDialog preview(&printer, this);
+    //preview.setWindowFlags ( Qt::Window );
+    //connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(printPreview(QPrinter *)));
+    //preview.exec();
+}
+
+
 

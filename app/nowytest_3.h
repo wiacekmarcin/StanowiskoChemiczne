@@ -4,6 +4,8 @@
 #include "testpage.h"
 #include <QMutex>
 #include <QTimer>
+#include <QMap>
+
 namespace Ui {
 class NowyTest_3;
 }
@@ -41,7 +43,28 @@ private slots:
 protected:
     double getCisnKomory();
     double getAvgCisnienie();
+
+    void debugStr(const QString & debug);
+
+    QString getCisnienie(double val);
+
+
+
+
 private:
+
+    typedef enum _odciaganieProzniEnum {
+        OP_IDLE,
+        FIRST_WORK,
+        FIRST_POMPA_RUN,
+        FIRST_WAIT,
+        NEXT_WORK,
+        NEXT_WAIT,
+        FINISH_STABLE,
+        TIMEOUT,
+    } OdciaganieProznieType;
+
+
     Ui::NowyTest_3 *ui;
     short cnt;
     double cisnKomory;
@@ -58,7 +81,12 @@ private:
     double wybrCisnienie;
     bool pomp_powietrza;
 
-    uint64_t timePompaProzniowa; //maksymalny czas pompy
+    uint64_t timePompaProzniowaMax; //maksymalny czas pompy
+    uint64_t timePompaProzniowa;
+
+    uint64_t czas_wylaczeniaPompy;
+    uint64_t czas_przerwyPompy;
+    uint64_t czas_brakuWzrostuCisnienia;
     short maxHisterez; //maksymalna ilosc petli
     short nrHisterezy; //ilosc petli histerezy
     double wspolczynnikDolny; //o ile % ma zejsc na dol z sciaganiem cisnienia
@@ -67,6 +95,10 @@ private:
     bool ustalanieCisnienia; //czy nadal trwa ustalanie cisnienia
     double mnoznik; //mnoznik do obliczen
     bool oczekiwanieNaWzrost;
+
+    OdciaganieProznieType actWork;
+    QMap<OdciaganieProznieType, uint64_t> czasWork;
+    QString unit;
 };
 
 #endif // NOWYTEST_3_H

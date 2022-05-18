@@ -8,6 +8,9 @@
 #include "projectitem.h"
 #include "testtabswidget.h"
 #include "ustawienia.h"
+#include "pdfcreator.h"
+#include <QPrinter>
+
 namespace Ui {
 class GlowneOkno;
 }
@@ -44,16 +47,21 @@ private slots:
 
     void onLogowanieTriggered();
     void onWylogowanieTriggered();
-    void onUstawieniaTriggered();
+
+    void onTestPdfTriggered();
 
     void on_actionSygna_y_analogowe_triggered();
     void on_actionDozowniki_triggered();
     void on_actionUstawienia_testu_triggered();
 
+    void on_actionSygna_y_cyfrowe_triggered();
+
 protected:
     void changeSelectedTest();
     void setActionText();
     void disableNowyTest(bool dis);
+
+    void getPdf();
 
 private:
     Ui::GlowneOkno *ui;

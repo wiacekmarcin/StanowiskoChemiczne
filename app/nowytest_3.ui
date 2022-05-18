@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>704</width>
-    <height>285</height>
+    <height>345</height>
    </rect>
   </property>
   <property name="title" stdset="0">
@@ -172,73 +172,6 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QFrame" name="frame_5">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLabel" name="arrow_5">
-        <property name="text">
-         <string>*</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="text5">
-        <property name="text">
-         <string>Uzyskano podciśnienie :.</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="uzyskane_cisnienie">
-        <property name="text">
-         <string>0.0</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="unit_2">
-        <property name="text">
-         <string>mBar</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbRun_5">
-        <property name="text">
-         <string>Uruchom pompę </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbOk_5">
-        <property name="text">
-         <string>OK</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="3" column="1">
     <widget class="QFrame" name="frame_4">
      <property name="frameShape">
@@ -286,7 +219,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Różnica %</string>
+         <string>Różnica </string>
         </property>
        </widget>
       </item>
@@ -298,7 +231,208 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="txt4_per">
+        <property name="text">
+         <string>%</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QFrame" name="frame_5">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="arrow_5">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="text5">
+        <property name="text">
+         <string>Uzyskano podciśnienie :.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="uzyskane_cisnienie_5">
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbOk_5">
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QFrame" name="frame_6">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLabel" name="arrow_6">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt6_1">
+        <property name="text">
+         <string>Zadane ciśnienie jest większe niż ciśnenie w komorze.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt6_2">
+        <property name="text">
+         <string>Ciśnienie zadanie :</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="cisnienie_zad_6">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt6_3">
+        <property name="text">
+         <string>&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt6_4">
+        <property name="text">
+         <string>Ciśnienie w komorze:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="cisnienieKomora_6">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QFrame" name="frame_7">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QLabel" name="arrow_7">
+        <property name="text">
+         <string>*</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt7_1">
+        <property name="text">
+         <string>Nie udało się uzyskaż żądanego podciśnienia. </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt7_2">
+        <property name="text">
+         <string>Zadane ciśnienie</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="cisnienie_zad_7">
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="txt7_3">
+        <property name="text">
+         <string>Uzyskane cisnienie w komorze</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="cisnienie_komora_7">
+        <property name="text">
+         <string>0.0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_7">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>

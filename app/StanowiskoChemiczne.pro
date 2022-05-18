@@ -33,7 +33,6 @@ DESTDIR = ./build
 UI_DIR = ./ui
 SOURCES += \
     crc8.cpp \
-    czujnikanalogowyustawieniawidget.cpp \
     czujnikanalogowywidget.cpp \
     czujnikianalogoweokno.cpp \
     czujnikianalogoweustawieniaframe.cpp \
@@ -54,10 +53,12 @@ SOURCES += \
     serialmessage.cpp \
     stanczujnika.cpp \
     stanwyjscia.cpp \
+    sygnalanalogowyustawienia.cpp \
+    sygnalyanalogoweustawieniadialog.cpp \
     sygnalycyfroweustawienia.cpp \
+    sygnalycyfroweustawieniadialog.cpp \
     testdata.cpp \
     testparam.cpp \
-    ustawieniadialog.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
     videoplayer.cpp \
@@ -90,7 +91,6 @@ HEADERS += \
     build_defs.h \
     common.h \
     crc8.h \
-    czujnikanalogowyustawieniawidget.h \
     czujnikanalogowywidget.h \
     czujnikianalogoweokno.h \
     czujnikianalogoweustawieniaframe.h \
@@ -110,10 +110,12 @@ HEADERS += \
     serialmessage.h \
     stanczujnika.h \
     stanwyjscia.h \
+    sygnalanalogowyustawienia.h \
+    sygnalyanalogoweustawieniadialog.h \
     sygnalycyfroweustawienia.h \
+    sygnalycyfroweustawieniadialog.h \
     testdata.h \
     testparam.h \
-    ustawieniadialog.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \
     version.h \
@@ -144,7 +146,6 @@ HEADERS += \
     zdjeciaraport.h
 
 FORMS += \
-    czujnikanalogowyustawieniawidget.ui \
     czujnikanalogowywidget.ui \
     digitaloutwidget.ui \
     glowneokno.ui \
@@ -157,8 +158,10 @@ FORMS += \
     pictureframe.ui \
     stanczujnika.ui \
     stanwyjscia.ui \
+    sygnalanalogowyustawienia.ui \
+    sygnalyanalogoweustawieniadialog.ui \
     sygnalycyfroweustawienia.ui \
-    ustawieniadialog.ui \
+    sygnalycyfroweustawieniadialog.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \
     videowidget.ui \
