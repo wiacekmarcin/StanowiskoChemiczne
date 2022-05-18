@@ -11,15 +11,24 @@
 #include <QObject>
 #include <QDataStream>
 
-typedef struct _analValue {
+
+typedef struct _stezenia {
     float voc1;
     float voc2;
     float o2;
     float co2;
     float a8;
+} StezeniaType;
+
+typedef struct _restParam {
     float tempPar;
     float tempKom;
     float cisnKom;
+} OtherParamType;     
+
+typedef struct _analValue : public StezeniaType, public OtherParamType {
+    
+    
 } AnalValType;
 
 

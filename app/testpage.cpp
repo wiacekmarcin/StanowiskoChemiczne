@@ -50,7 +50,6 @@ TestData * TestPage::getTestData()
 
 float TestPage::getCzujnik(analogIn czujnik)
 {
-    qInfo() << "getCzujnik";
     return wiz->getCzujnik(czujnik);
 }
 

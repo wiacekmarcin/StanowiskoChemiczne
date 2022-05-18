@@ -121,6 +121,10 @@ void TestPageForm::on_pbFinishTest_clicked()
     d->setTemperaturaKomoryWarunkiKoncowe(45.0);
     d->setStezeniaPoZaplonie(15.9, 16.9, 26.9, 32.9, 21.9);
 
+    for (int i = 0; i < 10; ++i) {
+        d->addValues(i+0.1, i+0.2, i+0.3, i+0.4, i+0.5, i+0.6, i+0.7, i+0.8);
+    }
     widget()->setFinished(true);
+
 }
 

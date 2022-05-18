@@ -804,11 +804,7 @@
       <attribute name="title">
        <string>Wideo</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="VideoPlayer" name="widget_2" native="true"/>
-       </item>
-      </layout>
+      <layout class="QHBoxLayout" name="horizontalLayout_3"/>
      </widget>
     </widget>
    </item>
@@ -825,12 +821,6 @@
    <class>ZdjeciaRaport</class>
    <extends>QFrame</extends>
    <header>zdjeciaraport.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>VideoPlayer</class>
-   <extends>QWidget</extends>
-   <header>videoplayer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

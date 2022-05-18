@@ -223,6 +223,7 @@ QDataStream & operator<<(QDataStream & ds, const TestData & item)
     ds << item.values;
     ds << item.startTest;
     ds << item.stopTest;
+
     qInfo() << "TestData end";
     return ds;
 }
@@ -230,6 +231,26 @@ QDataStream & operator<<(QDataStream & ds, const TestData & item)
 QDataStream & operator>>(QDataStream & ds, TestData & item)
 {
     qInfo() << "TestData begin";
+    ds >> item.dataTestu;
+    ds >> item.uczestnicy;
+    ds >> item.nazwaCieczy;
+    ds >> item.tempKomoraPoczatek;
+    ds >> item.wilgotnosc;
+    ds >> item.proby;
+    ds >> item.iloscCieczy;
+    ds >> item.tempKomoraKoniec;
+    ds >> item.cisnienieKoniec;
+    ds >> item.voc1;
+    ds >> item.voc2;
+    ds >> item.o2;
+    ds >> item.co2;
+    ds >> item.cz8;
+    ds >> item.nazwaTestu;
+    ds >> item.values;
+    ds >> item.startTest;
+    ds >> item.stopTest;
+
+
     qInfo() << item.dataTestu.toString() << ",[";
     foreach (auto u, item.uczestnicy)
         qInfo() << "Ucz:" << u;
@@ -252,24 +273,7 @@ QDataStream & operator>>(QDataStream & ds, TestData & item)
     }
     qInfo() << "]," << item.startTest.toString() << "," << item.stopTest.toString();
 
-    ds >> item.dataTestu;
-    ds >> item.uczestnicy;
-    ds >> item.nazwaCieczy;
-    ds >> item.tempKomoraPoczatek;
-    ds >> item.wilgotnosc;
-    ds >> item.proby;
-    ds >> item.iloscCieczy;
-    ds >> item.tempKomoraKoniec;
-    ds >> item.cisnienieKoniec;
-    ds >> item.voc1;
-    ds >> item.voc2;
-    ds >> item.o2;
-    ds >> item.co2;
-    ds >> item.cz8;
-    ds >> item.nazwaTestu;
-    ds >> item.values;
-    ds >> item.startTest;
-    ds >> item.stopTest;
+
     qInfo() << "TestData end";
     return ds;
 }
@@ -300,7 +304,7 @@ QDataStream & operator<<(QDataStream & ds, const AnalValType & item)
 
 QDataStream & operator>>(QDataStream & ds, AnalValType & item)
 {
-    ds >> item.voc1 >> item.voc2 >> item.o2 >> item.co2 << item.a8 >> item.tempKom >> item.tempPar >> item.cisnKom;
+    ds >> item.voc1 >> item.voc2 >> item.o2 >> item.co2 >> item.a8 >> item.tempKom >> item.tempPar >> item.cisnKom;
     return ds;
 }
 

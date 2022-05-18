@@ -125,7 +125,7 @@ void TestTabsWidget::on_pbAddImage_clicked()
     dialog.setViewMode(QFileDialog::Detail);
     //dialog.setDirectory("E:\\devel\\StanowiskoChemiczne-source\\StanowiskoChemiczne\\img");
     QStringList fileNames;
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    //QApplication::setOverrideCursor(Qt::WaitCursor);
     //this->setCursor(Qt::WaitCursor);
     if (dialog.exec())
         fileNames = dialog.selectedFiles();
@@ -185,8 +185,14 @@ QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item)
     qInfo() << "TestTabsWidget::Test";
     ds << item.testDane;
 
-    qInfo() << "TestTabsWidget::testWorkDir / TestTabsWidget::testWorkDirName";
-    ds << item.testWorkDir.absolutePath() << item.testWorkDirName << item.images;
+    qInfo() << "TestTabsWidget::testWorkDir " << item.testWorkDir.absolutePath();
+    qInfo() << "TestTabsWidget::testWorkDirName " << item.testWorkDirName;
+    qInfo() << "images=[";
+    foreach (auto im, item.images) {
+        qInfo() << im << ",";
+    }
+    qInfo() << "]";
+    ds << item.testWorkDir.absolutePath() << item.images;
     qInfo() << "TestTabsWidget::Done";
     return ds;
 }
@@ -196,9 +202,19 @@ QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item)
     QString sTestWorkDir;
     QStringList files;
     qInfo() << "TestTabsWidget:Start";
-    ds >> item.testDane >> sTestWorkDir >> item.testWorkDirName >> files;
+    ds >> item.testDane >> sTestWorkDir >> item.images;
 
     item.testWorkDir = QDir(sTestWorkDir);
+    item.testWorkDirName = sTestWorkDir;
+    
+    qInfo() << "TestTabsWidget::testWorkDir " << item.testWorkDir.absolutePath();
+    qInfo() << "TestTabsWidget::testWorkDirName " << item.testWorkDirName;
+    qInfo() << "images=[";
+    foreach (auto im, item.images) {
+        qInfo() << im << ",";
+    }
+    qInfo() << "]";
+
     item.initfinishedTest();
     qInfo() << "TestTabsWidget:End";
     

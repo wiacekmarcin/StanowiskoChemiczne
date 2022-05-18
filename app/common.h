@@ -6,5 +6,5 @@
 
 #define FINISHTEST 1
 
-#define TESTPROJEKT 0
+#define TESTPROJEKT 1
 #endif // COMMON_H
