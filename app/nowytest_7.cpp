@@ -16,14 +16,6 @@ NowyTest_7::NowyTest_7(QWidget *parent) :
     next = PAGE_8;
     wykrytyZaplon = true;
 
-    if (wykrytyZaplon) {
-        ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
-   "<html><head/><body><p>Program <span style=\" font-weight:700;\">wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
-    } else {
-        ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
-    "<html><head/><body><p>Program <span style=\" font-weight:700;\">nie wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
-    }
-
     //ui->pbOK_1->setEnabled(false);
 }
 
@@ -46,7 +38,17 @@ void NowyTest_7::initializePage()
     ui->pbOK_3->setEnabled(true);
     ui->pbOk_4->setEnabled(true);
     TestPage::initializePage();
-    ui->rb3_zaplon->setEnabled(field(TestPage::rodzajZaplonu).toInt() != z_iskra_plomien);
+
+    wykrytyZaplon = field(TestPage::bylWybuch).toBool();
+    if (wykrytyZaplon) {
+        ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
+   "<html><head/><body><p>Program <span style=\" font-weight:700;\">wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
+    } else {
+        ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
+    "<html><head/><body><p>Program <span style=\" font-weight:700;\">nie wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
+    }
+
+    //ui->rb3_zaplon->setEnabled(field(TestPage::rodzajZaplonu).toInt() != z_iskra_plomien);
 }
 
 TestPage::PageId NowyTest_7::nextPageId() const

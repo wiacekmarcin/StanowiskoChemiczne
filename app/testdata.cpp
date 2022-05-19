@@ -3,11 +3,21 @@
 #include <QDebug>
 #include <QFloat16>
 #include <QDataStream>
+
 TestData::TestData()
 {
     qInfo() << "TestData()";
     values.clear();
-    values2.clear();
+}
+
+void TestData::setCisnienieParCieczy(const float &cisn)
+{
+    proby.last().cisnienieParCieczy = cisn;
+}
+
+void TestData::setPodcisnienie(bool val)
+{
+    proby.last().podcisnienie = val;
 }
 
 void TestData::setTemperaturaKomory(FazaTestu ft, const float &temp)
@@ -31,6 +41,7 @@ void TestData::setCisnienieKomory(FazaTestu ft, const float &cisn)
     case FT_dozowanie: proby.last().cisnKomoryDozowanie = cisn; break;
     case FT_przedZaplon: proby.last().cisnKomoryZaplon = cisn; break;
     case FT_zaplon: proby.last().cisnKomoryZaplon = cisn; break;
+    case FT_poczatek: proby.last().cisnienieKomoryPoczatek = cisn; break;
     default :  qInfo () << "Cisnienie komory Invalid ft=" << ft ; break ;
     }
 }
@@ -61,9 +72,64 @@ void TestData::setStezenia(FazaTestu ft, const float &voc1, const float &voc2, c
     }
 }
 
+void TestData::initProba(ProbaType &p)
+{
+    p.success = false;
+    p.zrodloZaplonu = "";
+    p.powtarzanyZaplon = false;
+    p.powtarzaneDozowanie = false;
+    p.tempParownikaDozowanie = -1;
+    p.tempKomoryDozowanie = -1;
+    p.cisnKomoryDozowanie = -1;
+    p.tempKomoryZaplon = -1;
+    p.cisnKomoryZaplon = -1;
+    p.koncentracjaPar = -1;
+    p.zlaKoncetracja = -1;
+    p.voc1 = -1;                 //(odczytane na końcu kroku 5)
+    p.voc2 = -1;
+    p.o2 = -1;
+    p.co2 = -1;
+    p.cz8 = -1;
+
+    p.iloscCalkowitaCieczy = 0;
+    p.calkowitaKoncetracjaPar = 0;
+    p.cisnienieParCieczy = -1;
+    p.cisnienieKomoryPoczatek = -1;
+    p.podcisnienie = false;
+}
+
 const QList<AnalValType> &TestData::getValues() const
 {
     return values;
+}
+
+void TestData::start()
+{
+    if (proby.size() == 0) {
+        ProbaType p;
+        initProba(p);
+        proby.append(ProbaType());
+    }
+}
+
+void TestData::cisnieniaCzastkoweOblicz(ProbaType & proba)
+{
+    float P1 = proba.cisnienieKomoryPoczatek;
+    float P2 = proba.cisnKomoryDozowanie;
+    float P3 = proba.cisnienieParCieczy;
+
+    bool podcisnienie = proba.podcisnienie;
+    if (podcisnienie)  {
+        float delta = P2 - P1;
+        if (P3 == 0)
+            P3 = 1;
+        proba.koncentracjaPar = 100.0 * delta / P3;
+    } else {
+        float delta = P2 - P1;
+        if (P2 == 0)
+            P2 = 1;
+        proba.koncentracjaPar = 100.0 * delta / P2;
+    }
 }
 
 float TestData::getCz8() const
@@ -140,14 +206,24 @@ void TestData::setUdanaProba(bool success, bool powtarzaneDozowanie, bool powtar
 {
     emit debug(QString("Udana proba = %1").arg(success));
     proby.last().success = success;
-    proby.last().iloscCalkowitaCieczy = 0;
-    foreach(auto doz, iloscCieczy) {
+    //proby.last().iloscCalkowitaCieczy = 0;
+        foreach(auto doz, iloscCieczy) {
         proby.last().iloscCalkowitaCieczy += doz;
     }
+    cisnieniaCzastkoweOblicz(proby.last());
+    proby.last().calkowitaKoncetracjaPar += proby.last().koncentracjaPar;
+
+    bool blednaKoncetracja = proby.last().zlaKoncetracja;
     if (!success) {
-        proby.append(ProbaType());
+
+        ProbaType p;
+        initProba(p);
+        proby.append(p);
         proby.last().powtarzaneDozowanie = powtarzaneDozowanie;
         proby.last().powtarzanyZaplon =  powtarzanyZaplon;
+        proby.last().success = false;
+        if (blednaKoncetracja || powtarzaneDozowanie)
+            proby.last().zlaKoncetracja = true;
     }
 }
 
@@ -184,8 +260,6 @@ void TestData::addValues(float voc1, float voc2, float o2, float co2, float a8, 
     v.cisnKom = cisnKom;
     //values.push_back(v);
     values << v;
-    values2 << v;
-    qDebug() << (void*)&v << values.size() << "," << values2.size();
 }
 
 
@@ -200,7 +274,8 @@ QDataStream & operator<<(QDataStream & ds, const TestData & item)
         qInfo() << "p:[" << p.cisnKomoryDozowanie << "," << p.cisnKomoryZaplon << "," << p.co2 << "," << p.cz8 << "," << p.koncentracjaPar << ",";
         qInfo() << p.o2 << "," << p.powtarzaneDozowanie << "," << p.powtarzanyZaplon << "," << p.success << "," << p.tempKomoryDozowanie << ",";
         qInfo() << p.tempKomoryZaplon << "," << p.tempParownikaDozowanie << "," << p.voc1 << "," << p.voc2 << "," << p.zlaKoncetracja << ",";
-        qInfo() << p.zrodloZaplonu << "," << p.iloscCalkowitaCieczy << "]";
+        qInfo() << p.zrodloZaplonu << "," << p.iloscCalkowitaCieczy << p.calkowitaKoncetracjaPar << p.cisnienieParCieczy << p.cisnienieKomoryPoczatek;
+        qInfo() << p.podcisnienie << "]";
     }
     qInfo() << "Ciezcz(" << item.iloscCieczy.size() << " :[";
     foreach (auto c, item.iloscCieczy) {
@@ -269,7 +344,9 @@ QDataStream & operator>>(QDataStream & ds, TestData & item)
         qInfo() << "p:[" << p.cisnKomoryDozowanie << "," << p.cisnKomoryZaplon << "," << p.co2 << "," << p.cz8 << "," << p.koncentracjaPar << ",";
         qInfo() << p.o2 << "," << p.powtarzaneDozowanie << "," << p.powtarzanyZaplon << "," << p.success << "," << p.tempKomoryDozowanie << ",";
         qInfo() << p.tempKomoryZaplon << "," << p.tempParownikaDozowanie << "," << p.voc1 << "," << p.voc2 << "," << p.zlaKoncetracja << ",";
-        qInfo() << p.zrodloZaplonu << "," << p.iloscCalkowitaCieczy << "]";
+        qInfo() << p.zrodloZaplonu << "," << p.iloscCalkowitaCieczy << p.calkowitaKoncetracjaPar << p.cisnienieParCieczy << p.cisnienieKomoryPoczatek;
+        qInfo() << p.podcisnienie << "]";
+
     }
     qInfo() << "Ciezcz(" << item.iloscCieczy.size() << " :[";
     foreach (auto c, item.iloscCieczy) {
@@ -294,6 +371,7 @@ QDataStream & operator<<(QDataStream & ds, const ProbaType & item)
     ds << item.o2 << item.powtarzaneDozowanie << item.powtarzanyZaplon << item.success << item.tempKomoryDozowanie;
     ds << item.tempKomoryZaplon << item.tempParownikaDozowanie << item.voc1 << item.voc2 << item.zlaKoncetracja;
     ds << item.zrodloZaplonu << item.iloscCalkowitaCieczy;
+    ds << item.calkowitaKoncetracjaPar << item.cisnienieParCieczy << item.cisnienieKomoryPoczatek << item.podcisnienie;
     return ds;
 }
 
@@ -303,6 +381,7 @@ QDataStream & operator>>(QDataStream & ds, ProbaType & item)
     ds >> item.o2 >> item.powtarzaneDozowanie >> item.powtarzanyZaplon >> item.success >> item.tempKomoryDozowanie;
     ds >> item.tempKomoryZaplon >> item.tempParownikaDozowanie >> item.voc1 >> item.voc2 >> item.zlaKoncetracja;
     ds >> item.zrodloZaplonu >> item.iloscCalkowitaCieczy;
+    ds >> item.calkowitaKoncetracjaPar >> item.cisnienieParCieczy >> item.cisnienieKomoryPoczatek >> item.podcisnienie;
     return ds;
 }
 
@@ -317,4 +396,6 @@ QDataStream & operator>>(QDataStream & ds, AnalValType & item)
     ds >> item.voc1 >> item.voc2 >> item.o2 >> item.co2 >> item.a8 >> item.tempKom >> item.tempPar >> item.cisnKom;
     return ds;
 }
+
+
 

@@ -114,6 +114,21 @@ public:
     double getCisnienieProzni() const;
     void setCisnienieProzni(double newCisnienieProzni);
 
+    float getMaxAceton() const;
+    void setMaxAceton(float newMaxAceton);
+
+    float getMaxEtanol() const;
+    void setMaxEtanol(float newMaxEtanol);
+
+    float getMaxIzopropanol() const;
+    void setMaxIzopropanol(float newMaxIzopropanol);
+
+    float getMaxBenzyna() const;
+    void setMaxBenzyna(float newMaxBenzyna);
+
+    float getMaxToluen() const;
+    void setMaxToluen(float newMaxToluen);
+
 protected:
     void initialSetting();
     void setCzujka(analogIn id, const QString & name, const QString & baseUnit, const QString & unit,
@@ -135,6 +150,13 @@ private:
     double stepsOnMl;
     unsigned short nrInitializeCycles;
     double cisnienieProzni;
+
+    float maxAceton;
+    float maxEtanol;
+    //float maxOlej_napedowy;
+    float maxIzopropanol;
+    float maxBenzyna;
+    float maxToluen;
 };
 
 #endif // USTAWIENIA_H

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Stanowisko da analizy wybuchów : Ustawienia parametrów procedury</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -23,16 +23,52 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Maksymalna ilość wody</string>
+         <string>Maksymalna ilość acetanu</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Maksymalna ilość cieczy 2</string>
+         <string>Maksymalna ilość etanolu</string>
         </property>
        </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Maksymalna ilość izopropanolu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Maksymalna ilość benzyna</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Maksymalna ilość toulen</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="DoubleLineEdit" name="ekran1_acetan"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="DoubleLineEdit" name="ekran1_etanol"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="DoubleLineEdit" name="ekran1_izopropanol"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="DoubleLineEdit" name="ekran1_benzyna"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="DoubleLineEdit" name="ekran1_toulen"/>
       </item>
      </layout>
     </widget>
@@ -65,7 +101,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Ciśnienie uznawane za &quot;próżnię&quot;</string>
+         <string>Minimalne ciśnienie</string>
         </property>
        </widget>
       </item>
@@ -87,6 +123,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>doublelineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

@@ -48,6 +48,8 @@ void NowyTest_6::updateWejscia()
 {
     
     if (step2 && zi_pilot() && !runDialog) {
+
+        qDebug() << __FILE__ << __LINE__ << field(TestPage::rodzajZaplonu).toInt();
         runZaplon((ZaplonRodzaj)(field(TestPage::rodzajZaplonu).toInt()));
         runDialog = true;
         emit showDglSignal();
@@ -75,14 +77,16 @@ void NowyTest_6::on_cbZaplon_2_currentTextChanged(const QString &arg1)
 
 void NowyTest_6::on_pbOK_2_clicked()
 {
-    wizard()->setDebug(QString("PAGE4:OK2"));
+    wizard()->setDebug(QString("PAGE6:OK2"));
     step2 = true;
     ui->pbOK_2->setEnabled(false);
     updateOutput(o_mieszadlo, false);
-    qInfo() << "Zapis do fielda";
+    qInfo() << "Zapis do fielda:" << ui->cbZaplon_2->currentIndex();
+    setField(rodzajZaplonu, QVariant::fromValue(ui->cbZaplon_2->currentIndex()));
     setField(zaplon, QVariant::fromValue(ui->cbZaplon_2->currentText()));
-    qInfo() << "zapis do darnych";
     getTestData()->setZrodloZaplonu(ui->cbZaplon_2->currentText());
+    if (!field(TestPage::wybranyPlomien).toBool() && ui->cbZaplon_2->currentIndex() == z_iskra_plomien)
+        setField(TestPage::wybranyPlomien, true);
     ui->arriw_2->setVisible(false);
     ui->frame_3->setVisible(true);
 
@@ -97,10 +101,11 @@ void NowyTest_6::showDlgSlot()
     float cisn = getCzujnik(a_cisn_komora);
     qDebug() << "Start okno";
     OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this, wizard(),
-                                tmp, cisn);
-    qDebug() << "exec";
-    dlg->exec();
+                                tmp, cisn, field(TestPage::wybranyPlomien).toBool());
 
+    bool wasZaplon = dlg->exec() == QDialog::Accepted;
+    qDebug() << "exec " << wasZaplon;
+    setField(TestPage::bylWybuch, wasZaplon);
     delete dlg;
     runDialog = false;
     nextPage(nextPageId());

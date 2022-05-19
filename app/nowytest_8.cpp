@@ -5,9 +5,11 @@
 #include <QTimer>
 #include <QMessageBox>
 
-NowyTest_8::NowyTest_8(QWidget *parent) :
+NowyTest_8::NowyTest_8(unsigned int czasPracyPompki_, unsigned int czasNaStezenie_, QWidget *parent) :
     TestPage(parent),
-    ui(new Ui::NowyTest_8)
+    ui(new Ui::NowyTest_8),
+    czasPracyPompki(1000*czasPracyPompki_),
+    czasNaStezenie(1000*czasNaStezenie_)
 {
     ui->setupUi(this);
 }
@@ -41,12 +43,13 @@ void NowyTest_8::initializePage()
 
 void NowyTest_8::runDone()
 {
-    ui->pbOK_2->setEnabled(true);
+    updateOutput(o_pompa_powietrza, false);
+    QTimer::singleShot(czasNaStezenie, this, &NowyTest_8::runDone2);
+}
 
-    //ui->pbStep2->setEnabled(true);
-    //ui->pbStep2->setDone(true);
-    //ui->lStep3->setEnabled(true);
-    //ui->pbStep3->setEnabled(true);
+void NowyTest_8::runDone2()
+{
+    ui->pbOK_2->setEnabled(true);
 }
 
 void NowyTest_8::on_pbOK_1_clicked()
@@ -61,7 +64,7 @@ void NowyTest_8::on_pbOK_1_clicked()
     updateOutput(o_pompa_powietrza, true);
 
     ui->pbOK_2->setEnabled(false);
-    QTimer::singleShot(2000, this, &NowyTest_8::runDone);
+    QTimer::singleShot(czasPracyPompki, this, &NowyTest_8::runDone);
 }
 
 

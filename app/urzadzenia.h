@@ -284,6 +284,8 @@ private slots:
      */
     void ds_dozownikConfigured(bool open, bool conf);
 
+    void triggerKamery();
+
 protected:
     /**
      * @brief runIskraElektryczna - uruchomienie procedury iskry elektrycznej

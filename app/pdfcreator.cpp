@@ -59,12 +59,9 @@ QString PdfCreator::getBody() const
     result += "<div style=\"margin-top:100px\">";
     result += getTempKomoraStart();
     result += getWilgotnosc();
-    result += "</div";
+    result += "</div>";
 
     for (int id = 0; id < td.getProby().size(); ++id) {
-        if (id) {
-            result += QString("<p>#######################################################################</p>");
-        }
         result += getProba(td.getProby().at(id), td.getIloscCieczy(), id + 1);
     }
     result += getWarunkiPoUdanejProbie();
@@ -137,7 +134,11 @@ QString PdfCreator::getProba(const ProbaType &proba, const QList<float> & dozowa
              << proba.o2 << " " << proba.tempKomoryDozowanie << " " << proba.tempKomoryZaplon << " "
              << proba.tempParownikaDozowanie << " " << proba.voc1 << " " << proba.voc2 << " " << proba.zrodloZaplonu;
     */
-    QString ret("<div>");
+    QString ret;
+    if (nrProba % 2 == 1)
+        ret += ("<div style=\"page-break-before:always\">");
+    else
+        ret += "<div>";
     ret += QString("<h2 style=\"font-size:16px\">%1 %2</h2>").arg(QString(PdfCreator::proba), QString::number(nrProba));
     ret += getProbaWynik(proba.success);
     ret += getZrodloZaplonu(proba.zrodloZaplonu);
@@ -171,11 +172,12 @@ QString PdfCreator::getIloscCieczy(const QList<float> &dozowanie, unsigned int n
     float suma = 0.0;
     QString sumaStr;
     unsigned int sumCnt = 0;
-    for (int i = 0; i < dozowanie.size(); ++i) {
-        float d = dozowanie.at(i);
-        suma += d;
+    float prev = 0.0;
+    for (int i = 0; i < dozowanie.size() && i < nrProba; ++i) {
+        float d = dozowanie.at(i) - prev;
         if (d == 0.0)
             continue;
+        suma += d;
         sumaStr += QString("+ %1 ").arg(QString::number(d, 'f', 1));
         ++sumCnt;
     }
@@ -202,7 +204,7 @@ QString PdfCreator::getWarunkiPrzedZaplonem(const ProbaType &proba) const
     ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(PdfCreator::tempKomory), QString::number(proba.tempKomoryZaplon, 'f', 1));
     ret += QString("<p style=\"font-size:12px\">%1 %2 kPa").arg(QString(PdfCreator::cisnKomory),
                                                                  QString::number(proba.cisnKomoryZaplon, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 %").arg(QString(PdfCreator::koncetracjaPar), QString::number(proba.koncentracjaPar, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 %").arg(QString(PdfCreator::koncetracjaPar), QString::number(proba.calkowitaKoncetracjaPar, 'f', 1));
     if (proba.zlaKoncetracja) {
         ret += QString("<pstyle=\"font-size:12px\"><u>%1</u></p>").arg(PdfCreator::zlaKoncetracjaPar);
     }
@@ -211,13 +213,13 @@ QString PdfCreator::getWarunkiPrzedZaplonem(const ProbaType &proba) const
 
 QString PdfCreator::getOdczytyStezen(const ProbaType &proba) const
 {
-    QString ret = QString("<pstyle=\"font-size:12px\">%1").arg(PdfCreator::odczytyStezen);
+    QString ret = QString("<p style=\"font-size:12px\">%1").arg(PdfCreator::odczytyStezen);
     ret += QString("<ul>");
-    ret += QString("<li>VOC1 = %1 %</li>").arg(QString::number(proba.voc1, 'f', 1));
-    ret += QString("<li>VOC2 = %1 %</li>").arg(QString::number(proba.voc2, 'f', 1));
-    ret += QString("<li>O2 = %1 %</li>").arg(QString::number(proba.o2, 'f', 1));
-    ret += QString("<li>CO2 = %1 %</li>").arg(QString::number(proba.co2, 'f', 1));
-    ret += QString("<li>Czujnik 8 = %1 %</li>").arg(QString::number(proba.cz8, 'f', 1));
+    ret += QString("<li>VOC1 = %1 %</li>").arg(QString::number(proba.voc1, 'f', 2));
+    ret += QString("<li>VOC2 = %1 %</li>").arg(QString::number(proba.voc2, 'f', 2));
+    ret += QString("<li>O2 = %1 %</li>").arg(QString::number(proba.o2, 'f', 2));
+    ret += QString("<li>CO2 = %1 %</li>").arg(QString::number(proba.co2, 'f', 2));
+    ret += QString("<li>Czujnik 8 = %1 %</li>").arg(QString::number(proba.cz8, 'f', 2));
     return ret + QString("</ul></p>");
 }
 

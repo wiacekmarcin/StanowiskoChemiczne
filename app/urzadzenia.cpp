@@ -148,6 +148,7 @@ void Urzadzenia::digitalWrite(digitalOut mask, bool on)
 
 void Urzadzenia::zaplon(ZaplonRodzaj idiskra)
 {
+    qDebug() << __FILE__ << __LINE__ << idiskra;
     switch(idiskra) {
     case z_iskra_elektryczna:
         runIskraElektryczna();
@@ -251,6 +252,11 @@ void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)
     emit dozownik(open, conf);
 }
 
+void Urzadzenia::triggerKamery()
+{
+    digitalWrite(o_trigger, true);
+}
+
 void Urzadzenia::runIskraElektryczna()
 {
 
@@ -294,7 +300,7 @@ void Urzadzenia::runIskraMechaniczna1()
 
 void Urzadzenia::runPlomien()
 {
-    digitalWrite(o_trigger, true);
+    QTimer::singleShot(2000, this, &Urzadzenia::triggerKamery);
     digitalWrite(o_grzalka, true);
     QTimer::singleShot(6000, this, &Urzadzenia::runPlomien1);
 

@@ -3,7 +3,9 @@
 #include <QDebug>
 #include "ustawienia.h"
 
-NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, QWidget *parent) :
+NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, float maxAceton,
+                       float maxEtanol, float maxIzopropanol, float maxBenzyna, float maxToluen,
+                       QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_1)
 {
@@ -24,16 +26,26 @@ NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, QWidget *par
     ui->iloscCieczy->setPrec(1);
     ui->iloscCieczy->setMin(0.1);
 
-    maxVal[QString("Aceton")] = 100;
-    maxVal[QString("Etanol")] = 10;
+    ui->humanity->setPrec(1);
+    ui->humanity->setMin(0);
+    ui->humanity->setMax(100);
+
+    maxVal[QString("Aceton")] = maxAceton;
+    maxVal[QString("Etanol")] = maxEtanol;
     //maxVal[QString("Olej napędowy")] = 20;
-    maxVal[QString("Izopropanol")] = 40;
-    maxVal[QString("Benzyna")] = 40;
-    maxVal[QString("Toluen")] = 40;
+    maxVal[QString("Izopropanol")] = maxIzopropanol;
+    maxVal[QString("Benzyna")] = maxBenzyna;
+    maxVal[QString("Toluen")] = maxToluen;
 
     if (visDozownik5) {
         ui->cbDozownik->addItem(QString("5"));
     }
+    ui->cbDozownik->setEnabled(true);
+    ui->cbCiecz->setEnabled(true);
+
+    ui->iloscCieczy->setPrec(1);
+    ui->iloscCieczy->setMin(0.1);
+    ui->iloscCieczy->setMax(0);
 }
 
 
@@ -92,8 +104,6 @@ void NowyTest_1::nameTestChanged(const QString &arg1)
         return;
     }
     valid = true;
-    if (!ui->cbDozownik->isEnabled())
-        ui->cbDozownik->setEnabled(true);
     checkValid();
 }
 
@@ -102,33 +112,16 @@ void NowyTest_1::dozownikChanged(int index)
     if (index == 0) {
         ui->iloscCieczy->setValue(0);
         ui->iloscCieczy->setEnabled(false);
-        //ui->cbZaplon->setEnabled(false);
         valid = false;
         checkValid();
         return;
+    } else if (index == 5) {
+        ui->iloscCieczy->setMax(10000000);
+        ui->maxcieczy->setText("Bez limitu");
     }
     valid = false;
-    ui->cbCiecz->setEnabled(true);
-    ui->cbCiecz->clear();
     valCieczy = 0.0;
 
-    QList<QStringList> ciecze;
-    ciecze.append(QStringList() << "--");
-    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //1
-    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //2
-    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //3
-    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //4
-    ciecze.append(QStringList() << "--" << "Aceton" << "Etanol" << "Olej napędowy" << "Izopropanol" << "Benzyna" << "Toluen"); //5
-
-
-    maxVal[QString("Aceton")] = 100;
-    maxVal[QString("Etanol")] = 10;
-    //maxVal[QString("Olej napędowy")] = 20;
-    maxVal[QString("Izopropanol")] = 40;
-    maxVal[QString("Benzyna")] = 40;
-    maxVal[QString("Toluen")] = 40;
-
-    ui->cbCiecz->addItems(ciecze.at(index));
     checkValid();
 
 }
@@ -155,7 +148,17 @@ void NowyTest_1::checkValid()
             break;
         }
 
+        if (ui->iloscCieczy->text().isEmpty()) {
+            v = false;
+            break;
+        }
+
         if (valCieczy < 0.1) {
+            v = false;
+            break;
+        }
+
+        if (ui->humanity->text().isEmpty()) {
             v = false;
             break;
         }
@@ -181,8 +184,15 @@ void NowyTest_1::cieczChanged(int index)
     ui->iloscCieczy->setEnabled(true);
 
     QString key = ui->cbCiecz->currentText();
-    ui->maxcieczy->setText(QString::number(maxVal[key]));
-
+    if (ui->cbDozownik->currentIndex() == 5) {
+        ui->iloscCieczy->setMax(10000000);
+        ui->maxcieczy->setText("Bez limitu");
+    } else {
+        ui->maxcieczy->setText(QString::number(maxVal[key]));
+        ui->iloscCieczy->setMax(maxVal[key]);
+    }
+    if (valCieczy > maxVal[currCiecz])
+        valid = false;
 
     checkValid();
 }

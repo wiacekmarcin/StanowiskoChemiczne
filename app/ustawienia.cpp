@@ -39,6 +39,13 @@ Ustawienia::Ustawienia()
     nrInitializeCycles = settings.value(QString("dozownik/numberOfInitializeCycles"), 10).toUInt();
     cisnienieProzni = settings.value(QString("testy/cisnienieWprozni"), 0.01).toDouble();
 
+    maxAceton = settings.value(QString("liquid/Aceton/max"), 10.0).toDouble();
+    maxEtanol = settings.value(QString("liquid/Etanol/max"), 10.0).toDouble();
+    //maxOlej_napedowy;
+    maxIzopropanol = settings.value(QString("liquid/Izopropanol/max"), 10.0).toDouble();
+    maxBenzyna = settings.value(QString("liquid/Benzyna/max"), 10.0).toDouble();
+    maxToluen = settings.value(QString("liquid/Toluen/max"), 10.0).toDouble();;
+
 }
 
 void Ustawienia::setCzujka(analogIn id, const Ustawienia::CzujnikAnalogowy & czAnal)
@@ -180,6 +187,12 @@ void Ustawienia::initialSetting()
 
     setStepsOnMl(14000);
     settings.sync();
+
+    setMaxAceton(40.0);
+    setMaxEtanol(50.0);
+    setMaxIzopropanol(60.0);
+    setMaxBenzyna(70.0);
+    setMaxToluen(80.0);
 }
 
 void Ustawienia::setCzujka(analogIn id, const QString &name, const QString &baseUnit, const QString &unit,
@@ -194,6 +207,66 @@ void Ustawienia::setCzujka(analogIn id, const QString &name, const QString &base
     czA.minVal = minVal;
     czA.percentStab = percent;
     setCzujka(id, czA);
+}
+
+float Ustawienia::getMaxToluen() const
+{
+    return maxToluen;
+}
+
+void Ustawienia::setMaxToluen(float newMaxToluen)
+{
+    maxToluen = newMaxToluen;
+    settings.setValue(QString("liquid/Toluen/max"), QVariant::fromValue(newMaxToluen));
+    settings.sync();
+}
+
+float Ustawienia::getMaxBenzyna() const
+{
+    return maxBenzyna;
+}
+
+void Ustawienia::setMaxBenzyna(float newMaxBenzyna)
+{
+    maxBenzyna = newMaxBenzyna;
+    settings.setValue(QString("liquid/Benzyna/max"), QVariant::fromValue(newMaxBenzyna));
+    settings.sync();
+}
+
+float Ustawienia::getMaxIzopropanol() const
+{
+    return maxIzopropanol;
+}
+
+void Ustawienia::setMaxIzopropanol(float newMaxIzopropanol)
+{
+    maxIzopropanol = newMaxIzopropanol;
+    settings.setValue(QString("liquid/Izopropanol/max"), QVariant::fromValue(newMaxIzopropanol));
+    settings.sync();
+}
+
+float Ustawienia::getMaxEtanol() const
+{
+    return maxEtanol;
+}
+
+void Ustawienia::setMaxEtanol(float newMaxEtanol)
+{
+    maxEtanol = newMaxEtanol;
+    settings.setValue(QString("liquid/Etanol/max"), QVariant::fromValue(newMaxEtanol));
+    settings.sync();
+}
+
+float Ustawienia::getMaxAceton() const
+{
+    return maxAceton;
+}
+
+void Ustawienia::setMaxAceton(float newMaxAceton)
+{
+    maxAceton = newMaxAceton;
+    settings.setValue(QString("liquid/Aceton/max"), QVariant::fromValue(newMaxAceton));
+    settings.sync();
 }
 
 double Ustawienia::getCisnienieProzni() const

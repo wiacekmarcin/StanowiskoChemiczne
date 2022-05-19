@@ -314,6 +314,9 @@ void NowyTest_3::on_pbOk_1_clicked()
 void NowyTest_3::on_pb_Skip2_clicked()
 {
     wizard()->setDebug(QString("PAGE3:SKIP2"));
+    TestData * dt = getTestData();
+    dt->start();
+    dt->setPodcisnienie(false);
     nextPage(nextPageId());
 }
 
@@ -366,14 +369,16 @@ void NowyTest_3::on_pbOk_5_clicked()
     wizard()->setDebug(QString("PAGE3:O5"));
     updateOutput(o_pompa_prozniowa, false);
     TestData * dt = getTestData();
-    dt->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
+    dt->start();
+    dt->setPodcisnienie(true);
+
     setZ_warningMask(0);
     nextPage(nextPageId());
 }
 
 void NowyTest_3::on_pbRun_5_clicked()
 {
-    //uruchomienie pompy recznie
+    //uruchomienie pompy recznietd->start();
 
     wizard()->setDebug(QString("PAGE3:RUN5"));
     if (!sprawdzOtwarteZaworProzni())

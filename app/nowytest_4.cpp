@@ -48,6 +48,9 @@ void NowyTest_4::initializePage()
     ui->pbOk_2->setEnabled(true);
     ui->pbOk_3->setEnabled(true);
     ui->pbOk_4->setEnabled(true);
+
+    TestData * dt = getTestData();
+    dt->setCisnienieKomoryWarunkiPoczatkowe(getCzujnik(a_cisn_komora));
 }
 
 NowyTest_4::~NowyTest_4()
@@ -57,7 +60,7 @@ NowyTest_4::~NowyTest_4()
 
 void NowyTest_4::dozownikDone(bool success)
 {
-    
+    qInfo() << "DozownikDone=" << success;
     if (!success) {
         QMessageBox msgBox;
         msgBox.setText("Nie udało się zadozować cieczy.");
@@ -85,48 +88,60 @@ void NowyTest_4::on_pbOk_1_clicked()
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
+    qInfo() << "1";
     wizard()->setDebug(QString("PAGE4:OK2"));
+    qInfo() << "2";
     if (!sprawdzOtwarteZawory(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa))
         return;
+    qInfo()  << "3";
     ui->pbOk_2->setEnabled(false);
     TestData * td = getTestData();
+    td->start();
 
     //if powtarzane dozowanie lub nie odciagane powietrze
     if (field(TestPage::czyPompaMebr).toBool() || field(TestPage::powtarzanyTest).toBool()) {
+        qInfo()  << "4";
         td->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
     }
-
+    qInfo()  << "5 =" << (void*)td << " " << getCzujnik(a_temp_parownik);
 
     td->setTemperaturaParownika(getCzujnik(a_temp_parownik));
+    qInfo()  << "6";
     td->setTemperaturaKomoryDozowanie(getCzujnik(a_temp_komory));
+    qInfo()  << "7";
 
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
+    qInfo() << "8";
     updateOutput(o_mieszadlo, true);
+    qInfo() << "done";
 }
 
 void NowyTest_4::on_pbOk_3_clicked()
 {
     wizard()->setDebug(QString("PAGE4:OK3"));
+    getTestData()->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
     if (field(czyPompaMebr).toBool()) {
         ui->pbOk_3->setEnabled(false);
         ui->arrow_3->setVisible(false);
         ui->frame_4->setVisible(true);
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wentylacja_lewa | i_wentylacja_prawa);
     } else {
-        getTestData()->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
+
         nextPage(nextPageId());
     }
 }
 
 void NowyTest_4::runDone()
 {
-    dozownikDone(true);
+    qInfo() << "runDone";
+    //dozownikDone(true);
 }
 
 
 void NowyTest_4::on_pbOk_4_clicked()
 {
     wizard()->setDebug(QString("PAGE4:OK4"));
+    getTestData()->setCisnienieParCieczy(getCzujnik(a_cisn_komora));
     if (!sprawdzOtwarteZaworPowietrza())
         return;
 

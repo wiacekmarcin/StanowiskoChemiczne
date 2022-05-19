@@ -77,14 +77,17 @@ void CreateTestWizard::init(Ustawienia * ust, const UserPrivilige & user_,
     user = user_;
     numberInitDozCycles = ust->getNrInitializeCycles();
 
-    addPage(new NowyTest_1(testName, (user & U_ADMIN) == U_ADMIN, this), TestPage::PAGE_1, 1);
+    addPage(new NowyTest_1(testName, (user & U_ADMIN) == U_ADMIN,
+                ust->getMaxAceton(), ust->getMaxEtanol(), ust->getMaxIzopropanol(), ust->getMaxBenzyna(), ust->getMaxToluen(),
+                           this), TestPage::PAGE_1, 1);
+
     addPage(new NowyTest_2(ust->getNrInitializeCycles(), this), TestPage::PAGE_2, 2);
     addPage(new NowyTest_3(10.0, "mBar", 1000, 3, 0.01, this), TestPage::PAGE_3, 3);
     addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
-    addPage(new NowyTest_5(this), TestPage::PAGE_5, 5);
+    addPage(new NowyTest_5(30, 10, this), TestPage::PAGE_5, 5);
     addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
     addPage(new NowyTest_7(this), TestPage::PAGE_7, 7);
-    addPage(new NowyTest_8(this), TestPage::PAGE_8, 8);
+    addPage(new NowyTest_8(30, 10, this), TestPage::PAGE_8, 8);
     addPage(new NowyTest_9(dt, this), TestPage::PAGE_9, 9);
 
     /*
@@ -204,7 +207,7 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
     mutex.lock();
 
     if (registerPomiary) {
-        qDebug() << "addValues";
+        //qDebug() << "addValues";
         dt->addValues(val0, val1, val2, val3, val7, val6, val5, val4);
     }
         
@@ -356,7 +359,7 @@ void CreateTestWizard::updateOutput(digitalOut mask, bool on)
 
 void CreateTestWizard::runZaplon(ZaplonRodzaj id)
 {
-emit zaplon(id);
+    emit zaplon(id);
 }
 
 void CreateTestWizard::runCykleDozownik(uint8_t nr, uint32_t steps)

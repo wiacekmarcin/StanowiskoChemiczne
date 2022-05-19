@@ -116,13 +116,13 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
 #if TESTPROJEKT    
 // testowy test
 
-    //QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
-    //projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
-                                            //"/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
-    //selectedProject = qtreewidgetitem;
-    //ui->treeWidget->setCurrentItem(qtreewidgetitem);
+    QTreeWidgetItem *qtreewidgetitem = new QTreeWidgetItem(ui->treeWidget, QStringList(QString("Testowy projekt")));
+    projekty[qtreewidgetitem] = ProjectItem("Testowy projekt", "Członek 1\nCzłonek 2\nCzłonek 3",
+                                            "/home/test", "Komentarz", "Dzisiejsza data", QDateTime::currentDateTime());
+    selectedProject = qtreewidgetitem;
+    ui->treeWidget->setCurrentItem(qtreewidgetitem);
 
-    //on_actionNowy_Test_triggered();
+    on_actionNowy_Test_triggered();
 #endif
     urzadz->digitalWriteAll(0x2);
 
@@ -470,7 +470,7 @@ void GlowneOkno::on_actionSygna_y_analogowe_triggered()
     delete dlg2;
 }
 
-void GlowneOkno::on_actionSygna_y_analogowe_triggered()
+void GlowneOkno::on_actionDozowniki_triggered()
 {
     UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
     if (dlg->exec() == QDialog::Accepted)
@@ -480,14 +480,15 @@ void GlowneOkno::on_actionSygna_y_analogowe_triggered()
     delete dlg;
 }
 
-void GlowneOkno::on_actionDozowniki_triggered()
+void GlowneOkno::on_actionUstawienia_testu_triggered()
 {
     UstawieniaTestu * dlg = new UstawieniaTestu(settings, user, this);
     dlg->exec();
     delete dlg;
 }
 
-void GlowneOkno::on_actionUstawienia_testu_triggered()
+
+void GlowneOkno::on_actionSygna_y_cyfrowe_triggered()
 {
     SygnalyCyfroweUstawieniaDialog *dlg = new SygnalyCyfroweUstawieniaDialog(settings, user, this);
     connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, dlg,    &SygnalyCyfroweUstawieniaDialog::setOnOff,   Qt::QueuedConnection);

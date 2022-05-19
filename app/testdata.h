@@ -33,6 +33,7 @@ typedef struct _analValue : public StezeniaType, public OtherParamType {
 
 
 typedef struct proba {
+
     bool success; //czy udana proba ekran 6/7
     QString zrodloZaplonu; //ekran 6
     bool powtarzanyZaplon; //ekran 7
@@ -56,6 +57,10 @@ typedef struct proba {
     float cz8;
 
     float iloscCalkowitaCieczy; //suma do tej poruy dozowanej cieczy
+    float calkowitaKoncetracjaPar;
+    float cisnienieParCieczy;
+    float cisnienieKomoryPoczatek;
+    bool podcisnienie;
 } ProbaType;
 
 
@@ -78,7 +83,7 @@ public:
     } FazaTestu;
 
     /** Funkcje ustawiające parametry **/
-    void setDateTime(const QDateTime &dt) { dataTestu = dt; proby.append(ProbaType()); }
+    void setDateTime(const QDateTime &dt) { dataTestu = dt; }
     void setMembers(const QStringList & memb) { uczestnicy = memb; }
     void setLiquidName(const QString & name) { nazwaCieczy = name; }
     void setHumanity(const float & hum) { wilgotnosc = hum; }
@@ -94,6 +99,8 @@ public:
     void setCisnienieKomoryDozowanie(const float & cisn) { setCisnienieKomory(FT_dozowanie, cisn); }
     void setCisnienieKomoryPrzedZaplonem(const float & cisn) { setCisnienieKomory(FT_przedZaplon, cisn); }
     void setCisnienieKomoryZaplon(const float & cisn) { setCisnienieKomory(FT_zaplon, cisn); }
+    void setCisnienieParCieczy(const float & cisn);
+
     void setStezeniaPrzedZaplonem(const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8)
     {
         setStezenia(FT_przedZaplon, voc1, voc2, o2, co2, cz8);
@@ -102,6 +109,7 @@ public:
     {
         setStezenia(FT_koniec, voc1, voc2, o2, co2, cz8);
     }   
+    void setPodcisnienie(bool val);
 
     void setLiquidVolue(const float & vol) { iloscCieczy << vol; }
     
@@ -150,12 +158,19 @@ public:
 
     const QList<AnalValType> &getValues() const;
 
+    void start();
+
+    void cisnieniaCzastkoweOblicz(ProbaType &proba);
+
+    float getCisnieniePoczatkowe() const;
+    void setCisnieniePoczatkowe(float newCisnieniePoczatkowe);
+
 protected:
     void setTemperaturaKomory(FazaTestu ft, const float & temp);
     void setCisnienieKomory(FazaTestu ft, const float & cisn);
     void setStezenia(FazaTestu ft, const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8);
 
-
+    void initProba(ProbaType & p);
 private:
 
     QDateTime dataTestu; //project
@@ -176,9 +191,10 @@ private:
 
     QString nazwaTestu;
     QList<AnalValType> values;
-    QList<AnalValType> values2;
     QTime startTest;
     QTime stopTest;
+
+
 };
 
 QDataStream & operator<<(QDataStream & ds, const TestData & item);
