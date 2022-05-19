@@ -20,6 +20,7 @@ class TestTabWidget;
 class QSignalMapper;
 class Urzadzenia;
 class QLabel;
+class Wykresy;
 
 
 class GlowneOkno : public QMainWindow
@@ -87,6 +88,8 @@ private:
     QThread thTest;
 
     QLabel * userLogInfo;
+
+    Wykresy * wykresyDlg;
 };
 
 

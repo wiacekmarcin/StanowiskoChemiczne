@@ -12,9 +12,6 @@ DigitalOutWidget::DigitalOutWidget(QWidget *parent) :
 {
     val = false;
 
-    timer = new QTimer(this);
-    timer->setInterval(100);
-    connect(timer, &QTimer::timeout, this, &DigitalOutWidget::timeout);
     setMinimumHeight(20);
     setMaximumHeight(20);
     setMaximumWidth(lenHistory + 2);
@@ -22,7 +19,6 @@ DigitalOutWidget::DigitalOutWidget(QWidget *parent) :
     for (int i =0; i< lenHistory; ++i) {
         points[i] = QPoint(i+1, 0);
     }
-    timer->start();
 }
 
 DigitalOutWidget::~DigitalOutWidget()
@@ -30,9 +26,11 @@ DigitalOutWidget::~DigitalOutWidget()
 
 }
 
-void DigitalOutWidget::setLevel(bool high)
+void DigitalOutWidget::addValue(float value)
 {
-    val = high;
+    vals.push_back(value);
+    if (vals.size() >= lenHistory)
+        vals.pop_front();
 }
 
 void DigitalOutWidget::paintEvent(QPaintEvent *paint)
@@ -43,7 +41,7 @@ void DigitalOutWidget::paintEvent(QPaintEvent *paint)
 
     painter.setBrush(Qt::white);
 
-    QRect rect = QRect(0, 0, lenHistory, 19);
+    QRect rect = QRect(0, 0, lenHistory, height());
     painter.fillRect(rect, QBrush(Qt::white));
     painter.drawRect(rect);//5 radius apiece
     painter.setBrush(Qt::black);
@@ -52,13 +50,30 @@ void DigitalOutWidget::paintEvent(QPaintEvent *paint)
     painter.restore();
 }
 
-void DigitalOutWidget::timeout()
+void DigitalOutWidget::setUnit(const QString &un)
 {
-    vals.push_back(val);
-    if (vals.size() > lenHistory)
-        vals.pop_front();
+    unit = un;
+}
+
+void DigitalOutWidget::updateVals()
+{
+    minVal = vals.at(0);
+    maxVal = vals.at(0);
+    for (int i = 0; i < vals.size(); i++) {
+        float val = vals.at(i);
+        if (val < minVal)
+            minVal = val;
+        if (val > maxVal)
+            maxVal = val;
+    }
     for (int i=lenHistory-1, j = 0; i && j < vals.size(); --i, j++) {
-        points[i].setY(vals[i - (lenHistory-vals.size())] ? 5 : 15);
+        float val = vals[i - (lenHistory-vals.size())];
+        float delta = maxVal - minVal;
+        if (delta == 0)
+            delta = 1;
+        delta = height() / delta;
+        unsigned int point = (maxVal - minVal - (val - minVal)) / delta ;
+        points[i].setY( point );
     }
     update();
 }

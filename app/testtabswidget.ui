@@ -32,7 +32,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabTest">
       <attribute name="title">
@@ -68,8 +68,317 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout">
+          <item row="3" column="9">
+           <widget class="QSpinBox" name="page_3">
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="11">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_1"/>
+          </item>
+          <item row="1" column="7">
+           <widget class="QLabel" name="unit_2_1">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_1">
+            <property name="text">
+             <string>VOC1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="11">
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_6"/>
+          </item>
+          <item row="1" column="5" rowspan="8">
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_3"/>
+          </item>
+          <item row="4" column="7">
+           <widget class="QLabel" name="unit_2_4">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_6">
+            <property name="text">
+             <string>Temperatura komory</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Nazwa czujnika</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="9">
+           <widget class="QSpinBox" name="page_1">
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="3">
+           <widget class="QLabel" name="lminWykres">
+            <property name="text">
+             <string>Minalna wartość</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <spacer name="hs2_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="4">
+           <widget class="QLabel" name="unit_1_6">
+            <property name="text">
+             <string>st C</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="11">
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_2"/>
+          </item>
+          <item row="1" column="8" rowspan="8">
+           <widget class="Line" name="line_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <spacer name="hs2_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="4">
+           <widget class="QLabel" name="unit_1_5">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="9">
+           <widget class="QSpinBox" name="page_7">
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="4">
+           <widget class="QLabel" name="unit_1_2">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_1"/>
+          </item>
+          <item row="8" column="1">
+           <spacer name="hs2_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="9">
+           <widget class="QSpinBox" name="page_4">
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_2"/>
+          </item>
           <item row="1" column="4">
            <widget class="QLabel" name="unit_1_1">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="11">
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="7" column="4">
+           <widget class="QLabel" name="unit_1_7">
+            <property name="text">
+             <string>mBar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="9">
+           <widget class="QSpinBox" name="page_8">
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="7">
+           <widget class="QLabel" name="unit_2_7">
+            <property name="text">
+             <string>mBar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_8">
+            <property name="text">
+             <string>Temperatura parownika</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="7">
+           <widget class="QLabel" name="unit_2_2">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <spacer name="hs2_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="1">
+           <spacer name="hs2_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="7" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_7"/>
+          </item>
+          <item row="8" column="7">
+           <widget class="QLabel" name="unit_2_8">
+            <property name="text">
+             <string>st C</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_8"/>
+          </item>
+          <item row="6" column="7">
+           <widget class="QLabel" name="unit_2_6">
+            <property name="text">
+             <string>st C</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="9">
+           <widget class="QSpinBox" name="page_6">
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="7">
+           <widget class="QLabel" name="unit_2_3">
             <property name="text">
              <string>%</string>
             </property>
@@ -88,6 +397,13 @@
             </property>
            </spacer>
           </item>
+          <item row="5" column="9">
+           <widget class="QSpinBox" name="page_5">
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="5" colspan="3">
            <widget class="QLabel" name="lWykresmax">
             <property name="text">
@@ -95,152 +411,17 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <spacer name="hs2_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>56</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="7" column="7">
-           <widget class="QLabel" name="unit_2_7">
+          <item row="7" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_7">
             <property name="text">
-             <string>mBar</string>
+             <string>Ciśnienie komory</string>
             </property>
            </widget>
           </item>
-          <item row="8" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_8">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_4">
-            <property name="text">
-             <string>CO2</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="7">
-           <widget class="QLabel" name="unit_2_8">
+          <item row="8" column="4">
+           <widget class="QLabel" name="unit_1_8">
             <property name="text">
              <string>st C</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_5">
-            <property name="text">
-             <string>Wirtualny czujnik</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="9" colspan="3">
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>Ilość stron wykresu</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <spacer name="hs2_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>56</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="7" column="1">
-           <spacer name="hs2_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>56</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="7" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_7">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="7">
-           <widget class="QLabel" name="unit_2_5">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_5">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_2">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1">
-           <spacer name="hs2_8">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>56</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="3" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_3">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_1">
-            <property name="text">
-             <string>VOC1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="7">
-           <widget class="QLabel" name="unit_2_3">
-            <property name="text">
-             <string>%</string>
             </property>
            </widget>
           </item>
@@ -257,76 +438,21 @@
             </property>
            </spacer>
           </item>
-          <item row="7" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_7">
-            <property name="text">
-             <string>Ciśnienie komory</string>
+          <item row="2" column="1">
+           <spacer name="hs2_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-           </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>56</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_3">
-            <property name="text">
-             <string>O2</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_6">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <double>100.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="7">
-           <widget class="QLabel" name="unit_2_1">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="7">
-           <widget class="QLabel" name="unit_2_4">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="9">
-           <widget class="QSpinBox" name="page_1">
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_8">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <double>100.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_1">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
+          <item row="3" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_3"/>
           </item>
           <item row="1" column="2" rowspan="8">
            <widget class="Line" name="line">
@@ -335,111 +461,28 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_8">
-            <property name="text">
-             <string>Temperatura parownika</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_2">
-            <property name="text">
-             <string>VOC2</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="5" rowspan="8">
-           <widget class="Line" name="line_2">
+          <item row="2" column="11">
+           <spacer name="horizontalSpacer_5">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
-           </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
-          <item row="3" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_3">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QCheckBox" name="check_AddPdf_6">
+          <item row="5" column="7">
+           <widget class="QLabel" name="unit_2_5">
             <property name="text">
-             <string>Temperatura komory</string>
+             <string>%</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="7">
-           <widget class="QLabel" name="unit_2_6">
-            <property name="text">
-             <string>st C</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_7">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <double>100.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="4">
-           <widget class="QLabel" name="unit_1_8">
-            <property name="text">
-             <string>st C</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>Nazwa czujnika</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="4">
-           <widget class="QLabel" name="unit_1_6">
-            <property name="text">
-             <string>st C</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_5">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_2">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="6">
-           <widget class="QDoubleSpinBox" name="dbmax_4">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <spacer name="hs2_6">
+          <item row="3" column="1">
+           <spacer name="hs2_3">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -458,99 +501,10 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="4">
-           <widget class="QLabel" name="unit_1_2">
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_3">
             <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <spacer name="hs2_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>56</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="7">
-           <widget class="QLabel" name="unit_2_2">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="8" rowspan="8">
-           <widget class="Line" name="line_3">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_1">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_6">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="4">
-           <widget class="QLabel" name="unit_1_5">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" colspan="3">
-           <widget class="QLabel" name="lminWykres">
-            <property name="text">
-             <string>Minalna wartość</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QDoubleSpinBox" name="dbmin_4">
-            <property name="decimals">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <spacer name="hs2_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>56</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="4" column="4">
-           <widget class="QLabel" name="unit_1_4">
-            <property name="text">
-             <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="4">
-           <widget class="QLabel" name="unit_1_7">
-            <property name="text">
-             <string>mBar</string>
+             <string>O2</string>
             </property>
            </widget>
           </item>
@@ -561,76 +515,15 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="9">
-           <widget class="QSpinBox" name="page_3">
-            <property name="value">
-             <number>1</number>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_4">
+            <property name="text">
+             <string>CO2</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="9">
-           <widget class="QSpinBox" name="page_4">
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="9">
-           <widget class="QSpinBox" name="page_5">
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="9">
-           <widget class="QSpinBox" name="page_6">
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="9">
-           <widget class="QSpinBox" name="page_7">
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="9">
-           <widget class="QSpinBox" name="page_8">
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="11">
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="3" column="11">
-           <spacer name="horizontalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="4" column="11">
-           <spacer name="horizontalSpacer_7">
+          <item row="8" column="11">
+           <spacer name="horizontalSpacer_11">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -655,44 +548,54 @@
             </property>
            </spacer>
           </item>
-          <item row="6" column="11">
-           <spacer name="horizontalSpacer_9">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+          <item row="5" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_5"/>
           </item>
-          <item row="7" column="11">
-           <spacer name="horizontalSpacer_10">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_5">
+            <property name="text">
+             <string>Wirtualny czujnik</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
-          <item row="8" column="11">
-           <spacer name="horizontalSpacer_11">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="4" column="4">
+           <widget class="QLabel" name="unit_1_4">
+            <property name="text">
+             <string>%</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="check_AddPdf_2">
+            <property name="text">
+             <string>VOC2</string>
             </property>
-           </spacer>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="DoubleLineEdit" name="dbmin_4"/>
+          </item>
+          <item row="0" column="9" colspan="3">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Ilość stron wykresu</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_4"/>
+          </item>
+          <item row="5" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_5"/>
+          </item>
+          <item row="6" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_6"/>
+          </item>
+          <item row="7" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_7"/>
+          </item>
+          <item row="8" column="6">
+           <widget class="DoubleLineEdit" name="dbmax_8"/>
           </item>
          </layout>
         </widget>
@@ -812,6 +715,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>doublelineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>CreateTestWizard</class>
    <extends>QStackedWidget</extends>
    <header>createtestwizard.h</header>
@@ -826,36 +734,20 @@
  </customwidgets>
  <tabstops>
   <tabstop>check_AddPdf_1</tabstop>
-  <tabstop>dbmin_1</tabstop>
-  <tabstop>dbmax_1</tabstop>
   <tabstop>page_1</tabstop>
   <tabstop>check_AddPdf_2</tabstop>
-  <tabstop>dbmin_2</tabstop>
-  <tabstop>dbmax_2</tabstop>
   <tabstop>page_2</tabstop>
   <tabstop>check_AddPdf_3</tabstop>
-  <tabstop>dbmin_3</tabstop>
-  <tabstop>dbmax_3</tabstop>
   <tabstop>page_3</tabstop>
   <tabstop>check_AddPdf_4</tabstop>
-  <tabstop>dbmin_4</tabstop>
-  <tabstop>dbmax_4</tabstop>
   <tabstop>page_4</tabstop>
   <tabstop>check_AddPdf_5</tabstop>
-  <tabstop>dbmin_5</tabstop>
-  <tabstop>dbmax_5</tabstop>
   <tabstop>page_5</tabstop>
   <tabstop>check_AddPdf_6</tabstop>
-  <tabstop>dbmin_6</tabstop>
-  <tabstop>dbmax_6</tabstop>
   <tabstop>page_6</tabstop>
   <tabstop>check_AddPdf_7</tabstop>
-  <tabstop>dbmin_7</tabstop>
-  <tabstop>dbmax_7</tabstop>
   <tabstop>page_7</tabstop>
   <tabstop>check_AddPdf_8</tabstop>
-  <tabstop>dbmin_8</tabstop>
-  <tabstop>dbmax_8</tabstop>
   <tabstop>page_8</tabstop>
   <tabstop>pbCreateRaport</tabstop>
   <tabstop>pdfComment</tabstop>

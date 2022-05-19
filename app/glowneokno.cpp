@@ -32,6 +32,7 @@
 #include "sygnalycyfroweustawieniadialog.h"
 #include "sygnalyanalogoweustawieniadialog.h"
 #include "ustawieniatestu.h"
+#include "wykresy.h"
 
 #include "wersjadlg.h"
 
@@ -63,11 +64,12 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     thReadDigAnal.start();
     thDozownik.start();
     
-    //thWykresy.start();
-    //thTest.start();
+    wykresyDlg = new Wykresy();
+    wykresyDlg->show();
+    wykresyDlg->setVisible(false);
 
     connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue, Qt::DirectConnection);
-    //connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresy,  &WykresyOkno::updateValue, Qt::DirectConnection);
+    connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresyDlg,  &Wykresy::updateValue, Qt::DirectConnection);
     //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue, Qt::DirectConnection);
 
     connect(urzadzenia, &Urzadzenia::digitalReadValueChanged,  ui->frCzujniki, &OknoStatusowe::setDigitalValue, Qt::DirectConnection);
@@ -128,6 +130,7 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
 
 
     //ui->menuBar->addAction(QString("Test"), this, &GlowneOkno::onTestPdfTriggered);
+
 }
 
 GlowneOkno::~GlowneOkno()
@@ -149,6 +152,7 @@ GlowneOkno::~GlowneOkno()
     //thDozownik.terminate();
 
     delete ui;
+    delete wykresyDlg;
 }
 
 void GlowneOkno::on_actionNowy_projekt_triggered()
@@ -275,9 +279,9 @@ void GlowneOkno::on_treeWidget_itemClicked(QTreeWidgetItem *item, int/* column *
     }
 }
 
-void GlowneOkno::wybierzCzujke(int /*id*/)
+void GlowneOkno::wybierzCzujke(int id)
 {
-    //
+    wykresyDlg->setWykresVisible(id, act_wykresy[id]->isChecked());
 }
 
 void GlowneOkno::resizeEvent(QResizeEvent *event)

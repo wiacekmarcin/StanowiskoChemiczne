@@ -150,7 +150,7 @@ void Ustawienia::initialSetting()
     SET_CZUJKA(a_temp_parownik, "Temperatura parownika", "st C", "st C", 0.05, 1, 0.05, 2);
     SET_CZUJKA(a_voc1,          "St\304\231\305\274enie VOC 1", "%", "%", 3.03, 1, 0.05, 2);
     SET_CZUJKA(a_voc2,          "St\304\231\305\274enie VOC 2", "%", "%", 3.846, 1, 0.05, 2);
-    SET_CZUJKA(a_8,             "St\304\231\305\274enie virtualnego czujnika", "%", "%", 3.03, 1, 0.05, 2);
+    SET_CZUJKA(a_8,             "Wirtualny czujnik", "%", "%", 3.03, 1, 0.05, 2);
     SET_CZUJKA(a_o2,            "St\304\231\305\274enie O2", "%", "%", 0.4, 1, 0.05, 2);
     SET_CZUJKA(a_co2,           "St\304\231\305\274enie CO2", "%", "%", 0.5, 1, 0.05, 2);
 

@@ -451,15 +451,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>DoubleLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>doublelineedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>TestPage</class>
    <extends>QWidget</extends>
    <header>testpage.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DoubleLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>doublelineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

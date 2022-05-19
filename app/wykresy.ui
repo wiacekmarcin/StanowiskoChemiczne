@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Wykresy</class>
+ <widget class="QDialog" name="Wykresy">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1039</width>
+    <height>646</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Stanowisko do badań wybuchów : Wykresy stężeń, ciśnienia i temperatur</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="DigitalOutWidget" name="widget_1" native="true"/>
+   </item>
+   <item>
+    <widget class="DigitalOutWidget" name="widget_2" native="true"/>
+   </item>
+   <item>
+    <widget class="DigitalOutWidget" name="widget_3" native="true"/>
+   </item>
+   <item>
+    <widget class="DigitalOutWidget" name="widget_4" native="true"/>
+   </item>
+   <item>
+    <widget class="DigitalOutWidget" name="widget_5" native="true"/>
+   </item>
+   <item>
+    <widget class="DigitalOutWidget" name="widget_6" native="true"/>
+   </item>
+   <item>
+    <widget class="DigitalOutWidget" name="widget_7" native="true"/>
+   </item>
+   <item>
+    <widget class="DigitalOutWidget" name="widget_8" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DigitalOutWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">digitaloutwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

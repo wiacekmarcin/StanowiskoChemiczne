@@ -20,13 +20,23 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-#define SETCZUJANAL(A, N) do { Ustawienia::CzujnikAnalogowy temp = ust.getCzujnikAnalogowyUstawienia(A); \
+#define SETCZUJANAL(A, N, M, X, P, V, W) do { Ustawienia::CzujnikAnalogowy temp = ust.getCzujnikAnalogowyUstawienia(A); \
     ui->check_AddPdf_##N->setText(temp.name); \
     ui->unit_1_##N->setText(temp.unit); \
     ui->unit_2_##N->setText(temp.unit); \
     czAnalRatio[A] = temp.convert; \
     czAnalUnit[A] = temp.unit; \
+    ui->dbmin_##N->setMin(M); \
+    ui->dbmin_##N->setMax(temp.convert*X); \
+    ui->dbmin_##N->setPrec(P); \
+    ui->dbmin_##N->setValue(temp.convert*V); \
+    ui->dbmax_##N->setMin(M); \
+    ui->dbmax_##N->setMax(temp.convert*X); \
+    ui->dbmax_##N->setPrec(P); \
+    ui->dbmax_##N->setValue(temp.convert*W); \
     } while(false);
+
+
 
 TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust, QWidget *parent) :
     QWidget(parent),
@@ -42,14 +52,14 @@ TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust, 
     ui->stackedWidget->setTestData(&testDane);
     qInfo() << __FILE__ << ":" << __LINE__ << "test=" << testDane.getNazwaTestu();
 
-    SETCZUJANAL(a_voc1, 1);
-    SETCZUJANAL(a_voc2, 2);
-    SETCZUJANAL(a_o2, 3);
-    SETCZUJANAL(a_co2, 4);
-    SETCZUJANAL(a_8, 5);
-    SETCZUJANAL(a_temp_komory, 6);
-    SETCZUJANAL(a_cisn_komora, 7);
-    SETCZUJANAL(a_temp_parownik, 8);
+    SETCZUJANAL(a_voc1, 1, 0, 100, 2, 0, 10);
+    SETCZUJANAL(a_voc2, 2, 0, 100, 2, 0, 10);
+    SETCZUJANAL(a_o2, 3, 0, 100, 2, 15, 30);
+    SETCZUJANAL(a_co2, 4, 0, 100, 2, 0, 20);
+    SETCZUJANAL(a_8, 5, 0, 100, 2, 0, 10);
+    SETCZUJANAL(a_temp_komory, 6, 0, 2000, 1, 15, 600);
+    SETCZUJANAL(a_cisn_komora, 7, 0, 200, 1, 10, 150);
+    SETCZUJANAL(a_temp_parownik, 8, 0, 2000, 1, 15, 600);
 
     connect(this, &TestTabsWidget::processImageSignal, this, &TestTabsWidget::processImageSlot, Qt::QueuedConnection);
 }
@@ -150,6 +160,7 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
 {
     PdfCreator pdf(testDane);
     pdf.clearImage();
+    pdf.setComment(ui->pdfComment->toHtml());
 
     SHOW_WYKRES(a_voc1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL");
     SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL");
@@ -168,9 +179,14 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
     QPrinter printer(QPrinter::PrinterResolution);
     QTextDocument * textDocument = new QTextDocument;
 
-    textDocument->setHtml(pdf.getBody());
+    QString pdfBody = pdf.getBody();
+    //qInfo() << pdfBody;
+    textDocument->setHtml(pdfBody);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName("test.pdf");
+    QString baseName = QString("Raport_%1.pdf").arg(QDateTime::currentDateTime().toString("yyyy.MM.dd.hh.mm.ss"));
+    QString fileName = testWorkDir.absoluteFilePath(baseName);
+    qDebug() << "Nazwa raportu" << fileName;
+    printer.setOutputFileName(baseName);
     printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setFullPage(true);
     textDocument->print(&printer);

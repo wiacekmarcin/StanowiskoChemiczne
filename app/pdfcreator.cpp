@@ -12,6 +12,7 @@
 
 #include "testdata.h"
 
+
 constexpr char PdfCreator::title1[];
 constexpr char PdfCreator::title2[];
 constexpr char PdfCreator::temat[];
@@ -92,7 +93,7 @@ QString PdfCreator::getLogo() const
     QBuffer buffer(&byteArray);
     p.save(&buffer, "PNG");
 
-    return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/></p>";
+    return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
 }
 
 QString PdfCreator::getUczestnicy() const
@@ -122,7 +123,7 @@ QString PdfCreator::getTempKomoraStart() const
 
 QString PdfCreator::getWilgotnosc() const
 {
-    return QString("<p style=\"page-break-after:always;font-size:14px;\">%1 %2 %RH</p>").arg(QString(PdfCreator::wilgotnosc),
+    return QString("<p style=\"font-size:14px;\">%1 %2 %RH</p>").arg(QString(PdfCreator::wilgotnosc),
                                                                                              QString::number(td.getWilgotnosc(), 'f', 1));
 }
 
@@ -192,21 +193,21 @@ QString PdfCreator::getIloscCieczy(const QList<float> &dozowanie, unsigned int n
 QString PdfCreator::getWarunkiPoczatkowe(const ProbaType &proba) const
 {
     QString ret = QString("<h3 style=\"font-size:16px\">%1</h3>").arg(QString(PdfCreator::warunkiPoczatkowe));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(PdfCreator::tempParownika), QString::number(proba.tempParownikaDozowanie, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(PdfCreator::tempKomory), QString::number(proba.tempKomoryDozowanie, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa").arg(QString(PdfCreator::cisnKomory), QString::number(proba.cisnKomoryDozowanie, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempParownika), QString::number(proba.tempParownikaDozowanie, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory), QString::number(proba.tempKomoryDozowanie, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa</p>").arg(QString(PdfCreator::cisnKomory), QString::number(proba.cisnKomoryDozowanie, 'f', 1));
     return ret;
 }
 
 QString PdfCreator::getWarunkiPrzedZaplonem(const ProbaType &proba) const
 {
     QString ret = QString("<h3 style=\"font-size:16px\">%1</h3>").arg(QString(PdfCreator::warunkiPrzedZaplonem));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(PdfCreator::tempKomory), QString::number(proba.tempKomoryZaplon, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa").arg(QString(PdfCreator::cisnKomory),
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory), QString::number(proba.tempKomoryZaplon, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa</p>").arg(QString(PdfCreator::cisnKomory),
                                                                  QString::number(proba.cisnKomoryZaplon, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 %").arg(QString(PdfCreator::koncetracjaPar), QString::number(proba.calkowitaKoncetracjaPar, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 %</p>").arg(QString(PdfCreator::koncetracjaPar), QString::number(proba.calkowitaKoncetracjaPar, 'f', 1));
     if (proba.zlaKoncetracja) {
-        ret += QString("<pstyle=\"font-size:12px\"><u>%1</u></p>").arg(PdfCreator::zlaKoncetracjaPar);
+        ret += QString("<p style=\"font-size:12px\"><u>%1</u></p>").arg(PdfCreator::zlaKoncetracjaPar);
     }
     return ret;
 }
@@ -226,9 +227,9 @@ QString PdfCreator::getOdczytyStezen(const ProbaType &proba) const
 QString PdfCreator::getWarunkiPoUdanejProbie() const
 {
     QString ret = QString("<h3 style=\"font-size:14px\">%1</h3>").arg(QString(PdfCreator::warunkiPoUdanejProba));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;").arg(QString(PdfCreator::tempKomory),
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory),
                                                                      QString::number(td.getTempKomoraKoniec(), 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa").arg(QString(PdfCreator::cisnKomory),
+    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa</p>").arg(QString(PdfCreator::cisnKomory),
                                                                  QString::number(td.getCisnienieKoniec(), 'f', 1));
     ret += QString("<p style=\"font-size:12px\">%1").arg(PdfCreator::odczytyStezen);
     ret += QString("<ul>");
@@ -245,7 +246,7 @@ QString PdfCreator::getImageWykresPage(const visibleWykresType & var) const
     QString ret = QString("<div style=\"page-break-before:always\" ><p><b>%1</b></p><p>%2</p><p style=\"text-align:center\">")
             .arg(var.opis, var.opis2);
     ret += getImageWykres(var);
-    ret += "</p></div>";
+    ret += "</div>";
     return ret;
 
 }
@@ -275,7 +276,7 @@ QString PdfCreator::getPicture(int num, const QPair<QString,QString> &filename) 
 
 QString PdfCreator::getComment() const
 {
-    return QString("<p>")+comment+QString("</p>");
+    return QString("<h2 style=\"font-size: 14px;\">Komentarz</h2><p>")+comment+QString("</p>");
 }
 
 QString PdfCreator::getImages() const
@@ -520,7 +521,7 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
     unsigned int idp = 0;
     float realValx = 0;
     float valY = 0;
-    float valYP = 0;
+    float valYP = points[0];
     QPen pen = QPen(Qt::green);
     pen.setWidth(5);
     paint->setPen(pen);

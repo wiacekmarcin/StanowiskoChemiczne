@@ -14,18 +14,20 @@ class DigitalOutWidget : public QWidget
 public:
     explicit DigitalOutWidget(QWidget *parent = nullptr);
     ~DigitalOutWidget();
-    void setLevel(bool high);
+    void addValue(float value);
     void paintEvent(QPaintEvent *paint);
-protected slots:
-    void timeout();
+    void setUnit(const QString & un);
+    void updateVals();
 private:
 
-    static constexpr int lenHistory = 300;
+    static constexpr int lenHistory = 1900;
     QTimer * timer;
     bool val;
-    QList<bool> vals;
+    QList<float> vals;
     QPoint points[lenHistory];
-
+    QString unit;
+    float minVal;
+    float maxVal;
 
 };
 

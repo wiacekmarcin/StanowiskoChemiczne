@@ -45,10 +45,8 @@ void NowyTest_7::initializePage()
    "<html><head/><body><p>Program <span style=\" font-weight:700;\">wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
     } else {
         ui->text_1->setText(QCoreApplication::translate("NowyTest_7",
-    "<html><head/><body><p>Program <span style=\" font-weight:700;\">nie wykrył</span> zap\305\202on. Czy Potwierdzasz ?</p></body></html>", nullptr));
+    "<html><head/><body><p>Program <span style=\" font-weight:700;\">nie wykrył</span> zap\305\202onu. Czy Potwierdzasz ?</p></body></html>", nullptr));
     }
-
-    //ui->rb3_zaplon->setEnabled(field(TestPage::rodzajZaplonu).toInt() != z_iskra_plomien);
 }
 
 TestPage::PageId NowyTest_7::nextPageId() const
@@ -72,8 +70,8 @@ void NowyTest_7::on_pbOK_1_clicked()
         ui->arrow_1->setVisible(false);
         ui->frame_3->setVisible(true);
         setField(TestPage::powtarzanyTest, QVariant::fromValue((bool)true));
+        setField(TestPage::czyPompaMebr, QVariant::fromValue(false));
     }
-
 }
 
 void NowyTest_7::on_rb1_yes_toggled(bool checked)

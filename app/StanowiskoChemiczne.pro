@@ -85,6 +85,7 @@ SOURCES += \
     ustawienia.cpp \
     rs232.cpp \
     wersjadlg.cpp \
+    wykresy.cpp \
     zdjeciaraport.cpp
 
 HEADERS += \
@@ -143,6 +144,7 @@ HEADERS += \
     niusb6501.h \
     rs232.h \
     wersjadlg.h \
+    wykresy.h \
     zdjeciaraport.h
 
 FORMS += \
@@ -178,6 +180,7 @@ FORMS += \
     nowytest_8.ui \
     nowytest_9.ui \
     wersjadlg.ui \
+    wykresy.ui \
     zdjeciaraport.ui
 
 RESOURCES += \
