@@ -6,16 +6,49 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
-    <height>300</height>
+    <width>821</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Stanowisko da analizy wybuchów : Ustawienia parametrów procedury</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QGroupBox" name="groupBox">
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="test_4">
+     <property name="title">
+      <string>Ekran 4</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_4">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Minimalny czas oczekiwania
+na ustabilozowanie ciśnienia
+po zadozowaniu cieczy [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="DoubleLineEdit" name="ekran4_dozowanietime1"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>Minimalny czas oczekiwania
+na ustabilozowanie ciśnienia
+po dopuszczenia powietrza [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="DoubleLineEdit" name="ekran4_powietrzetime2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="test_1">
      <property name="title">
       <string>Ekran 1</string>
      </property>
@@ -23,49 +56,49 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Maksymalna ilość acetanu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Maksymalna ilość etanolu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Maksymalna ilość izopropanolu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Maksymalna ilość benzyna</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Maksymalna ilość toulen</string>
+         <string>Maksymalna ilość acetanu [ml]</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
        <widget class="DoubleLineEdit" name="ekran1_acetan"/>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Maksymalna ilość etanolu [ml]</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
        <widget class="DoubleLineEdit" name="ekran1_etanol"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Maksymalna ilość izopropanolu [ml]</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
        <widget class="DoubleLineEdit" name="ekran1_izopropanol"/>
       </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Maksymalna ilość benzyna [ml]</string>
+        </property>
+       </widget>
+      </item>
       <item row="3" column="1">
        <widget class="DoubleLineEdit" name="ekran1_benzyna"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Maksymalna ilość toulen [ml]</string>
+        </property>
+       </widget>
       </item>
       <item row="4" column="1">
        <widget class="DoubleLineEdit" name="ekran1_toulen"/>
@@ -73,7 +106,17 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="3" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
     <widget class="QGroupBox" name="test_2">
      <property name="title">
       <string>Ekran 2</string>
@@ -82,43 +125,192 @@
       <item row="0" column="0">
        <widget class="QLabel" name="lInitializeCycle">
         <property name="text">
-         <string>Ilość wstępnych cykli napełniania</string>
+         <string>Ilość wstępnych
+cykli napełniania</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="sBCykle"/>
+       <widget class="QSpinBox" name="ekran2_sBCykle"/>
       </item>
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="0" column="2" rowspan="2">
     <widget class="QGroupBox" name="test_3">
      <property name="title">
       <string>Ekran 3</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QFormLayout" name="formLayout_3">
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Minimalne ciśnienie</string>
+         <string>Minimalne ciśnienie [kPa]</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="prozniaVal"/>
+       <widget class="DoubleLineEdit" name="ekran3_minCisnienie"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Dolna wartość histerezy [%]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="DoubleLineEdit" name="ekran3_downHisterza"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Górna wartość histerezy [%]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="DoubleLineEdit" name="ekran3_upHisteraz"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Ilość petli histerezy</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="DoubleLineEdit" name="ekran3_nrHisterezy"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Czas w wewnątrzn pierwszej
+histerezy po którym, uznajemy
+stabilność podciśnienia [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="DoubleLineEdit" name="ekran3_firstTime"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Minimalny czas pomiędzy
+załączeniami pompy
+próżniowej [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="DoubleLineEdit" name="ekran3_timeBetweenPompa"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Czas w wewnątrzn kolejnej
+histerezy po którym, uznajemy
+stabilność podciśnienia [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="DoubleLineEdit" name="ekran3_nextTime"/>
+      </item>
+      <item row="7" column="1">
+       <widget class="DoubleLineEdit" name="ekran3_maxtime"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Maksymalny czas pracy pompy [s]</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="pomiarStezen">
+     <property name="title">
+      <string>Ekran 5 / 8 -  pomiar stężen</string>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
+     <layout class="QFormLayout" name="formLayout_5">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>Minimalny czas pracy
+pompki mebranowej [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="DoubleLineEdit" name="pomiarstezen_minpompa"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>Minimalny czas
+stabilozwania się
+stężeń [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="DoubleLineEdit" name="pomiarstezen_time2"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="oczekiwanieNaZaplon">
+     <property name="title">
+      <string>Ekran6 - Oczekiwanie na zapłon</string>
      </property>
+     <layout class="QFormLayout" name="formLayout_6">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>Minimalna wartość
+wzrostu ciśnienia, po 
+którym uznaje się 
+zapłon skuteczny [kPa]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="DoubleLineEdit" name="oczekiwaniezaplon_deltacisnienia"/>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Maksymalny czas oczekiwania na zapłon [s]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>Dla iskry mechnicznej 
+i iskry elektrycznej</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Dla płomienia</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="DoubleLineEdit" name="lineEdit"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="DoubleLineEdit" name="lineEdit_2"/>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

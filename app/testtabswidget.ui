@@ -32,7 +32,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabTest">
       <attribute name="title">
@@ -733,25 +733,42 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>tabWidget</tabstop>
   <tabstop>check_AddPdf_1</tabstop>
+  <tabstop>dbmin_1</tabstop>
+  <tabstop>dbmax_1</tabstop>
   <tabstop>page_1</tabstop>
   <tabstop>check_AddPdf_2</tabstop>
+  <tabstop>dbmin_2</tabstop>
+  <tabstop>dbmax_2</tabstop>
   <tabstop>page_2</tabstop>
   <tabstop>check_AddPdf_3</tabstop>
+  <tabstop>dbmin_3</tabstop>
+  <tabstop>dbmax_3</tabstop>
   <tabstop>page_3</tabstop>
   <tabstop>check_AddPdf_4</tabstop>
+  <tabstop>dbmin_4</tabstop>
+  <tabstop>dbmax_4</tabstop>
   <tabstop>page_4</tabstop>
   <tabstop>check_AddPdf_5</tabstop>
+  <tabstop>dbmin_5</tabstop>
+  <tabstop>dbmax_5</tabstop>
   <tabstop>page_5</tabstop>
   <tabstop>check_AddPdf_6</tabstop>
+  <tabstop>dbmin_6</tabstop>
+  <tabstop>dbmax_6</tabstop>
   <tabstop>page_6</tabstop>
   <tabstop>check_AddPdf_7</tabstop>
+  <tabstop>dbmin_7</tabstop>
+  <tabstop>dbmax_7</tabstop>
   <tabstop>page_7</tabstop>
   <tabstop>check_AddPdf_8</tabstop>
+  <tabstop>dbmin_8</tabstop>
+  <tabstop>dbmax_8</tabstop>
   <tabstop>page_8</tabstop>
-  <tabstop>pbCreateRaport</tabstop>
   <tabstop>pdfComment</tabstop>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>pbCreateRaport</tabstop>
+  <tabstop>pbAddImage</tabstop>
  </tabstops>
  <resources/>
  <connections/>

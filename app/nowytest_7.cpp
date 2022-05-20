@@ -70,7 +70,7 @@ void NowyTest_7::on_pbOK_1_clicked()
         ui->arrow_1->setVisible(false);
         ui->frame_3->setVisible(true);
         setField(TestPage::powtarzanyTest, QVariant::fromValue((bool)true));
-        setField(TestPage::czyPompaMebr, QVariant::fromValue(false));
+        setField(TestPage::czyPompaProzn, QVariant::fromValue(false));
     }
 }
 

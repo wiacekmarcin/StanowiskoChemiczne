@@ -37,15 +37,33 @@ Ustawienia::Ustawienia()
     impTime = settings.value(QString("dozownik/impMotorTime"), 200).toUInt();
     stepsOnMl = settings.value(QString("dozownik/stepsOnMl"), 14000.0).toDouble();
     nrInitializeCycles = settings.value(QString("dozownik/numberOfInitializeCycles"), 10).toUInt();
-    cisnienieProzni = settings.value(QString("testy/cisnienieWprozni"), 0.01).toDouble();
 
-    maxAceton = settings.value(QString("liquid/Aceton/max"), 10.0).toDouble();
-    maxEtanol = settings.value(QString("liquid/Etanol/max"), 10.0).toDouble();
+
+    ekran1.maxAceton = settings.value(QString("liquid/Aceton/max"), 10.0).toDouble();
+    ekran1.maxEtanol = settings.value(QString("liquid/Etanol/max"), 10.0).toDouble();
     //maxOlej_napedowy;
-    maxIzopropanol = settings.value(QString("liquid/Izopropanol/max"), 10.0).toDouble();
-    maxBenzyna = settings.value(QString("liquid/Benzyna/max"), 10.0).toDouble();
-    maxToluen = settings.value(QString("liquid/Toluen/max"), 10.0).toDouble();;
+    ekran1.maxIzopropanol = settings.value(QString("liquid/Izopropanol/max"), 10.0).toDouble();
+    ekran1.maxBenzyna = settings.value(QString("liquid/Benzyna/max"), 10.0).toDouble();
+    ekran1.maxToluen = settings.value(QString("liquid/Toluen/max"), 10.0).toDouble();
 
+    ekran3.minCisnieniePomProz = settings.value(QString("cisnienie/minimum"), 85).toFloat();
+    ekran3.downLevelHistPomProz = settings.value(QString("cisnienie/downLevel"), 5).toFloat();
+    ekran3.upLevelHistPomProz = settings.value(QString("cisnienie/upLevel"), 5).toFloat();
+    ekran3.firsTimeWaitPomProz = settings.value(QString("cisnienie/firstTime"),300).toUInt();
+    ekran3.secondTimeWaitPomProz = settings.value(QString("cisnienie/secondTime"), 150).toUInt();
+    ekran3.allTimeRunPomProz = settings.value(QString("cisnienie/maxTimeRun"), 1200).toULongLong();
+    ekran3.numberHistPomProz = settings.value(QString("cisnienie/numberHisterez"), 3).toUInt();
+    ekran3.minTimeBetweenRunPomProz = settings.value(QString("cisnienie/minTimeRun"), 100).toUInt();
+
+    ekran4.minTimeAfterPowietrze = settings.value(QString("czasy/powietrze"), 15).toUInt();
+    ekran4.minTimeAfterDozowanie = settings.value(QString("czasy/dozowanie"), 15).toUInt();
+
+    pstezen.minTimeAfterPompaOff = settings.value(QString("czasy/cisnienie"), 30).toUInt();
+    pstezen.minTimePompaMebramowa = settings.value(QString("czasy/pompamebramowa"), 30).toUInt();
+
+    ekran6.minTimeZaplonIskra = settings.value(QString("czasy/maxCzekaniaIska"), 5).toUInt();
+    ekran6.minTimeZaplonPlomien = settings.value(QString("czasy/maxCzekaniaPlomien"), 30).toUInt();
+    ekran6.minDeltaCisnZaplon = settings.value(QString("cisnienie/deltaZaplon"), 5).toUInt();
 }
 
 void Ustawienia::setCzujka(analogIn id, const Ustawienia::CzujnikAnalogowy & czAnal)
@@ -188,11 +206,30 @@ void Ustawienia::initialSetting()
     setStepsOnMl(14000);
     settings.sync();
 
-    setMaxAceton(40.0);
-    setMaxEtanol(50.0);
-    setMaxIzopropanol(60.0);
-    setMaxBenzyna(70.0);
-    setMaxToluen(80.0);
+    setMaxAceton(10.0);
+    setMaxEtanol(10.0);
+    setMaxIzopropanol(10.0);
+    setMaxBenzyna(10.0);
+    setMaxToluen(10.0);
+
+    setMinCisnieniePomProz(85); //kPa
+    setDownLevelHistPomProz(5);
+    setUpLevelHistPomProz(5);
+    setFirsTimeWaitPomProz(300);
+    setSecondTimeWaitPomProz(150);
+    setAllTimeRunPomProz(1200);
+    setNumberHistPomProz(3);
+    setMinTimeBetweenRunPomProz(100);
+
+    setMinTimeAfterPowietrze(15);
+    setMinTimeAfterDozowanie(15);
+
+    setMinTimeAfterPompaOff(30);
+    setMinTimePompaMebramowa(30);
+
+    setMinTimeZaplonIskra(5);
+    setMinTimeZaplonPlomien(30);
+    setMinTimeZaplonPlomien(5);
 }
 
 void Ustawienia::setCzujka(analogIn id, const QString &name, const QString &baseUnit, const QString &unit,
@@ -209,75 +246,307 @@ void Ustawienia::setCzujka(analogIn id, const QString &name, const QString &base
     setCzujka(id, czA);
 }
 
+unsigned int Ustawienia::getMinTimeZaplonIskra() const
+{
+    return ekran6.minTimeZaplonIskra;
+}
+
+void Ustawienia::setMinTimeZaplonIskra(unsigned int newMinTimeZaplonIskra)
+{
+    ekran6.minTimeZaplonIskra = newMinTimeZaplonIskra;
+    settings.setValue(QString("czasy/maxCzekaniaIska"), QVariant::fromValue(newMinTimeZaplonIskra));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getMinTimeZaplonPlomien() const
+{
+    return ekran6.minTimeZaplonPlomien;
+}
+
+void Ustawienia::setMinTimeZaplonPlomien(unsigned int newMinTimeZaplonPlomien)
+{
+    ekran6.minTimeZaplonPlomien = newMinTimeZaplonPlomien;
+    settings.setValue(QString("czasy/maxCzekaniaPlomien"), QVariant::fromValue(newMinTimeZaplonPlomien));
+    settings.sync();
+}
+
+float Ustawienia::getMinDeltaCisnZaplon() const
+{
+    return ekran6.minDeltaCisnZaplon;
+}
+
+void Ustawienia::setMinDeltaCisnZaplon(float newMinDeltaCisnZaplon)
+{
+    ekran6.minDeltaCisnZaplon = newMinDeltaCisnZaplon;
+    settings.setValue(QString("cisnienie/deltaZaplon"), QVariant::fromValue(newMinDeltaCisnZaplon));
+    settings.sync();
+}
+
+const UEkran6 &Ustawienia::getEkran6() const
+{
+    return ekran6;
+}
+
+void Ustawienia::setEkran6(const UEkran6 &newEkran6)
+{
+    setMinDeltaCisnZaplon(newEkran6.minDeltaCisnZaplon);
+    setMinTimeZaplonPlomien(newEkran6.minTimeZaplonPlomien);
+    setMinTimeZaplonIskra(newEkran6.minTimeZaplonIskra);
+}
+
+unsigned int Ustawienia::getMinTimeAfterPompaOff() const
+{
+    return pstezen.minTimeAfterPompaOff;
+}
+
+void Ustawienia::setMinTimeAfterPompaOff(unsigned int newMinTimeAfterPompaOff)
+{
+    pstezen.minTimeAfterPompaOff = newMinTimeAfterPompaOff;
+    settings.setValue(QString("czasy/cisnienie"), QVariant::fromValue(newMinTimeAfterPompaOff));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getMinTimePompaMebramowa() const
+{
+    return pstezen.minTimePompaMebramowa;
+}
+
+void Ustawienia::setMinTimePompaMebramowa(unsigned int newMinTimePompaMebramowa)
+{
+    pstezen.minTimePompaMebramowa = newMinTimePompaMebramowa;
+    settings.setValue(QString("czasy/pompamebramowa"), QVariant::fromValue(newMinTimePompaMebramowa));
+    settings.sync();
+}
+
+const UPomiarStezen &Ustawienia::getPstezen() const
+{
+    return pstezen;
+}
+
+void Ustawienia::setPstezen(const UPomiarStezen &newPstezen)
+{
+    pstezen = newPstezen;
+}
+
+unsigned int Ustawienia::getMinTimeAfterPowietrze() const
+{
+    return ekran4.minTimeAfterPowietrze;
+}
+
+void Ustawienia::setMinTimeAfterPowietrze(unsigned int newMinTimeAfterPowietrze)
+{
+    ekran4.minTimeAfterPowietrze = newMinTimeAfterPowietrze;
+    settings.setValue(QString("czasy/powietrze"), QVariant::fromValue(newMinTimeAfterPowietrze));
+    settings.sync();
+}
+
+const UEkran4 &Ustawienia::getEkran4() const
+{
+    return ekran4;
+}
+
+void Ustawienia::setEkran4(const UEkran4 &newEkran4)
+{
+    setMinTimeAfterPowietrze(newEkran4.minTimeAfterPowietrze);
+    setMinTimeAfterDozowanie(newEkran4.minTimeAfterDozowanie);
+}
+
+unsigned int Ustawienia::getMinTimeAfterDozowanie() const
+{
+    return ekran4.minTimeAfterDozowanie;
+}
+
+void Ustawienia::setMinTimeAfterDozowanie(unsigned int newMinTimeAfterDozowanie)
+{
+    ekran4.minTimeAfterDozowanie = newMinTimeAfterDozowanie;
+    settings.setValue(QString("czasy/dozowanie"), QVariant::fromValue(newMinTimeAfterDozowanie));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getMinTimeBetweenRunPomProz() const
+{
+    return ekran3.minTimeBetweenRunPomProz;
+}
+
+void Ustawienia::setMinTimeBetweenRunPomProz(unsigned int newMinTimeBetweenRunPomProz)
+{
+    ekran3.minTimeBetweenRunPomProz = newMinTimeBetweenRunPomProz;
+    settings.setValue(QString("cisnienie/minTimeRun"), QVariant::fromValue(newMinTimeBetweenRunPomProz));
+    settings.sync();
+}
+
+unsigned short Ustawienia::getNumberHistPomProz() const
+{
+    return ekran3.numberHistPomProz;
+}
+
+void Ustawienia::setNumberHistPomProz(unsigned short newNumberHistPomProz)
+{
+    ekran3.numberHistPomProz = newNumberHistPomProz;
+    settings.setValue(QString("cisnienie/numberHisterez"), QVariant::fromValue(newNumberHistPomProz));
+    settings.sync();
+}
+
+unsigned long Ustawienia::getAllTimeRunPomProz() const
+{
+    return ekran3.allTimeRunPomProz;
+}
+
+void Ustawienia::setAllTimeRunPomProz(unsigned long newAllTimeRunPomProz)
+{
+    ekran3.allTimeRunPomProz = newAllTimeRunPomProz;
+    settings.setValue(QString("cisnienie/maxTimeRun"), QVariant::fromValue(newAllTimeRunPomProz));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getSecondTimeWaitPomProz() const
+{
+    return ekran3.secondTimeWaitPomProz;
+}
+
+void Ustawienia::setSecondTimeWaitPomProz(unsigned int newSecondTimeWaitPomProz)
+{
+    ekran3.secondTimeWaitPomProz = newSecondTimeWaitPomProz;
+    settings.setValue(QString("cisnienie/secondTime"), QVariant::fromValue(newSecondTimeWaitPomProz));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getFirsTimeWaitPomProz() const
+{
+    return ekran3.firsTimeWaitPomProz;
+}
+
+void Ustawienia::setFirsTimeWaitPomProz(unsigned int newFirsTimeWaitPomProz)
+{
+    ekran3.firsTimeWaitPomProz = newFirsTimeWaitPomProz;
+    settings.setValue(QString("cisnienie/firstTime"), QVariant::fromValue(newFirsTimeWaitPomProz));
+    settings.sync();
+}
+
+float Ustawienia::getUpLevelHistPomProz() const
+{
+    return ekran3.upLevelHistPomProz;
+}
+
+void Ustawienia::setUpLevelHistPomProz(float newUpLevelHistPomProz)
+{
+    ekran3.upLevelHistPomProz = newUpLevelHistPomProz;
+    settings.setValue(QString("cisnienie/upLevel"), QVariant::fromValue(newUpLevelHistPomProz));
+    settings.sync();
+}
+
+const UEkran3 &Ustawienia::getEkran3() const
+{
+    return ekran3;
+}
+
+void Ustawienia::setEkran3(const UEkran3 &newEkran3)
+{
+    setMinCisnieniePomProz(newEkran3.minCisnieniePomProz);
+    setDownLevelHistPomProz(newEkran3.downLevelHistPomProz);
+    setUpLevelHistPomProz(newEkran3.upLevelHistPomProz);
+    setFirsTimeWaitPomProz(newEkran3.firsTimeWaitPomProz);
+    setSecondTimeWaitPomProz(newEkran3.secondTimeWaitPomProz);
+    setAllTimeRunPomProz(newEkran3.allTimeRunPomProz);
+    setNumberHistPomProz(newEkran3.numberHistPomProz);
+    setMinTimeBetweenRunPomProz(newEkran3.minTimeBetweenRunPomProz);
+}
+
+float Ustawienia::getDownLevelHistPomProz() const
+{
+    return ekran3.downLevelHistPomProz;
+}
+
+void Ustawienia::setDownLevelHistPomProz(float newDownLevelHistPomProz)
+{
+    ekran3.downLevelHistPomProz = newDownLevelHistPomProz;
+    settings.setValue(QString("cisnienie/downLevel"), QVariant::fromValue(newDownLevelHistPomProz));
+    settings.sync();
+}
+
+float Ustawienia::getMinCisnieniePomProz() const
+{
+    return ekran3.minCisnieniePomProz;
+}
+
+void Ustawienia::setMinCisnieniePomProz(float newMinCisnieniePomProz)
+{
+    ekran3.minCisnieniePomProz = newMinCisnieniePomProz;
+    settings.setValue(QString("cisnienie/minimum"), QVariant::fromValue(newMinCisnieniePomProz));
+    settings.sync();
+}
+
+const UEkran1 &Ustawienia::getEkran1() const
+{
+    return ekran1;
+}
+
+void Ustawienia::setEkran1(const UEkran1 &newEkran1)
+{
+    setMaxAceton(newEkran1.maxAceton);
+    setMaxEtanol(newEkran1.maxEtanol);
+    setMaxIzopropanol(newEkran1.maxIzopropanol);
+    setMaxBenzyna(newEkran1.maxBenzyna);
+    setMaxToluen(newEkran1.maxToluen);
+}
+
 float Ustawienia::getMaxToluen() const
 {
-    return maxToluen;
+    return ekran1.maxToluen;
 }
 
 void Ustawienia::setMaxToluen(float newMaxToluen)
 {
-    maxToluen = newMaxToluen;
+    ekran1.maxToluen = newMaxToluen;
     settings.setValue(QString("liquid/Toluen/max"), QVariant::fromValue(newMaxToluen));
     settings.sync();
 }
 
 float Ustawienia::getMaxBenzyna() const
 {
-    return maxBenzyna;
+    return ekran1.maxBenzyna;
 }
 
 void Ustawienia::setMaxBenzyna(float newMaxBenzyna)
 {
-    maxBenzyna = newMaxBenzyna;
+    ekran1.maxBenzyna = newMaxBenzyna;
     settings.setValue(QString("liquid/Benzyna/max"), QVariant::fromValue(newMaxBenzyna));
     settings.sync();
 }
 
 float Ustawienia::getMaxIzopropanol() const
 {
-    return maxIzopropanol;
+    return ekran1.maxIzopropanol;
 }
 
 void Ustawienia::setMaxIzopropanol(float newMaxIzopropanol)
 {
-    maxIzopropanol = newMaxIzopropanol;
+    ekran1.maxIzopropanol = newMaxIzopropanol;
     settings.setValue(QString("liquid/Izopropanol/max"), QVariant::fromValue(newMaxIzopropanol));
     settings.sync();
 }
 
 float Ustawienia::getMaxEtanol() const
 {
-    return maxEtanol;
+    return ekran1.maxEtanol;
 }
 
 void Ustawienia::setMaxEtanol(float newMaxEtanol)
 {
-    maxEtanol = newMaxEtanol;
+    ekran1.maxEtanol = newMaxEtanol;
     settings.setValue(QString("liquid/Etanol/max"), QVariant::fromValue(newMaxEtanol));
     settings.sync();
 }
 
 float Ustawienia::getMaxAceton() const
 {
-    return maxAceton;
+    return ekran1.maxAceton;
 }
 
 void Ustawienia::setMaxAceton(float newMaxAceton)
 {
-    maxAceton = newMaxAceton;
+    ekran1.maxAceton = newMaxAceton;
     settings.setValue(QString("liquid/Aceton/max"), QVariant::fromValue(newMaxAceton));
-    settings.sync();
-}
-
-double Ustawienia::getCisnienieProzni() const
-{
-    return cisnienieProzni;
-}
-
-void Ustawienia::setCisnienieProzni(double newCisnienieProzni)
-{
-    cisnienieProzni = newCisnienieProzni;
-    settings.setValue(QString("testy/cisnienieWprozni"), QVariant::fromValue(newCisnienieProzni));
     settings.sync();
 }
 

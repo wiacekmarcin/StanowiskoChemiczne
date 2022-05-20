@@ -12,13 +12,14 @@
 
 #include "ustawienia.h"
 #include "pdfcreator.h"
-
+/*
 TestTabsWidget::TestTabsWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestTabsWidget)
 {
     ui->setupUi(this);
 }
+*/
 
 #define SETCZUJANAL(A, N, M, X, P, V, W) do { Ustawienia::CzujnikAnalogowy temp = ust.getCzujnikAnalogowyUstawienia(A); \
     ui->check_AddPdf_##N->setText(temp.name); \
@@ -38,9 +39,10 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
 
 
 
-TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust, QWidget *parent) :
+TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust_, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TestTabsWidget)
+    ui(new Ui::TestTabsWidget),
+    ust(ust_)
 {
     ui->setupUi(this);
     ui->tabWidget->setTabEnabled(1, false);
@@ -158,7 +160,7 @@ void TestTabsWidget::processImageSlot(QStringList fileNames)
 
 void TestTabsWidget::on_pbCreateRaport_clicked()
 {
-    PdfCreator pdf(testDane);
+    PdfCreator pdf(testDane, ust);
     pdf.clearImage();
     pdf.setComment(ui->pdfComment->toHtml());
 

@@ -3,8 +3,7 @@
 #include <QDebug>
 #include "ustawienia.h"
 
-NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, float maxAceton,
-                       float maxEtanol, float maxIzopropanol, float maxBenzyna, float maxToluen,
+NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, const UEkran1 & ekr,
                        QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_1)
@@ -30,12 +29,12 @@ NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, float maxAce
     ui->humanity->setMin(0);
     ui->humanity->setMax(100);
 
-    maxVal[QString("Aceton")] = maxAceton;
-    maxVal[QString("Etanol")] = maxEtanol;
+    maxVal[QString("Aceton")] = ekr.maxAceton;
+    maxVal[QString("Etanol")] = ekr.maxEtanol;
     //maxVal[QString("Olej napędowy")] = 20;
-    maxVal[QString("Izopropanol")] = maxIzopropanol;
-    maxVal[QString("Benzyna")] = maxBenzyna;
-    maxVal[QString("Toluen")] = maxToluen;
+    maxVal[QString("Izopropanol")] = ekr.maxIzopropanol;
+    maxVal[QString("Benzyna")] = ekr.maxBenzyna;
+    maxVal[QString("Toluen")] = ekr.maxToluen;
 
     if (visDozownik5) {
         ui->cbDozownik->addItem(QString("5"));

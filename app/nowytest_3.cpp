@@ -14,15 +14,12 @@
 #include <QMessageBox>
 
 
-NowyTest_3::NowyTest_3(const double & mnoznik_, const QString & unit_, uint64_t timePompaProzniowa_, short maxHisterez_,
-                       double wspolczynnikDolny_, QWidget *parent) :
+NowyTest_3::NowyTest_3(const double & mnoznik_, const QString & unit_, const UEkran3 & ust_, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_3),
     mnoznik(mnoznik_),
-    timePompaProzniowaMax(timePompaProzniowa_),
-    maxHisterez(maxHisterez_),
-    wspolczynnikDolny(wspolczynnikDolny_),
-    unit(unit_)
+    unit(unit_),
+    ust(ust_)
 {
     ui->setupUi(this);
     task = 0;
@@ -32,10 +29,9 @@ NowyTest_3::NowyTest_3(const double & mnoznik_, const QString & unit_, uint64_t 
     ui->unit_1->setText(unit);
     //ui->unit_2->setText(unit);
 
-    czas_wylaczeniaPompy = 0;
-    czas_przerwyPompy = 50;
 
-    ui->cisnienie->setMin(700);
+
+    ui->cisnienie->setMin(mnoznik*ust.minCisnieniePomProz);
     ui->cisnienie->setMax(1000);
 }
 
@@ -48,7 +44,7 @@ NowyTest_3::~NowyTest_3()
 
 void NowyTest_3::initializePage()
 {
-     setField(czyPompaMebr, QVariant::fromValue((bool)false));
+     setField(czyPompaProzn, QVariant::fromValue((bool)false));
      ui->frame_2->setVisible(false);
      ui->frame_3->setVisible(false);
      ui->frame_4->setVisible(false);
@@ -67,24 +63,32 @@ void NowyTest_3::updateWejscia()
 void NowyTest_3::updateCisnieie()
 {
     static short nrUpdate = 0;
+    static float upLevel = ust.upLevelHistPomProz / 100;
+    static float downLevel = ust.downLevelHistPomProz / 100;
+
     double val = getCisnKomory();
-    debugStr(QString("<b>actWork</b> Czas = (%1) actWork = %2 val = %3").arg(timePompaProzniowa).arg(actWork).arg(val));
+
     if (actWork == OP_IDLE)
         return;
 
-    //double avg = getAvgCisnienie();
 
-    //debugStr(QString("<b>actWork</b> Czas = (%1) actWork = %2 val = %3").arg(timePompaProzniowa).arg(actWork).arg(val));
     
     if (actWork == FIRST_WORK) {
-        timePompaProzniowa = timePompaProzniowaMax;
+        timePompaProzniowa = ust.allTimeRunPomProz;
+        upLevel = (1+upLevel)*cisnienie_zad;
+        downLevel = (1-downLevel)*cisnienie_zad;
+        wizard()->setDebug(QString("PAGE3:Ruszam z odciaganiem prożni proznia = %1, max czas = %2s histereza [%3 %4]").arg(cisnienie_zad).
+                           arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel));
     }
 
     --timePompaProzniowa;
     if (timePompaProzniowa == 0 && actWork != FINISH_STABLE) {
+
         actWork = OP_IDLE;
         updateOutput(o_pompa_prozniowa, false);
         cisnienieTimer.stop();
+        wizard()->setDebug(QString("PAGE3:Nie udalo sie uzyskac cisnienia = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5").arg(cisnienie_zad).
+                           arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val));
         int ret = QMessageBox::information(this, "Ustawianie podciśnienia",
                                  "Nie udało się uzyskać żądanego podciśnienie. Układ prawdopodobnie nieszczelny. Czy chcesz kontynuować",
                                  QMessageBox::Yes, QMessageBox::No);
@@ -99,10 +103,13 @@ void NowyTest_3::updateCisnieie()
         czasWork[actWork] = timePompaProzniowa;
         if (val < cisnienie_zad) {
             actWork = OP_IDLE;
+            cisnienieTimer.stop();
             ui->frame_6->setVisible(true);
             ui->cisnienieKomora_6->setText(getCisnienie(val));
             ui->cisnienie_zad_6->setText(getCisnienie(cisnienie_zad));
             ui->arrow_4->setVisible(false);
+            wizard()->setDebug(QString("PAGE3:Cisnienie nisze niz zadane = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5").arg(cisnienie_zad).
+                               arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val));
             return;
         }
         actWork = FIRST_POMPA_RUN;
@@ -111,27 +118,36 @@ void NowyTest_3::updateCisnieie()
         return;
     }
     case FIRST_POMPA_RUN: {
-        if (val < cisnienie_zad*(1-wspolczynnikDolny)) {
+        if (val < downLevel) {
             actWork = FIRST_WAIT;
             updateOutput(o_pompa_prozniowa, false);
             czasWork[actWork] = timePompaProzniowa;
-            nrHisterezy = maxHisterez-1;
+            nrHisterezy = ust.numberHistPomProz-1;
+            wizard()->setDebug(QString("PAGE3:Pierwsze uruchomienie pompy zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5").arg(cisnienie_zad).
+                               arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val));
         }
         return;
     }
     case FIRST_WAIT:
     {
-        debugStr(QString("<b>F WAIT</b> Czas = (%1) [50] val = %2  <  %3").arg(czasWork[actWork] - timePompaProzniowa)
-                 .arg(val).arg(cisnienie_zad*(1+wspolczynnikDolny)));
-        if (czasWork[actWork] - timePompaProzniowa > 500) {
+
+        if (val < upLevel && czasWork[actWork] - timePompaProzniowa > ust.firsTimeWaitPomProz) {
+            wizard()->setDebug(QString("PAGE3:Pierwsze zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+                               arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
+                               .arg(ust.firsTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
             actWork = FINISH_STABLE;
             ui->arrow_4->setVisible(false);
             ui->frame_5->setVisible(true);
             ui->uzyskane_cisnienie_5->setText(QString::number(val));
+            cisnienieTimer.stop();
             return;
         }
-        if (val > cisnienie_zad*(1+wspolczynnikDolny)) {
-            if (czasWork[FIRST_WAIT] - timePompaProzniowa > 50) {
+        if (val > upLevel) {
+            if (czasWork[FIRST_WAIT] - timePompaProzniowa > ust.minTimeBetweenRunPomProz) {
+                wizard()->setDebug(QString("PAGE3:Pierwsze zatrzymanie pompy [Cisnienie Niestabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+                                   arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
+                                   .arg(ust.firsTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
+
                 actWork = NEXT_WORK;
                 czasWork[actWork] = timePompaProzniowa;
                 updateOutput(o_pompa_prozniowa, true);
@@ -142,22 +158,40 @@ void NowyTest_3::updateCisnieie()
     }
     case NEXT_WORK:
     {
-        if (val < cisnienie_zad*(1-wspolczynnikDolny)) {
+        if (val < downLevel) {
             actWork = NEXT_WAIT;
             updateOutput(o_pompa_prozniowa, false);
             czasWork[actWork] = timePompaProzniowa;
+            wizard()->setDebug(QString("PAGE3:Kolejne zatrzymanie pompy zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+                               arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
+                               .arg(ust.secondTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
+
         }
         return;
     }
     case NEXT_WAIT:
     {
-        if (val > cisnienie_zad*(1+wspolczynnikDolny)) {
-            if (czasWork[NEXT_WAIT] - timePompaProzniowa > 50) {
+        if (val < upLevel && czasWork[actWork] - timePompaProzniowa > ust.secondTimeWaitPomProz) {
+            wizard()->setDebug(QString("PAGE3:Kolejne zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+                               arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
+                               .arg(ust.secondTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
+            actWork = FINISH_STABLE;
+            ui->arrow_4->setVisible(false);
+            ui->frame_5->setVisible(true);
+            ui->uzyskane_cisnienie_5->setText(QString::number(val));
+            cisnienieTimer.stop();
+            return;
+        }
+        if (val > upLevel) {
+            if (czasWork[NEXT_WAIT] - timePompaProzniowa > ust.minTimeBetweenRunPomProz) {
                 nrHisterezy--;
                 if (nrHisterezy == 0) {
                     actWork = OP_IDLE;
                     updateOutput(o_pompa_prozniowa, false);
                     cisnienieTimer.stop();
+                    wizard()->setDebug(QString("PAGE3:Ostatnie zatrzymanie pompy [CISNIENIE NIESTABILNE] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+                                       arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
+                                       .arg(ust.secondTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
                     int ret = QMessageBox::information(this, "Ustawianie podciśnienia",
                                              "Nie udało się uzyskać żądanego podciśnienie. Układ prawdopodobnie nieszczelny. Czy chcesz kontynuować",
                                              QMessageBox::Yes, QMessageBox::No);
@@ -190,50 +224,6 @@ void NowyTest_3::updateCisnieie()
     default:
         return;
     }
-/*
-    if (czas_brakuWzrostuCisnienia && czas_brakuWzrostuCisnienia - timePompaProzniowa > )
-    if (--timePompaProzniowa == 0) {
-        debugStr("Koniec ustalania");
-        ui->frame_5->setVisible(true);
-        ui->arrow_4->setVisible(false);
-        ustaloneCisnienie = val;
-        ui->uzyskane_cisnienie_5->setText(QString::number(val));
-        cisnienieTimer.stop();
-
-        updateOutput(o_pompa_prozniowa, false);
-        ustalanieCisnienia = false;
-    }
-
-    if (oczekiwanieNaWzrost && val > cisnienie_zad*(1+wspolczynnikDolny) ) {
-        if (czas_wylaczeniaPompy - timePompaProzniowa < czas_przerwyPompy) {
-            debugStr(QString("Za krotka przerwa pompy"));
-            return;
-        }
-        debugStr(QString("Wzrost cisnienia %1  %2").arg(val).arg(cisnienie_zad*(1+wspolczynnikDolny)));
-        oczekiwanieNaWzrost = false;
-
-        updateOutput(o_pompa_prozniowa, true);
-        return;
-    }
-
-    if (!oczekiwanieNaWzrost && val < cisnienie_zad*(1-wspolczynnikDolny)) {
-        debugStr(QString("Spadek cisnienia %1  %2. Nr histerezy %3").arg(val).arg(cisnienie_zad*(1-wspolczynnikDolny)).arg(nrHisterezy));
-        --nrHisterezy;
-        oczekiwanieNaWzrost = true;
-        czas_wylaczeniaPompy = timePompaProzniowa;
-        updateOutput(o_pompa_prozniowa, false);
-        if (nrHisterezy == 0) {
-            ui->frame_5->setVisible(true);
-            ui->arrow_4->setVisible(false);
-            ustaloneCisnienie = val;
-            ui->uzyskane_cisnienie_5->setText(QString::number(val));
-            cisnienieTimer.stop();
-
-            updateOutput(o_pompa_prozniowa, false);
-            ustalanieCisnienia = false;
-        }
-    }
-    */
 }
 
 double NowyTest_3::getCisnKomory()
@@ -246,14 +236,7 @@ double NowyTest_3::getAvgCisnienie()
 {
     QMutexLocker lock(&mutexCisnienie);
     double avg = 0.0;
-    /*
-    
-           __FILE__, __LINE__, prevCisnienie[0], prevCisnienie[1],
-           prevCisnienie[3], prevCisnienie[4], prevCisnienie[5],
-           prevCisnienie[6], prevCisnienie[7], prevCisnienie[8],
-           prevCisnienie[10],prevCisnienie[11], prevCisnienie[12],
-           prevCisnienie[13], prevCisnienie[14],prevCisnienie[15]);
-    */
+
     for (unsigned short id = 0; id < 16 ; ++id) {
         avg += prevCisnienie[id];
     }
@@ -263,7 +246,7 @@ double NowyTest_3::getAvgCisnienie()
 
 void NowyTest_3::debugStr(const QString &debug)
 {
-    //ui->debug->appendHtml(QString("<p>%1</p>").arg(debug));
+    qDebug() << debug;
 }
 
 QString NowyTest_3::getCisnienie(double val)
@@ -289,14 +272,6 @@ void NowyTest_3::setCisnKomory(const double & newCisnKomory)
         if (cisnienie_zad != 0)
             ui->delta_percent->setText(QString::number(100.0*(cisnienie_zad - actCisn)/cisnienie_zad,'g',2));
     }
-    /*
-    
-           __FILE__, __LINE__, prevCisnienie[0], prevCisnienie[1],
-           prevCisnienie[3], prevCisnienie[4], prevCisnienie[5],
-           prevCisnienie[6], prevCisnienie[7], prevCisnienie[8],
-           prevCisnienie[10],prevCisnienie[11], prevCisnienie[12],
-           prevCisnienie[13], prevCisnienie[14],prevCisnienie[15]);
-           */
 }
 
 void NowyTest_3::on_pbOk_1_clicked()
@@ -350,13 +325,9 @@ void NowyTest_3::on_pbOk_3_clicked()
     //updateOutput(o_pompa_prozniowa, true);
     actWork = FIRST_WORK;
     ustalanieCisnienia = true;
-    timePompaProzniowa = timePompaProzniowaMax;
-    czas_wylaczeniaPompy = timePompaProzniowaMax + czas_przerwyPompy;
-    czas_brakuWzrostuCisnienia = 0;
-    nrHisterezy = maxHisterez;
 
     cisnienieTimer.start();
-    setField(czyPompaMebr, QVariant::fromValue((bool)true));
+    setField(czyPompaProzn, QVariant::fromValue((bool)true));
 
     ui->arrow_3->setVisible(false);
     ui->frame_4->setVisible(true);
@@ -371,7 +342,7 @@ void NowyTest_3::on_pbOk_5_clicked()
     TestData * dt = getTestData();
     dt->start();
     dt->setPodcisnienie(true);
-
+    cisnienieTimer.stop();
     setZ_warningMask(0);
     nextPage(nextPageId());
 }
@@ -394,7 +365,7 @@ void NowyTest_3::on_pbRun_5_clicked()
     updateOutput(o_pompa_prozniowa, true);
     //ustalanieCisnienia = true;
     //cisnienieTimer.start();
-    setField(czyPompaMebr, QVariant::fromValue((bool)true));
+    setField(czyPompaProzn, QVariant::fromValue((bool)true));
 
     //ui->arrow_3->setVisible(false);
     ui->frame_4->setVisible(true);

@@ -5,11 +5,11 @@
 #include <QTimer>
 #include <QMessageBox>
 
-NowyTest_8::NowyTest_8(unsigned int czasPracyPompki_, unsigned int czasNaStezenie_, QWidget *parent) :
+NowyTest_8::NowyTest_8(const UPomiarStezen &u, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_8),
-    czasPracyPompki(1000*czasPracyPompki_),
-    czasNaStezenie(1000*czasNaStezenie_)
+    czasPracyPompki(1000*u.minTimePompaMebramowa),
+    czasNaStezenie(1000*u.minTimeAfterPompaOff)
 {
     ui->setupUi(this);
 }
@@ -73,8 +73,12 @@ void NowyTest_8::on_pbOK_2_clicked()
     wizard()->setDebug(QString("PAGE8::OK2"));
     //pomiar
     TestData * dt = getTestData();
-    dt->setTemperaturaKomoryWarunkiKoncowe(getCzujnik(a_temp_komory));
-    dt->setCisnienieKomoryWarunkiKoncowe(getCzujnik(a_cisn_komora));
+    float val1 = getCzujnik(a_temp_komory);
+    float val2 = getCzujnik(a_cisn_komora);
+    wizard()->setDebug(QString("PAGE8::Temperatura Komory %1").arg(val1));
+    wizard()->setDebug(QString("PAGE8::Cisnienie Komory %1").arg(val2));
+    dt->setTemperaturaKomoryWarunkiKoncowe(val1);
+    dt->setCisnienieKomoryWarunkiKoncowe(val2);
     updateOutput(o_pompa_powietrza, false);
     setZ_warningMask(0);
     dt->setStezeniaPoZaplonie(getCzujnik(a_voc1), getCzujnik(a_voc2), getCzujnik(a_o2),

@@ -6,9 +6,10 @@
 #include <QTimer>
 #include <QMessageBox>
 
-NowyTest_4::NowyTest_4(QWidget *parent) :
+NowyTest_4::NowyTest_4(const UEkran4 & u4_, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_4),
+    u4(u4_),
     infoString("Rozpocznij dozowanie <b>[CIECZ]</b> z dozonika <b>[DOZOWNIK]</b> w objętości <b>[OBJETOSC]</b> ml.")
 {
     ui->setupUi(this);
@@ -49,8 +50,13 @@ void NowyTest_4::initializePage()
     ui->pbOk_3->setEnabled(true);
     ui->pbOk_4->setEnabled(true);
 
-    TestData * dt = getTestData();
-    dt->setCisnienieKomoryWarunkiPoczatkowe(getCzujnik(a_cisn_komora));
+    TestData * td = getTestData();
+    td->start();
+    float val = getCzujnik(a_cisn_komora);
+    wizard()->setDebug(QString("PAGE4:Cisnienie warunki poczatkowe:%1").arg(val));
+    wizard()->setDebug(QString("PAGE4:P1:%1").arg(val));
+    td->setCisnienieP1(val);
+    td->setCisnienieKomoryWarunkiPoczatkowe(val);
 }
 
 NowyTest_4::~NowyTest_4()
@@ -76,6 +82,8 @@ void NowyTest_4::dozownikDone(bool success)
         ui->arrow_2->setVisible(false);
         ui->frame_3->setVisible(true);
         ui->pbOk_2->setVisible(true);
+        ui->pbOk_3->setEnabled(false);
+        QTimer::singleShot(1000*u4.minTimeAfterDozowanie, this, &NowyTest_4::runDone);
     }
 
 }
@@ -88,42 +96,38 @@ void NowyTest_4::on_pbOk_1_clicked()
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
-    qInfo() << "1";
     wizard()->setDebug(QString("PAGE4:OK2"));
-    qInfo() << "2";
     if (!sprawdzOtwarteZawory(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa))
         return;
-    qInfo()  << "3";
     ui->pbOk_2->setEnabled(false);
-    TestData * td = getTestData();
-    td->start();
-
-    //if powtarzane dozowanie lub nie odciagane powietrze
-    if (field(TestPage::czyPompaMebr).toBool() || field(TestPage::powtarzanyTest).toBool()) {
-        qInfo()  << "4";
-        td->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
-    }
-    qInfo()  << "5 =" << (void*)td << " " << getCzujnik(a_temp_parownik);
-
-    td->setTemperaturaParownika(getCzujnik(a_temp_parownik));
-    qInfo()  << "6";
-    td->setTemperaturaKomoryDozowanie(getCzujnik(a_temp_komory));
-    qInfo()  << "7";
 
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
-    qInfo() << "8";
     updateOutput(o_mieszadlo, true);
-    qInfo() << "done";
 }
 
 void NowyTest_4::on_pbOk_3_clicked()
 {
     wizard()->setDebug(QString("PAGE4:OK3"));
-    getTestData()->setCisnienieKomoryDozowanie(getCzujnik(a_cisn_komora));
-    if (field(czyPompaMebr).toBool()) {
+    float val1 = getCzujnik(a_temp_parownik);
+    float val2 = getCzujnik(a_temp_komory);
+    float val3 = getCzujnik(a_cisn_komora);
+    TestData * td = getTestData();
+    wizard()->setDebug(QString("PAGE4:Temperatura Parownika:%1").arg(val1));
+    wizard()->setDebug(QString("PAGE4:Temperatura Komory Dozowanie:%1").arg(val2));
+    wizard()->setDebug(QString("PAGE4:P2:%1").arg(val3));
+    td->setTemperaturaParownika(val1);
+    td->setTemperaturaKomoryDozowanie(val2);
+    td->setCisnienieP2(val3);
+
+    if (field(czyPompaProzn).toBool()) {
+        float val = getCzujnik(a_cisn_komora);
+        wizard()->setDebug(QString("PAGE4:Cisnienie Przed Zaplonem %1").arg(val));
+        getTestData()->setCisnienieKomoryZaplon(val);
         ui->pbOk_3->setEnabled(false);
         ui->arrow_3->setVisible(false);
         ui->frame_4->setVisible(true);
+        ui->pbOk_4->setEnabled(false);
+        QTimer::singleShot(1000*u4.minTimeAfterPowietrze, this, &NowyTest_4::runDone2);
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wentylacja_lewa | i_wentylacja_prawa);
     } else {
 
@@ -133,15 +137,22 @@ void NowyTest_4::on_pbOk_3_clicked()
 
 void NowyTest_4::runDone()
 {
-    qInfo() << "runDone";
-    //dozownikDone(true);
+   ui->pbOk_3->setEnabled(true);
+}
+
+void NowyTest_4::runDone2()
+{
+   ui->pbOk_4->setEnabled(true);
 }
 
 
 void NowyTest_4::on_pbOk_4_clicked()
 {
     wizard()->setDebug(QString("PAGE4:OK4"));
-    getTestData()->setCisnienieParCieczy(getCzujnik(a_cisn_komora));
+    float val = getCzujnik(a_cisn_komora);
+    wizard()->setDebug(QString("PAGE4:OK4:P3:%1").arg(val));
+    getTestData()->setCisnienieP3(val);
+    getTestData()->setCisnienieKomoryPrzedZaplonem(val);
     if (!sprawdzOtwarteZaworPowietrza())
         return;
 

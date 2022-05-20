@@ -554,7 +554,7 @@ void GlowneOkno::getPdf()
     //t.addValues();
     //addValues(float voc1, float voc2, float o2, float co2, float a8, float tempPar, float tempKom, float cisnKom);
 
-    PdfCreator pdf(t);
+    PdfCreator pdf(t, settings);
 
     pdf.setWykresVisible(a_voc1, true, -1.5, +1.5, 1, 1, "sinus", "a_voc1", "rad");
     //pdf.setWykresVisible(a_voc2, true, -1.5, +1.5, 1, 1, "cosinus", "a_voc2", "rad");

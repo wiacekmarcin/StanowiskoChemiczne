@@ -99,6 +99,7 @@ protected:
     void initializePage();
     void runResetDozownik();
 
+    void addToVector(QVector<float> &vect, float val);
 private:
     QMap<TestPage::Value,  QVariant> values;
     QMap<TestPage::PageId, TestPageForm*> pages;
@@ -128,7 +129,7 @@ private:
     QMap<uint16_t, bool> warningMap;
     bool showWarn;
 
-    QMap<analogIn, float> m_czujniki;
+    QMap<analogIn, QVector<float>> m_czujniki;
     TestData * dt;
     bool registerPomiary;
     QMutex mutex;

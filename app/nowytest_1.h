@@ -13,8 +13,7 @@ class NowyTest_1 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_1(const QString& testName, bool visDozownik5, float maxAceton, float maxEtanol,
-                        float maxIzopanol, float maxBenzyna, float maxToluen, QWidget *parent = 0);
+    explicit NowyTest_1(const QString& testName, bool visDozownik5, const UEkran1 &ekr, QWidget *parent = 0);
     ~NowyTest_1();
     virtual void initializePage() override;
 

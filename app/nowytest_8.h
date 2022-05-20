@@ -2,6 +2,7 @@
 #define NOWYTEST_8_H
 
 #include "testpage.h"
+#include "ustawienia.h"
 
 namespace Ui {
 class NowyTest_8;
@@ -14,7 +15,7 @@ class NowyTest_8 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_8(unsigned int czasPracyPompki, unsigned int czasNaStezenie, QWidget *parent = nullptr);
+    explicit NowyTest_8(const UPomiarStezen &u, QWidget *parent = nullptr);
     ~NowyTest_8();
     virtual void initializePage() override;
 

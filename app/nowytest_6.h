@@ -11,7 +11,7 @@ class NowyTest_6 : public TestPage
     Q_OBJECT
 
 public:
-    explicit NowyTest_6(QWidget *parent = nullptr);
+    explicit NowyTest_6(const UEkran6 & ust, QWidget *parent = nullptr);
     ~NowyTest_6();
 
     virtual void initializePage() override;
@@ -26,6 +26,7 @@ private slots:
     void showDlgSlot();
 private:
     Ui::NowyTest_6 *ui;
+    const UEkran6 & ust;
     bool runDialog;
     bool step2;
 };

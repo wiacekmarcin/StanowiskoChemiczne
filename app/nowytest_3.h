@@ -18,9 +18,7 @@ class NowyTest_3 : public TestPage
 
 public:
     explicit NowyTest_3(const double & mnoznik, const QString & unit,
-                        uint64_t timePompaProzniowa,
-                        short nrHisterezy,
-                        double wspolczynnikDolny,
+                        const UEkran3 & ust,
                         QWidget *parent = nullptr);
     ~NowyTest_3();
     virtual void initializePage() override;
@@ -66,6 +64,10 @@ private:
 
 
     Ui::NowyTest_3 *ui;
+    double mnoznik; //mnoznik do obliczen
+    QString unit;
+    const UEkran3 & ust;
+
     short cnt;
     double cisnKomory;
     bool zaworProzni;
@@ -81,24 +83,24 @@ private:
     double wybrCisnienie;
     bool pomp_powietrza;
 
-    uint64_t timePompaProzniowaMax; //maksymalny czas pompy
+
     uint64_t timePompaProzniowa;
 
     uint64_t czas_wylaczeniaPompy;
     uint64_t czas_przerwyPompy;
     uint64_t czas_brakuWzrostuCisnienia;
-    short maxHisterez; //maksymalna ilosc petli
+
     short nrHisterezy; //ilosc petli histerezy
     double wspolczynnikDolny; //o ile % ma zejsc na dol z sciaganiem cisnienia
     double cisnienie_zad; //cisnienie zadane
     double ustaloneCisnienie; //cisnienie koncowe ustalone
     bool ustalanieCisnienia; //czy nadal trwa ustalanie cisnienia
-    double mnoznik; //mnoznik do obliczen
+
     bool oczekiwanieNaWzrost;
 
     OdciaganieProznieType actWork;
     QMap<OdciaganieProznieType, uint64_t> czasWork;
-    QString unit;
+
 };
 
 #endif // NOWYTEST_3_H

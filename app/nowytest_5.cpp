@@ -5,11 +5,11 @@
 #include <QTimer>
 #include <QMessageBox>
 
-NowyTest_5::NowyTest_5(unsigned int czasPracyPompki_, unsigned int czasNaStezenie_, QWidget *parent) :
+NowyTest_5::NowyTest_5(const UPomiarStezen & u, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_5),
-    czasPracyPompki(1000*czasPracyPompki_),
-    czasNaStezenie(1000*czasNaStezenie_)
+    czasPracyPompki(1000*u.minTimePompaMebramowa),
+    czasNaStezenie(1000*u.minTimeAfterPompaOff)
 {
     ui->setupUi(this);
 }
@@ -80,8 +80,10 @@ void NowyTest_5::on_pbOK_3_clicked()
         return;
     updateOutput(o_pompa_powietrza, false);
     TestData * dt = getTestData();
-    dt->setTemperaturaKomoryPrzedZaplonem(getCzujnik(a_temp_komory));
-    //if (field(czyPompaMebr).toBool()) {
+    float val = getCzujnik(a_temp_komory);
+    wizard()->setDebug(QString("PAGE5:TemperaturaKomory %1").arg(val));
+    dt->setTemperaturaKomoryPrzedZaplonem(val);
+    //if (field(czyPompaProzn).toBool()) {
     dt->setCisnienieKomoryPrzedZaplonem(getCzujnik(a_cisn_komora));
     //}
     //setZ_warningMask(i_pom_stez_1 | i_pom_stez_2);

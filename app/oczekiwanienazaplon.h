@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QTimer>
-
+#include "ustawienia.h"
 class CreateTestWizard;
 namespace Ui {
 class OczekiwanieNaZaplon;
@@ -14,7 +14,7 @@ class OczekiwanieNaZaplon : public QDialog
     Q_OBJECT
 
 public:
-    explicit OczekiwanieNaZaplon(QWidget *parent, CreateTestWizard * wiz_, float tempB, float cisnB, bool plomien);
+    explicit OczekiwanieNaZaplon(QWidget *parent, CreateTestWizard * wiz_, float tempB, float cisnB, bool plomien, const UEkran6 & ust);
     ~OczekiwanieNaZaplon();
 
 
@@ -34,5 +34,6 @@ private:
     float cisnPrev;
     bool plomien;
     bool isZaplon;
+    float deltaCisnienia;
 };
 #endif // OCZEKIWANIENAZAPLON_H

@@ -29,7 +29,7 @@ class TestTabsWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TestTabsWidget(QWidget *parent = 0);
+    //explicit TestTabsWidget(QWidget *parent = 0);
     TestTabsWidget(const QString & testName, const Ustawienia &ust, QWidget * parent);
     ~TestTabsWidget();
     void setActive();
@@ -56,6 +56,7 @@ private slots:
 private:
     Ui::TestTabsWidget *ui;
     TestData testDane;
+    const Ustawienia & ust;
 
     QDir testWorkDir;
     QString testWorkDirName;

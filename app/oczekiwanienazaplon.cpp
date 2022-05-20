@@ -4,18 +4,19 @@
 #include "ustawienia.h"
 #include <QDebug>
 
-OczekiwanieNaZaplon::OczekiwanieNaZaplon(QWidget *parent, CreateTestWizard * wiz_, float tempB, float cisnB, bool plomien_) :
+OczekiwanieNaZaplon::OczekiwanieNaZaplon(QWidget *parent, CreateTestWizard * wiz_, float tempB, float cisnB, bool plomien_, const UEkran6 & ust) :
     QDialog(parent),
     ui(new Ui::OczekiwanieNaZaplon),
     wiz(wiz_),
     tempPocz(tempB), cisnPocz(cisnB),
     tempPrev(tempB), cisnPrev(cisnB),
-    plomien(plomien_), isZaplon(false)
+    plomien(plomien_), isZaplon(false),
+    deltaCisnienia(ust.minDeltaCisnZaplon)
 {
     ui->setupUi(this);
-    ui->pbTime->setMaximum(30);
+
     secs = 0;
-    maxSecs = plomien ? 50 : 5;
+    maxSecs = plomien ? ust.minTimeZaplonPlomien : ust.minTimeZaplonIskra;
     ui->pbTime->setMaximum(maxSecs);
     ui->pbTime->setValue(secs);
     connect(&timer, &QTimer::timeout, this, &OczekiwanieNaZaplon::updateTime);
@@ -43,7 +44,7 @@ void OczekiwanieNaZaplon::updateTime()
     cisnPrev = actCisn;
     tempPrev = actTemp;
     ui->pbTime->setValue(secs);
-    if (actCisn - cisnPocz > 5.0)
+    if (actCisn - cisnPocz > deltaCisnienia)
     {
         timer.stop();
         accept();

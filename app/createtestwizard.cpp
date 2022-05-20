@@ -76,25 +76,19 @@ void CreateTestWizard::init(Ustawienia * ust, const UserPrivilige & user_,
     ustawienia = ust;
     user = user_;
     numberInitDozCycles = ust->getNrInitializeCycles();
+    auto u =  ustawienia->getCzujnikAnalogowyUstawienia(a_cisn_komora);
 
     addPage(new NowyTest_1(testName, (user & U_ADMIN) == U_ADMIN,
-                ust->getMaxAceton(), ust->getMaxEtanol(), ust->getMaxIzopropanol(), ust->getMaxBenzyna(), ust->getMaxToluen(),
-                           this), TestPage::PAGE_1, 1);
+                ust->getEkran1(), this), TestPage::PAGE_1, 1);
 
     addPage(new NowyTest_2(ust->getNrInitializeCycles(), this), TestPage::PAGE_2, 2);
-    addPage(new NowyTest_3(10.0, "mBar", 1000, 3, 0.01, this), TestPage::PAGE_3, 3);
-    addPage(new NowyTest_4(this), TestPage::PAGE_4, 4);
-    addPage(new NowyTest_5(30, 10, this), TestPage::PAGE_5, 5);
-    addPage(new NowyTest_6(this), TestPage::PAGE_6, 6);
+    addPage(new NowyTest_3(u.convert, u.unit, ust->getEkran3(), this), TestPage::PAGE_3, 3);
+    addPage(new NowyTest_4(ust->getEkran4(), this), TestPage::PAGE_4, 4);
+    addPage(new NowyTest_5(ust->getPstezen(), this), TestPage::PAGE_5, 5);
+    addPage(new NowyTest_6(ust->getEkran6(), this), TestPage::PAGE_6, 6);
     addPage(new NowyTest_7(this), TestPage::PAGE_7, 7);
-    addPage(new NowyTest_8(30, 10, this), TestPage::PAGE_8, 8);
+    addPage(new NowyTest_8(ust->getPstezen(), this), TestPage::PAGE_8, 8);
     addPage(new NowyTest_9(dt, this), TestPage::PAGE_9, 9);
-
-    /*
-     * const double & mnoznik, const QString & unit,
-                        uint64_t timePompaProzniowa,
-                        short nrHisterezy,
-                        double wspolczynnikDolny,*/
 
     selectedId = TestPage::PAGE_1;
     finished = false;
@@ -202,6 +196,13 @@ void CreateTestWizard::changeDigitalIn(uint16_t id, bool value)
     }
 }
 
+void CreateTestWizard::addToVector(QVector<float> & vect, float val)
+{
+    vect.push_back(val);
+    if (vect.size() > 5)
+        vect.pop_front();
+}
+
 void CreateTestWizard::changeAnalog(double val0, double val1, double val2, double val3, double val4, double val5, double val6,  double val7)
 {
     mutex.lock();
@@ -212,22 +213,22 @@ void CreateTestWizard::changeAnalog(double val0, double val1, double val2, doubl
     }
         
 
-    m_czujniki[a_voc1] = val0;
-    m_czujniki[a_voc2] = val1;
-    m_czujniki[a_o2] = val2;
-    m_czujniki[a_co2] = val3;
-    m_czujniki[a_cisn_komora] = val4;
-    m_czujniki[a_temp_komory] = val5;
-    m_czujniki[a_temp_parownik] = val6;
-    m_czujniki[a_8] = val7;
+    addToVector(m_czujniki[a_voc1], val0);
+    addToVector(m_czujniki[a_voc2], val1);
+    addToVector(m_czujniki[a_o2], val2);
+    addToVector(m_czujniki[a_co2], val3);
+    addToVector(m_czujniki[a_cisn_komora], val4);
+    addToVector(m_czujniki[a_temp_komory], val5);
+    addToVector(m_czujniki[a_temp_parownik], val6);
+    addToVector(m_czujniki[a_8], val7);
 
     mutex.unlock();
     if (selectedId == TestPage::PAGE_3)
         currentPage()->setCisnKomory(val4);
 
-    if (selectedId == TestPage::PAGE_5 || selectedId == TestPage::PAGE_8) {
+    //if (selectedId == TestPage::PAGE_5 || selectedId == TestPage::PAGE_8) {
         //currentPage()->setStezenie(val0, val1, val2, val3);
-    }
+    //}
 }
 
 void CreateTestWizard::dozownikDone(bool success)
@@ -383,9 +384,15 @@ void CreateTestWizard::runResetDozownik() {
 
 float CreateTestWizard::getCzujnik(analogIn czujnik)
 {
-    float val;
+    QVector<float> val;
+
     mutex.lock();
     val = m_czujniki[czujnik];
     mutex.unlock();
-    return val;
+    float suma = 0;
+    if (val.size() == 0)
+        return 0;
+    foreach(float v, val)
+        suma+=v;
+    return suma/val.size();
 }

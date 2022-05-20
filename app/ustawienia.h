@@ -63,6 +63,42 @@ typedef enum _kindUser {
 #define SETGET_REVERSE(N) bool getReverse_##N() const; void setReverse_##N(bool newReverse);
 #define REVERSE(N) bool reverse_##N;
 
+struct UEkran1 {
+    float maxAceton;
+    float maxEtanol;
+    //float maxOlej_napedowy;
+    float maxIzopropanol;
+    float maxBenzyna;
+    float maxToluen;
+};
+
+struct UEkran3 {
+    float minCisnieniePomProz;
+    float downLevelHistPomProz;
+    float upLevelHistPomProz;
+    unsigned int firsTimeWaitPomProz;
+    unsigned int secondTimeWaitPomProz;
+    unsigned long allTimeRunPomProz;
+    unsigned short numberHistPomProz;
+    unsigned int minTimeBetweenRunPomProz;
+};
+
+struct UEkran4 {
+    unsigned int minTimeAfterDozowanie;
+    unsigned int minTimeAfterPowietrze;
+};
+
+struct UPomiarStezen {
+    unsigned int minTimePompaMebramowa;
+    unsigned int minTimeAfterPompaOff;
+};
+
+struct UEkran6 {
+    float minDeltaCisnZaplon;
+    unsigned int minTimeZaplonPlomien;
+    unsigned int minTimeZaplonIskra;
+};
+
 class Ustawienia
 {
 public:
@@ -111,9 +147,6 @@ public:
     unsigned short getNrInitializeCycles() const;
     void setNrInitializeCycles(unsigned short newNrInitializeCycles);
 
-    double getCisnienieProzni() const;
-    void setCisnienieProzni(double newCisnienieProzni);
-
     float getMaxAceton() const;
     void setMaxAceton(float newMaxAceton);
 
@@ -128,6 +161,66 @@ public:
 
     float getMaxToluen() const;
     void setMaxToluen(float newMaxToluen);
+
+    const UEkran1 &getEkran1() const;
+    void setEkran1(const UEkran1 &newEkran1);
+
+    float getMinCisnieniePomProz() const;
+    void setMinCisnieniePomProz(float newMinCisnieniePomProz);
+
+    float getDownLevelHistPomProz() const;
+    void setDownLevelHistPomProz(float newDownLevelHistPomProz);
+
+    const UEkran3 &getEkran3() const;
+    void setEkran3(const UEkran3 &newEkran3);
+
+    float getUpLevelHistPomProz() const;
+    void setUpLevelHistPomProz(float newUpLevelHistPomProz);
+
+    unsigned int getFirsTimeWaitPomProz() const;
+    void setFirsTimeWaitPomProz(unsigned int newFirsTimeWaitPomProz);
+
+    unsigned int getSecondTimeWaitPomProz() const;
+    void setSecondTimeWaitPomProz(unsigned int newSecondTimeWaitPomProz);
+
+    unsigned long getAllTimeRunPomProz() const;
+    void setAllTimeRunPomProz(unsigned long newAllTimeRunPomProz);
+
+    unsigned short getNumberHistPomProz() const;
+    void setNumberHistPomProz(unsigned short newNumberHistPomProz);
+
+    unsigned int getMinTimeBetweenRunPomProz() const;
+    void setMinTimeBetweenRunPomProz(unsigned int newMinTimeBetweenRunPomProz);
+
+    unsigned int getMinTimeAfterDozowanie() const;
+    void setMinTimeAfterDozowanie(unsigned int newMinTimeAfterDozowanie);
+
+    const UEkran4 &getEkran4() const;
+    void setEkran4(const UEkran4 &newEkran4);
+
+    unsigned int getMinTimeAfterPowietrze() const;
+    void setMinTimeAfterPowietrze(unsigned int newMinTimeAfterPowietrze);
+
+    const UPomiarStezen &getPstezen() const;
+    void setPstezen(const UPomiarStezen &newPstezen);
+
+    unsigned int getMinTimePompaMebramowa() const;
+    void setMinTimePompaMebramowa(unsigned int newMinTimePompaMebramowa);
+
+    unsigned int getMinTimeAfterPompaOff() const;
+    void setMinTimeAfterPompaOff(unsigned int newMinTimeAfterPompaOff);
+
+    const UEkran6 &getEkran6() const;
+    void setEkran6(const UEkran6 &newEkran6);
+
+    float getMinDeltaCisnZaplon() const;
+    void setMinDeltaCisnZaplon(float newMinDeltaCisnZaplon);
+
+    unsigned int getMinTimeZaplonPlomien() const;
+    void setMinTimeZaplonPlomien(unsigned int newMinTimeZaplonPlomien);
+
+    unsigned int getMinTimeZaplonIskra() const;
+    void setMinTimeZaplonIskra(unsigned int newMinTimeZaplonIskra);
 
 protected:
     void initialSetting();
@@ -149,14 +242,18 @@ private:
     int impTime;
     double stepsOnMl;
     unsigned short nrInitializeCycles;
-    double cisnienieProzni;
 
-    float maxAceton;
-    float maxEtanol;
-    //float maxOlej_napedowy;
-    float maxIzopropanol;
-    float maxBenzyna;
-    float maxToluen;
+
+    UEkran1 ekran1;
+    UEkran3 ekran3;
+    UEkran4 ekran4;
+    UPomiarStezen pstezen;
+
+    UEkran6 ekran6;
+
+
+
+
 };
 
 #endif // USTAWIENIA_H

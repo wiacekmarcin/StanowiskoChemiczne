@@ -49,7 +49,7 @@ public:
         calaObjetosc,
         zaplon,
         dozownikNr,
-        czyPompaMebr,
+        czyPompaProzn,
         brakZaplonu,
         rodzajZaplonu,
         wybranyPlomien,

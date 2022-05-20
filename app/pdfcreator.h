@@ -29,7 +29,7 @@ class PdfCreator
 {
 
 public:
-    PdfCreator(const TestData & td);
+    PdfCreator(const TestData & td, const Ustawienia & ust);
     QString getBody() const ;
 
     void addImage(const QString & file, const QString &descr);
@@ -103,6 +103,7 @@ private:
     static constexpr char zdjeciaPrzeprBadania[] = "Zdjęcia z przeprowadzonego badania";
 
     const TestData & td;
+    const Ustawienia & ust;
 
     QString comment;
     QList<QPair<QString, QString>> fileList;

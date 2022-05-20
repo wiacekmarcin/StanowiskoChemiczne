@@ -39,8 +39,8 @@ constexpr char PdfCreator::zlaKoncetracjaPar[];
 constexpr char PdfCreator::odczytyStezen[];
 constexpr char PdfCreator::zdjeciaPrzeprBadania[];
 
-PdfCreator::PdfCreator(const TestData &td_) :
-    td(td_)
+PdfCreator::PdfCreator(const TestData &td_, const Ustawienia &ust_) :
+    td(td_), ust(ust_)
 {
 
 }
@@ -174,7 +174,7 @@ QString PdfCreator::getIloscCieczy(const QList<float> &dozowanie, unsigned int n
     QString sumaStr;
     unsigned int sumCnt = 0;
     float prev = 0.0;
-    for (int i = 0; i < dozowanie.size() && i < nrProba; ++i) {
+    for (unsigned int i = 0; i < dozowanie.size() && i < nrProba; ++i) {
         float d = dozowanie.at(i) - prev;
         if (d == 0.0)
             continue;
@@ -192,19 +192,37 @@ QString PdfCreator::getIloscCieczy(const QList<float> &dozowanie, unsigned int n
 
 QString PdfCreator::getWarunkiPoczatkowe(const ProbaType &proba) const
 {
+    Ustawienia::CzujnikAnalogowy an = ust.getCzujnikAnalogowyUstawienia(a_cisn_komora);
+    QString unit = an.unit;
+    float conv = an.convert;
+
     QString ret = QString("<h3 style=\"font-size:16px\">%1</h3>").arg(QString(PdfCreator::warunkiPoczatkowe));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempParownika), QString::number(proba.tempParownikaDozowanie, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory), QString::number(proba.tempKomoryDozowanie, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa</p>").arg(QString(PdfCreator::cisnKomory), QString::number(proba.cisnKomoryDozowanie, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempParownika), QString::number(
+                                                        proba.tempParownikaDozowanie, 'f', 1));
+
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory), QString::number(
+                                                        proba.tempKomoryDozowanie, 'f', 1));
+
+    ret += QString("<p style=\"font-size:12px\">%1 %2 %3</p>").arg(QString(PdfCreator::cisnKomory), QString::number(
+                                                        conv*proba.P1, 'f', 1),
+                                                        unit);
     return ret;
 }
 
 QString PdfCreator::getWarunkiPrzedZaplonem(const ProbaType &proba) const
 {
+    Ustawienia::CzujnikAnalogowy an = ust.getCzujnikAnalogowyUstawienia(a_cisn_komora);
+    QString unit = an.unit;
+    float conv = an.convert;
+
     QString ret = QString("<h3 style=\"font-size:16px\">%1</h3>").arg(QString(PdfCreator::warunkiPrzedZaplonem));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory), QString::number(proba.tempKomoryZaplon, 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa</p>").arg(QString(PdfCreator::cisnKomory),
-                                                                 QString::number(proba.cisnKomoryZaplon, 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory), QString::number(
+                                                                             proba.tempKomoryZaplon, 'f', 1));
+
+    ret += QString("<p style=\"font-size:12px\">%1 %2 %3</p>").arg(QString(PdfCreator::cisnKomory),
+                                                                 QString::number(conv*proba.cisnKomoryZaplon, 'f', 1),
+                                                                  unit);
+
     ret += QString("<p style=\"font-size:12px\">%1 %2 %</p>").arg(QString(PdfCreator::koncetracjaPar), QString::number(proba.calkowitaKoncetracjaPar, 'f', 1));
     if (proba.zlaKoncetracja) {
         ret += QString("<p style=\"font-size:12px\"><u>%1</u></p>").arg(PdfCreator::zlaKoncetracjaPar);

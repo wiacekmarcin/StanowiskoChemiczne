@@ -5,9 +5,10 @@
 #include "oczekiwanienazaplon.h"
 #include "ustawienia.h"
 
-NowyTest_6::NowyTest_6(QWidget *parent) :
+NowyTest_6::NowyTest_6(const UEkran6 &ust_, QWidget *parent) :
     TestPage(parent),
-    ui(new Ui::NowyTest_6)
+    ui(new Ui::NowyTest_6),
+    ust(ust_)
 {
     ui->setupUi(this);
     connect(this, &NowyTest_6::showDglSignal, this, &NowyTest_6::showDlgSlot, Qt::QueuedConnection);
@@ -48,8 +49,6 @@ void NowyTest_6::updateWejscia()
 {
     
     if (step2 && zi_pilot() && !runDialog) {
-
-        qDebug() << __FILE__ << __LINE__ << field(TestPage::rodzajZaplonu).toInt();
         runZaplon((ZaplonRodzaj)(field(TestPage::rodzajZaplonu).toInt()));
         runDialog = true;
         emit showDglSignal();
@@ -99,9 +98,8 @@ void NowyTest_6::showDlgSlot()
 {
     float tmp = getCzujnik(a_temp_komory);
     float cisn = getCzujnik(a_cisn_komora);
-    qDebug() << "Start okno";
     OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this, wizard(),
-                                tmp, cisn, field(TestPage::wybranyPlomien).toBool());
+                                tmp, cisn, field(TestPage::wybranyPlomien).toBool(), ust);
 
     bool wasZaplon = dlg->exec() == QDialog::Accepted;
     qDebug() << "exec " << wasZaplon;

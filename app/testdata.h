@@ -38,6 +38,7 @@ typedef struct proba {
     QString zrodloZaplonu; //ekran 6
     bool powtarzanyZaplon; //ekran 7
     bool powtarzaneDozowanie; //ekran 7
+    float cisnKomoryPoczatek;
     float tempParownikaDozowanie; //ekran dozowania 4?
     float tempKomoryDozowanie; //ekran dozowania 4?
     float cisnKomoryDozowanie; //ekran dozowania 4?(odczytana w momencie rozpoczęcia dozowania – w
@@ -58,8 +59,9 @@ typedef struct proba {
 
     float iloscCalkowitaCieczy; //suma do tej poruy dozowanej cieczy
     float calkowitaKoncetracjaPar;
-    float cisnienieParCieczy;
-    float cisnienieKomoryPoczatek;
+    float P3;
+    float P2;
+    float P1;
     bool podcisnienie;
 } ProbaType;
 
@@ -75,6 +77,9 @@ public:
     TestData();
 
     typedef enum _faza {
+        FT_P1,
+        FT_P2,
+        FT_P3,
         FT_poczatek, //ekran 2
         FT_dozowanie, //ekran 4
         FT_przedZaplon, //ekran 5
@@ -100,6 +105,10 @@ public:
     void setCisnienieKomoryPrzedZaplonem(const float & cisn) { setCisnienieKomory(FT_przedZaplon, cisn); }
     void setCisnienieKomoryZaplon(const float & cisn) { setCisnienieKomory(FT_zaplon, cisn); }
     void setCisnienieParCieczy(const float & cisn);
+
+    void setCisnienieP1(const float & cisn) { setCisnienieKomory(FT_P1, cisn); }
+    void setCisnienieP2(const float & cisn) { setCisnienieKomory(FT_P2, cisn); }
+    void setCisnienieP3(const float & cisn) { setCisnienieKomory(FT_P3, cisn); }
 
     void setStezeniaPrzedZaplonem(const float & voc1, const float & voc2, const float & o2, const float & co2, const float & cz8)
     {
