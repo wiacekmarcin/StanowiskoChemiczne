@@ -12,7 +12,6 @@ NowyTest_6::NowyTest_6(const UEkran6 &ust_, QWidget *parent) :
 {
     ui->setupUi(this);
     connect(this, &NowyTest_6::showDglSignal, this, &NowyTest_6::showDlgSlot, Qt::QueuedConnection);
-
 }
 
 NowyTest_6::~NowyTest_6()

@@ -58,6 +58,7 @@ SOURCES += \
     sygnalycyfroweustawienia.cpp \
     sygnalycyfroweustawieniadialog.cpp \
     testdata.cpp \
+    testdialog.cpp \
     testparam.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
@@ -116,6 +117,7 @@ HEADERS += \
     sygnalycyfroweustawienia.h \
     sygnalycyfroweustawieniadialog.h \
     testdata.h \
+    testdialog.h \
     testparam.h \
     ustawieniadozownika.h \
     ustawieniatestu.h \
@@ -164,6 +166,7 @@ FORMS += \
     sygnalyanalogoweustawieniadialog.ui \
     sygnalycyfroweustawienia.ui \
     sygnalycyfroweustawieniadialog.ui \
+    testdialog.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \
     videowidget.ui \

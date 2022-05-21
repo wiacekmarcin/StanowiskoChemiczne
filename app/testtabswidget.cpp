@@ -61,9 +61,9 @@ TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust_,
     SETCZUJANAL(a_o2, 3, 0, 100, 2, 15, 30);
     SETCZUJANAL(a_co2, 4, 0, 100, 2, 0, 20);
     SETCZUJANAL(a_8, 5, 0, 100, 2, 0, 10);
-    SETCZUJANAL(a_temp_komory, 6, 0, 2000, 1, 15, 600);
-    SETCZUJANAL(a_cisn_komora, 7, 0, 200, 1, 10, 150);
-    SETCZUJANAL(a_temp_parownik, 8, 0, 2000, 1, 15, 600);
+    SETCZUJANAL(a_temp_komory, 6, 0, 2000, 1, 15, 150);
+    SETCZUJANAL(a_cisn_komora, 7, 0, 200, 1, 85, 150);
+    SETCZUJANAL(a_temp_parownik, 8, 0, 2000, 1, 15, 150);
 
     connect(this, &TestTabsWidget::processImageSignal, this, &TestTabsWidget::processImageSlot, Qt::QueuedConnection);
 }

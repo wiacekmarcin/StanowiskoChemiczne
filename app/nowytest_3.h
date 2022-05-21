@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QMap>
 
+#include "testdialog.h"
+
 namespace Ui {
 class NowyTest_3;
 }
@@ -100,6 +102,10 @@ private:
 
     OdciaganieProznieType actWork;
     QMap<OdciaganieProznieType, uint64_t> czasWork;
+
+   TestDialog tdlg;
+   float upLevel;
+   float downLevel;
 
 };
 

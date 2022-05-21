@@ -7,6 +7,7 @@
 #include <QDoubleValidator>
 #include <QValidator>
 #include <QDebug>
+#include <QPalette>
 
 class MyValidator : public QDoubleValidator
 {
@@ -68,6 +69,9 @@ private:
     double min;
     double max;
     MyValidator *validator;
+    QPalette p_ok;
+    QPalette p_error;
+
 };
 
 #endif // DOUBLELINEEDIT_H
