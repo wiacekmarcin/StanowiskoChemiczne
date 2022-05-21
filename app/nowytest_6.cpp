@@ -49,6 +49,9 @@ void NowyTest_6::updateWejscia()
 {
     
     if (step2 && zi_pilot() && !runDialog) {
+        setField(TestPage::rodzajZaplonu, ui->cbZaplon_2->currentIndex());
+        if (ui->cbZaplon_2->currentIndex() == z_iskra_plomien)
+            setField(TestPage::wybranyPlomien, true);
         runZaplon((ZaplonRodzaj)(field(TestPage::rodzajZaplonu).toInt()));
         runDialog = true;
         emit showDglSignal();
