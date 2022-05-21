@@ -96,6 +96,7 @@ private:
     static constexpr char tempParownika[]   = "Temperatura parownika cieczy:";
     static constexpr char tempKomory[]      = "Temperatura wewnątrz komory:";
     static constexpr char cisnKomory[]      = "Ciśnienie wewnątrz komory:";
+    static constexpr char cisnKomoryPoOdpCieczy[] = "Ciśnienie wewnątrzn komory po odparowaniu cieczy";
     static constexpr char koncetracjaPar[]  = "Koncentracja par cieczy wyliczona metodą ciśnień cząstkowych:";
     static constexpr char zlaKoncetracjaPar[]="!!! UWAGA: w tym momencie wyliczona wartość koncentracji par cieczy, może być obarczona błędem, wynikającym ze zmiany temp. wew. komory.";
     static constexpr char odczytyStezen[]   = "Odczyty z przetworników stężenia:";

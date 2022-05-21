@@ -262,6 +262,12 @@ void TestData::setNazwaTestu(const QString &newNazwaTestu)
 
 void TestData::addValues(float voc1, float voc2, float o2, float co2, float a8, float tempPar, float tempKom, float cisnKom)
 {
+    //static uint secondsmicro = 0;
+    //QTime dt = QTime::currentTime();
+    //uint val = dt.msecsSinceStartOfDay();
+    //qInfo() << val - secondsmicro;
+    //secondsmicro = val;
+
     AnalValType v;
     v.voc1 = voc1;
     v.voc2 = voc2;
@@ -271,8 +277,8 @@ void TestData::addValues(float voc1, float voc2, float o2, float co2, float a8, 
     v.tempKom = tempKom;
     v.tempPar = tempPar;
     v.cisnKom = cisnKom;
-    //values.push_back(v);
-    values << v;
+    //qDebug() << cisnKom;
+    values.push_back(v);
 }
 
 
@@ -298,7 +304,7 @@ QDataStream & operator<<(QDataStream & ds, const TestData & item)
     qInfo() << item.voc1 << "," << item.voc2 << "," << item.o2 << "," << item.co2 << "," << item.cz8 << ",";
     qInfo() << item.nazwaTestu << "values(" << item.values.size() << ")=[";
     foreach(auto v, item.values) {
-        qInfo() << "(" << v.a8 << "," << v.o2 << "," << v.co2 << "," << v.voc1 << "," << v.voc2 << "," << v.cisnKom << "," << v.tempKom << "," << v.tempKom << "," << v.tempPar << "),";
+        qInfo() << "(" << v.a8 << "," << v.o2 << "," << v.co2 << "," << v.voc1 << "," << v.voc2 << "," << v.cisnKom << "," << v.tempKom << "," << v.tempPar << "),";
     }
     qInfo() << "]," << item.startTest.toString() << "," << item.stopTest.toString();
 

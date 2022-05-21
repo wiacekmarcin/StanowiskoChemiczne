@@ -1,4 +1,4 @@
-zzx#include "pdfcreator.h"
+#include "pdfcreator.h"
 
 #include <QPolygon>
 #include <QPoint>
@@ -34,6 +34,7 @@ constexpr char PdfCreator::warunkiPoUdanejProba[];
 constexpr char PdfCreator::tempParownika[];
 constexpr char PdfCreator::tempKomory[];
 constexpr char PdfCreator::cisnKomory[];
+constexpr char PdfCreator::cisnKomoryPoOdpCieczy[];
 constexpr char PdfCreator::koncetracjaPar[];
 constexpr char PdfCreator::zlaKoncetracjaPar[];
 constexpr char PdfCreator::odczytyStezen[];
@@ -88,7 +89,7 @@ QString PdfCreator::getTemat() const
 
 QString PdfCreator::getLogo() const
 {
-    QPixmap p("LOGOSGSPKolor.jpg");
+    QPixmap p("LOGOSGSPKolor.png");
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     p.save(&buffer, "PNG");
@@ -206,6 +207,9 @@ QString PdfCreator::getWarunkiPoczatkowe(const ProbaType &proba) const
     ret += QString("<p style=\"font-size:12px\">%1 %2 %3</p>").arg(QString(PdfCreator::cisnKomory), QString::number(
                                                         conv*proba.P1, 'f', 1),
                                                         unit);
+    ret += QString("<p style=\"font-size:12px\">%1 %2 %3</p>").arg(QString(PdfCreator::cisnKomoryPoOdpCieczy), QString::number(
+                                                        conv*proba.P2, 'f', 1),
+                                                        unit);
     return ret;
 }
 
@@ -214,13 +218,15 @@ QString PdfCreator::getWarunkiPrzedZaplonem(const ProbaType &proba) const
     Ustawienia::CzujnikAnalogowy an = ust.getCzujnikAnalogowyUstawienia(a_cisn_komora);
     QString unit = an.unit;
     float conv = an.convert;
+    float val1 = (proba.podcisnienie) ? proba.P3 : proba.P2;
+
 
     QString ret = QString("<h3 style=\"font-size:16px\">%1</h3>").arg(QString(PdfCreator::warunkiPrzedZaplonem));
     ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory), QString::number(
-                                                                             proba.tempKomoryZaplon, 'f', 1));
+                                                                             proba.tempKomoryPrzedZaplon, 'f', 1));
 
     ret += QString("<p style=\"font-size:12px\">%1 %2 %3</p>").arg(QString(PdfCreator::cisnKomory),
-                                                                 QString::number(conv*proba.cisnKomoryZaplon, 'f', 1),
+                                                                 QString::number(conv*val1, 'f', 1),
                                                                   unit);
 
     ret += QString("<p style=\"font-size:12px\">%1 %2 %</p>").arg(QString(PdfCreator::koncetracjaPar), QString::number(proba.calkowitaKoncetracjaPar, 'f', 1));
@@ -244,11 +250,15 @@ QString PdfCreator::getOdczytyStezen(const ProbaType &proba) const
 
 QString PdfCreator::getWarunkiPoUdanejProbie() const
 {
+    Ustawienia::CzujnikAnalogowy an = ust.getCzujnikAnalogowyUstawienia(a_cisn_komora);
+    QString unit = an.unit;
+    float conv = an.convert;
     QString ret = QString("<h3 style=\"font-size:14px\">%1</h3>").arg(QString(PdfCreator::warunkiPoUdanejProba));
     ret += QString("<p style=\"font-size:12px\">%1 %2 &#x2103;</p>").arg(QString(PdfCreator::tempKomory),
                                                                      QString::number(td.getTempKomoraKoniec(), 'f', 1));
-    ret += QString("<p style=\"font-size:12px\">%1 %2 kPa</p>").arg(QString(PdfCreator::cisnKomory),
-                                                                 QString::number(td.getCisnienieKoniec(), 'f', 1));
+    ret += QString("<p style=\"font-size:12px\">%1 %2 %3</p>").arg(QString(PdfCreator::cisnKomory),
+                                                                 QString::number(conv*td.getCisnienieKoniec(), 'f', 1),
+                                                                   unit);
     ret += QString("<p style=\"font-size:12px\">%1").arg(PdfCreator::odczytyStezen);
     ret += QString("<ul>");
     ret += QString("<li>VOC1 = %1 %</li>").arg(QString::number(td.getVoc1(), 'f', 1));
@@ -337,28 +347,31 @@ QString PdfCreator::getOsX(unsigned int i, unsigned int max, const float & minx,
     float valx = maxx - minx;
     float realVal = (minx + 1.0 * i * valx / max);
 
-    if (valx < 24)
+    valx /= 10;
+    realVal /= 10;
+
+    if (realVal < 24)
         return QString::number(realVal, 'f', 1)+QString("\"");
 
-    if (valx < 250)
+    if (realVal < 250)
         return QString::number(realVal, 'f', 0)+QString("\"");
 
     realVal /= 60.0;
     valx /= 60.0;
 
-    if (valx < 250)
+    if (realVal < 250)
         return QString::number(realVal, 'f', 1)+QString("\'");
 
-    if (valx < 250)
+    if (realVal < 250)
         return QString::number(realVal, 'f', 0)+QString("\'");
 
     realVal /= 60.0;
     valx /= 60.0;
 
-    if (valx < 24)
+    if (realVal < 24)
         return QString::number(realVal, 'f', 2)+QString("h");
 
-    if (valx < 250)
+    if (realVal < 250)
         return QString::number(realVal, 'f', 1)+QString("h");
 
     return QString::number(realVal, 'f', 0)+QString("h");
@@ -366,7 +379,7 @@ QString PdfCreator::getOsX(unsigned int i, unsigned int max, const float & minx,
 
 QString PdfCreator::getOsY(unsigned int i, const float & imax, const float & minv, const float & maxv) const
 {
-    qInfo() << "getOsY i=" << i << " imax=" << imax << " minv=" << minv << " maxv=" << maxv;
+    //qInfo() << "getOsY i=" << i << " imax=" << imax << " minv=" << minv << " maxv=" << maxv;
     float valy = maxv - minv;
     float realVal = minv + (1.0 * i / imax)* valy;
     qInfo() << "realVal=" << realVal;
@@ -392,7 +405,8 @@ void PdfCreator::setWykresVisible(analogIn wykresId, bool show, float minV, floa
     v.opis = opis;
     v.opis2 = opis2;
     v.jedn = unit;
-    unsigned long maxTimeSec = td.getValues().size()/10;
+    //unsigned long maxTimeSec = td.getValues().size()/10;
+    unsigned long maxTimeSec = td.getValues().size();
     if (pages == 1) {
         v.minTime = 0;
         v.maxTime = maxTimeSec;
@@ -423,6 +437,8 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
     float minT = var.minTime;
     float maxT = var.maxTime;
     double ratio = var.ratio;
+    qInfo() << "minV" << minV << "maxV" << maxV << "minT" << minT << "maxT" << maxT;
+
     const QString & title = var.opis;
     const QString & subtitle = var.opis2;
     const QString & jedn = var.jedn;
@@ -461,9 +477,11 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
         points.push_back(ratio * vals[(short)id]);
         //qInfo() << vals[(short)id] << " * " << ratio << " = " << (vals[(short)id] * ratio);
     }
+    qInfo() << "Punktow do rysowania" << points.size();
 
     float valperYpx = (height - margintop - marginbottom) / (maxV - minV);
     float valperXpx = (width - marginleft - marginright) / (maxT - minT);
+    qInfo() << valperXpx;
 
     QPixmap *pix = new QPixmap(width, height);
     QPainter *paint = new QPainter(pix);
@@ -479,7 +497,7 @@ QString PdfCreator::getImageWykres(const visibleWykresType & var) const
     paint->drawRect(rect);//5 radius apiece
 
     QFontMetrics fm(paint->font());
-    QString czasX("Czas, [ s ' / min \"]");
+    QString czasX("Czas, [ s \" / min ']");
     QRect rczas = fm.boundingRect(czasX);
     paint->drawText(QPoint((width+rczas.width())/2-rczas.width(), height-5), czasX);
 

@@ -28,6 +28,7 @@ DigitalOutWidget::~DigitalOutWidget()
 
 void DigitalOutWidget::addValue(float value)
 {
+    //qDebug() << __FILE__ << __LINE__ << "value" << value;
     vals.push_back(value);
     if (vals.size() >= lenHistory)
         vals.pop_front();
@@ -44,9 +45,17 @@ void DigitalOutWidget::paintEvent(QPaintEvent *paint)
     QRect rect = QRect(0, 0, lenHistory, height());
     painter.fillRect(rect, QBrush(Qt::white));
     painter.drawRect(rect);//5 radius apiece
-    painter.setBrush(Qt::black);
-    painter.drawPoints(points, lenHistory);
-    painter.drawText(5,15, title);
+    painter.setBrush(Qt::red);
+    painter.setPen(QPen(Qt::red));
+    painter.drawPolyline(points, lenHistory);
+    //painter.drawPoints(points, lenHistory);
+    painter.setPen(QPen(Qt::black));
+    painter.drawText(5, 15, QString::number(maxVal));
+    painter.drawText(5, height()-5, QString::number(minVal));
+    painter.drawText(width()-70, 15, QString::number(maxVal));
+    painter.drawText(width()-70, height()-5, QString::number(minVal));
+
+    painter.drawText(80,15, title);
     painter.restore();
 }
 
@@ -71,15 +80,29 @@ void DigitalOutWidget::updateVals()
         if (val > maxVal)
             maxVal = val;
     }
+
+    unsigned int h = height();
+    if (h == 0)
+        h = 1;
+
+
     for (int i=lenHistory-1, j = 0; i && j < vals.size(); --i, j++) {
         float val = vals[i - (lenHistory-vals.size())];
         float delta = maxVal - minVal;
+        //if (unit == "mBar")
+        //    qDebug() << __FILE__ << __LINE__ << "val= " << val << " delta= " << delta << " height=" << h << "p ="
+        //             << (maxVal - minVal - (val - minVal)) / (( maxVal - minVal)/h);
         if (delta == 0)
             delta = 1;
-        delta = height() / delta;
-        unsigned int point = (maxVal - minVal - (val - minVal)) / delta ;
+
+        unsigned int point = (maxVal - minVal - (val - minVal)) / (delta / h) ;
+        //if (unit == "mBar")
+        //    qDebug() << point;
         points[i].setY( point );
+        //if (unit == "mBar")
+           //qDebug() << __FILE__ << __LINE__ << points[i];
     }
+
     update();
 }
 

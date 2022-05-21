@@ -304,10 +304,13 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
     if (id == TestPage::PAGE_3) {
         registerPomiary = true;
         getTestData()->setStartTest(QTime::currentTime());
+        qDebug() << "Start" << QTime::currentTime();
     }
     if (id == TestPage::PAGE_9) {
         registerPomiary = false;
         getTestData()->setStopTest(QTime::currentTime());
+
+        qDebug() << "Stop" << QTime::currentTime();
     }
     //    finished = true;
 }

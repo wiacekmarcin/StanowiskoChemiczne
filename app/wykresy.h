@@ -20,6 +20,7 @@ public:
     ~Wykresy();
     void setWykresVisible(unsigned int id, bool vis);
     void setUstawienia(const Ustawienia & ust);
+    void stopTimers();
 public slots:
     void updateValue(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
 

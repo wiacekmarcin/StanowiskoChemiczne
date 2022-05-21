@@ -299,10 +299,11 @@ void NICards::run()
             m_mutex.unlock();
         }
         int elapsed = stoper.elapsed();
+        //qDebug() << "elapsed" << elapsed;
         if (elapsed > 100)
-            QThread::currentThread()->msleep(100);
+            QThread::currentThread()->msleep(90);
         else
-            QThread::currentThread()->msleep(100-elapsed);
+            QThread::currentThread()->msleep(90-elapsed);
     }
     qDebug() << "Return void NICards::run()";
     quit();

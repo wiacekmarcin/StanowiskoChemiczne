@@ -90,8 +90,8 @@ void UstawieniaTestu::on_buttonBox_clicked(QAbstractButton *button)
         ui->ekran2_sBCykle->setValue(4);
 
         ui->ekran3_minCisnienie->setValue(75);
-        ui->ekran3_downHisterza->setValue(5);
-        ui->ekran3_upHisteraz->setValue(5);
+        ui->ekran3_downHisterza->setValue(1);
+        ui->ekran3_upHisteraz->setValue(1);
         ui->ekran3_nrHisterezy->setValue(3);
         ui->ekran3_firstTime->setValue(300/10);
         ui->ekran3_nextTime->setValue(150/10);
@@ -154,8 +154,8 @@ void UstawieniaTestu::save()
     ustawienia.setMinTimeAfterPompaOff(ui->pomiarstezen_time2->value());
 
     ustawienia.setMinDeltaCisnZaplon(ui->oczekiwaniezaplon_deltacisnienia->value());
-    ustawienia.setMinTimeZaplonIskra(10*ui->oczekiwanienazaplon_timeIskra->value());
-    ustawienia.setMinTimeZaplonPlomien(10*ui->oczekiwanienazaplon_plomien->value());
+    ustawienia.setMinTimeZaplonIskra(ui->oczekiwanienazaplon_timeIskra->value());
+    ustawienia.setMinTimeZaplonPlomien(ui->oczekiwanienazaplon_plomien->value());
 
     ustawienia.setDelayTimeTriggerPlomien(ui->opoznieniekamery_plomien->value());
 
