@@ -1,4 +1,4 @@
-#include "pdfcreator.h"
+zzx#include "pdfcreator.h"
 
 #include <QPolygon>
 #include <QPoint>
@@ -90,7 +90,7 @@ QString PdfCreator::getTemat() const
 
 QString PdfCreator::getLogo() const
 {
-    QPixmap p("LogoSGSP.png");
+    QPixmap p("LOGOSGSPKolor.jpg");
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     p.save(&buffer, "PNG");
