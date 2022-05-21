@@ -18,6 +18,7 @@ class UstawieniaDozownika : public QDialog
 public:
     explicit UstawieniaDozownika(Ustawienia & ust, const UserPrivilige & user, QWidget *parent = nullptr);
     ~UstawieniaDozownika();
+    void save();
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
@@ -28,8 +29,7 @@ private slots:
     ON_RB_CLICKED2(3)
     ON_RB_CLICKED2(4)
     ON_RB_CLICKED2(5)
-protected:
-    void save();
+
 private:
     Ui::UstawieniaDozownika *ui;
     Ustawienia & ustawienia;

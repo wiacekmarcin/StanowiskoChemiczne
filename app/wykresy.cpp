@@ -5,6 +5,8 @@
 #include <QMutexLocker>
 #include "ustawienia.h"
 
+#include <Qdebug>
+
 Wykresy::Wykresy(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Wykresy)
@@ -33,6 +35,8 @@ Wykresy::Wykresy(QWidget *parent) :
     for (int i=0; i < Ustawienia::maxCzujekAnal; i++) {
         dane[i].clear();
         convRatio[i] = 1.0;
+        showW[i] = false;
+        widgets[i]->setVisible(false);
     }
     timer.setInterval(1000);
     connect(&timer, &QTimer::timeout, this, &Wykresy::updateTime);
@@ -40,11 +44,13 @@ Wykresy::Wykresy(QWidget *parent) :
 
 Wykresy::~Wykresy()
 {
+    timer.stop();
     delete ui;
 }
 
 void Wykresy::setWykresVisible(unsigned int id, bool vis)
 {
+    qDebug() << "id=" << id << "vis=" << vis;
     showW[id] = vis;
     bool visible = false;
     widgets[id]->setVisible(vis);
@@ -98,5 +104,6 @@ void Wykresy::setUstawienia(const Ustawienia &ust)
         Ustawienia::CzujnikAnalogowy an = ust.getCzujnikAnalogowyUstawienia((analogIn)mapIdAnal[i]);
         convRatio[i] = an.convert;
         widgets[i]->setUnit(an.unit);
+        widgets[i]->setTitle(an.name);
     }
 }

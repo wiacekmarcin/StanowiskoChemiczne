@@ -17,6 +17,7 @@ public:
     void addValue(float value);
     void paintEvent(QPaintEvent *paint);
     void setUnit(const QString & un);
+    void setTitle(const QString & tl);
     void updateVals();
 private:
 
@@ -26,6 +27,7 @@ private:
     QList<float> vals;
     QPoint points[lenHistory];
     QString unit;
+    QString title;
     float minVal;
     float maxVal;
 

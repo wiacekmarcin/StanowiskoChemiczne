@@ -18,6 +18,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "videowidget.h"
 #include "createtestwizard.h"
@@ -67,6 +68,7 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     wykresyDlg = new Wykresy();
     wykresyDlg->show();
     wykresyDlg->setVisible(false);
+    wykresyDlg->setUstawienia(ust);
 
     connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue, Qt::DirectConnection);
     connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresyDlg,  &Wykresy::updateValue, Qt::DirectConnection);
@@ -99,6 +101,9 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
     ui->menuLogowanie->addSeparator();
     ui->menuLogowanie->addAction(QString("Logowanie"), this, &GlowneOkno::onLogowanieTriggered);
     ui->menuLogowanie->addAction(QString("Wylogowanie"), this, &GlowneOkno::onWylogowanieTriggered);
+
+    ui->actionWyj_cie->setMenuRole(QAction::QuitRole);
+    connect(ui->actionWyj_cie, &QAction::triggered, qApp, &QApplication::closeAllWindows);
 
     for (int i = 0; i < settings.maxCzujekAnal; ++i) {
         act_wykresy[i] = new QAction(this);
@@ -171,7 +176,7 @@ void GlowneOkno::on_actionNowy_projekt_triggered()
     selectedProject = qtreewidgetitem;
     ui->treeWidget->setCurrentItem(qtreewidgetitem);
     changeSelectedTest();
-
+    ui->actionOtw_rz->setDisabled(true);
 }
 
 void GlowneOkno::on_actionNowy_Test_triggered()
@@ -351,16 +356,28 @@ void GlowneOkno::on_actionWersja_triggered()
 
 void GlowneOkno::on_actionZapisz_triggered()
 {
-    QFile file("stanowisko.dat");
-    file.open(QIODevice::WriteOnly);
+    QString fileName = QFileDialog::getSaveFileName(this,
+            tr("Zachowaj dane projektów i testów"), "",
+            tr("*.dat"));
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"),
+            file.errorString());
+        return;
+    }
+
+
     QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_5_12);
 
     // Write a header with a "magic number" and a version
     out << (quint32)0xA0B0C0D0;
-    out << (qint32)104;
+    out << (qint32)108;
 
-    //out.setVersion(QDataStream::Qt_5_15);
-    out.setVersion(QDataStream::Qt_5_12);
 
     out << (quint32)mapProjektTesty.size();
     qInfo() << "Ilosc projektow" << (quint32)mapProjektTesty.size();
@@ -385,31 +402,44 @@ void GlowneOkno::on_actionZapisz_triggered()
 
 void GlowneOkno::on_actionOtw_rz_triggered()
 {
-    QFile file("stanowisko.dat");
-    file.open(QIODevice::ReadOnly);
+    QString fileName = QFileDialog::getOpenFileName(this,
+            tr("Otwórz zachowane dane projektów i testu"), "",
+            tr("*.dat"));
+
+    if (fileName.isEmpty())
+            return;
+
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"),
+            file.errorString());
+        return;
+    }
 
     QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_5_12);
 
     // Read and check the header
     quint32 magic;
     in >> magic;
-    if (magic != 0xA0B0C0D0)
-        return ; //ERROR
+    if (magic != 0xA0B0C0D0) {
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"), "To nie są dane aplikacji");
+        return ;
+    }
 
     // Read the version
     qint32 version;
     in >> version;
 
-    if (version != 104)
-        return ; //inna wersja
-
-    //in.setVersion(QDataStream::Qt_5_15);
-    in.setVersion(QDataStream::Qt_5_12);
+    if (version != 108) {
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"), "Próba odczytu ze starszej wersji aplikacji");
+        return ;
+    }
 
     quint32 projektysize;
     quint32 testysize;
     in >> projektysize;
-    qInfo() << "ilosc projektow" << projektysize;
     for(uint i = 0 ; i < projektysize; ++i) {
         ProjectItem pr;
         in >> pr;
@@ -442,6 +472,7 @@ void GlowneOkno::on_actionOtw_rz_triggered()
         if (magic != 0xA0B0C0D0)
             continue;
     }
+    ui->actionOtw_rz->setDisabled(true);
 }
 
 void GlowneOkno::onLogowanieTriggered()
@@ -480,6 +511,7 @@ void GlowneOkno::on_actionDozowniki_triggered()
     if (dlg->exec() == QDialog::Accepted)
     {
         QMessageBox::information(this, "Stanowisko do badania wybuchów", "Zmiany wymagają ponownego uruchomienia testu.");
+        dlg->save();
     }
     delete dlg;
 }
@@ -487,7 +519,11 @@ void GlowneOkno::on_actionDozowniki_triggered()
 void GlowneOkno::on_actionUstawienia_testu_triggered()
 {
     UstawieniaTestu * dlg = new UstawieniaTestu(settings, user, this);
-    dlg->exec();
+    if (dlg->exec() == QDialog::Accepted) {
+        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        dlg->save();
+    }
+
     delete dlg;
 }
 
@@ -572,7 +608,17 @@ void GlowneOkno::getPdf()
         printer.setFullPage(true);
         textDocument->print(&printer);
 
-    //return pdf;
+        //return pdf;
+}
+
+void GlowneOkno::closeEvent(QCloseEvent *e)
+{
+    int resBtn = QMessageBox::information(this, "Stanowisko do badań eksplozji", "Czy na pewno chcesz zamknąć okno?.", QMessageBox::Yes, QMessageBox::No);
+    if (resBtn != QMessageBox::Yes) {
+        e->ignore();
+    } else {
+        e->accept();
+    }
 }
 
 void GlowneOkno::onTestPdfTriggered()

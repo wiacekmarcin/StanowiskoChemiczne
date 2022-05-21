@@ -148,7 +148,6 @@ void Urzadzenia::digitalWrite(digitalOut mask, bool on)
 
 void Urzadzenia::zaplon(ZaplonRodzaj idiskra)
 {
-    qDebug() << __FILE__ << __LINE__ << idiskra;
     switch(idiskra) {
     case z_iskra_elektryczna:
         runIskraElektryczna();
@@ -198,13 +197,11 @@ void Urzadzenia::urz_debug(const QString &d)
 
 void Urzadzenia::gui_error(const QString &s)
 {
-    qInfo() << "gui_error" << s;
     emit log(QString("%1.ERROR.GUI - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), s));
 }
 
 void Urzadzenia::gui_debug(const QString &d)
 {
-    qInfo() << "gui_debug" << d;
     emit log(QString("%1.DEBUG.GUI - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), d));
 }
 
@@ -215,7 +212,6 @@ void Urzadzenia::test_error(const QString &s)
 
 void Urzadzenia::test_debug(const QString &d)
 {
-    qInfo() << "test_debug" << d;
     emit log(QString("%1.DEBUG.TEST - %2").arg(QTime::currentTime().toString("HH:mm:ss:zzz"), d));
 }
 
@@ -264,7 +260,7 @@ void Urzadzenia::runIskraElektryczna()
     digitalWrite(o_hv_bezpiecznik, false);
     digitalWrite(o_hv_iskra, false);
 
-    QTimer::singleShot(2000, this, &Urzadzenia::runIskraElektryczna1);
+    QTimer::singleShot(m_ustawienia.getDelayTimeIskraElektrycznaHV(), this, &Urzadzenia::runIskraElektryczna1);
 }
 
 void Urzadzenia::runIskraElektryczna1()
@@ -274,7 +270,7 @@ void Urzadzenia::runIskraElektryczna1()
     digitalWrite(o_hv_bezpiecznik, false);
     digitalWrite(o_hv_iskra, true);
 
-    QTimer::singleShot(1000, this, &Urzadzenia::runIskraElektryczna2);
+    QTimer::singleShot(m_ustawienia.getDelayTimeIskraElektrycznaIskra(), this, &Urzadzenia::runIskraElektryczna2);
 }
 
 void Urzadzenia::runIskraElektryczna2()
@@ -289,7 +285,7 @@ void Urzadzenia::runIskraMechaniczna()
 {
     digitalWrite(o_trigger, true);
     digitalWrite(o_mech_iskra, true);
-    QTimer::singleShot(2000, this, &Urzadzenia::runIskraMechaniczna1);
+    QTimer::singleShot(m_ustawienia.getRunTimeIskraMechaniczna(), this, &Urzadzenia::runIskraMechaniczna1);
 }
 
 void Urzadzenia::runIskraMechaniczna1()
@@ -300,9 +296,9 @@ void Urzadzenia::runIskraMechaniczna1()
 
 void Urzadzenia::runPlomien()
 {
-    QTimer::singleShot(2000, this, &Urzadzenia::triggerKamery);
+    QTimer::singleShot(m_ustawienia.getDelayTimeTriggerPlomien(), this, &Urzadzenia::triggerKamery);
     digitalWrite(o_grzalka, true);
-    QTimer::singleShot(6000, this, &Urzadzenia::runPlomien1);
+    QTimer::singleShot(m_ustawienia.getRunTimePlomien(), this, &Urzadzenia::runPlomien1);
 
 }
 

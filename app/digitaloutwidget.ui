@@ -30,7 +30,11 @@
     <number>1</number>
    </property>
    <item>
-    <widget class="QGraphicsView" name="graphicsView"/>
+    <widget class="QGraphicsView" name="graphicsView">
+     <property name="interactive">
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

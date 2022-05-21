@@ -64,6 +64,13 @@ Ustawienia::Ustawienia()
     ekran6.minTimeZaplonIskra = settings.value(QString("czasy/maxCzekaniaIska"), 5).toUInt();
     ekran6.minTimeZaplonPlomien = settings.value(QString("czasy/maxCzekaniaPlomien"), 30).toUInt();
     ekran6.minDeltaCisnZaplon = settings.value(QString("cisnienie/deltaZaplon"), 5).toUInt();
+
+    delayTimeTriggerPlomien = settings.value(QString("czasy/opoznieTrigerKameryPlomien"), 5000).toUInt();
+
+    runTimePlomien = settings.value(QString("czasy/CzasPlomienia"), 6000).toUInt();
+    runTimeIskraMechaniczna = settings.value(QString("czasy/CzasIskryMechanicznej"), 2000).toUInt();
+    delayTimeIskraElektrycznaIskra = settings.value(QString("czasy/CzasIskryElektrcyznej"), 1000).toUInt();
+    delayTimeIskraElektrycznaHV = settings.value(QString("czasy/IskraElektrcyznaWysokieNapiecie"), 2000).toUInt();
 }
 
 void Ustawienia::setCzujka(analogIn id, const Ustawienia::CzujnikAnalogowy & czAnal)
@@ -230,6 +237,15 @@ void Ustawienia::initialSetting()
     setMinTimeZaplonIskra(5);
     setMinTimeZaplonPlomien(30);
     setMinTimeZaplonPlomien(5);
+
+    setDelayTimeTriggerPlomien(5000);
+
+    setRunTimePlomien(6000);
+    setRunTimeIskraMechaniczna(2000);
+
+    setDelayTimeIskraElektrycznaHV(2000);
+    setDelayTimeIskraElektrycznaIskra(1000);
+
 }
 
 void Ustawienia::setCzujka(analogIn id, const QString &name, const QString &baseUnit, const QString &unit,
@@ -244,6 +260,66 @@ void Ustawienia::setCzujka(analogIn id, const QString &name, const QString &base
     czA.minVal = minVal;
     czA.percentStab = percent;
     setCzujka(id, czA);
+}
+
+unsigned int Ustawienia::getRunTimePlomien() const
+{
+    return runTimePlomien;
+}
+
+void Ustawienia::setRunTimePlomien(unsigned int newRunTimePlomien)
+{
+    runTimePlomien = newRunTimePlomien;
+    settings.setValue(QString("czasy/CzasPlomienia"), QVariant::fromValue(newRunTimePlomien));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getRunTimeIskraMechaniczna() const
+{
+    return runTimeIskraMechaniczna;
+}
+
+void Ustawienia::setRunTimeIskraMechaniczna(unsigned int newRunTimeIskraMechaniczna)
+{
+    runTimeIskraMechaniczna = newRunTimeIskraMechaniczna;
+    settings.setValue(QString("czasy/CzasIskryMechanicznej"), QVariant::fromValue(newRunTimeIskraMechaniczna));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getDelayTimeIskraElektrycznaIskra() const
+{
+    return delayTimeIskraElektrycznaIskra;
+}
+
+void Ustawienia::setDelayTimeIskraElektrycznaIskra(unsigned int newDelayTimeIskraElektrycznaIskra)
+{
+    delayTimeIskraElektrycznaIskra = newDelayTimeIskraElektrycznaIskra;
+    settings.setValue(QString("czasy/CzasIskryElektrcyznej"), QVariant::fromValue(newDelayTimeIskraElektrycznaIskra));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getDelayTimeIskraElektrycznaHV() const
+{
+    return delayTimeIskraElektrycznaHV;
+}
+
+void Ustawienia::setDelayTimeIskraElektrycznaHV(unsigned int newDelayTimeIskraElektrycznaHV)
+{
+    delayTimeIskraElektrycznaHV = newDelayTimeIskraElektrycznaHV;
+    settings.setValue(QString("czasy/IskraElektrcyznaWysokieNapiecie"), QVariant::fromValue(newDelayTimeIskraElektrycznaHV));
+    settings.sync();
+}
+
+unsigned int Ustawienia::getDelayTimeTriggerPlomien() const
+{
+    return delayTimeTriggerPlomien;
+}
+
+void Ustawienia::setDelayTimeTriggerPlomien(unsigned int newDelayTimeTriggerPlomien)
+{
+    delayTimeTriggerPlomien = newDelayTimeTriggerPlomien;
+    settings.setValue(QString("czasy/opoznieTrigerKameryPlomien"), QVariant::fromValue(newDelayTimeTriggerPlomien));
+    settings.sync();
 }
 
 unsigned int Ustawienia::getMinTimeZaplonIskra() const

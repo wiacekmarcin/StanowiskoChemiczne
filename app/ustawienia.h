@@ -222,6 +222,21 @@ public:
     unsigned int getMinTimeZaplonIskra() const;
     void setMinTimeZaplonIskra(unsigned int newMinTimeZaplonIskra);
 
+    unsigned int getDelayTimeTriggerPlomien() const;
+    void setDelayTimeTriggerPlomien(unsigned int newDelayTimeTriggerPlomien);
+
+    unsigned int getDelayTimeIskraElektrycznaHV() const;
+    void setDelayTimeIskraElektrycznaHV(unsigned int newDelayTimeIskraElektrycznaHV);
+
+    unsigned int getDelayTimeIskraElektrycznaIskra() const;
+    void setDelayTimeIskraElektrycznaIskra(unsigned int newDelayTimeIskraElektrycznaIskra);
+
+    unsigned int getRunTimeIskraMechaniczna() const;
+    void setRunTimeIskraMechaniczna(unsigned int newRunTimeIskraMechaniczna);
+
+    unsigned int getRunTimePlomien() const;
+    void setRunTimePlomien(unsigned int newRunTimePlomien);
+
 protected:
     void initialSetting();
     void setCzujka(analogIn id, const QString & name, const QString & baseUnit, const QString & unit,
@@ -248,11 +263,13 @@ private:
     UEkran3 ekran3;
     UEkran4 ekran4;
     UPomiarStezen pstezen;
-
     UEkran6 ekran6;
 
-
-
+    unsigned int delayTimeTriggerPlomien;
+    unsigned int delayTimeIskraElektrycznaHV;
+    unsigned int delayTimeIskraElektrycznaIskra;
+    unsigned int runTimeIskraMechaniczna;
+    unsigned int runTimePlomien;
 
 };
 

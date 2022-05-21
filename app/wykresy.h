@@ -19,12 +19,13 @@ public:
     explicit Wykresy(QWidget *parent = nullptr);
     ~Wykresy();
     void setWykresVisible(unsigned int id, bool vis);
+    void setUstawienia(const Ustawienia & ust);
 public slots:
     void updateValue(double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8);
 
 private slots:
     void updateTime();
-    void setUstawienia(const Ustawienia & ust);
+
 private:
     Ui::Wykresy *ui;
     bool showW[Ustawienia::maxCzujekAnal];

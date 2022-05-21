@@ -12,8 +12,8 @@ DigitalOutWidget::DigitalOutWidget(QWidget *parent) :
 {
     val = false;
 
-    setMinimumHeight(20);
-    setMaximumHeight(20);
+    //setMinimumHeight(20);
+    //setMaximumHeight(20);
     setMaximumWidth(lenHistory + 2);
     setMinimumWidth(lenHistory + 2);
     for (int i =0; i< lenHistory; ++i) {
@@ -46,13 +46,18 @@ void DigitalOutWidget::paintEvent(QPaintEvent *paint)
     painter.drawRect(rect);//5 radius apiece
     painter.setBrush(Qt::black);
     painter.drawPoints(points, lenHistory);
-
+    painter.drawText(5,15, title);
     painter.restore();
 }
 
 void DigitalOutWidget::setUnit(const QString &un)
 {
     unit = un;
+}
+
+void DigitalOutWidget::setTitle(const QString &tl)
+{
+    title = tl;
 }
 
 void DigitalOutWidget::updateVals()

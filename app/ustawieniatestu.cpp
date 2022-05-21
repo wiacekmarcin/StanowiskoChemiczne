@@ -11,6 +11,12 @@
 
 #define setStezenia(W, U) do { W->setMin(0); W->setPrec(0); W->setMax(10000); W->setValue(U); } while(false)
 
+#define setEkran6Zap(W, P, M, U) do { W->setMin(0); W->setPrec(P); W->setMax(M); W->setValue(U); } while(false)
+
+#define setOpozKam(W, U) do { W->setMin(0); W->setPrec(0); W->setMax(100000); W->setValue(U); } while(false)
+
+#define setZaplon(W, U) do { W->setMin(0); W->setPrec(0); W->setMax(100000); W->setValue(U); } while(false)
+
 UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, const UserPrivilige &user, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::UstawieniaTestu),
@@ -20,9 +26,14 @@ UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, const UserPrivilige &user, QW
     connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &UstawieniaTestu::on_buttonBox_clicked);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &UstawieniaTestu::on_buttonBox_accepted);
     
-
-    ui->test_2->setEnabled((user & U_ADMIN) == U_ADMIN);
-    ui->test_3->setEnabled((user & U_ADMIN) == U_ADMIN);
+    ui->test_1->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->test_2->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->test_3->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->test_4->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->oczekiwanieNaZaplon->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->pomiarStezen->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->opoznienieKamery->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+    ui->Ekran6Zaplon->setEnabled((user & U_SERVISANT) == U_SERVISANT);
 
     setDB(ui->ekran1_acetan, ustawienia.getMaxAceton());
     setDB(ui->ekran1_benzyna, ustawienia.getMaxBenzyna());
@@ -36,10 +47,10 @@ UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, const UserPrivilige &user, QW
     setEKRAN3(ui->ekran3_downHisterza, 2, 100, ustawienia.getDownLevelHistPomProz());
     setEKRAN3(ui->ekran3_upHisteraz, 2, 100, ustawienia.getDownLevelHistPomProz());
     setEKRAN3(ui->ekran3_nrHisterezy, 0, 10, ustawienia.getNumberHistPomProz());
-    setEKRAN3(ui->ekran3_firstTime, 1, 1000, ustawienia.getFirsTimeWaitPomProz()/10);
-    setEKRAN3(ui->ekran3_nextTime, 1, 1000, ustawienia.getSecondTimeWaitPomProz()/10);
-    setEKRAN3(ui->ekran3_timeBetweenPompa, 1, 1000, ustawienia.getMinTimeBetweenRunPomProz()/10);
-    setEKRAN3(ui->ekran3_maxtime, 1, 10000, ustawienia.getAllTimeRunPomProz()/10);
+    setEKRAN3(ui->ekran3_firstTime, 1, 1000, 0.1*ustawienia.getFirsTimeWaitPomProz());
+    setEKRAN3(ui->ekran3_nextTime, 1, 1000, 0.1*ustawienia.getSecondTimeWaitPomProz());
+    setEKRAN3(ui->ekran3_timeBetweenPompa, 1, 1000, 0.1*ustawienia.getMinTimeBetweenRunPomProz());
+    setEKRAN3(ui->ekran3_maxtime, 1, 10000, 0.1*ustawienia.getAllTimeRunPomProz());
 
     setEKRAN4(ui->ekran4_dozowanietime1, ustawienia.getMinTimeAfterDozowanie());
     setEKRAN4(ui->ekran4_powietrzetime2, ustawienia.getMinTimeAfterPowietrze());
@@ -47,7 +58,16 @@ UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, const UserPrivilige &user, QW
     setStezenia(ui->pomiarstezen_minpompa, ustawienia.getMinTimePompaMebramowa());
     setStezenia(ui->pomiarstezen_time2, ustawienia.getMinTimeAfterPompaOff());
 
+    setEkran6Zap(ui->oczekiwaniezaplon_deltacisnienia, 3, 100, ustawienia.getMinDeltaCisnZaplon());
+    setEkran6Zap(ui->oczekiwanienazaplon_timeIskra, 0, 1000, ustawienia.getMinTimeZaplonIskra());
+    setEkran6Zap(ui->oczekiwanienazaplon_plomien, 0, 1000, ustawienia.getMinTimeZaplonPlomien());
 
+    setOpozKam(ui->opoznieniekamery_plomien, ustawienia.getDelayTimeTriggerPlomien());
+
+    setZaplon(ui->zaplon_czasPlomienia, ustawienia.getRunTimePlomien());
+    setZaplon(ui->zaplon_czasIksryMechanicznej, ustawienia.getRunTimeIskraMechaniczna());
+    setZaplon(ui->zaplon_czasWysokieNapiecie, ustawienia.getDelayTimeIskraElektrycznaHV());
+    setZaplon(ui->zaplon_czasIskryElektrycznej, ustawienia.getDelayTimeIskraElektrycznaIskra());
 
 }
 
@@ -84,6 +104,16 @@ void UstawieniaTestu::on_buttonBox_clicked(QAbstractButton *button)
         ui->pomiarstezen_minpompa->setValue(30);
         ui->pomiarstezen_time2->setValue(30);
 
+        ui->oczekiwaniezaplon_deltacisnienia->setValue(5);
+        ui->oczekiwanienazaplon_timeIskra->setValue(5);
+        ui->oczekiwanienazaplon_plomien->setValue(15);
+
+        ui->opoznieniekamery_plomien->setValue(5000);
+
+        ui->zaplon_czasPlomienia->setValue(6000);
+        ui->zaplon_czasIksryMechanicznej->setValue(2000);
+        ui->zaplon_czasWysokieNapiecie->setValue(2000);
+        ui->zaplon_czasIskryElektrycznej->setValue(1000);
 
     }
     if ((QPushButton*)button == ui->buttonBox->button(QDialogButtonBox::Apply))
@@ -122,5 +152,16 @@ void UstawieniaTestu::save()
 
     ustawienia.setMinTimePompaMebramowa(ui->pomiarstezen_minpompa->value());
     ustawienia.setMinTimeAfterPompaOff(ui->pomiarstezen_time2->value());
+
+    ustawienia.setMinDeltaCisnZaplon(ui->oczekiwaniezaplon_deltacisnienia->value());
+    ustawienia.setMinTimeZaplonIskra(10*ui->oczekiwanienazaplon_timeIskra->value());
+    ustawienia.setMinTimeZaplonPlomien(10*ui->oczekiwanienazaplon_plomien->value());
+
+    ustawienia.setDelayTimeTriggerPlomien(ui->opoznieniekamery_plomien->value());
+
+    ustawienia.setRunTimePlomien(ui->zaplon_czasPlomienia->value());
+    ustawienia.setRunTimeIskraMechaniczna(ui->zaplon_czasIksryMechanicznej->value());
+    ustawienia.setDelayTimeIskraElektrycznaHV(ui->zaplon_czasWysokieNapiecie->value());
+    ustawienia.setDelayTimeIskraElektrycznaIskra(ui->zaplon_czasIskryElektrycznej->value());
 
 }

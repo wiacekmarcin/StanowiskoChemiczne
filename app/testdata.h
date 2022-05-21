@@ -63,6 +63,9 @@ typedef struct proba {
     float P2;
     float P1;
     bool podcisnienie;
+
+    float tempKomoryPrzedZaplon;
+    float cisnKomoryPrzedZaplon;
 } ProbaType;
 
 

@@ -63,6 +63,9 @@ protected:
 
     void getPdf();
 
+
+   void closeEvent(QCloseEvent* e) override;
+
 private:
     Ui::GlowneOkno *ui;
     UserPrivilige user;

@@ -22,7 +22,7 @@ void TestData::setTemperaturaKomory(FazaTestu ft, const float &temp)
     case FT_poczatek :  tempKomoraPoczatek = temp; break;
     case FT_koniec:     tempKomoraKoniec = temp; break;
     case FT_dozowanie:  proby.last().tempKomoryDozowanie = temp; break;
-    case FT_przedZaplon:  proby.last().tempKomoryZaplon = temp; break;
+    case FT_przedZaplon:  proby.last().tempKomoryPrzedZaplon = temp; break;
     case FT_zaplon: proby.last().tempKomoryZaplon = temp; break;
     default :  qInfo () << "Temperatura Invalid ft=" << ft ; break ;
     }
@@ -37,7 +37,7 @@ void TestData::setCisnienieKomory(FazaTestu ft, const float &cisn)
     case FT_P3 : proby.last().P3 = cisn; break;
     case FT_koniec: cisnienieKoniec = cisn; break;
     case FT_dozowanie: proby.last().cisnKomoryDozowanie = cisn; break;
-    case FT_przedZaplon: proby.last().cisnKomoryZaplon = cisn; break;
+    case FT_przedZaplon: proby.last().cisnKomoryPrzedZaplon = cisn; break;
     case FT_zaplon: proby.last().cisnKomoryZaplon = cisn; break;
     case FT_poczatek: proby.last().cisnKomoryPoczatek = cisn; break;
     default :  qInfo () << "Cisnienie komory Invalid ft=" << ft ; break ;
@@ -385,6 +385,7 @@ QDataStream & operator<<(QDataStream & ds, const ProbaType & item)
     ds << item.tempKomoryZaplon << item.tempParownikaDozowanie << item.voc1 << item.voc2 << item.zlaKoncetracja;
     ds << item.zrodloZaplonu << item.iloscCalkowitaCieczy;
     ds << item.calkowitaKoncetracjaPar << item.P3 << item.P1 << item.podcisnienie;
+    ds << item.tempKomoryPrzedZaplon << item.cisnKomoryPrzedZaplon;
     return ds;
 }
 
@@ -395,6 +396,7 @@ QDataStream & operator>>(QDataStream & ds, ProbaType & item)
     ds >> item.tempKomoryZaplon >> item.tempParownikaDozowanie >> item.voc1 >> item.voc2 >> item.zlaKoncetracja;
     ds >> item.zrodloZaplonu >> item.iloscCalkowitaCieczy;
     ds >> item.calkowitaKoncetracjaPar >> item.P3 >> item.P1 >> item.podcisnienie;
+    ds >> item.tempKomoryPrzedZaplon >> item.cisnKomoryPrzedZaplon;
     return ds;
 }
 

@@ -9,6 +9,8 @@
 #include <QPainter>
 #include <QTextDocument>
 #include <QLineEdit>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include "ustawienia.h"
 #include "pdfcreator.h"
@@ -96,28 +98,33 @@ void TestTabsWidget::finishedTest(const ProjectItem & projekt)
     ui->tabWidget->setTabEnabled(3, true);
     //ui->tabFoto->setC
     QString workDir = projekt.getWorkDir();
-    //workDir = "E:\\devel\\workdir";
+
     QString testname = testDane.getNazwaTestu();
-    //testname= "Test";
+
     testWorkDir = QDir(workDir);
-    if (!testWorkDir.exists())
-        return;
+    if (!testWorkDir.exists()) {
+        QMessageBox::information(this, "Stanowisko do badań eksplozji", "Katalog projektu nie istnieje, Kliknij OK i wybierz katalog projektu");
+        workDir = QFileDialog::getExistingDirectory(this, "Wybierz katalog do zapisu danych z testu");
+        if (workDir.isEmpty())
+            workDir = QDir::homePath();
+    }
     bool cdircreate = testWorkDir.mkdir(testname);
     if (cdircreate) {
         testWorkDir.cd(testname);
         testWorkDirName = testWorkDir.absolutePath();
     } else {
-
-        int num = 1;
-        qInfo() << __FILE__ << ":" << __LINE__ << workDir;
-        while (!cdircreate) {
-            QString ndir = QString("%1-%2").arg(testname).arg(num++);
-            qInfo() << ndir;
+        int try3 = 3;
+        cdircreate = false;
+        while (try3-- && !cdircreate) {
+            QString ndir = QString("%1-%2").arg(testname).arg(QDateTime::currentDateTime().toString("yyyyMMddhhmmss"));
             cdircreate = testWorkDir.mkdir(ndir);
             if (cdircreate) {
                 testWorkDir.cd(ndir);
                 testWorkDirName = testWorkDir.absolutePath();
             }
+        }
+        if (!cdircreate) {
+            QMessageBox::warning(this, "Stanowisko do badań eksplozji", "Aplikacja nie może utworzyć katalogu dla danych testu");
         }
     } //cdircreate
 }
@@ -135,7 +142,7 @@ void TestTabsWidget::on_pbAddImage_clicked()
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setNameFilter(tr("Images (*.png *.xpm *.jpg *.bmp)"));
     dialog.setViewMode(QFileDialog::Detail);
-    //dialog.setDirectory("E:\\devel\\StanowiskoChemiczne-source\\StanowiskoChemiczne\\img");
+
     QStringList fileNames;
     //QApplication::setOverrideCursor(Qt::WaitCursor);
     //this->setCursor(Qt::WaitCursor);
@@ -144,7 +151,7 @@ void TestTabsWidget::on_pbAddImage_clicked()
     if (fileNames.size() == 0)
         return;
 
-    qDebug() << fileNames;
+
     emit processImageSignal(fileNames);
 }
 
@@ -187,12 +194,12 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
     printer.setOutputFormat(QPrinter::PdfFormat);
     QString baseName = QString("Raport_%1.pdf").arg(QDateTime::currentDateTime().toString("yyyy.MM.dd.hh.mm.ss"));
     QString fileName = testWorkDir.absoluteFilePath(baseName);
-    qDebug() << "Nazwa raportu" << fileName;
-    printer.setOutputFileName(baseName);
+
+    printer.setOutputFileName(fileName);
     printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setFullPage(true);
     textDocument->print(&printer);
-
+    QMessageBox::information(this, "Stanowisko do analizy wybuchów", QString("Wygenerowano raport do pliku %1").arg(fileName));
 }
 
 QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item)
