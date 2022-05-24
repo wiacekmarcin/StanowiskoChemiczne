@@ -1,5 +1,5 @@
 #include "sygnalanalogowyustawienia.h"
-#include "ui_SygnalAnalogowyUstawienia.h"
+#include "ui_sygnalanalogowyustawienia.h"
 
 #include <QDebug>
 

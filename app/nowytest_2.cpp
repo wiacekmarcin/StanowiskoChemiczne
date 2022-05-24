@@ -168,7 +168,7 @@ void NowyTest_2::on_pbOk_3_clicked()
     
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
-    cykleDozownik(dozownik, 4);
+    cykleDozownik(dozownik, initCykle);
 }
 
 void NowyTest_2::on_rb4_yes_toggled(bool checked)

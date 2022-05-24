@@ -5,7 +5,7 @@
 #include <QMutexLocker>
 #include "ustawienia.h"
 
-#include <Qdebug>
+#include <QDebug>
 
 Wykresy::Wykresy(QWidget *parent) :
     QDialog(parent),

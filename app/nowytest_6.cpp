@@ -101,7 +101,7 @@ void NowyTest_6::showDlgSlot()
     float tmp = getCzujnik(a_temp_komory);
     float cisn = getCzujnik(a_cisn_komora);
     OczekiwanieNaZaplon * dlg = new OczekiwanieNaZaplon(this, wizard(),
-                                tmp, cisn, field(TestPage::wybranyPlomien).toBool(), ust);
+                                tmp, cisn, ui->cbZaplon_2->currentIndex() == z_iskra_plomien, ust);
 
     bool wasZaplon = dlg->exec() == QDialog::Accepted;
     qDebug() << "exec " << wasZaplon;

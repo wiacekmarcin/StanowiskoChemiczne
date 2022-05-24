@@ -58,6 +58,16 @@ void DoubleLineEdit::setMax(const double &newVal)
     validator->setTop(newVal);
 }
 
+bool DoubleLineEdit::getValid() const
+{
+    return valid;
+}
+
+void DoubleLineEdit::setValid(bool newValid)
+{
+    valid = newValid;
+}
+
 void DoubleLineEdit::valueChangedSlot(const QString &val)
 {
     bool ok;
@@ -66,17 +76,21 @@ void DoubleLineEdit::valueChangedSlot(const QString &val)
     if (ok) {
         if (this->val < this->min) {
             this->val = this->min;
+            valid = false;
             this->setPalette(p_error);
             return;
         } else if (this->val > this->max) {
             this->val = max;
+            valid = false;
             this->setPalette(p_error);
             return;
         } else {
             this->setPalette(p_ok);
+            valid = true;
             emit valueChanged(this->val);
         }
      } else {
-         this->setPalette(p_error);
+        this->setPalette(p_error);
+        valid = false;
     }
 }

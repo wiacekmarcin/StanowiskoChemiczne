@@ -1,6 +1,8 @@
 #include "ustawieniatestu.h"
 #include "ui_ustawieniatestu.h"
 #include <QAbstractButton>
+#include <QPushButton>
+
 #include "ustawienia.h"
 
 #define setDB(P, U) do { P->setMin(0.1); P->setPrec(1); P->setMax(1000); P->setValue(U); } while(false)
@@ -69,6 +71,14 @@ UstawieniaTestu::UstawieniaTestu(Ustawienia & ust, const UserPrivilige &user, QW
     setZaplon(ui->zaplon_czasWysokieNapiecie, ustawienia.getDelayTimeIskraElektrycznaHV());
     setZaplon(ui->zaplon_czasIskryElektrycznej, ustawienia.getDelayTimeIskraElektrycznaIskra());
 
+    QPushButton * btn;
+    btn = ui->buttonBox->button(QDialogButtonBox::RestoreDefaults);
+    if (btn)
+        btn->setEnabled((user & U_SERVISANT) == U_SERVISANT);
+
+    btn = ui->buttonBox->button(QDialogButtonBox::Ok);
+    if (btn)
+        btn->setEnabled((user & U_SERVISANT) == U_SERVISANT);
 }
 
 UstawieniaTestu::~UstawieniaTestu()

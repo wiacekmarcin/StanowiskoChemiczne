@@ -509,7 +509,7 @@ void GlowneOkno::on_actionSygna_y_analogowe_triggered()
 
 void GlowneOkno::on_actionDozowniki_triggered()
 {
-    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
+    UstawieniaDozownika * dlg = new UstawieniaDozownika(urzadzenia, settings, user, this);
     if (dlg->exec() == QDialog::Accepted)
     {
         QMessageBox::information(this, "Stanowisko do badania wybuchów", "Zmiany wymagają ponownego uruchomienia testu.");
