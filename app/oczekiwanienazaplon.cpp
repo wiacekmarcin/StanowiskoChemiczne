@@ -32,7 +32,7 @@ OczekiwanieNaZaplon::~OczekiwanieNaZaplon()
 void OczekiwanieNaZaplon::updateTime()
 {
     secs++;
-    if (secs > maxSecs) {
+    if (secs >= maxSecs) {
         timer.stop();
         reject();
     }

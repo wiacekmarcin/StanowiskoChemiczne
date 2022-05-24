@@ -72,7 +72,7 @@ GlowneOkno::GlowneOkno(UserPrivilige user_, Ustawienia & ust, Urzadzenia * urzad
 
     connect(urzadzenia, &Urzadzenia::analogValueChanged, ui->analog, &CzujnikiAnalogoweOkno::updateValue, Qt::DirectConnection);
     connect(urzadzenia, &Urzadzenia::analogValueChanged, wykresyDlg,  &Wykresy::updateValue, Qt::DirectConnection);
-    //connect(urzadzenia, &Urzadzenia::analogValueChanged, loger,    &Logger::updateValue, Qt::DirectConnection);
+
 
     connect(urzadzenia, &Urzadzenia::digitalReadValueChanged,  ui->frCzujniki, &OknoStatusowe::setDigitalValue, Qt::DirectConnection);
     connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, ui->wyjscia,    &OknoStanoweWyjscia::setOnOff,   Qt::QueuedConnection);
@@ -157,6 +157,8 @@ GlowneOkno::~GlowneOkno()
     //thDozownik.terminate();
 
     delete ui;
+    wykresyDlg->stopTimers();
+    wykresyDlg->hide();
     delete wykresyDlg;
 }
 
@@ -507,7 +509,7 @@ void GlowneOkno::on_actionSygna_y_analogowe_triggered()
 
 void GlowneOkno::on_actionDozowniki_triggered()
 {
-    UstawieniaDozownika * dlg = new UstawieniaDozownika(settings, user, this);
+    UstawieniaDozownika * dlg = new UstawieniaDozownika(urzadzenia, settings, user, this);
     if (dlg->exec() == QDialog::Accepted)
     {
         QMessageBox::information(this, "Stanowisko do badania wybuchów", "Zmiany wymagają ponownego uruchomienia testu.");

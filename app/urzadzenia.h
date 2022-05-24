@@ -90,6 +90,21 @@ public slots:
      */
     void resetDozownik();
 
+    /**
+     * @brief setDozownikHome - ustawia pozycje domowa
+     */
+    void setDozownikHome(uint8_t dozownik);
+
+    /**
+     * @brief setDozownikHome - ustawia pozycje
+     */
+    void setPosition(uint8_t dozownik, uint32_t pos);
+
+    /**
+     * @brief setDozownikHome - ustawia pozycje
+     */
+    void setSteps(uint8_t dozownik, uint64_t pos);
+
 signals:
     /**
      * @brief analogValueChanged - zmiana wartości analogowych

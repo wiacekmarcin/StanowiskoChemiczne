@@ -47,8 +47,8 @@ Ustawienia::Ustawienia()
     ekran1.maxToluen = settings.value(QString("liquid/Toluen/max"), 10.0).toDouble();
 
     ekran3.minCisnieniePomProz = settings.value(QString("cisnienie/minimum"), 85).toFloat();
-    ekran3.downLevelHistPomProz = settings.value(QString("cisnienie/downLevel"), 5).toFloat();
-    ekran3.upLevelHistPomProz = settings.value(QString("cisnienie/upLevel"), 5).toFloat();
+    ekran3.downLevelHistPomProz = settings.value(QString("cisnienie/downLevel"), 1).toFloat();
+    ekran3.upLevelHistPomProz = settings.value(QString("cisnienie/upLevel"), 1).toFloat();
     ekran3.firsTimeWaitPomProz = settings.value(QString("cisnienie/firstTime"),300).toUInt();
     ekran3.secondTimeWaitPomProz = settings.value(QString("cisnienie/secondTime"), 150).toUInt();
     ekran3.allTimeRunPomProz = settings.value(QString("cisnienie/maxTimeRun"), 1200).toULongLong();
@@ -220,8 +220,8 @@ void Ustawienia::initialSetting()
     setMaxToluen(10.0);
 
     setMinCisnieniePomProz(85); //kPa
-    setDownLevelHistPomProz(5);
-    setUpLevelHistPomProz(5);
+    setDownLevelHistPomProz(1);
+    setUpLevelHistPomProz(1);
     setFirsTimeWaitPomProz(300);
     setSecondTimeWaitPomProz(150);
     setAllTimeRunPomProz(1200);

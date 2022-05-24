@@ -1,5 +1,7 @@
 #include "doublelineedit.h"
 #include <QDoubleValidator>
+#include <QStyle>
+
 DoubleLineEdit::DoubleLineEdit(QWidget * parent)
     : QLineEdit(parent),
       prec(0), min(0), max(100),
@@ -7,6 +9,9 @@ DoubleLineEdit::DoubleLineEdit(QWidget * parent)
 {
     this->setValidator(validator);
     connect(this, &QLineEdit::textChanged, this, &DoubleLineEdit::valueChangedSlot);
+    p_ok = this->palette();
+    p_error = this->palette();
+    p_error.setColor(QPalette::Base, Qt::red);
 }
 
 double DoubleLineEdit::value() const
@@ -53,10 +58,39 @@ void DoubleLineEdit::setMax(const double &newVal)
     validator->setTop(newVal);
 }
 
+bool DoubleLineEdit::getValid() const
+{
+    return valid;
+}
+
+void DoubleLineEdit::setValid(bool newValid)
+{
+    valid = newValid;
+}
+
 void DoubleLineEdit::valueChangedSlot(const QString &val)
 {
     bool ok;
+
     this->val = val.toDouble(&ok);
-    if (ok)
-        emit valueChanged(this->val);
+    if (ok) {
+        if (this->val < this->min) {
+            this->val = this->min;
+            valid = false;
+            this->setPalette(p_error);
+            return;
+        } else if (this->val > this->max) {
+            this->val = max;
+            valid = false;
+            this->setPalette(p_error);
+            return;
+        } else {
+            this->setPalette(p_ok);
+            valid = true;
+            emit valueChanged(this->val);
+        }
+     } else {
+        this->setPalette(p_error);
+        valid = false;
+    }
 }

@@ -33,6 +33,15 @@ NowyTest_3::NowyTest_3(const double & mnoznik_, const QString & unit_, const UEk
 
     ui->cisnienie->setMin(mnoznik*ust.minCisnieniePomProz);
     ui->cisnienie->setMax(1000);
+
+
+    tdlg.hide();
+    tdlg.setAllHisterezy(QString::number(ust.numberHistPomProz));
+    tdlg.setNumHisterezy(QString::number(ust.numberHistPomProz));
+    tdlg.setMaxTime(QString::number(ust.allTimeRunPomProz));
+    tdlg.setFirstTimeWait(QString::number(ust.firsTimeWaitPomProz));
+    tdlg.setSecondTimeWait(QString::number(ust.secondTimeWaitPomProz));
+
 }
 
 NowyTest_3::~NowyTest_3()
@@ -62,10 +71,6 @@ void NowyTest_3::updateWejscia()
 
 void NowyTest_3::updateCisnieie()
 {
-    static short nrUpdate = 0;
-    static float upLevel = ust.upLevelHistPomProz / 100;
-    static float downLevel = ust.downLevelHistPomProz / 100;
-
     double val = getCisnKomory();
 
     if (actWork == OP_IDLE)
@@ -74,14 +79,24 @@ void NowyTest_3::updateCisnieie()
 
     
     if (actWork == FIRST_WORK) {
+        tdlg.show();
+
         timePompaProzniowa = ust.allTimeRunPomProz;
-        upLevel = (1+upLevel)*cisnienie_zad;
-        downLevel = (1-downLevel)*cisnienie_zad;
+        upLevel = (1+(ust.upLevelHistPomProz/100))*cisnienie_zad;
+        downLevel = (1-(ust.downLevelHistPomProz/100))*cisnienie_zad;
         wizard()->setDebug(QString("PAGE3:Ruszam z odciaganiem prożni proznia = %1, max czas = %2s histereza [%3 %4]").arg(cisnienie_zad).
                            arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel));
+        tdlg.setDownLevel(QString::number(downLevel, 'f', 3));
+        tdlg.setUpLevel(QString::number(upLevel, 'f', 3));
+
+        tdlg.setZadaneCisnie(QString::number(cisnienie_zad, 'f', 3));
+
+
     }
 
     --timePompaProzniowa;
+    tdlg.setActTime(QString::number(ust.allTimeRunPomProz - timePompaProzniowa));
+    tdlg.setActCisnie(QString::number(val, 'f', 3));
     if (timePompaProzniowa == 0 && actWork != FINISH_STABLE) {
 
         actWork = OP_IDLE;
@@ -123,6 +138,7 @@ void NowyTest_3::updateCisnieie()
             updateOutput(o_pompa_prozniowa, false);
             czasWork[actWork] = timePompaProzniowa;
             nrHisterezy = ust.numberHistPomProz-1;
+
             wizard()->setDebug(QString("PAGE3:Pierwsze uruchomienie pompy zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5").arg(cisnienie_zad).
                                arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val));
         }
@@ -130,7 +146,7 @@ void NowyTest_3::updateCisnieie()
     }
     case FIRST_WAIT:
     {
-
+        tdlg.setBezczynnoscPompy(QString::number(czasWork[actWork] - timePompaProzniowa));
         if (val < upLevel && czasWork[actWork] - timePompaProzniowa > ust.firsTimeWaitPomProz) {
             wizard()->setDebug(QString("PAGE3:Pierwsze zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
                                arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
@@ -171,6 +187,7 @@ void NowyTest_3::updateCisnieie()
     }
     case NEXT_WAIT:
     {
+        tdlg.setBezczynnoscPompy(QString::number(czasWork[actWork] - timePompaProzniowa));
         if (val < upLevel && czasWork[actWork] - timePompaProzniowa > ust.secondTimeWaitPomProz) {
             wizard()->setDebug(QString("PAGE3:Kolejne zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
                                arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
@@ -185,6 +202,7 @@ void NowyTest_3::updateCisnieie()
         if (val > upLevel) {
             if (czasWork[NEXT_WAIT] - timePompaProzniowa > ust.minTimeBetweenRunPomProz) {
                 nrHisterezy--;
+                tdlg.setNumHisterezy(QString::number(nrHisterezy));
                 if (nrHisterezy == 0) {
                     actWork = OP_IDLE;
                     updateOutput(o_pompa_prozniowa, false);
@@ -212,12 +230,6 @@ void NowyTest_3::updateCisnieie()
     }
     case FINISH_STABLE:
     {
-        nrUpdate++;
-        if (nrUpdate == 10) {
-            nrUpdate = 0;
-            ui->uzyskane_cisnienie_5->setText(getCisnienie(val));
-        }
-
         return;
     }
 

@@ -5,7 +5,7 @@
 #include <QMutexLocker>
 #include "ustawienia.h"
 
-#include <Qdebug>
+#include <QDebug>
 
 Wykresy::Wykresy(QWidget *parent) :
     QDialog(parent),
@@ -40,6 +40,7 @@ Wykresy::Wykresy(QWidget *parent) :
     }
     timer.setInterval(1000);
     connect(&timer, &QTimer::timeout, this, &Wykresy::updateTime);
+    timer.start();
 }
 
 Wykresy::~Wykresy()
@@ -93,6 +94,7 @@ void Wykresy::updateTime()
         }
         if (temp[i].size() > 0)
             suma = suma / temp[i].size();
+        //qDebug() << __FILE__ << __LINE__ << i << suma * convRatio[i];
         widgets[i]->addValue(suma * convRatio[i]);
         widgets[i]->updateVals();
     }
@@ -106,4 +108,9 @@ void Wykresy::setUstawienia(const Ustawienia &ust)
         widgets[i]->setUnit(an.unit);
         widgets[i]->setTitle(an.name);
     }
+}
+
+void Wykresy::stopTimers()
+{
+    timer.stop();
 }

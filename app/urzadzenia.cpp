@@ -124,6 +124,20 @@ void Urzadzenia::resetDozownik()
     m_serialDev.setReset();
 }
 
+void Urzadzenia::setDozownikHome(uint8_t dozownik)
+{
+    m_serialDev.setPositionHome(dozownik);
+}
+
+void Urzadzenia::setPosition(uint8_t dozownik, uint32_t pos)
+{
+    m_serialDev.setPosition(dozownik, pos);
+}
+
+void Urzadzenia::setSteps(uint8_t dozownik, uint64_t pos)
+{
+    m_serialDev.setSteps(dozownik, pos);
+}
 
 void Urzadzenia::digitalWriteAll(uint16_t vals)
 {

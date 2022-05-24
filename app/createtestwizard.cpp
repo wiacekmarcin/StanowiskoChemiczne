@@ -49,8 +49,16 @@ CreateTestWizard::CreateTestWizard(QWidget *parent) :
     registerPomiary = false;
     connect(this, &CreateTestWizard::criticalZaworOpenSignal, this, &CreateTestWizard::criticalZaworOpenSlot, Qt::QueuedConnection);
     connect(this, &CreateTestWizard::warningZaworOpenSignal, this, &CreateTestWizard::warningZaworOpenSlot, Qt::QueuedConnection);
-    //emit readsInputs();
 
+    updateOutput(o_hv_onoff, false);
+    updateOutput(o_hv_bezpiecznik, true);
+    updateOutput(o_hv_iskra, false);
+    updateOutput(o_mech_iskra, false);
+    updateOutput(o_grzalka, false);
+    updateOutput(o_pompa_prozniowa, false);
+    updateOutput(o_wentylator, false);
+    updateOutput(o_mieszadlo, false);
+    updateOutput(o_trigger, false);
 }
 
 
@@ -168,7 +176,7 @@ void CreateTestWizard::setFinished(bool success)
         updateOutput(o_wentylator, false);
     updateOutput(o_mieszadlo, false);
     updateOutput(o_trigger, false);
-
+    emit resetDozownik();
     emit finishedTest(success);
     disconnect(this, nullptr, nullptr, nullptr);
 
@@ -304,10 +312,13 @@ void CreateTestWizard::nextPage(TestPage::PageId id)
     if (id == TestPage::PAGE_3) {
         registerPomiary = true;
         getTestData()->setStartTest(QTime::currentTime());
+        qDebug() << "Start" << QTime::currentTime();
     }
     if (id == TestPage::PAGE_9) {
         registerPomiary = false;
         getTestData()->setStopTest(QTime::currentTime());
+
+        qDebug() << "Stop" << QTime::currentTime();
     }
     //    finished = true;
 }

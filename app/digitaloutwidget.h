@@ -21,7 +21,7 @@ public:
     void updateVals();
 private:
 
-    static constexpr int lenHistory = 1900;
+    static constexpr int lenHistory = 2000;
     QTimer * timer;
     bool val;
     QList<float> vals;

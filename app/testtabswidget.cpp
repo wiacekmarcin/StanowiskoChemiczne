@@ -61,9 +61,9 @@ TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust_,
     SETCZUJANAL(a_o2, 3, 0, 100, 2, 15, 30);
     SETCZUJANAL(a_co2, 4, 0, 100, 2, 0, 20);
     SETCZUJANAL(a_8, 5, 0, 100, 2, 0, 10);
-    SETCZUJANAL(a_temp_komory, 6, 0, 2000, 1, 15, 600);
-    SETCZUJANAL(a_cisn_komora, 7, 0, 200, 1, 10, 150);
-    SETCZUJANAL(a_temp_parownik, 8, 0, 2000, 1, 15, 600);
+    SETCZUJANAL(a_temp_komory, 6, 0, 2000, 1, 15, 150);
+    SETCZUJANAL(a_cisn_komora, 7, 0, 200, 1, 85, 150);
+    SETCZUJANAL(a_temp_parownik, 8, 0, 2000, 1, 15, 150);
 
     connect(this, &TestTabsWidget::processImageSignal, this, &TestTabsWidget::processImageSlot, Qt::QueuedConnection);
 }
@@ -172,7 +172,7 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
     pdf.setComment(ui->pdfComment->toHtml());
 
     SHOW_WYKRES(a_voc1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL");
-    SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, etanol %LEL");
+    SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, aceton %LEL");
     SHOW_WYKRES(a_o2, 3, "Wykres wartości stężenia czujnika O2:", "Evikon E2638, tlen 0-25%");
     SHOW_WYKRES(a_co2, 4, "Wykres wartości stężenia czujnika CO2:", "Vaisala GMP251, 0-20%");
     SHOW_WYKRES(a_8, 5, "Wykres wartości stężenia czujnika wirtualnego:", "Przeliczenia wskazań z VOC1, wg stałej wprowadzonej przez użytkownika");

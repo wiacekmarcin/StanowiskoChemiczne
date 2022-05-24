@@ -6,6 +6,8 @@ namespace Ui {
 class NowyTest_6;
 }
 
+
+
 class NowyTest_6 : public TestPage
 {
     Q_OBJECT
@@ -29,5 +31,7 @@ private:
     const UEkran6 & ust;
     bool runDialog;
     bool step2;
+
+
 };
 #endif // NOWYTEST_7_H
