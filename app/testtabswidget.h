@@ -52,6 +52,22 @@ private slots:
     void on_pbCreateRaport_clicked();
 
     void processImageSlot(QStringList filenames);
+    void processVideSlot(QStringList filenames, QString dirdest);
+
+    void tbOpen_clicked();
+    void tbbegin_clicked();
+    void tbminus100_clicked();
+    void tbminus50_clicked();
+    void tbminus10_clicked();
+    void tbminus5_clicked();
+    void tbminus1_clicked();
+    void tbplay_clicked();
+    void tbplus1_clicked();
+    void tbplus10_clicked();
+    void tbplus5_clicked();
+    void tbplus50_clicked();
+    void tbplus100_clicked();
+    void tbend_clicked();
 
 private:
     Ui::TestTabsWidget *ui;
@@ -65,6 +81,8 @@ private:
 
     QMap<analogIn, double> czAnalRatio;
     QMap<analogIn, QString> czAnalUnit;
+
+    bool playVideo;
 };
 
 QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item);

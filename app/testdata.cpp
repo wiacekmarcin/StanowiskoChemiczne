@@ -123,19 +123,19 @@ void TestData::cisnieniaCzastkoweOblicz(ProbaType & proba)
 
 
     if (podcisnienie)  {
-        qDebug() << "P1=" << P1 << " P2=" << P2 << " P3=" << P3;;
+        //qDebug() << "P1=" << P1 << " P2=" << P2 << " P3=" << P3;;
         float delta = P2 - P1;
         if (P3 == 0)
             P3 = 1;
         proba.koncentracjaPar = 100.0 * delta / P3;
-        qDebug() << "Koncetracja" << proba.koncentracjaPar;
+        //qDebug() << "Koncetracja" << proba.koncentracjaPar;
     } else {
-        qDebug() << "P1=" << P1 << " P2=" << P2;
+        //qDebug() << "P1=" << P1 << " P2=" << P2;
         float delta = P2 - P1;
         if (P2 == 0)
             P2 = 1;
         proba.koncentracjaPar = 100.0 * delta / P2;
-        qDebug() << "Koncetracja" << proba.koncentracjaPar;
+        //qDebug() << "Koncetracja" << proba.koncentracjaPar;
     }
 }
 

@@ -81,6 +81,7 @@ void TestPageForm::on_pbAbort_clicked()
 void TestPageForm::on_pbFinishTest_clicked()
 {
     TestData * d = widget()->wizard()->getTestData();
+    d->start();
     d->setDateTime(QDateTime::currentDateTime());
     d->setMembers(QStringList() << "Jan Kowalski" << "Leon Zimowiec" << "Klaudia Ładna");
     d->setLiquidName("Woda");

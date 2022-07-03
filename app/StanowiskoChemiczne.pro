@@ -62,9 +62,8 @@ SOURCES += \
     testparam.cpp \
     ustawieniadozownika.cpp \
     ustawieniatestu.cpp \
-    videoplayer.cpp \
+    videoimage.cpp \
     videowidget.cpp \
-    videowidgetsurface.cpp \
     createtestwizard.cpp \
     projectitem.cpp \
     testpage.cpp \
@@ -122,9 +121,8 @@ HEADERS += \
     ustawieniadozownika.h \
     ustawieniatestu.h \
     version.h \
-    videoplayer.h \
+    videoimage.h \
     videowidget.h \
-    videowidgetsurface.h \
     createtestwizard.h \
     projectitem.h \
     testpage.h \
@@ -169,7 +167,6 @@ FORMS += \
     testdialog.ui \
     ustawieniadozownika.ui \
     ustawieniatestu.ui \
-    videowidget.ui \
     testpageform.ui \
     projektwidget.ui \
     testtabswidget.ui \

@@ -39,7 +39,7 @@ TestTabsWidget::TestTabsWidget(QWidget *parent) :
     ui->dbmax_##N->setValue(temp.convert*W); \
     } while(false);
 
-
+#define CONTB(X) connect(ui->X, &QToolButton::clicked, this, &TestTabsWidget::X##_clicked)
 
 TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust_, QWidget *parent) :
     QWidget(parent),
@@ -66,6 +66,39 @@ TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust_,
     SETCZUJANAL(a_temp_parownik, 8, 0, 2000, 1, 15, 150);
 
     connect(this, &TestTabsWidget::processImageSignal, this, &TestTabsWidget::processImageSlot, Qt::QueuedConnection);
+    CONTB(tbOpen);
+    CONTB(tbbegin);
+    CONTB(tbminus100);
+    CONTB(tbminus50);
+    CONTB(tbminus10);
+    CONTB(tbminus5);
+    CONTB(tbminus1);
+    CONTB(tbplay);
+    CONTB(tbplus1);
+    CONTB(tbplus10);
+    CONTB(tbplus5);
+    CONTB(tbplus50);
+    CONTB(tbplus100);
+    CONTB(tbend);
+
+
+    bool en = false;
+    ui->tbbegin->setEnabled(en);
+    ui->tbend->setEnabled(en);
+    ui->tbminus1->setEnabled(en);
+    ui->tbminus5->setEnabled(en);
+    ui->tbminus10->setEnabled(en);
+    ui->tbminus50->setEnabled(en);
+    ui->tbminus100->setEnabled(en);
+    ui->tbplay->setEnabled(en);
+    ui->tbplus1->setEnabled(en);
+    ui->tbplus5->setEnabled(en);
+    ui->tbplus10->setEnabled(en);
+    ui->tbplus50->setEnabled(en);
+    ui->tbplus100->setEnabled(en);
+    ui->pbAddImage_video2->setEnabled(en);
+
+    playVideo = false;
 }
 
 TestTabsWidget::~TestTabsWidget()
@@ -162,6 +195,11 @@ void TestTabsWidget::processImageSlot(QStringList fileNames)
     //this->setCursor(Qt::ArrowCursor);
 }
 
+void TestTabsWidget::processVideSlot(QStringList filenames, QString dirdest)
+{
+
+}
+
 #define SHOW_WYKRES(A, N, O1, O2)     pdf.setWykresVisible(A, ui->check_AddPdf_##N->isChecked(), \
     ui->dbmin_##N->value(), ui->dbmax_##N->value(), czAnalRatio[A], ui->page_##N->value(), O1, O2, czAnalUnit[A])
 
@@ -244,5 +282,126 @@ QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item)
     qInfo() << "TestTabsWidget:End";
     
     return ds;
+}
+
+
+void TestTabsWidget::tbOpen_clicked()
+{
+    QString fileDir = QFileDialog::getExistingDirectory(this, "Wybierz katalog z filmem");
+    if (fileDir.isEmpty())
+        return;
+    QDir directory(fileDir);
+    QDir targetDir(testWorkDir);
+    targetDir.mkdir("movie");
+    targetDir.cd("movie");
+    QStringList images = directory.entryList(QStringList() << "*.tiff" << "*.TIFF",QDir::Files, QDir::Name);
+    QStringList sourceFiles, destFiles;
+    foreach(QString filename, images) {
+        QString fsrc = directory.absoluteFilePath(filename);
+        QString fdst = targetDir.absoluteFilePath(filename);
+        destFiles << fdst;
+        sourceFiles << fsrc;
+    }
+
+    bool en = true;
+    ui->tbbegin->setEnabled(en);
+    ui->tbend->setEnabled(en);
+    ui->tbminus1->setEnabled(en);
+    ui->tbminus5->setEnabled(en);
+    ui->tbminus10->setEnabled(en);
+    ui->tbminus50->setEnabled(en);
+    ui->tbminus100->setEnabled(en);
+    ui->tbplay->setEnabled(en);
+    ui->tbplus1->setEnabled(en);
+    ui->tbplus5->setEnabled(en);
+    ui->tbplus10->setEnabled(en);
+    ui->tbplus50->setEnabled(en);
+    ui->tbplus100->setEnabled(en);
+    ui->pbAddImage_video2->setEnabled(en);
+
+    ui->videoWidget->setFrameNr(ui->frameString);
+    ui->videoWidget->setFiles(sourceFiles);
+}
+
+
+void TestTabsWidget::tbbegin_clicked()
+{
+    ui->videoWidget->first();
+}
+
+
+void TestTabsWidget::tbminus100_clicked()
+{
+    ui->videoWidget->down(100);
+}
+
+
+void TestTabsWidget::tbminus50_clicked()
+{
+    ui->videoWidget->down(50);
+}
+
+
+void TestTabsWidget::tbminus10_clicked()
+{
+    ui->videoWidget->down(10);
+}
+
+
+void TestTabsWidget::tbminus5_clicked()
+{
+    ui->videoWidget->down(5);
+}
+
+
+void TestTabsWidget::tbminus1_clicked()
+{
+    ui->videoWidget->down(1);
+}
+
+
+void TestTabsWidget::tbplay_clicked()
+{
+    playVideo = !playVideo;
+    if (playVideo) {
+        ui->tbplay->setText("Pause");
+    } else {
+        ui->tbplay->setText("Play");
+    }
+    ui->videoWidget->play(playVideo);
+}
+
+
+void TestTabsWidget::tbplus1_clicked()
+{
+    ui->videoWidget->up(1);
+}
+
+void TestTabsWidget::tbplus5_clicked()
+{
+    ui->videoWidget->up(5);
+}
+
+void TestTabsWidget::tbplus10_clicked()
+{
+    ui->videoWidget->up(10);
+}
+
+
+void TestTabsWidget::tbplus50_clicked()
+{
+    ui->videoWidget->up(50);
+}
+
+
+void TestTabsWidget::tbplus100_clicked()
+{
+    ui->videoWidget->up(100);
+}
+
+
+void TestTabsWidget::tbend_clicked()
+{
+    ui->videoWidget->last();
 }
 
