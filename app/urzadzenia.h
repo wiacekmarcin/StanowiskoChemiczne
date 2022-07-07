@@ -105,6 +105,13 @@ public slots:
      */
     void setSteps(uint8_t dozownik, uint64_t pos);
 
+    /**
+     * @brief setIskraEl - skrot do ustawienia iskry elektrycznej
+     */
+    void setIskraElektryczna() {
+        zaplon(ZaplonRodzaj::z_iskra_elektryczna);
+    }
+
 signals:
     /**
      * @brief analogValueChanged - zmiana wartości analogowych

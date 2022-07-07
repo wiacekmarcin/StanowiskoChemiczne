@@ -10,33 +10,23 @@
 
 NIDAQMxUSB6501::NIDAQMxUSB6501()
 {
-    error = 0;
-    taskHandleRead = nullptr;
-    taskHandleWrite = nullptr;
-    for (int i = 0; i < 16; ++i)
-        dataWrite[i] = 0;
-
-    errBuff[2047] = { '\0' };
-    read = 0;;
+    ini();
 }
 
 NIDAQMxUSB6501::~NIDAQMxUSB6501()
 {
-    if (taskHandleRead != nullptr) {
-        DAQmxStopTask(taskHandleRead);
-        DAQmxClearTask(taskHandleRead);
-        taskHandleRead = nullptr;
-    }
-    if (taskHandleWrite != nullptr) {
-        DAQmxStopTask(taskHandleWrite);
-        DAQmxClearTask(taskHandleWrite);
-        taskHandleWrite = nullptr;
-    }
+
 }
 
 bool NIDAQMxUSB6501::isConnected()
 {
     return taskHandleRead != nullptr && taskHandleWrite != nullptr ;
+}
+
+void NIDAQMxUSB6501::reset()
+{
+    del();
+    ini();
 }
 
 bool NIDAQMxUSB6501::configure(const QString & readDevice, const QString & writeDevice)
@@ -120,23 +110,41 @@ void NIDAQMxUSB6501::errorFun()
     if (DAQmxFailed(error))
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
 
-    if (taskHandleWrite != nullptr) {
-        DAQmxStopTask(taskHandleWrite);
-        DAQmxClearTask(taskHandleWrite);
-        taskHandleWrite = nullptr;
-    }
-    
-    if (taskHandleRead != nullptr) {
-        DAQmxStopTask(taskHandleRead);
-        DAQmxClearTask(taskHandleRead);
-        taskHandleRead = nullptr;
-    }
+    del();
+
 
     //if (DAQmxFailed(error))
     //    printf("DAQmx Error: %s\n", errBuff);
     //printf("End of program, press Enter key to quit\n");
     //getchar();
     //return 0;
+}
+
+void NIDAQMxUSB6501::del()
+{
+    if (taskHandleRead != nullptr) {
+        DAQmxStopTask(taskHandleRead);
+        DAQmxClearTask(taskHandleRead);
+        taskHandleRead = nullptr;
+    }
+
+    if (taskHandleWrite != nullptr) {
+        DAQmxStopTask(taskHandleWrite);
+        DAQmxClearTask(taskHandleWrite);
+        taskHandleWrite = nullptr;
+    }
+}
+
+void NIDAQMxUSB6501::ini()
+{
+    error = 0;
+    taskHandleRead = nullptr;
+    taskHandleWrite = nullptr;
+    for (int i = 0; i < 16; ++i)
+        dataWrite[i] = 0;
+
+    errBuff[2047] = { '\0' };
+    read = 0;;
 }
 
 std::string NIDAQMxUSB6501::errStr()

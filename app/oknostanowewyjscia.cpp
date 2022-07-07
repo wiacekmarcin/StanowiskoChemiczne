@@ -4,8 +4,8 @@
 #include "stanwyjscia.h"
 #include "ustawienia.h"
 
-#define SETSTANWYJSCIA(N,M,V,R,C,S) do {\
-    StanWyjscia * w##N = new StanWyjscia(this);\
+#define SETSTANWYJSCIA(N,M,V,R,C,S,I) do {\
+    StanWyjscia * w##N = new StanWyjscia(I,this);\
     w##N->setObjectName(QString::fromUtf8("w"#N));\
     /*w##N->setFrameShape(QFrame::StyledPanel);*/\
     /*w##N->setFrameShadow(QFrame::Raised);*/\
@@ -23,16 +23,16 @@ OknoStanoweWyjscia::OknoStanoweWyjscia(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    SETSTANWYJSCIA(1, o_wentylator, true, 0, 0, true);
-    SETSTANWYJSCIA(2, o_mieszadlo, true, 0, 1, true);
-    SETSTANWYJSCIA(3, o_pompa_powietrza, true, 0, 2, true);
-    SETSTANWYJSCIA(4, o_pompa_prozniowa, true, 0, 3, true);
-    SETSTANWYJSCIA(5, o_trigger, true, 0, 4, true);
-    SETSTANWYJSCIA(6, o_grzalka, false, 0, 5, false);
-    SETSTANWYJSCIA(7, o_hv_onoff, false, 0, 6, false);
-    SETSTANWYJSCIA(8, o_hv_bezpiecznik, false, 0, 7, false);
-    SETSTANWYJSCIA(9, o_hv_iskra, false, 0, 8, false);
-    SETSTANWYJSCIA(10, o_mech_iskra, false, 0, 9, false);
+    SETSTANWYJSCIA(1, o_wentylator, true, 0, 0, true, false);
+    SETSTANWYJSCIA(2, o_mieszadlo, true, 0, 1, true, false);
+    SETSTANWYJSCIA(3, o_pompa_powietrza, true, 0, 2, true, false);
+    SETSTANWYJSCIA(4, o_pompa_prozniowa, true, 0, 3, true, false);
+    SETSTANWYJSCIA(5, o_trigger, true, 0, 4, true, true);
+    SETSTANWYJSCIA(6, o_grzalka, false, 0, 5, false, false);
+    SETSTANWYJSCIA(7, o_hv_onoff, false, 0, 6, false, false);
+    SETSTANWYJSCIA(8, o_hv_bezpiecznik, false, 0, 7, false, false);
+    SETSTANWYJSCIA(9, o_hv_iskra, false, 0, 8, false, false);
+    SETSTANWYJSCIA(10, o_mech_iskra, false, 0, 9, false, false);
 }
 
 OknoStanoweWyjscia::~OknoStanoweWyjscia()

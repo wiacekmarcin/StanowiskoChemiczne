@@ -88,6 +88,8 @@ void NICards::readAnalog()
     if (!analog.readValue(val0, val1, val2, val3, val4, val5, val6)) {
         emit error(QString("Odczyt danych z karty analogowej nie powiódł się"));
         emit usb6210(true, false);
+        analog.reset();
+        analogConfigure();
         return;
     }
     if (++index == 10) {
@@ -107,6 +109,8 @@ void NICards::writeDigital()
     if (!digital.writeValue(maskOutput)) {
         emit error(QString("Zapis danych do karty cyfrowej nie powiódł się"));
         emit usb6501(true, false);
+        digital.reset();
+        digitalConfigure();
     }
 }
 
@@ -116,6 +120,8 @@ void NICards::readDigital()
     if (!digital.readValue(val)) {
         emit error(QString("Odczyt danych z karty cyfrowej nie powiódł się"));
         emit usb6501(true, false);
+        digital.reset();
+        digitalConfigure();
         return;
     }
     prevInputs = maskInput;

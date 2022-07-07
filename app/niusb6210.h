@@ -18,9 +18,11 @@ public:
     std::string errStr();
 
     bool isConnected();
+    void reset();
 protected:
     void errorFun();
-
+    void del();
+    void ini();
 private:
 #ifndef L_COMP
     int32		error;

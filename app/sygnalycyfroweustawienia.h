@@ -10,6 +10,7 @@
 
 class StanWyjscia;
 class QLineEdit;
+class QToolButton;
 
 namespace Ui {
 class SygnalyCyfroweUstawienia;
@@ -30,6 +31,8 @@ public:
     void save(Ustawienia & ust);
 signals:
     void writeValue(digitalOut mask, uint8_t value);
+    void setIskraEl();
+
 protected:
     void setWejscie(digitalIn id, const QString & name);
     QString wejscie(digitalIn id) const;
@@ -42,6 +45,8 @@ private:
     QMap<uint16_t, StanWyjscia*> wyjscia;
     QMap<digitalIn, QLineEdit *> posIn;
     QMap<digitalOut, QLineEdit *> posOut;
+
+    QToolButton * iskraEl;
 };
 
 #endif // SYGNALYCYFROWEUSTAWIENIA_H

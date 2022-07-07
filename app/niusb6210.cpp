@@ -10,18 +10,12 @@
 
 NIDAQMxUSB6210::NIDAQMxUSB6210()
 {
-    error = 0;
-    taskHandleRead = nullptr;
-    errBuff[2047] = { '\0' };
+    ini();
 }
 
 NIDAQMxUSB6210::~NIDAQMxUSB6210()
 {
-    if (taskHandleRead != nullptr) {
-        DAQmxStopTask(taskHandleRead);
-        DAQmxClearTask(taskHandleRead);
-        taskHandleRead = nullptr;
-    }
+    del();
 }
 
 bool NIDAQMxUSB6210::isConnected()
@@ -90,11 +84,23 @@ void NIDAQMxUSB6210::errorFun()
     if (DAQmxFailed(error))
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
 
+    del();
+}
+
+void NIDAQMxUSB6210::del()
+{
     if (taskHandleRead != nullptr) {
         DAQmxStopTask(taskHandleRead);
         DAQmxClearTask(taskHandleRead);
         taskHandleRead = nullptr;
     }
+}
+
+void NIDAQMxUSB6210::ini()
+{
+    error = 0;
+    taskHandleRead = nullptr;
+    errBuff[2047] = { '\0' };
 }
 
 std::string NIDAQMxUSB6210::errStr()
@@ -104,3 +110,9 @@ std::string NIDAQMxUSB6210::errStr()
 
 #endif
 
+
+void NIDAQMxUSB6210::reset()
+{
+    del();
+    ini();
+}

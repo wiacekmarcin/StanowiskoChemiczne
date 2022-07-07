@@ -3,9 +3,11 @@
 #include "stanwyjscia.h"
 
 #include <QAbstractButton>
+#include <QToolButton>
+#include <QDebug>
 
-#define SETSTANWYJSCIA(N,M,V,R,C,S) do {\
-    StanWyjscia * w##N = new StanWyjscia(this);\
+#define SETSTANWYJSCIA(N,M,V,R,C,S,I) do {\
+    StanWyjscia * w##N = new StanWyjscia(I,this);\
     w##N->setObjectName(QString::fromUtf8("w"#N));\
     /*w##N->setFrameShape(QFrame::StyledPanel);*/\
     /*w##N->setFrameShadow(QFrame::Raised);*/\
@@ -25,16 +27,22 @@ SygnalyCyfroweUstawienia::SygnalyCyfroweUstawienia(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    SETSTANWYJSCIA(1, o_wentylator, true, 0, 0, true);
-    SETSTANWYJSCIA(2, o_mieszadlo, true, 0, 1, true);
-    SETSTANWYJSCIA(3, o_pompa_powietrza, true, 0, 2, true);
-    SETSTANWYJSCIA(4, o_pompa_prozniowa, true, 0, 3, true);
-    SETSTANWYJSCIA(5, o_trigger, true, 0, 4, true);
-    SETSTANWYJSCIA(6, o_grzalka, true, 1, 0, true);
-    SETSTANWYJSCIA(7, o_hv_onoff, true, 1, 1, true);
-    SETSTANWYJSCIA(8, o_hv_bezpiecznik, true, 1, 2, true);
-    SETSTANWYJSCIA(9, o_hv_iskra, true, 1, 3, true);
-    SETSTANWYJSCIA(10, o_mech_iskra, true, 1, 4, true);
+    SETSTANWYJSCIA(1, o_wentylator, true, 0, 0, true, false);
+    SETSTANWYJSCIA(2, o_mieszadlo, true, 0, 1, true, false);
+    SETSTANWYJSCIA(3, o_pompa_powietrza, true, 0, 2, true, false);
+    SETSTANWYJSCIA(4, o_pompa_prozniowa, true, 0, 3, true, false);
+    SETSTANWYJSCIA(5, o_trigger, true, 0, 4, true, false);
+    SETSTANWYJSCIA(6, o_grzalka, true, 1, 0, true, false);
+    SETSTANWYJSCIA(7, o_hv_onoff, true, 1, 1, true, false);
+    SETSTANWYJSCIA(8, o_hv_bezpiecznik, true, 1, 2, true, false);
+    SETSTANWYJSCIA(9, o_hv_iskra, true, 1, 3, true, false);
+    SETSTANWYJSCIA(10, o_mech_iskra, true, 1, 4, true, false);
+
+    iskraEl = new QToolButton(this);
+    iskraEl->setText("Iskra elektryczna ON");
+    ui->gridLayout->addWidget(iskraEl, 2, 0, 1, 1);
+    connect(iskraEl, &QToolButton::clicked, this, &SygnalyCyfroweUstawienia::setIskraEl);
+
 
     POSIN_M(1, i_drzwi_lewe);
     POSIN_M(2, i_wentylacja_lewa);
@@ -141,7 +149,6 @@ void SygnalyCyfroweUstawienia::save(Ustawienia &ust)
         ust.setWyjscie(it.key(), it.value()->text());
     }
 }
-
 
 void SygnalyCyfroweUstawienia::setWejscie(digitalIn id, const QString &name)
 {

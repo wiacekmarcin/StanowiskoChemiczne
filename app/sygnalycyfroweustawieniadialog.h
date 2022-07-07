@@ -24,6 +24,7 @@ public slots:
     void setOnOff(uint16_t mask);
 signals:
     void writeValue(digitalOut mask, uint8_t value);
+    void setIskraEl();
 
 private slots:
     void on_buttonBox_accepted();

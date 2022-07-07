@@ -26,6 +26,8 @@ SygnalyCyfroweUstawieniaDialog::SygnalyCyfroweUstawieniaDialog(Ustawienia &ust, 
         btn->setEnabled((user & U_ADMIN) == U_ADMIN);
 
     connect(ui->frame, &SygnalyCyfroweUstawienia::writeValue, this, &SygnalyCyfroweUstawieniaDialog::writeValue);
+    connect(ui->frame, &SygnalyCyfroweUstawienia::setIskraEl, this, &SygnalyCyfroweUstawieniaDialog::setIskraEl);
+
 }
 
 SygnalyCyfroweUstawieniaDialog::~SygnalyCyfroweUstawieniaDialog()

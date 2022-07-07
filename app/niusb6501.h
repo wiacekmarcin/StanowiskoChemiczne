@@ -17,8 +17,12 @@ public:
     std::string errStr();
 
     bool isConnected();
+    void reset();
 protected:
     void errorFun();
+
+    void del();
+    void ini();
 
 private:
     int32		error;
