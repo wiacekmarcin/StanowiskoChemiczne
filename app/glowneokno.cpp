@@ -358,16 +358,29 @@ void GlowneOkno::on_actionWersja_triggered()
 
 void GlowneOkno::on_actionZapisz_triggered()
 {
+    if (selectedProject == nullptr) {
+        QMessageBox::warning(this, "Zapisywanie projektu", "Nie można zapisać pustego projetu");
+        return;
+    }
+
+#if 0
     QString fileName = QFileDialog::getSaveFileName(this,
             tr("Zachowaj dane projektów i testów"), "",
             tr("*.dat"));
 
-    if (fileName.isEmpty())
+    if (fileName.isEmpty()) {
+        QMessageBox::warning(this, "Zapisywanie projektu", "Nie można zapisać pustego projetu");
+        return
+    }
         return;
+#endif
 
+    ProjectItem pr = projekty[selectedProject];
+    QDir projDir(pr.getWorkDir());
+    QString fileName = projDir.absoluteFilePath(pr.getName() + ".prj");
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
-        QMessageBox::information(this, tr("Nie można otworzyć pliku"),
+        QMessageBox::warning(this, tr("Nie można otworzyć pliku"),
             file.errorString());
         return;
     }
@@ -381,13 +394,19 @@ void GlowneOkno::on_actionZapisz_triggered()
     out << (qint32)108;
 
 
-    out << (quint32)mapProjektTesty.size();
+    //out << (quint32)mapProjektTesty.size();
     qInfo() << "Ilosc projektow" << (quint32)mapProjektTesty.size();
 
-    for (QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*>>::iterator it = mapProjektTesty.begin();
-         it != mapProjektTesty.end(); ++it) {
+    //for (QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*>>::iterator it = mapProjektTesty.begin();
+    //     it != mapProjektTesty.end(); ++it)
+    {
+        QHash<QTreeWidgetItem*, QList<QTreeWidgetItem*>>::iterator it = mapProjektTesty.find(selectedProject);
+        if (it == mapProjektTesty.end()) {
+            return;
+        }
         qInfo() << "Projekt:" << projekty[it.key()].getName();
         out << projekty[it.key()];
+
         out << (quint32)it.value().size();
         qInfo() << "Ilość testów:" << it.value().size();
         for (QList<QTreeWidgetItem*>::iterator itt = it.value().begin();
@@ -399,6 +418,8 @@ void GlowneOkno::on_actionZapisz_triggered()
         }
         out << (quint32)0xA0B0C0D0;
     }
+    file.close();
+    QMessageBox::information(this, "Zapisywanie projektu", QString("Dane projektu zostały zapisane w pliku : %1").arg(fileName));
 }
 
 
@@ -406,7 +427,7 @@ void GlowneOkno::on_actionOtw_rz_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
             tr("Otwórz zachowane dane projektów i testu"), "",
-            tr("*.dat"));
+            tr("*.prj"));
 
     if (fileName.isEmpty())
             return;
@@ -439,10 +460,11 @@ void GlowneOkno::on_actionOtw_rz_triggered()
         return ;
     }
 
-    quint32 projektysize;
+    //quint32 projektysize;
     quint32 testysize;
-    in >> projektysize;
-    for(uint i = 0 ; i < projektysize; ++i) {
+    //in >> projektysize;
+    //for(uint i = 0 ; i < projektysize; ++i)
+    {
         ProjectItem pr;
         in >> pr;
         qInfo() << "Projekt:" << pr.getComment() << "," << pr.getCreateData() << ", " << pr.getMembers() << ", " << pr.getName() << ", " << pr.getWorkDir();
@@ -472,8 +494,9 @@ void GlowneOkno::on_actionOtw_rz_triggered()
         }
         in >> magic;
         if (magic != 0xA0B0C0D0)
-            continue;
+            return;
     }
+    file.close();
     ui->actionOtw_rz->setDisabled(true);
 }
 

@@ -17,7 +17,6 @@
 
      QList<QVideoFrame::PixelFormat> supportedPixelFormats(
              QAbstractVideoBuffer::HandleType handleType = QAbstractVideoBuffer::NoHandle) const;
-     bool isFormatSupported(const QVideoSurfaceFormat &format, QVideoSurfaceFormat *similar) const;
 
      bool start(const QVideoSurfaceFormat &format);
      void stop();
@@ -26,7 +25,7 @@
 
      QRect videoRect() const { return targetRect; }
      void updateVideoRect();
-
+     bool isFormatSupported( const QVideoSurfaceFormat &format, QVideoSurfaceFormat *similar) const;
      void paint(QPainter *painter);
 
  private:

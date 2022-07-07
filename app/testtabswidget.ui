@@ -32,7 +32,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tabTest">
       <attribute name="title">
@@ -707,7 +707,189 @@
       <attribute name="title">
        <string>Wideo</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="VideoWidget" name="videoWidget" native="true"/>
+       </item>
+       <item>
+        <widget class="QWidget" name="controlVideoWidget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>600</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>48</height>
+          </size>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QToolButton" name="tbOpen">
+            <property name="text">
+             <string>Otwórz katalog</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbbegin">
+            <property name="text">
+             <string>|&lt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbminus100">
+            <property name="text">
+             <string>-100</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbminus50">
+            <property name="text">
+             <string>-50</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbminus10">
+            <property name="text">
+             <string>-10</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbminus5">
+            <property name="text">
+             <string>-5</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbminus1">
+            <property name="text">
+             <string>&lt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbplay">
+            <property name="text">
+             <string>Odtwórz film</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbplus1">
+            <property name="text">
+             <string>&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbplus5">
+            <property name="text">
+             <string>+5</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbplus10">
+            <property name="text">
+             <string>+10</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbplus50">
+            <property name="text">
+             <string>+50</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbplus100">
+            <property name="text">
+             <string>+100</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbend">
+            <property name="text">
+             <string>&gt;|</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="frameString">
+            <property name="text">
+             <string>-</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_13">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbAddImage_video2">
+            <property name="text">
+             <string>Dodaj do zdjęć</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
@@ -729,6 +911,12 @@
    <class>ZdjeciaRaport</class>
    <extends>QFrame</extends>
    <header>zdjeciaraport.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VideoWidget</class>
+   <extends>QWidget</extends>
+   <header>videowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

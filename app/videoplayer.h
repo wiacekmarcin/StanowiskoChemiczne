@@ -21,15 +21,12 @@ public slots:
     void play();
 
 private slots:
-    void movieStateChanged(QMovie::MovieState state);
-    void frameChanged(int frame);
+    // void frameChanged(int frame);
     void setPosition(int frame);
 
 private:
     bool presentImage(const QImage &image);
 
-    QMovie movie;
-    QAbstractVideoSurface *surface;
     QAbstractButton *playButton;
     QSlider *positionSlider;
 };

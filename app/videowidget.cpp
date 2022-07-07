@@ -6,172 +6,137 @@
 #include <QPalette>
 #include <QWidget>
 #include <QPainter>
+#include <QGridLayout>
+#include <QLabel>
+
+#include <QtMultimedia/QAbstractVideoSurface>
+#include <QtMultimedia/QVideoFrame>
+
+
+#include "videoimage.h"
 
  VideoWidget::VideoWidget(QWidget *parent)
      : QWidget(parent)
      , surface(0)
+     , t(this)
+     , needPaint(false)
+     , actPos(0)
+     , frameNr(nullptr)
  {
-     qDebug() << __FILE__ << __LINE__ << "videwidget";
-     setAutoFillBackground(false);
-     setAttribute(Qt::WA_NoSystemBackground, true);
-     setAttribute(Qt::WA_PaintOnScreen, true);
-
-     QPalette palette = this->palette();
-     palette.setColor(QPalette::Background, Qt::black);
-     setPalette(palette);
 
      setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-     surface = new VideoWidgetSurface(this);
+     surface = new VideoImage(this);
+
+     t.setInterval(50);
+     connect(&t, &QTimer::timeout, this, &VideoWidget::timeout);
+
  }
 
  VideoWidget::~VideoWidget()
  {
+     t.stop();
      delete surface;
  }
 
- QSize VideoWidget::sizeHint() const
+ void VideoWidget::timeout()
  {
-     return surface->surfaceFormat().sizeHint();
+     if (files.size() == 0)
+         return;
+
+     if (++actPos >= (unsigned int) files.size())
+         actPos = 0;
+
+     surface->present(QImage(files.at(actPos), "tiff"));
+     repaint();
+
  }
 
+ /*
+ QSize VideoWidget::sizeHint() const
+ {
+     //return surface->surfaceFormat().sizeHint();
+     return surf
+ }
+*/
  void VideoWidget::paintEvent(QPaintEvent *event)
  {
-     QPainter painter(this);
-
-     if (surface->isActive()) {
-         const QRect videoRect = surface->videoRect();
-
-         if (!videoRect.contains(event->rect())) {
-             QRegion region = event->region();
-             region.subtracted(videoRect);
-
-             QBrush brush = palette().background();
-
-             foreach (const QRect &rect, region.rects())
-                 painter.fillRect(rect, brush);
-         }
-
-         surface->paint(&painter);
-     } else {
-         painter.fillRect(event->rect(), palette().background());
+     qInfo() << "paintEvent" << actPos << needPaint;
+     if (needPaint) {
+        QPainter painter(this);
+        surface->paint(&painter);
+        //needPaint = false;
+        if (frameNr)
+            frameNr->setText(getActFrame());
      }
+
  }
 
  void VideoWidget::resizeEvent(QResizeEvent *event)
  {
      QWidget::resizeEvent(event);
-
      surface->updateVideoRect();
+ }
+
+ void VideoWidget::setFrameNr(QLabel *newFrameNr)
+ {
+     frameNr = newFrameNr;
+ }
+
+ const QStringList &VideoWidget::getFiles() const
+ {
+     return files;
+ }
+
+ void VideoWidget::setFiles(const QStringList &newFiles)
+ {
+     files = newFiles;
+     if (files.size() == 0)
+         return;
+     surface->present(QImage(files.at(actPos), "tiff"));
+     needPaint = true;
+     actPos = 0;
+     surface->updateVideoRect();
+ }
+
+ void VideoWidget::up(const unsigned long &diff)
+ {
+     actPos+= diff;
+     if (actPos > (unsigned long)files.size())
+         actPos = files.size()-1;
+     surface->present(QImage(files.at(actPos), "tiff"));
+     repaint();
+ }
+
+ void VideoWidget::down(const unsigned long &diff)
+ {
+     qInfo() << diff << actPos;
+     actPos = (diff > actPos) ? 0 : actPos - diff;
+     qInfo() << actPos;
+     surface->present(QImage(files.at(actPos), "tiff"));
+     repaint();
+ }
+
+ void VideoWidget::play(bool play)
+ {
+     if (play) t.start();
+     else t.stop();
+
+ }
+
+ void VideoWidget::first()
+ {
+     actPos = 0;
+     surface->present(QImage(files.at(actPos), "tiff"));
+     repaint();
+ }
+
+ void VideoWidget::last()
+ {
+     actPos = files.size() - 1;
+     surface->present(QImage(files.at(actPos), "tiff"));
+     repaint();
  }
 
 
 
-#if 0
-#include "ui_videowidget.h"
-
-#include <QVBoxLayout>
-#include <QMediaPlayer>
-#include <QVideoWidget>
-
-VideoWidget::VideoWidget(QWidget *parent) : QWidget(parent),
-    ui(new Ui::VideoWidget)
-{
-    ui->setupUi(this);
-
-    player = new QMediaPlayer(this);
-    QVideoWidget *vw = new QVideoWidget;
-    ui->verticalLayout->addWidget(vw);
-    player->setVideoOutput(vw);
-    /*
-    player->setMedia(QUrl::fromLocalFile("/home/marcin/Dokumenty/apka-2021-12-18_14.27.34.mp4"));
-    player->setVolume(50);
-    duration = player->duration();
-    ui->progressBar->setMaximum(1000);
-    connect(player, &QMediaPlayer::positionChanged, this, &VideoWidget::updateTime);
-    connect(player, &QMediaPlayer::durationChanged, this, &VideoWidget::updateDuration);
-    player->play();
-*/
-    setVisible(false);
-}
-
-void VideoWidget::on_rewind_clicked()
-{
-    player->pause();
-    player->setPosition(0);
-    player->play();
-}
-
-
-void VideoWidget::on_rewind5_clicked()
-{
-    player->pause();
-    player->setPosition(player->position() - 5000);
-    player->play();
-}
-
-void VideoWidget::on_rewind1_clicked()
-{
-    player->pause();
-    player->setPosition(player->position() - 1000);
-    player->play();
-}
-
-void VideoWidget::on_play25_clicked()
-{
-    player->pause();
-    player->setPlaybackRate(0.25);
-    player->play();
-}
-
-void VideoWidget::on_play50_clicked()
-{
-    player->pause();
-    player->setPlaybackRate(0.5);
-    player->play();
-}
-
-void VideoWidget::on_play150_clicked()
-{
-    player->pause();
-    player->setPlaybackRate(1.5);
-    player->play();
-}
-
-void VideoWidget::on_play200_clicked()
-{
-    player->pause();
-    player->setPlaybackRate(2.0);
-    player->play();
-}
-
-void VideoWidget::on_play_clicked()
-{
-    player->pause();
-    player->setPlaybackRate(1.0);
-    player->play();
-}
-
-void VideoWidget::on_pause_clicked()
-{
-    player->pause();
-}
-
-void VideoWidget::on_stop_clicked()
-{
-    player->pause();
-    player->stop();
-}
-#include <QDebug>
-void VideoWidget::updateTime(const qint64 & pos)
-{
-
-    if (duration > 0)
-        ui->progressBar->setValue(1000*pos/duration);
-}
-
-void VideoWidget::updateDuration(const qint64 &pos)
-{
-    duration = pos;
-}
-#endif

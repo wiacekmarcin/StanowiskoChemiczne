@@ -4,11 +4,12 @@
 
 #include "videowidgetsurface.h"
 
+#include <QStringList>
 #include <QWidget>
+#include <QTimer>
 
-class QAbstractVideoSurface;
-
-class VideoWidgetSurface;
+class VideoImage;
+class QLabel;
 
 class VideoWidget : public QWidget
 {
@@ -17,53 +18,38 @@ public:
     VideoWidget(QWidget *parent = 0);
     ~VideoWidget();
 
-    QAbstractVideoSurface *videoSurface() const { return surface; }
+    VideoImage *videoSurface() const { return surface; }
 
-    QSize sizeHint() const;
+    //QSize sizeHint() const;
+
+    const QStringList &getFiles() const;
+    void setFiles(const QStringList &newFiles);
+    void up(const unsigned long & diff);
+    void down(const unsigned long & diff);
+    void play(bool play);
+    void first();
+    void last();
+
+    QString getCurrentImage() const { return files.at(actPos); }
+    QString getActFrame() const { return QString("%1 / %2").arg(actPos).arg(files.size()); };
+
+    void setFrameNr(QLabel *newFrameNr);
+
+private slots:
+    void timeout();
 
 protected:
     void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *event);
 
 private:
-    VideoWidgetSurface *surface;
+    VideoImage *surface;
+    QStringList files;
+    QTimer t;
+    bool needPaint;
+    unsigned long actPos;
+    QLabel * frameNr;
 };
 
-#if 0
 
-#include <QWidget>
-namespace Ui {
-class VideoWidget;
-}
-
-class QMediaPlayer;
-class VideoWidget : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit VideoWidget(QWidget *parent = nullptr);
-
-signals:
-
-private slots:
-    void on_rewind_clicked();
-    void on_rewind5_clicked();
-    void on_rewind1_clicked();
-    void on_play25_clicked();
-    void on_play50_clicked();
-    void on_play150_clicked();
-    void on_play200_clicked();
-    void on_play_clicked();
-    void on_pause_clicked();
-    void on_stop_clicked();
-
-    void updateTime(const qint64 & pos);
-    void updateDuration(const qint64 & pos);
-
-private:
-    Ui::VideoWidget *ui;
-    QMediaPlayer *player;
-    qint64 duration;
-};
-#endif //if 0
 #endif // VIDEOWIDGET_H

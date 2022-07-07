@@ -10,6 +10,7 @@
      , widget(widget)
      , imageFormat(QImage::Format_Invalid)
  {
+
  }
 
  QList<QVideoFrame::PixelFormat> VideoWidgetSurface::supportedPixelFormats(
@@ -42,10 +43,12 @@
 
  bool VideoWidgetSurface::start(const QVideoSurfaceFormat &format)
  {
+     qDebug() << __FILE__ << __LINE__ << format.isValid();
      const QImage::Format imageFormat = QVideoFrame::imageFormatFromPixelFormat(format.pixelFormat());
      const QSize size = format.frameSize();
 
      if (imageFormat != QImage::Format_Invalid && !size.isEmpty()) {
+         qDebug() << __FILE__ << __LINE__;
          this->imageFormat = imageFormat;
          imageSize = size;
          sourceRect = format.viewport();
@@ -63,27 +66,29 @@
 
  void VideoWidgetSurface::stop()
  {
+/*
      currentFrame = QVideoFrame();
      targetRect = QRect();
 
      QAbstractVideoSurface::stop();
 
      widget->update();
+*/
  }
 
  bool VideoWidgetSurface::present(const QVideoFrame &frame)
  {
+     qDebug() << __FILE__ << __LINE__;
      if (surfaceFormat().pixelFormat() != frame.pixelFormat()
              || surfaceFormat().frameSize() != frame.size()) {
          setError(IncorrectFormatError);
          stop();
-
+         qDebug() << __FILE__ << __LINE__ << "IncorrectFormat";
          return false;
      } else {
          currentFrame = frame;
-
+         qDebug() << __FILE__ << __LINE__;
          widget->repaint(targetRect);
-
          return true;
      }
  }
@@ -91,6 +96,7 @@
  void VideoWidgetSurface::updateVideoRect()
  {
      QSize size = surfaceFormat().sizeHint();
+     qDebug() << __FILE__ << __LINE__ << size << widget->size();
      size.scale(widget->size().boundedTo(size), Qt::KeepAspectRatio);
 
      targetRect = QRect(QPoint(0, 0), size);
@@ -99,9 +105,10 @@
 
  void VideoWidgetSurface::paint(QPainter *painter)
  {
+     qDebug() << __FILE__ << __LINE__;
      if (currentFrame.map(QAbstractVideoBuffer::ReadOnly)) {
          const QTransform oldTransform = painter->transform();
-
+         qDebug() << __FILE__ << __LINE__;
          if (surfaceFormat().scanLineDirection() == QVideoSurfaceFormat::BottomToTop) {
             painter->scale(1, -1);
             painter->translate(0, -widget->height());
@@ -115,7 +122,6 @@
                  imageFormat);
 
          painter->drawImage(targetRect, image, sourceRect);
-
          painter->setTransform(oldTransform);
 
          currentFrame.unmap();
