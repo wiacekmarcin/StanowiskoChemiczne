@@ -3,8 +3,8 @@
 #include "protocol.hpp"
 
 #define timeImp 200
-#define LEVEL_EN HIGH
-
+#define LEVEL_EN_ON HIGH
+#define LEVEL_EN_OFF LOW
 
 #define ENPIN 18 //LPT 14
 
@@ -61,7 +61,7 @@ void setup() {
   pinMode(LIMIT5PIN, INPUT_PULLUP);
 
 
-  digitalWrite(ENPIN, LEVEL_EN);
+  digitalWrite(ENPIN, LEVEL_EN_OFF);
   s[0].init();
   s[1].init();
   s[2].init();
@@ -83,6 +83,7 @@ void loop() {
   if (Serial1.available() > 0) {
     if (msg.check(Serial1.read())) {
       if (msg.getStatusWork() == msg.RETURN_HOME) {
+        digitalWrite(ENPIN, LEVEL_EN_ON);
         Serial.println("Home");
         digitalWrite(13, HIGH);
         uint32_t steps = s[msg.getNrDozownika()].home(); 
@@ -90,7 +91,9 @@ void loop() {
         Serial.print("Done Home=");
         Serial.println(steps);
         digitalWrite(13, LOW);
+        digitalWrite(ENPIN, LEVEL_EN_OFF);
       } else if (msg.getStatusWork() == msg.POS_START) {
+        digitalWrite(ENPIN, LEVEL_EN_OFF);
         Serial.print("Pos=");
         Serial.println(msg.getSteps());
         digitalWrite(13, HIGH);
@@ -98,8 +101,8 @@ void loop() {
         msg.setPosDone(steps);
         Serial.print("Done pos=");
         Serial.println(steps);
-     
         digitalWrite(13, LOW);
+        digitalWrite(ENPIN, LEVEL_EN_OFF);
       } else if (msg.getStatusWork() == msg.SETTING) {
         for (int i=0; i<5; ++i) {
           s[i].setHomeLevel(msg.getReverse(i) ? HIGH : LOW);
