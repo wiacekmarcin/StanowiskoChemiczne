@@ -80,6 +80,7 @@ TestTabsWidget::TestTabsWidget(const QString &testName, const Ustawienia & ust_,
     CONTB(tbplus50);
     CONTB(tbplus100);
     CONTB(tbend);
+    connect(ui->pbAddImage_video2, &QPushButton::clicked, this, &TestTabsWidget::pbAddImage_video2_clicked);
 
 
     bool en = false;
@@ -403,5 +404,12 @@ void TestTabsWidget::tbplus100_clicked()
 void TestTabsWidget::tbend_clicked()
 {
     ui->videoWidget->last();
+}
+
+void TestTabsWidget::pbAddImage_video2_clicked()
+{
+    QStringList file;
+    file << ui->videoWidget->getCurrentImage();
+    emit processImageSignal(file);
 }
 

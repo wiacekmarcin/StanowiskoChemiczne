@@ -25,11 +25,12 @@ public:
     const QStringList &getFiles() const;
     void setFiles(const QStringList &newFiles);
     void up(const unsigned long & diff);
-    void down(const unsigned long & diff);;
+    void down(const unsigned long & diff);
     void play(bool play);
-    void first();;
-    void last();;
+    void first();
+    void last();
 
+    QString getCurrentImage() const { return files.at(actPos); }
     QString getActFrame() const { return QString("%1 / %2").arg(actPos).arg(files.size()); };
 
     void setFrameNr(QLabel *newFrameNr);

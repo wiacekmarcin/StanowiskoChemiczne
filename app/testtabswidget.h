@@ -69,6 +69,8 @@ private slots:
     void tbplus100_clicked();
     void tbend_clicked();
 
+    void pbAddImage_video2_clicked();
+
 private:
     Ui::TestTabsWidget *ui;
     TestData testDane;
