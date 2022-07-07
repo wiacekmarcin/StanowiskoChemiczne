@@ -93,7 +93,7 @@ void loop() {
         digitalWrite(13, LOW);
         digitalWrite(ENPIN, LEVEL_EN_OFF);
       } else if (msg.getStatusWork() == msg.POS_START) {
-        digitalWrite(ENPIN, LEVEL_EN_OFF);
+        digitalWrite(ENPIN, LEVEL_EN_ON);
         Serial.print("Pos=");
         Serial.println(msg.getSteps());
         digitalWrite(13, HIGH);
