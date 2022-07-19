@@ -23,16 +23,21 @@ OknoStanoweWyjscia::OknoStanoweWyjscia(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    SETSTANWYJSCIA(1, o_wentylator, true, 0, 0, true, false);
-    SETSTANWYJSCIA(2, o_mieszadlo, true, 0, 1, true, false);
-    SETSTANWYJSCIA(3, o_pompa_powietrza, true, 0, 2, true, false);
-    SETSTANWYJSCIA(4, o_pompa_prozniowa, true, 0, 3, true, false);
-    SETSTANWYJSCIA(5, o_trigger, true, 0, 4, true, true);
-    SETSTANWYJSCIA(6, o_grzalka, false, 0, 5, false, false);
-    SETSTANWYJSCIA(7, o_hv_onoff, false, 0, 6, false, false);
+    
+    //VIS (VISIBLE BTN ON/OFF FOR USER)
+    //SHOW (VISIBLE STATE FOR USER) 
+    //ONEBTN ([ON],[OFF] <=> [ON/OFF])
+    //            NR  ID                VIS  ROW COL SHOW  SHOWONEBTN
+    SETSTANWYJSCIA(1, o_wentylator,     true,  0, 0, true,  false);
+    SETSTANWYJSCIA(2, o_mieszadlo,      true,  0, 1, true,  false);
+    SETSTANWYJSCIA(3, o_pompa_powietrza,true,  0, 2, true,  false);
+    SETSTANWYJSCIA(4, o_pompa_prozniowa,true,  0, 3, true,  false);
+    SETSTANWYJSCIA(5, o_trigger,        true,  0, 4, true,  true);
+    SETSTANWYJSCIA(6, o_grzalka,        false, 0, 5, false, false);
+    SETSTANWYJSCIA(7, o_hv_onoff,       false, 0, 6, false, false);
     SETSTANWYJSCIA(8, o_hv_bezpiecznik, false, 0, 7, false, false);
-    SETSTANWYJSCIA(9, o_hv_iskra, false, 0, 8, false, false);
-    SETSTANWYJSCIA(10, o_mech_iskra, false, 0, 9, false, false);
+    SETSTANWYJSCIA(9, o_hv_iskra,       false, 0, 8, false, false);
+    SETSTANWYJSCIA(10, o_mech_iskra,    false, 0, 9, false, false);
 }
 
 OknoStanoweWyjscia::~OknoStanoweWyjscia()
