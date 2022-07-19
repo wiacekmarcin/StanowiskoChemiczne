@@ -20,6 +20,7 @@ public:
     }
     std::string errStr() { return ""; }
     bool isConnected() { return true; }
+    void reset() { };
 };
 
 class TestDigital {
@@ -29,6 +30,7 @@ public:
     bool writeValue(const uint16_t&) { return true; }
     std::string errStr() { return ""; }
     bool isConnected() { return true; }
+    void reset() { };
 };
 
 #endif

@@ -117,6 +117,7 @@ void NowyTest_1::dozownikChanged(int index)
     } else if (index == 5) {
         ui->iloscCieczy->setMax(10000000);
         ui->maxcieczy->setText("Bez limitu");
+        setField(TestPage::maksymalnaIloscCieczy, QVariant::fromValue((double)10000000));
     }
     valid = false;
     valCieczy = 0.0;
@@ -186,9 +187,11 @@ void NowyTest_1::cieczChanged(int index)
     if (ui->cbDozownik->currentIndex() == 5) {
         ui->iloscCieczy->setMax(10000000);
         ui->maxcieczy->setText("Bez limitu");
+        setField(TestPage::maksymalnaIloscCieczy, QVariant::fromValue((double)10000000));
     } else {
         ui->maxcieczy->setText(QString::number(maxVal[key]));
         ui->iloscCieczy->setMax(maxVal[key]);
+        setField(TestPage::maksymalnaIloscCieczy, QVariant::fromValue((double)maxVal[key]));
     }
     if (valCieczy > maxVal[currCiecz])
         valid = false;
@@ -238,6 +241,9 @@ void NowyTest_1::on_pbNext_clicked()
     setField(TestPage::calaObjetosc, QVariant::fromValue(0.0));
     setField(TestPage::dozownikNr, QVariant::fromValue(getDozownik()));
     setField(TestPage::wybranyPlomien, QVariant::fromValue(false));
+
+    setField(TestPage::maksymalnaIloscCieczy, QVariant::fromValue(
+                 field(TestPage::maksymalnaIloscCieczy).toDouble() - field(TestPage::objetosc).toDouble()));
     nextPage(nextPageId());
 }
 
