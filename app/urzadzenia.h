@@ -306,7 +306,9 @@ private slots:
      */
     void ds_dozownikConfigured(bool open, bool conf);
 
-    void triggerKamery();
+    void triggerKameryPrepare(); //przygotowanie zbocza - poziom HIGH
+    void triggerKameryOn(); //opadanie zbocza
+    void triggerKameryOff(); //ustawienie poziomu LOW
 
 protected:
     /**
@@ -336,7 +338,9 @@ private slots:
     void runIskraElektryczna1();
     void runIskraElektryczna2();
     void runIskraMechaniczna1();
+    void runIskraMechaniczna2();
     void runPlomien1();
+    void runPlomien2();
 
 protected:
     void logSlot(const QString & msg);

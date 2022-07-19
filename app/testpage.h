@@ -54,7 +54,8 @@ public:
         rodzajZaplonu,
         wybranyPlomien,
         bylWybuch,
-        powtarzanyTest
+        powtarzanyTest,
+        maksymalnaIloscCieczy,
     } Value;
 
     void setField(Value key, const QVariant & val);

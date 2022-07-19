@@ -16,6 +16,11 @@ NowyTest_7::NowyTest_7(QWidget *parent) :
     next = PAGE_8;
     wykrytyZaplon = true;
 
+    ui->cbCiecz->setMin(0.1);
+    ui->cbCiecz->setPrec(1);
+
+    ui->cbCiecz->setMax(field(TestPage::maksymalnaIloscCieczy).toDouble());
+
     //ui->pbOK_1->setEnabled(false);
 }
 
@@ -134,12 +139,20 @@ void NowyTest_7::on_pbOK_3_clicked()
 void NowyTest_7::on_pbOk_4_clicked()
 {
     wizard()->setDebug(QString("PAGE7:OK4"));
-    if (ui->cbCiecz->value() == 0) {
+    double val = ui->cbCiecz->value();
+    wizard()->setDebug(QString("PAGE7:Ciecz %1 ml").arg(val));
+    if (val == 0) {
         QMessageBox::information(this, QString("Dozowanie cieczy"), QString("Wybierz więcej niż 0ml"));
         return;
-     }
-    
+    }
+    double maxVal = field(TestPage::maksymalnaIloscCieczy).toDouble();
+    if (val >= maxVal) {
+        QMessageBox::information(this, QString("Dozowanie cieczy"), QString("Wybierz mniej niż %1ml").arg(maxVal));
+        return;
+    }
+
     setField(TestPage::objetosc, QVariant::fromValue(ui->cbCiecz->value()));
+    setField(TestPage::maksymalnaIloscCieczy, QVariant::fromValue(maxVal - val));
     wizard()->getTestData()->setLiquidVolue(ui->cbCiecz->value());
     nextPage(nextPageId());
 }

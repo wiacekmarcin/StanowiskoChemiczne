@@ -25,7 +25,10 @@ NICards::NICards()
 
 NICards::~NICards()
 {
+    maskOutput = o_hv_bezpiecznik;
+
     m_mutex.lock();
+    writeDigital();
     m_quit = true;
     m_mutex.unlock();
 }
@@ -38,7 +41,9 @@ void NICards::setThreads(QThread *thr1)
 
 void NICards::setStop()
 {
+    maskOutput = o_hv_bezpiecznik;
     m_mutex.lock();
+    writeDigital();
     m_quit = true;
     m_mutex.unlock();
     wait();

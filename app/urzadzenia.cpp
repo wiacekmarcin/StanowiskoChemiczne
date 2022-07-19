@@ -262,9 +262,19 @@ void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)
     emit dozownik(open, conf);
 }
 
-void Urzadzenia::triggerKamery()
+void Urzadzenia::triggerKameryPrepare()
 {
     digitalWrite(o_trigger, true);
+}
+
+void Urzadzenia::triggerKameryOn()
+{
+    digitalWrite(o_trigger, false);
+}
+
+void Urzadzenia::triggerKameryOff()
+{
+    digitalWrite(o_trigger, false);
 }
 
 void Urzadzenia::runIskraElektryczna()
@@ -274,12 +284,13 @@ void Urzadzenia::runIskraElektryczna()
     digitalWrite(o_hv_bezpiecznik, false);
     digitalWrite(o_hv_iskra, false);
 
+    triggerKameryPrepare(); //podnosimy zbocze (przygotowujemy sie do "triggera" wyzwalanego zboczem opadajacym
     QTimer::singleShot(m_ustawienia.getDelayTimeIskraElektrycznaHV(), this, &Urzadzenia::runIskraElektryczna1);
 }
 
 void Urzadzenia::runIskraElektryczna1()
 {
-    digitalWrite(o_trigger, true);
+    triggerKameryOn();
     digitalWrite(o_hv_onoff, false);
     digitalWrite(o_hv_bezpiecznik, false);
     digitalWrite(o_hv_iskra, true);
@@ -289,7 +300,7 @@ void Urzadzenia::runIskraElektryczna1()
 
 void Urzadzenia::runIskraElektryczna2()
 {
-    digitalWrite(o_trigger, false);
+    triggerKameryOff(); //zostawiamy zbocze niskie
     digitalWrite(o_hv_onoff, false);
     digitalWrite(o_hv_bezpiecznik, true);
     digitalWrite(o_hv_iskra, false);
@@ -297,30 +308,44 @@ void Urzadzenia::runIskraElektryczna2()
 
 void Urzadzenia::runIskraMechaniczna()
 {
-    digitalWrite(o_trigger, true);
-    digitalWrite(o_mech_iskra, true);
-    QTimer::singleShot(m_ustawienia.getRunTimeIskraMechaniczna(), this, &Urzadzenia::runIskraMechaniczna1);
+    triggerKameryPrepare();
+    QTimer::singleShot(100, this, &Urzadzenia::runIskraMechaniczna1);
 }
 
 void Urzadzenia::runIskraMechaniczna1()
 {
-    digitalWrite(o_trigger, false);
+    triggerKameryOn();
+    digitalWrite(o_mech_iskra, true);
+    QTimer::singleShot(m_ustawienia.getRunTimeIskraMechaniczna(), this, &Urzadzenia::runIskraMechaniczna2);
+}
+
+void Urzadzenia::runIskraMechaniczna2()
+{
+    triggerKameryOff();
     digitalWrite(o_mech_iskra, false);
 }
 
 void Urzadzenia::runPlomien()
 {
-    QTimer::singleShot(m_ustawienia.getDelayTimeTriggerPlomien(), this, &Urzadzenia::triggerKamery);
+    triggerKameryPrepare();
+    QTimer::singleShot(100, this, &Urzadzenia::runPlomien1);
+}
+
+
+void Urzadzenia::runPlomien1()
+{
+    QTimer::singleShot(m_ustawienia.getDelayTimeTriggerPlomien(), this, &Urzadzenia::triggerKameryOn);
     digitalWrite(o_grzalka, true);
     QTimer::singleShot(m_ustawienia.getRunTimePlomien(), this, &Urzadzenia::runPlomien1);
 
 }
 
-void Urzadzenia::runPlomien1()
+void Urzadzenia::runPlomien2()
 {
-    digitalWrite(o_trigger, false);
+    triggerKameryOff();
     digitalWrite(o_grzalka, false);
 }
+
 
 
 
