@@ -24,7 +24,8 @@ void loop() {
       if (Serial1.available() > 0) {
         msg.check2(Serial1.read());
       }
-      if ((unsigned long)(millis() - timeMsg) > 60000) {
-        msg.reset();  
+      if ((unsigned long)(millis() - timeMsg) > 6000) {
+        msg.reset();
+        Serial.write("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");  
       }            
 }
