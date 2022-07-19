@@ -108,11 +108,9 @@ std::string NIDAQMxUSB6210::errStr()
     return std::string(errBuff);
 }
 
-#endif
-
-
 void NIDAQMxUSB6210::reset()
 {
     del();
     ini();
 }
+#endif
