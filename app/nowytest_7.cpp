@@ -19,7 +19,7 @@ NowyTest_7::NowyTest_7(QWidget *parent) :
     ui->cbCiecz->setMin(0.1);
     ui->cbCiecz->setPrec(1);
 
-    ui->cbCiecz->setMax(field(TestPage::maksymalnaIloscCieczy).toDouble());
+    
 
     //ui->pbOK_1->setEnabled(false);
 }
@@ -43,6 +43,7 @@ void NowyTest_7::initializePage()
     ui->pbOK_3->setEnabled(true);
     ui->pbOk_4->setEnabled(true);
     TestPage::initializePage();
+    ui->cbCiecz->setMax(field(TestPage::maksymalnaIloscCieczy).toDouble());
 
     wykrytyZaplon = field(TestPage::bylWybuch).toBool();
     if (wykrytyZaplon) {

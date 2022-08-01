@@ -28,7 +28,7 @@ void TestPage::setField(Value key, const QVariant &val)
 
 QVariant TestPage::field(Value key) const
 {
-    
+    //qDebug() << __FILE__ << __LINE__ << "wiz" << (unsigned long)wiz << "key=" << (int)key ; 
     return wiz->field(key);
 }
 

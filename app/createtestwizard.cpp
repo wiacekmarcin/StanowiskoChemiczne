@@ -131,6 +131,7 @@ void CreateTestWizard::setField(TestPage::Value key, const QVariant &val)
 
 QVariant CreateTestWizard::field(TestPage::Value key) const
 {
+    //qDebug() << __FILE__ << __LINE__ << "(this)" << (unsigned long)(this) << "key=" << (int)key;
     if (values.contains(key))
         return values[key];
     return QVariant();
