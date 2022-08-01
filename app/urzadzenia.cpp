@@ -264,17 +264,17 @@ void Urzadzenia::ds_dozownikConfigured(bool open, bool conf)
 
 void Urzadzenia::triggerKameryPrepare()
 {
-    digitalWrite(o_trigger, true);
+    digitalWrite(o_trigger, false);
 }
 
 void Urzadzenia::triggerKameryOn()
 {
-    digitalWrite(o_trigger, false);
+    digitalWrite(o_trigger, true);
 }
 
 void Urzadzenia::triggerKameryOff()
 {
-    digitalWrite(o_trigger, false);
+    digitalWrite(o_trigger, true);
 }
 
 void Urzadzenia::runIskraElektryczna()
@@ -300,7 +300,7 @@ void Urzadzenia::runIskraElektryczna1()
 
 void Urzadzenia::runIskraElektryczna2()
 {
-    triggerKameryOff(); //zostawiamy zbocze niskie
+    triggerKameryOff(); //zostawiamy zbocze wysokie
     digitalWrite(o_hv_onoff, false);
     digitalWrite(o_hv_bezpiecznik, true);
     digitalWrite(o_hv_iskra, false);
@@ -336,7 +336,7 @@ void Urzadzenia::runPlomien1()
 {
     QTimer::singleShot(m_ustawienia.getDelayTimeTriggerPlomien(), this, &Urzadzenia::triggerKameryOn);
     digitalWrite(o_grzalka, true);
-    QTimer::singleShot(m_ustawienia.getRunTimePlomien(), this, &Urzadzenia::runPlomien1);
+    QTimer::singleShot(m_ustawienia.getRunTimePlomien(), this, &Urzadzenia::runPlomien2);
 
 }
 
