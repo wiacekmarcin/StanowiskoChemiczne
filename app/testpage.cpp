@@ -176,6 +176,9 @@ void TestPage::setFinished(bool success)
 
 bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame_2)
 {
+#ifdef SYMULATRO
+    return true;
+#endif    
     BOOLS_ZAWORY
     QString message;
     bool show = false;
@@ -234,6 +237,9 @@ bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame
 
 bool TestPage::sprawdzOtwarteZaworProzni()
 {
+#ifdef SYMULATRO
+    return true;
+#endif 
     BOOLS_ZAWORY
     bool show = false;
     QMessageBox msgBox;
@@ -287,6 +293,9 @@ bool TestPage::sprawdzOtwarteZaworProzni()
 
 bool TestPage::sprawdzOtwarteZaworPowietrza()
 {
+#ifdef SYMULATRO
+    return true;
+#endif 
     BOOLS_ZAWORY
     bool show = false;
     QMessageBox msgBox;
@@ -340,6 +349,9 @@ bool TestPage::sprawdzOtwarteZaworPowietrza()
 
 bool TestPage::sprawdzOtwarteZaworStezenia()
 {
+#ifdef SYMULATRO
+    return true;
+#endif 
     BOOLS_ZAWORY
     bool show = false;
     QMessageBox msgBox;
@@ -396,6 +408,9 @@ bool TestPage::sprawdzOtwarteZaworStezenia()
 
 bool TestPage::sprawdzOtwarteZawor2Calowe()
 {
+#ifdef SYMULATRO
+    return true;
+#endif 
     BOOLS_ZAWORY
     bool show = false;
     QMessageBox msgBox;
@@ -456,6 +471,9 @@ bool TestPage::sprawdzOtwarteZawor2Calowe()
 
 bool TestPage::sprawdzOtwarteZawory(uint16_t mask)
 {
+#ifdef SYMULATRO
+    return true;
+#endif 
     BOOLS_ZAWORY;
     bool op = false;
     QString msg;

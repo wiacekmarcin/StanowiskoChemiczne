@@ -1,0 +1,198 @@
+1.4 - Sep 13 2022 20:19:12
+20:26:26:069.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:26:26:069.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 3 temp = 25.3
+20:26:28:981.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 4 temp = 31
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 6 temp = 40.9
+20:26:28:981.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.4
+20:26:28:981.DEBUG.TEST - Ustaw stezenia ft = 5 15.6,16.7,26.7,32,21
+20:26:28:981.DEBUG.TEST - Udana proba = 0
+20:26:28:981.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.5
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 4 temp = 33
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 6 temp = 42.9
+20:26:28:981.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.5
+20:26:28:981.DEBUG.TEST - Ustaw stezenia ft = 5 16.6,17.7,27.7,31,20
+20:26:28:981.DEBUG.TEST - Udana proba = 0
+20:26:28:981.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.6
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 4 temp = 34
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 6 temp = 44.9
+20:26:28:981.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.7
+20:26:28:981.DEBUG.TEST - Ustaw stezenia ft = 5 11.6,13.7,21.7,38,22
+20:26:28:981.DEBUG.TEST - Udana proba = 1
+20:26:28:981.DEBUG.TEST - Ustaw ciśnienie ft = 7 cisn = 4.5
+20:26:28:981.DEBUG.TEST - Ustaw Temp ft = 7 temp = 45
+20:26:28:981.DEBUG.TEST - Ustaw stezenia ft = 7 15.9,16.9,26.9,32.9,21.9
+20:26:28:981.DEBUG.GUI - Set Output = 32 => 0
+20:26:28:981.DEBUG.GUI - Set Output = 64 => 0
+20:26:28:981.DEBUG.GUI - Set Output = 128 => 1
+20:26:28:981.DEBUG.GUI - Set Output = 256 => 0
+20:26:28:981.DEBUG.GUI - Set Output = 1024 => 0
+20:26:36:104.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:26:36:104.DEBUG.DOZOWNIK - Szukam urządzenia
+20:26:36:107.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+20:26:36:107.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+20:26:36:107.DEBUG.DOZOWNIK - Znaleziono kandydata
+20:26:46:143.DEBUG.DOZOWNIK - Szukam urządzenia
+20:26:46:143.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:26:46:146.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+20:26:46:146.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+20:26:46:146.DEBUG.DOZOWNIK - Znaleziono kandydata
+20:26:56:154.DEBUG.DOZOWNIK - Szukam urządzenia
+20:26:56:154.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:26:56:157.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+20:26:56:157.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+20:26:56:157.DEBUG.DOZOWNIK - Znaleziono kandydata
+20:27:05:654.DEBUG.TEST - Ustaw Temp ft = 3 temp = 0
+20:27:06:168.DEBUG.DOZOWNIK - Szukam urządzenia
+20:27:06:168.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:27:06:171.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+20:27:06:171.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+20:27:06:171.DEBUG.DOZOWNIK - Znaleziono kandydata
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 3 temp = 25.3
+20:27:06:820.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 4 temp = 31
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 6 temp = 40.9
+20:27:06:820.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.4
+20:27:06:820.DEBUG.TEST - Ustaw stezenia ft = 5 15.6,16.7,26.7,32,21
+20:27:06:820.DEBUG.TEST - Udana proba = 0
+20:27:06:820.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.5
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 4 temp = 33
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 6 temp = 42.9
+20:27:06:820.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.5
+20:27:06:820.DEBUG.TEST - Ustaw stezenia ft = 5 16.6,17.7,27.7,31,20
+20:27:06:820.DEBUG.TEST - Udana proba = 0
+20:27:06:820.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.6
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 4 temp = 34
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 6 temp = 44.9
+20:27:06:820.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.7
+20:27:06:820.DEBUG.TEST - Ustaw stezenia ft = 5 11.6,13.7,21.7,38,22
+20:27:06:820.DEBUG.TEST - Udana proba = 1
+20:27:06:820.DEBUG.TEST - Ustaw ciśnienie ft = 7 cisn = 4.5
+20:27:06:820.DEBUG.TEST - Ustaw Temp ft = 7 temp = 45
+20:27:06:820.DEBUG.TEST - Ustaw stezenia ft = 7 15.9,16.9,26.9,32.9,21.9
+20:27:08:044.DEBUG.TEST - Ustaw Temp ft = 3 temp = 25.3
+20:27:08:044.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1
+20:27:08:044.DEBUG.TEST - Ustaw Temp ft = 4 temp = 31
+20:27:08:044.DEBUG.TEST - Ustaw Temp ft = 6 temp = 40.9
+20:27:08:044.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.4
+20:27:08:044.DEBUG.TEST - Ustaw stezenia ft = 5 15.6,16.7,26.7,32,21
+20:27:08:044.DEBUG.TEST - Udana proba = 0
+20:27:08:044.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.5
+20:27:08:044.DEBUG.TEST - Ustaw Temp ft = 4 temp = 33
+20:27:08:044.DEBUG.TEST - Ustaw Temp ft = 6 temp = 42.9
+20:27:08:044.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.5
+20:27:08:044.DEBUG.TEST - Ustaw stezenia ft = 5 16.6,17.7,27.7,31,20
+20:27:08:044.DEBUG.TEST - Udana proba = 0
+20:27:08:044.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.6
+20:27:08:044.DEBUG.TEST - Ustaw Temp ft = 4 temp = 34
+20:27:08:044.DEBUG.TEST - Ustaw Temp ft = 6 temp = 44.9
+20:27:08:044.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.7
+20:27:08:044.DEBUG.TEST - Ustaw stezenia ft = 5 11.6,13.7,21.7,38,22
+20:27:08:044.DEBUG.TEST - Udana proba = 1
+20:27:08:044.DEBUG.TEST - Ustaw ciśnienie ft = 7 cisn = 4.5
+20:27:08:045.DEBUG.TEST - Ustaw Temp ft = 7 temp = 45
+20:27:08:045.DEBUG.TEST - Ustaw stezenia ft = 7 15.9,16.9,26.9,32.9,21.9
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 3 temp = 25.3
+20:27:08:803.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 4 temp = 31
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 6 temp = 40.9
+20:27:08:803.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.4
+20:27:08:803.DEBUG.TEST - Ustaw stezenia ft = 5 15.6,16.7,26.7,32,21
+20:27:08:803.DEBUG.TEST - Udana proba = 0
+20:27:08:803.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.5
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 4 temp = 33
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 6 temp = 42.9
+20:27:08:803.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.5
+20:27:08:803.DEBUG.TEST - Ustaw stezenia ft = 5 16.6,17.7,27.7,31,20
+20:27:08:803.DEBUG.TEST - Udana proba = 0
+20:27:08:803.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.6
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 4 temp = 34
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 6 temp = 44.9
+20:27:08:803.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.7
+20:27:08:803.DEBUG.TEST - Ustaw stezenia ft = 5 11.6,13.7,21.7,38,22
+20:27:08:803.DEBUG.TEST - Udana proba = 1
+20:27:08:803.DEBUG.TEST - Ustaw ciśnienie ft = 7 cisn = 4.5
+20:27:08:803.DEBUG.TEST - Ustaw Temp ft = 7 temp = 45
+20:27:08:803.DEBUG.TEST - Ustaw stezenia ft = 7 15.9,16.9,26.9,32.9,21.9
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 3 temp = 25.3
+20:27:09:036.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 4 temp = 31
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 6 temp = 40.9
+20:27:09:036.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.4
+20:27:09:036.DEBUG.TEST - Ustaw stezenia ft = 5 15.6,16.7,26.7,32,21
+20:27:09:036.DEBUG.TEST - Udana proba = 0
+20:27:09:036.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.5
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 4 temp = 33
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 6 temp = 42.9
+20:27:09:036.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.5
+20:27:09:036.DEBUG.TEST - Ustaw stezenia ft = 5 16.6,17.7,27.7,31,20
+20:27:09:036.DEBUG.TEST - Udana proba = 0
+20:27:09:036.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.6
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 4 temp = 34
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 6 temp = 44.9
+20:27:09:036.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.7
+20:27:09:036.DEBUG.TEST - Ustaw stezenia ft = 5 11.6,13.7,21.7,38,22
+20:27:09:036.DEBUG.TEST - Udana proba = 1
+20:27:09:036.DEBUG.TEST - Ustaw ciśnienie ft = 7 cisn = 4.5
+20:27:09:036.DEBUG.TEST - Ustaw Temp ft = 7 temp = 45
+20:27:09:036.DEBUG.TEST - Ustaw stezenia ft = 7 15.9,16.9,26.9,32.9,21.9
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 3 temp = 25.3
+20:27:09:237.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 4 temp = 31
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 6 temp = 40.9
+20:27:09:237.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.4
+20:27:09:237.DEBUG.TEST - Ustaw stezenia ft = 5 15.6,16.7,26.7,32,21
+20:27:09:237.DEBUG.TEST - Udana proba = 0
+20:27:09:237.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.5
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 4 temp = 33
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 6 temp = 42.9
+20:27:09:237.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.5
+20:27:09:237.DEBUG.TEST - Ustaw stezenia ft = 5 16.6,17.7,27.7,31,20
+20:27:09:237.DEBUG.TEST - Udana proba = 0
+20:27:09:237.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.6
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 4 temp = 34
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 6 temp = 44.9
+20:27:09:237.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.7
+20:27:09:237.DEBUG.TEST - Ustaw stezenia ft = 5 11.6,13.7,21.7,38,22
+20:27:09:237.DEBUG.TEST - Udana proba = 1
+20:27:09:237.DEBUG.TEST - Ustaw ciśnienie ft = 7 cisn = 4.5
+20:27:09:237.DEBUG.TEST - Ustaw Temp ft = 7 temp = 45
+20:27:09:237.DEBUG.TEST - Ustaw stezenia ft = 7 15.9,16.9,26.9,32.9,21.9
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 3 temp = 25.3
+20:27:13:637.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 4 temp = 31
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 6 temp = 40.9
+20:27:13:637.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.4
+20:27:13:637.DEBUG.TEST - Ustaw stezenia ft = 5 15.6,16.7,26.7,32,21
+20:27:13:637.DEBUG.TEST - Udana proba = 0
+20:27:13:637.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.5
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 4 temp = 33
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 6 temp = 42.9
+20:27:13:637.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.5
+20:27:13:637.DEBUG.TEST - Ustaw stezenia ft = 5 16.6,17.7,27.7,31,20
+20:27:13:637.DEBUG.TEST - Udana proba = 0
+20:27:13:637.DEBUG.TEST - Ustaw ciśnienie ft = 4 cisn = 1.6
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 4 temp = 34
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 6 temp = 44.9
+20:27:13:637.DEBUG.TEST - Ustaw ciśnienie ft = 6 cisn = 1.7
+20:27:13:637.DEBUG.TEST - Ustaw stezenia ft = 5 11.6,13.7,21.7,38,22
+20:27:13:637.DEBUG.TEST - Udana proba = 1
+20:27:13:637.DEBUG.TEST - Ustaw ciśnienie ft = 7 cisn = 4.5
+20:27:13:637.DEBUG.TEST - Ustaw Temp ft = 7 temp = 45
+20:27:13:637.DEBUG.TEST - Ustaw stezenia ft = 7 15.9,16.9,26.9,32.9,21.9
+20:27:16:182.DEBUG.DOZOWNIK - Szukam urządzenia
+20:27:16:182.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:27:16:185.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+20:27:16:185.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+20:27:16:185.DEBUG.DOZOWNIK - Znaleziono kandydata
+20:27:26:182.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:27:26:185.DEBUG.DOZOWNIK - Szukam urządzenia
+20:27:26:188.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+20:27:26:188.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+20:27:26:188.DEBUG.DOZOWNIK - Znaleziono kandydata
+20:27:36:186.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+20:27:36:202.DEBUG.DOZOWNIK - Szukam urządzenia
+20:27:36:205.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+20:27:36:205.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+20:27:36:205.DEBUG.DOZOWNIK - Znaleziono kandydata

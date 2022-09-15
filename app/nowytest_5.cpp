@@ -50,7 +50,11 @@ void NowyTest_5::on_pbOK_1_clicked()
     sprawdzZawory(ui->pbOK_1, ui->arrow_1, ui->frame_2);
     setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_wentylacja_prawa | i_wentylacja_lewa | i_proznia | i_wlot_powietrza);
     setZ_warningMask(0);
-
+#ifdef SYMULATOR    
+    ui->pbOK_1->setEnabled(false);
+    ui->arrow_1->setVisible(false);
+    ui->frame_2->setVisible(true);
+#endif
 }
 
 

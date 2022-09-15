@@ -85,3 +85,4 @@ app/.vscode/dryrun.log
 app/.vscode/targets.log
 app/CMakePresets.json
 build-*
+/app/objects

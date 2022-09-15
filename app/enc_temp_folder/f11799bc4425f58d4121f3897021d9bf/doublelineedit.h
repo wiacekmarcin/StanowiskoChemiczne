@@ -18,10 +18,8 @@ class MyValidator : public QDoubleValidator
 
     QValidator::State validate(QString& input, int& pos) const
     {
-        if (input.count(QChar(',')) > 1 || input.count(QChar('.') > 1)) {
-
+        if (input.count(QChar(',')) > 1 || input.count(QChar('.')))
             return QValidator::Invalid;
-        }
         if( input.contains( QChar(',') ) ) {
             input.replace(QChar(','), QChar('.'));
             return QValidator::Intermediate;

@@ -94,6 +94,16 @@ void NowyTest_6::on_pbOK_2_clicked()
     QString info("Wciśnięcie przycisku zdalnego sterowania spowoduje uruchomienie : ");
     info += ui->cbZaplon_2->currentText() + QString(" .");
     ui->lStep3->setText(info);
+
+#ifdef SYMULATOR
+    setField(TestPage::rodzajZaplonu, ui->cbZaplon_2->currentIndex());
+    if (ui->cbZaplon_2->currentIndex() == z_iskra_plomien)
+        setField(TestPage::wybranyPlomien, true);
+    runZaplon((ZaplonRodzaj)(field(TestPage::rodzajZaplonu).toInt()));
+    runDialog = true;
+    emit showDglSignal();
+    wizard()->setDebug(QString("PAGEG:ZAPLON"));
+#endif
 }
 
 void NowyTest_6::showDlgSlot()

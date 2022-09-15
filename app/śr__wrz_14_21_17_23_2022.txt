@@ -1,0 +1,18 @@
+1.4 - Sep 14 2022 21:10:20
+21:17:23:924.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:17:23:924.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:17:33:739.DEBUG.DOZOWNIK - Szukam urządzenia
+21:17:33:867.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:17:33:867.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:17:33:867.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:17:33:867.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:17:43:872.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:17:43:873.DEBUG.DOZOWNIK - Szukam urządzenia
+21:17:43:876.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:17:43:877.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:17:43:877.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:17:53:875.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:17:53:890.DEBUG.DOZOWNIK - Szukam urządzenia
+21:17:53:893.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:17:53:893.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:17:53:893.DEBUG.DOZOWNIK - Znaleziono kandydata

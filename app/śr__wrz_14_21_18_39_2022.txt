@@ -1,0 +1,58 @@
+1.4 - Sep 14 2022 21:10:20
+21:18:39:646.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:18:39:646.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:18:49:467.DEBUG.DOZOWNIK - Szukam urządzenia
+21:18:49:471.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:18:49:484.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:18:49:484.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:18:49:484.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:18:59:480.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:18:59:496.DEBUG.DOZOWNIK - Szukam urządzenia
+21:18:59:499.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:18:59:499.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:18:59:499.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:19:09:488.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:19:09:504.DEBUG.DOZOWNIK - Szukam urządzenia
+21:19:09:507.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:19:09:507.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:19:09:507.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:19:19:501.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:19:19:517.DEBUG.DOZOWNIK - Szukam urządzenia
+21:19:19:521.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:19:19:521.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:19:19:521.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:19:29:516.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:19:29:532.DEBUG.DOZOWNIK - Szukam urządzenia
+21:19:29:536.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:19:29:537.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:19:29:537.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:19:39:655.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:19:39:655.DEBUG.DOZOWNIK - Szukam urządzenia
+21:19:39:661.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:19:39:661.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:19:39:661.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:19:49:670.DEBUG.DOZOWNIK - Szukam urządzenia
+21:19:49:674.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:19:49:674.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:19:49:674.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:19:49:674.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:19:59:677.DEBUG.DOZOWNIK - Szukam urządzenia
+21:19:59:677.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:19:59:681.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:19:59:681.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:19:59:681.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:20:09:688.DEBUG.DOZOWNIK - Szukam urządzenia
+21:20:09:688.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:20:09:691.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:20:09:691.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:20:09:691.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:20:19:702.DEBUG.DOZOWNIK - Szukam urządzenia
+21:20:19:702.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:20:19:705.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:20:19:705.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:20:19:705.DEBUG.DOZOWNIK - Znaleziono kandydata
+21:20:29:708.DEBUG.DOZOWNIK - Szukam urządzenia
+21:20:29:708.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:20:29:712.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:20:29:712.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:20:29:712.DEBUG.DOZOWNIK - Znaleziono kandydata

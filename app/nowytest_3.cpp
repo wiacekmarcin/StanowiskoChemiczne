@@ -292,9 +292,11 @@ void NowyTest_3::on_pbOk_1_clicked()
     sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
     setZ_criticalMask(0);
     setZ_warningMask(0);
-    //ui->pbOk_1->setEnabled(false);
-    //ui->arrow_1->setVisible(false);
-    //ui->frame_2->setVisible(true);
+#if SYMULATOR    
+    ui->pbOk_1->setEnabled(false);
+    ui->arrow_1->setVisible(false);
+    ui->frame_2->setVisible(true);
+#endif    
 }
 
 

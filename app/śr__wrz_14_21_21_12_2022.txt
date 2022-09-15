@@ -1,0 +1,8 @@
+1.4 - Sep 14 2022 21:10:20
+21:21:13:460.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:21:13:460.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:21:23:261.DEBUG.NICARDS - Nie znaleziono urządzeń : kart NationalInstruments
+21:21:23:261.DEBUG.DOZOWNIK - Szukam urządzenia
+21:21:23:279.DEBUG.DOZOWNIK - Znaleziono : DESC Port komunikacyjny MENU (Standardowe typy portów) SERIAL
+21:21:23:279.DEBUG.DOZOWNIK - Znaleziono : DESC Intel(R) Active Management Technology - SOL MENU Intel SERIAL
+21:21:23:279.DEBUG.DOZOWNIK - Znaleziono kandydata
