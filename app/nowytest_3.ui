@@ -205,7 +205,7 @@
       <item>
        <widget class="QLabel" name="txt_4_2">
         <property name="text">
-         <string>Aktualne cisnienie :</string>
+         <string>Aktualne ciśnienie :</string>
         </property>
        </widget>
       </item>
@@ -325,7 +325,7 @@
       <item>
        <widget class="QLabel" name="txt6_1">
         <property name="text">
-         <string>Zadane ciśnienie jest większe niż ciśnenie w komorze.</string>
+         <string>Zadane ciśnienie jest większe niż ciśnienie w komorze.</string>
         </property>
        </widget>
       </item>
@@ -399,7 +399,7 @@
       <item>
        <widget class="QLabel" name="txt7_1">
         <property name="text">
-         <string>Nie udało się uzyskaż żądanego podciśnienia. </string>
+         <string>Nie udało się uzyskać żądanego podciśnienia. </string>
         </property>
        </widget>
       </item>
@@ -420,7 +420,7 @@
       <item>
        <widget class="QLabel" name="txt7_3">
         <property name="text">
-         <string>Uzyskane cisnienie w komorze</string>
+         <string>Uzyskane ciśnienie w komorze</string>
         </property>
        </widget>
       </item>

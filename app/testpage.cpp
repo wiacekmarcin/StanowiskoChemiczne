@@ -1,7 +1,7 @@
 #include "testpage.h"
 #include "createtestwizard.h"
 #include "testpageform.h"
-
+#include "common.h"
 #include <QMessageBox>
 #include <QLabel>
 #include <QPushButton>
@@ -176,7 +176,7 @@ void TestPage::setFinished(bool success)
 
 bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame_2)
 {
-#ifdef SYMULATRO
+#if SYMULATOR
     return true;
 #endif    
     BOOLS_ZAWORY
@@ -237,7 +237,7 @@ bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame
 
 bool TestPage::sprawdzOtwarteZaworProzni()
 {
-#ifdef SYMULATRO
+#if SYMULATOR
     return true;
 #endif 
     BOOLS_ZAWORY
@@ -293,7 +293,7 @@ bool TestPage::sprawdzOtwarteZaworProzni()
 
 bool TestPage::sprawdzOtwarteZaworPowietrza()
 {
-#ifdef SYMULATRO
+#if SYMULATOR
     return true;
 #endif 
     BOOLS_ZAWORY
@@ -349,7 +349,7 @@ bool TestPage::sprawdzOtwarteZaworPowietrza()
 
 bool TestPage::sprawdzOtwarteZaworStezenia()
 {
-#ifdef SYMULATRO
+#if SYMULATOR
     return true;
 #endif 
     BOOLS_ZAWORY
@@ -408,7 +408,7 @@ bool TestPage::sprawdzOtwarteZaworStezenia()
 
 bool TestPage::sprawdzOtwarteZawor2Calowe()
 {
-#ifdef SYMULATRO
+#if SYMULATOR
     return true;
 #endif 
     BOOLS_ZAWORY
@@ -471,7 +471,7 @@ bool TestPage::sprawdzOtwarteZawor2Calowe()
 
 bool TestPage::sprawdzOtwarteZawory(uint16_t mask)
 {
-#ifdef SYMULATRO
+#if SYMULATOR
     return true;
 #endif 
     BOOLS_ZAWORY;

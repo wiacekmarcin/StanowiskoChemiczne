@@ -4,7 +4,7 @@
 #include "testpage.h"
 #include "oczekiwanienazaplon.h"
 #include "ustawienia.h"
-
+#include "common.h"
 NowyTest_6::NowyTest_6(const UEkran6 &ust_, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_6),
@@ -95,7 +95,7 @@ void NowyTest_6::on_pbOK_2_clicked()
     info += ui->cbZaplon_2->currentText() + QString(" .");
     ui->lStep3->setText(info);
 
-#ifdef SYMULATOR
+#if SYMULATOR
     setField(TestPage::rodzajZaplonu, ui->cbZaplon_2->currentIndex());
     if (ui->cbZaplon_2->currentIndex() == z_iskra_plomien)
         setField(TestPage::wybranyPlomien, true);

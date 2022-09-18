@@ -10,6 +10,7 @@
 #include "testpage.h"
 #include "ustawienia.h"
 #include "urzadzenia.h"
+#include "common.h"
 
 #include <QMessageBox>
 
@@ -314,11 +315,15 @@ void NowyTest_3::on_pbUstaw_2_clicked()
     wizard()->setDebug(QString("PAGE3:USTAW2"));
     if (!sprawdzOtwarteZawory(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa))
         return;
+    if (!ui->cisnienie->getValid())
+        return;
+
+    cisnienie_zad = ui->cisnienie->value();
     ui->arrow_2->setVisible(false);
     ui->pb_Skip2->setEnabled(false);
     ui->pbUstaw_2->setEnabled(false);
     ui->cisnienie->setEnabled(false);
-    cisnienie_zad = ui->cisnienie->value();
+    
     ui->frame_3->setVisible(true);
 }
 

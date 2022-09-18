@@ -3,6 +3,7 @@
 
 #include "createtestwizard.h"
 #include "testpage.h"
+#include "common.h"
 #include <QTimer>
 #include <QMessageBox>
 
@@ -92,7 +93,7 @@ void NowyTest_4::on_pbOk_1_clicked()
 {
     wizard()->setDebug(QString("PAGE4:OK1"));
     sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
-#ifdef SYMULATOR    
+#if SYMULATOR    
     ui->pbOk_1->setEnabled(false);
     ui->arrow_1->setVisible(false);
     ui->frame_2->setVisible(true);
@@ -108,7 +109,7 @@ void NowyTest_4::on_pbOk_2_clicked()
 
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());
     updateOutput(o_mieszadlo, true);
-#ifdef SYMULATOR    
+#if SYMULATOR    
     dozownikDone(true);
 #endif    
 }
