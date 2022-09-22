@@ -63,10 +63,6 @@ void NowyTest_2::updateWejscia()
     }
 }
 
-
-
-
-
 void NowyTest_2::dozownikDone(bool succes)
 {
     if (!succes) {
@@ -78,18 +74,30 @@ void NowyTest_2::dozownikDone(bool succes)
         if (ret == QMessageBox::No) {
             setFinished(false);
             return;
-        }
-    }
-    if (pojedynczyCykl) {
-        m_DozownikPelny = true;
-        ui->pbOk_4->setEnabled(true);
-        ui->rb4_no->setChecked(false);
-        ui->rb4_yes->setChecked(true);
+        } else {
+            if (pojedynczyCykl) {
+                ui->arrow_4->setVisible(true);
+                ui->pbOk_4->setVisible(true);
+                ui->pbOk_4->setEnabled(true);
+            } else {
+                ui->arrow_3->setVisible(true);
+                ui->pbOk_3->setVisible(true);
+                ui->pbOk_3->setEnabled(true);
+            }
 
+        }
     } else {
-        pojedynczyCykl = true;
-        ui->arrow_3->setVisible(false);
-        ui->frame_4->setVisible(true);
+        if (pojedynczyCykl) {
+            m_DozownikPelny = true;
+            ui->pbOk_4->setEnabled(true);
+            ui->rb4_no->setChecked(false);
+            ui->rb4_yes->setChecked(true);
+
+        } else {
+            pojedynczyCykl = true;
+            ui->arrow_3->setVisible(false);
+            ui->frame_4->setVisible(true);
+        }
     }
 }
 
@@ -165,7 +173,6 @@ void NowyTest_2::on_pbOK_2_clicked()
 
 void NowyTest_2::on_pbOk_3_clicked()
 {
-    
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
     cykleDozownik(dozownik, initCykle);

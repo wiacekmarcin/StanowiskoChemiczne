@@ -76,6 +76,11 @@ void NowyTest_4::dozownikDone(bool success)
         int ret = msgBox.exec();
         if (ret == QMessageBox::No)
             return;
+        else {
+            ui->pbOk_2->setEnabled(true);
+            ui->arrow_2->setVisible(true);
+            ui->frame_3->setVisible(false);
+        }
     } else {
         setField(calaObjetosc, QVariant::fromValue(field(calaObjetosc).toDouble() + field(objetosc).toDouble()));
         ui->pbOk_2->setEnabled(false);

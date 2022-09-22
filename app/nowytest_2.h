@@ -52,6 +52,7 @@ private:
     bool showWarning;
     bool okDozownik;
     bool homeDozownik[5];
+
 };
 
 #endif // NOWYTEST_2_H

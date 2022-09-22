@@ -284,11 +284,24 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
     } while(rc == 0 && readTimeout > 0);
     if (readTimeout <= 0) {
         emit error(QString("Timeout"));
+        msg.setTimeoutReply(false);
+        return msg;
     }
     QByteArray responseData((const char*)recvBuffor, rc);
     emit debug(QString("read [%1]").arg(responseData.toHex().constData()));
     return parseMessage(responseData);
 }
+
+#define REPLYTIMEOUT(s) do { if ((s) == SerialMessage::TIMEOUT_READ_REPLY || (s) == SerialMessage::TIMEOUT_WRITE_REPLY) {\
+                closeDevice(); \
+                openDevice(); \
+                return false; \
+                } } while(false)
+
+#define NOREPLYTIMEOUT(s) do { if ((s) == SerialMessage::TIMEOUT_READ_REPLY || (s) == SerialMessage::TIMEOUT_WRITE_REPLY) {\
+                closeDevice(); \
+                openDevice(); \
+                } } while(false)
 
 bool SerialDevice::configureDeviceJob()
 {
@@ -297,11 +310,13 @@ bool SerialDevice::configureDeviceJob()
                arg(m_maxImp).arg(m_timeImp));
 ;
     auto s = write(SerialMessage::welcomeMsg(), 100, 100).getParseReply();
+    REPLYTIMEOUT(s);
 
     if (s != SerialMessage::WELCOME_REPLY)
         return false;
 
     s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
+    REPLYTIMEOUT(s);
     if (s != SerialMessage::RESET_REPLY)
         return false;
 
@@ -309,7 +324,7 @@ bool SerialDevice::configureDeviceJob()
 
     s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
               100, 100).getParseReply();
-
+    REPLYTIMEOUT(s);
     if (s != SerialMessage::SETPARAMS_REPLY)
         return false;
 
@@ -323,6 +338,8 @@ void SerialDevice::setParamsJob()
                arg(m_maxImp).arg(m_timeImp));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
+
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setParamsDone(false);
@@ -330,6 +347,7 @@ void SerialDevice::setParamsJob()
     }
 
     s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::RESET_REPLY) {
         m_configured = false;
         emit setParamsDone(false);
@@ -340,7 +358,7 @@ void SerialDevice::setParamsJob()
 
     s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
               100, 100).getParseReply();
-
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::SETPARAMS_REPLY) {
         m_configured = false;
         emit setParamsDone(false);
@@ -354,6 +372,7 @@ void SerialDevice::setResetJob()
 {
     emit debug(QString("Resetowanie sterownika silników"));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit resetDone(false);
@@ -361,6 +380,7 @@ void SerialDevice::setResetJob()
     }
 
     s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::RESET_REPLY) {
         m_configured = false;
         emit resetDone(false);
@@ -374,6 +394,7 @@ void SerialDevice::setCykleJob()
 {
     emit debug(QString("Wstepne dozowania dozownika %1").arg(dozownikNr + 1));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setCykleDone(false);
@@ -382,12 +403,14 @@ void SerialDevice::setCykleJob()
 
     s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
               100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::SETPARAMS_REPLY) {
         emit setCykleDone(false);
         return;
     }
 
     s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::MOVEHOME_REPLY) {
         emit setCykleDone(false);
         return;
@@ -395,12 +418,14 @@ void SerialDevice::setCykleJob()
 
     for (uint32_t n = 0; n < val1; ++n) {
         s = write(SerialMessage::setPosition(dozownikNr, m_maxImp), 100, 60000).getParseReply();
+        NOREPLYTIMEOUT(s);
         if (s != SerialMessage::POSITION_REPLY) {
             emit setCykleDone(false);
             return;
         }
 
         s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
+        NOREPLYTIMEOUT(s);
         if (s != SerialMessage::MOVEHOME_REPLY) {
             emit setCykleDone(false);
             return;
@@ -414,6 +439,7 @@ void SerialDevice::setStepsJob()
 {
     emit debug(QString("Ustawiam %1 kroków").arg(val2));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setStepsDone(false);
@@ -422,6 +448,7 @@ void SerialDevice::setStepsJob()
 
     s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
               100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::SETPARAMS_REPLY) {
         emit setCykleDone(false);
         return;
@@ -438,12 +465,14 @@ void SerialDevice::setStepsJob()
             steps = m_maxImp;
         stepsAll -= steps;
         s = write(SerialMessage::setPosition(dozownikNr, steps), 100, 60000).getParseReply();
+        NOREPLYTIMEOUT(s);
         if (s != SerialMessage::POSITION_REPLY) {
             emit setStepsDone(false);
             return;
         }
 
         s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
+        NOREPLYTIMEOUT(s);
         if (s != SerialMessage::MOVEHOME_REPLY) {
             emit setStepsDone(false);
             return;
@@ -457,6 +486,7 @@ void SerialDevice::setEchoJob()
     emit debug(QString("Sprawdzam pozycje startowe"));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit checkPositionHomeDone(false, false, false, false, false, false);
@@ -464,7 +494,7 @@ void SerialDevice::setEchoJob()
     }
 
     auto s2 = write(SerialMessage::echoMsg2(), 100, 200);
-
+    NOREPLYTIMEOUT(s);
     if (s2.getParseReply() != SerialMessage::ECHO_REPLY2) {
         emit checkPositionHomeDone(false, false, false, false, false, false);
         return;
@@ -486,6 +516,7 @@ void SerialDevice::setHomeJob()
     emit debug(QString("Ustaw pozycje startowa dla dozownika %1").arg(dozownikNr + 1));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setPositionHomeDone(false);
@@ -493,6 +524,7 @@ void SerialDevice::setHomeJob()
     }
 
     s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::MOVEHOME_REPLY) {
         emit setPositionHomeDone(false);
         return;
@@ -506,6 +538,7 @@ void SerialDevice::setPosJob()
     emit debug(QString("Ustaw pozycje %1").arg(val1));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setPositionDone(false);
@@ -513,6 +546,7 @@ void SerialDevice::setPosJob()
     }
 
     s = write(SerialMessage::setPosition(dozownikNr, val1), 100, 60000).getParseReply();
+    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::POSITION_REPLY) {
         emit setPositionDone(false);
         return;
@@ -558,6 +592,7 @@ void SerialDevice::closeDevice()
 {
     RS232_CloseComport(m_portNr);
     m_connected = false;
+    m_configured = false;
 }
 
 void SerialDevice::connectToSerialJob()
