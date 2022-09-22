@@ -8,7 +8,7 @@
 #include "ustawienia.h"
 #include "niusb6210.h"
 #include "niusb6501.h"
-
+#include <QTimer>
 
 #if SYMULATOR
 
@@ -133,6 +133,18 @@ signals:
     void usb6210(bool open, bool conf);
     void usb6501(bool ok, bool conf);
 
+protected slots:
+    /**
+     * @brief analogConfigure - konfiguracja karty analogowej
+     */
+    void analogConfigure();
+
+    /**
+     * @brief digitalConfigure - konfiguracja karty cyfrowej
+     */
+    void digitalConfigure();
+
+
 protected:
     /**
      * @brief run - główna pętla wątku
@@ -145,15 +157,7 @@ protected:
      */
     bool find();
 
-    /**
-     * @brief analogConfigure - konfiguracja karty analogowej
-     */
-    void analogConfigure();
 
-    /**
-     * @brief digitalConfigure - konfiguracja karty cyfrowej
-     */
-    void digitalConfigure();
 
     /**
      * @brief resetDevice - reset kart
@@ -206,6 +210,8 @@ private:
     uint16_t prevInputs;
     uint16_t prevOutputs;
 
+    QTimer anTimer;
+    QTimer digTimer;
 };
 #endif
 
