@@ -5,8 +5,9 @@
 #include <QMutex>
 #include <QThread>
 #include <QWaitCondition>
-
+#include <QList>
 #include <QByteArray>
+#include <QTimer.h>
 
 #include "serialmessage.h"
 #include "ustawienia.h"
@@ -48,6 +49,8 @@ public:
         SET_CYCLE,
         SET_STEPS,
         SET_ECHO2,
+        SET_ECHO,
+        CLOSE_DEVICE
     } Task;
 
     explicit SerialWorker(SerialDevice * device);
@@ -60,6 +63,8 @@ public:
      * SET_STEPS, SET_ECHO2
      */
     void command(Task task);
+
+    void commandNoRepeat(Task task);
 
     /**
      * @brief setStop
@@ -76,7 +81,7 @@ protected:
 
 
 private:
-    Task actTask;
+    QList<Task> actTask;
     QMutex mutex;
     QWaitCondition newTask;
     bool runWorker;
@@ -272,6 +277,9 @@ protected:
      */
     void connectToSerialJob();
 
+    void setConnected(bool conn);
+    bool getConnected();
+
     /**
      * @brief configureDeviceJob - konfiguracja sterownika dozowników
      * @return
@@ -309,10 +317,18 @@ protected:
     void setStepsJob();
 
     /**
+     * @brief setCheckHomeJob - sprawdza czy sterownik żyje
+     */
+    void setCheckHomeJob();
+
+    /**
      * @brief setEchoJob - sprawdza czy sterownik żyje
      */
     void setEchoJob();
-
+    /**
+     * @brief setCloseDeviceJob - sprawdza czy sterownik żyje
+     */
+    void setCloseDeviceJob();
     /********************************** INNE FUNKCJE *************************/
     /**
      * @brief closeDevice zamyka urzadzenia
@@ -341,7 +357,8 @@ protected:
      */
     SerialMessage parseMessage(const QByteArray & reply);
 
-
+protected slots:
+    void updateDevice();
 
 
 private:
@@ -363,6 +380,9 @@ private:
     uint32_t val1;
     uint64_t val2;
     uint8_t homePositionMask;
+
+    QTimer checkTimer;
+    QMutex mutex; 
 };
 
 

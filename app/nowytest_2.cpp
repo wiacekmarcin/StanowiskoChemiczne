@@ -210,6 +210,8 @@ void NowyTest_2::on_pbOk_5_clicked()
 {
     ui->pbOk_5->setEnabled(false);
     showWarning = false;
+#if SKIP_ZAWORY 
+#else
     while (!zi_drzwi_lewe() || !zi_drzwi_prawe()) {
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Wykryto otwarte drzwi komory.\n"
@@ -222,6 +224,7 @@ void NowyTest_2::on_pbOk_5_clicked()
         } else if (ret == QMessageBox::Cancel)
             break;
     }
+#endif
     nextPage(nextPageId());
 }
 

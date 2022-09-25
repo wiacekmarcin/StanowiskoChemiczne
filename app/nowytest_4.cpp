@@ -97,19 +97,24 @@ void NowyTest_4::dozownikDone(bool success)
 void NowyTest_4::on_pbOk_1_clicked()
 {
     wizard()->setDebug(QString("PAGE4:OK1"));
-    sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
-#if SYMULATOR    
+    
+#if SKIP_ZAWORY    
     ui->pbOk_1->setEnabled(false);
     ui->arrow_1->setVisible(false);
     ui->frame_2->setVisible(true);
+#else 
+    sprawdzZawory(ui->pbOk_1, ui->arrow_1, ui->frame_2);
 #endif    
 }
 
 void NowyTest_4::on_pbOk_2_clicked()
 {
     wizard()->setDebug(QString("PAGE4:OK2"));
+#if SKIP_ZAWORY
+#else
     if (!sprawdzOtwarteZawory(i_drzwi_lewe | i_drzwi_prawe | i_pom_stez_1 | i_pom_stez_2 | i_proznia | i_wlot_powietrza | i_wentylacja_lewa | i_wentylacja_prawa))
         return;
+#endif
     ui->pbOk_2->setEnabled(false);
 
     dozownikMl(field(dozownikNr).toUInt()-1, (unsigned int)10*field(objetosc).toDouble());

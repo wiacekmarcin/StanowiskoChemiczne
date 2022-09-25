@@ -92,6 +92,7 @@ void NIDAQMxUSB6210::del()
     if (taskHandleRead != nullptr) {
         DAQmxStopTask(taskHandleRead);
         DAQmxClearTask(taskHandleRead);
+        DAQmxStopTask(taskHandleRead);
         taskHandleRead = nullptr;
     }
 }

@@ -181,6 +181,7 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
   {
     
     CloseHandle(Cport[comport_number]);
+    Cport[comport_number] = INVALID_HANDLE_VALUE;
     return(1);
   }
 
@@ -194,6 +195,7 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
   {
     
     CloseHandle(Cport[comport_number]);
+    Cport[comport_number] = INVALID_HANDLE_VALUE;
     return(1);
   }
 
@@ -209,6 +211,7 @@ https://docs.microsoft.com/en-us/windows/desktop/api/winbase/ns-winbase-_dcb
   {
     
     CloseHandle(Cport[comport_number]);
+    Cport[comport_number] = INVALID_HANDLE_VALUE;
     return(1);
   }
 
@@ -286,7 +289,9 @@ void RS232_CloseComport(int comport_number)
 #if SYMULATOR
     (void)comport_number;
 #else
-  CloseHandle(Cport[comport_number]);
+    if (Cport[comport_number] != INVALID_HANDLE_VALUE)
+        CloseHandle(Cport[comport_number]);
+    Cport[comport_number] = INVALID_HANDLE_VALUE;
 #endif
 }
 

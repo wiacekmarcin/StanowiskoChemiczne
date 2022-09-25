@@ -7,4 +7,6 @@
 #define FINISHTEST 0
 
 #define TESTPROJEKT 0
+
+#define SKIP_ZAWORY 0
 #endif // COMMON_H

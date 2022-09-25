@@ -9,7 +9,8 @@ SerialWorker::SerialWorker(SerialDevice * device):
     QThread(nullptr),
     sd(device)
 {
-    actTask = IDLE;
+    actTask = QList<Task>();
+    actTask.push_back(CONNECT);
     runWorker = true;
 }
 
@@ -17,7 +18,7 @@ SerialWorker::~SerialWorker()
 {
     mutex.lock();
     runWorker = false;
-    actTask = IDLE;
+    actTask.clear();
     newTask.wakeOne();
     mutex.unlock();
 }
@@ -26,15 +27,31 @@ void SerialWorker::command(Task curr)
 {
     const QMutexLocker locker(&mutex);
 
-    actTask = curr;
+    actTask.push_back(curr);
     newTask.wakeOne();
+}
+
+void  SerialWorker::commandNoRepeat(Task task)
+{
+    const QMutexLocker locker(&mutex);
+    if (actTask.size() == 0) {
+        actTask.push_back(task);
+        newTask.wakeOne();
+        return;
+    }
+
+    if (task != actTask.back()) {
+        actTask.push_back(task);
+        newTask.wakeOne();
+        return;
+    }
 }
 
 void SerialWorker::setStop()
 {
     mutex.lock();
     runWorker = false;
-    actTask = IDLE;
+    actTask.clear();
     
     newTask.wakeOne();
     mutex.unlock();
@@ -43,87 +60,83 @@ void SerialWorker::setStop()
 
 void SerialWorker::run()
 {
-    mutex.lock();
-    short zadanie = actTask;
-    mutex.unlock();
+    
     short nrTrying = 0;
     bool quit = false;
+    short zadanie;
     do {
+        mutex.lock();
+        if (actTask.size() == 0) {
+            newTask.wait(&mutex);
+        }
+        quit = !runWorker;
+        if (actTask.size() > 0) {
+            zadanie = actTask.front();
+            actTask.pop_front();
+        }
+        mutex.unlock();
+        if (quit)
+            zadanie = IDLE;
+
         switch(zadanie) {
-        case IDLE:
-            if (!sd->m_connected) {
-                zadanie = CONNECT;
-                QThread::currentThread()->sleep(10);
-            } else if (!sd->m_configured) {
-                zadanie = CONFIGURE;
-                QThread::currentThread()->sleep(5);
-            } else {
-                mutex.lock();
-                newTask.wait(&mutex);
-                zadanie = actTask;
-                mutex.unlock();
-            }
-            break;
         case CONNECT:
             sd->connectToSerialJob();
-            if (!sd->m_connected) {
-                zadanie = IDLE;
+            if (!sd->getConnected()) {
+                QThread::currentThread()->sleep(1);
+                command(CONNECT);
             } else if (!sd->m_configured) {
                 if (nrTrying++ > 5) {
                     nrTrying = 0;
                     zadanie = IDLE;
                     sd->closeDevice();
-                    sd->m_connected = false;
+                    sd->setConnected(false);
+                    command(CONNECT);
                 } else {
-                    zadanie = CONFIGURE;
+                    command(CONFIGURE);
                 }
-            } else if (sd->m_connected && sd->m_configured) {
+            } else if (sd->getConnected() && sd->m_configured) {
                 nrTrying = 0;
-                zadanie = IDLE;
             }
             break;
 
         case CONFIGURE:
             sd->m_configured = sd->configureDeviceJob();
-            zadanie = IDLE;
             break;
 
         case SET_PARAMS:
             sd->setParamsJob();
-            zadanie = IDLE;
             break;
 
         case SET_HOME:
             sd->setHomeJob();
-            zadanie = IDLE;
             break;
 
         case SET_CYCLE:
             sd->setCykleJob();
-            zadanie = IDLE;
             break;
 
         case SET_POSITION:
             sd->setPosJob();
-            zadanie = IDLE;
             break;
 
         case SET_STEPS:
             sd->setStepsJob();
-            zadanie = IDLE;
             break;
 
         case SET_ECHO2:
+            sd->setCheckHomeJob();
+            break;
+
+        case SET_ECHO:
             sd->setEchoJob();
-            zadanie = IDLE;
+            break;
+        
+        case CLOSE_DEVICE:
+            sd->setCloseDeviceJob();
             break;
         default:
-            zadanie = IDLE;
             break;
         }
-        mutex.lock();
-        quit = !runWorker;
-        mutex.unlock();
     } while (!quit);
     
    qDebug() << "return SerialWorker::run()";
@@ -136,7 +149,8 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
     : QObject(parent),
       m_portName(""), m_portNr(-1),
       m_connected(false), m_configured(false),
-      m_ustawienia(u), m_worker(this)
+      m_ustawienia(u), m_worker(this),
+     checkTimer(this)
 {
     setReverse(1);
     setReverse(2);
@@ -148,7 +162,9 @@ SerialDevice::SerialDevice(Ustawienia & u, QObject *parent)
     m_timeImp = m_ustawienia.getImpTime();
 
     homePositionMask = 0;
-    m_worker.command(SerialWorker::IDLE);
+    connect(&checkTimer, &QTimer::timeout, this, &SerialDevice::updateDevice);
+    checkTimer.setInterval(1000);
+    checkTimer.start();
 }
 
 SerialDevice::~SerialDevice()
@@ -167,11 +183,20 @@ void SerialDevice::setStop()
     m_worker.setStop();
 }
 
+void SerialDevice::updateDevice()
+{
+    if (getConnected())
+        m_worker.commandNoRepeat(SerialWorker::SET_ECHO);
+}
+
 void SerialDevice::setMaxImp(uint32_t imp)
 {
     m_maxImp = imp;
     m_ustawienia.setMaxImp(imp);
-    m_worker.command(SerialWorker::SET_PARAMS);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_PARAMS);
+    else
+        emit setParamsDone(false);
 }
 
 void SerialDevice::setSettings(bool r1, bool r2, bool r3, bool r4, bool r5, uint32_t mImp, uint16_t impT)
@@ -192,27 +217,39 @@ void SerialDevice::setSettings(bool r1, bool r2, bool r3, bool r4, bool r5, uint
     m_ustawienia.setReverse_3(r3);
     m_ustawienia.setReverse_4(r4);
     m_ustawienia.setReverse_5(r5);
-    m_worker.command(SerialWorker::SET_PARAMS);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_PARAMS);
+    else
+        emit setParamsDone(false);
 }
 
 void SerialDevice::setImpTime(uint16_t impT)
 {
     m_timeImp = impT;
     m_ustawienia.setImpTime(m_timeImp);
-    m_worker.command(SerialWorker::SET_PARAMS);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_PARAMS);
+    else
+        emit setParamsDone(false);
 }
 
 void SerialDevice::setPositionHome(uint8_t nrDoz)
 {
     dozownikNr = nrDoz;
-    m_worker.command(SerialWorker::SET_HOME);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_HOME);
+    else
+        emit setPositionHomeDone(false);
 }
 
 void SerialDevice::setSteps(uint8_t nrDoz, uint64_t pos)
 {
     dozownikNr = nrDoz;
     val2 = pos;
-    m_worker.command(SerialWorker::SET_STEPS);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_STEPS);
+    else
+        emit setStepsDone(false);
 }
 
 void SerialDevice::setReset()
@@ -224,19 +261,29 @@ void SerialDevice::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 {
     dozownikNr = nrDoz;
     val1 = nrCyckli;
-    m_worker.command(SerialWorker::SET_CYCLE);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_CYCLE);
+    else
+        emit setCykleDone(false);
 }
 
 void SerialDevice::setPosition(uint8_t nrDoz, uint32_t steps)
 {
     dozownikNr = nrDoz;
     val1 = steps;
-    m_worker.command(SerialWorker::SET_POSITION);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_POSITION);
+    else
+        emit setPositionDone(false);
+
 }
 
 void SerialDevice::checkPositionHome()
 {
-    m_worker.command(SerialWorker::SET_ECHO2);
+    if (getConnected())
+        m_worker.command(SerialWorker::SET_ECHO2);
+    else
+        emit checkPositionHomeDone(false, false, false, false, false, false);
 }
 
 
@@ -298,11 +345,6 @@ SerialMessage SerialDevice::write(const QByteArray &currentRequest, int currentW
                 return false; \
                 } } while(false)
 
-#define NOREPLYTIMEOUT(s) do { if ((s) == SerialMessage::TIMEOUT_READ_REPLY || (s) == SerialMessage::TIMEOUT_WRITE_REPLY) {\
-                closeDevice(); \
-                openDevice(); \
-                } } while(false)
-
 bool SerialDevice::configureDeviceJob()
 {
     homePositionMask = 0;
@@ -338,19 +380,22 @@ void SerialDevice::setParamsJob()
                arg(m_maxImp).arg(m_timeImp));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
 
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setParamsDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
-    NOREPLYTIMEOUT(s);
+
     if (s != SerialMessage::RESET_REPLY) {
         m_configured = false;
         emit setParamsDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
@@ -358,9 +403,11 @@ void SerialDevice::setParamsJob()
 
     s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
               100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
+    
     if (s != SerialMessage::SETPARAMS_REPLY) {
         m_configured = false;
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         emit setParamsDone(false);
         return;
     }
@@ -372,18 +419,22 @@ void SerialDevice::setResetJob()
 {
     emit debug(QString("Resetowanie sterownika silników"));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
+    
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit resetDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     s = write(SerialMessage::setReset(), 100, 3000).getParseReply();
-    NOREPLYTIMEOUT(s);
+
     if (s != SerialMessage::RESET_REPLY) {
         m_configured = false;
         emit resetDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
@@ -394,40 +445,48 @@ void SerialDevice::setCykleJob()
 {
     emit debug(QString("Wstepne dozowania dozownika %1").arg(dozownikNr + 1));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setCykleDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
               100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
+
     if (s != SerialMessage::SETPARAMS_REPLY) {
         emit setCykleDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
-    NOREPLYTIMEOUT(s);
+
     if (s != SerialMessage::MOVEHOME_REPLY) {
         emit setCykleDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     for (uint32_t n = 0; n < val1; ++n) {
         s = write(SerialMessage::setPosition(dozownikNr, m_maxImp), 100, 60000).getParseReply();
-        NOREPLYTIMEOUT(s);
         if (s != SerialMessage::POSITION_REPLY) {
             emit setCykleDone(false);
+            closeDevice();
+            m_worker.command(SerialWorker::CONNECT);
             return;
         }
 
         s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
-        NOREPLYTIMEOUT(s);
+
         if (s != SerialMessage::MOVEHOME_REPLY) {
             emit setCykleDone(false);
+            closeDevice();
+            m_worker.command(SerialWorker::CONNECT);
             return;
         }
     }
@@ -439,18 +498,20 @@ void SerialDevice::setStepsJob()
 {
     emit debug(QString("Ustawiam %1 kroków").arg(val2));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setStepsDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     s = write(SerialMessage::setSettingsMsg(m_reverse1, m_reverse2, m_reverse3, m_reverse4, m_reverse5, m_maxImp, m_timeImp),
               100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::SETPARAMS_REPLY) {
-        emit setCykleDone(false);
+        emit setStepsDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
@@ -465,38 +526,44 @@ void SerialDevice::setStepsJob()
             steps = m_maxImp;
         stepsAll -= steps;
         s = write(SerialMessage::setPosition(dozownikNr, steps), 100, 60000).getParseReply();
-        NOREPLYTIMEOUT(s);
+        
         if (s != SerialMessage::POSITION_REPLY) {
             emit setStepsDone(false);
+            closeDevice();
+            m_worker.command(SerialWorker::CONNECT);
             return;
         }
 
         s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
-        NOREPLYTIMEOUT(s);
         if (s != SerialMessage::MOVEHOME_REPLY) {
             emit setStepsDone(false);
+            closeDevice();
+            m_worker.command(SerialWorker::CONNECT);
             return;
         }
     }
     emit setStepsDone(true);
 }
 
-void SerialDevice::setEchoJob()
+void SerialDevice::setCheckHomeJob()
 {
     emit debug(QString("Sprawdzam pozycje startowe"));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
+
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit checkPositionHomeDone(false, false, false, false, false, false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     auto s2 = write(SerialMessage::echoMsg2(), 100, 200);
-    NOREPLYTIMEOUT(s);
     if (s2.getParseReply() != SerialMessage::ECHO_REPLY2) {
         emit checkPositionHomeDone(false, false, false, false, false, false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
@@ -510,23 +577,45 @@ void SerialDevice::setEchoJob()
                              );
 }
 
+void SerialDevice::setEchoJob()
+{
+    emit debug(QString("Sprawdzam kontroler"));
+
+    auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
+
+    if (s != SerialMessage::ECHO_REPLY) {
+        m_configured = false;
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
+        return;
+    }
+}
+
+void SerialDevice::setCloseDeviceJob()
+{
+    emit debug(QString("Zamykam urzadzenie"));
+    closeDevice();
+}
+
 void SerialDevice::setHomeJob()
 {
 
     emit debug(QString("Ustaw pozycje startowa dla dozownika %1").arg(dozownikNr + 1));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setPositionHomeDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     s = write(SerialMessage::setPositionHome(dozownikNr), 100, 60000).getParseReply();
-    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::MOVEHOME_REPLY) {
         emit setPositionHomeDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
@@ -538,17 +627,19 @@ void SerialDevice::setPosJob()
     emit debug(QString("Ustaw pozycje %1").arg(val1));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
-    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
         emit setPositionDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
     s = write(SerialMessage::setPosition(dozownikNr, val1), 100, 60000).getParseReply();
-    NOREPLYTIMEOUT(s);
     if (s != SerialMessage::POSITION_REPLY) {
         emit setPositionDone(false);
+        closeDevice();
+        m_worker.command(SerialWorker::CONNECT);
         return;
     }
 
@@ -560,7 +651,7 @@ bool SerialDevice::openDevice()
     emit debug(QString("Otwieram urządzenia %1"));
     char mode[]={'8','O','1',0};
     if (RS232_OpenComport(m_portNr, 115200, mode, 0)) {
-        m_connected = false;
+        setConnected(false);
         return false;
     }
 
@@ -591,7 +682,7 @@ SerialMessage SerialDevice::parseMessage(const QByteArray &reply)
 void SerialDevice::closeDevice()
 {
     RS232_CloseComport(m_portNr);
-    m_connected = false;
+    setConnected(false);
     m_configured = false;
 }
 
@@ -638,6 +729,22 @@ void SerialDevice::connectToSerialJob()
 
     if (m_portNr == -1)
         return;
-    m_connected = openDevice();
+    setConnected(openDevice());
+}
+
+void SerialDevice::setConnected(bool conn)
+{
+    mutex.lock();
+    m_connected = conn;
+    mutex.unlock();
+}
+
+bool SerialDevice::getConnected()
+{
+    bool ret;
+    mutex.lock();
+    ret = m_connected;
+    mutex.unlock();
+    return ret;
 }
 
