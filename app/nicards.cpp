@@ -15,7 +15,8 @@ NICards::NICards()
       m_anConf(false), m_digConf(false),
       readAnalString("USB6210/ai0, USB6210/ai1, USB6210/ai2, USB6210/ai3, USB6210/ai4, USB6210/ai5, USB6210/ai6"),
       writeDigString("USB6501/port0,USB6501/port1/Line0:2"),
-      readDigString("USB6501/port2,USB6501/port1/Line4")
+      readDigString("USB6501/port2,USB6501/port1/Line4"),
+      anTimer(this), digTimer(this)
 {
     m_quit = false;
     maskOutput = o_hv_bezpiecznik;
@@ -27,6 +28,8 @@ NICards::~NICards()
 {
     maskOutput = o_hv_bezpiecznik;
 
+    anTimer.stop();
+    digTimer.stop();
     m_mutex.lock();
     writeDigital();
     m_quit = true;
@@ -76,14 +79,20 @@ void NICards::analogConfigure()
     m_anConf = analog.configure(analogConfString);
     emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(m_anConf ? "sukcesem" : "porażką"));
     emit usb6210(analog.isConnected(), m_anConf);
+    if (!m_anConf)
+        anTimer.singleShot(1000, this, &NICards::analogConfigure);
+
+
 }
 
 void NICards::digitalConfigure()
 {
     m_digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
-    emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(m_anConf ? "sukcesem" : "porażką"));
+    emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(m_digConf ? "sukcesem" : "porażką"));
     emit usb6501(digital.isConnected(), m_digConf);
     maskOutput = o_hv_bezpiecznik; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
+    if (!m_digConf)
+        digTimer.singleShot(1000, this, &NICards::digitalConfigure);
 }
 
 void NICards::readAnalog()

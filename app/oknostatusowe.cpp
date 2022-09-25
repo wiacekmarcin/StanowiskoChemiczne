@@ -4,6 +4,9 @@
 #include "urzadzenia.h"
 #include "ustawienia.h"
 #include "stanczujnika.h"
+
+#include <QDebug>
+
 #define _STR(X) #X
 #define STR(X) _STR(X)
 #define CON(X, Y) X ## Y
@@ -84,20 +87,23 @@ void OknoStatusowe::setDozownik(bool open, bool conf)
 {
     bOpenDozownik = open;
     bConfDozownik = conf;
+
 }
 
 void OknoStatusowe::setUSB6210(bool open, bool conf)
 {
-    
     bOpenUsb6210 = open;
     bConfUsb6210 = conf;
+    qDebug() << "ussb6210" << open << conf;
+    //ui->usb6210->setState(open, conf);
 }
 
 void OknoStatusowe::setUSB6501(bool open, bool conf)
 {
-    
     bOpenUsb6501 = open;
     bConfUsb6501 = conf;
+    //ui->usb6501->setState(open, conf);
+    qDebug() << "ussb6501" << open << conf;
 }
 
 void OknoStatusowe::timeout()
