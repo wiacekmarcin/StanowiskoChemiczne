@@ -648,7 +648,7 @@ void SerialDevice::setPosJob()
 
 bool SerialDevice::openDevice()
 {
-    emit debug(QString("Otwieram urządzenia %1"));
+    emit debug(QString("Otwieram urządzenia %1 %2").arg(m_portNr).arg(m_portName));
     char mode[]={'8','O','1',0};
     if (RS232_OpenComport(m_portNr, 115200, mode, 0)) {
         setConnected(false);

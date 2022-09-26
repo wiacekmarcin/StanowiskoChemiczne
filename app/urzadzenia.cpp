@@ -16,7 +16,7 @@ Urzadzenia::Urzadzenia(Ustawienia & ustawiania_, QObject *parent)
 
 {
     m_logFile = new QFile;
-    m_logFile->setFileName(QString("%1.txt").arg(QDateTime::currentDateTime().toString().replace(' ', '_').replace(':', '_').replace('.', '_')));
+    m_logFile->setFileName(QString("log_%1.txt").arg(QDateTime::currentDateTime().toString().replace(' ', '_').replace(':', '_').replace('.', '_')));
     m_logFile->open(QIODevice::Append | QIODevice::Text);
 
     prevInputs = 0x00;

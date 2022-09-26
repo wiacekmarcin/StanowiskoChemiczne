@@ -78,6 +78,9 @@ void NICards::analogConfigure()
 {
     m_anConf = analog.configure(analogConfString);
     emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(m_anConf ? "sukcesem" : "porażką"));
+    if (analog.isConnected() || m_anConf) {
+        emit debug(QString("AN ERR: %1").arg(QString(analog.errStr().c_str())));
+    }
     emit usb6210(analog.isConnected(), m_anConf);
     if (!m_anConf)
         anTimer.singleShot(1000, this, &NICards::analogConfigure);
@@ -89,6 +92,9 @@ void NICards::digitalConfigure()
 {
     m_digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
     emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(m_digConf ? "sukcesem" : "porażką"));
+    if (digital.isConnected() || m_digConf) {
+        emit debug(QString("DIG ERR: %1").arg(QString(digital.errStr().c_str())));
+    }
     emit usb6501(digital.isConnected(), m_digConf);
     maskOutput = o_hv_bezpiecznik; //Stan niski to zalaczenie - na starcie załaczym bezpiecznik na iskrze elektrycznej
     if (!m_digConf)

@@ -130,7 +130,15 @@ void NowyTest_2::on_rb1_no_toggled(bool checked)
 
 void NowyTest_2::on_pbOk_1_clicked()
 {
-    if (okDozownik && !homeDozownik[dozownik])
+    if (!okDozownik) {
+        if (QMessageBox::warning(this, "Dozownik",
+            QString("Nie wykryto kontrolera dozowników.\nCzy chcesz kontynuować?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::No) {
+            setFinished(false);
+        } 
+        checkPositionHome();
+        return;
+    } else if (okDozownik && !homeDozownik[dozownik])
     {
         if (QMessageBox::warning(this, "Dozownik",
               QString("Wykryto nie prawidłowe ustawienie dozownika nr %1.\nCzy chcesz kontynuować procedurę napełniania?").arg(dozownik+1),
