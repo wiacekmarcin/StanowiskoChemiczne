@@ -1,0 +1,625 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="crc8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="createtestwizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="czujnikanalogowywidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="czujnikianalogoweokno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="czujnikianalogoweustawieniaframe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="digitaloutwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="doublelineedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glowneokno.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="logowaniedlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nicards.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="niusb6210.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="niusb6501.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowyprojectdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_7.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_8.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nowytest_9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="oczekiwanienazaplon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="oknostanowewyjscia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="oknostatusowe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="otwartezawory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pdfcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pictureframe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="projectitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="projektwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rs232.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="serialdevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="serialmessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stanczujnika.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stanwyjscia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sygnalanalogowyustawienia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sygnalyanalogoweustawieniadialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sygnalycyfroweustawienia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sygnalycyfroweustawieniadialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testpageform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testparam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testtabswidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="urzadzenia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ustawienia.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ustawieniadozownika.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ustawieniatestu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="videoimage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="videowidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wersjadlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wykresy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zdjeciaraport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="build_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crc8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="createtestwizard.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="czujnikanalogowywidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="czujnikianalogoweokno.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="czujnikianalogoweustawieniaframe.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="digitaloutwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="doublelineedit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="glowneokno.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="logowaniedlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nicards.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="niusb6210.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="niusb6501.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="nowyprojectdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_1.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_2.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_3.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_4.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_5.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_6.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_7.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_8.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="nowytest_9.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="oczekiwanienazaplon.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="oknostanowewyjscia.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="oknostatusowe.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="otwartezawory.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="pdfcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="pictureframe.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="projectitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="projektwidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="rs232.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="serialdevice.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="serialmessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="stanczujnika.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="stanwyjscia.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="sygnalanalogowyustawienia.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="sygnalyanalogoweustawieniadialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="sygnalycyfroweustawienia.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="sygnalycyfroweustawieniadialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="testdata.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="testdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="testpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="testpageform.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="testparam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="testtabswidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="urzadzenia.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="ustawienia.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="ustawieniadozownika.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ustawieniatestu.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="videoimage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="videowidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="wersjadlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="wykresy.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="zdjeciaraport.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <CustomBuild Include="moc\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="czujnikanalogowywidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="digitaloutwidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="glowneokno.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="logowaniedlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowyprojectdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_1.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_2.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_3.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_4.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_5.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_6.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_7.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_8.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="nowytest_9.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="oczekiwanienazaplon.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="oknostanowewyjscia.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="oknostatusowe.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="otwartezawory.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="pictureframe.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="projektwidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="stanczujnika.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="stanwyjscia.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="sygnalanalogowyustawienia.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="sygnalyanalogoweustawieniadialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="sygnalycyfroweustawienia.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="sygnalycyfroweustawieniadialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="testdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="testpageform.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="testtabswidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ustawieniadozownika.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ustawieniatestu.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="wersjadlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="wykresy.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="zdjeciaraport.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LogoSGSP.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="arrow.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="green.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="ikony.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="red.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="warning_small.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="yellow.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="zawor.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="StanowiskoChemiczne_pl_PL.ts">
+      <Filter>Distribution Files</Filter>
+    </None>
+    <None Include="lista.txt">
+      <Filter>Distribution Files</Filter>
+    </None>
+    <None Include="path">
+      <Filter>Distribution Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

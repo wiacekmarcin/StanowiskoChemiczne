@@ -559,6 +559,7 @@ void GlowneOkno::on_actionSygna_y_cyfrowe_triggered()
     connect(urzadzenia, &Urzadzenia::digitalWriteValueChanged, dlg,    &SygnalyCyfroweUstawieniaDialog::setOnOff,   Qt::QueuedConnection);
     connect(dlg, &SygnalyCyfroweUstawieniaDialog::writeValue, urzadzenia, &Urzadzenia::digitalWrite, Qt::DirectConnection);
     connect(dlg, &SygnalyCyfroweUstawieniaDialog::setIskraEl, urzadzenia, &Urzadzenia::setIskraElektryczna, Qt::QueuedConnection);
+    dlg->setOnOff(urzadzenia->getDigitaltOutMask());
 
     if (dlg->exec() == QDialog::Accepted) {
         QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");

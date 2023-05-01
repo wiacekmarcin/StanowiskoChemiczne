@@ -20,6 +20,7 @@ public:
     void setLabel(const QString &name);
 
     void digitalWrite(uint16_t value);
+    void setOnOff(bool val);
 
 signals:
     void writeValue(digitalOut mask, uint8_t value);
@@ -29,8 +30,7 @@ private slots:
     void TbOnclicked();
     void TbOffclicked();
 
-protected:
-    void setOnOff(bool on);
+
 private:
     Ui::StanWyjscia *ui;
     bool m_on;

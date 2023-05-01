@@ -346,6 +346,10 @@ void Urzadzenia::runPlomien2()
     digitalWrite(o_grzalka, false);
 }
 
+uint16_t Urzadzenia::getDigitaltOutMask() const 
+{
+    return m_NI_Cards.getDigitalWrite();
+}
 
 
 
