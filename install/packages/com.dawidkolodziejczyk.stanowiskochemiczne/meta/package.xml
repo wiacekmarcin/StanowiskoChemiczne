@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Package>
+    <DisplayName>Program główny</DisplayName>
+    <Description>Jest to program umożliwiający przeprowadzenie procedury testu zapłonu. A także po teście do opracowania wyników.</Description>
+    <Version>1.5</Version>
+    <ReleaseDate>2022-04-01</ReleaseDate>
+    <Default>True</Default>
+</Package>

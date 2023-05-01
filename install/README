@@ -1,0 +1,7 @@
+Shows how to quit an installer from script side.
+
+Generate installer with
+
+binarycreator --offline-only -c config/config.xml -p packages installer
+
+C:\Qt5.12\Tools\QtInstallerFramework\4.4\bin\binarycreator.exe --offline-only -c c:\dev\StanowiskoChemiczne\install\config\config.xml -p c:\dev\StanowiskoChemiczne\install\packages c:\dev\StanowiskoChemiczne\install\StanowiskoInstaller.exe
