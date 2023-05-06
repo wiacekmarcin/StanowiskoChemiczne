@@ -417,7 +417,7 @@ void SerialDevice::setParamsJob()
 
 void SerialDevice::setResetJob()
 {
-    emit debug(QString("Resetowanie sterownika silników"));
+    emit debug(QString(tr("Resetowanie sterownika silników")));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     
     if (s != SerialMessage::ECHO_REPLY) {
@@ -443,7 +443,7 @@ void SerialDevice::setResetJob()
 
 void SerialDevice::setCykleJob()
 {
-    emit debug(QString("Wstepne dozowania dozownika %1").arg(dozownikNr + 1));
+    emit debug(QString(tr("Wstepne dozowanie dozownika %1")).arg(dozownikNr + 1));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
@@ -496,7 +496,7 @@ void SerialDevice::setCykleJob()
 
 void SerialDevice::setStepsJob()
 {
-    emit debug(QString("Ustawiam %1 kroków").arg(val2));
+    emit debug(QString(tr("Ustawiam %1 kroków")).arg(val2));
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
         m_configured = false;
@@ -547,7 +547,7 @@ void SerialDevice::setStepsJob()
 
 void SerialDevice::setCheckHomeJob()
 {
-    emit debug(QString("Sprawdzam pozycje startowe"));
+    emit debug(QString(tr("Sprawdzam pozycje startowe")));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
 
@@ -579,7 +579,7 @@ void SerialDevice::setCheckHomeJob()
 
 void SerialDevice::setEchoJob()
 {
-    emit debug(QString("Sprawdzam kontroler"));
+    emit debug(QString(tr("Sprawdzam kontroler")));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
 
@@ -593,14 +593,14 @@ void SerialDevice::setEchoJob()
 
 void SerialDevice::setCloseDeviceJob()
 {
-    emit debug(QString("Zamykam urzadzenie"));
+    emit debug(QString(tr("Zamykam urzadzenie")));
     closeDevice();
 }
 
 void SerialDevice::setHomeJob()
 {
 
-    emit debug(QString("Ustaw pozycje startowa dla dozownika %1").arg(dozownikNr + 1));
+    emit debug(QString(tr("Ustaw pozycje startowa dla dozownika %1")).arg(dozownikNr + 1));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
@@ -624,7 +624,7 @@ void SerialDevice::setHomeJob()
 
 void SerialDevice::setPosJob()
 {
-    emit debug(QString("Ustaw pozycje %1").arg(val1));
+    emit debug(QString(tr("Ustaw pozycje %1")).arg(val1));
 
     auto s = write(SerialMessage::echoMsg(), 100, 100).getParseReply();
     if (s != SerialMessage::ECHO_REPLY) {
@@ -648,7 +648,7 @@ void SerialDevice::setPosJob()
 
 bool SerialDevice::openDevice()
 {
-    emit debug(QString("Otwieram urządzenia %1 %2").arg(m_portNr).arg(m_portName));
+    emit debug(QString(tr("Otwieram urządzenia %1 %2")).arg(m_portNr).arg(m_portName));
     char mode[]={'8','O','1',0};
     if (RS232_OpenComport(m_portNr, 115200, mode, 0)) {
         setConnected(false);
@@ -695,7 +695,7 @@ void SerialDevice::connectToSerialJob()
     QString systemLocation = "";
     bool findDevice = false;
     m_configured = false;
-    emit debug(QString("Szukam urządzenia"));
+    emit debug(QString(tr("Szukam urządzenia")));
     emit dozownikConfigured(false, false);
 
     const auto serialPortInfos = QSerialPortInfo::availablePorts();
@@ -709,11 +709,11 @@ void SerialDevice::connectToSerialJob()
         if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
             auto vendorId = serialPortInfo.vendorIdentifier();
             auto productId = serialPortInfo.productIdentifier();
-            emit debug(QString("Znaleziono kandydata"));
+            emit debug(QString(tr("Znaleziono kandydata")));
             if (vendorId == 6991 && productId == 37382 /* && serialNumber == serialNumberKontroler */) {
                 m_portName = serialPortInfo.portName();
                 systemLocation = serialPortInfo.systemLocation();
-                emit debug(QString("Znaleziono urządzenie"));
+                emit debug(QString(tr("Znaleziono urządzenie")));
                 findDevice = true;
             }
         }

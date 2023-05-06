@@ -39,7 +39,7 @@ SygnalyCyfroweUstawienia::SygnalyCyfroweUstawienia(QWidget *parent) :
     SETSTANWYJSCIA(10, o_mech_iskra, true, 1, 4, true, false);
 
     iskraEl = new QToolButton(this);
-    iskraEl->setText("Iskra elektryczna ON");
+    iskraEl->setText(tr("Iskra elektryczna ON"));
     ui->gridLayout->addWidget(iskraEl, 2, 0, 1, 1);
     connect(iskraEl, &QToolButton::clicked, this, &SygnalyCyfroweUstawienia::setIskraEl);
 

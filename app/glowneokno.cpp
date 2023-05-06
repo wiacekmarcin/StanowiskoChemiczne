@@ -387,8 +387,11 @@ void GlowneOkno::on_actionZapisz_triggered()
 
 
     QDataStream out(&file);
+#if (QT_VERSION <= QT_VERSION_CHECK(5, 10, 0))
+    out.setVersion(QDataStream::Qt_5_9);
+#else
     out.setVersion(QDataStream::Qt_5_12);
-
+#endif
     // Write a header with a "magic number" and a version
     out << (quint32)0xA0B0C0D0;
     out << (qint32)108;
@@ -419,7 +422,8 @@ void GlowneOkno::on_actionZapisz_triggered()
         out << (quint32)0xA0B0C0D0;
     }
     file.close();
-    QMessageBox::information(this, "Zapisywanie projektu", QString("Dane projektu zostały zapisane w pliku : %1").arg(fileName));
+    QMessageBox::information(this, tr("Zapisywanie projektu"), 
+                QString(tr("Dane projektu zostały zapisane w pliku : %1")).arg(fileName));
 }
 
 
@@ -441,13 +445,18 @@ void GlowneOkno::on_actionOtw_rz_triggered()
     }
 
     QDataStream in(&file);
+#if (QT_VERSION <= QT_VERSION_CHECK(5, 10, 0))
+    in.setVersion(QDataStream::Qt_5_9);
+#else
     in.setVersion(QDataStream::Qt_5_12);
+#endif
+
 
     // Read and check the header
     quint32 magic;
     in >> magic;
     if (magic != 0xA0B0C0D0) {
-        QMessageBox::information(this, tr("Nie można otworzyć pliku"), "To nie są dane aplikacji");
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"), tr("To nie są dane aplikacji"));
         return ;
     }
 
@@ -456,7 +465,8 @@ void GlowneOkno::on_actionOtw_rz_triggered()
     in >> version;
 
     if (version != 108) {
-        QMessageBox::information(this, tr("Nie można otworzyć pliku"), "Próba odczytu ze starszej wersji aplikacji");
+        QMessageBox::information(this, tr("Nie można otworzyć pliku"), 
+        tr("Próba odczytu ze starszej wersji aplikacji"));
         return ;
     }
 
@@ -522,7 +532,7 @@ void GlowneOkno::on_actionSygna_y_analogowe_triggered()
     SygnalyAnalogowyUstawieniaDialog *dlg2 = new SygnalyAnalogowyUstawieniaDialog(user, settings, this);
     if (dlg2->exec() == QDialog::Accepted)
     {
-        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        QMessageBox::information(this, tr("Stanowisko do badania wybuchów"), tr("Niektóre zmiany wymagają ponownego uruchomienia aplikacji."));
         dlg2->save();
         ui->analog->setParams(settings);
         setActionText();
@@ -535,7 +545,8 @@ void GlowneOkno::on_actionDozowniki_triggered()
     UstawieniaDozownika * dlg = new UstawieniaDozownika(urzadzenia, settings, user, this);
     if (dlg->exec() == QDialog::Accepted)
     {
-        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Zmiany wymagają ponownego uruchomienia testu.");
+        QMessageBox::information(this, tr("Stanowisko do badania wybuchów"), 
+        tr("Zmiany wymagają ponownego uruchomienia testu."));
         dlg->save();
     }
     delete dlg;
@@ -545,7 +556,8 @@ void GlowneOkno::on_actionUstawienia_testu_triggered()
 {
     UstawieniaTestu * dlg = new UstawieniaTestu(settings, user, this);
     if (dlg->exec() == QDialog::Accepted) {
-        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        QMessageBox::information(this, tr("Stanowisko do badania wybuchów"), 
+        tr("Niektóre zmiany wymagają ponownego uruchomienia aplikacji."));
         dlg->save();
     }
 
@@ -561,7 +573,8 @@ void GlowneOkno::on_actionSygna_y_cyfrowe_triggered()
     connect(dlg, &SygnalyCyfroweUstawieniaDialog::setIskraEl, urzadzenia, &Urzadzenia::setIskraElektryczna, Qt::QueuedConnection);
 
     if (dlg->exec() == QDialog::Accepted) {
-        QMessageBox::information(this, "Stanowisko do badania wybuchów", "Niektóre zmiany wymagają ponownego uruchomienia aplikacji.");
+        QMessageBox::information(this, tr("Stanowisko do badania wybuchów"), 
+            tr("Niektóre zmiany wymagają ponownego uruchomienia aplikacji."));
         dlg->save();
         ui->frCzujniki->setLabels(settings);
         ui->wyjscia->setLabels(settings);
@@ -639,7 +652,14 @@ void GlowneOkno::getPdf()
 
 void GlowneOkno::closeEvent(QCloseEvent *e)
 {
-    int resBtn = QMessageBox::information(this, "Stanowisko do badań eksplozji", "Czy na pewno chcesz zamknąć okno?.", QMessageBox::Yes, QMessageBox::No);
+    //int resBtn = QMessageBox::information(this, "Stanowisko do badań eksplozji", "Czy na pewno chcesz zamknąć okno?", QMessageBox::Yes, QMessageBox::No);
+    QMessageBox messageBox(QMessageBox::Question, tr("Stanowisko do badań eksplozji"), 
+        tr("Czy na pewno chcesz zamknąć okno?"), 
+        QMessageBox::Yes | QMessageBox::No, this);
+    messageBox.setButtonText(QMessageBox::Yes, tr("Tak"));
+    messageBox.setButtonText(QMessageBox::No, tr("Nie"));
+    int resBtn = messageBox.exec();
+
     if (resBtn != QMessageBox::Yes) {
         e->ignore();
     } else {

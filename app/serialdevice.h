@@ -7,7 +7,7 @@
 #include <QWaitCondition>
 #include <QList>
 #include <QByteArray>
-#include <QTimer.h>
+#include <QTimer>
 
 #include "serialmessage.h"
 #include "ustawienia.h"

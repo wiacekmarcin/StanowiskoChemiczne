@@ -30,7 +30,7 @@ void TestData::setTemperaturaKomory(FazaTestu ft, const float &temp)
 
 void TestData::setCisnienieKomory(FazaTestu ft, const float &cisn)
 {
-    emit debug(QString("Ustaw ciśnienie ft = %1 cisn = %2").arg(ft).arg(cisn));
+    emit debug(QString(tr("Ustaw ciśnienie ft = %1 cisn = %2")).arg(ft).arg(cisn));
     switch(ft) {
     case FT_P1 : proby.last().P1 = cisn; break;
     case FT_P2 : proby.last().P2 = cisn; break;
@@ -48,7 +48,7 @@ void TestData::setCisnienieKomory(FazaTestu ft, const float &cisn)
 
 void TestData::setStezenia(FazaTestu ft, const float &voc1, const float &voc2, const float &o2, const float &co2, const float &cz8)
 {
-    emit debug(QString("Ustaw stezenia ft = %1 %2,%3,%4,%5,%6").arg(ft).arg(voc1).arg(voc2).arg(o2).arg(co2).arg(cz8));
+    emit debug(QString(tr("Ustaw stężenia ft = %1 %2,%3,%4,%5,%6")).arg(ft).arg(voc1).arg(voc2).arg(o2).arg(co2).arg(cz8));
     switch(ft) {
     case FT_koniec: {
         this->voc1 = voc1;

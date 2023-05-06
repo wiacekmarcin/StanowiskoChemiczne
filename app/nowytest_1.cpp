@@ -29,15 +29,15 @@ NowyTest_1::NowyTest_1(const QString & testName, bool visDozownik5, const UEkran
     ui->humanity->setMin(0);
     ui->humanity->setMax(100);
 
-    maxVal[QString("Aceton")] = ekr.maxAceton;
-    maxVal[QString("Etanol")] = ekr.maxEtanol;
-    //maxVal[QString("Olej napędowy")] = 20;
-    maxVal[QString("Izopropanol")] = ekr.maxIzopropanol;
-    maxVal[QString("Benzyna")] = ekr.maxBenzyna;
-    maxVal[QString("Toluen")] = ekr.maxToluen;
+    maxVal[QString::fromUtf8("Aceton")] = ekr.maxAceton;
+    maxVal[QString::fromUtf8("Etanol")] = ekr.maxEtanol;
+    //maxVal[QString::fromUtf8("Olej napędowy")] = 20;
+    maxVal[QString::fromUtf8("Izopropanol")] = ekr.maxIzopropanol;
+    maxVal[QString::fromUtf8("Benzyna")] = ekr.maxBenzyna;
+    maxVal[QString::fromUtf8("Toluen")] = ekr.maxToluen;
 
     if (visDozownik5) {
-        ui->cbDozownik->addItem(QString("5"));
+        ui->cbDozownik->addItem(QString::fromUtf8("5"));
     }
     ui->cbDozownik->setEnabled(true);
     ui->cbCiecz->setEnabled(true);
@@ -116,7 +116,7 @@ void NowyTest_1::dozownikChanged(int index)
         return;
     } else if (index == 5) {
         ui->iloscCieczy->setMax(10000000);
-        ui->maxcieczy->setText("Bez limitu");
+        ui->maxcieczy->setText(tr("Bez limitu"));
         setField(TestPage::maksymalnaIloscCieczy, QVariant::fromValue((double)10000000));
     }
     valid = false;
@@ -186,7 +186,7 @@ void NowyTest_1::cieczChanged(int index)
     QString key = ui->cbCiecz->currentText();
     if (ui->cbDozownik->currentIndex() == 5) {
         ui->iloscCieczy->setMax(10000000);
-        ui->maxcieczy->setText("Bez limitu");
+        ui->maxcieczy->setText(tr("Bez limitu"));
         setField(TestPage::maksymalnaIloscCieczy, QVariant::fromValue((double)10000000));
     } else {
         ui->maxcieczy->setText(QString::number(maxVal[key]));

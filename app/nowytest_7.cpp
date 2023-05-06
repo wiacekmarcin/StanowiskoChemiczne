@@ -67,7 +67,7 @@ void NowyTest_7::on_pbOK_1_clicked()
     if ((wykrytyZaplon && rbYes) || (!wykrytyZaplon && !rbYes)) {
         next = TestPage::PAGE_8;
         setZ_criticalMask(i_drzwi_lewe | i_drzwi_prawe | i_proznia | i_wlot_powietrza | i_pom_stez_1 | i_pom_stez_2 | i_wentylacja_prawa | i_wentylacja_lewa);
-        QMessageBox::information(this, QString("Kamera"), QString("Pamiętaj o zapisaniu filmu na kartę"));
+        QMessageBox::information(this, QString(tr("Kamera")), QString(tr("Pamiętaj o zapisaniu filmu na kartę")));
         getTestData()->setUdanaProba(true, false, false);
         setField(TestPage::powtarzanyTest, QVariant::fromValue((bool)false));
         nextPage(next);
@@ -122,7 +122,8 @@ void NowyTest_7::on_pbOK_3_clicked()
 {
     wizard()->setDebug(QString("PAGE7:OK3"));
     if (!ui->rb3_ciecz->isChecked() && !ui->rb3_zaplon->isChecked()) {
-        QMessageBox::information(this, QString("Wybór procedury postępowania"), QString("Nie wybrano żadnej opcji"));
+        QMessageBox::information(this, QString(tr("Wybór procedury postępowania")), 
+            QString(tr("Nie wybrano żadnej opcji")));
         return;
     }
     if (!dozowanieCieczy) {
@@ -143,12 +144,12 @@ void NowyTest_7::on_pbOk_4_clicked()
     double val = ui->cbCiecz->value();
     wizard()->setDebug(QString("PAGE7:Ciecz %1 ml").arg(val));
     if (val == 0) {
-        QMessageBox::information(this, QString("Dozowanie cieczy"), QString("Wybierz więcej niż 0ml"));
+        QMessageBox::information(this, QString(tr("Dozowanie cieczy")), QString(tr("Wybierz więcej niż 0ml")));
         return;
     }
     double maxVal = field(TestPage::maksymalnaIloscCieczy).toDouble();
     if (val >= maxVal) {
-        QMessageBox::information(this, QString("Dozowanie cieczy"), QString("Wybierz mniej niż %1ml").arg(maxVal));
+        QMessageBox::information(this, QString(tr("Dozowanie cieczy")), QString(tr("Wybierz mniej niż %1ml")).arg(maxVal));
         return;
     }
 

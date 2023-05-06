@@ -9,7 +9,7 @@ OtwarteZawory::OtwarteZawory(const QMap<unsigned int, QString> & names, QWidget 
     ui(new Ui::OtwarteZawory)
 {
     ui->setupUi(this);
-    setWindowTitle("Ostrzeżenie, otwarte zawory");
+    setWindowTitle(tr("Ostrzeżenie, otwarte zawory"));
 
     SET_LABEL(1, i_wentylacja_lewa);
     SET_LABEL(2, i_wentylacja_prawa);

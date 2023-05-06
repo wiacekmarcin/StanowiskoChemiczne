@@ -31,7 +31,7 @@ void ZdjeciaRaport::addImages(const QStringList &files, const QString & workDir)
         QString fdst = testWorkDir.absoluteFilePath(fn);
         QFile fp(fName);
         if (!fp.copy(fdst)) {
-            QMessageBox::warning(this, "Dodawanie zdjęc", QString("Nie udało się dodać zdjęcia : %1").arg(fName));
+            QMessageBox::warning(this, tr("Dodawanie zdjęc"), QString(tr("Nie udało się dodać zdjęcia : %1")).arg(fName));
             qDebug() << "nie udalo sie skopiowac: " << fName << " -> " << fdst;
             continue;
         }
@@ -40,7 +40,7 @@ void ZdjeciaRaport::addImages(const QStringList &files, const QString & workDir)
         QImage im(fdst);
         if (im.isNull()) {
             qDebug() << "nie udalo sie otworzyć: " << fdst;
-            QMessageBox::warning(this, "Dodawanie zdjęc", QString("Nie prawidłowy format pliku : %1").arg(fName));
+            QMessageBox::warning(this, tr("Dodawanie zdjęc"), QString(tr("Nie prawidłowy format pliku : %1")).arg(fName));
             continue;
         }
 
@@ -56,7 +56,7 @@ void ZdjeciaRaport::addImages(const QStringList &files, const QString & workDir)
         QString fileNamePng = testWorkDir.absoluteFilePath(basename) + QString(".png");
         qDebug() <<  "save: " << fileNamePng;
         if(!c.save(fileNamePng, "PNG")) {
-            QMessageBox::warning(this, "Dodawanie zdjęc", QString("Nie udało się zapisać pliku : %1").arg(fileNamePng));
+            QMessageBox::warning(this, tr("Dodawanie zdjęc"), QString(tr("Nie udało się zapisać pliku : %1")).arg(fileNamePng));
             qDebug() << "canot save" ;
             continue;
         }

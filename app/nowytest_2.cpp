@@ -4,6 +4,7 @@
 #include "urzadzenia.h"
 #include "ustawienia.h"
 
+#include "common.h"
 #include <QTimer>
 #include <QMessageBox>
 
@@ -13,8 +14,8 @@ NowyTest_2::NowyTest_2(unsigned short initC, QWidget *parent) :
     initCykle(initC)
 {
     ui->setupUi(this);
-    ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?"));
-    ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>"));
+    ui->txt_1->setText(QString(tr("Czy układ dozownika <DOZOWNIK> jest napełniony ?")));
+    ui->text_3->setText(QString(tr("Rozpocznij napełnianie układu dozownika <DOZOWNIK>")));
 
     okDozownik = false;
     homeDozownik[0] = false;
@@ -42,8 +43,8 @@ void NowyTest_2::initializePage()
     ui->rb1_yes->setChecked(true);
     ui->rb4_yes->setChecked(true);
     dozownik = field(dozownikNr).toUInt()-1;
-    ui->txt_1->setText(QString("Czy układ dozownika <DOZOWNIK> jest napełniony ?").replace("<DOZOWNIK>", QString::number(dozownik+1)));
-    ui->text_3->setText(QString("Rozpocznij napełnianie układu dozownika <DOZOWNIK>").replace("<DOZOWNIK>", QString::number(dozownik+1)));
+    ui->txt_1->setText(QString(tr("Czy układ dozownika <DOZOWNIK> jest napełniony ?")).replace("<DOZOWNIK>", QString::number(dozownik+1)));
+    ui->text_3->setText(QString(tr("Rozpocznij napełnianie układu dozownika <DOZOWNIK>")).replace("<DOZOWNIK>", QString::number(dozownik+1)));
     checkPositionHome();
     setZ_criticalMask(0);
 }
@@ -55,8 +56,7 @@ void NowyTest_2::updateWejscia()
         if (zi_drzwi_lewe() && zi_drzwi_prawe()) {
             showWarning = false;
             QMessageBox::warning(this, tr("Komora"),
-                                           tr("Zamknięto komorę.\n"
-                                              "Otwórz komorę aby kontynuować"),
+                                           tr("Zamknięto komorę.\nOtwórz komorę aby kontynuować"),
                                            QMessageBox::Ok);
             showWarning = true;
         }
@@ -66,11 +66,22 @@ void NowyTest_2::updateWejscia()
 void NowyTest_2::dozownikDone(bool succes)
 {
     if (!succes) {
+        /*
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Nie udało się zadozować cieczy.\n"
                                           "Czy chcesz kontynuować?"),
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
+        */                                       
+
+        int ret;
+        MSGBOX_YES_NO(ret, QMessageBox::Warning, 
+                      tr("Dozownik"),
+                      tr("Nie udało się zadozować cieczy.\nCzy chcesz kontynuować?"),
+                      (QMessageBox::Yes | QMessageBox::No),
+                      QMessageBox::No,
+                      this);
+
         if (ret == QMessageBox::No) {
             setFinished(false);
             return;
@@ -131,18 +142,38 @@ void NowyTest_2::on_rb1_no_toggled(bool checked)
 void NowyTest_2::on_pbOk_1_clicked()
 {
     if (!okDozownik) {
-        if (QMessageBox::warning(this, "Dozownik",
+        int ret;
+        MSGBOX_YES_NO(ret, QMessageBox::Warning,
+            tr("Dozownik"),
+            tr("Nie wykryto kontrolera dozowników.\nCzy chcesz kontynuować?"),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No,
+            this);
+
+        /*if (QMessageBox::warning(this, "Dozownik",
             QString("Nie wykryto kontrolera dozowników.\nCzy chcesz kontynuować?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::No) {
+        */
+        if (ret == QMessageBox::No) {
             setFinished(false);
         } 
         checkPositionHome();
         return;
     } else if (okDozownik && !homeDozownik[dozownik])
     {
+        int ret;
+        MSGBOX_YES_NO(ret, QMessageBox::Warning,
+            tr("Dozownik"),
+            QString(tr("Wykryto nie prawidłowe ustawienie dozownika nr %1.\nCzy chcesz kontynuować procedurę napełniania?")).arg(dozownik+1),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::Yes,
+            this);
+        /*
         if (QMessageBox::warning(this, "Dozownik",
               QString("Wykryto nie prawidłowe ustawienie dozownika nr %1.\nCzy chcesz kontynuować procedurę napełniania?").arg(dozownik+1),
               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::No) {
+        */
+        if (ret == QMessageBox::No) {
             setFinished(false);
         }
         m_DozownikPelny = false;
@@ -163,11 +194,21 @@ void NowyTest_2::on_pbOK_2_clicked()
     ui->pbOK_2->setEnabled(false);
     showWarning = false;
     while (zi_drzwi_lewe() && zi_drzwi_prawe()) {
+        int ret;
+        MSGBOX_YES_NO(ret, QMessageBox::Warning,
+            tr("Dozownik"),
+            tr("Nie wykryto otwartych drzwiczek\nCzy chcesz kontynuować test?"),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No,
+            this);
+
+        /*
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Nie wykryto otwartych drzwiczek.\n"
                                           "Czy chcesz kontynuować test?"),
                                        QMessageBox::Yes | QMessageBox::No,
                                        QMessageBox::No);
+        */
         if (ret == QMessageBox::No) {
             setFinished(false);
             return;
@@ -221,11 +262,24 @@ void NowyTest_2::on_pbOk_5_clicked()
 #if SKIP_ZAWORY 
 #else
     while (!zi_drzwi_lewe() || !zi_drzwi_prawe()) {
+        /*
         int ret = QMessageBox::warning(this, tr("Dozownik"),
                                        tr("Wykryto otwarte drzwi komory.\n"
                                           "Zamknij je w celu kontynuacji. Zamknięto drzwi OK, przewanie testu Anuluj"),
                                        QMessageBox::Ok | QMessageBox::Abort | QMessageBox::Cancel,
                                        QMessageBox::Ok);
+        */
+        QMessageBox messageBox(QMessageBox::Warning,
+            tr("Dozownik"),
+            tr("Wykryto otwarte drzwi komory.\n"
+                "Zamknij je w celu kontynuacji. Zamknięto drzwi OK, przerwanie testu Anuluj"),
+            QMessageBox::Ok | QMessageBox::Abort | QMessageBox::Cancel,
+            this);
+        messageBox.setDefaultButton(QMessageBox::Ok);
+        messageBox.setButtonText(QMessageBox::Ok, tr("OK"));
+        messageBox.setButtonText(QMessageBox::Abort, tr("Przerwij"));
+        messageBox.setButtonText(QMessageBox::Cancel, tr("Anuluj"));
+        int ret = messageBox.exec();
         if (ret == QMessageBox::Abort) {
             setFinished(false);
             return;

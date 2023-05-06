@@ -25,7 +25,7 @@ PictureFrame::PictureFrame(QWidget *parent, const QString & srcFileName) :
     ui->lineEdit->setVisible(inRaport);
     ui->upBtn->setVisible(inRaport);
     ui->downBtn->setVisible(inRaport);
-    ui->raport->setText(inRaport ? QString("Usuń z raportu") : QString("Dodaj do raportu"));
+    ui->raport->setText(inRaport ? QString(tr("Usuń z raportu")) : QString(tr("Dodaj do raportu")));
     ui->frame->setVisible(inRaport);
     ui->deleteBtn->setVisible(!inRaport);
 }
@@ -61,7 +61,7 @@ void PictureFrame::on_moveBtn()
     ui->lineEdit->setVisible(inRaport);
     ui->upBtn->setVisible(inRaport);
     ui->downBtn->setVisible(inRaport);
-    ui->raport->setText(inRaport ? QString("Usuń z raportu") : QString("Dodaj do raportu"));
+    ui->raport->setText(inRaport ? QString(tr("Usuń z raportu")) : QString(tr("Dodaj do raportu")));
     ui->frame->setVisible(inRaport);
     ui->deleteBtn->setVisible(!inRaport);
     emit moveFile(inRaport, fileName);

@@ -11,7 +11,7 @@ NowyTest_4::NowyTest_4(const UEkran4 & u4_, QWidget *parent) :
     TestPage(parent),
     ui(new Ui::NowyTest_4),
     u4(u4_),
-    infoString("Rozpocznij dozowanie <b>[CIECZ]</b> z dozonika <b>[DOZOWNIK]</b> w objętości <b>[OBJETOSC]</b> ml.")
+    infoString(tr("Rozpocznij dozowanie <b>[CIECZ]</b> z dozonika <b>[DOZOWNIK]</b> w objętości <b>[OBJETOSC]</b> ml."))
 {
     ui->setupUi(this);
 
@@ -29,7 +29,7 @@ void NowyTest_4::initializePage()
     info.replace("[DOZOWNIK]", QString::number(field(dozownikNr).toUInt()));
     info.replace("[OBJETOSC]", QString::number(field(objetosc).toDouble()));
     if (field(calaObjetosc).toDouble() > 0) {
-        info += QString(" Razem bedzie <b>%1<b> ml").arg(QString::number(
+        info += QString(tr(" Razem będzie <b>%1<b> ml")).arg(QString::number(
                             field(calaObjetosc).toDouble() + field(objetosc).toDouble()
                                                                        ));
         }
@@ -69,12 +69,14 @@ void NowyTest_4::dozownikDone(bool success)
 {
     qInfo() << "DozownikDone=" << success;
     if (!success) {
-        QMessageBox msgBox;
-        msgBox.setText("Nie udało się zadozować cieczy.");
-        msgBox.setInformativeText("Czy chcesz kontynuować");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::No);
-        int ret = msgBox.exec();
+        int ret;
+        MSGBOX_YES_NO(ret, QMessageBox::Warning,
+            tr("Dozowanie cieczy"),
+            tr("Nie udało się zadozować cieczy.\nCzy chcesz kontynuować?"),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No,
+            this);
+
         if (ret == QMessageBox::No)
             return;
         else {

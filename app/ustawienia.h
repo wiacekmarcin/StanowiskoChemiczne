@@ -55,9 +55,9 @@ typedef enum _kindUser {
     U_SERVISANT = 0x83,
 } UserPrivilige;
 
-#define PLOMIEN QString("Płomień")
-#define ISKRA_MECH QString("Iskra mechaniczna")
-#define ISKRA_ELE QString("Iskra elektryczna")
+#define PLOMIEN QString(tr("Płomień"))
+#define ISKRA_MECH QString(tr("Iskra mechaniczna"))
+#define ISKRA_ELE QString(tr("Iskra elektryczna"))
 
 
 #define SETGET_REVERSE(N) bool getReverse_##N() const; void setReverse_##N(bool newReverse);

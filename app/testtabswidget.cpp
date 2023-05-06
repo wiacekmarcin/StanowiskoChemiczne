@@ -137,8 +137,8 @@ void TestTabsWidget::finishedTest(const ProjectItem & projekt)
 
     testWorkDir = QDir(workDir);
     if (!testWorkDir.exists()) {
-        QMessageBox::information(this, "Stanowisko do badań eksplozji", "Katalog projektu nie istnieje, Kliknij OK i wybierz katalog projektu");
-        workDir = QFileDialog::getExistingDirectory(this, "Wybierz katalog do zapisu danych z testu");
+        QMessageBox::information(this, tr("Stanowisko do badań eksplozji"), tr("Katalog projektu nie istnieje, Kliknij OK i wybierz katalog projektu"));
+        workDir = QFileDialog::getExistingDirectory(this, tr("Wybierz katalog do zapisu danych z testu"));
         if (workDir.isEmpty())
             workDir = QDir::homePath();
     }
@@ -158,7 +158,7 @@ void TestTabsWidget::finishedTest(const ProjectItem & projekt)
             }
         }
         if (!cdircreate) {
-            QMessageBox::warning(this, "Stanowisko do badań eksplozji", "Aplikacja nie może utworzyć katalogu dla danych testu");
+            QMessageBox::warning(this, tr("Stanowisko do badań eksplozji"), tr("Aplikacja nie może utworzyć katalogu dla danych testu"));
         }
     } //cdircreate
 }
@@ -210,14 +210,14 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
     pdf.clearImage();
     pdf.setComment(ui->pdfComment->toHtml());
 
-    SHOW_WYKRES(a_voc1, 1, "Wykres wartości stężenia czujnika VOC1:", "Evikon E2638, etanol %LEL");
-    SHOW_WYKRES(a_voc2, 2, "Wykres wartości stężenia czujnika VOC2:", "Evikon E2638, aceton %LEL");
-    SHOW_WYKRES(a_o2, 3, "Wykres wartości stężenia czujnika O2:", "Evikon E2638, tlen 0-25%");
-    SHOW_WYKRES(a_co2, 4, "Wykres wartości stężenia czujnika CO2:", "Vaisala GMP251, 0-20%");
-    SHOW_WYKRES(a_8, 5, "Wykres wartości stężenia czujnika wirtualnego:", "Przeliczenia wskazań z VOC1, wg stałej wprowadzonej przez użytkownika");
-    SHOW_WYKRES(a_cisn_komora, 7, "Wykres wartości ciśnienia wewnątrz komory:", "WIKA A-10, 0-2,5 bar abs");
-    SHOW_WYKRES(a_temp_parownik, 8, "Wykres wartości temperatury parownika:", "Shimaden SR91, czujnik Pt100");
-    SHOW_WYKRES(a_temp_komory, 6, "Wykres wartości temperatury wewnątrz komory:", "Shimaden SD17, termopara typ K, fi3mm");
+    SHOW_WYKRES(a_voc1, 1, tr("Wykres wartości stężenia czujnika VOC1:"), tr("Evikon E2638, etanol %LEL"));
+    SHOW_WYKRES(a_voc2, 2, tr("Wykres wartości stężenia czujnika VOC2:"), tr("Evikon E2638, aceton %LEL"));
+    SHOW_WYKRES(a_o2, 3, tr("Wykres wartości stężenia czujnika O2:"), tr("Evikon E2638, tlen 0-25%"));
+    SHOW_WYKRES(a_co2, 4, tr("Wykres wartości stężenia czujnika CO2:"), tr("Vaisala GMP251, 0-20%"));
+    SHOW_WYKRES(a_8, 5, tr("Wykres wartości stężenia czujnika wirtualnego:"), tr("Przeliczenia wskazań z VOC1, wg stałej wprowadzonej przez użytkownika"));
+    SHOW_WYKRES(a_cisn_komora, 7, tr("Wykres wartości ciśnienia wewnątrz komory:"), tr("WIKA A-10, 0-2,5 bar abs"));
+    SHOW_WYKRES(a_temp_parownik, 8, tr("Wykres wartości temperatury parownika:"), tr("Shimaden SR91, czujnik Pt100"));
+    SHOW_WYKRES(a_temp_komory, 6, tr("Wykres wartości temperatury wewnątrz komory:"), tr("Shimaden SD17, termopara typ K, fi3mm"));
 
     foreach (auto im, ui->frame_images->getImagesDecription()) {
         pdf.addImage(im.first, im.second);
@@ -238,7 +238,7 @@ void TestTabsWidget::on_pbCreateRaport_clicked()
     printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setFullPage(true);
     textDocument->print(&printer);
-    QMessageBox::information(this, "Stanowisko do analizy wybuchów", QString("Wygenerowano raport do pliku %1").arg(fileName));
+    QMessageBox::information(this, tr("Stanowisko do analizy wybuchów"), QString(tr("Wygenerowano raport do pliku %1")).arg(fileName));
 }
 
 QDataStream & operator<<(QDataStream & ds, const TestTabsWidget & item)
@@ -288,7 +288,7 @@ QDataStream & operator>>(QDataStream & ds, TestTabsWidget & item)
 
 void TestTabsWidget::tbOpen_clicked()
 {
-    QString fileDir = QFileDialog::getExistingDirectory(this, "Wybierz katalog z filmem");
+    QString fileDir = QFileDialog::getExistingDirectory(this, tr("Wybierz katalog z filmem"));
     if (fileDir.isEmpty())
         return;
     QDir directory(fileDir);

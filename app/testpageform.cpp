@@ -72,9 +72,19 @@ void TestPageForm::visibleAbortBtn(bool vs)
 
 void TestPageForm::on_pbAbort_clicked()
 {
-    if (QMessageBox::warning(this, QString("Przerwanie test"), QString("Czy chcesz napewno przerwać test ?"),
-                         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
-        widget()->setFinished(false);
+        QMessageBox msgBox(QMessageBox::Warning,
+            tr("Dozowanie cieczy"),
+            tr("Nie udało się zadozować cieczy.\nCzy chcesz kontynuować?"),
+            QMessageBox::Yes | QMessageBox::No,
+            this);
+        msgBox.setDefaultButton(QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, tr("Tak"));
+        msgBox.setButtonText(QMessageBox::No, tr("Nie"));
+        int ret = msgBox.exec();
+        //if (QMessageBox::warning(this, QString("Przerwanie test"), QString("Czy chcesz napewno przerwać test ?"),
+        //                 QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes)
+        if (ret == QMessageBox::Yes)
+            widget()->setFinished(false);
 }
 
 

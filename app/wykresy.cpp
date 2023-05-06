@@ -38,6 +38,7 @@ Wykresy::Wykresy(QWidget *parent) :
         showW[i] = false;
         widgets[i]->setVisible(false);
     }
+    showMaximized();
     timer.setInterval(1000);
     connect(&timer, &QTimer::timeout, this, &Wykresy::updateTime);
     timer.start();

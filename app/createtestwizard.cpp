@@ -256,16 +256,16 @@ void CreateTestWizard::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3,
 
 void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
 {
-    QString s("Wykryto otwarty zawor :  ");
+    QString s(tr("Wykryto otwarty zawor :  "));
     switch(idz) {
-    case i_drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
-    case i_wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
-    case i_proznia:           s+= QString("zawór próżni"); break;
-    case i_pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
-    case i_drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
-    case i_wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
-    case i_wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
-    case i_pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_prawe:       s+= QString(tr("drzwi prawe komory")); break;
+    case i_wentylacja_lewa:   s+= QString(tr("zawór wentylacji lewy")); break;
+    case i_proznia:           s+= QString(tr("zawór próżni")); break;
+    case i_pom_stez_1:        s+= QString(tr("zawór od pomiaru stężenia 1")); break;
+    case i_drzwi_lewe:        s+= QString(tr("drzwi lewe komory")); break;
+    case i_wentylacja_prawa:  s+= QString(tr("zawór od wentylacji prawy")); break;
+    case i_wlot_powietrza:    s+= QString(tr("zawór od wlot powietrza")); break;
+    case i_pom_stez_2:        s+= QString(tr("zawór od pomiaru stężenia 1")); break;
     default:                s+= QString(""); break;
 
     }
@@ -279,21 +279,21 @@ void CreateTestWizard::criticalZaworOpenSlot(uint16_t idz)
 
 void CreateTestWizard::warningZaworOpenSlot(uint16_t idz)
 {
-    QString s("Wykryto zamkniety zawor :  ");
+    QString s(tr("Wykryto zamknięty zawór :  "));
     switch(idz) {
-    case i_drzwi_prawe:       s+= QString("drzwi prawe komory"); break;
-    case i_wentylacja_lewa:   s+= QString("zawór wentylacji lewy"); break;
-    case i_proznia:           s+= QString("zawór próżni"); break;
-    case i_pom_stez_1:        s+= QString("zawór od pomiaru stężenia 1"); break;
-    case i_drzwi_lewe:        s+= QString("drzwi lewe komory"); break;
-    case i_wentylacja_prawa:  s+= QString("zawór od wentylacji prawy"); break;
-    case i_wlot_powietrza:    s+= QString("zawór od wlot powietrza"); break;
-    case i_pom_stez_2:        s+= QString("zawór od pomiaru stężenia 1"); break;
+    case i_drzwi_prawe:       s+= QString(tr("drzwi prawe komory")); break;
+    case i_wentylacja_lewa:   s+= QString(tr("zawór wentylacji lewy")); break;
+    case i_proznia:           s+= QString(tr("zawór próżni")); break;
+    case i_pom_stez_1:        s+= QString(tr("zawór od pomiaru stężenia 1")); break;
+    case i_drzwi_lewe:        s+= QString(tr("drzwi lewe komory")); break;
+    case i_wentylacja_prawa:  s+= QString(tr("zawór od wentylacji prawy")); break;
+    case i_wlot_powietrza:    s+= QString(tr("zawór od wlot powietrza")); break;
+    case i_pom_stez_2:        s+= QString(tr("zawór od pomiaru stężenia 1")); break;
     default:                s+= QString(""); break;
 
     }
 
-    QMessageBox::warning(this, s, "Wykryto zamknięty zawór ( lub drzwi w komorze ).");
+    QMessageBox::warning(this, s, tr("Wykryto zamknięty zawór ( lub zamknięte drzwi w komorze )."));
     showWarn = false;
     //delay(2);
     //emit readsInputs();

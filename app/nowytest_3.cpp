@@ -85,7 +85,7 @@ void NowyTest_3::updateCisnieie()
         timePompaProzniowa = ust.allTimeRunPomProz;
         upLevel = (1+(ust.upLevelHistPomProz/100))*cisnienie_zad;
         downLevel = (1-(ust.downLevelHistPomProz/100))*cisnienie_zad;
-        wizard()->setDebug(QString("PAGE3:Ruszam z odciaganiem prożni proznia = %1, max czas = %2s histereza [%3 %4]").arg(cisnienie_zad).
+        wizard()->setDebug(QString(tr("PAGE3:Ruszam z odciąganiem próżni, próżnia = %1, max czas = %2s histereza [%3 %4]")).arg(cisnienie_zad).
                            arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel));
         tdlg.setDownLevel(QString::number(downLevel, 'f', 3));
         tdlg.setUpLevel(QString::number(upLevel, 'f', 3));
@@ -103,11 +103,20 @@ void NowyTest_3::updateCisnieie()
         actWork = OP_IDLE;
         updateOutput(o_pompa_prozniowa, false);
         cisnienieTimer.stop();
-        wizard()->setDebug(QString("PAGE3:Nie udalo sie uzyskac cisnienia = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5").arg(cisnienie_zad).
+        wizard()->setDebug(QString(tr("PAGE3:Nie udalo sie uzyskac cisnienia = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5")).arg(cisnienie_zad).
                            arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val));
+        /*
         int ret = QMessageBox::information(this, "Ustawianie podciśnienia",
                                  "Nie udało się uzyskać żądanego podciśnienie. Układ prawdopodobnie nieszczelny. Czy chcesz kontynuować",
                                  QMessageBox::Yes, QMessageBox::No);
+        */
+        int ret;
+        MSGBOX_YES_NO(ret, QMessageBox::Warning,
+            tr("Ustawianie podciśnienia"),
+            tr("Nie udało się uzyskać żądanego podciśnienia. Układ prawdopodobnie nieszczelny.\nCzy chcesz kontynuować?"),
+            QMessageBox::Yes | QMessageBox::No,
+            QMessageBox::No,
+            this);
         if (ret == QMessageBox::Yes) {
                 on_pbOk_5_clicked();
         } else if (ret == QMessageBox::No) {
@@ -124,7 +133,7 @@ void NowyTest_3::updateCisnieie()
             ui->cisnienieKomora_6->setText(getCisnienie(val));
             ui->cisnienie_zad_6->setText(getCisnienie(cisnienie_zad));
             ui->arrow_4->setVisible(false);
-            wizard()->setDebug(QString("PAGE3:Cisnienie nisze niz zadane = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5").arg(cisnienie_zad).
+            wizard()->setDebug(QString(tr("PAGE3:Cisnienie nisze niz zadane = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5")).arg(cisnienie_zad).
                                arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val));
             return;
         }
@@ -140,7 +149,7 @@ void NowyTest_3::updateCisnieie()
             czasWork[actWork] = timePompaProzniowa;
             nrHisterezy = ust.numberHistPomProz-1;
 
-            wizard()->setDebug(QString("PAGE3:Pierwsze uruchomienie pompy zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5").arg(cisnienie_zad).
+            wizard()->setDebug(QString(tr("PAGE3:Pierwsze uruchomienie pompy zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5")).arg(cisnienie_zad).
                                arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val));
         }
         return;
@@ -149,7 +158,7 @@ void NowyTest_3::updateCisnieie()
     {
         tdlg.setBezczynnoscPompy(QString::number(czasWork[actWork] - timePompaProzniowa));
         if (val < upLevel && czasWork[actWork] - timePompaProzniowa > ust.firsTimeWaitPomProz) {
-            wizard()->setDebug(QString("PAGE3:Pierwsze zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+            wizard()->setDebug(QString(tr("PAGE3:Pierwsze zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7")).
                                arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
                                .arg(ust.firsTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
             actWork = FINISH_STABLE;
@@ -161,7 +170,7 @@ void NowyTest_3::updateCisnieie()
         }
         if (val > upLevel) {
             if (czasWork[FIRST_WAIT] - timePompaProzniowa > ust.minTimeBetweenRunPomProz) {
-                wizard()->setDebug(QString("PAGE3:Pierwsze zatrzymanie pompy [Cisnienie Niestabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+                wizard()->setDebug(QString(tr("PAGE3:Pierwsze zatrzymanie pompy [Cisnienie Niestabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7")).
                                    arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
                                    .arg(ust.firsTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
 
@@ -179,7 +188,7 @@ void NowyTest_3::updateCisnieie()
             actWork = NEXT_WAIT;
             updateOutput(o_pompa_prozniowa, false);
             czasWork[actWork] = timePompaProzniowa;
-            wizard()->setDebug(QString("PAGE3:Kolejne zatrzymanie pompy zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+            wizard()->setDebug(QString(tr("PAGE3:Kolejne zatrzymanie pompy zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7")).
                                arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
                                .arg(ust.secondTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
 
@@ -190,7 +199,7 @@ void NowyTest_3::updateCisnieie()
     {
         tdlg.setBezczynnoscPompy(QString::number(czasWork[actWork] - timePompaProzniowa));
         if (val < upLevel && czasWork[actWork] - timePompaProzniowa > ust.secondTimeWaitPomProz) {
-            wizard()->setDebug(QString("PAGE3:Kolejne zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+            wizard()->setDebug(QString(tr("PAGE3:Kolejne zatrzymanie pompy [Cisnienie stabilne] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7")).
                                arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
                                .arg(ust.secondTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
             actWork = FINISH_STABLE;
@@ -208,12 +217,22 @@ void NowyTest_3::updateCisnieie()
                     actWork = OP_IDLE;
                     updateOutput(o_pompa_prozniowa, false);
                     cisnienieTimer.stop();
-                    wizard()->setDebug(QString("PAGE3:Ostatnie zatrzymanie pompy [CISNIENIE NIESTABILNE] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7").
+                    wizard()->setDebug(QString(tr("PAGE3:Ostatnie zatrzymanie pompy [CISNIENIE NIESTABILNE] zadane cisnienie = %1, max czas = %2s histereza [%3 %4] aktualne cisnieie %5, czas stabilnego cisnienia %6s aktualny czas = %7")).
                                        arg(cisnienie_zad).arg(ust.allTimeRunPomProz / 10).arg(downLevel).arg(upLevel).arg(val)
                                        .arg(ust.secondTimeWaitPomProz/10).arg((ust.allTimeRunPomProz-timePompaProzniowa)/10));
+                    /*                                       
                     int ret = QMessageBox::information(this, "Ustawianie podciśnienia",
                                              "Nie udało się uzyskać żądanego podciśnienie. Układ prawdopodobnie nieszczelny. Czy chcesz kontynuować",
                                              QMessageBox::Yes, QMessageBox::No);
+                    */
+                    int ret;
+                    MSGBOX_YES_NO(ret, QMessageBox::Warning,
+                        tr("Ustawianie podciśnienia"),
+                        tr("Nie udało się uzyskać żądanego podciśnienia. Układ prawdopodobnie nieszczelny.\nCzy chcesz kontynuować?"),
+                        QMessageBox::Yes | QMessageBox::No,
+                        QMessageBox::No,
+                        this);
+
                     if (ret == QMessageBox::Yes) {
                             on_pbOk_5_clicked();
                     } else if (ret == QMessageBox::No) {

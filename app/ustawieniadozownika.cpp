@@ -203,7 +203,7 @@ void UstawieniaDozownika::setCykleDone(bool success)
 {
     ui->pbCyklNapelniania->setEnabled(true);
     if (!success) {
-        QMessageBox::warning(this, "Napełnianie dozownika", "Nie udało się napełnić dozownika");
+        QMessageBox::warning(this, tr("Napełnianie dozownika"), tr("Nie udało się napełnić dozownika"));
     }
 }
 
@@ -212,7 +212,7 @@ void UstawieniaDozownika::setStepsDone(bool success)
     ui->pbDozujSteps->setEnabled(true);
     ui->pbDozujMls->setEnabled(true);
     if (!success) {
-        QMessageBox::warning(this, "Dozowanie", "Nie udało się zadozować");
+        QMessageBox::warning(this, tr("Dozowanie"), tr("Nie udało się zadozować"));
     }
 }
 
@@ -220,7 +220,7 @@ void UstawieniaDozownika::setPositionHomeDone(bool success)
 {
     ui->pbHomePosition->setEnabled(true);
     if (!success) {
-        QMessageBox::warning(this, "Ustawienie pozycji startowej", "Nie udało się wrócić do pozycji bazowej");
+        QMessageBox::warning(this, tr("Ustawienie pozycji startowej"), tr("Nie udało się wrócić do pozycji bazowej"));
     }
 }
 
@@ -228,7 +228,7 @@ void UstawieniaDozownika::setPositionDone(bool success)
 {
     ui->pbSetPosition->setEnabled(true);
     if (!success) {
-        QMessageBox::warning(this, "Ustawienie pozycji", "Nie udało się ustawić pozycji");
+        QMessageBox::warning(this, tr("Ustawienie pozycji"), tr("Nie udało się ustawić pozycji"));
     }
 }
 

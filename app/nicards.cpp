@@ -55,7 +55,7 @@ void NICards::setStop()
 void NICards::digitalWrite(digitalOut _out, bool val)
 {
     unsigned int out = (unsigned int)_out;
-    emit debug(QString("Zapisz %1 => %2").arg(out,16).arg(val));
+    emit debug(QString::fromUtf8("Zapisz %1 => %2").arg(out,16).arg(val));
     unsigned short i = 0;
     unsigned long mask = 0x1;
     m_mutex.lock();
@@ -77,7 +77,7 @@ void NICards::digitalWrite(digitalOut _out, bool val)
 void NICards::analogConfigure()
 {
     m_anConf = analog.configure(analogConfString);
-    emit debug(QString("Konfiguracja karty analogowej zakonczyła się : %1").arg(m_anConf ? "sukcesem" : "porażką"));
+    emit debug(QString::fromUtf8("Konfiguracja karty analogowej zakonczyła się : %1").arg(m_anConf ? "sukcesem" : "porażką"));
     if (analog.isConnected() || m_anConf) {
         emit debug(QString("AN ERR: %1").arg(QString(analog.errStr().c_str())));
     }
@@ -91,7 +91,7 @@ void NICards::analogConfigure()
 void NICards::digitalConfigure()
 {
     m_digConf = digital.configure(digitalConfReadString, digitalConfWriteString);
-    emit debug(QString("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(m_digConf ? "sukcesem" : "porażką"));
+    emit debug(QString::fromUtf8("Konfiguracja karty cyfrowej zakonczyła się : %1").arg(m_digConf ? "sukcesem" : "porażką"));
     if (digital.isConnected() || m_digConf) {
         emit debug(QString("DIG ERR: %1").arg(QString(digital.errStr().c_str())));
     }
@@ -106,7 +106,7 @@ void NICards::readAnalog()
     static short index = 0;
     float val0, val1, val2, val3, val4, val5, val6;
     if (!analog.readValue(val0, val1, val2, val3, val4, val5, val6)) {
-        emit error(QString("Odczyt danych z karty analogowej nie powiódł się"));
+        emit error(QString::fromUtf8("Odczyt danych z karty analogowej nie powiódł się"));
         emit usb6210(true, false);
         analog.reset();
         analogConfigure();
@@ -114,7 +114,7 @@ void NICards::readAnalog()
     }
     if (++index == 10) {
         index = 0;
-        emit debug(QString("1. Odczytano %1,%2,%3,%4,%5,%6,%7").arg(val0).arg(val1).arg(val2).arg(val3).arg(val4).arg(val5).arg(val6));
+        emit debug(QString::fromUtf8("1. Odczytano %1,%2,%3,%4,%5,%6,%7").arg(val0).arg(val1).arg(val2).arg(val3).arg(val4).arg(val5).arg(val6));
     }
     emit analogValueChanged(val0, val1, val2, val3, val4, val5, val6);
 }
@@ -122,12 +122,12 @@ void NICards::readAnalog()
 void NICards::writeDigital()
 {
     if (prevOutputs != maskOutput) {
-        emit debug(QString("Zapis do karty %1").arg(maskOutput, 0, 16));
+        emit debug(QString::fromUtf8("Zapis do karty %1").arg(maskOutput, 0, 16));
         prevOutputs = maskOutput;
     }
 
     if (!digital.writeValue(maskOutput)) {
-        emit error(QString("Zapis danych do karty cyfrowej nie powiódł się"));
+        emit error(QString::fromUtf8("Zapis danych do karty cyfrowej nie powiódł się"));
         emit usb6501(true, false);
         digital.reset();
         digitalConfigure();
@@ -138,7 +138,7 @@ void NICards::readDigital()
 {
     uint16_t val;
     if (!digital.readValue(val)) {
-        emit error(QString("Odczyt danych z karty cyfrowej nie powiódł się"));
+        emit error(QString::fromUtf8("Odczyt danych z karty cyfrowej nie powiódł się"));
         emit usb6501(true, false);
         digital.reset();
         digitalConfigure();
@@ -149,7 +149,7 @@ void NICards::readDigital()
     //qInfo() << "prev=" << prevInputs << " vals=" << val;
     if (prevInputs != val) {
         //qInfo() << "emit digitalReadValueChanged";
-        emit debug(QString("Odczytano %1").arg(val, 0, 2));
+        emit debug(QString::fromUtf8("Odczytano %1").arg(val, 0, 2));
         prevInputs = val;
         emit digitalReadValueChanged(val);
     }
@@ -158,7 +158,7 @@ void NICards::readDigital()
 //find cards
 bool NICards::find() {
 #if SYMULATOR
-    emit debug(QString("Nie znaleziono urządzeń : kart NationalInstruments"));
+    emit debug(QString::fromUtf8("Nie znaleziono urządzeń : kart NationalInstruments"));
     emit usb6210(false, false);
     emit usb6501(false, false);
     return false;
@@ -200,7 +200,7 @@ bool NICards::find() {
 
         if (!m_anConf && !analog.isConnected() && QString(bufProduct) == QString("USB-6210") &&
                                                 deviceid == 14643 && serialid == 33770223) {
-            emit debug(QString("Znalazłem kartę analogową : %1").arg(name));
+            emit debug(QString::fromUtf8("Znalazłem kartę analogową : %1").arg(name));
             analogDevice = name;
             analogConfString = QString(readAnalString).replace("USB6210", name);
             analogConfigure();
@@ -209,7 +209,7 @@ bool NICards::find() {
 
         if (!m_digConf && !digital.isConnected() && QString(bufProduct) == QString("USB-6501") &&
                                                 deviceid == 14646 && serialid == 33665651) {
-            emit debug(QString("Znalazłem kartę cyfrową : %1").arg(name));
+            emit debug(QString::fromUtf8("Znalazłem kartę cyfrową : %1").arg(name));
             digitalDevice = name;
             digitalConfReadString = QString(readDigString).replace("USB6501", name);
             digitalConfWriteString = QString(writeDigString).replace("USB6501", name);
@@ -218,11 +218,11 @@ bool NICards::find() {
         }
     }
     if (!ret1) {
-        emit error(QString("Nie znaleziono kart analogowych"));
+        emit error(QString::fromUtf8("Nie znaleziono kart analogowych"));
     }
 
     if (!ret2) {
-        emit error(QString("Nie znaleziono kart cyfrowych"));
+        emit error(QString::fromUtf8("Nie znaleziono kart cyfrowych"));
     }
     return ret1 && ret2;
 #endif
@@ -233,22 +233,22 @@ void NICards::resetDevice(bool analog, bool digital)
 #if !SYMULATOR
     int32 errCode;
     if (analog) {
-        emit debug(QString("Reset i testy karty analogowej"));
+        emit debug(QString::fromUtf8("Reset i testy karty analogowej"));
         if(DAQmxFailed(errCode=DAQmxResetDevice(analogDevice.toStdString().c_str()))) {
-            emit error(QString("Błąd podczas resetu karty analogowej %d").arg(errCode));
+            emit error(QString::fromUtf8("Błąd podczas resetu karty analogowej %d").arg(errCode));
             m_anConf = false;
         } else if (DAQmxFailed(errCode=DAQmxSelfTestDevice(analogDevice.toStdString().c_str()))) {
-            emit error(QString("Błąd podczas testu karty analogowej %d").arg(errCode));
+            emit error(QString::fromUtf8("Błąd podczas testu karty analogowej %d").arg(errCode));
             m_anConf = false;
         }
     }
     if (digital) {
-        emit debug(QString("Reset i testy karty cyfrowej"));
+        emit debug(QString::fromUtf8("Reset i testy karty cyfrowej"));
         if(DAQmxFailed(errCode=DAQmxResetDevice(digitalDevice.toStdString().c_str()))) {
-            emit error(QString("Błąd podczas resetu karty cyfrowej %1").arg(errCode));
+            emit error(QString::fromUtf8("Błąd podczas resetu karty cyfrowej %1").arg(errCode));
             m_digConf = false;
         } else if (DAQmxFailed(errCode=DAQmxSelfTestDevice(digitalDevice.toStdString().c_str()))) {
-            emit error(QString("Błąd podczas testu karty cyfrowej %1").arg(errCode));
+            emit error(QString::fromUtf8("Błąd podczas testu karty cyfrowej %1").arg(errCode));
             m_digConf = false;
         }
     }

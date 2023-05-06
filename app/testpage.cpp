@@ -186,42 +186,44 @@ bool TestPage::sprawdzZawory(QPushButton *pbOk_1, QLabel *arrow_1, QFrame *frame
     
     if (!bi_wentylacja_lewa || !bi_wentylacja_prawa || !bi_pom_stez_1 || !bi_pom_stez_2 || !bi_wlot_powietrza || !bi_proznia ) {
 
-        QString s("Otwarte zawory : [");
+        QString s(tr("Otwarte zawory : ["));
         if (!bi_wentylacja_lewa)
-            s+="wentylacja lewa,";
+            s+=tr("wentylacja lewa,");
         if (!bi_wentylacja_prawa)
-            s+="wentylacja prawa,";
+            s+=tr("wentylacja prawa,");
         if (!bi_proznia)
-            s+="proznia,";
+            s+=tr("próżnia,");
         if (!bi_wlot_powietrza)
-            s+="wlot powietza,";
+            s+=tr("wlot powietrza,");
         if (!bi_pom_stez_1)
-            s+="pomiar stezenia 1,";
+            s+=tr("pomiar stężenia 1,");
         if (!bi_pom_stez_2)
-            s+="pomiar stezenia 2,";
+            s+=tr("pomiar stężenia 2,");
         s.remove(s.size()-1,1);
-        s += " ]. \n";
+        s += tr(" ]. \n");
         message = s;
         show = true;
     }
 
     if (!bi_drzwi_lewe || !bi_drzwi_prawe ) {
 
-        QString s("Otwarte drzwi komory : [");
+        QString s(tr("Otwarte drzwi komory : ["));
         if (!bi_drzwi_prawe)
-            s+="prawe,";
+            s+=tr("prawe,");
         if (!bi_drzwi_lewe)
-            s+="lewe,";
+            s+=tr("lewe,");
         s.remove(s.size()-1,1);
-        s += " ]. \n";
+        s += tr(" ]. \n");
         message += s;
         show = true;
     }
     if (show) {
-        msgBox.setText(QString("Wykryto nie prawidłowe ustawienie: \n%1").arg(message));
-        msgBox.setInformativeText("Wszystkie zawory i drzwi powinny być zamknięte. \n Czy chcesz kontynuować");
+        msgBox.setText(QString(tr("Wykryto nie prawidłowe ustawienie:\n%1")).arg(message));
+        msgBox.setInformativeText(tr("Wszystkie zawory i drzwi powinny być zamknięte.\nCzy chcesz kontynuować"));
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, tr("Tak"));
+        msgBox.setButtonText(QMessageBox::No, tr("Nie"));
         int ret = msgBox.exec();
         if (ret == QMessageBox::No) {
             setFinished(false);
@@ -246,43 +248,45 @@ bool TestPage::sprawdzOtwarteZaworProzni()
     QString msg;
     if(!bi_wentylacja_lewa || !bi_pom_stez_1 || !bi_wentylacja_prawa || !bi_wlot_powietrza || !bi_pom_stez_2) {
         show = true;
-        QString s("Otwarte zawory : [ ");
+        QString s(tr("Otwarte zawory : [ "));
         if (!bi_wentylacja_lewa)
-            s+="wentylacja lewa,";
+            s+=tr("wentylacja lewa,");
         if (!bi_wentylacja_prawa)
-            s+="wentylacja prawa,";
+            s+=tr("wentylacja prawa,");
         if (!bi_wlot_powietrza)
-            s+="wlot powietza,";
+            s+=tr("wlot powietrza,");
         if (!bi_pom_stez_1)
-            s+="pomiar stezenia 1,";
+            s+=tr("pomiar stężenia 1,");
         if (!bi_pom_stez_2)
-            s+="pomiar stezenia 2,";
+            s+=tr("pomiar stężenia 2,");
         s.remove(s.size()-1,1);
-        msg = s + QString(" ].\n");
+        msg = s + QString(tr(" ].\n"));
     }
     if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
-        QString s("Otwarte drzwi komory : [ ");
+        QString s(tr("Otwarte drzwi komory : [ "));
             if (!bi_drzwi_prawe)
-                s+="prawe,";
+                s+=tr("prawe,");
             if (!bi_drzwi_lewe)
-                s+="lewe,";
+                s+=tr("lewe,");
             s.remove(s.size()-1,1);
-            msg += s + QString(" ].\n");
+            msg += s + QString(tr(" ].\n"));
     }
 
     if (bi_proznia) {
         show = true;
-        msg += QString("Zawor proznia jest zamknięty.\n");
+        msg += QString(tr("Zawor próżnia jest zamknięty.\n"));
     }
 
     if (!show)
         return true;
 
-    msgBox.setText(QString("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n").arg(msg));
-    msgBox.setInformativeText("Zawór próznia powinien być otwarty, reszta zaworów powinna być zamknieta, dzwi komory powinny być zamknięte. \n Czy chcesz kontynuować");
+    msgBox.setText(QString(tr("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n")).arg(msg));
+    msgBox.setInformativeText(tr("Zawór próznia powinien być otwarty, reszta zaworów powinna być zamknieta, dzwi komory powinny być zamknięte.\nCzy chcesz kontynuować"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Tak"));
+    msgBox.setButtonText(QMessageBox::No, tr("Nie"));
     int ret = msgBox.exec();
     if (ret == QMessageBox::No) {
         setFinished(false);
@@ -303,42 +307,44 @@ bool TestPage::sprawdzOtwarteZaworPowietrza()
 
     if(!bi_wentylacja_lewa || !bi_pom_stez_1 || !bi_wentylacja_prawa || !bi_proznia || !bi_pom_stez_2) {
         show = true;
-        QString s("Otwarte zawory : [ ");
+        QString s(tr("Otwarte zawory : [ "));
         if (!bi_wentylacja_lewa)
-            s+="wentylacja lewa,";
+            s+=tr("wentylacja lewa,");
         if (!bi_wentylacja_prawa)
-            s+="wentylacja prawa,";
+            s+=tr("wentylacja prawa,");
         if (!bi_proznia)
-            s+="proznia,";
+            s+=tr("próżnia,");
         if (!bi_pom_stez_1)
-            s+="pomiar stezenia 1,";
+            s+=tr("pomiar stężenia 1,");
         if (!bi_pom_stez_2)
-            s+="pomiar stezenia 2,";
+            s+=tr("pomiar stężenia 2,");
         s.remove(s.size()-1,1);
-        msg = s + QString(" ].\n");
+        msg = s + QString(tr(" ].\n"));
     }
     if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
-        QString s("Otwarte drzwi komory : [ ");
+        QString s(tr("Otwarte drzwi komory : [ "));
         if (!bi_drzwi_prawe)
-            s+="prawe,";
+            s+=tr("prawe,");
         if (!bi_drzwi_lewe)
-            s+="lewe,";
+            s+=tr("lewe,");
         s.remove(s.size()-1,1);
-        msg += s + QString(" ].\n");
+        msg += s + QString(tr(" ].\n"));
     }
 
     if (bi_wlot_powietrza) {
         show = true;
-        msg += QString("Zawor wlot powietrza jest zamknięty.\n");
+        msg += QString(tr("Zawór wlot powietrza jest zamknięty.\n"));
     }
     if (!show)
         return true;
-    msgBox.setText(QString("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n").arg(msg));
-    msgBox.setInformativeText("Zawór wlot powietrza powinien być otwarty, reszta zaworów powinna być zamknieta. Drzwi od komory powinny być zamknięte. \n Czy chcesz kontynuować");
+    msgBox.setText(QString(tr("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n")).arg(msg));
+    msgBox.setInformativeText(tr("Zawór wlot powietrza powinien być otwarty, reszta zaworów powinna być zamknięta. Drzwi od komory powinny być zamknięte.\nCzy chcesz kontynuować"));
 
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Tak"));
+    msgBox.setButtonText(QMessageBox::No, tr("Nie"));
     int ret = msgBox.exec();
     if (ret == QMessageBox::No) {
         setFinished(false);
@@ -359,45 +365,47 @@ bool TestPage::sprawdzOtwarteZaworStezenia()
 
     if(!bi_wentylacja_lewa || !bi_wentylacja_prawa || !bi_proznia || !bi_wlot_powietrza) {
         show = true;
-        QString s("Otwarte zawory : [ ");
+        QString s(tr("Otwarte zawory : [ "));
         if (!bi_wentylacja_lewa)
-            s+="wentylacja lewa,";
+            s+=tr("wentylacja lewa,");
         if (!bi_wentylacja_prawa)
-            s+="wentylacja prawa,";
+            s+=tr("wentylacja prawa,");
         if (!bi_proznia)
-            s+="proznia,";
+            s+=tr("próżnia,");
         if (!bi_wlot_powietrza)
-            s+="wlot_powietrze,";
+            s+=tr("wlot powietrza,");
         s.remove(s.size()-1,1);
-        msg = s + QString(" ].\n");
+        msg = s + QString(tr(" ].\n"));
     }
     if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
-        QString s("Otwarte drzwi komory : [ ");
+        QString s(tr("Otwarte drzwi komory : [ "));
         if (!bi_drzwi_prawe)
-            s+="prawe,";
+            s+=tr("prawe,");
         if (!bi_drzwi_lewe)
-            s+="lewe,";
+            s+=tr("lewe,");
         s.remove(s.size()-1,1);
-        msg += s + QString(" ].\n");
+        msg += s + QString(tr(" ].\n"));
     }
 
     if (bi_pom_stez_1 || bi_pom_stez_2) {
         show = true;
         if (bi_pom_stez_1 && bi_pom_stez_2)
-            msg += QString("Oba zawory do pomiaru stężen są zamknięte.\n");
+            msg += QString(tr("Oba zawory do pomiaru stężen są zamknięte.\n"));
         else if (bi_pom_stez_1)
-            msg += QString("Lewy zawor do pomiaru stężen jest zamknięty.\n");
+            msg += QString(tr("Lewy zawór do pomiaru stężen jest zamknięty.\n"));
         else if (bi_pom_stez_2)
-            msg += QString("Prawy zawor do pomiaru stężen jest zamknięty.\n");
+            msg += QString(tr("Prawy zawór do pomiaru stężen jest zamknięty.\n"));
     }
     if (!show)
         return true;
-    msgBox.setText(QString("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n").arg(msg));
-    msgBox.setInformativeText("Zawoy do pomiarów stężen powinny być otwarte, reszta zaworów powinna być zamknieta. Drzwi od komory powinny być zamknięte. \n Czy chcesz kontynuować");
+    msgBox.setText(QString(tr("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n")).arg(msg));
+    msgBox.setInformativeText(tr("Zawory do pomiarów stężen powinny być otwarte, reszta zaworów powinna być zamknięta. Drzwi od komory powinny być zamknięte. \n Czy chcesz kontynuować?"));
 
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Tak"));
+    msgBox.setButtonText(QMessageBox::No, tr("Nie"));
     int ret = msgBox.exec();
     if (ret == QMessageBox::No) {
         setFinished(false);
@@ -418,45 +426,47 @@ bool TestPage::sprawdzOtwarteZawor2Calowe()
 
     if(!bi_pom_stez_1 || !bi_pom_stez_2 || !bi_proznia || !bi_wlot_powietrza) {
         show = true;
-        QString s("Otwarte zawory : [ ");
+        QString s(tr("Otwarte zawory : [ "));
         if (!bi_pom_stez_1)
-            s+="pomiar stężenia 1,";
+            s+=tr("pomiar stężenia 1,");
         if (!bi_pom_stez_2)
-            s+="pomiar stezenia 2,";
+            s+=tr("pomiar stężenia 2,");
         if (!bi_proznia)
-            s+="proznia,";
+            s+=tr("próżnia,");
         if (!bi_wlot_powietrza)
-            s+="wlot_powietrze,";
+            s+=tr("wlot powietrza,");
         s.remove(s.size()-1,1);
-        msg = s + QString(" ].\n");
+        msg = s + QString(tr(" ].\n"));
     }
     if (!bi_drzwi_prawe || !bi_drzwi_lewe) {
         show = true;
-        QString s("Otwarte drzwi komory : [ ");
+        QString s(tr("Otwarte drzwi komory : [ "));
         if (!bi_drzwi_prawe)
-            s+="prawe,";
+            s+=tr("prawe,");
         if (!bi_drzwi_lewe)
-            s+="lewe,";
+            s+=tr("lewe,");
         s.remove(s.size()-1,1);
-        msg += s + QString(" ].\n");
+        msg += s + QString(tr(" ].\n"));
     }
 
     if (bi_wentylacja_lewa || bi_wentylacja_prawa) {
         show = true;
         if (bi_wentylacja_lewa && bi_wentylacja_prawa)
-            msg += QString("Oba zawory do przedmuchu są zamknięte.\n");
+            msg += QString(tr("Oba zawory do przedmuchu są zamknięte.\n"));
         else if (bi_wentylacja_lewa)
-            msg += QString("Lewy zawor do przedmuchu jest zamknięty.\n");
+            msg += QString(tr("Lewy zawór do przedmuchu jest zamknięty.\n"));
         else if (bi_wentylacja_prawa)
-            msg += QString("Prawy zawor do przedmuchu jest zamknięty.\n");
+            msg += QString(tr("Prawy zawór do przedmuchu jest zamknięty.\n"));
     }
     if (!show)
         return true;
-    msgBox.setText(QString("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n").arg(msg));
-    msgBox.setInformativeText("Zawory do przedmuchu powietrza powinny być otwarte, reszta zaworów powinna być zamknieta. Drzwi od komory powinny być zamknięte. \n Czy chcesz kontynuować");
+    msgBox.setText(QString(tr("Wykryto nie prawidłowe ustawienie zaworów. \n%1\n")).arg(msg));
+    msgBox.setInformativeText(tr("Zawory do przedmuchu powietrza powinny być otwarte, reszta zaworów powinna być zamknieta. Drzwi od komory powinny być zamknięte.\nCzy chcesz kontynuować"));
 
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Tak"));
+    msgBox.setButtonText(QMessageBox::No, tr("Nie"));
     int ret = msgBox.exec();
     if (ret == QMessageBox::No) {
         return false;
@@ -479,42 +489,42 @@ bool TestPage::sprawdzOtwarteZawory(uint16_t mask)
     QString msg;
     {
         bool openZ = false;
-        QString s = QString("Wykryto otwarte zawory : [ ");
+        QString s = QString(tr("Wykryto otwarte zawory : [ "));
 
-        CHECK_ZAWOR(i_wentylacja_lewa, "wentylacja lewa,");
-        CHECK_ZAWOR(i_wentylacja_prawa, "wentylacja prawa,");
+        CHECK_ZAWOR(i_wentylacja_lewa, tr("wentylacja lewa,"));
+        CHECK_ZAWOR(i_wentylacja_prawa, tr("wentylacja prawa,"));
 
-        CHECK_ZAWOR(i_pom_stez_1, "pomiar stezenia 1,");
-        CHECK_ZAWOR(i_pom_stez_2, "pomiar stezenia 2,");
+        CHECK_ZAWOR(i_pom_stez_1, tr("pomiar stężenia 1,"));
+        CHECK_ZAWOR(i_pom_stez_2, tr("pomiar stężenia 2,"));
 
-        CHECK_ZAWOR(i_proznia, "próznia,");
-        CHECK_ZAWOR(i_wlot_powietrza, "wlot powietrza,");
+        CHECK_ZAWOR(i_proznia, tr("próznia,"));
+        CHECK_ZAWOR(i_wlot_powietrza, tr("wlot powietrza,"));
 
         if (openZ) {
             op = true;
             s.remove(s.size()-1,1);
-            msg = s + QString(" ].\n");
+            msg = s + QString(tr(" ].\n"));
         }
     }
     {
         bool openZ = false;
-        QString s = QString("Wykryto otwarte drzwi : [ ");
+        QString s = QString(tr("Wykryto otwarte drzwi : [ "));
 
-        CHECK_ZAWOR(i_drzwi_prawe, "prawe,");
-        CHECK_ZAWOR(i_drzwi_lewe, "lewe,");
+        CHECK_ZAWOR(i_drzwi_prawe, tr("prawe,"));
+        CHECK_ZAWOR(i_drzwi_lewe, tr("lewe,"));
 
         if (openZ) {
             op = true;
             s.remove(s.size()-1,1);
-            msg += s + QString(" ].\n");
+            msg += s + QString(tr(" ].\n"));
         }
     }
 
 
     if (!op)
         return true;
-    msg += QString("\nZamknij aby kontynuować");
-    QMessageBox::warning(this, "Otwarty zawór lub drzwi komory", msg);
+    msg += QString(tr("\nZamknij drzwi, aby kontynuować"));
+    QMessageBox::warning(this, tr("Otwarty zawór lub drzwi komory"), msg);
     return false;
 }
 

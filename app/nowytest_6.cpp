@@ -91,7 +91,7 @@ void NowyTest_6::on_pbOK_2_clicked()
     ui->arriw_2->setVisible(false);
     ui->frame_3->setVisible(true);
 
-    QString info("Wciśnięcie przycisku zdalnego sterowania spowoduje uruchomienie : ");
+    QString info(tr("Wciśnięcie przycisku zdalnego sterowania spowoduje uruchomienie : "));
     info += ui->cbZaplon_2->currentText() + QString(" .");
     ui->lStep3->setText(info);
 

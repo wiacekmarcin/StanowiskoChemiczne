@@ -13,7 +13,7 @@
 #define INIT_MAP(N) \
     bMapZawor[mapDigitalOrder[N-1]] = false; \
     sMapZawor[mapDigitalOrder[N-1]] = ui->zawor##N;\
-    ui->zawor##N->setText("Zawór "#N);\
+    ui->zawor##N->setText(tr("Zawór "#N));\
     ui->zawor##N->setObjectName("Zawor"#N);\
     ui->zawor##N->setOk(false);
 
@@ -44,13 +44,13 @@ OknoStatusowe::OknoStatusowe(QWidget *parent) :
     bMapZawor[mapDigitalOrder[9-1]] = false;
     sMapZawor[mapDigitalOrder[9-1]] = ui->pilot;
 
-    ui->pilot->setText("Pilot");
+    ui->pilot->setText(tr("Pilot"));
     ui->pilot->setObjectName("Pilot");
     ui->pilot->setOk(false);
 
 
-    ui->usb6210->setText("Karta NI USB6210");
-    ui->usb6501->setText("Karta NI USB6501");
+    ui->usb6210->setText(tr("Karta NI USB6210"));
+    ui->usb6501->setText(tr("Karta NI USB6501"));
     ui->dozownik->setText(QString::fromUtf8("Sterownik dozowników"));
 
     ui->usb6210->setState(true, false);
