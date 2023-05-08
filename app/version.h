@@ -6,7 +6,7 @@
 
 #define VERSION_DATE __DATE__
 //1.6 - Wersja z testem sterownika
-//1.5 - poprawki językowe
+//1.5 - poprawki językowe plus poprawka przy ustawianiu wyjsc
 //1.4 - poprawka przy tworzeniu testu
 //1.3 - Poprawki trigera
 //1.2 - Wersja z poprawkami ()

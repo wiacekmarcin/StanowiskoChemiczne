@@ -108,7 +108,17 @@ void SygnalyCyfroweUstawienia::setLabels(const Ustawienia &ust, const UserPrivil
 
 void SygnalyCyfroweUstawienia::setOnOff(uint16_t mask)
 {
-
+    wyjscia[o_wentylator]->setOnOff(mask & o_wentylator) ;
+    wyjscia[o_mieszadlo]->setOnOff(mask & o_mieszadlo) ;
+    wyjscia[o_pompa_powietrza]->setOnOff(mask & o_pompa_powietrza) ;
+    wyjscia[o_pompa_prozniowa]->setOnOff(mask & o_pompa_prozniowa) ;
+    wyjscia[o_trigger]->setOnOff(mask & o_trigger) ;
+    wyjscia[o_grzalka]->setOnOff(mask & o_grzalka) ;
+    wyjscia[o_hv_onoff]->setOnOff(mask & o_hv_onoff) ;
+    wyjscia[o_hv_bezpiecznik]->setOnOff(mask & o_hv_bezpiecznik) ;
+    wyjscia[o_hv_iskra]->setOnOff(mask & o_hv_iskra) ;
+    wyjscia[o_mech_iskra]->setOnOff(mask & o_mech_iskra) ;
+   
 }
 
 void SygnalyCyfroweUstawienia::restoreDefaults()

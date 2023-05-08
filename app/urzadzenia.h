@@ -46,6 +46,14 @@ public:
      */
     void setStop();
 
+    /**
+     * @brief Get the Digitalt Out Mask object pobiera maksę wyjść
+     *  
+     * 
+     * @return uint16_t 
+     */
+    uint16_t getDigitaltOutMask() const;
+
 public slots:
     /**
      * @brief setCykle - Dozowanie wstępne (napełnianie strzykawki)

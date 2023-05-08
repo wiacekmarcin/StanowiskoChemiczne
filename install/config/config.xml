@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Program do analizy zapłonów i wybuchów</Name>
+    <Version>1.5</Version>
+    <Title>Instalacja</Title>
+    <Publisher>Dawid Kolodziejczyk</Publisher>
+    <StartMenuDir>Stanowisko do analizy wybuchów</StartMenuDir>
+    <TargetDir>@HomeDir@/StanowiskoChemiczne</TargetDir>
+</Installer>
