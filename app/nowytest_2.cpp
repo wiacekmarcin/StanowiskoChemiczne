@@ -45,8 +45,13 @@ void NowyTest_2::initializePage()
     dozownik = field(dozownikNr).toUInt()-1;
     ui->txt_1->setText(QString(tr("Czy układ dozownika <DOZOWNIK> jest napełniony ?")).replace("<DOZOWNIK>", QString::number(dozownik+1)));
     ui->text_3->setText(QString(tr("Rozpocznij napełnianie układu dozownika <DOZOWNIK>")).replace("<DOZOWNIK>", QString::number(dozownik+1)));
+    ui->rb4_reset->setVisible(false);
+    ui->rb1_reset->setVisible(false);
+    timeoutSterownik1.singleShot(3000, this, &NowyTest_2::sterownikNoResponse1);
+    bresponseSterownik1 = false;
     checkPositionHome();
     setZ_criticalMask(0);
+
 }
 
 void NowyTest_2::updateWejscia()
@@ -65,6 +70,7 @@ void NowyTest_2::updateWejscia()
 
 void NowyTest_2::dozownikDone(bool succes)
 {
+    bresponseSterownik2 = true;
     if (!succes) {
         /*
         int ret = QMessageBox::warning(this, tr("Dozownik"),
@@ -114,7 +120,7 @@ void NowyTest_2::dozownikDone(bool succes)
 
 void NowyTest_2::checkPositionHomeDone(bool ok, bool d1, bool d2, bool d3, bool d4, bool d5)
 {
-    
+    bresponseSterownik1= true;
     okDozownik = ok;
     homeDozownik[0] = d1;
     homeDozownik[1] = d2;
@@ -132,15 +138,26 @@ void NowyTest_2::runDone()
 void NowyTest_2::on_rb1_yes_toggled(bool checked)
 {
     m_DozownikPelny = checked;
+    needReset = false;
 }
 
 void NowyTest_2::on_rb1_no_toggled(bool checked)
 {
     m_DozownikPelny = !checked;
+    needReset = false;
 }
 
+void NowyTest_2::on_rb1_reset_toggled(bool checked)
+{
+    needReset = checked;
+}
 void NowyTest_2::on_pbOk_1_clicked()
 {
+    if (needReset)
+    {
+        resetSterownik();
+        return;
+    }
     if (!okDozownik) {
         int ret;
         MSGBOX_YES_NO(ret, QMessageBox::Warning,
@@ -157,7 +174,8 @@ void NowyTest_2::on_pbOk_1_clicked()
         if (ret == QMessageBox::No) {
             setFinished(false);
         } 
-        checkPositionHome();
+        //checkPositionHome();
+        resetSterownik();
         return;
     } else if (okDozownik && !homeDozownik[dozownik])
     {
@@ -224,22 +242,37 @@ void NowyTest_2::on_pbOk_3_clicked()
 {
     ui->pbOk_3->setEnabled(false);
     m_DozownikPelny = true;
+    bresponseSterownik2 = false;
+    timeoutSterownik2.singleShot(initCykle*3000, this, &NowyTest_2::sterownikNoResponse2);
     cykleDozownik(dozownik, initCykle);
 }
 
 void NowyTest_2::on_rb4_yes_toggled(bool checked)
 {
-    
     m_DozownikPelny = checked;
+    needReset = false;
 }
 
 void NowyTest_2::on_rb4_no_toggled(bool checked)
 {
     m_DozownikPelny = !checked;
+    needReset = false;
 }
+
+void NowyTest_2::on_rb4_reset_toggled(bool checked)
+{
+    needReset = checked;
+}
+
 
 void NowyTest_2::on_pbOk_4_clicked()
 {
+    if (needReset)
+    {
+        resetSterownik();
+        return;
+    }
+
     if (!m_DozownikPelny) {
         
         ui->pbOk_4->setEnabled(false);
@@ -288,5 +321,66 @@ void NowyTest_2::on_pbOk_5_clicked()
     }
 #endif
     nextPage(nextPageId());
+}
+
+void NowyTest_2::sterownikNoResponse1()
+{
+    if (bresponseSterownik1) {
+        bresponseSterownik1 = true;
+        return;
+    }
+    int ret;
+    MSGBOX_YES_NO(ret, QMessageBox::Warning,
+                  tr("Dozownik"),
+                  tr("Upłynął czas potrzebny na dozowanie.\nCzy chcesz kontynuować?"),
+                  (QMessageBox::Yes | QMessageBox::No | QMessageBox::Ignore),
+                  QMessageBox::No,
+                  this);
+
+    if (ret == QMessageBox::No) {
+        setFinished(false);
+        return;
+    } else if (ret == QMessageBox::Ignore) {
+        return;
+    } else {
+        ui->rb1_reset->setVisible(true);
+        ui->rb1_reset->setChecked(true);
+    }
+}
+
+void NowyTest_2::sterownikNoResponse2()
+{
+    if (bresponseSterownik2) {
+        bresponseSterownik2 = true;
+        return;
+    }
+    int ret;
+    MSGBOX_YES_NO(ret, QMessageBox::Warning,
+                  tr("Dozownik"),
+                  tr("Upłynął czas potrzebny na dozowanie.\nCzy chcesz kontynuować?"),
+                  (QMessageBox::Yes | QMessageBox::No | QMessageBox::Ignore),
+                  QMessageBox::No,
+                  this);
+
+    if (ret == QMessageBox::No) {
+        setFinished(false);
+        return;
+    } else if (ret == QMessageBox::Ignore) {
+        return;
+    } else {
+
+        ui->arrow_3->setVisible(false);
+        ui->pbOk_3->setEnabled(false);
+        ui->arrow_4->setVisible(true);
+        ui->pbOk_4->setVisible(true);
+        ui->pbOk_4->setEnabled(true);
+        ui->rb4_reset->setVisible(true);
+        ui->rb4_reset->setChecked(true);
+    }
+}
+
+void NowyTest_2::resetSterownik()
+{
+    resetSterownika(dozownik);
 }
 

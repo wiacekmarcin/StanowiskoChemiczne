@@ -93,6 +93,7 @@ public:
     void setZ_warningMask(uint16_t newZ_warningMask);
     void setZ_criticalMask(uint16_t newZ_criticalMask);
     void setFinished(bool success);
+    void resetSterownika(uint8_t nr);
 
 signals:
     void changePage(TestPage::PageId id);

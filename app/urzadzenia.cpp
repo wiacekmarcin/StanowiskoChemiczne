@@ -124,6 +124,11 @@ void Urzadzenia::resetDozownik()
     m_serialDev.setReset();
 }
 
+void Urzadzenia::resetSterownik(uint8_t dozownik)
+{
+    m_serialDev.setResetAndHome(dozownik);
+}
+
 void Urzadzenia::setDozownikHome(uint8_t dozownik)
 {
     m_serialDev.setPositionHome(dozownik);

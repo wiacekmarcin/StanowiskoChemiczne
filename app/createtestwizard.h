@@ -53,6 +53,7 @@ public:
     void runCykleDozownik(uint8_t nr, uint32_t steps);
     void runDozownikMl(uint8_t nr, uint32_t mlx10);
     void runCheckPositionHome();
+    void runResetSterownik(uint8_t nr);
 
     void setZ_criticalMask(uint16_t newZ_criticalMask);
     void setZ_warningMask(uint16_t newZ_criticalMask);
@@ -82,6 +83,7 @@ signals:
     void criticalZaworOpenSignal(uint16_t idz);
     void warningZaworOpenSignal(uint16_t idz);
     void resetDozownik();
+    void resetSterownik(uint8_t nr);
 
 
     void setDigitalOut(digitalOut id, bool value);

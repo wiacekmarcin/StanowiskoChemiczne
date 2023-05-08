@@ -183,6 +183,11 @@ public:
     void setReset();
 
     /**
+     * @brief setReset - resetuje sterownik silnika i ustawia w pozycji bazowej
+     */
+    void setResetAndHome(uint8_t nrDoz);
+
+    /**
      * @brief setCykle - ustawia ilość pelnych cykli czyli ustawienia pozycji maksymalnej i powrót do pozycji bazowej
      * @param nrDoz - numer dozownika
      * @param nrCyckli - ilość cykli
@@ -359,6 +364,7 @@ protected:
 
 protected slots:
     void updateDevice();
+    void afterSleepReset();
 
 
 private:
@@ -383,6 +389,9 @@ private:
 
     QTimer checkTimer;
     QMutex mutex; 
+
+    QTimer resetTimer;
+    uint8_t m_memNrDoz;
 };
 
 

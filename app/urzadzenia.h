@@ -89,6 +89,11 @@ public slots:
      * @brief resetDozownik - resetuje kontroler silników
      */
     void resetDozownik();
+    
+    /**
+     * @brief resetSterownik - resetuje kontroler silników i od razu wywoluje ustawienie home
+     */
+    void resetSterownik(uint8_t dozownik);
 
     /**
      * @brief setDozownikHome - ustawia pozycje domowa

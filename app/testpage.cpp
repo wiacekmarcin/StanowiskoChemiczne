@@ -141,7 +141,10 @@ void TestPage::runZaplon(ZaplonRodzaj idZaplon)
     wiz->runZaplon(idZaplon);
 }
 
-
+void TestPage::resetSterownika(uint8_t nr)
+{
+    wiz->runResetSterownik(nr);
+}
 
 #define FUN_ZAWOR(Z) bool TestPage::z##Z() { return wiz->z##Z(); }
 FUN_ZAWOR(i_drzwi_prawe)

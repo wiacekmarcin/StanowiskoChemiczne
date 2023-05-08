@@ -257,6 +257,22 @@ void SerialDevice::setReset()
     m_worker.command(SerialWorker::RESET);
 }
 
+void SerialDevice::setResetAndHome(uint8_t nrDoz)
+{
+    m_worker.command(SerialWorker::RESET);
+    m_worker.command(SerialWorker::CLOSE_DEVICE);
+    resetTimer.singleShot(3000, this, &SerialDevice::afterSleepReset);
+    m_memNrDoz = nrDoz;
+}
+
+void SerialDevice::afterSleepReset()
+{
+    m_worker.command(SerialWorker::CONNECT);
+    m_worker.command(SerialWorker::CONFIGURE);
+    dozownikNr = m_memNrDoz;
+    m_worker.command(SerialWorker::SET_HOME);
+}
+
 void SerialDevice::setCykle(uint8_t nrDoz, uint32_t nrCyckli)
 {
     dozownikNr = nrDoz;

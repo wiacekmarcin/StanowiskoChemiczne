@@ -394,6 +394,11 @@ void CreateTestWizard::runResetDozownik() {
     emit resetDozownik();
 }
 
+void CreateTestWizard::runResetSterownik(uint8_t nr) {
+    emit resetSterownik(nr);
+}
+
+
 float CreateTestWizard::getCzujnik(analogIn czujnik)
 {
     QVector<float> val;

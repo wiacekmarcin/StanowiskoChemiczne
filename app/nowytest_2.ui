@@ -86,6 +86,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QRadioButton" name="rb1_reset">
+        <property name="text">
+         <string>Reset sterownika</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_13">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -247,6 +254,13 @@
        <widget class="QRadioButton" name="rb4_no">
         <property name="text">
          <string> Nie (+1 cykl napełniania)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="rb4_reset">
+        <property name="text">
+         <string>Reset sterownika</string>
         </property>
        </widget>
       </item>

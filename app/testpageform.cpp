@@ -73,8 +73,8 @@ void TestPageForm::visibleAbortBtn(bool vs)
 void TestPageForm::on_pbAbort_clicked()
 {
         QMessageBox msgBox(QMessageBox::Warning,
-            tr("Dozowanie cieczy"),
-            tr("Nie udało się zadozować cieczy.\nCzy chcesz kontynuować?"),
+            tr("Przerwanie testu"),
+            tr("Czy chcesz napewno przerwać test ?"),
             QMessageBox::Yes | QMessageBox::No,
             this);
         msgBox.setDefaultButton(QMessageBox::No);
